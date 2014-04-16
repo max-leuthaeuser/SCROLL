@@ -66,5 +66,25 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
       val resB: String = ~someCore b()
       assert(resB.equals("b"))
     }
+
+    scenario("Transfering a role") {
+      Given("some players and a role")
+      val someCoreA = new CoreA()
+      val someCoreB = new CoreB()
+      val someRole = new RoleA()
+      And("a play relationship")
+      someCoreA play someRole
+
+      When("transfering the role")
+      someCoreA transfer someRole to someCoreB
+
+      Then("the result of the call to the role of player someCoreB should be correct")
+      val res: Int = ~someCoreB a()
+      assert(res == 0)
+      And("a call to the player the role was moved away from should fail")
+      a[RuntimeException] should be thrownBy {
+        ~someCoreA a()
+      }
+    }
   }
 }

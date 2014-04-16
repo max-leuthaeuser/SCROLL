@@ -29,6 +29,14 @@ class Player[T](private val core: T) extends Dynamic
 
   def unary_~ : Player[T] = this
 
+  def transfer(role: Any) = new
+    {
+      def to(player: Any)
+      {
+        RoleManager.transferRole(this, player, role)
+      }
+    }
+
   def applyDynamic[E](name: String)
     (args: Any*): E =
   {
