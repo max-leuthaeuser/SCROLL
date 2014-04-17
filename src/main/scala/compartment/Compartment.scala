@@ -64,7 +64,6 @@ trait Compartment
     {
       val core = getCoreFor(role)
       core.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
-        val tpe = fm.getAnnotatedReturnType.getType
         args match {
           case Nil => return fm.invoke(core).asInstanceOf[E]
           case _ => return fm.invoke(core, args).asInstanceOf[E]
@@ -106,11 +105,9 @@ trait Compartment
     def applyDynamic[E](name: String)
       (args: Any*): E =
     {
-      // println(s"method '$name' called with arguments ${args.mkString("'", "', '", "'")}")
       // search all roles for the given method with name 'name'
       getRelation(core).foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
-          val tpe = fm.getAnnotatedReturnType.getType
           args match {
             case Nil => return fm.invoke(r).asInstanceOf[E]
             case _ => return fm.invoke(r, args).asInstanceOf[E]
