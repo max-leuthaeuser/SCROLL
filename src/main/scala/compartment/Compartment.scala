@@ -73,7 +73,6 @@ trait Compartment
     }
   }
 
-  // TODO: test methods with arguments
   // TODO: identity of player objects
   class Player[T](private val core: T) extends Dynamic
   {
@@ -102,15 +101,29 @@ trait Compartment
         }
       }
 
-    def applyDynamic[E](name: String)
-      (args: Any*): E =
+    def applyDynamic[E, A](name: String)
+      (args: A*): E =
     {
       // search all roles for the given method with name 'name'
       getRelation(core).foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
           args match {
             case Nil => return fm.invoke(r).asInstanceOf[E]
-            case _ => return fm.invoke(r, args).asInstanceOf[E]
+            case _ => {
+              val argTypes: Array[Class[_]] = fm.getParameterTypes
+              val actualArgs: Seq[Any] = args.zip(argTypes).map {
+                case (arg: Player[_], tpe: Class[_]) => {
+                  getRelation(arg.core).find(_.getClass == tpe) match {
+                    case Some(curRole) => curRole
+                    // TODO: how to permit this?
+                    case None => throw new RuntimeException
+                  }
+                }
+                case (arg: A, tpe: Class[_]) => tpe.cast(arg)
+              }
+              // TODO: add support here for multi argument methods
+              return fm.invoke(r, actualArgs(0).asInstanceOf[Object]).asInstanceOf[E]
+            }
           }
         })
       })

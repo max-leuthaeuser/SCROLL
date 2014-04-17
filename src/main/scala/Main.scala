@@ -17,6 +17,11 @@ object Main extends App
 
     class Professor
     {
+      def teach(student: Student)
+      {
+        println("Teaching: " + (!student name()))
+      }
+
       def talk()
       {
         println("I am a professor")
@@ -38,17 +43,19 @@ object Main extends App
   new University
   {
     val hans = Person("hans")
+    val uwe = Person("uwe")
 
     hans.talk()
+
     val student = new Student
     hans play student
     ~hans talk()
 
     println(!student name())
 
-    hans drop student
+    uwe play new Professor
+    ~uwe talk()
 
-    hans play new Professor
-    ~hans talk()
+    ~uwe teach ~hans
   }
 }
