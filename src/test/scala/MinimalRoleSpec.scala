@@ -12,7 +12,6 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
       val someCore = new CoreA()
       new SomeCompartment
       {
-        // TODO: ensure roles can't be instantiated
         val someRole = new RoleA()
 
         When("call to core object")

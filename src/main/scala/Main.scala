@@ -25,7 +25,7 @@ object Main extends App
 
   }
 
-  class Person
+  case class Person(name: String)
   {
     def talk()
     {
@@ -37,12 +37,14 @@ object Main extends App
 
   new University
   {
-    val hans = new Person
+    val hans = Person("hans")
 
     hans.talk()
     val student = new Student
     hans play student
     ~hans talk()
+
+    println(!student name())
 
     hans drop student
 

@@ -107,7 +107,7 @@ trait Compartment
       (args: Any*): E =
     {
       // println(s"method '$name' called with arguments ${args.mkString("'", "', '", "'")}")
-      // search all compartment for the given method with name 'name'
+      // search all roles for the given method with name 'name'
       getRelation(core).foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
           val tpe = fm.getAnnotatedReturnType.getType
