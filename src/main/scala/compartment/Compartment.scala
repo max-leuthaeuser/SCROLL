@@ -51,12 +51,8 @@ trait Compartment
   def getRelation(core: Any): mutable.Set[Any] = plays(core)
 
   def getCoreFor(role: Any): Any = role match {
-    case cur: Role[_] => plays.foreach {
-      case (
-        k,
-        v) => if (v.contains(cur.role)) return k
-    }
-    case cur: Player[_] => return getCoreFor(cur.core)
+    case cur: Role[_] => getCoreFor(cur.role)
+    case cur: Player[_] => getCoreFor(cur.core)
     // default:
     case cur: Any => plays.foreach {
       case (
@@ -118,7 +114,8 @@ trait Compartment
     // solution here: they don't
     override def equals(o: Any) = o match {
       case that: Role[_] => that.role == this.role
-      case that: Any => getCoreFor(this) == that
+      case that: Player[_] => that.core == getCoreFor(this)
+      case that: Any => that == getCoreFor(this)
     }
 
     override def hashCode(): Int = role.hashCode()
