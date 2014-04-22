@@ -1,6 +1,7 @@
 package compartment
 
 import scala.collection.mutable
+import java.lang.reflect.Method
 
 // TODO: refactor package structure
 trait Compartment
@@ -49,32 +50,81 @@ trait Compartment
 
   def getRelation(core: Any): mutable.Set[Any] = plays(core)
 
-  def getCoreFor(role: Any): Any = plays.foreach {
-    case (
-      k,
-      v) => if (v.contains(role)) return k
+  def getCoreFor(role: Any): Any = role match {
+    case cur: Role[_] => plays.foreach {
+      case (
+        k,
+        v) => if (v.contains(cur.role)) return k
+    }
+    case cur: Player[_] => return getCoreFor(cur.core)
+    // default:
+    case cur: Any => plays.foreach {
+      case (
+        k,
+        v) => if (v.contains(cur)) return k
+    }
   }
 
-  class Role[T](private val role: T) extends Dynamic
+  trait DispatchType
+  {
+    // for single method dispatch
+    def dispatch[E](
+      on: Any,
+      m: Method): E = m.invoke(on).asInstanceOf[E]
+
+    // for multi-method / multi-argument dispatch
+    def dispatch[E, A](
+      on: Any,
+      m: Method,
+      args: A*): E =
+    {
+      val argTypes: Array[Class[_]] = m.getParameterTypes
+      val actualArgs: Seq[Any] = args.zip(argTypes).map {
+        case (arg: Player[_], tpe: Class[_]) => {
+          getRelation(arg.core).find(_.getClass == tpe) match {
+            case Some(curRole) => curRole
+            // TODO: how to permit this?
+            case None => throw new RuntimeException
+          }
+        }
+        // TODO: warning: abstract type A gets eliminated by erasure
+        case (arg: A, tpe: Class[_]) => tpe.cast(arg)
+      }
+      // that looks funny:
+      return m.invoke(on, actualArgs.map {
+        _.asInstanceOf[Object]
+      }: _*).asInstanceOf[E]
+    }
+  }
+
+  class Role[T](val role: T) extends Dynamic with DispatchType
   {
     def unary_! : Role[T] = this
 
-    def applyDynamic[E](name: String)
-      (args: Any*): E =
+    def applyDynamic[E, A](name: String)
+      (args: A*): E =
     {
       val core = getCoreFor(role)
       core.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
         args match {
-          case Nil => return fm.invoke(core).asInstanceOf[E]
-          case _ => return fm.invoke(core, args).asInstanceOf[E]
+          case Nil => return dispatch(core, fm)
+          case _ => return dispatch(core, fm, args: _*)
         }
       })
       throw new RuntimeException(s"No role with method '$name' found!")
     }
+
+    // TODO: identity of role objects, do they have their owen ID or not?
+    // solution here: they don't
+    override def equals(o: Any) = o match {
+      case that: Role[_] => that.role == this.role
+      case that: Any => getCoreFor(this) == that
+    }
+
+    override def hashCode(): Int = role.hashCode()
   }
 
-  // TODO: identity of player objects
-  class Player[T](private val core: T) extends Dynamic
+  class Player[T](val core: T) extends Dynamic with DispatchType
   {
     def play(role: Any): Player[T] =
     {
@@ -108,27 +158,20 @@ trait Compartment
       getRelation(core).foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
           args match {
-            case Nil => return fm.invoke(r).asInstanceOf[E]
-            case _ => {
-              val argTypes: Array[Class[_]] = fm.getParameterTypes
-              val actualArgs: Seq[Any] = args.zip(argTypes).map {
-                case (arg: Player[_], tpe: Class[_]) => {
-                  getRelation(arg.core).find(_.getClass == tpe) match {
-                    case Some(curRole) => curRole
-                    // TODO: how to permit this?
-                    case None => throw new RuntimeException
-                  }
-                }
-                case (arg: A, tpe: Class[_]) => tpe.cast(arg)
-              }
-              // TODO: add support here for multi argument methods
-              return fm.invoke(r, actualArgs(0).asInstanceOf[Object]).asInstanceOf[E]
-            }
+            case Nil => return dispatch(r, fm)
+            case _ => return dispatch(r, fm, args: _*)
           }
         })
       })
       throw new RuntimeException(s"No role with method '$name' found!")
     }
+
+    override def equals(o: Any) = o match {
+      case that: Player[_] => that.core == this.core
+      case that: Any => that == this.core
+    }
+
+    override def hashCode(): Int = core.hashCode()
   }
 
 }

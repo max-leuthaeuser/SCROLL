@@ -95,5 +95,7 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
         }
       }
     }
+
+    // TODO: add test for role/player equality
   }
 }

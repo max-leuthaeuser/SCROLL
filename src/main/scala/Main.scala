@@ -39,7 +39,6 @@ object Main extends App
   }
 
   // instantiate:
-
   new University
   {
     val hans = Person("hans")
@@ -48,13 +47,15 @@ object Main extends App
     hans.talk()
 
     val student = new Student
-    hans play student
+    println("Player equals core: " + ((hans play student) == hans))
     ~hans talk()
 
     println(!student name())
+    println("Role core equals core: " + (!student == hans))
 
     uwe play new Professor
     ~uwe talk()
+    println("Core equals core playing a role: " + (~uwe == uwe))
 
     ~uwe teach ~hans
   }
