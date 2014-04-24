@@ -3,7 +3,6 @@ package compartment
 import scala.collection.mutable
 import java.lang.reflect.Method
 
-// TODO: refactor package structure
 trait Compartment
 {
   implicit def anyToRole[T](any: T) = new Role[T](any)
@@ -76,18 +75,17 @@ trait Compartment
     {
       val argTypes: Array[Class[_]] = m.getParameterTypes
       val actualArgs: Seq[Any] = args.zip(argTypes).map {
-        case (arg: Player[_], tpe: Class[_]) => {
+        case (arg: Player[_], tpe: Class[_]) =>
           getRelation(arg.core).find(_.getClass == tpe) match {
             case Some(curRole) => curRole
             // TODO: how to permit this?
             case None => throw new RuntimeException
           }
-        }
         // TODO: warning: abstract type A gets eliminated by erasure
         case (arg: A, tpe: Class[_]) => tpe.cast(arg)
       }
       // that looks funny:
-      return m.invoke(on, actualArgs.map {
+      m.invoke(on, actualArgs.map {
         _.asInstanceOf[Object]
       }: _*).asInstanceOf[E]
     }
@@ -110,8 +108,7 @@ trait Compartment
       throw new RuntimeException(s"No role with method '$name' found!")
     }
 
-    // TODO: identity of role objects, do they have their owen ID or not?
-    // solution here: they don't
+    // identity of roles: they don't have their own ID
     override def equals(o: Any) = o match {
       case that: Role[_] => that.role == this.role
       case that: Player[_] => that.core == getCoreFor(this)
