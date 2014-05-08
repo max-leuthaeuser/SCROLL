@@ -1,0 +1,17 @@
+condition A:
+	rule:
+		when { }
+		and
+		(
+			when { }
+			or
+			when { }
+		)
+	dispatch:
+		in ClassA with RoleA:
+			RoleA.m1 before ClassA.m1
+			RoleA.m2 replace ClassA.m2
+			RoleA.m3 after ClassA.m3
+		in ClassA with *:
+			always replace ClassA.m2
+			never replace ClassA.m2
