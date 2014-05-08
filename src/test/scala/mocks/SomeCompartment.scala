@@ -1,6 +1,6 @@
 package mocks
 
-import compartment.Compartment
+import internal.Compartment
 
 class SomeCompartment extends Compartment
 {

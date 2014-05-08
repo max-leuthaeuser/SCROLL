@@ -1,13 +1,15 @@
-import compartment.Compartment
+package examples
 
-// basic example
-object Main extends App
+import internal.Compartment
+import annotations.Role
+
+object UniversityExample extends App
 {
 
   class University extends Compartment
   {
 
-    class Student
+    @Role class Student
     {
       def talk()
       {
@@ -15,7 +17,7 @@ object Main extends App
       }
     }
 
-    class Professor
+    @Role class Professor
     {
       def teach(student: Student)
       {
