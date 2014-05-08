@@ -81,6 +81,8 @@ Role playground for role dispatch based on Scala.
   }
   ```
 
+  You can find a more elaborated example in the ```examples/``` folder.
+
 3. Edit and run
 
   3.1. Clone this repo.
