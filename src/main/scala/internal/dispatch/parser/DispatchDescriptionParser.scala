@@ -1,6 +1,6 @@
 package internal.dispatch.parser
 
-import internal.dispatch.model.{Condition, DispatchDescription}
+import internal.dispatch.model._
 import scala.util.parsing.combinator.JavaTokenParsers
 
 class DispatchDescriptionParser extends JavaTokenParsers
@@ -14,7 +14,13 @@ class DispatchDescriptionParser extends JavaTokenParsers
 
   def conditions: Parser[List[Condition]] = rep(condition)
 
-  def condition: Parser[Condition] = ???
+  def condition: Parser[Condition] = "condition" ~ ident ~ ":" ~ rule ~ dispatch ^^ {
+    case "condition" ~ name ~ ":" ~ r ~ d => Condition(name, r, d)
+  }
+
+  def rule: Parser[Rule] = ???
+
+  def dispatch: Parser[Dispatch] = ???
 
   def parse(p: String): DispatchDescription =
     parseAll(dispatchDescription, p) match {

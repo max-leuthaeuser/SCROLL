@@ -6,7 +6,8 @@ case class DispatchDescription(cond: List[Condition]) extends Elem
 
 case class Condition(
   name: String,
-  rule: Rule
+  rule: Rule,
+  dis: Dispatch
   ) extends Elem
 
 case class Rule(expr: RuleExpression) extends Elem
