@@ -4,18 +4,21 @@ import scala.collection.mutable
 import java.lang.reflect.Method
 import java.lang
 
-trait Compartment {
+trait Compartment
+{
   implicit def anyToRole[T](any: T) = new RoleType[T](any)
 
   implicit def anyToPlayer[T](any: T) = new PlayerType[T](any)
 
-  val plays = new mutable.HashMap[Any, mutable.Set[Any]]() with mutable.MultiMap[Any, Any] {
+  val plays = new mutable.HashMap[Any, mutable.Set[Any]]() with mutable.MultiMap[Any, Any]
+  {
     override def default
     (key: Any) = mutable.Set.empty
   }
 
   // declaring a is-part-of relation between compartments
-  def >:>(other: Compartment) {
+  def >:>(other: Compartment)
+  {
     other.plays.foreach(v => {
       val key = v._1
       val values = v._2
@@ -24,35 +27,56 @@ trait Compartment {
   }
 
   def E_?[T](any: T): T =
-    (plays.keys.toList ::: plays.values.flatten.toList).find(v => any.getClass.getSimpleName equals v.getClass.getSimpleName) match {
+    (plays.keys.toList ::: plays.values.flatten.toList)
+      .find(v => any.getClass.getSimpleName equals v.getClass.getSimpleName) match {
       case Some(value) => value.asInstanceOf[T]
       case None => throw new RuntimeException("No player with type '" + any.getClass + "' found.")
     }
 
   def A_?[T](any: T): Seq[T] =
-    (plays.keys.toList ::: plays.values.flatten.toList).filter(v => any.getClass.getSimpleName equals v.getClass.getSimpleName).map(_.asInstanceOf[T])
+    (plays.keys.toList ::: plays.values.flatten.toList)
+      .filter(v => any.getClass.getSimpleName equals v.getClass.getSimpleName).map(_.asInstanceOf[T])
 
-  def addPlaysRelation(core: Any, role: Any) {
+  def addPlaysRelation(
+    core: Any,
+    role: Any
+    )
+  {
     plays.addBinding(core, role)
   }
 
-  def removePlaysRelation(core: Any, role: Any) {
+  def removePlaysRelation(
+    core: Any,
+    role: Any
+    )
+  {
     plays.removeBinding(core, role)
   }
 
-  def transferRole(coreFrom: Any, coreTo: Any, role: Any) {
+  def transferRole(
+    coreFrom: Any,
+    coreTo: Any,
+    role: Any
+    )
+  {
     assert(coreFrom != coreTo)
     removePlaysRelation(coreFrom, role)
     addPlaysRelation(coreTo, role)
   }
 
-  def transferRoles(coreFrom: Any, coreTo: Any, roles: Set[Any]) {
+  def transferRoles(
+    coreFrom: Any,
+    coreTo: Any,
+    roles: Set[Any]
+    )
+  {
     roles.foreach(transferRole(coreFrom, coreTo, _))
   }
 
   def getRelation(core: Any): mutable.Set[Any] = plays(core)
 
-  def getOtherRolesForRole(role: Any): mutable.Set[Any] = {
+  def getOtherRolesForRole(role: Any): mutable.Set[Any] =
+  {
     plays.values.foreach(set => {
       if (set.exists(_ == role)) return set
     })
@@ -70,12 +94,21 @@ trait Compartment {
     }
   }
 
-  trait DispatchType {
+  trait DispatchType
+  {
     // for single method dispatch
-    def dispatch[E](on: Any, m: Method): E = m.invoke(on).asInstanceOf[E]
+    def dispatch[E](
+      on: Any,
+      m: Method
+      ): E = m.invoke(on).asInstanceOf[E]
 
     // for multi-method / multi-argument dispatch
-    def dispatch[E, A](on: Any, m: Method, args: Seq[A]): E = {
+    def dispatch[E, A](
+      on: Any,
+      m: Method,
+      args: Seq[A]
+      ): E =
+    {
       val argTypes: Array[Class[_]] = m.getParameterTypes
       val actualArgs: Seq[Any] = args.zip(argTypes).map {
         case (arg: PlayerType[_], tpe: Class[_]) =>
@@ -95,11 +128,13 @@ trait Compartment {
     }
   }
 
-  class RoleType[T](val role: T) extends Dynamic with DispatchType {
+  class RoleType[T](val role: T) extends Dynamic with DispatchType
+  {
     def unary_! : RoleType[T] = this
 
     def applyDynamic[E, A](name: String)
-                          (args: A*): E = {
+      (args: A*): E =
+    {
       val core = getCoreFor(role)
       core.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
         args match {
@@ -140,8 +175,10 @@ trait Compartment {
     override def hashCode(): Int = role.hashCode()
   }
 
-  class PlayerType[T](val core: T) extends Dynamic with DispatchType {
-    def play(role: Any): PlayerType[T] = {
+  class PlayerType[T](val core: T) extends Dynamic with DispatchType
+  {
+    def play(role: Any): PlayerType[T] =
+    {
       core match {
         case p: PlayerType[_] => addPlaysRelation(p.core, role)
         case p: Any => addPlaysRelation(p, role)
@@ -149,21 +186,25 @@ trait Compartment {
       this
     }
 
-    def drop(role: Any): PlayerType[T] = {
+    def drop(role: Any): PlayerType[T] =
+    {
       removePlaysRelation(core, role)
       this
     }
 
     def unary_~ : PlayerType[T] = this
 
-    def transfer(role: Any) = new {
-      def to(player: Any) {
-        transferRole(this, player, role)
+    def transfer(role: Any) = new
+      {
+        def to(player: Any)
+        {
+          transferRole(this, player, role)
+        }
       }
-    }
 
     def applyDynamic[E, A](name: String)
-                          (args: A*): E = {
+      (args: A*): E =
+    {
       // search all roles the core is playing for the given method with name 'name'
       getRelation(core).foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {

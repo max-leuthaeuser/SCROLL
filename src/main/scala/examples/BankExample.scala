@@ -3,57 +3,73 @@ package examples
 import internal.Context
 import annotations.Role
 
-object BankExample extends App {
+object BankExample extends App
+{
 
   // Naturals
   case class Person(name: String)
 
   case class Company(name: String)
 
-  class Account(var balance: Double = 0) {
-    def increase(amount: Double) {
+  class Account(var balance: Double = 0)
+  {
+    def increase(amount: Double)
+    {
       balance = balance + amount
     }
 
-    def decrease(amount: Double) {
+    def decrease(amount: Double)
+    {
       balance = balance - amount
     }
   }
 
   // Contexts and Roles
-  class Bank extends Context {
-    @Role case class Customer() {
+  class Bank extends Context
+  {
+
+    @Role case class Customer()
+    {
       var accounts = List[Either[CheckingsAccount, SavingsAccount]]()
 
-      def addAccount(acc: Either[CheckingsAccount, SavingsAccount]) = {
+      def addAccount(acc: Either[CheckingsAccount, SavingsAccount]) =
+      {
         accounts = accounts :+ acc
       }
     }
 
-    @Role class CheckingsAccount() {
-      def decrease(amount: Double) {
+    @Role class CheckingsAccount()
+    {
+      def decrease(amount: Double)
+      {
         (!this).decrease(amount)
       }
     }
 
-    @Role class SavingsAccount() {
+    @Role class SavingsAccount()
+    {
       private def transactionFee(amount: Double) = amount * 0.1
 
-      def decrease(amount: Double) {
+      def decrease(amount: Double)
+      {
         (!this).decrease(amount - transactionFee(amount))
       }
     }
 
-    @Role class TransactionRole() {
-      def execute() {
+    @Role class TransactionRole()
+    {
+      def execute()
+      {
         (!this).execute()
       }
     }
 
   }
 
-  class Transaction(val amount: Double) extends Context {
-    def execute() {
+  class Transaction(val amount: Double) extends Context
+  {
+    def execute()
+    {
       E_?(Source()).withDraw(amount)
       E_?(Target()).deposit(amount)
     }
@@ -64,14 +80,18 @@ object BankExample extends App {
 
     def Target() = new Target
 
-    @Role class Source() {
-      def withDraw(m: Double) {
+    @Role class Source()
+    {
+      def withDraw(m: Double)
+      {
         (~this).decrease(m)
       }
     }
 
-    @Role class Target() {
-      def deposit(m: Double) {
+    @Role class Target()
+    {
+      def deposit(m: Double)
+      {
         (~this).increase(m)
       }
     }
@@ -85,7 +105,8 @@ object BankExample extends App {
   val accForStan = new Account(10.0)
   val accForBrian = new Account(0)
 
-  new Bank {
+  new Bank
+  {
     Bind(stan With Customer(),
       brian With Customer(),
       accForStan With new CheckingsAccount(),
@@ -113,5 +134,4 @@ object BankExample extends App {
       println("Balance for Brian: " + accForBrian.balance)
     }
   }
-
 }

@@ -2,12 +2,9 @@ package internal.dispatch
 
 object DispatchDescription
 {
-  def Condition = new
+  def When(when: () => Boolean) = new
     {
-      def When(when: () => Boolean) = new
-        {
-          def Dispatch(rules: DispatchRule*) = DispatchDescription(when, rules.toList)
-        }
+      def Dispatch(rules: DispatchRule*) = DispatchDescription(when, rules.toList)
     }
 }
 
@@ -95,7 +92,7 @@ object Test extends App
   import DispatchRule._
   import Statement._
 
-  val c = Condition When {
+  val c = When {
     () => true
   } Dispatch(
     In("ClassA").With("RoleA")(
