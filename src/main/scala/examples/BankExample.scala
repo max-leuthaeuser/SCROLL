@@ -125,7 +125,7 @@ object BankExample extends App
       accForBrian play transaction.Target()
 
       // transaction is currently a part of the Bank context
-      transaction >:> this
+      transaction >+> this
 
       (transaction play new TransactionRole).execute()
 

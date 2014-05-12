@@ -17,12 +17,22 @@ trait Compartment
   }
 
   // declaring a is-part-of relation between compartments
-  def >:>(other: Compartment)
+  def >+>(other: Compartment)
   {
     other.plays.foreach(v => {
       val key = v._1
       val values = v._2
       values.foreach(plays.addBinding(key, _))
+    })
+  }
+
+  // removing is-part-of relation between compartments
+  def <-<(other: Compartment)
+  {
+    other.plays.foreach(v => {
+      val key = v._1
+      val values = v._2
+      values.foreach(plays.removeBinding(key, _))
     })
   }
 
