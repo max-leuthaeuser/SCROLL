@@ -84,34 +84,3 @@ case class After(
   left: String,
   right: String
   ) extends Statement(left, right)
-
-object Test extends App
-{
-
-  import DispatchDescription._
-  import DispatchRule._
-  import Statement._
-
-  val c = When {
-    () => true
-  } Dispatch(
-    In("ClassA").With("RoleA")(
-      invoke {
-        "RoleA.m1 before ClassA.m1"
-      },
-      invoke {
-        "RoleA.m2 after ClassA.m2"
-      }
-    ),
-    In("ClassB").With("*")(
-      invoke {
-        "always replace ClassB.m1"
-      },
-      invoke {
-        "never replace ClassB.m2"
-      }
-    )
-    )
-
-  println(c)
-}
