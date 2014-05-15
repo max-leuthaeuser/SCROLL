@@ -3,6 +3,7 @@ package examples
 import internal.dispatch.DispatchDescription._
 import internal.dispatch.DispatchRule._
 import internal.dispatch.Statement._
+import util.TreeString._
 
 object DispatchDescriptionExample extends App
 {
@@ -27,5 +28,6 @@ object DispatchDescriptionExample extends App
     )
     )
 
-  println(c)
+  println(c.treeString)
+  println(c.scores.treeString)
 }

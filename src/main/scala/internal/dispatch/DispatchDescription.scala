@@ -1,5 +1,7 @@
 package internal.dispatch
 
+import scala.collection.mutable
+
 object DispatchDescription
 {
   def When(when: () => Boolean) = new
@@ -12,6 +14,35 @@ case class DispatchDescription(
   when: () => Boolean,
   rules: List[DispatchRule]
   )
+{
+
+  type Plays = (String, String)
+  type Score = (String, Int)
+
+  val scores = mutable.Map[Plays, List[Score]]()
+
+  calculateScores()
+
+  def calculateScores()
+  {
+    rules.foreach(r => {
+      val key = (r.in, r.role)
+      val value = mutable.ArrayBuffer[Score]()
+      r.precs.foreach {
+        case Before(left, right) => {
+          val cur = value.find(_._1.equals(left)).getOrElse((left, 0))
+          value.append((left, cur._2 + 1))
+        }
+        case After(left, right) => {
+          val cur = value.find(_._1.equals(right)).getOrElse((right, 0))
+          value.append((right, cur._2 + 1))
+        }
+        case Replace(left, right) => (right, 0)
+      }
+      scores(key) = value.toList
+    })
+  }
+}
 
 object DispatchRule
 {
