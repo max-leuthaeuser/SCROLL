@@ -29,5 +29,5 @@ object DispatchDescriptionExample extends App
     )
 
   println(c.treeString)
-  println(c.scores.treeString)
+  println(c.priorities.treeString)
 }

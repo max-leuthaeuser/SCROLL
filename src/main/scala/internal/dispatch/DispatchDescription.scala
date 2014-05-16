@@ -16,30 +16,46 @@ case class DispatchDescription(
   )
 {
 
-  type Plays = (String, String)
-  type Score = (String, Int)
+  case class Plays(
+    player: String,
+    role: String
+    )
 
-  val scores = mutable.Map[Plays, List[Score]]()
+  case class Score(
+    name: String,
+    value: Int
+    )
+  {
+    override def hashCode(): Int = name.hashCode
+
+    override def equals(obj: scala.Any): Boolean = obj match {
+      case e: Score => name equals e.name
+      case _ => super.equals(obj)
+    }
+  }
+
+  val priorities = mutable.Map[Plays, Set[Score]]()
 
   calculateScores()
 
   def calculateScores()
   {
     rules.foreach(r => {
-      val key = (r.in, r.role)
-      val value = mutable.ArrayBuffer[Score]()
+      val key = Plays(r.in, r.role)
+      val value = mutable.HashSet[Score]()
+
       r.precs.foreach {
-        case Before(left, right) => {
-          val cur = value.find(_._1.equals(left)).getOrElse((left, 0))
-          value.append((left, cur._2 + 1))
-        }
-        case After(left, right) => {
-          val cur = value.find(_._1.equals(right)).getOrElse((right, 0))
-          value.append((right, cur._2 + 1))
-        }
-        case Replace(left, right) => (right, 0)
+        case Before(left, right) =>
+          val cur = value.find(_.name equals left).getOrElse(Score(left, 0))
+          value.remove(cur)
+          value.add(Score(left, cur.value + 1))
+        case After(left, right) =>
+          val cur = value.find(_.name equals right).getOrElse(Score(right, 0))
+          value.remove(cur)
+          value.add(Score(right, cur.value + 1))
+        case Replace(left, right) => Score(right, 0)
       }
-      scores(key) = value.toList
+      priorities(key) = value.toSet
     })
   }
 }
