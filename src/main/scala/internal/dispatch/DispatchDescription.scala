@@ -77,21 +77,14 @@ case class DispatchRule(
 
 object Statement
 {
-  def invoke(s: => String): Statement =
-  {
-    if (s.contains(Before.repr)) {
-      val (l, r) = s.splitAt(s.indexOf(Before.repr))
-      return Before(l, r.replace(Before.repr, ""))
-    }
-    if (s.contains(Replace.repr)) {
-      val (l, r) = s.splitAt(s.indexOf(Replace.repr))
-      return Replace(l, r.replace(Replace.repr, ""))
-    }
-    if (s.contains(After.repr)) {
-      val (l, r) = s.splitAt(s.indexOf(After.repr))
-      return After(l, r.replace(After.repr, ""))
-    }
-    throw new IllegalArgumentException("'" + s + "' is no valid Statement.")
+  def Then(s: String): Statement = s.split("\\s+") match {
+    case Array(l, m, r) =>
+      m match {
+        case Before.repr => Before(l, r)
+        case Replace.repr => Replace(l, r)
+        case After.repr => After(l, r)
+        case _ => throw new IllegalArgumentException("'" + s + "' is no valid. Statement not recognized: " + m)
+      }
   }
 }
 
@@ -104,7 +97,7 @@ abstract class Statement(
 
 object Before
 {
-  def repr = " before "
+  val repr = "before"
 }
 
 case class Before(
@@ -114,7 +107,7 @@ case class Before(
 
 object Replace
 {
-  def repr = " replace "
+  val repr = "replace"
 }
 
 case class Replace(
@@ -124,7 +117,7 @@ case class Replace(
 
 object After
 {
-  def repr = " after "
+  val repr = "after"
 }
 
 case class After(
