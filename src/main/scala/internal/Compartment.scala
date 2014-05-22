@@ -1,7 +1,7 @@
 package internal
 
 import scala.collection.mutable
-import scala.collection.immutable
+import scala.collection.immutable.Queue
 import java.lang.reflect.Method
 import java.lang
 import internal.dispatch.DispatchDescription
@@ -42,7 +42,7 @@ trait Compartment
     (plays.keys.toList ::: plays.values.flatten.toList)
       .find(v => any.getClass.getSimpleName equals v.getClass.getSimpleName) match {
       case Some(value) => value.asInstanceOf[T]
-      case None => throw new RuntimeException("No player with type '" + any.getClass + "' found.")
+      case None => throw new RuntimeException(s"No player with type '$any' found.")
     }
 
   def A_?[T](any: T): Seq[T] =
@@ -127,7 +127,7 @@ trait Compartment
           getRelation(arg.core).find(_.getClass == tpe) match {
             case Some(curRole) => curRole
             // TODO: how to permit this?
-            case None => throw new RuntimeException("No role for type '" + tpe + "' found.")
+            case None => throw new RuntimeException(s"No role for type '$tpe' found.")
           }
         case (arg: Double, tpe: Class[_]) => new lang.Double(arg.toDouble)
         // TODO: warning: abstract type A gets eliminated by erasure
@@ -149,7 +149,8 @@ trait Compartment
       (implicit dd: DispatchDescription = DispatchDescription.empty): E =
     {
       val core = getCoreFor(role)
-      val anys = immutable.Queue(core) ++ getOtherRolesForRole(core) :+ role
+      // TODO: swap methods w.r.t. the provided DispatchDescription
+      val anys = Queue(core) ++ getOtherRolesForRole(core) :+ role
 
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
@@ -161,7 +162,7 @@ trait Compartment
       })
 
       // otherwise give up
-      throw new RuntimeException(s"No role with method '$name' found!")
+      throw new RuntimeException(s"No role with method '$name' found! (role: '$role')")
     }
 
     // identity of roles: they don't have their own ID
@@ -205,7 +206,8 @@ trait Compartment
       (args: A*)
       (implicit dd: DispatchDescription = DispatchDescription.empty): E =
     {
-      val anys = immutable.Queue() ++ getRelation(core) ++ getOtherRolesForRole(core) :+ getCoreFor(core) :+ core
+      // TODO: swap methods w.r.t. the provided DispatchDescription
+      val anys = Queue() ++ getRelation(core) ++ getOtherRolesForRole(core) :+ getCoreFor(core) :+ core
 
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
@@ -216,7 +218,7 @@ trait Compartment
         })
       })
       // otherwise give up
-      throw new RuntimeException(s"No role with method '$name' found! (core: " + core + ")")
+      throw new RuntimeException(s"No role with method '$name' found! (core: '$core')")
     }
 
     override def equals(o: Any) = o match {

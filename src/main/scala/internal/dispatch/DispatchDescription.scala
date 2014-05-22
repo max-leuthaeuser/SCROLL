@@ -36,12 +36,10 @@ case class DispatchDescription(
     }
   }
 
-  val priorities = mutable.Map[Plays, Set[Score]]()
-
-  calculateScores()
-
-  def calculateScores()
+  def scores: mutable.Map[Plays, Set[Score]] =
   {
+    val priorities = mutable.Map[Plays, Set[Score]]()
+
     rules.foreach(r => {
       val key = Plays(r.in, r.role)
       val value = mutable.HashSet[Score]()
@@ -59,6 +57,8 @@ case class DispatchDescription(
       }
       priorities(key) = value.toSet
     })
+
+    priorities
   }
 }
 
