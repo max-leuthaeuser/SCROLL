@@ -1,6 +1,7 @@
 package internal
 
 import scala.collection.mutable
+import scala.collection.immutable
 import java.lang.reflect.Method
 import java.lang
 import internal.dispatch.DispatchDescription
@@ -148,7 +149,7 @@ trait Compartment
       (implicit dd: DispatchDescription = DispatchDescription.empty): E =
     {
       val core = getCoreFor(role)
-      val anys = Set(core) ++ getOtherRolesForRole(core) + role
+      val anys = immutable.Queue(core) ++ getOtherRolesForRole(core) :+ role
 
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
@@ -204,7 +205,7 @@ trait Compartment
       (args: A*)
       (implicit dd: DispatchDescription = DispatchDescription.empty): E =
     {
-      val anys = getRelation(core) ++ getOtherRolesForRole(core) + getCoreFor(core) + core
+      val anys = immutable.Queue() ++ getRelation(core) ++ getOtherRolesForRole(core) :+ getCoreFor(core) :+ core
 
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
