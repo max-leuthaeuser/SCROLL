@@ -148,29 +148,15 @@ trait Compartment
       (implicit dd: DispatchDescription = DispatchDescription.empty): E =
     {
       val core = getCoreFor(role)
-      core.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
-        args match {
-          case Nil => return dispatch(core, fm)
-          case _ => return dispatch(core, fm, args.toSeq)
-        }
-      })
+      val anys = Set(core) ++ getOtherRolesForRole(core) + role
 
-      // search all other roles for the given method with name 'name'
-      getOtherRolesForRole(core).foreach(r => {
+      anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
           args match {
             case Nil => return dispatch(r, fm)
             case _ => return dispatch(r, fm, args.toSeq)
           }
         })
-      })
-
-      // fallback if the role itself can provide the requested method
-      role.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
-        args match {
-          case Nil => return dispatch(role, fm)
-          case _ => return dispatch(role, fm, args.toSeq)
-        }
       })
 
       // otherwise give up
@@ -218,8 +204,9 @@ trait Compartment
       (args: A*)
       (implicit dd: DispatchDescription = DispatchDescription.empty): E =
     {
-      // search all roles the core is playing for the given method with name 'name'
-      getRelation(core).foreach(r => {
+      val anys = getRelation(core) ++ getOtherRolesForRole(core) + getCoreFor(core) + core
+
+      anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
           args match {
             case Nil => return dispatch(r, fm)
@@ -227,33 +214,6 @@ trait Compartment
           }
         })
       })
-
-      // search all other roles for the given method with name 'name'
-      getOtherRolesForRole(core).foreach(r => {
-        r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
-          args match {
-            case Nil => return dispatch(r, fm)
-            case _ => return dispatch(r, fm, args.toSeq)
-          }
-        })
-      })
-
-      // fallback if core is providing the requested method itself
-      val c = getCoreFor(core)
-      c.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
-        args match {
-          case Nil => return dispatch(c, fm)
-          case _ => return dispatch(c, fm, args.toSeq)
-        }
-      })
-
-      core.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
-        args match {
-          case Nil => return dispatch(core, fm)
-          case _ => return dispatch(core, fm, args.toSeq)
-        }
-      })
-
       // otherwise give up
       throw new RuntimeException(s"No role with method '$name' found! (core: " + core + ")")
     }
