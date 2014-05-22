@@ -4,6 +4,8 @@ import scala.collection.mutable
 
 object DispatchDescription
 {
+  val empty: DispatchDescription = null
+
   def When(when: () => Boolean) = new
     {
       def Dispatch(rules: DispatchRule*) = DispatchDescription(when, rules.toList)

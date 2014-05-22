@@ -3,12 +3,13 @@ package internal
 import scala.collection.mutable
 import java.lang.reflect.Method
 import java.lang
+import internal.dispatch.DispatchDescription
 
 trait Compartment
 {
-  implicit def anyToRole[T](any: T) = new RoleType[T](any)
+  implicit def anyToRole[T](any: T): RoleType[T] = new RoleType[T](any)
 
-  implicit def anyToPlayer[T](any: T) = new PlayerType[T](any)
+  implicit def anyToPlayer[T](any: T): PlayerType[T] = new PlayerType[T](any)
 
   val plays = new mutable.HashMap[Any, mutable.Set[Any]]() with mutable.MultiMap[Any, Any]
   {
@@ -143,7 +144,8 @@ trait Compartment
     def unary_! : RoleType[T] = this
 
     def applyDynamic[E, A](name: String)
-      (args: A*): E =
+      (args: A*)
+      (implicit dd: DispatchDescription = DispatchDescription.empty): E =
     {
       val core = getCoreFor(role)
       core.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
@@ -213,7 +215,8 @@ trait Compartment
       }
 
     def applyDynamic[E, A](name: String)
-      (args: A*): E =
+      (args: A*)
+      (implicit dd: DispatchDescription = DispatchDescription.empty): E =
     {
       // search all roles the core is playing for the given method with name 'name'
       getRelation(core).foreach(r => {
