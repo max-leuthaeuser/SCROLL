@@ -42,7 +42,7 @@ object BankExample extends App
     {
       def decrease(amount: Double)
       {
-        (!this).decrease(amount)
+        (-this).decrease(amount)
       }
     }
 
@@ -52,7 +52,7 @@ object BankExample extends App
 
       def decrease(amount: Double)
       {
-        (!this).decrease(amount - transactionFee(amount))
+        (-this).decrease(amount - transactionFee(amount))
       }
     }
 
@@ -60,7 +60,7 @@ object BankExample extends App
     {
       def execute()
       {
-        (!this).execute()
+        (-this).execute()
       }
     }
 
@@ -84,7 +84,7 @@ object BankExample extends App
     {
       def withDraw(m: Double)
       {
-        (~this).decrease(m)
+        (+this).decrease(m)
       }
     }
 
@@ -92,7 +92,7 @@ object BankExample extends App
     {
       def deposit(m: Double)
       {
-        (~this).increase(m)
+        (+this).increase(m)
       }
     }
 
@@ -112,8 +112,8 @@ object BankExample extends App
       accForStan With new CheckingsAccount(),
       accForBrian With new CheckingsAccount()) {
 
-      (~stan).addAccount(Left(accForStan))
-      (~brian).addAccount(Left(accForBrian))
+      (+stan).addAccount(Left(accForStan))
+      (+brian).addAccount(Left(accForBrian))
 
       println("### Before transaction ###")
       println("Balance for Stan: " + accForStan.balance)

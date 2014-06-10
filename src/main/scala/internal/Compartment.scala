@@ -142,7 +142,7 @@ trait Compartment
 
   class RoleType[T](val role: T) extends Dynamic with DispatchType
   {
-    def unary_! : RoleType[T] = this
+    def unary_- : RoleType[T] = this
 
     def applyDynamic[E, A](name: String)
       (args: A*)
@@ -192,7 +192,7 @@ trait Compartment
       this
     }
 
-    def unary_~ : PlayerType[T] = this
+    def unary_+ : PlayerType[T] = this
 
     def transfer(role: Any) = new
       {

@@ -21,7 +21,7 @@ object UniversityExample extends App
     {
       def teach(student: Student)
       {
-        println("Teaching: " + (!student name()))
+        println("Teaching: " + (-student name()))
       }
 
       def talk()
@@ -50,15 +50,15 @@ object UniversityExample extends App
 
     val student = new Student
     println("Player equals core: " + ((hans play student) == hans))
-    ~hans talk()
+    +hans talk()
 
-    println(!student name())
-    println("Role core equals core: " + (!student == hans))
+    println(-student name())
+    println("Role core equals core: " + (-student == hans))
 
     uwe play new Professor
-    ~uwe talk()
-    println("Core equals core playing a role: " + (~uwe == uwe))
+    +uwe talk()
+    println("Core equals core playing a role: " + (+uwe == uwe))
 
-    ~uwe teach ~hans
+    +uwe teach +hans
   }
 }

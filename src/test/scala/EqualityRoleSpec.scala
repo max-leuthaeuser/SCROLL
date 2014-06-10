@@ -26,8 +26,8 @@ class EqualityRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
 
         When("comparing core and core playing a role")
         Then("They should have the same identity")
-        assert((~player) == player)
-        assert(player == (~player))
+        assert((+player) == player)
+        assert(player == (+player))
 
         When("comparing a role to itself")
         Then("it should have the same identity")
@@ -35,14 +35,14 @@ class EqualityRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
 
         When("comparing a role core to the player")
         Then("it should have the same identity")
-        val a = !someRole
-        assert((!someRole) == player)
-        assert(player == (!someRole))
+        val a = -someRole
+        assert((-someRole) == player)
+        assert(player == (-someRole))
 
         When("comparing a role core to the core")
         Then("it should have the same identity")
         // TODO: equals of Any doesn't compare to Role
-        assert((!someRole) == someCore)
+        assert((-someRole) == someCore)
       }
     }
 
@@ -65,8 +65,8 @@ class EqualityRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
 
         When("comparing core and core playing a role")
         Then("They should have the same identity")
-        assert((~player) == player)
-        assert(player == (~player))
+        assert((+player) == player)
+        assert(player == (+player))
 
         When("comparing a role to itself")
         Then("it should have the same identity")
@@ -80,8 +80,8 @@ class EqualityRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
 
         When("comparing a role core to the player")
         Then("it should have the same identity")
-        val a = !someRole
-        val b = !someOtherRole
+        val a = -someRole
+        val b = -someOtherRole
         assert(a == player)
         assert(player == a)
         assert(b == player)
@@ -89,8 +89,8 @@ class EqualityRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
 
         When("comparing a role core to the core")
         Then("it should have the same identity")
-        assert((!someRole) == someCore)
-        assert((!someOtherRole) == someCore)
+        assert((-someRole) == someCore)
+        assert((-someOtherRole) == someCore)
       }
     }
   }
