@@ -4,8 +4,11 @@ import scala.collection.mutable
 import scala.collection.immutable.Queue
 import java.lang.reflect.Method
 import java.lang
-import internal.dispatch.DispatchDescription
+import internal.dispatch._
+import util.QueueUtils._
+import scala.Some
 
+// TODO: what happens if the same role is played multiple times from one player?
 trait Compartment
 {
   implicit def anyToRole[T](any: T): RoleType[T] = new RoleType[T](any)
@@ -138,6 +141,52 @@ trait Compartment
         _.asInstanceOf[Object]
       }: _*).asInstanceOf[E]
     }
+
+    // TODO: test this hilarious thing
+    def applyDispatchDescription(
+      q: Queue[Any],
+      dd: DispatchDescription
+      ): Queue[Any] =
+    {
+      def getByName(
+        col: Iterable[Any],
+        name: String
+        ): Option[Any] = col.find(p => p.getClass.getSimpleName equals name)
+
+      def getRolesForCoreByName(
+        core: Any,
+        name: String
+        ): Seq[Any] = getByName(plays(core), name) match {
+        case Some(obj) => plays(core).toSeq
+        case None => Seq.empty
+      }
+
+      dd match {
+        case null => q
+        case _ =>
+          var q_copy = copy(q)
+          val player = plays.keys.toList ::: plays.values.flatten.toList
+
+          dd.rules.foreach(rule => {
+            getByName(player, rule.in) match {
+              case Some(obj) =>
+                if ((getRolesForCoreByName(obj, rule.role).toList ::: getOtherRolesForRole(
+                  getByName(player, rule.role)).toList).nonEmpty) {
+                  rule.precs.foreach {
+                    // TODO: bug here
+                    case r: Before => q_copy = swapWithOrder(q_copy, (getByName(player, r.leftObj).get, getByName(player, r.rightObj).get))
+                    case r: Replace =>
+                      q_copy = remove(getByName(player, r.rightObj).get, q_copy)
+                    case r: After => q_copy = swapWithOrder(q_copy, (getByName(player, r.rightObj).get,
+                      getByName(player, r.leftObj).get))
+                  }
+                }
+              case None => // do nothing
+            }
+          })
+          q_copy
+      }
+    }
   }
 
   class RoleType[T](val role: T) extends Dynamic with DispatchType
@@ -149,8 +198,7 @@ trait Compartment
       (implicit dd: DispatchDescription = DispatchDescription.empty): E =
     {
       val core = getCoreFor(role)
-      // TODO: swap methods w.r.t. the provided DispatchDescription
-      val anys = Queue(core) ++ getOtherRolesForRole(core) :+ role
+      val anys = applyDispatchDescription(Queue(core) ++ getOtherRolesForRole(core) :+ role, dd)
 
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
@@ -206,8 +254,8 @@ trait Compartment
       (args: A*)
       (implicit dd: DispatchDescription = DispatchDescription.empty): E =
     {
-      // TODO: swap methods w.r.t. the provided DispatchDescription
-      val anys = Queue() ++ getRelation(core) ++ getOtherRolesForRole(core) :+ getCoreFor(core) :+ core
+      val anys = applyDispatchDescription(
+        Queue() ++ getRelation(core) ++ getOtherRolesForRole(core) :+ getCoreFor(core) :+ core, dd)
 
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {

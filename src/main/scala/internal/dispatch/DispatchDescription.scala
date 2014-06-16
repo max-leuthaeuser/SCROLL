@@ -95,6 +95,9 @@ abstract class Statement(
   right: String
   )
 {
+  def leftObj: String = left.substring(0, left.indexOf("."))
+
+  def rightObj: String = right.substring(0, right.indexOf("."))
 }
 
 object Before

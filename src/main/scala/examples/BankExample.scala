@@ -2,6 +2,9 @@ package examples
 
 import internal.Context
 import annotations.Role
+import internal.dispatch.DispatchDescription._
+import internal.dispatch.DispatchRule._
+import internal.dispatch.Statement._
 
 object BankExample extends App
 {
@@ -70,15 +73,15 @@ object BankExample extends App
   {
     def execute()
     {
-      E_?(Source()).withDraw(amount)
-      E_?(Target()).deposit(amount)
+      E_?(Source).withDraw(amount)
+      E_?(Target).deposit(amount)
     }
 
     // to make roles that are contained in some Compartment accessible one
     // has to create some helper methods like the following
-    def Source() = new Source
+    def Source = new Source
 
-    def Target() = new Target
+    def Target = new Target
 
     @Role class Source()
     {
@@ -97,6 +100,18 @@ object BankExample extends App
     }
 
   }
+
+  // Dispatch description for the following example
+  implicit val dispatch = When { () => true} Dispatch(
+    In("Account").With("CheckingsAccount")(
+      Then("CheckingsAccount.descrease before Account.descrease")
+    ),
+    In("Account").With("SavingsAccount")(
+      Then("SavingsAccount.descrease before Account.descrease")
+    ),
+    In("Transaction").With("TransactionRole")(
+      Then("TransactionRole.execute before Transaction.execute")
+    ))
 
   // Instance level
   val stan = Person("Stan")
@@ -121,13 +136,14 @@ object BankExample extends App
 
       val transaction = new Transaction(10.0)
 
-      accForStan play transaction.Source()
-      accForBrian play transaction.Target()
+      accForStan play transaction.Source
+      accForBrian play transaction.Target
 
       // transaction is currently a part of the Bank context
       transaction >+> this
 
-      (transaction play new TransactionRole).execute()
+      val t = transaction play new TransactionRole
+      t.execute()
 
       println("\n### After transaction ###")
       println("Balance for Stan: " + accForStan.balance)
