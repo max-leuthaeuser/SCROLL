@@ -164,6 +164,9 @@ trait Compartment
       dd match {
         case null => q
         case _ =>
+          // if the precondition is not fullfilled we skip the rest
+          if (!dd.when()) return q
+
           var q_copy = copy(q)
           val player = plays.keys.toList ::: plays.values.flatten.toList
 
