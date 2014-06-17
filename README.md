@@ -7,8 +7,7 @@ Role playground for role dispatch based on Scala.
 1. Current state
   
   You are able to define compartments, roles and play-relationships. Invoking
-  Role-methods is done via the [Dynamic][scala-dynamic] trait. There is no way to define a
-  custom invokation dispatch algorithm yet.
+  Role-methods is done via the [Dynamic][scala-dynamic] trait.
   
 2. Example
   ```scala
@@ -105,6 +104,18 @@ Role playground for role dispatch based on Scala.
       }
   
     }
+
+    // Dispatch description
+    implicit val dispatch = When { () => true } Dispatch(
+      In("Account").With("CheckingsAccount")(
+        Then("CheckingsAccount.decrease before Account.decrease")
+      ),
+      In("Account").With("SavingsAccount")(
+        Then("SavingsAccount.decrease before Account.decrease")
+      ),
+      In("Transaction").With("TransactionRole")(
+        Then("TransactionRole.execute before Transaction.execute")
+    ))
   
     // Instance level
     val stan = Person("Stan")

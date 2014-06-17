@@ -104,10 +104,10 @@ object BankExample extends App
   // Dispatch description for the following example
   implicit val dispatch = When { () => true} Dispatch(
     In("Account").With("CheckingsAccount")(
-      Then("CheckingsAccount.descrease before Account.descrease")
+      Then("CheckingsAccount.decrease before Account.decrease")
     ),
     In("Account").With("SavingsAccount")(
-      Then("SavingsAccount.descrease before Account.descrease")
+      Then("SavingsAccount.decrease before Account.decrease")
     ),
     In("Transaction").With("TransactionRole")(
       Then("TransactionRole.execute before Transaction.execute")
