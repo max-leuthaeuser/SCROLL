@@ -92,7 +92,8 @@ object Statement
 
 abstract class Statement(
   left: String,
-  right: String
+  right: String,
+  var done: Boolean = false
   )
 {
   def leftObj: String = left.substring(0, left.indexOf("."))

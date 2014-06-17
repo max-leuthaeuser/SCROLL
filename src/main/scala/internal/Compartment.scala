@@ -172,13 +172,18 @@ trait Compartment
               case Some(obj) =>
                 if ((getRolesForCoreByName(obj, rule.role).toList ::: getOtherRolesForRole(
                   getByName(player, rule.role)).toList).nonEmpty) {
-                  rule.precs.foreach {
-                    // TODO: bug here
-                    case r: Before => q_copy = swapWithOrder(q_copy, (getByName(player, r.leftObj).get, getByName(player, r.rightObj).get))
+                  rule.precs.filter(!_.done).foreach {
+                    case r: Before =>
+                      q_copy = swapWithOrder(q_copy,
+                        (getByName(player, r.leftObj).get, getByName(player, r.rightObj).get))
+                      r.done = true
                     case r: Replace =>
                       q_copy = remove(getByName(player, r.rightObj).get, q_copy)
-                    case r: After => q_copy = swapWithOrder(q_copy, (getByName(player, r.rightObj).get,
-                      getByName(player, r.leftObj).get))
+                      r.done = true
+                    case r: After =>
+                      q_copy = swapWithOrder(q_copy, (getByName(player, r.rightObj).get,
+                        getByName(player, r.leftObj).get))
+                      r.done = true
                   }
                 }
               case None => // do nothing
