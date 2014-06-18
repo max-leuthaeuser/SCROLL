@@ -162,7 +162,7 @@ trait Compartment
       }
 
       dd match {
-        case null => q
+        case DispatchDescription.empty => q
         case _ =>
           // if the precondition is not fullfilled we skip the rest
           if (!dd.when()) return q
