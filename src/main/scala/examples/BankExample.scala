@@ -63,6 +63,7 @@ object BankExample extends App
     {
       def execute()
       {
+        println("Executing from Role.")
         (-this).execute()
       }
     }
@@ -73,6 +74,7 @@ object BankExample extends App
   {
     def execute()
     {
+      println("Executing from Player.")
       E_?(Source).withDraw(amount)
       E_?(Target).deposit(amount)
     }
@@ -102,7 +104,7 @@ object BankExample extends App
   }
 
   // Dispatch description for the following example
-  implicit val dispatch = When { () => true} Dispatch(
+  implicit val dispatch = When { () => true } Dispatch(
     In("Account").With("CheckingsAccount")(
       Then("CheckingsAccount.decrease before Account.decrease")
     ),

@@ -3,3 +3,6 @@
 project/
 target/
 *.iml
+*.class
+classes_gen
+source_gen

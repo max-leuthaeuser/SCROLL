@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dependenciesRoot>
+  <dependency className="RoleDispatch.behavior.AbstractRole_BehaviorDescriptor" file="AbstractRole_BehaviorDescriptor.java" />
+  <dependency className="RoleDispatch.behavior.AntiRigidType_BehaviorDescriptor" file="AntiRigidType_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.ORMType_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.Attribute_BehaviorDescriptor" file="Attribute_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.TypedElement_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.BehaviorAspectDescriptor" file="BehaviorAspectDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.Attribute_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.CompartmentType_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.DataType_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.Fulfillment_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.Model_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.NaturalInheritance_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.NaturalType_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.Operation_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.Parameter_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.Place_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.Relationship_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.RoleEquivalence_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.RoleGroup_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.RoleImplication_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.RoleProhibition_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.RoleType_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode dependClassName="java.util.Arrays" />
+    <classNode dependClassName="jetbrains.mps.smodel.runtime.BehaviorDescriptor" />
+    <classNode dependClassName="jetbrains.mps.smodel.runtime.interpreted.BehaviorAspectInterpreted" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.BehaviorAspectDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.CompartmentType_BehaviorDescriptor" file="CompartmentType_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.AbstractRole_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.RigidType_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="java.lang.Cloneable" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.Constraint_BehaviorDescriptor" file="Constraint_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.Relation_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.DataType_BehaviorDescriptor" file="DataType_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.RigidType_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.Fulfillment_BehaviorDescriptor" file="Fulfillment_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.Relation_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.Inheritance_BehaviorDescriptor" file="Inheritance_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.Relation_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.ModelElement_BehaviorDescriptor" file="ModelElement_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.NamedElement_BehaviorDescriptor" />
+    <classNode extendsClassName="java.lang.Cloneable" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.Model_BehaviorDescriptor" file="Model_BehaviorDescriptor.java">
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode dependClassName="jetbrains.mps.lang.core.behavior.BaseConcept_BehaviorDescriptor" />
+    <classNode dependClassName="jetbrains.mps.lang.core.behavior.INamedConcept_Behavior" />
+    <classNode dependClassName="jetbrains.mps.lang.core.behavior.INamedConcept_BehaviorDescriptor" />
+    <classNode dependClassName="org.jetbrains.mps.openapi.model.SNode" />
+    <classNode extendsClassName="java.lang.Cloneable" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.NamedElement_BehaviorDescriptor" file="NamedElement_BehaviorDescriptor.java">
+    <classNode dependClassName="jetbrains.mps.lang.core.behavior.INamedConcept_BehaviorDescriptor" />
+    <classNode extendsClassName="java.lang.Cloneable" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.NaturalInheritance_BehaviorDescriptor" file="NaturalInheritance_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.Relation_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.NaturalType_BehaviorDescriptor" file="NaturalType_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.RigidType_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.ORMType_BehaviorDescriptor" file="ORMType_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.RelationTarget_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.Operation_BehaviorDescriptor" file="Operation_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.TypedElement_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.Parameter_BehaviorDescriptor" file="Parameter_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.TypedElement_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.Place_BehaviorDescriptor" file="Place_BehaviorDescriptor.java">
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode dependClassName="jetbrains.mps.lang.core.behavior.BaseConcept_BehaviorDescriptor" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.RelationTarget_BehaviorDescriptor" file="RelationTarget_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.NamedElement_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode dependClassName="jetbrains.mps.lang.core.behavior.BaseConcept_BehaviorDescriptor" />
+    <classNode dependClassName="jetbrains.mps.lang.core.behavior.INamedConcept_Behavior" />
+    <classNode dependClassName="org.jetbrains.mps.openapi.model.SNode" />
+    <classNode extendsClassName="java.lang.Cloneable" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.Relation_BehaviorDescriptor" file="Relation_BehaviorDescriptor.java">
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode dependClassName="jetbrains.mps.lang.core.behavior.BaseConcept_BehaviorDescriptor" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.Relationship_BehaviorDescriptor" file="Relationship_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.Relation_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.RigidType_BehaviorDescriptor" file="RigidType_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.ModelElement_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.ORMType_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode dependClassName="jetbrains.mps.lang.core.behavior.INamedConcept_Behavior" />
+    <classNode dependClassName="org.jetbrains.mps.openapi.model.SNode" />
+    <classNode extendsClassName="java.lang.Cloneable" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.RoleConstraint_BehaviorDescriptor" file="RoleConstraint_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.Constraint_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.RoleEquivalence_BehaviorDescriptor" file="RoleEquivalence_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.RoleConstraint_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.RoleGroup_BehaviorDescriptor" file="RoleGroup_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.AbstractRole_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.RelationTarget_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="java.lang.Cloneable" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.RoleImplication_BehaviorDescriptor" file="RoleImplication_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.RoleConstraint_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.RoleProhibition_BehaviorDescriptor" file="RoleProhibition_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.RoleConstraint_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.RoleType_BehaviorDescriptor" file="RoleType_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.AbstractRole_BehaviorDescriptor" />
+    <classNode dependClassName="RoleDispatch.behavior.AntiRigidType_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode extendsClassName="java.lang.Cloneable" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+  <dependency className="RoleDispatch.behavior.TypedElement_BehaviorDescriptor" file="TypedElement_BehaviorDescriptor.java">
+    <classNode dependClassName="RoleDispatch.behavior.NamedElement_BehaviorDescriptor" />
+    <classNode dependClassName="java.lang.Override" />
+    <classNode dependClassName="java.lang.String" />
+    <classNode dependClassName="jetbrains.mps.lang.core.behavior.BaseConcept_BehaviorDescriptor" />
+    <classNode dependClassName="jetbrains.mps.lang.core.behavior.INamedConcept_Behavior" />
+    <classNode dependClassName="org.jetbrains.mps.openapi.model.SNode" />
+    <classNode extendsClassName="java.lang.Cloneable" />
+    <classNode extendsClassName="jetbrains.mps.smodel.runtime.impl.CompiledBehaviorDescriptor" />
+  </dependency>
+</dependenciesRoot>
+
