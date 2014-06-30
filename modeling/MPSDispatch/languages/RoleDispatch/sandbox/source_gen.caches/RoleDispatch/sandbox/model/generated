@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dependencies version="2" modelHash="-a290rla2h681w2p0nhyvu8yn7sfzgr">
+<dependencies version="2" modelHash="-cfrnaidflu1tvfadew6wuxkxx6ofwnh">
   <common hash="-e1i77uuxhkjqs1xaqrugmn8pfcldael" />
-  <source id="4706841621052401153" name="Bank" hash="-9bdc151n879zd5mlqi9pqi4as7p4mpd">
-    <file name="Bank" />
+  <source id="494922352951391211" name="SomeModel" hash="-2dx27h0se79g1068ur0yodbmpa2e7bu">
+    <file name="SomeModel" />
   </source>
 </dependencies>
 
