@@ -18,5 +18,11 @@
     </dependencies>
     <rename id="glc0.1609475155069615932" type="CONCEPT" from="NaturalInheritance" to="RoleInheritance" />
   </StructureModification>
+  <StructureModification>
+    <dependencies>
+      <model index="glc0" modelUID="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)" version="2" />
+    </dependencies>
+    <rename id="glc0.1609475155070746229" type="REFERENCE" from="elem" to="elements" />
+  </StructureModification>
 </history>
 
