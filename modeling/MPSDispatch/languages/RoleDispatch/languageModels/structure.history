@@ -24,5 +24,11 @@
     </dependencies>
     <rename id="glc0.1609475155070746229" type="REFERENCE" from="elem" to="elements" />
   </StructureModification>
+  <StructureModification>
+    <dependencies>
+      <model index="glc0" modelUID="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)" version="3" />
+    </dependencies>
+    <rename id="glc0.1609475155080831874" type="REFERENCE" from="forst" to="first" />
+  </StructureModification>
 </history>
 
