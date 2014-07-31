@@ -4,7 +4,7 @@
   <language namespace="246b4ac3-3cd0-4245-a5dc-907458b98cbf(RoleDispatch)" />
   <language namespace="f3061a53-9226-4cc5-a443-f952ceaf5816(jetbrains.mps.baseLanguage)" />
   <import index="tpck" modelUID="r:00000000-0000-4000-0000-011c89590288(jetbrains.mps.lang.core.structure)" version="0" implicit="yes" />
-  <import index="glc0" modelUID="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)" version="5" implicit="yes" />
+  <import index="glc0" modelUID="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)" version="6" implicit="yes" />
   <root type="glc0.Model" typeId="glc0.4706841621052048456" id="1609475155071102905" nodeInfo="ng">
     <property name="name" nameId="tpck.1169194664001" value="BankModel" />
     <node role="elements" roleId="glc0.4706841621052048457" type="glc0.DataType" typeId="glc0.4706841621052371215" id="1609475155071102908" nodeInfo="ng">
@@ -103,17 +103,20 @@
       </node>
       <node role="parts" roleId="glc0.4706841621052051295" type="glc0.Part" typeId="glc0.1609475155070818610" id="1609475155075219403" nodeInfo="ng">
         <property name="lower" nameId="glc0.1609475155070818611" value="3" />
-        <node role="role" roleId="glc0.1609475155070819458" type="glc0.RoleGroup" typeId="glc0.4706841621052051008" id="1609475155075219415" nodeInfo="ng">
+        <node role="role" roleId="glc0.1609475155070819458" type="glc0.RoleGroup" typeId="glc0.4706841621052051008" id="8942231102476394257" nodeInfo="ng">
           <property name="name" nameId="tpck.1169194664001" value="Employees" />
           <property name="lower" nameId="glc0.4706841621052051059" value="1" />
-          <node role="elements" roleId="glc0.4706841621052051064" type="glc0.AbstractRoleName" typeId="glc0.1609475155074662706" id="1609475155075219421" nodeInfo="ng">
-            <link role="role" roleId="glc0.1609475155074662709" targetNodeId="1609475155075218749" resolveInfo="CEO" />
+          <node role="elements" roleId="glc0.4706841621052051064" type="glc0.AbstractRoleRef" typeId="glc0.8942231102475770345" id="8942231102476394261" nodeInfo="ng">
+            <link role="ref" roleId="glc0.8942231102476071462" targetNodeId="1609475155075218749" resolveInfo="CEO" />
           </node>
-          <node role="elements" roleId="glc0.4706841621052051064" type="glc0.AbstractRoleName" typeId="glc0.1609475155074662706" id="1609475155075219426" nodeInfo="ng">
-            <link role="role" roleId="glc0.1609475155074662709" targetNodeId="1609475155075218801" resolveInfo="Employee" />
+          <node role="elements" roleId="glc0.4706841621052051064" type="glc0.AbstractRoleRef" typeId="glc0.8942231102475770345" id="8942231102476394266" nodeInfo="ng">
+            <link role="ref" roleId="glc0.8942231102476071462" targetNodeId="1609475155079413829" resolveInfo="Consultant" />
           </node>
-          <node role="elements" roleId="glc0.4706841621052051064" type="glc0.AbstractRoleName" typeId="glc0.1609475155074662706" id="1609475155075219433" nodeInfo="ng">
-            <link role="role" roleId="glc0.1609475155074662709" targetNodeId="1609475155075218834" resolveInfo="Programmer" />
+          <node role="elements" roleId="glc0.4706841621052051064" type="glc0.AbstractRoleRef" typeId="glc0.8942231102475770345" id="8942231102476394273" nodeInfo="ng">
+            <link role="ref" roleId="glc0.8942231102476071462" targetNodeId="1609475155075218801" resolveInfo="Employee" />
+          </node>
+          <node role="elements" roleId="glc0.4706841621052051064" type="glc0.RoleType" typeId="glc0.4706841621052050693" id="8942231102476394282" nodeInfo="ng">
+            <property name="name" nameId="tpck.1169194664001" value="Programmer" />
           </node>
         </node>
       </node>
@@ -125,16 +128,16 @@
         <link role="second" roleId="glc0.4706841621052050736" targetNodeId="1609475155071898739" resolveInfo="Customer" />
         <link role="first" roleId="glc0.4706841621052050734" targetNodeId="1609475155075218801" resolveInfo="Employee" />
       </node>
-      <node role="constraints" roleId="glc0.4706841621052051293" type="glc0.ComplexConstraint" typeId="glc0.1609475155072168595" id="1609475155074940737" nodeInfo="ng">
-        <property name="expression" nameId="glc0.1609475155072168671" value="// some expression" />
-        <node role="targets" roleId="glc0.1609475155074662588" type="glc0.AbstractRoleName" typeId="glc0.1609475155074662706" id="1609475155075218866" nodeInfo="ng">
-          <link role="role" roleId="glc0.1609475155074662709" targetNodeId="1609475155075218749" resolveInfo="CEO" />
+      <node role="constraints" roleId="glc0.4706841621052051293" type="glc0.ComplexConstraint" typeId="glc0.1609475155072168595" id="8942231102476394382" nodeInfo="ng">
+        <property name="expression" nameId="glc0.1609475155072168671" value="// some expr" />
+        <node role="targets" roleId="glc0.1609475155074662588" type="glc0.AbstractRoleRef" typeId="glc0.8942231102475770345" id="8942231102476394390" nodeInfo="ng">
+          <link role="ref" roleId="glc0.8942231102476071462" targetNodeId="1609475155075218749" resolveInfo="CEO" />
         </node>
-        <node role="targets" roleId="glc0.1609475155074662588" type="glc0.AbstractRoleName" typeId="glc0.1609475155074662706" id="1609475155075218870" nodeInfo="ng">
-          <link role="role" roleId="glc0.1609475155074662709" targetNodeId="1609475155075218834" resolveInfo="Programmer" />
+        <node role="targets" roleId="glc0.1609475155074662588" type="glc0.AbstractRoleRef" typeId="glc0.8942231102475770345" id="8942231102476394395" nodeInfo="ng">
+          <link role="ref" roleId="glc0.8942231102476071462" targetNodeId="1609475155079413829" resolveInfo="Consultant" />
         </node>
-        <node role="targets" roleId="glc0.1609475155074662588" type="glc0.AbstractRoleName" typeId="glc0.1609475155074662706" id="1609475155075218874" nodeInfo="ng">
-          <link role="role" roleId="glc0.1609475155074662709" targetNodeId="1609475155075218801" resolveInfo="Employee" />
+        <node role="targets" roleId="glc0.1609475155074662588" type="glc0.AbstractRoleRef" typeId="glc0.8942231102475770345" id="8942231102476394402" nodeInfo="ng">
+          <link role="ref" roleId="glc0.8942231102476071462" targetNodeId="1609475155075218801" resolveInfo="Employee" />
         </node>
       </node>
       <node role="relations" roleId="glc0.4706841621052050354" type="glc0.Fulfillment" typeId="glc0.4706841621052050779" id="1609475155071901427" nodeInfo="ng">

@@ -36,5 +36,11 @@
     </dependencies>
     <rename id="glc0.8942231102472319817" type="REFERENCE" from="co" to="constraints" />
   </StructureModification>
+  <StructureModification>
+    <dependencies>
+      <model index="glc0" modelUID="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)" version="5" />
+    </dependencies>
+    <rename id="glc0.8942231102475770345" type="CONCEPT" from="Abstra" to="AbstractRoleRef" />
+  </StructureModification>
 </history>
 

@@ -7,6 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb781ea5-6a6a-4ddc-9cb7-7c9c1b5fe0b0" name="Default" comment=" - added some duplicate name constraints">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/languageModels/constraints.mps" afterPath="$PROJECT_DIR$/languages/RoleDispatch/languageModels/constraints.mps" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/sandbox/source_gen.caches/RoleDispatch/sandbox/model/dependencies" afterPath="$PROJECT_DIR$/languages/RoleDispatch/sandbox/source_gen.caches/RoleDispatch/sandbox/model/dependencies" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/dependencies" afterPath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/dependencies" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/behavior/dependencies" afterPath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/behavior/dependencies" />
@@ -25,6 +26,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/sandbox/models/RoleDispatch/sandbox/model.mps" afterPath="$PROJECT_DIR$/languages/RoleDispatch/sandbox/models/RoleDispatch/sandbox/model.mps" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/languageModels/structure.history" afterPath="$PROJECT_DIR$/languages/RoleDispatch/languageModels/structure.history" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/languageModels/structure.mps" afterPath="$PROJECT_DIR$/languages/RoleDispatch/languageModels/structure.mps" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/languageModels/textGen.mps" afterPath="$PROJECT_DIR$/languages/RoleDispatch/languageModels/textGen.mps" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/languageModels/typesystem.mps" afterPath="$PROJECT_DIR$/languages/RoleDispatch/languageModels/typesystem.mps" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.mps/workspace.xml" afterPath="$PROJECT_DIR$/.mps/workspace.xml" />
     </list>
@@ -63,18 +65,19 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Part" pinned="false" current="true" current-in-tab="true">
-        <entry file="mps://node://RoleDispatch/RoleDispatch.structure/Part">
+      <file leaf-file-name="BankModel" pinned="false" current="true" current-in-tab="true">
+        <entry file="mps://node://RoleDispatch.sandbox/RoleDispatch.sandbox.model/BankModel">
           <provider selected="true" editor-type-id="MPSFileEditor">
-            <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
-              <memento viewPositionX="0" viewPositionY="0">
+            <state class="jetbrains.mps.ide.editor.BaseNodeEditor$BaseEditorState">
+              <memento viewPositionX="0" viewPositionY="993">
                 <selectionStack>
-                  <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellSelection">
-                    <property name="caretXRelative" value="-31" />
-                    <property name="caretX" value="0" />
+                  <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
+                    <property name="hasNonTrivialSelection" value="false" />
+                    <property name="caretXRelative" value="8" />
+                    <property name="caretX" value="103" />
                     <property name="sideSelectDirection" value="NONE" />
-                    <cellInfo cellId="Collection_6h6dhy_a" cellNumber="0" isInList="false">
-                      <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/1609475155070819458" />
+                    <cellInfo cellId="Constant_nc5u5a_e0" cellNumber="0" isInList="false">
+                      <node node_reference="r:33c0f47f-bb7e-4a8f-a997-56dcc82379eb(RoleDispatch.sandbox.model)/8942231102476394282" />
                     </cellInfo>
                   </stackElement>
                 </selectionStack>
@@ -83,21 +86,11 @@
                 <enabledHints />
               </memento>
               <inspectorMemento viewPositionX="0" viewPositionY="0">
-                <selectionStack>
-                  <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellSelection">
-                    <property name="caretXRelative" value="-15" />
-                    <property name="caretX" value="0" />
-                    <property name="sideSelectDirection" value="NONE" />
-                    <cellInfo cellId="Collection_6h6dhy_a_0" cellNumber="0" isInList="false">
-                      <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/1609475155070819458" />
-                    </cellInfo>
-                  </stackElement>
-                </selectionStack>
+                <selectionStack />
                 <errorLabels />
                 <folded />
                 <enabledHints />
               </inspectorMemento>
-              <node node_ref="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/1609475155070818610" />
             </state>
           </provider>
         </entry>
@@ -215,6 +208,24 @@
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
             <PATH_ELEMENT USER_OBJECT="RoleDispatch">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Empty">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Project">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="RoleDispatch">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="RoleDispatch.editor">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -375,7 +386,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
       <window_info id="Classpath Explorer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="RefactoringView" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329602" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspector" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33748442" sideWeight="0.5003524" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspector" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33748442" sideWeight="0.5003524" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Node Explorer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Typesystem Trace" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Typechecker State" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -423,46 +434,10 @@
     <MESSAGE value=" - added latest meta model changes" />
     <MESSAGE value=" - added complex constraints and fixed role groups" />
     <MESSAGE value=" - added Relationship constraints" />
-    <option name="LAST_COMMIT_MESSAGE" value=" - added Relationship constraints" />
+    <MESSAGE value=" - added containment from relationship to constraints" />
+    <option name="LAST_COMMIT_MESSAGE" value=" - added containment from relationship to constraints" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="mps://node://jetbrains.mps.baseLanguage/jetbrains.mps.baseLanguage.structure/StringLiteral">
-      <provider selected="true" editor-type-id="MPSFileEditor">
-        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
-          <memento viewPositionX="0" viewPositionY="0">
-            <selectionStack>
-              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellSelection">
-                <property name="caretXRelative" value="-31" />
-                <property name="caretX" value="0" />
-                <property name="sideSelectDirection" value="NONE" />
-                <cellInfo cellId="Collection_lnae77_a" cellNumber="0" isInList="false">
-                  <node node_reference="r:00000000-0000-4000-0000-011c895902ca(jetbrains.mps.baseLanguage.structure)/1070475926801" />
-                </cellInfo>
-              </stackElement>
-            </selectionStack>
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </memento>
-          <inspectorMemento viewPositionX="0" viewPositionY="0">
-            <selectionStack>
-              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellSelection">
-                <property name="caretXRelative" value="-15" />
-                <property name="caretX" value="0" />
-                <property name="sideSelectDirection" value="NONE" />
-                <cellInfo cellId="Collection_lnae77_a_0" cellNumber="0" isInList="false">
-                  <node node_reference="r:00000000-0000-4000-0000-011c895902ca(jetbrains.mps.baseLanguage.structure)/1070475926801" />
-                </cellInfo>
-              </stackElement>
-            </selectionStack>
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </inspectorMemento>
-          <node node_ref="r:00000000-0000-4000-0000-011c895902ca(jetbrains.mps.baseLanguage.structure)/1070475926800" />
-        </state>
-      </provider>
-    </entry>
     <entry file="mps://node://jetbrains.mps.lang.core/jetbrains.mps.lang.core.structure/BaseConcept">
       <provider selected="true" editor-type-id="MPSFileEditor">
         <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
@@ -848,35 +823,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/ComparmentInheritance">
-      <provider selected="true" editor-type-id="MPSFileEditor">
-        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
-          <memento viewPositionX="0" viewPositionY="0">
-            <selectionStack>
-              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
-                <property name="hasNonTrivialSelection" value="false" />
-                <property name="caretXRelative" value="24" />
-                <property name="caretX" value="295" />
-                <property name="sideSelectDirection" value="NONE" />
-                <cellInfo cellId="property_role" cellNumber="0" isInList="false">
-                  <node node_reference="r:59fe0ae7-a0f2-4b4f-b226-b93ec1bda3a3(RoleDispatch.typesystem)/1609475155070672829" />
-                </cellInfo>
-              </stackElement>
-            </selectionStack>
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </memento>
-          <inspectorMemento viewPositionX="0" viewPositionY="0">
-            <selectionStack />
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </inspectorMemento>
-          <node node_ref="r:59fe0ae7-a0f2-4b4f-b226-b93ec1bda3a3(RoleDispatch.typesystem)/1609475155070665946" />
-        </state>
-      </provider>
-    </entry>
     <entry file="mps://node://RoleDispatch/RoleDispatch.structure/NaturalInheritance">
       <provider selected="true" editor-type-id="MPSFileEditor">
         <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
@@ -1059,35 +1005,6 @@
             <enabledHints />
           </inspectorMemento>
           <node node_ref="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/4706841621052048535" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/ComplexConstraint">
-      <provider selected="true" editor-type-id="MPSFileEditor">
-        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
-          <memento viewPositionX="0" viewPositionY="0">
-            <selectionStack>
-              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
-                <property name="hasNonTrivialSelection" value="false" />
-                <property name="caretXRelative" value="40" />
-                <property name="caretX" value="347" />
-                <property name="sideSelectDirection" value="NONE" />
-                <cellInfo cellId="property_name" cellNumber="0" isInList="false">
-                  <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/1609475155072168595" />
-                </cellInfo>
-              </stackElement>
-            </selectionStack>
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </memento>
-          <inspectorMemento viewPositionX="0" viewPositionY="0">
-            <selectionStack />
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </inspectorMemento>
-          <node node_ref="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/1609475155072168595" />
         </state>
       </provider>
     </entry>
@@ -1360,112 +1277,6 @@
             <enabledHints />
           </inspectorMemento>
           <node node_ref="r:03f0fbfd-9c23-4fc6-97fb-c8e5553a01ec(RoleDispatch.editor)/494922352950182753" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/CompartmentType">
-      <provider selected="true" editor-type-id="MPSFileEditor">
-        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
-          <memento viewPositionX="0" viewPositionY="0">
-            <selectionStack>
-              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
-                <property name="hasNonTrivialSelection" value="false" />
-                <property name="caretXRelative" value="16" />
-                <property name="caretX" value="171" />
-                <property name="sideSelectDirection" value="NONE" />
-                <cellInfo cellId="property_name" cellNumber="0" isInList="false">
-                  <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/4706841621052051295" />
-                </cellInfo>
-              </stackElement>
-            </selectionStack>
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </memento>
-          <inspectorMemento viewPositionX="0" viewPositionY="0">
-            <selectionStack />
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </inspectorMemento>
-          <node node_ref="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/4706841621052051290" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/AbstractRole">
-      <provider selected="true" editor-type-id="MPSFileEditor">
-        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
-          <memento viewPositionX="0" viewPositionY="0">
-            <selectionStack>
-              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
-                <property name="hasNonTrivialSelection" value="false" />
-                <property name="caretXRelative" value="104" />
-                <property name="caretX" value="431" />
-                <property name="sideSelectDirection" value="NONE" />
-                <cellInfo cellId="property_name" cellNumber="0" isInList="false">
-                  <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/494922352953403336" />
-                </cellInfo>
-              </stackElement>
-            </selectionStack>
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </memento>
-          <inspectorMemento viewPositionX="0" viewPositionY="0">
-            <selectionStack />
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </inspectorMemento>
-          <node node_ref="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/4706841621052050622" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/RoleGroup">
-      <provider selected="true" editor-type-id="MPSFileEditor">
-        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
-          <memento viewPositionX="0" viewPositionY="0">
-            <selectionStack>
-              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
-                <property name="hasNonTrivialSelection" value="false" />
-                <property name="caretXRelative" value="56" />
-                <property name="caretX" value="171" />
-                <property name="sideSelectDirection" value="NONE" />
-                <cellInfo cellId="property_name" cellNumber="0" isInList="false">
-                  <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/4706841621052051064" />
-                </cellInfo>
-              </stackElement>
-            </selectionStack>
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </memento>
-          <inspectorMemento viewPositionX="0" viewPositionY="0">
-            <selectionStack />
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </inspectorMemento>
-          <node node_ref="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/4706841621052051008" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/AbstractRoleName">
-      <provider selected="true" editor-type-id="MPSFileEditor">
-        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
-          <memento viewPositionX="0" viewPositionY="0">
-            <selectionStack />
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </memento>
-          <inspectorMemento viewPositionX="0" viewPositionY="0">
-            <selectionStack />
-            <errorLabels />
-            <folded />
-            <enabledHints />
-          </inspectorMemento>
-          <node node_ref="r:03f0fbfd-9c23-4fc6-97fb-c8e5553a01ec(RoleDispatch.editor)/1609475155074662797" />
         </state>
       </provider>
     </entry>
@@ -1792,18 +1603,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="mps://node://RoleDispatch.sandbox/RoleDispatch.sandbox.model/BankModel">
+    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/ComparmentInheritance">
       <provider selected="true" editor-type-id="MPSFileEditor">
-        <state class="jetbrains.mps.ide.editor.BaseNodeEditor$BaseEditorState">
-          <memento viewPositionX="0" viewPositionY="986">
+        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
+          <memento viewPositionX="0" viewPositionY="0">
             <selectionStack>
               <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
                 <property name="hasNonTrivialSelection" value="false" />
-                <property name="caretXRelative" value="48" />
-                <property name="caretX" value="159" />
+                <property name="caretXRelative" value="0" />
+                <property name="caretX" value="15" />
                 <property name="sideSelectDirection" value="NONE" />
-                <cellInfo cellId="ALIAS_EDITOR_COMPONENT" cellNumber="0" isInList="false">
-                  <node node_reference="r:33c0f47f-bb7e-4a8f-a997-56dcc82379eb(RoleDispatch.sandbox.model)/8942231102474098865" />
+                <cellInfo cellId="Constant_ueqr71_c0a" cellNumber="0" isInList="false">
+                  <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/1609475155070657416" />
                 </cellInfo>
               </stackElement>
             </selectionStack>
@@ -1811,31 +1622,51 @@
             <folded />
             <enabledHints />
           </memento>
-          <inspectorMemento viewPositionX="0" viewPositionY="15">
+          <inspectorMemento viewPositionX="0" viewPositionY="0">
             <selectionStack />
             <errorLabels />
             <folded />
             <enabledHints />
           </inspectorMemento>
+          <node node_ref="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/1609475155070657416" />
         </state>
       </provider>
     </entry>
-    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/Relationship">
+    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/CompartmentType">
       <provider selected="true" editor-type-id="MPSFileEditor">
         <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
           <memento viewPositionX="0" viewPositionY="0">
-            <selectionStack />
+            <selectionStack>
+              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
+                <property name="hasNonTrivialSelection" value="false" />
+                <property name="caretXRelative" value="16" />
+                <property name="caretX" value="171" />
+                <property name="sideSelectDirection" value="NONE" />
+                <cellInfo cellId="property_name" cellNumber="0" isInList="false">
+                  <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/4706841621052051295" />
+                </cellInfo>
+              </stackElement>
+            </selectionStack>
             <errorLabels />
             <folded />
             <enabledHints />
           </memento>
-          <inspectorMemento viewPositionX="0" viewPositionY="15">
-            <selectionStack />
+          <inspectorMemento viewPositionX="0" viewPositionY="0">
+            <selectionStack>
+              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellSelection">
+                <property name="caretXRelative" value="-15" />
+                <property name="caretX" value="0" />
+                <property name="sideSelectDirection" value="NONE" />
+                <cellInfo cellId="Collection_6h6dhy_a_0" cellNumber="0" isInList="false">
+                  <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/1609475155070819458" />
+                </cellInfo>
+              </stackElement>
+            </selectionStack>
             <errorLabels />
             <folded />
             <enabledHints />
           </inspectorMemento>
-          <node node_ref="r:59fe0ae7-a0f2-4b4f-b226-b93ec1bda3a3(RoleDispatch.typesystem)/1609475155076361057" />
+          <node node_ref="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/4706841621052051290" />
         </state>
       </provider>
     </entry>
@@ -1844,11 +1675,14 @@
         <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
           <memento viewPositionX="0" viewPositionY="0">
             <selectionStack>
-              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellSelection">
-                <property name="caretXRelative" value="-31" />
-                <property name="caretX" value="0" />
+              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
+                <property name="selectionEnd" value="12" />
+                <property name="hasNonTrivialSelection" value="true" />
+                <property name="caretXRelative" value="64" />
+                <property name="selectionStart" value="0" />
+                <property name="caretX" value="147" />
                 <property name="sideSelectDirection" value="NONE" />
-                <cellInfo cellId="Collection_6h6dhy_a" cellNumber="0" isInList="false">
+                <cellInfo cellId="property_name" cellNumber="0" isInList="false">
                   <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/1609475155070819458" />
                 </cellInfo>
               </stackElement>
@@ -1873,6 +1707,229 @@
             <enabledHints />
           </inspectorMemento>
           <node node_ref="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/1609475155070818610" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/AbstractRole">
+      <provider selected="true" editor-type-id="MPSFileEditor">
+        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
+          <memento viewPositionX="0" viewPositionY="0">
+            <selectionStack>
+              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
+                <property name="hasNonTrivialSelection" value="false" />
+                <property name="caretXRelative" value="88" />
+                <property name="caretX" value="119" />
+                <property name="sideSelectDirection" value="NONE" />
+                <cellInfo cellId="Constant_7v1nzk_b1c0" cellNumber="0" isInList="false">
+                  <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/4706841621052050622" />
+                </cellInfo>
+              </stackElement>
+            </selectionStack>
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </memento>
+          <inspectorMemento viewPositionX="0" viewPositionY="0">
+            <selectionStack />
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </inspectorMemento>
+          <node node_ref="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/4706841621052050622" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/AbstractRoleRef">
+      <provider selected="true" editor-type-id="MPSFileEditor">
+        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
+          <memento viewPositionX="0" viewPositionY="0">
+            <selectionStack>
+              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
+                <property name="hasNonTrivialSelection" value="false" />
+                <property name="caretXRelative" value="24" />
+                <property name="caretX" value="103" />
+                <property name="sideSelectDirection" value="NONE" />
+                <cellInfo cellId="property_role" cellNumber="0" isInList="false">
+                  <node node_reference="r:03f0fbfd-9c23-4fc6-97fb-c8e5553a01ec(RoleDispatch.editor)/8942231102476071595" />
+                </cellInfo>
+              </stackElement>
+            </selectionStack>
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </memento>
+          <inspectorMemento viewPositionX="0" viewPositionY="0">
+            <selectionStack />
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </inspectorMemento>
+          <node node_ref="r:03f0fbfd-9c23-4fc6-97fb-c8e5553a01ec(RoleDispatch.editor)/8942231102476071580" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/ComplexConstraint">
+      <provider selected="true" editor-type-id="MPSFileEditor">
+        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
+          <memento viewPositionX="0" viewPositionY="0">
+            <selectionStack>
+              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
+                <property name="hasNonTrivialSelection" value="false" />
+                <property name="caretXRelative" value="120" />
+                <property name="caretX" value="227" />
+                <property name="sideSelectDirection" value="NONE" />
+                <cellInfo cellId="property_name" cellNumber="0" isInList="false">
+                  <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/1609475155074662588" />
+                </cellInfo>
+              </stackElement>
+            </selectionStack>
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </memento>
+          <inspectorMemento viewPositionX="0" viewPositionY="15">
+            <selectionStack />
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </inspectorMemento>
+          <node node_ref="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/1609475155072168595" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="mps://node://RoleDispatch.sandbox/RoleDispatch.sandbox.model/BankModel">
+      <provider selected="true" editor-type-id="MPSFileEditor">
+        <state class="jetbrains.mps.ide.editor.BaseNodeEditor$BaseEditorState">
+          <memento viewPositionX="0" viewPositionY="993">
+            <selectionStack>
+              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
+                <property name="hasNonTrivialSelection" value="false" />
+                <property name="caretXRelative" value="8" />
+                <property name="caretX" value="103" />
+                <property name="sideSelectDirection" value="NONE" />
+                <cellInfo cellId="Constant_nc5u5a_e0" cellNumber="0" isInList="false">
+                  <node node_reference="r:33c0f47f-bb7e-4a8f-a997-56dcc82379eb(RoleDispatch.sandbox.model)/8942231102476394282" />
+                </cellInfo>
+              </stackElement>
+            </selectionStack>
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </memento>
+          <inspectorMemento viewPositionX="0" viewPositionY="0">
+            <selectionStack />
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </inspectorMemento>
+        </state>
+      </provider>
+    </entry>
+    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/RoleGroup">
+      <provider selected="true" editor-type-id="MPSFileEditor">
+        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
+          <memento viewPositionX="0" viewPositionY="0">
+            <selectionStack>
+              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
+                <property name="hasNonTrivialSelection" value="false" />
+                <property name="caretXRelative" value="256" />
+                <property name="caretX" value="323" />
+                <property name="sideSelectDirection" value="NONE" />
+                <cellInfo cellId="property_text" cellNumber="0" isInList="false">
+                  <node node_reference="r:59fe0ae7-a0f2-4b4f-b226-b93ec1bda3a3(RoleDispatch.typesystem)/8942231102477153039" />
+                </cellInfo>
+              </stackElement>
+            </selectionStack>
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </memento>
+          <inspectorMemento viewPositionX="0" viewPositionY="0">
+            <selectionStack />
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </inspectorMemento>
+          <node node_ref="r:59fe0ae7-a0f2-4b4f-b226-b93ec1bda3a3(RoleDispatch.typesystem)/1609475155076354129" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/Relationship">
+      <provider selected="true" editor-type-id="MPSFileEditor">
+        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
+          <memento viewPositionX="0" viewPositionY="0">
+            <selectionStack>
+              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
+                <property name="hasNonTrivialSelection" value="false" />
+                <property name="caretXRelative" value="8" />
+                <property name="caretX" value="55" />
+                <property name="sideSelectDirection" value="NONE" />
+                <cellInfo cellId="Constant_kov3ab_i0" cellNumber="0" isInList="false">
+                  <node node_reference="r:59fe0ae7-a0f2-4b4f-b226-b93ec1bda3a3(RoleDispatch.typesystem)/8942231102473738580" />
+                </cellInfo>
+              </stackElement>
+              <stackElement className="jetbrains.mps.nodeEditor.selection.NodeRangeSelection">
+                <property name="lastNodeId" value="8942231102473738580" />
+                <property name="modelId" value="r:59fe0ae7-a0f2-4b4f-b226-b93ec1bda3a3(RoleDispatch.typesystem)" />
+                <property name="parentNodeId" value="1609475155076361058" />
+                <property name="firstNodeId" value="8942231102473738580" />
+                <property name="role" value="statement" />
+              </stackElement>
+              <stackElement className="jetbrains.mps.nodeEditor.selection.NodeRangeSelection">
+                <property name="lastNodeId" value="1609475155076364739" />
+                <property name="modelId" value="r:59fe0ae7-a0f2-4b4f-b226-b93ec1bda3a3(RoleDispatch.typesystem)" />
+                <property name="parentNodeId" value="1609475155076361058" />
+                <property name="firstNodeId" value="8942231102473738580" />
+                <property name="role" value="statement" />
+              </stackElement>
+              <stackElement className="jetbrains.mps.nodeEditor.selection.NodeRangeSelection">
+                <property name="lastNodeId" value="8942231102473738580" />
+                <property name="modelId" value="r:59fe0ae7-a0f2-4b4f-b226-b93ec1bda3a3(RoleDispatch.typesystem)" />
+                <property name="parentNodeId" value="1609475155076361058" />
+                <property name="firstNodeId" value="8942231102473738580" />
+                <property name="role" value="statement" />
+              </stackElement>
+            </selectionStack>
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </memento>
+          <inspectorMemento viewPositionX="0" viewPositionY="0">
+            <selectionStack />
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </inspectorMemento>
+          <node node_ref="r:59fe0ae7-a0f2-4b4f-b226-b93ec1bda3a3(RoleDispatch.typesystem)/1609475155076361057" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="mps://node://RoleDispatch/RoleDispatch.structure/RoleGroupElement">
+      <provider selected="true" editor-type-id="MPSFileEditor">
+        <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
+          <memento viewPositionX="0" viewPositionY="0">
+            <selectionStack>
+              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
+                <property name="hasNonTrivialSelection" value="false" />
+                <property name="caretXRelative" value="0" />
+                <property name="caretX" value="31" />
+                <property name="sideSelectDirection" value="NONE" />
+                <cellInfo cellId="empty_propertyDeclaration" cellNumber="0" isInList="false">
+                  <node node_reference="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/8942231102475769631" />
+                </cellInfo>
+              </stackElement>
+            </selectionStack>
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </memento>
+          <inspectorMemento viewPositionX="0" viewPositionY="0">
+            <selectionStack />
+            <errorLabels />
+            <folded />
+            <enabledHints />
+          </inspectorMemento>
+          <node node_ref="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)/8942231102475769631" />
         </state>
       </provider>
     </entry>
