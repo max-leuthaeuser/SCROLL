@@ -4,7 +4,7 @@
   <language namespace="246b4ac3-3cd0-4245-a5dc-907458b98cbf(RoleDispatch)" />
   <language namespace="f3061a53-9226-4cc5-a443-f952ceaf5816(jetbrains.mps.baseLanguage)" />
   <import index="tpck" modelUID="r:00000000-0000-4000-0000-011c89590288(jetbrains.mps.lang.core.structure)" version="0" implicit="yes" />
-  <import index="glc0" modelUID="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)" version="4" implicit="yes" />
+  <import index="glc0" modelUID="r:88d1e025-2bd8-47ce-9876-3cc79a42a62c(RoleDispatch.structure)" version="5" implicit="yes" />
   <root type="glc0.Model" typeId="glc0.4706841621052048456" id="1609475155071102905" nodeInfo="ng">
     <property name="name" nameId="tpck.1169194664001" value="BankModel" />
     <node role="elements" roleId="glc0.4706841621052048457" type="glc0.DataType" typeId="glc0.4706841621052371215" id="1609475155071102908" nodeInfo="ng">
@@ -29,23 +29,6 @@
     </node>
     <node role="elements" roleId="glc0.4706841621052048457" type="glc0.CompartmentType" typeId="glc0.4706841621052051290" id="1609475155071102959" nodeInfo="ng">
       <property name="name" nameId="tpck.1169194664001" value="Bank" />
-      <node role="constraints" roleId="glc0.4706841621052051293" type="glc0.RelationshipImplication" typeId="glc0.1609475155081109328" id="1609475155082079014" nodeInfo="ng">
-        <link role="first" roleId="glc0.1609475155080831874" targetNodeId="1609475155079982436" resolveInfo="makesAngry" />
-        <link role="second" roleId="glc0.1609475155080831876" targetNodeId="1609475155082430230" resolveInfo="doesWorkFor" />
-      </node>
-      <node role="constraints" roleId="glc0.4706841621052051293" type="glc0.ParthoodConstraint" typeId="glc0.1609475155081111524" id="1609475155081436531" nodeInfo="ng">
-        <property name="kind" nameId="glc0.1609475155081112279" value="MandatoryPart" />
-        <link role="relation" roleId="glc0.1609475155081111195" targetNodeId="1609475155079982436" resolveInfo="makesAngry" />
-      </node>
-      <node role="constraints" roleId="glc0.4706841621052051293" type="glc0.Cyclic" typeId="glc0.1609475155081113837" id="1609475155081756452" nodeInfo="ng">
-        <link role="relation" roleId="glc0.1609475155081111195" targetNodeId="1609475155079982436" resolveInfo="makesAngry" />
-      </node>
-      <node role="constraints" roleId="glc0.4706841621052051293" type="glc0.Total" typeId="glc0.1609475155081115126" id="1609475155081758088" nodeInfo="ng">
-        <link role="relation" roleId="glc0.1609475155081111195" targetNodeId="1609475155079982436" resolveInfo="makesAngry" />
-      </node>
-      <node role="constraints" roleId="glc0.4706841621052051293" type="glc0.Irreflexiv" typeId="glc0.1609475155081115935" id="1609475155081758132" nodeInfo="ng">
-        <link role="relation" roleId="glc0.1609475155081111195" targetNodeId="1609475155079982436" resolveInfo="makesAngry" />
-      </node>
       <node role="relationships" roleId="glc0.4706841621052051298" type="glc0.Relationship" typeId="glc0.4706841621052051180" id="1609475155079982436" nodeInfo="ng">
         <property name="name" nameId="tpck.1169194664001" value="makesAngry" />
         <property name="direction" nameId="glc0.1609475155079697832" value="-&gt;" />
@@ -70,6 +53,10 @@
           <property name="lower" nameId="glc0.494922352952032297" value="1" />
           <property name="upper" nameId="glc0.494922352952032299" value="*" />
           <link role="holder" roleId="glc0.4706841621052051123" targetNodeId="1609475155075218834" resolveInfo="Programmer" />
+        </node>
+        <node role="constraints" roleId="glc0.8942231102472701177" type="glc0.Cyclic" typeId="glc0.1609475155081113837" id="8942231102474098865" nodeInfo="ng" />
+        <node role="constraints" roleId="glc0.8942231102472701177" type="glc0.ParthoodConstraint" typeId="glc0.1609475155081111524" id="8942231102475757673" nodeInfo="ng">
+          <property name="kind" nameId="glc0.1609475155081112279" value="ExlusivePart" />
         </node>
       </node>
       <node role="attributes" roleId="glc0.4706841621052048581" type="glc0.Attribute" typeId="glc0.4706841621052048444" id="1609475155071102968" nodeInfo="ng">
