@@ -283,9 +283,11 @@
     <property name="name" nameId="tpck.1169194664001" value="Relationship" />
     <property name="conceptAlias" nameId="tpce.5092175715804935370" value="Relationship" />
     <link role="extends" roleId="tpce.1071489389519" targetNodeId="4706841621052048504" resolveInfo="Relation" />
-    <node role="propertyDeclaration" roleId="tpce.1071489727084" type="tpce.PropertyDeclaration" typeId="tpce.1071489288299" id="1609475155079697832" nodeInfo="ig">
-      <property name="name" nameId="tpck.1169194664001" value="direction" />
-      <link role="dataType" roleId="tpce.1082985295845" targetNodeId="1609475155079697572" resolveInfo="Direction" />
+    <node role="linkDeclaration" roleId="tpce.1071489727083" type="tpce.LinkDeclaration" typeId="tpce.1071489288298" id="8942231102484055017" nodeInfo="ig">
+      <property name="metaClass" nameId="tpce.1071599937831" value="aggregation" />
+      <property name="role" nameId="tpce.1071599776563" value="direction" />
+      <property name="sourceCardinality" nameId="tpce.1071599893252" value="1" />
+      <link role="target" roleId="tpce.1071599976176" targetNodeId="8942231102484053979" resolveInfo="Direction" />
     </node>
     <node role="linkDeclaration" roleId="tpce.1071489727083" type="tpce.LinkDeclaration" typeId="tpce.1071489288298" id="494922352951859024" nodeInfo="ig">
       <property name="metaClass" nameId="tpce.1071599937831" value="aggregation" />
@@ -407,23 +409,6 @@
       <link role="dataType" roleId="tpce.1082985295845" targetNodeId="tpck.1082983041843" resolveInfo="string" />
     </node>
   </root>
-  <root type="tpce.EnumerationDataTypeDeclaration" typeId="tpce.1082978164219" id="1609475155079697572" nodeInfo="ng">
-    <property name="name" nameId="tpck.1169194664001" value="Direction" />
-    <property name="hasNoDefaultMember" nameId="tpce.1212080844762" value="false" />
-    <link role="memberDataType" roleId="tpce.1083171729157" targetNodeId="tpck.1082983041843" resolveInfo="string" />
-    <node role="member" roleId="tpce.1083172003582" type="tpce.EnumerationMemberDeclaration" typeId="tpce.1083171877298" id="1609475155079697573" nodeInfo="ig">
-      <property name="externalValue" nameId="tpce.1083923523172" value="Undirected" />
-      <property name="internalValue" nameId="tpce.1083923523171" value="--" />
-    </node>
-    <node role="member" roleId="tpce.1083172003582" type="tpce.EnumerationMemberDeclaration" typeId="tpce.1083171877298" id="1609475155079697661" nodeInfo="ig">
-      <property name="externalValue" nameId="tpce.1083923523172" value="FirstToSecond" />
-      <property name="internalValue" nameId="tpce.1083923523171" value="-&gt;" />
-    </node>
-    <node role="member" roleId="tpce.1083172003582" type="tpce.EnumerationMemberDeclaration" typeId="tpce.1083171877298" id="1609475155079697664" nodeInfo="ig">
-      <property name="externalValue" nameId="tpce.1083923523172" value="SecondToFirst" />
-      <property name="internalValue" nameId="tpce.1083923523171" value="&lt;-" />
-    </node>
-  </root>
   <root type="tpce.ConceptDeclaration" typeId="tpce.1071489090640" id="1609475155080831642" nodeInfo="ig">
     <property name="abstract" nameId="tpce.4628067390765956802" value="true" />
     <property name="final" nameId="tpce.4628067390765956807" value="false" />
@@ -528,6 +513,27 @@
       <property name="sourceCardinality" nameId="tpce.1071599893252" value="1" />
       <link role="target" roleId="tpce.1071599976176" targetNodeId="4706841621052050622" resolveInfo="AbstractRole" />
     </node>
+  </root>
+  <root type="tpce.ConceptDeclaration" typeId="tpce.1071489090640" id="8942231102484053979" nodeInfo="ig">
+    <property name="abstract" nameId="tpce.4628067390765956802" value="true" />
+    <property name="final" nameId="tpce.4628067390765956807" value="false" />
+    <property name="name" nameId="tpck.1169194664001" value="Direction" />
+    <link role="extends" roleId="tpce.1071489389519" targetNodeId="tpck.1133920641626" resolveInfo="BaseConcept" />
+  </root>
+  <root type="tpce.ConceptDeclaration" typeId="tpce.1071489090640" id="8942231102484054088" nodeInfo="ig">
+    <property name="name" nameId="tpck.1169194664001" value="Undirected" />
+    <property name="conceptAlias" nameId="tpce.5092175715804935370" value="--" />
+    <link role="extends" roleId="tpce.1071489389519" targetNodeId="8942231102484053979" resolveInfo="Direction" />
+  </root>
+  <root type="tpce.ConceptDeclaration" typeId="tpce.1071489090640" id="8942231102484054303" nodeInfo="ig">
+    <property name="name" nameId="tpck.1169194664001" value="FirstToSecond" />
+    <property name="conceptAlias" nameId="tpce.5092175715804935370" value="-&gt;" />
+    <link role="extends" roleId="tpce.1071489389519" targetNodeId="8942231102484053979" resolveInfo="Direction" />
+  </root>
+  <root type="tpce.ConceptDeclaration" typeId="tpce.1071489090640" id="8942231102484054414" nodeInfo="ig">
+    <property name="name" nameId="tpck.1169194664001" value="SecondToFirst" />
+    <property name="conceptAlias" nameId="tpce.5092175715804935370" value="&lt;-" />
+    <link role="extends" roleId="tpce.1071489389519" targetNodeId="8942231102484053979" resolveInfo="Direction" />
   </root>
 </model>
 

@@ -29,34 +29,31 @@
     </node>
     <node role="elements" roleId="glc0.4706841621052048457" type="glc0.CompartmentType" typeId="glc0.4706841621052051290" id="1609475155071102959" nodeInfo="ng">
       <property name="name" nameId="tpck.1169194664001" value="Bank" />
-      <node role="relationships" roleId="glc0.4706841621052051298" type="glc0.Relationship" typeId="glc0.4706841621052051180" id="1609475155079982436" nodeInfo="ng">
+      <node role="relationships" roleId="glc0.4706841621052051298" type="glc0.Relationship" typeId="glc0.4706841621052051180" id="8942231102484685572" nodeInfo="ng">
+        <property name="name" nameId="tpck.1169194664001" value="doesWorkFor" />
+        <node role="first" roleId="glc0.494922352951859012" type="glc0.Place" typeId="glc0.4706841621052051117" id="8942231102484685575" nodeInfo="ng">
+          <property name="lower" nameId="glc0.494922352952032297" value="1" />
+          <property name="upper" nameId="glc0.494922352952032299" value="*" />
+          <link role="holder" roleId="glc0.4706841621052051123" targetNodeId="1609475155075218834" resolveInfo="Programmer" />
+        </node>
+        <node role="second" roleId="glc0.494922352951859024" type="glc0.Place" typeId="glc0.4706841621052051117" id="8942231102484685598" nodeInfo="ng">
+          <property name="lower" nameId="glc0.494922352952032297" value="*" />
+          <link role="holder" roleId="glc0.4706841621052051123" targetNodeId="1609475155071898739" resolveInfo="Customer" />
+        </node>
+        <node role="direction" roleId="glc0.8942231102484055017" type="glc0.FirstToSecond" typeId="glc0.8942231102484054303" id="8942231102485317499" nodeInfo="ng" />
+        <node role="constraints" roleId="glc0.8942231102472701177" type="glc0.Irreflexiv" typeId="glc0.1609475155081115935" id="8942231102485317546" nodeInfo="ng" />
+        <node role="constraints" roleId="glc0.8942231102472701177" type="glc0.ParthoodConstraint" typeId="glc0.1609475155081111524" id="8942231102485317552" nodeInfo="ng" />
+      </node>
+      <node role="relationships" roleId="glc0.4706841621052051298" type="glc0.Relationship" typeId="glc0.4706841621052051180" id="8942231102484685289" nodeInfo="ng">
         <property name="name" nameId="tpck.1169194664001" value="makesAngry" />
-        <property name="direction" nameId="glc0.1609475155079697832" value="-&gt;" />
-        <node role="second" roleId="glc0.494922352951859024" type="glc0.Place" typeId="glc0.4706841621052051117" id="1609475155079982437" nodeInfo="ng">
+        <node role="direction" roleId="glc0.8942231102484055017" type="glc0.Undirected" typeId="glc0.8942231102484054088" id="8942231102484685307" nodeInfo="ng" />
+        <node role="second" roleId="glc0.494922352951859024" type="glc0.Place" typeId="glc0.4706841621052051117" id="8942231102484685291" nodeInfo="ng">
           <property name="lower" nameId="glc0.494922352952032297" value="*" />
           <link role="holder" roleId="glc0.4706841621052051123" targetNodeId="1609475155075218834" resolveInfo="Programmer" />
         </node>
-        <node role="first" roleId="glc0.494922352951859012" type="glc0.Place" typeId="glc0.4706841621052051117" id="1609475155079982438" nodeInfo="ng">
+        <node role="first" roleId="glc0.494922352951859012" type="glc0.Place" typeId="glc0.4706841621052051117" id="8942231102484685292" nodeInfo="ng">
           <property name="lower" nameId="glc0.494922352952032297" value="1" />
           <link role="holder" roleId="glc0.4706841621052051123" targetNodeId="1609475155079413829" resolveInfo="Consultant" />
-        </node>
-      </node>
-      <node role="relationships" roleId="glc0.4706841621052051298" type="glc0.Relationship" typeId="glc0.4706841621052051180" id="1609475155082430230" nodeInfo="ng">
-        <property name="name" nameId="tpck.1169194664001" value="doesWorkFor" />
-        <property name="direction" nameId="glc0.1609475155079697832" value="-&gt;" />
-        <node role="second" roleId="glc0.494922352951859024" type="glc0.Place" typeId="glc0.4706841621052051117" id="1609475155082430231" nodeInfo="ng">
-          <property name="lower" nameId="glc0.494922352952032297" value="1" />
-          <property name="upper" nameId="glc0.494922352952032299" value="*" />
-          <link role="holder" roleId="glc0.4706841621052051123" targetNodeId="1609475155071898739" resolveInfo="Customer" />
-        </node>
-        <node role="first" roleId="glc0.494922352951859012" type="glc0.Place" typeId="glc0.4706841621052051117" id="1609475155082430232" nodeInfo="ng">
-          <property name="lower" nameId="glc0.494922352952032297" value="1" />
-          <property name="upper" nameId="glc0.494922352952032299" value="*" />
-          <link role="holder" roleId="glc0.4706841621052051123" targetNodeId="1609475155075218834" resolveInfo="Programmer" />
-        </node>
-        <node role="constraints" roleId="glc0.8942231102472701177" type="glc0.Cyclic" typeId="glc0.1609475155081113837" id="8942231102474098865" nodeInfo="ng" />
-        <node role="constraints" roleId="glc0.8942231102472701177" type="glc0.ParthoodConstraint" typeId="glc0.1609475155081111524" id="8942231102475757673" nodeInfo="ng">
-          <property name="kind" nameId="glc0.1609475155081112279" value="ExlusivePart" />
         </node>
       </node>
       <node role="attributes" roleId="glc0.4706841621052048581" type="glc0.Attribute" typeId="glc0.4706841621052048444" id="1609475155071102968" nodeInfo="ng">
