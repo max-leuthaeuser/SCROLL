@@ -6,7 +6,6 @@ import java.lang.reflect.Method
 import java.lang
 import internal.dispatch._
 import util.QueueUtils._
-import scala.Some
 
 // TODO: what happens if the same role is played multiple times from one player?
 trait Compartment
@@ -93,7 +92,7 @@ trait Compartment
   def getOtherRolesForRole(role: Any): mutable.Set[Any] =
   {
     plays.values.foreach(set => {
-      if (set.exists(_ == role)) return set
+      if (set.contains(role)) return set
     })
     mutable.Set[Any]()
   }
