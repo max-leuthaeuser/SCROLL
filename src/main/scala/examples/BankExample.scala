@@ -2,9 +2,6 @@ package examples
 
 import internal.Context
 import annotations.Role
-import internal.dispatch.DispatchDescription._
-import internal.dispatch.DispatchRule._
-import internal.dispatch.Statement._
 
 object BankExample extends App
 {
@@ -103,18 +100,6 @@ object BankExample extends App
 
   }
 
-  // Dispatch description for the following example
-  implicit val dispatch = When { () => true } Dispatch(
-    In("Account").With("CheckingsAccount")(
-      Then("CheckingsAccount.decrease before Account.decrease")
-    ),
-    In("Account").With("SavingsAccount")(
-      Then("SavingsAccount.decrease before Account.decrease")
-    ),
-    In("Transaction").With("TransactionRole")(
-      Then("TransactionRole.execute before Transaction.execute")
-    ))
-
   // Instance level
   val stan = Person("Stan")
   val brian = Person("Brian")
@@ -147,7 +132,7 @@ object BankExample extends App
       val t = transaction play new TransactionRole
       t.execute()
 
-      println("\n### After transaction ###")
+      println("### After transaction ###")
       println("Balance for Stan: " + accForStan.balance)
       println("Balance for Brian: " + accForBrian.balance)
     }

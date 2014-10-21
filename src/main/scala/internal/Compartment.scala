@@ -1,11 +1,9 @@
 package internal
 
-import scala.collection.mutable
-import scala.collection.immutable.Queue
-import java.lang.reflect.Method
 import java.lang
-import internal.dispatch._
-import util.QueueUtils._
+import java.lang.reflect.Method
+
+import scala.collection.immutable.Queue
 
 // TODO: what happens if the same role is played multiple times from one player?
 trait Compartment
@@ -14,42 +12,31 @@ trait Compartment
 
   implicit def anyToPlayer[T](any: T): PlayerType[T] = new PlayerType[T](any)
 
-  val plays = new mutable.HashMap[Any, mutable.Set[Any]]() with mutable.MultiMap[Any, Any]
-  {
-    override def default
-    (key: Any) = mutable.Set.empty
-  }
+  val plays = new RoleGraph()
 
   // declaring a is-part-of relation between compartments
   def >+>(other: Compartment)
   {
-    other.plays.foreach(v => {
-      val key = v._1
-      val values = v._2
-      values.foreach(plays.addBinding(key, _))
-    })
+    plays.store ++= other.plays.store
   }
 
   // removing is-part-of relation between compartments
   def <-<(other: Compartment)
   {
-    other.plays.foreach(v => {
-      val key = v._1
-      val values = v._2
-      values.foreach(plays.removeBinding(key, _))
+    other.plays.store.edges.toSeq.foreach(e => {
+      plays.store -= e.value
     })
   }
 
   def E_?[T](any: T): T =
-    (plays.keys.toList ::: plays.values.flatten.toList)
-      .find(v => any.getClass.getSimpleName equals v.getClass.getSimpleName) match {
-      case Some(value) => value.asInstanceOf[T]
+    plays.store.nodes.toSeq.find(v => any.getClass.getSimpleName equals v.value.getClass.getSimpleName) match {
+      case Some(role) => role.value.asInstanceOf[T]
       case None => throw new RuntimeException(s"No player with type '$any' found.")
     }
 
   def A_?[T](any: T): Seq[T] =
-    (plays.keys.toList ::: plays.values.flatten.toList)
-      .filter(v => any.getClass.getSimpleName equals v.getClass.getSimpleName).map(_.asInstanceOf[T])
+    plays.store.nodes.toSeq.filter(v => any.getClass.getSimpleName equals v.value.getClass.getSimpleName)
+      .map(_.value.asInstanceOf[T])
 
   def addPlaysRelation(
     core: Any,
@@ -87,24 +74,14 @@ trait Compartment
     roles.foreach(transferRole(coreFrom, coreTo, _))
   }
 
-  def getRelation(core: Any): mutable.Set[Any] = plays(core)
-
-  def getOtherRolesForRole(role: Any): mutable.Set[Any] =
-  {
-    plays.values.foreach(set => {
-      if (set.contains(role)) return set
-    })
-    mutable.Set[Any]()
-  }
-
   def getCoreFor(role: Any): Any = role match {
     case cur: RoleType[_] => getCoreFor(cur.role)
     case cur: PlayerType[_] => getCoreFor(cur.core)
     // default:
-    case cur: Any => plays.foreach {
-      case (
-        k,
-        v) => if (v.contains(cur)) return k
+    case cur: Any => plays.store.get(cur).diPredecessors.toList match {
+      case p :: Nil => getCoreFor(p.value)
+      case Nil => cur
+      case _ =>
     }
   }
 
@@ -126,7 +103,7 @@ trait Compartment
       val argTypes: Array[Class[_]] = m.getParameterTypes
       val actualArgs: Seq[Any] = args.zip(argTypes).map {
         case (arg: PlayerType[_], tpe: Class[_]) =>
-          getRelation(arg.core).find(_.getClass == tpe) match {
+          plays.getRoles(arg.core).find(_.getClass == tpe) match {
             case Some(curRole) => curRole
             // TODO: how to permit this?
             case None => throw new RuntimeException(s"No role for type '$tpe' found.")
@@ -140,60 +117,6 @@ trait Compartment
         _.asInstanceOf[Object]
       }: _*).asInstanceOf[E]
     }
-
-    // TODO: test this hilarious thing
-    def applyDispatchDescription(
-      q: Queue[Any],
-      dd: DispatchDescription
-      ): Queue[Any] =
-    {
-      def getByName(
-        col: Iterable[Any],
-        name: String
-        ): Option[Any] = col.find(p => p.getClass.getSimpleName equals name)
-
-      def getRolesForCoreByName(
-        core: Any,
-        name: String
-        ): Seq[Any] = getByName(plays(core), name) match {
-        case Some(obj) => plays(core).toSeq
-        case None => Seq.empty
-      }
-
-      dd match {
-        case DispatchDescription.empty => q
-        case _ =>
-          // if the precondition is not fullfilled we skip the rest
-          if (!dd.when()) return q
-
-          var q_copy = copy(q)
-          val player = plays.keys.toList ::: plays.values.flatten.toList
-
-          dd.rules.foreach(rule => {
-            getByName(player, rule.in) match {
-              case Some(obj) =>
-                if ((getRolesForCoreByName(obj, rule.role).toList ::: getOtherRolesForRole(
-                  getByName(player, rule.role)).toList).nonEmpty) {
-                  rule.precs.filter(!_.done).foreach {
-                    case r: Before =>
-                      q_copy = swapWithOrder(q_copy,
-                        (getByName(player, r.leftObj).get, getByName(player, r.rightObj).get))
-                      r.done = true
-                    case r: Replace =>
-                      q_copy = remove(getByName(player, r.rightObj).get, q_copy)
-                      r.done = true
-                    case r: After =>
-                      q_copy = swapWithOrder(q_copy, (getByName(player, r.rightObj).get,
-                        getByName(player, r.leftObj).get))
-                      r.done = true
-                  }
-                }
-              case None => // do nothing
-            }
-          })
-          q_copy
-      }
-    }
   }
 
   class RoleType[T](val role: T) extends Dynamic with DispatchType
@@ -201,11 +124,10 @@ trait Compartment
     def unary_- : RoleType[T] = this
 
     def applyDynamic[E, A](name: String)
-      (args: A*)
-      (implicit dd: DispatchDescription = DispatchDescription.empty): E =
+      (args: A*): E =
     {
       val core = getCoreFor(role)
-      val anys = applyDispatchDescription(Queue(core) ++ getOtherRolesForRole(core) :+ role, dd)
+      val anys = Queue() ++ plays.getRoles(core) :+ role :+ core
 
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
@@ -258,11 +180,9 @@ trait Compartment
       }
 
     def applyDynamic[E, A](name: String)
-      (args: A*)
-      (implicit dd: DispatchDescription = DispatchDescription.empty): E =
+      (args: A*): E =
     {
-      val anys = applyDispatchDescription(
-        Queue() ++ getRelation(core) ++ getOtherRolesForRole(core) :+ getCoreFor(core) :+ core, dd)
+      val anys = Queue() ++ plays.getRoles(core).tail :+ getCoreFor(core) :+ core
 
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
