@@ -2,6 +2,7 @@ package internal
 
 import java.lang
 import java.lang.reflect.Method
+import reflect.runtime.universe._
 
 import scala.collection.immutable.Queue
 
@@ -29,13 +30,13 @@ trait Compartment
   }
 
   def E_?[T](any: T): T =
-    plays.store.nodes.toSeq.find(v => any.getClass.getSimpleName equals v.value.getClass.getSimpleName) match {
+    plays.store.nodes.toSeq.find(v => any.getClass.getSimpleName == v.value.getClass.getSimpleName) match {
       case Some(role) => role.value.asInstanceOf[T]
       case None => throw new RuntimeException(s"No player with type '$any' found.")
     }
 
   def A_?[T](any: T): Seq[T] =
-    plays.store.nodes.toSeq.filter(v => any.getClass.getSimpleName equals v.value.getClass.getSimpleName)
+    plays.store.nodes.toSeq.filter(v => any.getClass.getSimpleName == v.value.getClass.getSimpleName)
       .map(_.value.asInstanceOf[T])
 
   def addPlaysRelation(
@@ -117,6 +118,11 @@ trait Compartment
         _.asInstanceOf[Object]
       }: _*).asInstanceOf[E]
     }
+
+    protected def typeSimpleClassName(t: Type): String = t.toString.contains(".") match {
+      case true => t.toString.substring(t.toString.lastIndexOf(".") + 1)
+      case false => t.toString
+    }
   }
 
   class RoleType[T](val role: T) extends Dynamic with DispatchType
@@ -130,7 +136,7 @@ trait Compartment
       val anys = Queue() ++ plays.getRoles(core) :+ role :+ core
 
       anys.foreach(r => {
-        r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
+        r.getClass.getDeclaredMethods.find(m => m.getName == name).foreach(fm => {
           args match {
             case Nil => return dispatch(r, fm)
             case _ => return dispatch(r, fm, args.toSeq)
@@ -140,6 +146,13 @@ trait Compartment
 
       // otherwise give up
       throw new RuntimeException(s"No role with method '$name' found! (role: '$role')")
+    }
+
+    def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(role)
+      .find(r => r.getClass.getSimpleName == typeSimpleClassName(weakTypeOf[E])
+      ) match {
+      case None => false
+      case _ => true
     }
 
     // identity of roles: they don't have their own ID
@@ -185,7 +198,7 @@ trait Compartment
       val anys = Queue() ++ plays.getRoles(core).tail :+ getCoreFor(core) :+ core
 
       anys.foreach(r => {
-        r.getClass.getDeclaredMethods.find(m => m.getName.equals(name)).foreach(fm => {
+        r.getClass.getDeclaredMethods.find(m => m.getName == name).foreach(fm => {
           args match {
             case Nil => return dispatch(r, fm)
             case _ => return dispatch(r, fm, args.toSeq)
@@ -194,6 +207,13 @@ trait Compartment
       })
       // otherwise give up
       throw new RuntimeException(s"No role with method '$name' found! (core: '$core')")
+    }
+
+    def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(core)
+      .find(r => r.getClass.getSimpleName == typeSimpleClassName(weakTypeOf[E])
+      ) match {
+      case None => false
+      case _ => true
     }
 
     override def equals(o: Any) = o match {

@@ -135,6 +135,9 @@ object BankExample extends App
       println("### After transaction ###")
       println("Balance for Stan: " + accForStan.balance)
       println("Balance for Brian: " + accForBrian.balance)
+
+      println((+brian).isPlaying[Customer])
+      println(t.isPlaying[TransactionRole])
     }
   }
 }
