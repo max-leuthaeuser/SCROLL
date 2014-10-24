@@ -1,7 +1,8 @@
 package examples
 
-import internal.Context
 import annotations.Role
+import internal.Context
+import internal.DispatchQuery._
 
 object BankExample extends App
 {
@@ -128,6 +129,14 @@ object BankExample extends App
 
       // transaction is currently a part of the Bank context
       transaction >+> this
+
+      // defining the specific dispatch
+      // TODO: hand in to the invokation algorithm
+      implicit val dd =
+        From(_.is[Transaction]).
+          To(_.is[TransactionRole]).
+          Through(_ => true).
+          Bypassing(_ => true)
 
       val t = transaction play new TransactionRole
       t.execute()

@@ -1,6 +1,6 @@
 package internal
 
-object ReflectiveHelper
+trait ReflectiveHelper
 {
 
   implicit class Reflective(cur: Any)

@@ -1,6 +1,6 @@
 package internal
 
-object DispatchQuery
+object DispatchQuery extends ReflectiveHelper
 {
   def From(f: Any => Boolean) = new
     {
