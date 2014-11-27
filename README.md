@@ -13,6 +13,7 @@ Role playground for role dispatch based on Scala.
   ```scala
   object BankExample extends App
   {
+  
     // Naturals
     case class Person(name: String)
   
@@ -39,7 +40,7 @@ Role playground for role dispatch based on Scala.
       {
         var accounts = List[Either[CheckingsAccount, SavingsAccount]]()
   
-        def addAccount(acc: Either[CheckingsAccount, SavingsAccount])
+        def addAccount(acc: Either[CheckingsAccount, SavingsAccount]) =
         {
           accounts = accounts :+ acc
         }
@@ -49,7 +50,7 @@ Role playground for role dispatch based on Scala.
       {
         def decrease(amount: Double)
         {
-          (!this).decrease(amount)
+          (-this).decrease(amount)
         }
       }
   
@@ -59,7 +60,7 @@ Role playground for role dispatch based on Scala.
   
         def decrease(amount: Double)
         {
-          (!this).decrease(amount - transactionFee(amount))
+          (-this).decrease(amount - transactionFee(amount))
         }
       }
   
@@ -67,7 +68,7 @@ Role playground for role dispatch based on Scala.
       {
         def execute()
         {
-          (!this).execute()
+          (-this).execute()
         }
       }
   
@@ -77,21 +78,21 @@ Role playground for role dispatch based on Scala.
     {
       def execute()
       {
-        E_?(Source()).withDraw(amount)
-        E_?(Target()).deposit(amount)
+        E_?(Source).withDraw(amount)
+        E_?(Target).deposit(amount)
       }
   
       // to make roles that are contained in some Compartment accessible one
       // has to create some helper methods like the following
-      def Source() = new Source
+      def Source = new Source
   
-      def Target() = new Target
+      def Target = new Target
   
       @Role class Source()
       {
         def withDraw(m: Double)
         {
-          (~this).decrease(m)
+          (+this).decrease(m)
         }
       }
   
@@ -99,23 +100,11 @@ Role playground for role dispatch based on Scala.
       {
         def deposit(m: Double)
         {
-          (~this).increase(m)
+          (+this).increase(m)
         }
       }
   
     }
-
-    // Dispatch description
-    implicit val dispatch = When { () => true } Dispatch(
-      In("Account").With("CheckingsAccount")(
-        Then("CheckingsAccount.decrease before Account.decrease")
-      ),
-      In("Account").With("SavingsAccount")(
-        Then("SavingsAccount.decrease before Account.decrease")
-      ),
-      In("Transaction").With("TransactionRole")(
-        Then("TransactionRole.execute before Transaction.execute")
-    ))
   
     // Instance level
     val stan = Person("Stan")
@@ -129,35 +118,46 @@ Role playground for role dispatch based on Scala.
       Bind(stan With Customer(),
         brian With Customer(),
         accForStan With new CheckingsAccount(),
-        accForBrian With new CheckingsAccount())
-      {
+        accForBrian With new CheckingsAccount()) {
   
-        (~stan).addAccount(Left(accForStan))
-        (~brian).addAccount(Left(accForBrian))
+        (+stan).addAccount(Left(accForStan))
+        (+brian).addAccount(Left(accForBrian))
   
         println("### Before transaction ###")
         println("Balance for Stan: " + accForStan.balance)
         println("Balance for Brian: " + accForBrian.balance)
   
-        val transaction = new Transaction(10.0)
+        lazy val transaction = new Transaction(10.0)
   
-        accForStan play transaction.Source()
-        accForBrian play transaction.Target()
+        accForStan play transaction.Source
+        accForBrian play transaction.Target
   
         // transaction is currently a part of the Bank context
-        transaction >:> this
+        transaction >+> this
   
-        (transaction play new TransactionRole).execute()
+        // defining the specific dispatch
+        lazy implicit val dd: DispatchQuery =
+          From(_.is[Transaction]).
+            To(_.is[TransactionRole]).
+            Through(_ => true).
+            Bypassing(_ => true)
   
-        println("\n### After transaction ###")
+        val t = transaction play new TransactionRole
+        t.execute()
+  
+        println("### After transaction ###")
         println("Balance for Stan: " + accForStan.balance)
         println("Balance for Brian: " + accForBrian.balance)
+  
+        println((+brian).isPlaying[Customer])
+        println(t.isPlaying[TransactionRole])
       }
     }
   }
   ```
 
-  You can find a more elaborated example in the ```examples/``` folder.
+  You can find more examples in the ```examples/``` folder.
+  You also might want to check the ```test/```folder.
 
 3. Edit and run
 
