@@ -163,7 +163,10 @@ Role playground for role dispatch based on Scala.
 
   3.1. Clone this repo.
   
-  3.2. You may want to use SBT and run ```gen-idea``` (to config see [here][sbt-gen-idea])
-  
+  3.2. You may want to use SBT and run ```gen-idea```if you are using Intellij IDE. (to config see [here][sbt-gen-idea])
+
+  3.3. You may want to use SBT and run ```eclipse``` if you are using the Eclipse Scala IDE. (to config see [here][gen-eclipse])
+
 [sbt-gen-idea]: https://github.com/mpeltonen/sbt-idea
+[gen-eclipse]: https://github.com/typesafehub/sbteclipse
 [scala-dynamic]: http://www.scala-lang.org/api/current/#scala.Dynamic
