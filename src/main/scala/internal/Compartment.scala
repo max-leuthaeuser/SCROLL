@@ -134,7 +134,8 @@ trait Compartment
         case true => println("Empty DispatchQuery given. No reordering done.")
         case false => println("DispatchQuery given. Reordering.")
       }
-      ???
+      // TODO: just returning the set of roles untouched
+      anys
     }
   }
 
