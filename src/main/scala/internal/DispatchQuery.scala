@@ -12,11 +12,17 @@ object DispatchQuery extends ReflectiveHelper
             }
         }
     }
+
+  def empty: DispatchQuery = new DispatchQuery(empty = true)
 }
 
 class DispatchQuery(
-  from: Any => Boolean,
-  to: Any => Boolean,
-  through: Any => Boolean,
-  bypassing: Any => Boolean
+  from: Any => Boolean = _ => true,
+  to: Any => Boolean = _ => true,
+  through: Any => Boolean = _ => true,
+  bypassing: Any => Boolean = _ => true,
+  private val empty: Boolean = false
   )
+{
+  def isEmpty: Boolean = empty
+}

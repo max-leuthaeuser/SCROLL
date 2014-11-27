@@ -1,7 +1,7 @@
 package examples
 
 import annotations.Role
-import internal.Context
+import internal.{DispatchQuery, Context}
 import internal.DispatchQuery._
 
 object BankExample extends App
@@ -122,7 +122,7 @@ object BankExample extends App
       println("Balance for Stan: " + accForStan.balance)
       println("Balance for Brian: " + accForBrian.balance)
 
-      val transaction = new Transaction(10.0)
+      lazy val transaction = new Transaction(10.0)
 
       accForStan play transaction.Source
       accForBrian play transaction.Target
@@ -131,8 +131,7 @@ object BankExample extends App
       transaction >+> this
 
       // defining the specific dispatch
-      // TODO: hand in to the invokation algorithm
-      implicit val dd =
+      lazy implicit val dd: DispatchQuery =
         From(_.is[Transaction]).
           To(_.is[TransactionRole]).
           Through(_ => true).

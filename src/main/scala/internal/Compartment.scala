@@ -123,6 +123,19 @@ trait Compartment
       case true => t.toString.substring(t.toString.lastIndexOf(".") + 1)
       case false => t.toString
     }
+
+    // TODO: implement
+    protected def reorder(
+      anys: Queue[Any],
+      dispatchQuery: DispatchQuery
+      ): Queue[Any] =
+    {
+      dispatchQuery.isEmpty match {
+        case true => println("Empty DispatchQuery given. No reordering done.")
+        case false => println("DispatchQuery given. Reordering.")
+      }
+      ???
+    }
   }
 
   class RoleType[T](val role: T) extends Dynamic with DispatchType
@@ -130,10 +143,11 @@ trait Compartment
     def unary_- : RoleType[T] = this
 
     def applyDynamic[E, A](name: String)
-      (args: A*): E =
+      (args: A*)
+      (implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E =
     {
       val core = getCoreFor(role)
-      val anys = Queue() ++ plays.getRoles(core) :+ role :+ core
+      val anys = reorder(Queue() ++ plays.getRoles(core) :+ role :+ core, dispatchQuery)
 
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName == name).foreach(fm => {
@@ -193,9 +207,10 @@ trait Compartment
       }
 
     def applyDynamic[E, A](name: String)
-      (args: A*): E =
+      (args: A*)
+      (implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E =
     {
-      val anys = Queue() ++ plays.getRoles(core).tail :+ getCoreFor(core) :+ core
+      val anys = reorder(Queue() ++ plays.getRoles(core).tail :+ getCoreFor(core) :+ core, dispatchQuery)
 
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName == name).foreach(fm => {
