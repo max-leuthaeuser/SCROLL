@@ -6,3 +6,7 @@ target/
 *.class
 classes_gen*
 source_gen*
+.cache
+.classpath
+.project
+.settings/
