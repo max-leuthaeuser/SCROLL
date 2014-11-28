@@ -1,8 +1,7 @@
-import mocks.{SomeCompartment, CoreA}
-import org.scalatest.{Matchers, GivenWhenThen, FeatureSpec}
+import mocks.{ SomeCompartment, CoreA }
+import org.scalatest.{ Matchers, GivenWhenThen, FeatureSpec }
 
-class EqualityRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
-{
+class EqualityRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for role equality.")
 
   feature("Role playing equality") {
@@ -10,8 +9,7 @@ class EqualityRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
       Given("some player and a role in a compartment")
 
       val someCore = new CoreA()
-      new SomeCompartment
-      {
+      new SomeCompartment {
         val someRole = new RoleA()
         And("a play relationship")
         val player = someCore play someRole
@@ -50,8 +48,7 @@ class EqualityRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
       Given("some player and roles in a compartment")
 
       val someCore = new CoreA()
-      new SomeCompartment
-      {
+      new SomeCompartment {
         val someRole = new RoleA()
         val someOtherRole = new RoleB()
         And("some play relationships")
@@ -75,8 +72,8 @@ class EqualityRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
 
         When("comparing different roles")
         Then("they should not equal")
-        assert(someRole != someOtherRole)
-        assert(someOtherRole != someRole)
+        assertResult(false)(someRole.hashCode() == someOtherRole.hashCode())
+        assertResult(false)(someOtherRole.hashCode() == someRole.hashCode())
 
         When("comparing a role core to the player")
         Then("it should have the same identity")
