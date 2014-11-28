@@ -107,11 +107,6 @@ trait Compartment {
         }: _*).asInstanceOf[E]
       }
 
-    protected def typeSimpleClassName(t: Type): String = t.toString.contains(".") match {
-      case true => t.toString.substring(t.toString.lastIndexOf(".") + 1)
-      case false => t.toString
-    }
-
     // TODO: implement
     protected def reorder(
       anys: Queue[Any],
@@ -148,7 +143,7 @@ trait Compartment {
       }
 
     def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(role)
-      .find(r => r.getClass.getSimpleName == typeSimpleClassName(weakTypeOf[E])) match {
+      .find(r => r.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(weakTypeOf[E])) match {
         case None => false
         case _ => true
       }
@@ -204,7 +199,7 @@ trait Compartment {
       }
 
     def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(core)
-      .find(r => r.getClass.getSimpleName == typeSimpleClassName(weakTypeOf[E])) match {
+      .find(r => r.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(weakTypeOf[E])) match {
         case None => false
         case _ => true
       }

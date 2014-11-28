@@ -1,7 +1,15 @@
 package internal
 
-trait ReflectiveHelper {
+import reflect.runtime.universe._
 
+object ReflectiveHelper {
+  def typeSimpleClassName(t: Type): String = t.toString.contains(".") match {
+    case true => t.toString.substring(t.toString.lastIndexOf(".") + 1)
+    case false => t.toString
+  }
+}
+
+trait ReflectiveHelper {
   implicit class Reflective(cur: Any) {
     def hasAttribute(name: String): Boolean = cur.getClass.getDeclaredFields.find(m => m.getName == name) match {
       case None => false
@@ -20,7 +28,6 @@ trait ReflectiveHelper {
         field.get(cur).asInstanceOf[T]
       }
 
-    def is[T]: Boolean = cur.isInstanceOf[T]
+    def is[T: WeakTypeTag]: Boolean = cur.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(weakTypeOf[T])
   }
-
 }
