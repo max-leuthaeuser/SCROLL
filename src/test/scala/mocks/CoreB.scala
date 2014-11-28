@@ -1,5 +1,4 @@
 package mocks
 
-class CoreB
-{
+class CoreB {
 }

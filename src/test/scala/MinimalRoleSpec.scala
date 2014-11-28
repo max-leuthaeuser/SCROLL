@@ -1,8 +1,9 @@
-import mocks.{CoreB, SomeCompartment, CoreA}
+// removes warnings by Eclipse about reflective calls
+import scala.language.reflectiveCalls
+import mocks.{ CoreB, SomeCompartment, CoreA }
 import org.scalatest._
 
-class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
-{
+class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for an excerpt of the role concept.")
   info("Things like role playing and method invocation are tested.")
 
@@ -10,8 +11,7 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
     scenario("Attach some compartment to players and invoke methods") {
       Given("some player and role in a compartment")
       val someCore = new CoreA()
-      new SomeCompartment
-      {
+      new SomeCompartment {
         val someRole = new RoleA()
 
         When("call to core object")
@@ -30,17 +30,16 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
     scenario("Invoking methods without explicit notion of compartment") {
       Given("some player and role in a compartment")
       val someCore = new CoreA()
-      new SomeCompartment
-      {
+      new SomeCompartment {
         val someRole = new RoleA()
 
         And("a play relationship")
         someCore play someRole
 
         When("call method on core")
-        val resA: Int = +someCore a()
+        val resA: Int = +someCore a ()
         And("call method on role with base link")
-        -someRole a()
+        -someRole a ()
 
         Then("return value of role call should be correct")
         assert(resA == 0)
@@ -50,8 +49,7 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
     scenario("Dropping compartment and invoking methods") {
       Given("some player and role in a compartment")
       val someCore = new CoreA()
-      new SomeCompartment
-      {
+      new SomeCompartment {
         val someRole = new RoleA()
         And("a play relationship")
         someCore play someRole
@@ -61,13 +59,13 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
         someCore drop someRole
 
         Then("the call must be invoked on the core object")
-        someCore a()
+        someCore a ()
         And("a role call should fail")
         a[RuntimeException] should be thrownBy {
-          +someCore a()
+          +someCore a ()
         }
         And("binding to RoleB is left untouched of course")
-        val resB: String = +someCore b()
+        val resB: String = +someCore b ()
         assert(resB.equals("b"))
       }
     }
@@ -77,8 +75,7 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
 
-      new SomeCompartment
-      {
+      new SomeCompartment {
         val someRole = new RoleA()
         And("a play relationship")
         someCoreA play someRole
@@ -87,11 +84,11 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers
         someCoreA transfer someRole to someCoreB
 
         Then("the result of the call to the role of player someCoreB should be correct")
-        val res: Int = +someCoreB a()
+        val res: Int = +someCoreB a ()
         assert(res == 0)
         And("a call to the player the role was moved away from should fail")
         a[RuntimeException] should be thrownBy {
-          +someCoreA a()
+          +someCoreA a ()
         }
       }
     }

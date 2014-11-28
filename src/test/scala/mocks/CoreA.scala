@@ -1,9 +1,7 @@
 package mocks
 
-class CoreA
-{
-  def a()
-  {
+class CoreA {
+  def a() {
     println("core a")
   }
 }

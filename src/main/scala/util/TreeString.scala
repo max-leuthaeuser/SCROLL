@@ -3,14 +3,11 @@ package util
 import reflect.runtime.universe._
 import reflect.runtime.currentMirror
 
-object TreeString
-{
+object TreeString {
 
-  implicit class SextAnyTreeString[A](a: A)
-  {
+  implicit class SextAnyTreeString[A](a: A) {
 
-    private def indent(s: String)
-    = s.lines.toStream match {
+    private def indent(s: String) = s.lines.toStream match {
       case h +: t =>
         (("- " + h) +: t.map {
           "| " + _
@@ -21,31 +18,29 @@ object TreeString
     /**
      * @return A readable string representation of this value
      */
-    def treeString
-    : String
-    = a match {
+    def treeString: String = a match {
       case x: Traversable[_] =>
         x.stringPrefix + ":\n" +
           x.view
-            .map {
+          .map {
             _.treeString
           }
-            .map {
+          .map {
             indent
           }
-            .mkString("\n")
+          .mkString("\n")
       case x: Product if x.productArity == 0 =>
         x.productPrefix
       case x: Product =>
         x.productPrefix + ":\n" +
           x.productIterator
-            .map {
+          .map {
             _.treeString
           }
-            .map {
+          .map {
             indent
           }
-            .mkString("\n")
+          .mkString("\n")
       case null =>
         "null"
       case _ =>
@@ -55,9 +50,7 @@ object TreeString
     /**
      * @return A readable string representation of this value of a different format to `treeString`
      */
-    def valueTreeString
-    : String
-    = a match {
+    def valueTreeString: String = a match {
       case (k, v) =>
         k.valueTreeString + ":\n" +
           v.valueTreeString
@@ -67,9 +60,8 @@ object TreeString
           .map(indent)
           .mkString("\n")
       case a: Product =>
-        val b
-        = currentMirror.reflect(a).symbol.typeSignature.members.toStream
-          .collect { case a: TermSymbol => a}
+        val b = currentMirror.reflect(a).symbol.typeSignature.members.toStream
+          .collect { case a: TermSymbol => a }
           .filterNot(_.isMethod)
           .filterNot(_.isModule)
           .filterNot(_.isClass)
