@@ -98,8 +98,7 @@ trait Compartment {
               case None => throw new RuntimeException(s"No role for type '$tpe' found.")
             }
           case (arg: Double, tpe: Class[_]) => new lang.Double(arg.toDouble)
-          // TODO: warning: abstract type A gets eliminated by erasure
-          case (arg: A, tpe: Class[_]) => tpe.cast(arg)
+          case (arg @unchecked, tpe: Class[_]) => tpe.cast(arg)
         }
         // that looks funny:
         m.invoke(on, actualArgs.map {
