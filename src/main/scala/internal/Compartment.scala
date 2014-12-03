@@ -7,12 +7,15 @@ import java.lang.reflect.Method
 import reflect.runtime.universe._
 
 import scala.collection.immutable.Queue
+import annotations.Role
 
 // TODO: what happens if the same role is played multiple times from one player?
 trait Compartment {
   implicit def anyToRole[T](any: T): RoleType[T] = new RoleType[T](any)
 
   implicit def anyToPlayer[T](any: T): PlayerType[T] = new PlayerType[T](any)
+  
+  private def isRole(value: Any): Boolean = value.getClass.isAnnotationPresent(classOf[Role])
 
   val plays = new RoleGraph()
 
@@ -41,12 +44,14 @@ trait Compartment {
   def addPlaysRelation(
     core: Any,
     role: Any) {
+    require(isRole(role), "Argument for adding a role must be a role (you maybe want to add the @Role annotation).")
     plays.addBinding(core, role)
   }
 
   def removePlaysRelation(
     core: Any,
     role: Any) {
+    require(isRole(role), "Argument for removing a role must be a role (you maybe want to add the @Role annotation).")
     plays.removeBinding(core, role)
   }
 
@@ -54,7 +59,8 @@ trait Compartment {
     coreFrom: Any,
     coreTo: Any,
     role: Any) {
-    assert(coreFrom != coreTo)
+    require(coreFrom != coreTo, "You can not transfer a role from itself.")
+    require(isRole(role), "Argument for transfering a role must be a role (you maybe want to add the @Role annotation).")
     removePlaysRelation(coreFrom, role)
     addPlaysRelation(coreTo, role)
   }

@@ -1,10 +1,11 @@
 package mocks
 
 import internal.Compartment
+import annotations.Role
 
 class SomeCompartment extends Compartment {
 
-  class RoleA {
+  @Role class RoleA {
     def a(): Int =
       {
         println("role a")
@@ -12,7 +13,7 @@ class SomeCompartment extends Compartment {
       }
   }
 
-  class RoleB {
+  @Role class RoleB {
     def b(): String =
       {
         println("role b")
