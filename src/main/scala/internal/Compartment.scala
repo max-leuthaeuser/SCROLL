@@ -117,10 +117,13 @@ trait Compartment {
       anys: Queue[Any],
       dispatchQuery: DispatchQuery): Queue[Any] =
       {
+        /**
         dispatchQuery.isEmpty match {
           case true => println("Empty DispatchQuery given. No reordering done.")
           case false => println("DispatchQuery given. Reordering.")
         }
+        * 
+        */
         // TODO: just returning the set of roles untouched
         anys
       }

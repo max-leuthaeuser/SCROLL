@@ -39,18 +39,24 @@ object BankExample extends App {
     def decrease(amount: CurrencyRepr) {
       balance = balance - amount
     }
+
+    def getBalance(): CurrencyRepr = balance
   }
 
   // Contexts and Roles
   class Bank extends Context {
 
-    @Role case class Customer() {
+    @Role class Customer() {
       var accounts = List[Decreasable[CurrencyRepr]]()
 
       def addAccount(acc: Decreasable[CurrencyRepr]) =
         {
           accounts = accounts :+ acc
         }
+
+      def showBalance() {
+        accounts.foreach { a => println("Account: " + a + " -> " + (+a).getBalance()) }
+      }
     }
 
     @Role class CheckingsAccount() extends Decreasable[CurrencyRepr] {
@@ -85,9 +91,9 @@ object BankExample extends App {
 
     // to make roles that are contained in some Compartment accessible one
     // has to create some helper methods like the following
-    def Source = new Source
+    def Source = new Source()
 
-    def Target = new Target
+    def Target = new Target()
 
     @Role class Source() {
       def withDraw(m: CurrencyRepr) {
@@ -111,8 +117,8 @@ object BankExample extends App {
   val accForBrian = new Account(0)
 
   new Bank {
-    Bind(stan With Customer(),
-      brian With Customer(),
+    Bind(stan With new Customer(),
+      brian With new Customer(),
       accForStan With new CheckingsAccount(),
       accForBrian With new CheckingsAccount()) {
 
@@ -144,8 +150,12 @@ object BankExample extends App {
         println("### After transaction ###")
         println("Balance for Stan: " + accForStan.balance)
         println("Balance for Brian: " + accForBrian.balance)
-        println((+brian).isPlaying[Customer])
-        println(t.isPlaying[TransactionRole])
+        println("Brian is playing the Customer role? " + (+brian).isPlaying[Customer])
+        println("The transaction is playing the TransactionRole? " + t.isPlaying[TransactionRole])
+
+        (+stan).showBalance()
+        (+brian).showBalance()
+        println("### Finished. ###")
       }
   }
 }
