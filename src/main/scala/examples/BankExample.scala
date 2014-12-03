@@ -13,12 +13,30 @@ object BankExample extends App {
 
   case class Company(name: String)
 
-  class Account(var balance: Double = 0) {
-    def increase(amount: Double) {
+  /**
+   * Those both could also be roles. But here they are only used
+   * as Interfaces and bound statically so this would not add any value.
+   */
+
+  trait Decreasable[T] {
+    def decrease(amount: T)
+  }
+
+  trait Increasable[T] {
+    def increase(amount: T)
+  }
+
+  type CurrencyRepr = Double
+
+  class Account(var balance: CurrencyRepr = 0)
+    extends Increasable[CurrencyRepr]
+    with Decreasable[CurrencyRepr] {
+
+    def increase(amount: CurrencyRepr) {
       balance = balance + amount
     }
 
-    def decrease(amount: Double) {
+    def decrease(amount: CurrencyRepr) {
       balance = balance - amount
     }
   }
@@ -27,24 +45,24 @@ object BankExample extends App {
   class Bank extends Context {
 
     @Role case class Customer() {
-      var accounts = List[Either[CheckingsAccount, SavingsAccount]]()
+      var accounts = List[Decreasable[CurrencyRepr]]()
 
-      def addAccount(acc: Either[CheckingsAccount, SavingsAccount]) =
+      def addAccount(acc: Decreasable[CurrencyRepr]) =
         {
           accounts = accounts :+ acc
         }
     }
 
-    @Role class CheckingsAccount() {
-      def decrease(amount: Double) {
+    @Role class CheckingsAccount() extends Decreasable[CurrencyRepr] {
+      def decrease(amount: CurrencyRepr) {
         (-this).decrease(amount)
       }
     }
 
-    @Role class SavingsAccount() {
-      private def transactionFee(amount: Double) = amount * 0.1
+    @Role class SavingsAccount() extends Decreasable[CurrencyRepr] {
+      private def transactionFee(amount: CurrencyRepr) = amount * 0.1
 
-      def decrease(amount: Double) {
+      def decrease(amount: CurrencyRepr) {
         (-this).decrease(amount - transactionFee(amount))
       }
     }
@@ -58,7 +76,7 @@ object BankExample extends App {
 
   }
 
-  class Transaction(val amount: Double) extends Context {
+  class Transaction(val amount: CurrencyRepr) extends Context {
     def execute() {
       println("Executing from Player.")
       E_?(Source).withDraw(amount)
@@ -72,13 +90,13 @@ object BankExample extends App {
     def Target = new Target
 
     @Role class Source() {
-      def withDraw(m: Double) {
+      def withDraw(m: CurrencyRepr) {
         (+this).decrease(m)
       }
     }
 
     @Role class Target() {
-      def deposit(m: Double) {
+      def deposit(m: CurrencyRepr) {
         (+this).increase(m)
       }
     }
@@ -98,8 +116,8 @@ object BankExample extends App {
       accForStan With new CheckingsAccount(),
       accForBrian With new CheckingsAccount()) {
 
-        (+stan).addAccount(Left(accForStan))
-        (+brian).addAccount(Left(accForBrian))
+        (+stan).addAccount(accForStan)
+        (+brian).addAccount(accForBrian)
 
         println("### Before transaction ###")
         println("Balance for Stan: " + accForStan.balance)

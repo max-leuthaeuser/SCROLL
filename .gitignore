@@ -10,3 +10,4 @@ source_gen*
 .classpath
 .project
 .settings/
+/bin/
