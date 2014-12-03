@@ -14,7 +14,7 @@ trait ContextInternals extends Compartment {
 
     def With(r: Any): WrappedWith[T] =
       {
-        require(isRole(r))
+        require(isRole(r), "Argument for 'With' must be a role (you maybe want to add the @Role annotation).")
         curr_r = r
         c play r
         this
@@ -22,6 +22,7 @@ trait ContextInternals extends Compartment {
 
     def From(from: Any): WrappedWith[T] =
       {
+        require(isRole(from), "Argument for 'From' must be a role (you maybe want to add the @Role annotation).")
         transferRole(from, c, curr_r)
         this
       }
