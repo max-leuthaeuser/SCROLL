@@ -15,15 +15,16 @@ object BankExample extends App {
   case class Company(name: String)
 
   /**
-   * Those both could also be roles. But here they are only used
+   * Those could also be roles. But here they are only used
    * as Interfaces and bound statically so this would not add any value.
    */
+  trait Accountable
 
-  trait Decreasable[T] {
+  trait Decreasable[T] extends Accountable {
     def decrease(amount: T)
   }
 
-  trait Increasable[T] {
+  trait Increasable[T] extends Accountable {
     def increase(amount: T)
   }
 
@@ -48,9 +49,9 @@ object BankExample extends App {
   class Bank extends Context {
 
     @Role class Customer() {
-      var accounts = List[Decreasable[CurrencyRepr]]()
+      var accounts = List[Accountable]()
 
-      def addAccount(acc: Decreasable[CurrencyRepr]) {
+      def addAccount(acc: Accountable) {
         accounts = accounts :+ acc
       }
 
@@ -65,11 +66,12 @@ object BankExample extends App {
       }
     }
 
-    @Role class SavingsAccount() extends Decreasable[CurrencyRepr] {
+    @Role class SavingsAccount() extends Increasable[CurrencyRepr] {
       private def transactionFee(amount: CurrencyRepr) = amount * 0.1
 
-      def decrease(amount: CurrencyRepr) {
-        (-this).decrease(amount - transactionFee(amount))
+      def increase(amount: CurrencyRepr) {
+        info("Increasing with fee.")
+        (-this).increase(amount - transactionFee(amount))
       }
     }
 
@@ -116,12 +118,14 @@ object BankExample extends App {
   val accForStan = new Account(10.0)
   val accForBrian = new Account(0)
 
+  implicit var dd: DispatchQuery = DispatchQuery.empty
+
   new Bank {
     Bind {
       stan With new Customer()
       brian With new Customer()
       accForStan With new CheckingsAccount()
-      accForBrian With new CheckingsAccount()
+      accForBrian With new SavingsAccount()
     } Blocking {
       (+stan).addAccount(accForStan)
       (+brian).addAccount(accForBrian)
@@ -130,29 +134,27 @@ object BankExample extends App {
       info("Balance for Stan: " + accForStan.balance)
       info("Balance for Brian: " + accForBrian.balance)
 
-      lazy val transaction = new Transaction(10.0)
-
+      val transaction = new Transaction(10.0)
       accForStan play transaction.Source
       accForBrian play transaction.Target
 
-      // transaction is currently a part of the Bank context
-      transaction >+> this
+      // Defining a bidirectional relation between Transaction and Bank.
+      // The transaction needs full access to registered/bound Accounts like
+      // CheckingsAccount and SavingsAccount.
+      transaction union this
 
-      // defining the specific dispatch
-      lazy implicit val dd: DispatchQuery =
-        From(_.is[Transaction]).
-          To(_.is[TransactionRole]).
-          Through(_ => true).
-          Bypassing(_ => true)
+      // defining the specific dispatch as example
+      dd = From(_.is[Transaction]).
+        To(_.is[TransactionRole]).
+        Through(_ => true).
+        Bypassing(_ => true)
 
-      val t = transaction play new TransactionRole
-      t.execute()
+      (transaction play new TransactionRole).execute()
 
       info("### After transaction ###")
       info("Balance for Stan: " + accForStan.balance)
       info("Balance for Brian: " + accForBrian.balance)
       info("Brian is playing the Customer role? " + (+brian).isPlaying[Customer])
-      info("The transaction is playing the TransactionRole? " + t.isPlaying[TransactionRole])
 
       (+stan).listBalances()
       (+brian).listBalances()

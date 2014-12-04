@@ -9,6 +9,8 @@ import reflect.runtime.universe._
 import scala.collection.immutable.Queue
 import annotations.Role
 
+import util.Log.info
+
 // TODO: what happens if the same role is played multiple times from one player?
 trait Compartment {
   private def isRole(value: Any): Boolean = value.getClass.isAnnotationPresent(classOf[Role])
@@ -16,12 +18,18 @@ trait Compartment {
   val plays = new RoleGraph()
 
   // declaring a is-part-of relation between compartments
-  def >+>(other: Compartment) {
+  def partOf(other: Compartment) {
     plays.store ++= other.plays.store
   }
 
+  // declaring a bidirectional is-part-of relation between compartment
+  def union(other: Compartment) {
+    other.partOf(this)
+    this.partOf(other)
+  }
+
   // removing is-part-of relation between compartments
-  def <-<(other: Compartment) {
+  def notPartOf(other: Compartment) {
     other.plays.store.edges.toSeq.foreach(e => {
       plays.store -= e.value
     })
@@ -100,7 +108,7 @@ trait Compartment {
               case None => throw new RuntimeException(s"No role for type '$tpe' found.")
             }
           case (arg: Double, tpe: Class[_]) => new lang.Double(arg.toDouble)
-          case (arg @unchecked, tpe: Class[_]) => tpe.cast(arg)
+          case (arg @ unchecked, tpe: Class[_]) => tpe.cast(arg)
         }
         // that looks funny:
         m.invoke(on, actualArgs.map {
@@ -108,20 +116,20 @@ trait Compartment {
         }: _*).asInstanceOf[E]
       }
 
-    // TODO: implement
+    // TODO: this looks quite awful. Re-implement this smelly thing!
     protected def reorder(
       anys: Queue[Any],
       dispatchQuery: DispatchQuery): Queue[Any] =
       {
-        /**
-        dispatchQuery.isEmpty match {
-          case true => println("Empty DispatchQuery given. No reordering done.")
-          case false => println("DispatchQuery given. Reordering.")
+        var result = Queue[Any]()
+        anys.foreach { a =>
+          {
+            if (dispatchQuery.bypassing(a)) {
+              result = result :+ a
+            }
+          }
         }
-        * 
-        */
-        // TODO: just returning the set of roles untouched
-        anys
+        result
       }
   }
 
@@ -188,7 +196,7 @@ trait Compartment {
 
     def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E =
       {
-        val anys = reorder(Queue() ++ plays.getRoles(core).tail :+ getCoreFor(core) :+ core, dispatchQuery)
+        val anys = reorder(Queue() ++ plays.getRoles(getCoreFor(core)).tail :+ core :+ getCoreFor(core), dispatchQuery)
 
         anys.foreach(r => {
           r.getClass.getDeclaredMethods.find(m => m.getName == name).foreach(fm => {

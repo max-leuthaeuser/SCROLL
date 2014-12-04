@@ -13,10 +13,10 @@ object DispatchQuery extends ReflectiveHelper {
 }
 
 class DispatchQuery(
-  from: Any => Boolean = _ => true,
-  to: Any => Boolean = _ => true,
-  through: Any => Boolean = _ => true,
-  bypassing: Any => Boolean = _ => true,
+  val from: Any => Boolean = _ => true,
+  val to: Any => Boolean = _ => true,
+  val through: Any => Boolean = _ => true,
+  val bypassing: Any => Boolean = _ => true,
   private val empty: Boolean = false) {
   def isEmpty: Boolean = empty
 }
