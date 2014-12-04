@@ -49,10 +49,9 @@ object BankExample extends App {
     @Role class Customer() {
       var accounts = List[Decreasable[CurrencyRepr]]()
 
-      def addAccount(acc: Decreasable[CurrencyRepr]) =
-        {
-          accounts = accounts :+ acc
-        }
+      def addAccount(acc: Decreasable[CurrencyRepr]) {
+        accounts = accounts :+ acc
+      }
 
       def showBalance() {
         accounts.foreach { a => println("Account: " + a + " -> " + (+a).getBalance()) }
@@ -117,45 +116,46 @@ object BankExample extends App {
   val accForBrian = new Account(0)
 
   new Bank {
-    Bind(stan With new Customer(),
-      brian With new Customer(),
-      accForStan With new CheckingsAccount(),
-      accForBrian With new CheckingsAccount()) {
+    Bind {
+      stan With new Customer()
+      brian With new Customer()
+      accForStan With new CheckingsAccount()
+      accForBrian With new CheckingsAccount()
+    } For {
+      (+stan).addAccount(accForStan)
+      (+brian).addAccount(accForBrian)
 
-        (+stan).addAccount(accForStan)
-        (+brian).addAccount(accForBrian)
+      println("### Before transaction ###")
+      println("Balance for Stan: " + accForStan.balance)
+      println("Balance for Brian: " + accForBrian.balance)
 
-        println("### Before transaction ###")
-        println("Balance for Stan: " + accForStan.balance)
-        println("Balance for Brian: " + accForBrian.balance)
+      lazy val transaction = new Transaction(10.0)
 
-        lazy val transaction = new Transaction(10.0)
+      accForStan play transaction.Source
+      accForBrian play transaction.Target
 
-        accForStan play transaction.Source
-        accForBrian play transaction.Target
+      // transaction is currently a part of the Bank context
+      transaction >+> this
 
-        // transaction is currently a part of the Bank context
-        transaction >+> this
+      // defining the specific dispatch
+      lazy implicit val dd: DispatchQuery =
+        From(_.is[Transaction]).
+          To(_.is[TransactionRole]).
+          Through(_ => true).
+          Bypassing(_ => true)
 
-        // defining the specific dispatch
-        lazy implicit val dd: DispatchQuery =
-          From(_.is[Transaction]).
-            To(_.is[TransactionRole]).
-            Through(_ => true).
-            Bypassing(_ => true)
+      val t = transaction play new TransactionRole
+      t.execute()
 
-        val t = transaction play new TransactionRole
-        t.execute()
+      println("### After transaction ###")
+      println("Balance for Stan: " + accForStan.balance)
+      println("Balance for Brian: " + accForBrian.balance)
+      println("Brian is playing the Customer role? " + (+brian).isPlaying[Customer])
+      println("The transaction is playing the TransactionRole? " + t.isPlaying[TransactionRole])
 
-        println("### After transaction ###")
-        println("Balance for Stan: " + accForStan.balance)
-        println("Balance for Brian: " + accForBrian.balance)
-        println("Brian is playing the Customer role? " + (+brian).isPlaying[Customer])
-        println("The transaction is playing the TransactionRole? " + t.isPlaying[TransactionRole])
-
-        (+stan).showBalance()
-        (+brian).showBalance()
-        println("### Finished. ###")
-      }
+      (+stan).showBalance()
+      (+brian).showBalance()
+      //println("### Finished. ###")
+    }
   }
 }
