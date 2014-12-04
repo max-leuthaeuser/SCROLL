@@ -9,7 +9,6 @@
     <list default="true" id="fb781ea5-6a6a-4ddc-9cb7-7c9c1b5fe0b0" name="Default" comment=" - added some duplicate name constraints">
       <change type="DELETED" beforePath="$PROJECT_DIR$/languages/RoleDispatch/generator/source_gen.caches/RoleDispatch/generator/template/main/dependencies" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/languages/RoleDispatch/generator/source_gen.caches/RoleDispatch/generator/template/main/generated" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/RoleDispatch.mpl" afterPath="$PROJECT_DIR$/languages/RoleDispatch/RoleDispatch.mpl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/sandbox/source_gen.caches/RoleDispatch/sandbox/model/dependencies" afterPath="$PROJECT_DIR$/languages/RoleDispatch/sandbox/source_gen.caches/RoleDispatch/sandbox/model/dependencies" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/dependencies" afterPath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/dependencies" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/behavior/dependencies" afterPath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/behavior/dependencies" />
@@ -24,8 +23,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/editor/generated" afterPath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/editor/generated" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/structure/generated" afterPath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/structure/generated" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/typesystem/generated" afterPath="$PROJECT_DIR$/languages/RoleDispatch/source_gen.caches/RoleDispatch/typesystem/generated" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/sandbox/models/RoleDispatch/sandbox/model.mps" afterPath="$PROJECT_DIR$/languages/RoleDispatch/sandbox/models/RoleDispatch/sandbox/model.mps" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/languages/RoleDispatch/languageModels/textGen.mps" afterPath="$PROJECT_DIR$/languages/RoleDispatch/languageModels/textGen.mps" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.mps/workspace.xml" afterPath="$PROJECT_DIR$/.mps/workspace.xml" />
     </list>
     <ignored path="MPSDispatch.iws" />
@@ -129,17 +126,7 @@
           <provider selected="true" editor-type-id="MPSFileEditor">
             <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
               <memento viewPositionX="0" viewPositionY="0">
-                <selectionStack>
-                  <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
-                    <property name="hasNonTrivialSelection" value="false" />
-                    <property name="caretXRelative" value="104" />
-                    <property name="caretX" value="151" />
-                    <property name="sideSelectDirection" value="NONE" />
-                    <cellInfo cellId="ALIAS_EDITOR_COMPONENT" cellNumber="0" isInList="false">
-                      <node node_reference="r:0160280c-173f-4f66-b3ef-be0908ff340c(RoleDispatch.textGen)/6046698647072885027" />
-                    </cellInfo>
-                  </stackElement>
-                </selectionStack>
+                <selectionStack />
                 <errorLabels />
                 <folded />
                 <enabledHints />
@@ -150,7 +137,7 @@
                 <folded />
                 <enabledHints />
               </inspectorMemento>
-              <node node_ref="r:0160280c-173f-4f66-b3ef-be0908ff340c(RoleDispatch.textGen)/6046698647070650812" />
+              <node node_ref="r:03f0fbfd-9c23-4fc6-97fb-c8e5553a01ec(RoleDispatch.editor)/494922352951548315" />
             </state>
           </provider>
         </entry>
@@ -290,24 +277,6 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="RoleDispatch">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="RoleDispatch.structure">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Empty">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Project">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
             <PATH_ELEMENT USER_OBJECT="RoleDispatch.sandbox">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
@@ -411,7 +380,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329602" sideWeight="0.49964765" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Usages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.49964765" order="0" side_tool="false" content_ui="tabs" />
@@ -424,7 +393,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="24" side_tool="false" content_ui="tabs" />
       <window_info id="Bookmarks" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Generation Tracer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20930232" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20930232" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329602" sideWeight="0.5" order="20" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
       <window_info id="Classpath Explorer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -516,7 +485,8 @@
     <MESSAGE value=" - added AbstractRoleRef and RoleGroupElement" />
     <MESSAGE value=" - changed Direction" />
     <MESSAGE value=" - started work on the TROML to Scala with Roles generator" />
-    <option name="LAST_COMMIT_MESSAGE" value=" - started work on the TROML to Scala with Roles generator" />
+    <MESSAGE value=" - added Scala code generation for DataTypes" />
+    <option name="LAST_COMMIT_MESSAGE" value=" - added Scala code generation for DataTypes" />
   </component>
   <component name="editorHistoryManager">
     <entry file="mps://node://RoleDispatch/RoleDispatch.structure/Place">
@@ -1900,17 +1870,7 @@
       <provider selected="true" editor-type-id="MPSFileEditor">
         <state class="jetbrains.mps.ide.editorTabs.TabbedEditor$TabbedEditorState">
           <memento viewPositionX="0" viewPositionY="0">
-            <selectionStack>
-              <stackElement className="jetbrains.mps.nodeEditor.selection.EditorCellLabelSelection">
-                <property name="hasNonTrivialSelection" value="false" />
-                <property name="caretXRelative" value="104" />
-                <property name="caretX" value="151" />
-                <property name="sideSelectDirection" value="NONE" />
-                <cellInfo cellId="ALIAS_EDITOR_COMPONENT" cellNumber="0" isInList="false">
-                  <node node_reference="r:0160280c-173f-4f66-b3ef-be0908ff340c(RoleDispatch.textGen)/6046698647072885027" />
-                </cellInfo>
-              </stackElement>
-            </selectionStack>
+            <selectionStack />
             <errorLabels />
             <folded />
             <enabledHints />
@@ -1921,7 +1881,7 @@
             <folded />
             <enabledHints />
           </inspectorMemento>
-          <node node_ref="r:0160280c-173f-4f66-b3ef-be0908ff340c(RoleDispatch.textGen)/6046698647070650812" />
+          <node node_ref="r:03f0fbfd-9c23-4fc6-97fb-c8e5553a01ec(RoleDispatch.editor)/494922352951548315" />
         </state>
       </provider>
     </entry>

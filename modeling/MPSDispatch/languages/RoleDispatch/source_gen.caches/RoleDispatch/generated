@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dependencies version="2" modelHash="-6glv3gemvykzeh70ldb1mvurhpwnaw6">
+<dependencies version="2" modelHash="2zoozxsn7stvqvfrmf2hch0wjj9t2r">
   <dep model="r:00000000-0000-4000-0000-011c895902cd(jetbrains.mps.baseLanguage.generator.java.main@generator)" hash="303xz1b2lyseld0axia86q3lpvucmq6" />
-  <dep model="r:03f0fbfd-9c23-4fc6-97fb-c8e5553a01ec(RoleDispatch.editor)" hash="y154lf9qkvlqhend41xab5wc3br975" />
-  <dep model="r:59fe0ae7-a0f2-4b4f-b226-b93ec1bda3a3(RoleDispatch.typesystem)" hash="3v3di3f3qp8cqtyh6uicgywhvqebil0" />
+  <dep model="r:03f0fbfd-9c23-4fc6-97fb-c8e5553a01ec(RoleDispatch.editor)" hash="-8hru4zklxflaiv3fcnhgz0ejkbw8zy7" />
+  <dep model="r:59fe0ae7-a0f2-4b4f-b226-b93ec1bda3a3(RoleDispatch.typesystem)" hash="-aym11ra6e87t6c80pwlaxt9z9ctek0u" />
   <dep model="r:b4d7d620-6723-4aa2-856b-118497e84e9e(jetbrains.mps.baseLanguage.generator.java.strings@generator)" hash="b4ewbuz42qcbg1awca5bacgi0vopxqt" />
   <dep model="r:f04c1476-2f91-4f59-be13-c8e009abebee(jetbrains.mps.baseLanguageInternal.generator.template.main@generator)" hash="a8elw7fctzg6sg8fe36u9gzu42axhdb" />
   <common dependsOnNodes="true">

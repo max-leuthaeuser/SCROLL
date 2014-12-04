@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dependencies version="2" modelHash="-57w8r8frsfvfwwhlxvjuapfwgjz950i">
+<dependencies version="2" modelHash="5y15gyzot5vey49m0j35ki1bar4rriz">
+  <dep model="f:java_stub#6354ebe7-c22a-4a0f-ac54-50b52ab9b065#java.lang(JDK/java.lang@java_stub)" />
+  <dep model="f:java_stub#6354ebe7-c22a-4a0f-ac54-50b52ab9b065#java.util(JDK/java.util@java_stub)" />
+  <dep model="f:java_stub#6ed54515-acc8-4d1e-a16c-9fd6cfe951ea#jetbrains.mps.smodel.runtime.impl(MPS.Core/jetbrains.mps.smodel.runtime.impl@java_stub)" />
   <dep model="r:00000000-0000-4000-0000-011c89590288(jetbrains.mps.lang.core.structure)" hash="5sdbpqxziyuazpb9j1p4zdk6bnvbn49" />
   <dep model="r:00000000-0000-4000-0000-011c89590293(jetbrains.mps.lang.structure.generator_new.baseLanguage@generator)" hash="-5mgxduek28h3ywdzzsk4capaz4hgjm0" />
   <dep model="r:00000000-0000-4000-0000-011c895902cd(jetbrains.mps.baseLanguage.generator.java.main@generator)" hash="303xz1b2lyseld0axia86q3lpvucmq6" />
   <dep model="r:b4d7d620-6723-4aa2-856b-118497e84e9e(jetbrains.mps.baseLanguage.generator.java.strings@generator)" hash="b4ewbuz42qcbg1awca5bacgi0vopxqt" />
   <dep model="r:f04c1476-2f91-4f59-be13-c8e009abebee(jetbrains.mps.baseLanguageInternal.generator.template.main@generator)" hash="a8elw7fctzg6sg8fe36u9gzu42axhdb" />
-  <common hash="asjyde2cqi031f1f8ktiynq347yiru3" dependsOnNodes="true">
+  <dep model="r:fc76aa36-3cff-41c7-b94b-eee0e8341932(jetbrains.mps.internal.collections.runtime)" hash="-8chtguhcvj45cjy0bx3xiqekte2lox7" />
+  <common hash="-at5l62eg81anqgqlxfciwu6bvesa52s" dependsOnNodes="true">
+    <dep root="1609475155069615932" />
+    <dep root="1609475155070657416" />
+    <dep root="1609475155070818610" />
+    <dep root="1609475155072168595" />
+    <dep root="1609475155080831642" />
+    <dep root="1609475155080831786" />
+    <dep root="1609475155081109328" />
+    <dep root="1609475155081111103" />
+    <dep root="1609475155081111299" />
+    <dep root="1609475155081111524" />
+    <dep root="1609475155081113837" />
+    <dep root="1609475155081115126" />
+    <dep root="1609475155081115935" />
     <dep root="4706841621051924005" />
     <dep root="4706841621052048382" />
     <dep root="4706841621052048403" />
@@ -34,6 +51,13 @@
     <dep root="4706841621052051180" />
     <dep root="4706841621052051290" />
     <dep root="4706841621052371215" />
+    <dep root="8942231102475769631" />
+    <dep root="8942231102475770345" />
+    <dep root="8942231102484053979" />
+    <dep root="8942231102484054088" />
+    <dep root="8942231102484054303" />
+    <dep root="8942231102484054414" />
+    <dep model="f:java_stub#6ed54515-acc8-4d1e-a16c-9fd6cfe951ea#jetbrains.mps.smodel.runtime.impl(MPS.Core/jetbrains.mps.smodel.runtime.impl@java_stub)" />
     <dep model="r:00000000-0000-4000-0000-011c89590288(jetbrains.mps.lang.core.structure)" />
     <dep model="r:00000000-0000-4000-0000-011c89590293(jetbrains.mps.lang.structure.generator_new.baseLanguage@generator)" />
     <dep model="r:00000000-0000-4000-0000-011c895902cd(jetbrains.mps.baseLanguage.generator.java.main@generator)" />
@@ -53,21 +77,49 @@
   <source id="4706841621052050327" name="NamedElement" hash="2n6ef7a3nvu0k5qj5jrkld4j2t43o9y" />
   <source id="4706841621052050351" name="ModelElement" hash="-97drpdexlnipp37bqbupeqylfy8m3ey" />
   <source id="4706841621052050488" name="Inheritance" hash="dn8tvhclxggh78gr33hafoziufr55s1" />
-  <source id="4706841621052050517" name="NaturalInheritance" hash="1xg186fzwl33gfwi8dmbg5fz8bn9yue" />
+  <source id="4706841621052050517" name="NaturalInheritance" hash="-6tp147h36usf3bvt54lop79rxs9vdrz" />
   <source id="4706841621052050520" name="NaturalType" hash="cg1wb1hs2ahgectsgol9fsjx7y88cfp" />
   <source id="4706841621052050588" name="AntiRigidType" hash="18t64j88zibh310bly9ou3hjzf1u5ed" />
-  <source id="4706841621052050622" name="AbstractRole" hash="-3y2ezwddfz5sjm50pf4qtkj8r8uwfg1" />
-  <source id="4706841621052050657" name="Constraint" hash="-du4bitrnr041ia2fftqz1syjg9084jm" />
+  <source id="4706841621052050622" name="AbstractRole" hash="-79rbr2potgf4pjs3ys1afewblqm3ccq" />
+  <source id="4706841621052050657" name="Constraint" hash="-egudi5fyw0tl2rkaexersfo64c3aro3" />
   <source id="4706841621052050693" name="RoleType" hash="-9tsew2lrgfw34g2xzitzx0ssot6zx81" />
   <source id="4706841621052050733" name="RoleConstraint" hash="-131ey7cameisk9h42x6aqk2nimcg7x4" />
   <source id="4706841621052050779" name="Fulfillment" hash="-82jacfzfmki4q7kq92gm7w171ylufcv" />
   <source id="4706841621052050870" name="RoleImplication" hash="-6f6nodsv70reeqdhx8mig938gjg2vue" />
   <source id="4706841621052050915" name="RoleEquivalence" hash="czxdlvo9hmq617nq2wsd7h4zt97oxhc" />
   <source id="4706841621052050961" name="RoleProhibition" hash="e2flpih9ruisaaue25vwtu6xy86rhjh" />
-  <source id="4706841621052051008" name="RoleGroup" hash="-ebz1bqr94kruiym0bv83bss58273qwy" />
+  <source id="4706841621052051008" name="RoleGroup" hash="2rbyrt0g2zoedajuib8y2z5gbvrgsbw" />
   <source id="4706841621052051117" name="Place" hash="1ct2or98w3e7m8pt90x9ashbjlr8l9c" />
-  <source id="4706841621052051180" name="Relationship" hash="bancrjx3utjztmm3v6b60pmj7spk2mc" />
-  <source id="4706841621052051290" name="CompartmentType" hash="ayqe7roelrlzken5xkqavla1ksmdq6t" />
+  <source id="4706841621052051180" name="Relationship" hash="cw5yxw28v8wqzvvcf9agjhh4gpnmxbj" />
+  <source id="4706841621052051290" name="CompartmentType" hash="d4zybq8fs2mpkugtljqyxshykrdz0mw" />
   <source id="4706841621052371215" name="DataType" hash="-9adalvzw8m68bvcyielgod87lbtmsf2" />
+  <source id="1609475155069615932" name="RoleInheritance" hash="7o6eep1gz4t1ynxk12mc8xdwbck3q9n" />
+  <source id="1609475155070657416" name="ComparmentInheritance" hash="o46za1rz19q6jahpils3eetunxbur6" />
+  <source id="1609475155070818610" name="Part" hash="-3032bk47jxqdtnp8ayiurvihgl02a5b" />
+  <source id="1609475155072168595" name="ComplexConstraint" hash="-ee7l5gj4ta9h2etomt3bpvptcwpdhhu" />
+  <source id="1609475155080831642" name="RelationshipConstraint" hash="eaqavi45ljlslhlo2nhmq7494xmtug6" />
+  <source id="1609475155080831786" name="InterRelationshipConstraint" hash="-88fk2gbzss7ck6kswr3d5nwu9sfz8ge" />
+  <source id="1609475155081109328" name="RelationshipImplication" hash="-5zc4w5koxw9fzz9yyhtt3negdv6eru7" />
+  <source id="1609475155081111103" name="IntraRelationshipConstraint" hash="dtqevvypmj5lu9azm5rh014gekeoihq" />
+  <source id="1609475155081111299" name="Parthood" hash="-3tyy1fk4g04jb5rmrdar1xc4h17rcvm">
+    <dep model="f:java_stub#6354ebe7-c22a-4a0f-ac54-50b52ab9b065#java.lang(JDK/java.lang@java_stub)" />
+    <dep model="f:java_stub#6354ebe7-c22a-4a0f-ac54-50b52ab9b065#java.util(JDK/java.util@java_stub)" />
+    <dep model="r:00000000-0000-4000-0000-011c89590288(jetbrains.mps.lang.core.structure)" />
+    <dep model="r:00000000-0000-4000-0000-011c89590293(jetbrains.mps.lang.structure.generator_new.baseLanguage@generator)" />
+    <dep model="r:00000000-0000-4000-0000-011c895902cd(jetbrains.mps.baseLanguage.generator.java.main@generator)" />
+    <dep model="r:fc76aa36-3cff-41c7-b94b-eee0e8341932(jetbrains.mps.internal.collections.runtime)" />
+    <file name="Parthood.java" />
+    <file name="Parthood_PropertySupport.java" />
+  </source>
+  <source id="1609475155081111524" name="ParthoodConstraint" hash="dlxjdholsmnpjhs5al5a27sry1x5e6l" />
+  <source id="1609475155081113837" name="Cyclic" hash="cql6xycdijvzbq7evk0092azcqmeluw" />
+  <source id="1609475155081115126" name="Total" hash="-2fypzw7bj3ohx9h2pj9e21i3fynlbbt" />
+  <source id="1609475155081115935" name="Irreflexiv" hash="-4b5ln4t7oskjtx37umobbjkqd8fvf3r" />
+  <source id="8942231102475769631" name="RoleGroupElement" hash="-bmfmnw16269fig85gx5ku8ot5zh9p6h" />
+  <source id="8942231102475770345" name="AbstractRoleRef" hash="-bx3c56h3bhxfwlr8uziq58cqzcl0ygl" />
+  <source id="8942231102484053979" name="Direction" hash="-elfm4sxf20ugloj5amz1j89z03feiuf" />
+  <source id="8942231102484054088" name="Undirected" hash="cny67fz1iht7i4e6uv07q42tsfujf5j" />
+  <source id="8942231102484054303" name="FirstToSecond" hash="-ep00yfds1hof1rif0xpcwpse6iorthd" />
+  <source id="8942231102484054414" name="SecondToFirst" hash="-2uz4lfp715db6fa2ph4m48topsanvlt" />
 </dependencies>
 

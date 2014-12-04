@@ -1,6 +1,7 @@
 package examples
 
 import internal.Compartment
+import util.Log.info
 import annotations.Role
 
 object UniversityExample extends App {
@@ -9,17 +10,17 @@ object UniversityExample extends App {
 
     @Role class Student {
       def talk() {
-        println("I am a student")
+        info("I am a student")
       }
     }
 
     @Role class Professor {
       def teach(student: Student) {
-        println("Teaching: " + (-student name ()))
+        info("Teaching: " + (-student name ()))
       }
 
       def talk() {
-        println("I am a professor")
+        info("I am a professor")
       }
     }
 
@@ -27,7 +28,7 @@ object UniversityExample extends App {
 
   case class Person(name: String) {
     def talk() {
-      println("I am a person")
+      info("I am a person")
     }
   }
 
@@ -39,15 +40,15 @@ object UniversityExample extends App {
     hans.talk()
 
     val student = new Student
-    println("Player equals core: " + ((hans play student) == hans))
+    info("Player equals core: " + ((hans play student) == hans))
     +hans talk ()
 
-    println(-student name ())
-    println("Role core equals core: " + (-student == hans))
+    info(-student name ())
+    info("Role core equals core: " + (-student == hans))
 
     uwe play new Professor
     +uwe talk ()
-    println("Core equals core playing a role: " + (+uwe == uwe))
+    info("Core equals core playing a role: " + (+uwe == uwe))
 
     +uwe teach +hans
   }

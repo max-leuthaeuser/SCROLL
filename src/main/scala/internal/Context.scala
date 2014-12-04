@@ -9,7 +9,7 @@ trait Context extends Compartment {
   protected def initList: List[Any] = List[Any]()
 
   def Bind(binds: => Unit) = new {
-    def For(body: => Unit) {
+    def For(body: => Unit): Unit = {
       binds
       body
       cLocalBounds.foreach(plays.remove)

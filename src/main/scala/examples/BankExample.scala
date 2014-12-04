@@ -5,6 +5,7 @@ import scala.language.reflectiveCalls
 import annotations.Role
 import internal.{ DispatchQuery, Context }
 import internal.DispatchQuery._
+import util.Log.info
 
 object BankExample extends App {
 
@@ -53,8 +54,8 @@ object BankExample extends App {
         accounts = accounts :+ acc
       }
 
-      def showBalance() {
-        accounts.foreach { a => println("Account: " + a + " -> " + (+a).getBalance()) }
+      def listBalances() {
+        accounts.foreach { a => info("Account: " + a + " -> " + (+a).getBalance()) }
       }
     }
 
@@ -74,7 +75,7 @@ object BankExample extends App {
 
     @Role class TransactionRole() {
       def execute() {
-        println("Executing from Role.")
+        info("Executing from Role.")
         (-this).execute()
       }
     }
@@ -83,7 +84,7 @@ object BankExample extends App {
 
   class Transaction(val amount: CurrencyRepr) extends Context {
     def execute() {
-      println("Executing from Player.")
+      info("Executing from Player.")
       E_?(Source).withDraw(amount)
       E_?(Target).deposit(amount)
     }
@@ -125,9 +126,9 @@ object BankExample extends App {
       (+stan).addAccount(accForStan)
       (+brian).addAccount(accForBrian)
 
-      println("### Before transaction ###")
-      println("Balance for Stan: " + accForStan.balance)
-      println("Balance for Brian: " + accForBrian.balance)
+      info("### Before transaction ###")
+      info("Balance for Stan: " + accForStan.balance)
+      info("Balance for Brian: " + accForBrian.balance)
 
       lazy val transaction = new Transaction(10.0)
 
@@ -147,15 +148,15 @@ object BankExample extends App {
       val t = transaction play new TransactionRole
       t.execute()
 
-      println("### After transaction ###")
-      println("Balance for Stan: " + accForStan.balance)
-      println("Balance for Brian: " + accForBrian.balance)
-      println("Brian is playing the Customer role? " + (+brian).isPlaying[Customer])
-      println("The transaction is playing the TransactionRole? " + t.isPlaying[TransactionRole])
+      info("### After transaction ###")
+      info("Balance for Stan: " + accForStan.balance)
+      info("Balance for Brian: " + accForBrian.balance)
+      info("Brian is playing the Customer role? " + (+brian).isPlaying[Customer])
+      info("The transaction is playing the TransactionRole? " + t.isPlaying[TransactionRole])
 
-      (+stan).showBalance()
-      (+brian).showBalance()
-      //println("### Finished. ###")
+      (+stan).listBalances()
+      (+brian).listBalances()
+      info("### Finished. ###")
     }
   }
 }

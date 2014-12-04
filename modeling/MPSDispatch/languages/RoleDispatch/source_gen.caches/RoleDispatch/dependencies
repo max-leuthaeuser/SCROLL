@@ -2,6 +2,7 @@
 <dependenciesRoot>
   <dependency className="RoleDispatch.Language" file="Language.java">
     <classNode dependClassName="RoleDispatch.editor.EditorAspectDescriptorImpl" />
+    <classNode dependClassName="RoleDispatch.typesystem.TypesystemDescriptor" />
     <classNode dependClassName="java.lang.Class" />
     <classNode dependClassName="java.lang.Override" />
     <classNode dependClassName="java.lang.String" />
