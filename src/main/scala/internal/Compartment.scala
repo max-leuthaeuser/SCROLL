@@ -11,10 +11,6 @@ import annotations.Role
 
 // TODO: what happens if the same role is played multiple times from one player?
 trait Compartment {
-  implicit def anyToRole[T](any: T): RoleType[T] = new RoleType[T](any)
-
-  implicit def anyToPlayer[T](any: T): PlayerType[T] = new PlayerType[T](any)
-  
   private def isRole(value: Any): Boolean = value.getClass.isAnnotationPresent(classOf[Role])
 
   val plays = new RoleGraph()
@@ -129,7 +125,7 @@ trait Compartment {
       }
   }
 
-  class RoleType[T](val role: T) extends Dynamic with DispatchType {
+  implicit class RoleType[T](val role: T) extends Dynamic with DispatchType {
     def unary_- : RoleType[T] = this
 
     def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E =
@@ -166,7 +162,7 @@ trait Compartment {
     override def hashCode(): Int = role.hashCode()
   }
 
-  class PlayerType[T](val core: T) extends Dynamic with DispatchType {
+  implicit class PlayerType[T](val core: T) extends Dynamic with DispatchType {
     def play(role: Any): PlayerType[T] =
       {
         core match {
