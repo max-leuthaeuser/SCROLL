@@ -14,12 +14,15 @@ trait Context extends Compartment {
   private var cLocalBounds: List[Any] = initList
   protected def initList: List[Any] = List[Any]()
 
+  private def removeBounds() {
+    cLocalBounds.foreach(plays.remove)
+  }
+
   def Bind(binds: => Unit) = new {
     def Blocking(body: => Unit): Unit = {
       blocking {
         binds
         body
-        cLocalBounds.foreach(plays.remove)
       }
     }
 
@@ -27,12 +30,11 @@ trait Context extends Compartment {
       val f = Future {
         binds
         body
-        cLocalBounds.foreach(plays.remove)
       }
 
       f onComplete {
         case Success(s) => info("Success for non-blocking body.")
-        case Failure(t) => throw new RuntimeException(t)
+        case Failure(t) => throw new RuntimeException("Failure for non-blocking body.", t)
       }
     }
   }
