@@ -122,7 +122,7 @@ object BankExample extends App {
       brian With new Customer()
       accForStan With new CheckingsAccount()
       accForBrian With new CheckingsAccount()
-    } For {
+    } Blocking {
       (+stan).addAccount(accForStan)
       (+brian).addAccount(accForBrian)
 

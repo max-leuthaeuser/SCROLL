@@ -2,6 +2,12 @@ package internal
 
 // removes warnings by Eclipse about using implicit conversion
 import scala.language.implicitConversions
+import scala.concurrent.blocking
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{ Success, Failure }
+import util.Log.info
+import scala.concurrent.Await
 
 trait Context extends Compartment {
 
@@ -9,10 +15,25 @@ trait Context extends Compartment {
   protected def initList: List[Any] = List[Any]()
 
   def Bind(binds: => Unit) = new {
-    def For(body: => Unit): Unit = {
-      binds
-      body
-      cLocalBounds.foreach(plays.remove)
+    def Blocking(body: => Unit): Unit = {
+      blocking {
+        binds
+        body
+        cLocalBounds.foreach(plays.remove)
+      }
+    }
+
+    def NonBlocking(body: => Unit): Unit = {
+      val f = Future {
+        binds
+        body
+        cLocalBounds.foreach(plays.remove)
+      }
+
+      f onComplete {
+        case Success(s) => info("Success for non-blocking body.")
+        case Failure(t) => throw new RuntimeException(t)
+      }
     }
   }
 
