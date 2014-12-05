@@ -1,7 +1,6 @@
 package internal
 
 import internal.RoleGraph.{ RelationType, Relation }
-
 import scalax.collection.constrained.constraints.{ Connected, Acyclic }
 import scalax.collection.mutable.Graph
 import scalax.collection.GraphEdge._
@@ -77,5 +76,8 @@ class RoleGraph {
       store -= player
     }
 
-  def getRoles(core: Any): Set[Any] = store.get(core).outerNodeTraverser.map(_.value).toSet
+  def getRoles(core: Any): Set[Any] = store.nodes.contains(core) match {
+    case true => store.get(core).outerNodeTraverser.map(_.value).toSet
+    case false => throw new RuntimeException("No roles for core " + core + ", this core was not found!")
+  }
 }

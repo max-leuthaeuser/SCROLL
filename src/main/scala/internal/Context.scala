@@ -23,6 +23,7 @@ trait Context extends Compartment {
       blocking {
         binds
         body
+        removeBounds()
       }
     }
 
@@ -30,6 +31,7 @@ trait Context extends Compartment {
       val f = Future {
         binds
         body
+        removeBounds()
       }
 
       f onComplete {
@@ -46,7 +48,7 @@ trait Context extends Compartment {
       {
         curr_r = r
         c play r
-        cLocalBounds = cLocalBounds :+ c
+        cLocalBounds = cLocalBounds :+ r
         this
       }
 

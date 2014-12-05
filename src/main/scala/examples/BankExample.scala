@@ -87,11 +87,12 @@ object BankExample extends App {
   class Transaction(val amount: CurrencyRepr) extends Context {
     def execute() {
       info("Executing from Player.")
+      // E_? queries for the first role of the provided type it can find in scope.
       E_?(Source).withDraw(amount)
       E_?(Target).deposit(amount)
     }
 
-    // to make roles that are contained in some Compartment accessible one
+    // To make roles that are contained in some Compartment accessible one
     // has to create some helper methods like the following
     def Source = new Source()
 
