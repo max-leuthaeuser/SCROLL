@@ -46,6 +46,7 @@ trait Context extends Compartment {
 
     def With(r: Any): WrappedWith[T] =
       {
+        require(null != r)
         curr_r = r
         c play r
         cLocalBounds = cLocalBounds :+ r
@@ -54,6 +55,7 @@ trait Context extends Compartment {
 
     def From(from: Any): WrappedWith[T] =
       {
+        require(null != from)
         transferRole(from, c, curr_r)
         cLocalBounds = cLocalBounds diff List(from)
         this

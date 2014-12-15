@@ -13,12 +13,16 @@ import util.Log.info
 
 // TODO: what happens if the same role is played multiple times from one player?
 trait Compartment {
-  private def isRole(value: Any): Boolean = value.getClass.isAnnotationPresent(classOf[Role])
+  private def isRole(value: Any): Boolean = {
+    require(null != value)
+    value.getClass.isAnnotationPresent(classOf[Role])
+  }
 
   val plays = new RoleGraph()
 
   // declaring a is-part-of relation between compartments
   def partOf(other: Compartment) {
+    require(null != other)
     plays.store ++= other.plays.store
   }
 
@@ -30,20 +34,25 @@ trait Compartment {
 
   // removing is-part-of relation between compartments
   def notPartOf(other: Compartment) {
+    require(null != other)
     other.plays.store.edges.toSeq.foreach(e => {
       plays.store -= e.value
     })
   }
 
-  def E_?[T](any: T): T =
+  def E_?[T](any: T): T = {
+    require(null != any)
     plays.store.nodes.toSeq.find(v => any.getClass.getSimpleName == v.value.getClass.getSimpleName) match {
       case Some(role) => role.value.asInstanceOf[T]
       case None => throw new RuntimeException(s"No player with type '$any' found.")
     }
+  }
 
-  def A_?[T](any: T): Seq[T] =
+  def A_?[T](any: T): Seq[T] = {
+    require(null != any)
     plays.store.nodes.toSeq.filter(v => any.getClass.getSimpleName == v.value.getClass.getSimpleName)
       .map(_.value.asInstanceOf[T])
+  }
 
   def addPlaysRelation(
     core: Any,
@@ -63,8 +72,11 @@ trait Compartment {
     coreFrom: Any,
     coreTo: Any,
     role: Any) {
+    require(null != coreFrom)
+    require(null != coreTo)
     require(coreFrom != coreTo, "You can not transfer a role from itself.")
     require(isRole(role), "Argument for transfering a role must be a role (you maybe want to add the @Role annotation).")
+
     removePlaysRelation(coreFrom, role)
     addPlaysRelation(coreTo, role)
   }
@@ -73,17 +85,21 @@ trait Compartment {
     coreFrom: Any,
     coreTo: Any,
     roles: Set[Any]) {
+    require(null != roles)
     roles.foreach(transferRole(coreFrom, coreTo, _))
   }
 
-  def getCoreFor(role: Any): Any = role match {
-    case cur: RoleType[_] => getCoreFor(cur.role)
-    case cur: PlayerType[_] => getCoreFor(cur.core)
-    // default:
-    case cur: Any => plays.store.get(cur).diPredecessors.toList match {
-      case p :: Nil => getCoreFor(p.value)
-      case Nil => cur
-      case _ =>
+  def getCoreFor(role: Any): Any = {
+    require(null != role)
+    role match {
+      case cur: RoleType[_] => getCoreFor(cur.role)
+      case cur: PlayerType[_] => getCoreFor(cur.core)
+      // default:
+      case cur: Any => plays.store.get(cur).diPredecessors.toList match {
+        case p :: Nil => getCoreFor(p.value)
+        case Nil => cur
+        case _ =>
+      }
     }
   }
 
@@ -91,7 +107,11 @@ trait Compartment {
     // for single method dispatch
     def dispatch[E](
       on: Any,
-      m: Method): E = m.invoke(on).asInstanceOf[E]
+      m: Method): E = {
+      require(null != on)
+      require(null != m)
+      m.invoke(on).asInstanceOf[E]
+    }
 
     // for multi-method / multi-argument dispatch
     def dispatch[E, A](
@@ -99,6 +119,9 @@ trait Compartment {
       m: Method,
       args: Seq[A]): E =
       {
+        require(null != on)
+        require(null != m)
+        require(null != args)
         val argTypes: Array[Class[_]] = m.getParameterTypes
         val actualArgs: Seq[Any] = args.zip(argTypes).map {
           case (arg: PlayerType[_], tpe: Class[_]) =>
@@ -121,6 +144,8 @@ trait Compartment {
       anys: Queue[Any],
       dispatchQuery: DispatchQuery): Queue[Any] =
       {
+        require(null != anys)
+        require(null != dispatchQuery)
         var result = Queue[Any]()
         anys.foreach { a =>
           {
@@ -140,7 +165,6 @@ trait Compartment {
       {
         val core = getCoreFor(role)
         val anys = reorder(Queue() ++ plays.getRoles(core) :+ role :+ core, dispatchQuery)
-
         anys.foreach(r => {
           r.getClass.getDeclaredMethods.find(m => m.getName == name).foreach(fm => {
             args match {
@@ -197,7 +221,6 @@ trait Compartment {
     def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E =
       {
         val anys = reorder(Queue() ++ plays.getRoles(getCoreFor(core)).tail :+ core :+ getCoreFor(core), dispatchQuery)
-
         anys.foreach(r => {
           r.getClass.getDeclaredMethods.find(m => m.getName == name).foreach(fm => {
             args match {
@@ -223,5 +246,4 @@ trait Compartment {
 
     override def hashCode(): Int = core.hashCode()
   }
-
 }
