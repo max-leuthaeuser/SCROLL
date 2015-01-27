@@ -5,14 +5,36 @@ import com.tinkerpop.gremlin.process.T
 import com.tinkerpop.gremlin.process.Traverser
 import com.tinkerpop.gremlin.scala._
 import org.scalatest._
+import scala.util.Success
+import scala.util.Failure
+import com.thinkaurelius.titan.core.TitanGraph
+import java.net.ConnectException
+import InMemoryConnect._
+import scala.concurrent.Await
+import scala.concurrent.duration._
 
 // calculate the shortest path while travelling New Zealand
 // inspired by Stefan Bleibinhaus
 // http://bleibinha.us/blog/2013/10/scala-and-graph-databases-with-gremlin-scala
-class ShortestPathGramlinScalaSpec extends FlatSpec with Matchers with InMemoryConnect {
+class ShortestPathGramlinScalaSpec extends FlatSpec
+  with Matchers
+  with InMemoryConnect
+  with SilentLogging
+  with DefaultExecutionContext {
+
   "Gremlin-Scala" should "connect to Titan database and find the shortest path between two vertices" in {
-    val g = connect()
-    val gs = GremlinScala(g)
+    val cFuture = connect()
+    cFuture onComplete {
+      case Success(c) =>
+        c.isOpen() shouldBe true
+      case Failure(t) => throw new ConnectException(t.getMessage)
+    }
+
+    val gsTry = Await.ready(cFuture, Duration.Inf).value.get
+    val gs = gsTry match {
+      case Success(g) => GremlinScala(g)
+      case Failure(t) => throw new Exception(t.getMessage)
+    }
 
     def addLocation(name: String): ScalaVertex =
       gs.addVertex().setProperty("name", name)
@@ -72,7 +94,7 @@ class ShortestPathGramlinScalaSpec extends FlatSpec with Matchers with InMemoryC
     shortestPath.description shouldBe "Auckland -> Whangarei -> Kaikohe -> Kaitaia -> Cape Reinga"
 
     println("shortest path: " + shortestPath)
-    
-    g.close
+
+    gs.close
   }
 }

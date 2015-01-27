@@ -1,13 +1,34 @@
+
 import com.tinkerpop.gremlin.process.T
 import com.tinkerpop.gremlin.scala.GremlinScala
 import org.scalatest._
+import scala.util.Success
+import scala.util.Failure
+import com.thinkaurelius.titan.core.TitanGraph
+import java.net.ConnectException
+import InMemoryConnect._
+import scala.concurrent.Await
+import scala.concurrent.duration._
 
-//many thanks to Jacek Laskowski (https://twitter.com/jaceklaskowski) for this contribution
-class GremlinScalaSpec extends FlatSpec with Matchers with InMemoryConnect {
+class GremlinScalaSpec extends FlatSpec
+  with Matchers
+  with InMemoryConnect
+  with SilentLogging
+  with DefaultExecutionContext {
 
   "Gremlin-Scala" should "connect to Titan database and pull out Saturn's keys and shutdown cleanly" in {
-    val g = connect()
-    val gs = GremlinScala(g)
+    val cFuture = connect()
+    cFuture onComplete {
+      case Success(c) =>
+        c.isOpen() shouldBe true
+      case Failure(t) => throw new ConnectException(t.getMessage)
+    }
+
+    val gsTry = Await.ready(cFuture, Duration.Inf).value.get
+    val gs = gsTry match {
+      case Success(g) => GremlinScala(g)
+      case Failure(t) => throw new Exception(t.getMessage)
+    }
 
     (1 to 5) foreach { i ⇒
       gs.addVertex().setProperty("name", s"vertex $i")
@@ -24,6 +45,6 @@ class GremlinScalaSpec extends FlatSpec with Matchers with InMemoryConnect {
     val saturnQ = gs.V.has(T.label, "saturn").head
     saturnQ.property[String]("name").value shouldBe "saturn"
 
-    g.close
+    gs.close
   }
 }
