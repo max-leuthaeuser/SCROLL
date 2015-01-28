@@ -23,3 +23,5 @@ scalacOptions ++= Seq("-unchecked", "-deprecation", "-language:dynamics")
 testOptions in Test += Tests.Argument("-oD")
 
 parallelExecution in Test := false
+
+net.virtualvoid.sbt.graph.Plugin.graphSettings

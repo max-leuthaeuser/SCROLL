@@ -13,7 +13,7 @@ import scala.concurrent.duration._
 class GremlinScalaSpec extends FlatSpec
   with Matchers
   with InMemoryConnect
-  with SilentLogging
+  with DefaultLogging
   with DefaultExecutionContext {
 
   "Gremlin-Scala" should "connect to Titan database and pull out Saturn's keys and shutdown cleanly" in {
