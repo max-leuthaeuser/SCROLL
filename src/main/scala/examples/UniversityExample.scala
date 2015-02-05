@@ -1,7 +1,7 @@
 package examples
 
 import internal.Compartment
-import util.Log.info
+import internal.util.Log.info
 import annotations.Role
 
 object UniversityExample extends App {

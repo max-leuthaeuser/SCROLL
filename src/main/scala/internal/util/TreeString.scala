@@ -1,4 +1,4 @@
-package util
+package internal.util
 
 import reflect.runtime.universe._
 import reflect.runtime.currentMirror

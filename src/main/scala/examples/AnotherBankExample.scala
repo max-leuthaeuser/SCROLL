@@ -5,7 +5,7 @@ import scala.language.reflectiveCalls
 import annotations.Role
 import internal.{ DispatchQuery, Context }
 import internal.DispatchQuery._
-import util.Log.info
+import internal.util.Log.info
 import annotations.Relationship
 
 object AnotherBankExample extends App {

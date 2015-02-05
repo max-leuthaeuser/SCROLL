@@ -1,8 +1,7 @@
-package internal
+package internal.graph
 
-import internal.RoleGraph.{ RelationType, Relation }
+import internal.graph.RoleGraph.{ RelationType, Relation }
 import scalax.collection.constrained.constraints.{ Connected, Acyclic }
-import scalax.collection.mutable.Graph
 import scalax.collection.GraphEdge._
 import scalax.collection.GraphPredef._
 
@@ -13,7 +12,7 @@ object RoleGraph {
     val Plays, Fills = Value
   }
 
-  import internal.RoleGraph.RelationType._
+  import internal.graph.RoleGraph.RelationType._
 
   class Relation[N](
     nodes: Product,
@@ -49,7 +48,7 @@ object RoleGraph {
 
 class RoleGraph {
   implicit val config = Connected && Acyclic
-  var store: Graph[Any, Relation] = Graph[Any, Relation]()
+  var store = scalax.collection.mutable.Graph[Any, Relation]()
 
   def addBinding(
     core: Any,

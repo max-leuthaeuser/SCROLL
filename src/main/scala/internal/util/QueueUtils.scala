@@ -1,4 +1,4 @@
-package util
+package internal.util
 
 import scala.collection.immutable.Queue
 
