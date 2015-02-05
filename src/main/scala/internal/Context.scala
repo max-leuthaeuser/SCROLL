@@ -15,7 +15,7 @@ trait Context extends Compartment {
   protected def initList: List[Any] = List[Any]()
 
   private def removeBounds() {
-    cLocalBounds.foreach(plays.remove)
+    cLocalBounds.foreach(plays.removePlayer _)
   }
 
   def Bind(binds: => Unit) = new {

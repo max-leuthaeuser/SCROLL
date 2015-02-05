@@ -7,7 +7,7 @@ import java.lang.reflect.Method
 import reflect.runtime.universe._
 import scala.collection.immutable.Queue
 import annotations.Role
-import graph.RoleGraph
+import graph.ScalaRoleGraph
 import util.Log.info
 
 // TODO: what happens if the same role is played multiple times from one player?
@@ -17,7 +17,7 @@ trait Compartment {
     value.getClass.isAnnotationPresent(classOf[Role])
   }
 
-  val plays = new RoleGraph()
+  val plays = new ScalaRoleGraph()
 
   // declaring a is-part-of relation between compartments
   def partOf(other: Compartment) {
