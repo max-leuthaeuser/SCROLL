@@ -65,6 +65,6 @@ class ScalaRoleGraph extends RoleGraph[Any] {
 
   override def getRoles(core: Any): Set[Any] = store.nodes.contains(core) match {
     case true => store.get(core).outerNodeTraverser.map(_.value).toSet
-    case false => throw new RuntimeException("No roles for core " + core + ", this core was not found!")
+    case false => throw new RuntimeException(s"No roles for core '$core' this core was not found!")
   }
 }
