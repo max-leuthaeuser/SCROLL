@@ -11,7 +11,7 @@ object ScalaRoleGraph {
     val Plays, Fills = Value
   }
 
-  import internal.graph.ScalaRoleGraph.RelationType._
+  import RelationType._
 
   class Relation[N](
     nodes: Product,
