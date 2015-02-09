@@ -3,8 +3,7 @@ package examples
 // removes warnings by Eclipse about using structural types
 import scala.language.reflectiveCalls
 import annotations.Role
-import internal.{ DispatchQuery, Context }
-import internal.DispatchQuery._
+import internal.Context
 import internal.util.Log.info
 import annotations.Relationship
 

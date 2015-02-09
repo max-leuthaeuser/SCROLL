@@ -1,8 +1,11 @@
 name := "RoleDispatch"
 
 scalaVersion := "2.11.5"
+
 val gremlinScalaV = "3.0.0.M6c"
+
 val titanV = "0.9.0-M1"
+
 val scalatestV = "2.2.1"
 
 version := "0.3.2"
