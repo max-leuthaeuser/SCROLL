@@ -74,7 +74,7 @@ trait Compartment {
     require(null != coreFrom)
     require(null != coreTo)
     require(coreFrom != coreTo, "You can not transfer a role from itself.")
-    require(isRole(role), "Argument for transfering a role must be a role (you maybe want to add the @Role annotation).")
+    require(isRole(role), "Argument for transferring a role must be a role (you maybe want to add the @Role annotation).")
 
     removePlaysRelation(coreFrom, role)
     addPlaysRelation(coreTo, role)

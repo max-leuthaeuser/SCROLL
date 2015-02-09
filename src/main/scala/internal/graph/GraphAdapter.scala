@@ -4,8 +4,8 @@ package internal.graph
  * Generic graph adapter interface for integrating other
  * graph implementations later on. See [[RoleGraph]].
  *
- * @param <N> Nodes
- * @param <E> Edges
+ * @tparam N Nodes
+ * @tparam E Edges
  */
 trait GraphAdapter[N, E] {
   /**
@@ -23,7 +23,6 @@ trait GraphAdapter[N, E] {
 
   /**
    * @param node
-   * @param filter
    * @return a List of all edges the given nodes has as outgoing edges with the given filter applied
    */
   def getOutEdges(node: N): List[E]

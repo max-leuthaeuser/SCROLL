@@ -3,7 +3,7 @@ package internal.graph
 /**
  * Trait for specifying a very generic graph interface.
  *
- * @param <N> generic type for Nodes
+ * @tparam N generic type for Nodes
  */
 abstract class Graph[N] {
 

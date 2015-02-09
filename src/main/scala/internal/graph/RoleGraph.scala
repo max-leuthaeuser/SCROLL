@@ -3,7 +3,7 @@ package internal.graph
 /**
  * Trait defining an generic interface for all kind of role graphs.
  *
- * @param <N> Type of roles as Nodes
+ * @tparam N Type of roles as Nodes
  */
 trait RoleGraph[N] {
 

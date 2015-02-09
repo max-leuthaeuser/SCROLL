@@ -1,13 +1,11 @@
-import scala.util.Random
+import scala.language.postfixOps
 import collection.JavaConversions._
 import com.tinkerpop.gremlin.process.Path
-import com.tinkerpop.gremlin.process.T
 import com.tinkerpop.gremlin.process.Traverser
 import com.tinkerpop.gremlin.scala._
 import org.scalatest._
 import scala.util.Success
 import scala.util.Failure
-import com.thinkaurelius.titan.core.TitanGraph
 import java.net.ConnectException
 import InMemoryConnect._
 import scala.concurrent.Await
@@ -26,7 +24,7 @@ class ShortestPathGramlinScalaSpec extends FlatSpec
     val cFuture = connect()
     cFuture onComplete {
       case Success(c) =>
-        c.isOpen() shouldBe true
+        c.isOpen shouldBe true
       case Failure(t) => throw new ConnectException(t.getMessage)
     }
 
@@ -76,7 +74,7 @@ class ShortestPathGramlinScalaSpec extends FlatSpec
     val descriptionAndDistances: List[DescriptionAndDistance] = paths map { p: Path ⇒
       val pathDescription = p.objects collect {
         case v: Vertex ⇒ v.value[String]("name")
-      } mkString (" -> ")
+      } mkString " -> "
 
       val pathTotalKm = p.objects collect {
         case e: Edge => e.value[Int]("distance")
@@ -95,6 +93,6 @@ class ShortestPathGramlinScalaSpec extends FlatSpec
 
     println("shortest path: " + shortestPath)
 
-    gs.close
+    gs.close()
   }
 }

@@ -20,7 +20,7 @@ class GremlinScalaSpec extends FlatSpec
     val cFuture = connect()
     cFuture onComplete {
       case Success(c) =>
-        c.isOpen() shouldBe true
+        c.isOpen shouldBe true
       case Failure(t) => throw new ConnectException(t.getMessage)
     }
 
@@ -45,6 +45,6 @@ class GremlinScalaSpec extends FlatSpec
     val saturnQ = gs.V.has(T.label, "saturn").head
     saturnQ.property[String]("name").value shouldBe "saturn"
 
-    gs.close
+    gs.close()
   }
 }
