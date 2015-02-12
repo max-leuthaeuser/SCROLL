@@ -7,7 +7,6 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{ Success, Failure }
 import util.Log.info
-import scala.concurrent.Await
 
 trait Context extends Compartment {
 
