@@ -4,6 +4,7 @@ import internal.graph.ScalaRoleGraph.{ RelationType, Relation }
 import scalax.collection.constrained.constraints.{ Connected, Acyclic }
 import scalax.collection.GraphEdge._
 import scalax.collection.GraphPredef._
+import internal.util.Log._
 
 object ScalaRoleGraph {
   object RelationType extends Enumeration {
@@ -50,11 +51,13 @@ class ScalaRoleGraph extends RoleGraph[Any] {
   var store = scalax.collection.mutable.Graph[Any, Relation]()
 
   override def addBinding(core: Any, role: Any) {
+    //info(s"Adding core '$core' and role '$role'.")
     val relA = core ~> role ## RelationType.Plays
     store += relA
   }
 
   override def removeBinding(core: Any, role: Any) {
+    //info(s"Removing core '$core' and role '$role'.")
     val relA = core ~> role ## RelationType.Plays
     store -= relA
   }

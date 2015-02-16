@@ -1,6 +1,6 @@
 package internal
 
-import reflect.runtime.universe._
+import scala.reflect.runtime.universe._
 
 object ReflectiveHelper {
   def typeSimpleClassName(t: Type): String = t.toString.contains(".") match {
@@ -10,24 +10,34 @@ object ReflectiveHelper {
 }
 
 trait ReflectiveHelper {
+
   implicit class Reflective(cur: Any) {
-    def hasAttribute(name: String): Boolean = cur.getClass.getDeclaredFields.find(m => m.getName == name) match {
+    private lazy val methods = cur.getClass.getDeclaredMethods
+    private lazy val fields = cur.getClass.getDeclaredFields
+
+    def hasAttribute(name: String): Boolean = fields.find(m => m.getName == name) match {
       case None => false
       case _ => true
     }
 
-    def hasMethod(name: String): Boolean = cur.getClass.getDeclaredMethods.find(m => m.getName == name) match {
+    def hasMethod(name: String): Boolean = methods.find(m => m.getName == name) match {
       case None => false
       case _ => true
     }
 
-    def property[T](name: String): T =
-      {
-        val field = cur.getClass.getDeclaredField(name)
-        field.setAccessible(true)
-        field.get(cur).asInstanceOf[T]
-      }
+    def propertyOf[T](name: String): T = {
+      val field = cur.getClass.getDeclaredField(name)
+      field.setAccessible(true)
+      field.get(cur).asInstanceOf[T]
+    }
+
+    def resultOf[T](name: String): T = {
+      val method = cur.getClass.getDeclaredMethod(name)
+      method.setAccessible(true)
+      method.invoke(cur).asInstanceOf[T]
+    }
 
     def is[T: WeakTypeTag]: Boolean = cur.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(weakTypeOf[T])
   }
+
 }
