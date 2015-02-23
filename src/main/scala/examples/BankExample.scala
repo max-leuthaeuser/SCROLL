@@ -88,8 +88,8 @@ object BankExample extends App {
     def execute() {
       info("Executing from Player.")
       // one queries for the first role of the provided type it can find in scope.
-      one(Source).withDraw(amount)
-      one(Target).deposit(amount)
+      one[Source]().withDraw(amount)
+      one[Target]().deposit(amount)
     }
 
     // To make roles that are contained in some Compartment accessible one

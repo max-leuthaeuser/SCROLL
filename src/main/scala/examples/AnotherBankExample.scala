@@ -88,7 +88,7 @@ object AnotherBankExample extends App {
       a1 play Source()
       a2 play Target()
 
-      val someTransfer = Transfer(one(Source()), one(Target()))
+      val someTransfer = Transfer(one[Source](), one[Target]())
       someTransfer.amount = 10.0
 
       (+someTransfer.left) decrease someTransfer.amount

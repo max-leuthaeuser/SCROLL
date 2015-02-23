@@ -10,7 +10,7 @@ import annotations.Role
 import graph.ScalaRoleGraph
 
 // TODO: what happens if the same role is played multiple times from one player?
-trait Compartment {
+trait Compartment extends ReflectiveHelper {
 
   implicit class RoleQueryStrategy(name: String) {
     def matches(on: Any): Boolean = true
@@ -22,11 +22,11 @@ trait Compartment {
 
   case class *() extends RoleQueryStrategy("")
 
-  case class WithProperty[T](name: String, value: T) extends RoleQueryStrategy(name) with ReflectiveHelper {
+  case class WithProperty[T](name: String, value: T) extends RoleQueryStrategy(name) {
     override def matches(on: Any): Boolean = on.propertyOf[T](name) == value
   }
 
-  case class WithResult[T](name: String, result: T) extends RoleQueryStrategy(name) with ReflectiveHelper {
+  case class WithResult[T](name: String, result: T) extends RoleQueryStrategy(name) {
     override def matches(on: Any): Boolean = on.resultOf[T](name) == result
   }
 
@@ -57,21 +57,19 @@ trait Compartment {
     })
   }
 
-  def all[T](any: T, matcher: RoleQueryStrategy = *()): Seq[T] = {
-    require(null != any)
-    plays.store.nodes.toSeq.filter(v => any.getClass == v.value.getClass)
+  def all[T: WeakTypeTag](matcher: RoleQueryStrategy = *()): Seq[T] = {
+    plays.store.nodes.toSeq.filter(_.value.is[T])
       .map(_.value.asInstanceOf[T]).filter(a => matcher.matches(getCoreFor(a)))
   }
 
-  def all[T](any: T, matcher: () => Boolean): Seq[T] = {
-    require(null != any)
-    plays.store.nodes.toSeq.filter(v => any.getClass == v.value.getClass)
+  def all[T: WeakTypeTag](matcher: () => Boolean): Seq[T] = {
+    plays.store.nodes.toSeq.filter(_.value.is[T])
       .map(_.value.asInstanceOf[T]).filter(_ => matcher())
   }
 
-  def one[T](any: T, matcher: RoleQueryStrategy = *()): T = all(any, matcher).head
+  def one[T: WeakTypeTag](matcher: RoleQueryStrategy = *()): T = all[T](matcher).head
 
-  def one[T](any: T, matcher: () => Boolean): T = all(any, matcher).head
+  def one[T: WeakTypeTag](matcher: () => Boolean): T = all[T](matcher).head
 
   def addPlaysRelation(
                         core: Any,

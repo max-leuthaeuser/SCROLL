@@ -3,10 +3,14 @@ package internal
 import scala.reflect.runtime.universe._
 
 object ReflectiveHelper {
-  def typeSimpleClassName(t: Type): String = t.toString.contains(".") match {
-    case true => t.toString.substring(t.toString.lastIndexOf(".") + 1)
-    case false => t.toString
+  private def simpleClassName(s: String, on: String) = s.contains(on) match {
+    case true => s.substring(s.lastIndexOf(on) + 1)
+    case false => s
   }
+
+  def typeSimpleClassName(t: Type): String = simpleClassName(t.toString, ".")
+
+  def classSimpleClassName(t: Class[_]): String = simpleClassName(t.toString, "$")
 }
 
 trait ReflectiveHelper {
@@ -37,7 +41,7 @@ trait ReflectiveHelper {
       method.invoke(cur).asInstanceOf[T]
     }
 
-    def is[T: WeakTypeTag]: Boolean = cur.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(weakTypeOf[T])
+    def is[T: WeakTypeTag]: Boolean = ReflectiveHelper.classSimpleClassName(cur.getClass) == ReflectiveHelper.typeSimpleClassName(weakTypeOf[T])
   }
 
 }
