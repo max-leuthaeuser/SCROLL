@@ -41,7 +41,7 @@ trait Compartment {
 
   def E_?[T](any: T): T = {
     require(null != any)
-    plays.store.nodes.toSeq.find(v => any.getClass.getSimpleName == v.value.getClass.getSimpleName) match {
+    plays.store.nodes.toSeq.find(v => any.getClass == v.value.getClass) match {
       case Some(role) => role.value.asInstanceOf[T]
       case None => throw new RuntimeException(s"No player with type '$any' found.")
     }
@@ -49,7 +49,7 @@ trait Compartment {
 
   def A_?[T](any: T): Seq[T] = {
     require(null != any)
-    plays.store.nodes.toSeq.filter(v => any.getClass.getSimpleName == v.value.getClass.getSimpleName)
+    plays.store.nodes.toSeq.filter(v => any.getClass == v.value.getClass)
       .map(_.value.asInstanceOf[T])
   }
 
