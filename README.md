@@ -1,6 +1,8 @@
-RoleDispatch
-============
-Role playground for role dispatch based on Scala.
+SCROLL
+======
+*SCala ROLes Language*
+
+A playground for role dispatch based on Scala.
 
 **1. Current state:** 
 
