@@ -10,7 +10,10 @@ object ReflectiveHelper {
 
   def typeSimpleClassName(t: Type): String = simpleClassName(t.toString, ".")
 
-  def classSimpleClassName(t: Class[_]): String = simpleClassName(t.toString, "$")
+  def classSimpleClassName(t: Class[_]): String = t.toString.contains("$anon$") match {
+    case true => "Anonymous class in " + classSimpleClassName(t.getEnclosingClass)
+    case false => simpleClassName(t.toString, "$")
+  }
 }
 
 trait ReflectiveHelper {
