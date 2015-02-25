@@ -1,6 +1,7 @@
 package internal
 
 // removes warnings by Eclipse about using implicit conversion
+
 import scala.language.implicitConversions
 import java.lang
 import java.lang.reflect.Method
@@ -44,9 +45,10 @@ trait Compartment extends ReflectiveHelper {
   }
 
   // declaring a bidirectional is-part-of relation between compartment
-  def union(other: Compartment) {
+  def union(other: Compartment): Compartment = {
     other.partOf(this)
     this.partOf(other)
+    this
   }
 
   // removing is-part-of relation between compartments
@@ -67,9 +69,14 @@ trait Compartment extends ReflectiveHelper {
       .map(_.value.asInstanceOf[T]).filter(_ => matcher())
   }
 
-  def one[T: WeakTypeTag](matcher: RoleQueryStrategy = *()): T = all[T](matcher).head
+  private def safeReturn[T](seq: Seq[T], typeName: String): Seq[T] = seq.isEmpty match {
+    case true => throw new RuntimeException(s"No player with type '$typeName' found!")
+    case false => seq
+  }
 
-  def one[T: WeakTypeTag](matcher: () => Boolean): T = all[T](matcher).head
+  def one[T: WeakTypeTag](matcher: RoleQueryStrategy = *()): T = safeReturn(all[T](matcher), weakTypeOf[T].toString).head
+
+  def one[T: WeakTypeTag](matcher: () => Boolean): T = safeReturn(all[T](matcher), weakTypeOf[T].toString).head
 
   def addPlaysRelation(
                         core: Any,
