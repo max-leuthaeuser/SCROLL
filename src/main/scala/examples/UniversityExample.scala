@@ -16,7 +16,7 @@ object UniversityExample extends App {
 
     @Role class Professor {
       def teach(student: Student) {
-        info("Teaching: " + (-student name ()))
+        info("Teaching: " + (+student name))
       }
 
       def talk() {
@@ -26,7 +26,7 @@ object UniversityExample extends App {
 
   }
 
-  case class Person(name: String) {
+  class Person(val name: String) {
     def talk() {
       info("I am a person")
     }
@@ -34,8 +34,8 @@ object UniversityExample extends App {
 
   // instantiate:
   new University {
-    val hans = Person("hans")
-    val uwe = Person("uwe")
+    val hans = new Person("hans")
+    val uwe = new Person("uwe")
 
     hans.talk()
 
@@ -43,8 +43,8 @@ object UniversityExample extends App {
     info("Player equals core: " + ((hans play student) == hans))
     +hans talk ()
 
-    info(-student name ())
-    info("Role core equals core: " + (-student == hans))
+    info((+student).name)
+    info("Role core equals core: " + (+student == hans))
 
     uwe play new Professor
     +uwe talk ()

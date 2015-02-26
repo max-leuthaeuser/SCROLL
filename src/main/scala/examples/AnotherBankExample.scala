@@ -1,6 +1,7 @@
 package examples
 
 // removes warnings by Eclipse about using structural types
+
 import scala.language.reflectiveCalls
 import annotations.Role
 import internal.Context
@@ -35,13 +36,13 @@ object AnotherBankExample extends App {
     @Role case class CheckingsAccount(limit: Money) {
       def increase(amount: Money) {
         if (amount > limit) info("Limit reached in increase!")
-        (-this).increase(Math.min(amount, limit))
+        (+this).increase(Math.min(amount, limit))
 
       }
 
       def decrease(amount: Money) {
         if (amount > limit) info("Limit reached in decrease!")
-        (-this).decrease(Math.min(amount, limit))
+        (+this).decrease(Math.min(amount, limit))
       }
     }
 
@@ -81,7 +82,7 @@ object AnotherBankExample extends App {
 
       val acc001 = Owns(c1, Set(a1))
       val acc002 = Owns(c2, Set(a2))
-      
+
       a1 play Source()
       a2 play Target()
 

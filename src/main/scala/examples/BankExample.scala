@@ -60,7 +60,7 @@ object BankExample extends App {
 
     @Role class CheckingsAccount() extends Decreasable[CurrencyRepr] {
       def decrease(amount: CurrencyRepr) {
-        (-this).decrease(amount)
+        (+this).decrease(amount)
       }
     }
 
@@ -69,14 +69,14 @@ object BankExample extends App {
 
       def increase(amount: CurrencyRepr) {
         info("Increasing with fee.")
-        (-this).increase(amount - transactionFee(amount))
+        (+this).increase(amount - transactionFee(amount))
       }
     }
 
     @Role class TransactionRole() {
       def execute() {
         info("Executing from Role.")
-        (-this).execute()
+        (+this).execute()
       }
     }
 
