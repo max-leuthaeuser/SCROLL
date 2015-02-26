@@ -22,23 +22,43 @@ trait ReflectiveHelper {
     private lazy val methods = cur.getClass.getDeclaredMethods
     private lazy val fields = cur.getClass.getDeclaredFields
 
-    def hasAttribute(name: String): Boolean = fields.find(m => m.getName == name) match {
-      case None => false
-      case _ => true
+    private def safeString(s: String) {
+      require(null != s)
+      require(!s.isEmpty)
     }
 
-    def hasMethod(name: String): Boolean = methods.find(m => m.getName == name) match {
-      case None => false
-      case _ => true
+    def hasAttribute(name: String): Boolean = {
+      safeString(name)
+      fields.find(m => m.getName == name) match {
+        case None => false
+        case _ => true
+      }
+    }
+
+    def hasMethod(name: String): Boolean = {
+      safeString(name)
+      methods.find(m => m.getName == name) match {
+        case None => false
+        case _ => true
+      }
     }
 
     def propertyOf[T](name: String): T = {
+      safeString(name)
       val field = cur.getClass.getDeclaredField(name)
       field.setAccessible(true)
       field.get(cur).asInstanceOf[T]
     }
 
+    def setPropertyOf(name: String, value: Any) {
+      safeString(name)
+      val field = cur.getClass.getDeclaredField(name)
+      field.setAccessible(true)
+      field.set(cur, value)
+    }
+
     def resultOf[T](name: String): T = {
+      safeString(name)
       val method = cur.getClass.getDeclaredMethod(name)
       method.setAccessible(true)
       method.invoke(cur).asInstanceOf[T]

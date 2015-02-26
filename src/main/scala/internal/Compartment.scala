@@ -3,6 +3,7 @@ package internal
 // removes warnings by Eclipse about using implicit conversion
 
 import scala.language.implicitConversions
+
 import java.lang
 import java.lang.reflect.Method
 import reflect.runtime.universe._
@@ -134,7 +135,7 @@ trait Compartment extends ReflectiveHelper {
                      m: Method): E = {
       require(null != on)
       require(null != m)
-      m.invoke(on).asInstanceOf[E]
+      m.invoke(on, Array.empty[Object]: _*).asInstanceOf[E]
     }
 
     // for multi-method / multi-argument dispatch
@@ -162,20 +163,12 @@ trait Compartment extends ReflectiveHelper {
       }: _*).asInstanceOf[E]
     }
 
-    // TODO: this looks quite awful. Re-implement this smelly thing!
     protected def reorder(
                            anys: Queue[Any],
                            dispatchQuery: DispatchQuery): Queue[Any] = {
       require(null != anys)
       require(null != dispatchQuery)
-      var result = Queue[Any]()
-      anys.foreach { a => {
-        if (dispatchQuery.bypassing(a)) {
-          result = result :+ a
-        }
-      }
-      }
-      result
+      anys.filter(dispatchQuery.bypassing)
     }
   }
 
@@ -196,6 +189,27 @@ trait Compartment extends ReflectiveHelper {
 
       // otherwise give up
       throw new RuntimeException(s"No role with method '$name' found! (role: '$role')")
+    }
+
+    def applyDynamicNamed[E, A](name: String)(args: (String, A)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E =
+      applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
+
+    def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
+      val core = getCoreFor(role)
+      val anys = reorder(Queue() ++ plays.getRoles(core) :+ role :+ core, dispatchQuery)
+      anys.foreach(r => if (r.hasAttribute(name)) return r.propertyOf[E](name))
+
+      // otherwise give up
+      throw new RuntimeException(s"No role with value '$name' found! (core: '$core')")
+    }
+
+    def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty) {
+      val core = getCoreFor(role)
+      val anys = reorder(Queue() ++ plays.getRoles(core) :+ role :+ core, dispatchQuery)
+      anys.foreach(r => if (r.hasAttribute(name)) return r.setPropertyOf(name, value))
+
+      // otherwise give up
+      throw new RuntimeException(s"No role with value '$name' found! (core: '$core')")
     }
 
     def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(role)
@@ -248,6 +262,25 @@ trait Compartment extends ReflectiveHelper {
       })
       // otherwise give up
       throw new RuntimeException(s"No role with method '$name' found! (core: '$core')")
+    }
+
+    def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E =
+      applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
+
+    def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
+      val anys = reorder(Queue() ++ plays.getRoles(getCoreFor(core)).tail :+ core :+ getCoreFor(core), dispatchQuery)
+      anys.foreach(r => if (r.hasAttribute(name)) return r.propertyOf[E](name))
+
+      // otherwise give up
+      throw new RuntimeException(s"No role with value '$name' found! (core: '$core')")
+    }
+
+    def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty) {
+      val anys = reorder(Queue() ++ plays.getRoles(getCoreFor(core)).tail :+ core :+ getCoreFor(core), dispatchQuery)
+      anys.foreach(r => if (r.hasAttribute(name)) return r.setPropertyOf(name, value))
+
+      // otherwise give up
+      throw new RuntimeException(s"No role with value '$name' found! (core: '$core')")
     }
 
     def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(core)
