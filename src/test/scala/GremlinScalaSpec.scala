@@ -38,7 +38,7 @@ class GremlinScalaSpec extends FlatSpec
     gs.V.count().head shouldBe 6
 
     val traversal = gs.V.value[String]("name")
-    traversal.toList.size shouldBe 6
+    traversal.toList().size shouldBe 6
 
     gs.V.has(T.label, "saturn").count().head shouldBe 1
 

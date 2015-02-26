@@ -24,9 +24,6 @@ object AnotherBankExample extends App {
     def decrease(amount: Money) {
       balance = balance - amount
     }
-
-    def getBalance(): Money = balance
-
   }
 
   class Bank extends Context {
@@ -94,8 +91,8 @@ object AnotherBankExample extends App {
       (+someTransfer.left) decrease someTransfer.amount
       (+someTransfer.right) increase someTransfer.amount
 
-      info("Balance: " + accForStan.getBalance())
-      info("Balance: " + accForBrian.getBalance())
+      info("Balance: " + accForStan.balance)
+      info("Balance: " + accForBrian.balance)
       info("### Finished. ###")
     }
   }

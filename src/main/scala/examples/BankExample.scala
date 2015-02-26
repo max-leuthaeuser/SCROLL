@@ -41,8 +41,6 @@ object BankExample extends App {
     def decrease(amount: CurrencyRepr) {
       balance = balance - amount
     }
-
-    def getBalance(): CurrencyRepr = balance
   }
 
   // Contexts and Roles
@@ -56,7 +54,7 @@ object BankExample extends App {
       }
 
       def listBalances() {
-        accounts.foreach { a => info("Account: " + a + " -> " + (+a).getBalance()) }
+        accounts.foreach { a => info("Account: " + a + " -> " + (+a).balance) }
       }
     }
 
