@@ -1,7 +1,7 @@
 package internal
 
+
 import internal.UnionTypes.RoleUnionTypes
-import internal.util.Log
 
 import scala.language.implicitConversions
 
@@ -13,27 +13,9 @@ import annotations.Role
 import graph.ScalaRoleGraph
 
 // TODO: what happens if the same role is played multiple times from one player?
-trait Compartment extends ReflectiveHelper with RoleUnionTypes {
+trait Compartment extends QueryStrategies with RoleUnionTypes {
 
   val plays = new ScalaRoleGraph()
-
-  implicit class RoleQueryStrategy(name: String) {
-    def matches(on: Any): Boolean = true
-
-    def ==#[T](value: T) = new WithProperty(name, value)
-
-    def ==>[T](value: T) = new WithResult(name, value)
-  }
-
-  case class *() extends RoleQueryStrategy("")
-
-  case class WithProperty[T](name: String, value: T) extends RoleQueryStrategy(name) {
-    override def matches(on: Any): Boolean = on.propertyOf[T](name) == value
-  }
-
-  case class WithResult[T](name: String, result: T) extends RoleQueryStrategy(name) {
-    override def matches(on: Any): Boolean = on.resultOf[T](name) == result
-  }
 
   private def isRole(value: Any): Boolean = {
     require(null != value)
@@ -172,7 +154,7 @@ trait Compartment extends ReflectiveHelper with RoleUnionTypes {
    */
   implicit class Player[T](val wrapped: T) extends DynamicType with DispatchType {
     def unary_+ : Player[T] = this
-    
+
     def play(role: Any): Player[T] = {
       wrapped match {
         case p: Player[_] => addPlaysRelation(p.wrapped, role)
