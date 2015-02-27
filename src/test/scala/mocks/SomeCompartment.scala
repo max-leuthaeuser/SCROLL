@@ -26,4 +26,11 @@ class SomeCompartment extends Compartment {
       }
   }
 
+  @Role class RoleC {
+    def unionTypedMethod[T: (Int or String)#λ](param: T) = param match {
+      case i: Int => i
+      case s: String => s.length
+    }
+  }
+
 }

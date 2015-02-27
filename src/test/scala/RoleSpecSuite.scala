@@ -4,4 +4,5 @@ class RoleSpecSuite
   extends Suites(
     new MinimalRoleSpec,
     new EqualityRoleSpec,
-    new ExamplesRoleSpec)
+    new ExamplesRoleSpec,
+    new UnionTypesRoleSpec)

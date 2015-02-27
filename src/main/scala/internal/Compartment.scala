@@ -1,6 +1,8 @@
 package internal
 
-// removes warnings by Eclipse about using implicit conversion
+import internal.UnionTypes.RoleUnionTypes
+import internal.util.Log
+
 import scala.language.implicitConversions
 
 import java.lang
@@ -11,7 +13,7 @@ import annotations.Role
 import graph.ScalaRoleGraph
 
 // TODO: what happens if the same role is played multiple times from one player?
-trait Compartment extends ReflectiveHelper {
+trait Compartment extends ReflectiveHelper with RoleUnionTypes {
 
   val plays = new ScalaRoleGraph()
 

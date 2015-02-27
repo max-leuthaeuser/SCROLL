@@ -4,7 +4,7 @@ import examples.BankExample
 import examples.UniversityExample
 
 class ExamplesRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
-  info("Test spec for examples .")
+  info("Test spec for examples.")
 
   feature("Running examples") {
     scenario("University") {
