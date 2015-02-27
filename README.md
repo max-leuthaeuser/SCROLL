@@ -2,6 +2,8 @@ SCROLL
 ======
 *SCala ROLes Language*
 
+[![Build Status](https://travis-ci.org/max-leuthaeuser/SCROLL.svg)](https://travis-ci.org/max-leuthaeuser/SCROLL)
+
 A playground for role dispatch based on Scala.
 
 **1. Current state:** 
@@ -64,7 +66,7 @@ object BankExample extends App {
 
     @Role class CheckingsAccount() extends Decreasable[CurrencyRepr] {
       def decrease(amount: CurrencyRepr) {
-        (-this).decrease(amount)
+        (+this).decrease(amount)
       }
     }
 
@@ -73,7 +75,7 @@ object BankExample extends App {
 
       def increase(amount: CurrencyRepr) {
         info("Increasing with fee.")
-        (-this).increase(amount - transactionFee(amount))
+        (+this).increase(amount - transactionFee(amount))
       }
     }
 
