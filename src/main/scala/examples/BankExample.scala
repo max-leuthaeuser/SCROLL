@@ -146,7 +146,7 @@ object BankExample extends App {
       dd = From(_.is[Transaction]).
         To(_.is[TransactionRole]).
         Through(_ => true).
-        Bypassing(_ => true)
+        Bypassing(_ => false)
 
       (transaction play new TransactionRole).execute()
 
