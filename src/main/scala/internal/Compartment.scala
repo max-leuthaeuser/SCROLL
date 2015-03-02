@@ -2,6 +2,7 @@ package internal
 
 
 import internal.UnionTypes.RoleUnionTypes
+import internal.util.Log
 
 import scala.language.implicitConversions
 
@@ -140,7 +141,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     protected def reorder(anys: Queue[Any], dispatchQuery: DispatchQuery): Queue[Any] = {
       require(null != anys)
       require(null != dispatchQuery)
-      anys.filter(dispatchQuery.bypassing)
+      anys.filterNot(dispatchQuery.bypassing)
     }
   }
 
@@ -184,10 +185,6 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName == name).foreach(fm => {
           args match {
-            /**
-             * TODO: handle the case where multiple instances of the same role type are played,
-             * hence a method may exist multiple times in 'anys'.
-             */
             case Nil => return dispatch(r, fm)
             case _ => return dispatch(r, fm, args.toSeq)
           }

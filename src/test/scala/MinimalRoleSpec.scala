@@ -1,5 +1,8 @@
 // removes warnings by Eclipse about reflective calls
 
+import internal.DispatchQuery._
+import internal.util.Log
+
 import scala.language.reflectiveCalls
 import mocks.{CoreB, SomeCompartment, CoreA}
 import org.scalatest._
@@ -166,7 +169,7 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
         When("updating role attributes")
         val expected = "updated"
         (+someCoreA).update(expected)
-        
+
         val actual1: String = someRole.valueC
         val actual2: String = (+someCoreA).valueC
 
@@ -198,6 +201,42 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
         Then("one role and the player instance should be updated correctly.")
         assert(expected == actual1a || expected == actual1b)
         assert(expected == actual2)
+      }
+    }
+
+    scenario("Playing a role multiple times (different instances, but using dispatch to select one)") {
+      Given("some players and 2 role instance of the same type in a compartment")
+      val someCoreA = new CoreA()
+
+      new SomeCompartment {
+        val someRole1 = new RoleA()
+        val someRole2 = new RoleA()
+        someRole1.valueA = "1"
+        someRole2.valueA = "2"
+        And("a play relationship")
+        someCoreA play someRole1
+        someCoreA play someRole2
+
+        When("updating role attributes")
+
+        implicit var dd = From(_.is[CoreA]).
+          To(_.is[RoleA]).
+          Through(_ => true).
+          Bypassing({
+          case r: RoleA => "1" == r.valueA // so we ignore someRole1 here while dispatching the call to update
+          case _ => false
+        })
+
+        (+someCoreA).update("updated")
+
+        val actual1: String = someRole1.valueC
+        val actual2: String = someRole2.valueC
+        val actual3: String = (+someCoreA).valueC
+
+        Then("one role and the player instance should be updated correctly.")
+        assert("valueC" == actual1)
+        assert("updated" == actual2)
+        assert("updated" == actual3)
       }
     }
   }

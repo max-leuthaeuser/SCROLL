@@ -6,7 +6,7 @@ import annotations.Role
 class SomeCompartment extends Compartment {
 
   @Role class RoleA {
-    val valueA: String = "valueA"
+    var valueA: String = "valueA"
     val valueB: Int = 1
     
     var valueC: String = "valueC"

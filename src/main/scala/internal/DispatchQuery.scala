@@ -16,7 +16,7 @@ class DispatchQuery(
   val from: Any => Boolean = _ => true,
   val to: Any => Boolean = _ => true,
   val through: Any => Boolean = _ => true,
-  val bypassing: Any => Boolean = _ => true,
+  val bypassing: Any => Boolean = _ => false,
   private val empty: Boolean = false) {
   def isEmpty: Boolean = empty
 }
