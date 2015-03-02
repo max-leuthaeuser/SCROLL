@@ -2,7 +2,7 @@ package internal
 
 
 import internal.UnionTypes.RoleUnionTypes
-import internal.util.Log
+import internal.util.QueueUtils
 
 import scala.language.implicitConversions
 
@@ -141,7 +141,24 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     protected def reorder(anys: Queue[Any], dispatchQuery: DispatchQuery): Queue[Any] = {
       require(null != anys)
       require(null != dispatchQuery)
-      anys.filterNot(dispatchQuery.bypassing)
+
+      // we only apply the reordering on the path from DispatchQuery.from to DispatchQuery.to 
+      QueueUtils.hasPath(dispatchQuery.from, dispatchQuery.to, anys) match {
+        case true =>
+          val startIndex = anys.indexWhere(dispatchQuery.from)
+          val endIndex = anys.indexWhere(dispatchQuery.to)
+
+          if (startIndex == 0 || endIndex == 1) {
+            return anys.filter(dispatchQuery.through).filterNot(dispatchQuery.bypassing)
+          }
+
+          val head = anys.take(startIndex - 1)
+          val path = anys.slice(startIndex, endIndex - 1)
+          val trail = anys.slice(endIndex, anys.size)
+
+          (head ++ path.filter(dispatchQuery.through).filterNot(dispatchQuery.bypassing) ++ trail).reverse
+        case false => anys
+      }
     }
   }
 

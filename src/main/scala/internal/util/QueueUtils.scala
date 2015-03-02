@@ -14,10 +14,7 @@ object QueueUtils {
    * @param b Element b that gets swapped with a.
    * @return a new Queue containing all elements of l but element a and b swapped.
    */
-  def swap[T](
-    l: Queue[T],
-    a: T,
-    b: T): Queue[T] = l.map {
+  def swap[T](l: Queue[T], a: T, b: T): Queue[T] = l.map {
     case `a` => b
     case `b` => a
     case e => e
@@ -31,18 +28,15 @@ object QueueUtils {
    * @param t A tuple containing element a (as ._1) and b (as ._2) in the necessary order.
    * @return a new Queue containing all elements of l but element a and b swapped if they were found in the order given with t.
    */
-  def swapWithOrder[T](
-    l: Queue[T],
-    t: (T, T)): Queue[T] =
-    {
-      val (a, b) = (t._1, t._2)
+  def swapWithOrder[T](l: Queue[T], t: (T, T)): Queue[T] = {
+    val (a, b) = (t._1, t._2)
 
-      l.map {
-        case `a` => return l
-        case `b` => return swap(l, a, b)
-        case e => e
-      }
+    l.map {
+      case `a` => return l
+      case `b` => return swap(l, a, b)
+      case e => e
     }
+  }
 
   /**
    * Simply copies a Queue.
@@ -59,7 +53,21 @@ object QueueUtils {
    * @param q the queue to remove the element from.
    * @return a new Queue with all elements of q except elem.
    */
-  def remove[T](
-    elem: T,
-    q: Queue[T]): Queue[T] = q.diff(Seq(elem))
+  def remove[T](elem: T, q: Queue[T]): Queue[T] = q.diff(Seq(elem))
+
+  /**
+   * Checks if the given Queue 'in' of type T contains a chain (non-empty queue)
+   * starting with an element matching constraint 'from' and ending with one matching 'to'. 
+   *
+   * @param from the starting constraint
+   * @param to the end constraint
+   * @param in the queue to check
+   * @return true if the given Queue 'in' of type T contains a chain (non-empty queue)
+   *         starting with an element matching constraint 'from' and ending with one matching 'to', false otherwise.
+   */
+  def hasPath[T](from: T => Boolean, to: T => Boolean, in: Queue[T]): Boolean = {
+    val s = in.indexWhere(from)
+    val e = in.indexWhere(to)
+    s != -1 && e != -1 && s < e
+  }
 }
