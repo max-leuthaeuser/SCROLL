@@ -4,7 +4,6 @@ import com.tinkerpop.gremlin.scala.GremlinScala
 import org.scalatest._
 import scala.util.Success
 import scala.util.Failure
-import com.thinkaurelius.titan.core.TitanGraph
 import java.net.ConnectException
 import InMemoryConnect._
 import scala.concurrent.Await
@@ -13,7 +12,7 @@ import scala.concurrent.duration._
 class GremlinScalaSpec extends FlatSpec
   with Matchers
   with InMemoryConnect
-  with DefaultLogging
+  with SilentLogging
   with DefaultExecutionContext {
 
   "Gremlin-Scala" should "connect to Titan database and pull out Saturn's keys and shutdown cleanly" in {
