@@ -138,7 +138,7 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
         val expectedA = "newValue"
         (+someCoreA).valueA = expectedA
         val actualA: String = (+someCoreA).valueA
-        
+
         val expectedB = -1
         (+someCoreA).valueB = expectedB
         val actualB: Int = (+someCoreA).valueB
@@ -148,8 +148,56 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
         assert(expectedB == actualB)
         And("a call to the role with a value that does not exist should fail")
         a[RuntimeException] should be thrownBy {
-          (+someCoreA).valueC = "unknown"
+          (+someCoreA).valueUnkown = "unknown"
         }
+      }
+    }
+
+    scenario("Playing a role multiple times (same instance)") {
+      Given("some players and role in a compartment")
+      val someCoreA = new CoreA()
+
+      new SomeCompartment {
+        val someRole = new RoleA()
+        And("a play relationship")
+        someCoreA play someRole
+        someCoreA play someRole
+
+        When("updating role attributes")
+        val expected = "updated"
+        (+someCoreA).update(expected)
+        
+        val actual1: String = someRole.valueC
+        val actual2: String = (+someCoreA).valueC
+
+        Then("the role and player instance should be updated correctly.")
+        assert(expected == actual1)
+        assert(expected == actual2)
+      }
+    }
+
+    scenario("Playing a role multiple times (different instances)") {
+      Given("some players and 2 role instance of the same type in a compartment")
+      val someCoreA = new CoreA()
+
+      new SomeCompartment {
+        val someRole1 = new RoleA()
+        val someRole2 = new RoleA()
+        And("a play relationship")
+        someCoreA play someRole1
+        someCoreA play someRole2
+
+        When("updating role attributes")
+        val expected = "updated"
+        (+someCoreA).update(expected)
+
+        val actual1a: String = someRole1.valueC
+        val actual1b: String = someRole2.valueC
+        val actual2: String = (+someCoreA).valueC
+
+        Then("one role and the player instance should be updated correctly.")
+        assert(expected == actual1a || expected == actual1b)
+        assert(expected == actual2)
       }
     }
   }

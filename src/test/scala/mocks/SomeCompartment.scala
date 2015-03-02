@@ -9,6 +9,8 @@ class SomeCompartment extends Compartment {
     val valueA: String = "valueA"
     val valueB: Int = 1
     
+    var valueC: String = "valueC"
+    
     def a(): Int =
       {
         println("role a")
@@ -16,6 +18,10 @@ class SomeCompartment extends Compartment {
       }
     
     def b(a: String, param: String = "in"): String = param
+    
+    def update(value: String) {
+      this.valueC = value
+    }
   }
 
   @Role class RoleB {

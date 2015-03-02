@@ -12,7 +12,6 @@ import scala.collection.immutable.Queue
 import annotations.Role
 import graph.ScalaRoleGraph
 
-// TODO: what happens if the same role is played multiple times from one player?
 trait Compartment extends QueryStrategies with RoleUnionTypes {
 
   val plays = new ScalaRoleGraph()
@@ -127,7 +126,6 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
         case (arg: Player[_], tpe: Class[_]) =>
           plays.getRoles(arg.wrapped).find(_.getClass == tpe) match {
             case Some(curRole) => curRole
-            // TODO: how to permit this?
             case None => throw new RuntimeException(s"No role for type '$tpe' found.")
           }
         case (arg: Double, tpe: Class[_]) => new lang.Double(arg.toDouble)
@@ -186,6 +184,10 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName == name).foreach(fm => {
           args match {
+            /**
+             * TODO: handle the case where multiple instances of the same role type are played,
+             * hence a method may exist multiple times in 'anys'.
+             */
             case Nil => return dispatch(r, fm)
             case _ => return dispatch(r, fm, args.toSeq)
           }
@@ -214,7 +216,6 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
         r.setPropertyOf(name, value)
         return
       })
-
       // otherwise give up
       throw new RuntimeException(s"No role with value '$name' found! (core: '$wrapped')")
     }
