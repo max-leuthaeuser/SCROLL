@@ -211,8 +211,8 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
       new SomeCompartment {
         val someRole1 = new RoleA()
         val someRole2 = new RoleA()
-        someRole1.valueA = "1"
-        someRole2.valueA = "2"
+        someRole1.valueB = 1
+        someRole2.valueB = 2
         And("a play relationship")
         someCoreA play someRole1
         someCoreA play someRole2
@@ -223,9 +223,9 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
           To(_.is[RoleA]).
           Through(_ => true).
           Bypassing({
-          case r: RoleA => "1" == r.valueA // so we ignore someRole1 here while dispatching the call to update
-          case _ => false
-        })
+            case r: RoleA => 1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
+            case _ => false
+          })
 
         (+someCoreA).update("updated")
 

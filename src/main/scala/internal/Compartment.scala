@@ -151,12 +151,12 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
           if (startIndex == 0 || endIndex == 1) {
             return anys.filter(dispatchQuery.through).filterNot(dispatchQuery.bypassing)
           }
-
+          
           val head = anys.take(startIndex - 1)
           val path = anys.slice(startIndex, endIndex - 1)
-          val trail = anys.slice(endIndex, anys.size)
+          val tail = anys.slice(endIndex, anys.size)
 
-          (head ++ path.filter(dispatchQuery.through).filterNot(dispatchQuery.bypassing) ++ trail).reverse
+          (head ++ path.filter(dispatchQuery.through).filterNot(dispatchQuery.bypassing) ++ tail).reverse
         case false => anys
       }
     }
