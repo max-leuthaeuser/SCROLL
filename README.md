@@ -143,8 +143,8 @@ object BankExample extends App {
       transaction union this
 
       // defining the specific dispatch as example
-      dd = From(_.is[Transaction]).
-        To(_.is[TransactionRole]).
+      dd = From(_.isInstanceOf[Transaction]).
+        To(_.isInstanceOf[TransactionRole]).
         Through(_ => true).
         Bypassing(_ => false)
 
