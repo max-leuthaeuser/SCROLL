@@ -50,7 +50,7 @@ object BankExample extends App {
   }
 
   // Contexts and Roles
-  class Bank extends Context {
+  class Bank extends Compartment {
 
     @Role class Customer() {
       var accounts = List[Accountable]()
@@ -87,7 +87,7 @@ object BankExample extends App {
     }
   }
 
-  class Transaction(val amount: CurrencyRepr) extends Context {
+  class Transaction(val amount: CurrencyRepr) extends Compartment {
     def execute() {
       // one queries for exactly 1 role of the provided type it can find in scope.
       one[Source]().withDraw(amount)
@@ -120,45 +120,42 @@ object BankExample extends App {
   implicit var dd: DispatchQuery = DispatchQuery.empty
 
   new Bank {
-    Bind {
-      stan With new Customer()
-      brian With new Customer()
-      accForStan With new CheckingsAccount()
-      accForBrian With new SavingsAccount()
-    } Blocking {
-      (+stan).addAccount(accForStan)
-      (+brian).addAccount(accForBrian)
+    stan play new Customer()
+    brian play new Customer()
+    accForStan play new CheckingsAccount()
+    accForBrian play new SavingsAccount()
+    
+    (+stan).addAccount(accForStan)
+    (+brian).addAccount(accForBrian)
 
-      info("### Before transaction ###")
-      info("Balance for Stan: " + accForStan.balance)
-      info("Balance for Brian: " + accForBrian.balance)
+    info("### Before transaction ###")
+    info("Balance for Stan: " + accForStan.balance)
+    info("Balance for Brian: " + accForBrian.balance)
 
-      val transaction = new Transaction(10.0)
-      accForStan play transaction.Source
-      accForBrian play transaction.Target
+    val transaction = new Transaction(10.0)
+    accForStan play transaction.Source
+    accForBrian play transaction.Target
 
-      // Defining a bidirectional relation between Transaction and Bank.
-      // The transaction needs full access to registered/bound Accounts like
-      // CheckingsAccount and SavingsAccount.
-      transaction union this
+    // Defining a partOf relation between Transaction and Bank.
+    // The transaction needs full access to registered/bound Accounts like
+    // CheckingsAccount and SavingsAccount.
+    transaction partOf this
 
-      // defining the specific dispatch as example
-      dd = From(_.isInstanceOf[Transaction]).
-        To(_.isInstanceOf[TransactionRole]).
-        Through(_ => true).
-        Bypassing(_ => false)
+    // defining the specific dispatch as example
+    dd = From(_.isInstanceOf[Transaction]).
+      To(_.isInstanceOf[TransactionRole]).
+      Through(_ => true).
+      Bypassing(_ => false)
 
-      (transaction play new TransactionRole).execute()
+    (transaction play new TransactionRole).execute()
 
-      info("### After transaction ###")
-      info("Balance for Stan: " + accForStan.balance)
-      info("Balance for Brian: " + accForBrian.balance)
-      info("Brian is playing the Customer role? " + (+brian).isPlaying[Customer])
+    info("### After transaction ###")
+    info("Balance for Stan: " + accForStan.balance)
+    info("Balance for Brian: " + accForBrian.balance)
+    info("Brian is playing the Customer role? " + (+brian).isPlaying[Customer])
 
-      (+stan).listBalances()
-      (+brian).listBalances()
-      info("### Finished. ###")
-    }
+    (+stan).listBalances()
+    (+brian).listBalances()
   }
 }
 ```
