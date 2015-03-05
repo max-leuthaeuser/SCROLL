@@ -151,7 +151,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
           if (startIndex == 0 || endIndex == 1) {
             return anys.filter(dispatchQuery.through).filterNot(dispatchQuery.bypassing)
           }
-          
+
           val head = anys.take(startIndex - 1)
           val path = anys.slice(startIndex, endIndex - 1)
           val tail = anys.slice(endIndex, anys.size)
@@ -169,6 +169,11 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @tparam T type of wrapped
    */
   implicit class Player[T](val wrapped: T) extends DynamicType with DispatchType {
+    /**
+     * Applies implicit lifting to Player
+     *
+     * @return an implicitly lifted Player instance with the calling object as wrapped.
+     */
     def unary_+ : Player[T] = this
 
     def play(role: Any): Player[T] = {

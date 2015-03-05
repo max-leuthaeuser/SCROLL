@@ -2,9 +2,10 @@ package examples
 
 // removes warnings by Eclipse about using structural types
 
+import internal.Compartment
+
 import scala.language.reflectiveCalls
 import annotations.Role
-import internal.Context
 import internal.util.Log.info
 import annotations.Relationship
 
@@ -27,7 +28,7 @@ object AnotherBankExample extends App {
     }
   }
 
-  class Bank extends Context {
+  class Bank extends Compartment {
 
     @Role case class Consultant(phone: String)
 
@@ -73,28 +74,24 @@ object AnotherBankExample extends App {
     val a1 = CheckingsAccount(5)
     val a2 = CheckingsAccount(10)
 
-    Bind {
-      stan With c1
-      brian With c2
-      accForStan With a1
-      accForBrian With a2
-    } Blocking {
+    stan play c1
+    brian play c2
+    accForStan play a1
+    accForBrian play a2
 
-      val acc001 = Owns(c1, Set(a1))
-      val acc002 = Owns(c2, Set(a2))
+    val acc001 = Owns(c1, Set(a1))
+    val acc002 = Owns(c2, Set(a2))
 
-      a1 play Source()
-      a2 play Target()
+    a1 play Source()
+    a2 play Target()
 
-      val someTransfer = Transfer(one[Source](), one[Target]())
-      someTransfer.amount = 10.0
+    val someTransfer = Transfer(one[Source](), one[Target]())
+    someTransfer.amount = 10.0
 
-      (+someTransfer.left) decrease someTransfer.amount
-      (+someTransfer.right) increase someTransfer.amount
+    (+someTransfer.left) decrease someTransfer.amount
+    (+someTransfer.right) increase someTransfer.amount
 
-      info("Balance: " + accForStan.balance)
-      info("Balance: " + accForBrian.balance)
-      info("### Finished. ###")
-    }
+    info("Balance: " + accForStan.balance)
+    info("Balance: " + accForBrian.balance)
   }
 }
