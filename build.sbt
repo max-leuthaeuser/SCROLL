@@ -1,6 +1,6 @@
 name := "RoleDispatch"
 
-scalaVersion := "2.11.5"
+scalaVersion := "2.11.6"
 
 val gremlinScalaV = "3.0.0.M6c"
 
