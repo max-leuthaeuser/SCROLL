@@ -86,7 +86,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     require(null != roles)
     roles.foreach(transferRole(coreFrom, coreTo, _))
   }
-
+  
   def getCoreFor(role: Any): Any = {
     require(null != role)
     role match {
@@ -175,6 +175,11 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
      * @return an implicitly lifted Player instance with the calling object as wrapped.
      */
     def unary_+ : Player[T] = this
+
+    /**
+     * @return the player of this Player instance if this is a role, or this itself. Alias for [[Compartment.getCoreFor]].
+     */
+    def player: Any = getCoreFor(this)
 
     def play(role: Any): Player[T] = {
       wrapped match {
