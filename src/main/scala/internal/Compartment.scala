@@ -86,7 +86,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     require(null != roles)
     roles.foreach(transferRole(coreFrom, coreTo, _))
   }
-  
+
   def getCoreFor(role: Any): Any = {
     require(null != role)
     role match {
@@ -200,11 +200,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       }
     }
 
-    def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(wrapped)
-      .find(r => r.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(weakTypeOf[E])) match {
-      case None => false
-      case _ => true
-    }
+    def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(wrapped).exists(r => r.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(weakTypeOf[E]))
 
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
       val core = getCoreFor(wrapped)
