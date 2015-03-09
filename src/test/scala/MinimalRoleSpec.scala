@@ -223,9 +223,9 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
           To(_.isInstanceOf[RoleA]).
           Through(_ => true).
           Bypassing({
-            case r: RoleA => 1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
-            case _ => false
-          })
+          case r: RoleA => 1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
+          case _ => false
+        })
 
         (+someCoreA).update("updated")
 
@@ -238,6 +238,36 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
         assert("updated" == actual2)
         assert("updated" == actual3)
       }
+    }
+  }
+
+  scenario("Calling multi-argument method in roles") {
+    Given("a player and a role instance in a compartment")
+    val someCoreA = new CoreA()
+
+    new SomeCompartment {
+      val someRole = new RoleD()
+
+      And("a play relationship")
+      someCoreA play someRole
+
+      When("updating role attributes")
+
+      val expected1 = "updated"
+      val expected2 = 1
+
+      (+someCoreA).update(expected1, expected2)
+
+      val actual1 = someRole.valueA
+      val actual2 = someRole.valueB
+      val actual3: String = (+someCoreA).valueA
+      val actual4: Int = (+someCoreA).valueB
+
+      Then("one role and the player instance should be updated correctly.")
+      assert(expected1 == actual1)
+      assert(expected2 == actual2)
+      assert(expected1 == actual3)
+      assert(expected2 == actual4)
     }
   }
 }

@@ -129,7 +129,9 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
             case Some(curRole) => curRole
             case None => throw new RuntimeException(s"No role for type '$tpe' found.")
           }
+        case (arg: Int, tpe: Class[_]) => new lang.Integer(arg.toInt)
         case (arg: Double, tpe: Class[_]) => new lang.Double(arg.toDouble)
+        case (arg: Float, tpe: Class[_]) => new lang.Float(arg.toFloat)
         case (arg@unchecked, tpe: Class[_]) => tpe.cast(arg)
       }
 
