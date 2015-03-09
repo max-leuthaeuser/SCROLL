@@ -100,12 +100,46 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
   }
 
   trait DynamicType extends Dynamic {
+    /**
+     * Allows to call a function with arguments.  
+     *
+     * @param name the function name
+     * @param args the arguments handed over to the given function
+     * @param dispatchQuery the dispatch rules that should be applied
+     * @tparam E return type
+     * @tparam A argument type
+     * @return the result of the function call
+     */
     def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E
 
+    /**
+     * Allows to call a function with named arguments.
+     *
+     * @param name the function name
+     * @param args tuple with the the name and argument handed over to the given function
+     * @param dispatchQuery the dispatch rules that should be applied
+     * @tparam E return type
+     * @return the result of the function call
+     */
     def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E
 
+    /**
+     * Allows to write field accessors.
+     *
+     * @param name of the field
+     * @param dispatchQuery the dispatch rules that should be applied
+     * @tparam E return type
+     * @return the result of the field access
+     */
     def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E
 
+    /**
+     * Allows to write field updates.
+     *
+     * @param name of the field
+     * @param value the new value to write
+     * @param dispatchQuery the dispatch rules that should be applied
+     */
     def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty)
   }
 
