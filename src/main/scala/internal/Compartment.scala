@@ -132,6 +132,12 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
         case (arg: Int, tpe: Class[_]) => new lang.Integer(arg.toInt)
         case (arg: Double, tpe: Class[_]) => new lang.Double(arg.toDouble)
         case (arg: Float, tpe: Class[_]) => new lang.Float(arg.toFloat)
+        case (arg: Long, tpe: Class[_]) => new lang.Long(arg.toLong)
+        case (arg: Short, tpe: Class[_]) => new lang.Short(arg.toShort)
+        case (arg: Byte, tpe: Class[_]) => new lang.Byte(arg.toByte)
+        case (arg: Char, tpe: Class[_]) => new lang.Character(arg.toChar)
+        case (arg: Boolean, tpe: Class[_]) => new lang.Boolean(arg)
+        // Fallback:
         case (arg@unchecked, tpe: Class[_]) => tpe.cast(arg)
       }
 

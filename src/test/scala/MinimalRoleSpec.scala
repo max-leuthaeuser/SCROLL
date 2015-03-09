@@ -263,11 +263,92 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
       val actual3: String = (+someCoreA).valueA
       val actual4: Int = (+someCoreA).valueB
 
-      Then("one role and the player instance should be updated correctly.")
+      Then("the role and the player instance should be updated correctly.")
       assert(expected1 == actual1)
       assert(expected2 == actual2)
       assert(expected1 == actual3)
       assert(expected2 == actual4)
+    }
+  }
+
+  /**
+   * test case for primitive types:
+   * Int
+   * Double
+   * Float
+   * Long
+   * Short
+   * Byte
+   * Char
+   * boolean
+   */
+  scenario("Calling method on a role with different primitive types") {
+    Given("a player and a role instance in a compartment")
+    val someCoreA = new CoreA()
+
+    new SomeCompartment {
+      val someRole = new RoleE()
+
+      And("a play relationship")
+      someCoreA play someRole
+
+      When("updating role attributes")
+
+      var expectedInt: Int = 0
+      var expectedDouble: Double = 0
+      var expectedFloat: Float = 0
+      var expectedLong: Long = 0
+      var expectedShort: Short = 0
+      var expectedByte: Byte = 0
+      var expectedChar: Char = 'B'
+      var expectedBoolean: Boolean = true
+
+      (+someCoreA).updateInt(expectedInt)
+      (+someCoreA).updateDouble(expectedDouble)
+      (+someCoreA).updateFloat(expectedFloat)
+      (+someCoreA).updateLong(expectedLong)
+      (+someCoreA).updateShort(expectedShort)
+      (+someCoreA).updateByte(expectedByte)
+      (+someCoreA).updateChar(expectedChar)
+      (+someCoreA).updateBoolean(expectedBoolean)
+
+      val actualIntR = someRole.valueInt
+      val actualDoubleR = someRole.valueDouble
+      val actualFloatR = someRole.valueFloat
+      val actualLongR = someRole.valueLong
+      val actualShortR = someRole.valueShort
+      val actualByteR = someRole.valueByte
+      val actualCharR = someRole.valueChar
+      val actualBooleanR = someRole.valueBoolean
+
+      Then("the role instance should be updated correctly.")
+      assert(actualIntR == expectedInt)
+      assert(actualDoubleR == expectedDouble)
+      assert(actualFloatR == expectedFloat)
+      assert(actualLongR == expectedLong)
+      assert(actualShortR == expectedShort)
+      assert(actualByteR == expectedByte)
+      assert(actualCharR == expectedChar)
+      assert(actualBooleanR == expectedBoolean)
+
+      val actualIntP: Int = (+someCoreA).valueInt
+      val actualDoubleP: Double = (+someCoreA).valueDouble
+      val actualFloatP: Float = (+someCoreA).valueFloat
+      val actualLongP: Long = (+someCoreA).valueLong
+      val actualShortP: Short = (+someCoreA).valueShort
+      val actualByteP: Byte = (+someCoreA).valueByte
+      val actualCharP: Char = (+someCoreA).valueChar
+      val actualBooleanP: Boolean = (+someCoreA).valueBoolean
+
+      And("the player instance should be updated correctly.")
+      assert(actualIntP == expectedInt)
+      assert(actualDoubleP == expectedDouble)
+      assert(actualFloatP == expectedFloat)
+      assert(actualLongP == expectedLong)
+      assert(actualShortP == expectedShort)
+      assert(actualByteP == expectedByte)
+      assert(actualCharP == expectedChar)
+      assert(actualBooleanP == expectedBoolean)
     }
   }
 }

@@ -47,4 +47,55 @@ class SomeCompartment extends Compartment {
     }
   }
 
+  @Role class RoleE {
+    var valueInt: Int = -1
+
+    var valueDouble: Double = -1
+
+    var valueFloat: Float = -1
+
+    var valueLong: Long = -1
+
+    var valueShort: Short = -1
+
+    var valueByte: Byte = -1
+
+    var valueChar: Char = 'A'
+
+    var valueBoolean: Boolean = false
+
+    def updateInt(newValue: Int) {
+      valueInt = newValue
+    }
+
+    def updateDouble(newValue: Double) {
+      valueDouble = newValue
+    }
+
+    def updateFloat(newValue: Float) {
+      valueFloat = newValue
+    }
+
+    def updateLong(newValue: Long) {
+      valueLong = newValue
+    }
+
+    def updateShort(newValue: Short) {
+      valueShort = newValue
+    }
+
+    def updateByte(newValue: Byte) {
+      valueByte = newValue
+    }
+
+    def updateChar(newValue: Char) {
+      valueChar = newValue
+    }
+
+    def updateBoolean(newValue: Boolean) {
+      valueBoolean = newValue
+    }
+
+  }
+
 }
