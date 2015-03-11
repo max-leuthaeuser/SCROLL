@@ -4,6 +4,7 @@ package internal
 import internal.UnionTypes.RoleUnionTypes
 import internal.util.QueueUtils
 
+import scala.annotation.tailrec
 import scala.language.implicitConversions
 
 import java.lang
@@ -87,7 +88,8 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     roles.foreach(transferRole(coreFrom, coreTo, _))
   }
 
-  def getCoreFor(role: Any): Any = {
+  @tailrec
+  private def getCoreFor(role: Any): Any = {
     require(null != role)
     role match {
       case cur: Player[_] => getCoreFor(cur.wrapped)
