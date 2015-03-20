@@ -61,6 +61,11 @@ object BankExample extends App {
 
     @Role class CheckingsAccount() extends Decreasable[CurrencyRepr] {
       def decrease(amount: CurrencyRepr) {
+        dd = From(_.isInstanceOf[Account]).
+          To(_.isInstanceOf[CheckingsAccount]).
+          Through(_ => true).
+          // so we won't calling decrease() recursively on this
+          Bypassing(_.isInstanceOf[CheckingsAccount])
         (+this).decrease(amount)
       }
     }
@@ -70,6 +75,11 @@ object BankExample extends App {
 
       def increase(amount: CurrencyRepr) {
         info("Increasing with fee.")
+        dd = From(_.isInstanceOf[Account]).
+          To(_.isInstanceOf[SavingsAccount]).
+          Through(_ => true).
+          // so we won't calling increase() recursively on this
+          Bypassing(_.isInstanceOf[SavingsAccount])
         (+this).increase(amount - transactionFee(amount))
       }
     }
@@ -77,7 +87,12 @@ object BankExample extends App {
     @Role class TransactionRole() {
       def execute() {
         info("Executing from Role.")
-        (+this).execute()
+        dd = From(_.isInstanceOf[Transaction]).
+          To(_.isInstanceOf[TransactionRole]).
+          Through(_ => true).
+          // so we won't calling execute() recursively on this
+          Bypassing(_.isInstanceOf[TransactionRole])
+        +this execute()
       }
     }
 
@@ -137,7 +152,7 @@ object BankExample extends App {
     accForStan play transaction.Source
     accForBrian play transaction.Target
 
-    // Defining a bidirectional relation between Transaction and Bank.
+    // Defining a partOf relation between Transaction and Bank.
     // The transaction needs full access to registered/bound Accounts like
     // CheckingsAccount and SavingsAccount.
     transaction partOf this

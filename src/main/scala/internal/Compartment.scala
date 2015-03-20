@@ -186,22 +186,23 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       require(null != anys)
       require(null != dispatchQuery)
 
-      // we only apply the reordering on the path from DispatchQuery.from to DispatchQuery.to 
-      QueueUtils.hasPath(dispatchQuery.from, dispatchQuery.to, anys) match {
+      val dist_anys = anys.distinct
+      // we only apply the reordering on the path from DispatchQuery.from to DispatchQuery.to
+      QueueUtils.hasPath(dispatchQuery.from, dispatchQuery.to, dist_anys) match {
         case true =>
-          val startIndex = anys.indexWhere(dispatchQuery.from)
-          val endIndex = anys.indexWhere(dispatchQuery.to)
+          val startIndex = dist_anys.indexWhere(dispatchQuery.from)
+          val endIndex = dist_anys.indexWhere(dispatchQuery.to)
 
           if (startIndex == 0 || endIndex == 1) {
-            return anys.filter(dispatchQuery.through).filterNot(dispatchQuery.bypassing)
+            return dist_anys.filter(dispatchQuery.through).filterNot(dispatchQuery.bypassing).reverse
           }
 
-          val head = anys.take(startIndex - 1)
-          val path = anys.slice(startIndex, endIndex - 1)
-          val tail = anys.slice(endIndex, anys.size)
+          val head = dist_anys.take(startIndex - 1)
+          val path = dist_anys.slice(startIndex, endIndex - 1)
+          val tail = dist_anys.slice(endIndex, dist_anys.size)
 
           (head ++ path.filter(dispatchQuery.through).filterNot(dispatchQuery.bypassing) ++ tail).reverse
-        case false => anys
+        case false => dist_anys.reverse
       }
     }
   }
