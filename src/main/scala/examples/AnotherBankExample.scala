@@ -3,6 +3,7 @@ package examples
 // removes warnings by Eclipse about using structural types
 
 import internal.Compartment
+import internal.DispatchQuery._
 
 import scala.language.reflectiveCalls
 import annotations.Role
@@ -37,12 +38,22 @@ object AnotherBankExample extends App {
     @Role case class CheckingsAccount(limit: Money) {
       def increase(amount: Money) {
         if (amount > limit) info("Limit reached in increase!")
+        implicit val dd = From(_.isInstanceOf[Account]).
+          To(_.isInstanceOf[CheckingsAccount]).
+          Through(_ => true).
+          // so we won't calling decrease() recursively on this
+          Bypassing(_.isInstanceOf[CheckingsAccount])
         (+this).increase(Math.min(amount, limit))
 
       }
 
       def decrease(amount: Money) {
         if (amount > limit) info("Limit reached in decrease!")
+        implicit val dd = From(_.isInstanceOf[Account]).
+          To(_.isInstanceOf[CheckingsAccount]).
+          Through(_ => true).
+          // so we won't calling decrease() recursively on this
+          Bypassing(_.isInstanceOf[CheckingsAccount])
         (+this).decrease(Math.min(amount, limit))
       }
     }
