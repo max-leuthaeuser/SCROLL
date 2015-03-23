@@ -157,12 +157,6 @@ object BankExample extends App {
     // CheckingsAccount and SavingsAccount.
     transaction partOf this
 
-    // defining the specific dispatch as example
-    dd = From(_.isInstanceOf[Transaction]).
-      To(_.isInstanceOf[TransactionRole]).
-      Through(_ => true).
-      Bypassing(_ => false)
-
     (transaction play new TransactionRole).execute()
 
     info("### After transaction ###")
