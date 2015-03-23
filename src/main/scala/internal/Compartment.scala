@@ -2,7 +2,6 @@ package internal
 
 
 import internal.UnionTypes.RoleUnionTypes
-import internal.util.QueueUtils
 
 import scala.annotation.tailrec
 import scala.language.implicitConversions
@@ -182,29 +181,6 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       }: _*).asInstanceOf[E]
     }
 
-    protected def reorder(anys: Queue[Any], dispatchQuery: DispatchQuery): Queue[Any] = {
-      require(null != anys)
-      require(null != dispatchQuery)
-
-      val dist_anys = anys.distinct
-      // we only apply the reordering on the path from DispatchQuery.from to DispatchQuery.to
-      QueueUtils.hasPath(dispatchQuery.from, dispatchQuery.to, dist_anys) match {
-        case true =>
-          val startIndex = dist_anys.indexWhere(dispatchQuery.from)
-          val endIndex = dist_anys.indexWhere(dispatchQuery.to)
-
-          if (startIndex == 0 || endIndex == 1) {
-            return dist_anys.filter(dispatchQuery.through).filterNot(dispatchQuery.bypassing).reverse
-          }
-
-          val head = dist_anys.take(startIndex - 1)
-          val path = dist_anys.slice(startIndex, endIndex - 1)
-          val tail = dist_anys.slice(endIndex, dist_anys.size)
-
-          (head ++ path.filter(dispatchQuery.through).filterNot(dispatchQuery.bypassing) ++ tail).reverse
-        case false => dist_anys.reverse
-      }
-    }
   }
 
   /**
@@ -249,7 +225,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
       val core = getCoreFor(wrapped)
-      val anys = reorder(Queue() ++ plays.getRoles(core) :+ wrapped :+ core, dispatchQuery)
+      val anys = dispatchQuery.reorder(Queue() ++ plays.getRoles(core) :+ wrapped :+ core)
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(m => m.getName == name).foreach(fm => {
           args match {
@@ -267,7 +243,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
       val core = getCoreFor(wrapped)
-      val anys = reorder(Queue() ++ plays.getRoles(core) :+ wrapped :+ core, dispatchQuery)
+      val anys = dispatchQuery.reorder(Queue() ++ plays.getRoles(core) :+ wrapped :+ core)
       anys.foreach(r => if (r.hasAttribute(name)) return r.propertyOf[E](name))
 
       // otherwise give up
@@ -276,7 +252,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty) {
       val core = getCoreFor(wrapped)
-      val anys = reorder(Queue() ++ plays.getRoles(core) :+ wrapped :+ core, dispatchQuery)
+      val anys = dispatchQuery.reorder(Queue() ++ plays.getRoles(core) :+ wrapped :+ core)
       anys.foreach(r => if (r.hasAttribute(name)) {
         r.setPropertyOf(name, value)
         return
