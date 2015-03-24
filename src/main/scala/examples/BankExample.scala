@@ -55,7 +55,7 @@ object BankExample extends App {
       }
 
       def listBalances() {
-        accounts.foreach { a => info("Account: " + a + " -> " + (+a).balance)}
+        accounts.foreach { a => info("Account: " + a + " -> " + (+a).balance) }
       }
     }
 
@@ -66,7 +66,7 @@ object BankExample extends App {
           Through(_ => true).
           // so we won't calling decrease() recursively on this
           Bypassing(_.isInstanceOf[CheckingsAccount])
-        (+this).decrease(amount)
+        +this decrease amount
       }
     }
 
@@ -80,7 +80,7 @@ object BankExample extends App {
           Through(_ => true).
           // so we won't calling increase() recursively on this
           Bypassing(_.isInstanceOf[SavingsAccount])
-        (+this).increase(amount - transactionFee(amount))
+        +this increase (amount - transactionFee(amount))
       }
     }
 
@@ -114,13 +114,13 @@ object BankExample extends App {
 
     @Role class Source() {
       def withDraw(m: CurrencyRepr) {
-        (+this).decrease(m)
+        +this decrease m
       }
     }
 
     @Role class Target() {
       def deposit(m: CurrencyRepr) {
-        (+this).increase(m)
+        +this increase m
       }
     }
 
@@ -141,8 +141,8 @@ object BankExample extends App {
     accForStan play new CheckingsAccount()
     accForBrian play new SavingsAccount()
 
-    (+stan).addAccount(accForStan)
-    (+brian).addAccount(accForBrian)
+    +stan addAccount accForStan
+    +brian addAccount accForBrian
 
     info("### Before transaction ###")
     info("Balance for Stan: " + accForStan.balance)
@@ -157,14 +157,14 @@ object BankExample extends App {
     // CheckingsAccount and SavingsAccount.
     transaction partOf this
 
-    (transaction play new TransactionRole).execute()
+    transaction play new TransactionRole execute()
 
     info("### After transaction ###")
     info("Balance for Stan: " + accForStan.balance)
     info("Balance for Brian: " + accForBrian.balance)
     info("Brian is playing the Customer role? " + (+brian).isPlaying[Customer])
 
-    (+stan).listBalances()
-    (+brian).listBalances()
+    +stan listBalances()
+    +brian listBalances()
   }
 }

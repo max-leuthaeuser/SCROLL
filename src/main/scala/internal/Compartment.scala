@@ -191,9 +191,9 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    */
   implicit class Player[T](val wrapped: T) extends DynamicType with DispatchType {
     /**
-     * Applies implicit lifting to Player
+     * Applies lifting to Player
      *
-     * @return an implicitly lifted Player instance with the calling object as wrapped.
+     * @return an lifted Player instance with the calling object as wrapped.
      */
     def unary_+ : Player[T] = this
 
