@@ -2,6 +2,8 @@ package examples
 
 // removes warnings by Eclipse about using structural types
 
+import currency.Currency
+
 import scala.language.reflectiveCalls
 import annotations.Role
 import internal.{Compartment, DispatchQuery}
@@ -21,25 +23,23 @@ object BankExample extends App {
    */
   trait Accountable
 
-  trait Decreasable[T] extends Accountable {
-    def decrease(amount: T)
+  trait Decreasable extends Accountable {
+    def decrease(amount: Currency)
   }
 
-  trait Increasable[T] extends Accountable {
-    def increase(amount: T)
+  trait Increasable extends Accountable {
+    def increase(amount: Currency)
   }
 
-  type CurrencyRepr = Double
+  class Account(var balance: Currency = Currency(0, "USD"))
+    extends Increasable
+    with Decreasable {
 
-  class Account(var balance: CurrencyRepr = 0)
-    extends Increasable[CurrencyRepr]
-    with Decreasable[CurrencyRepr] {
-
-    def increase(amount: CurrencyRepr) {
+    def increase(amount: Currency) {
       balance = balance + amount
     }
 
-    def decrease(amount: CurrencyRepr) {
+    def decrease(amount: Currency) {
       balance = balance - amount
     }
   }
@@ -59,8 +59,8 @@ object BankExample extends App {
       }
     }
 
-    @Role class CheckingsAccount() extends Decreasable[CurrencyRepr] {
-      def decrease(amount: CurrencyRepr) {
+    @Role class CheckingsAccount() extends Decreasable {
+      def decrease(amount: Currency) {
         dd = From(_.isInstanceOf[Account]).
           To(_.isInstanceOf[CheckingsAccount]).
           Through(_ => true).
@@ -70,10 +70,10 @@ object BankExample extends App {
       }
     }
 
-    @Role class SavingsAccount() extends Increasable[CurrencyRepr] {
-      private def transactionFee(amount: CurrencyRepr) = amount * 0.1
+    @Role class SavingsAccount() extends Increasable {
+      private def transactionFee(amount: Currency) = amount * 0.1
 
-      def increase(amount: CurrencyRepr) {
+      def increase(amount: Currency) {
         info("Increasing with fee.")
         dd = From(_.isInstanceOf[Account]).
           To(_.isInstanceOf[SavingsAccount]).
@@ -98,7 +98,7 @@ object BankExample extends App {
 
   }
 
-  class Transaction(val amount: CurrencyRepr) extends Compartment {
+  class Transaction(val amount: Currency) extends Compartment {
     def execute() {
       info("Executing from Player.")
       // one queries for the first role of the provided type it can find in scope.
@@ -106,20 +106,14 @@ object BankExample extends App {
       one[Target]().deposit(amount)
     }
 
-    // To make roles that are contained in some Compartment accessible one
-    // has to create some helper methods like the following
-    def Source = new Source()
-
-    def Target = new Target()
-
     @Role class Source() {
-      def withDraw(m: CurrencyRepr) {
+      def withDraw(m: Currency) {
         +this decrease m
       }
     }
 
     @Role class Target() {
-      def deposit(m: CurrencyRepr) {
+      def deposit(m: Currency) {
         +this increase m
       }
     }
@@ -130,16 +124,16 @@ object BankExample extends App {
   val stan = Person("Stan")
   val brian = Person("Brian")
 
-  val accForStan = new Account(10.0)
-  val accForBrian = new Account(0)
+  val accForStan = new Account(Currency(10.0, "USD"))
+  val accForBrian = new Account(Currency(0, "USD"))
 
   implicit var dd: DispatchQuery = DispatchQuery.empty
 
   new Bank {
-    stan play new Customer()
-    brian play new Customer()
-    accForStan play new CheckingsAccount()
-    accForBrian play new SavingsAccount()
+    stan play new Customer
+    brian play new Customer
+    accForStan play new CheckingsAccount
+    accForBrian play new SavingsAccount
 
     +stan addAccount accForStan
     +brian addAccount accForBrian
@@ -148,9 +142,9 @@ object BankExample extends App {
     info("Balance for Stan: " + accForStan.balance)
     info("Balance for Brian: " + accForBrian.balance)
 
-    val transaction = new Transaction(10.0)
-    accForStan play transaction.Source
-    accForBrian play transaction.Target
+    val transaction = new Transaction(Currency(10.0, "USD"))
+    accForStan play new transaction.Source
+    accForBrian play new transaction.Target
 
     // Defining a partOf relation between Transaction and Bank.
     // The transaction needs full access to registered/bound Accounts like
