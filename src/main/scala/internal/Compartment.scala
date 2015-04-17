@@ -5,6 +5,8 @@ import internal.UnionTypes.RoleUnionTypes
 
 import scala.annotation.tailrec
 import scala.language.implicitConversions
+import scala.language.postfixOps
+import scala.language.dynamics
 
 import java.lang
 import java.lang.reflect.Method
@@ -17,25 +19,32 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
   val plays = new ScalaRoleGraph()
 
+  @deprecated("Since we want to apply role playing for legacy code, do not use this any more!", "0.4")
   private def isRole(value: Any): Boolean = {
     require(null != value)
     value.getClass.isAnnotationPresent(classOf[Role])
   }
 
-  // declaring a is-part-of relation between compartments
+  /**
+   * Declaring a is-part-of relation between compartments.
+   */
   def partOf(other: Compartment) {
     require(null != other)
     plays.store ++= other.plays.store
   }
 
-  // declaring a bidirectional is-part-of relation between compartment
+  /**
+   * Declaring a bidirectional is-part-of relation between compartment.
+   */
   def union(other: Compartment): Compartment = {
     other.partOf(this)
     this.partOf(other)
     this
   }
 
-  // removing is-part-of relation between compartments
+  /**
+   * Removing is-part-of relation between compartments.
+   */
   def notPartOf(other: Compartment) {
     require(null != other)
     other.plays.store.edges.toSeq.foreach(e => {
@@ -63,12 +72,12 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
   def one[T: WeakTypeTag](matcher: () => Boolean): T = safeReturn(all[T](matcher), weakTypeOf[T].toString).head
 
   def addPlaysRelation(core: Any, role: Any) {
-    require(isRole(role), "Argument for adding a role must be a role (you maybe want to add the @Role annotation).")
+    //require(isRole(role), "Argument for adding a role must be a role (you maybe want to add the @Role annotation).")
     plays.addBinding(core, role)
   }
 
   def removePlaysRelation(core: Any, role: Any) {
-    require(isRole(role), "Argument for removing a role must be a role (you maybe want to add the @Role annotation).")
+    //require(isRole(role), "Argument for removing a role must be a role (you maybe want to add the @Role annotation).")
     plays.removeBinding(core, role)
   }
 
@@ -76,7 +85,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     require(null != coreFrom)
     require(null != coreTo)
     require(coreFrom != coreTo, "You can not transfer a role from itself.")
-    require(isRole(role), "Argument for transferring a role must be a role (you maybe want to add the @Role annotation).")
+    //require(isRole(role), "Argument for transferring a role must be a role (you maybe want to add the @Role annotation).")
 
     removePlaysRelation(coreFrom, role)
     addPlaysRelation(coreTo, role)
@@ -223,11 +232,40 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
     def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(wrapped).exists(r => r.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(weakTypeOf[E]))
 
+    private val translationRules = Map("=" -> "$eq",
+      ">" -> "$greater",
+      "<" -> "$less",
+      "+" -> "$plus",
+      "-" -> "$minus",
+      "*" -> "$times",
+      "/" -> "$div",
+      "!" -> "$bang",
+      "@" -> "$at",
+      "#" -> "$hash",
+      "%" -> "$percent",
+      "^" -> "$up",
+      "&" -> "$amp",
+      "~" -> "$tilde",
+      "?" -> "$qmark",
+      "|" -> "$bar",
+      "\\" -> "$bslash",
+      ":" -> "$colon")
+
+    private def translateFunctionName(fn: String): String = {
+      var s = ""
+      fn.foreach(c => translationRules.get(c.toString) match {
+        case Some(r) => s = s + r
+        case None => s = s + c
+      })
+      s
+    }
+
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
       val core = getCoreFor(wrapped)
       val anys = dispatchQuery.reorder(Queue() ++ plays.getRoles(core) :+ wrapped :+ core)
+      val functionName = translateFunctionName(name)
       anys.foreach(r => {
-        r.getClass.getDeclaredMethods.find(m => m.getName == name).foreach(fm => {
+        r.getClass.getDeclaredMethods.find(m => m.getName == functionName).foreach(fm => {
           args match {
             case Nil => return dispatch(r, fm)
             case _ => return dispatch(r, fm, args.toSeq)
@@ -235,7 +273,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
         })
       })
       // otherwise give up
-      throw new RuntimeException(s"No role with method '$name' found! (core: '$wrapped')")
+      throw new RuntimeException(s"No role with method '$functionName' found! (core: '$wrapped')")
     }
 
     override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E =
@@ -244,21 +282,22 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
       val core = getCoreFor(wrapped)
       val anys = dispatchQuery.reorder(Queue() ++ plays.getRoles(core) :+ wrapped :+ core)
-      anys.foreach(r => if (r.hasAttribute(name)) return r.propertyOf[E](name))
-
+      val attName = translateFunctionName(name)
+      anys.foreach(r => if (r.hasAttribute(attName)) return r.propertyOf[E](attName))
       // otherwise give up
-      throw new RuntimeException(s"No role with value '$name' found! (core: '$wrapped')")
+      throw new RuntimeException(s"No role with value '$attName' found! (core: '$wrapped')")
     }
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty) {
       val core = getCoreFor(wrapped)
       val anys = dispatchQuery.reorder(Queue() ++ plays.getRoles(core) :+ wrapped :+ core)
-      anys.foreach(r => if (r.hasAttribute(name)) {
-        r.setPropertyOf(name, value)
+      val attName = translateFunctionName(name)
+      anys.foreach(r => if (r.hasAttribute(attName)) {
+        r.setPropertyOf(attName, value)
         return
       })
       // otherwise give up
-      throw new RuntimeException(s"No role with value '$name' found! (core: '$wrapped')")
+      throw new RuntimeException(s"No role with value '$attName' found! (core: '$wrapped')")
     }
 
     override def equals(o: Any) = o match {

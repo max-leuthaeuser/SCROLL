@@ -8,7 +8,7 @@ val titanV = "0.9.0-M1"
 
 val scalatestV = "2.2.1"
 
-version := "0.3.2"
+version := "0.4"
 
 libraryDependencies ++= Seq(
   "com.thinkaurelius.titan" % "titan-core" % titanV,
