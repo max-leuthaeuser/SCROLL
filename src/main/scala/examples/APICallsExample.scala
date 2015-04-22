@@ -30,7 +30,7 @@ object APICallsExample extends App {
 
         api.callB()
 
-        implicit var dd = From(_.isInstanceOf[API]).
+        implicit val dd = From(_.isInstanceOf[API]).
           To(_.isInstanceOf[FixedAPI]).
           Through(_ => true).
           Bypassing(_.isInstanceOf[FixedAPI])

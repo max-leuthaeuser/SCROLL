@@ -1,10 +1,8 @@
 package examples
 
-// removes warnings by Eclipse about using structural types
-
-import currency.Currency
 
 import scala.language.reflectiveCalls
+import examples.currency.Currency
 import annotations.Role
 import internal.{Compartment, DispatchQuery}
 import internal.DispatchQuery._

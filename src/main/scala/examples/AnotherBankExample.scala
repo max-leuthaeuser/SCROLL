@@ -1,7 +1,5 @@
 package examples
 
-// removes warnings by Eclipse about using structural types
-
 import internal.Compartment
 import internal.DispatchQuery._
 
