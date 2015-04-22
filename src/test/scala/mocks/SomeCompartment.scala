@@ -12,7 +12,6 @@ class SomeCompartment extends Compartment {
     var valueC: String = "valueC"
 
     def a(): Int = {
-      println("role a")
       0
     }
 
@@ -25,7 +24,6 @@ class SomeCompartment extends Compartment {
 
   @Role class RoleB {
     def b(): String = {
-      println("role b")
       "b"
     }
   }

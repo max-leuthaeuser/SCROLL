@@ -10,6 +10,7 @@ import reflect.runtime.universe._
 import scala.collection.immutable.Queue
 import annotations.Role
 import graph.ScalaRoleGraph
+import java.lang
 
 trait Compartment extends QueryStrategies with RoleUnionTypes {
 
@@ -107,7 +108,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
   trait DynamicType extends Dynamic {
     /**
-     * Allows to call a function with arguments.  
+     * Allows to call a function with arguments.
      *
      * @param name the function name
      * @param args the arguments handed over to the given function
@@ -245,12 +246,35 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       s
     }
 
+    private def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean = {
+      lazy val matchName = m.getName == name
+      lazy val matchParamCount = m.getParameterCount == args.size
+      lazy val matchArgTypes = args.zip(m.getParameterTypes).forall(t => {
+        t._2 match {
+          case lang.Boolean.TYPE => t._1.isInstanceOf[Boolean]
+          case lang.Character.TYPE => t._1.isInstanceOf[Char]
+          case lang.Short.TYPE => t._1.isInstanceOf[Short]
+          case lang.Integer.TYPE => t._1.isInstanceOf[Integer]
+          case lang.Long.TYPE => t._1.isInstanceOf[Long]
+          case lang.Float.TYPE => t._1.isInstanceOf[Float]
+          case lang.Double.TYPE => t._1.isInstanceOf[Double]
+          case lang.Byte.TYPE => t._1.isInstanceOf[Byte]
+          case _ => if (t._1.getClass == getClass) {
+            plays.getRoles(getCoreFor(t._1)).exists(_.getClass == t._2)
+          } else {
+            t._2.isAssignableFrom(t._1.getClass)
+          }
+        }
+      })
+      matchName && matchParamCount && matchArgTypes
+    }
+
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
       val core = getCoreFor(wrapped)
       val anys = dispatchQuery.reorder(Queue() ++ plays.getRoles(core) :+ wrapped :+ core)
       val functionName = translateFunctionName(name)
       anys.foreach(r => {
-        r.getClass.getDeclaredMethods.find(m => m.getName == functionName && m.getParameterCount == args.size).foreach(fm => {
+        r.getClass.getDeclaredMethods.find(matchMethod(_, functionName, args.toSeq)).foreach(fm => {
           args match {
             case Nil => return dispatch(r, fm)
             case _ => return dispatch(r, fm, args.toSeq)
