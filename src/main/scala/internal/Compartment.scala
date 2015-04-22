@@ -182,7 +182,11 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
         case (arg: Char, tpe: Class[_]) => new lang.Character(arg.toChar)
         case (arg: Boolean, tpe: Class[_]) => new lang.Boolean(arg)
         // Fallback:
-        case (arg@unchecked, tpe: Class[_]) => tpe.cast(arg)
+        case (arg@unchecked, tpe: Class[_]) => try {
+          tpe.cast(arg)
+        } catch {
+          case cce: ClassCastException => throw new RuntimeException(s"Could not dispatch on '$on' at method '$m' at argument '$arg'!")
+        }
       }
 
       m.invoke(on, actualArgs.map {
