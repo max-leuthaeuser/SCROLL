@@ -1,14 +1,10 @@
 package internal
 
-
 import internal.UnionTypes.RoleUnionTypes
-
 import scala.annotation.tailrec
 import scala.language.implicitConversions
 import scala.language.postfixOps
 import scala.language.dynamics
-
-import java.lang
 import java.lang.reflect.Method
 import reflect.runtime.universe._
 import scala.collection.immutable.Queue
@@ -167,31 +163,16 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       require(null != m)
       require(null != args)
       val argTypes: Array[Class[_]] = m.getParameterTypes
-      val actualArgs: Seq[Any] = args.zip(argTypes).map {
+      val actualArgs: Seq[Object] = args.zip(argTypes).map {
         case (arg: Player[_], tpe: Class[_]) =>
           plays.getRoles(arg.wrapped).find(_.getClass == tpe) match {
-            case Some(curRole) => curRole
+            case Some(curRole) => curRole.asInstanceOf[Object]
             case None => throw new RuntimeException(s"No role for type '$tpe' found.")
           }
-        case (arg: Int, tpe: Class[_]) => new lang.Integer(arg.toInt)
-        case (arg: Double, tpe: Class[_]) => new lang.Double(arg.toDouble)
-        case (arg: Float, tpe: Class[_]) => new lang.Float(arg.toFloat)
-        case (arg: Long, tpe: Class[_]) => new lang.Long(arg.toLong)
-        case (arg: Short, tpe: Class[_]) => new lang.Short(arg.toShort)
-        case (arg: Byte, tpe: Class[_]) => new lang.Byte(arg.toByte)
-        case (arg: Char, tpe: Class[_]) => new lang.Character(arg.toChar)
-        case (arg: Boolean, tpe: Class[_]) => new lang.Boolean(arg)
-        // Fallback:
-        case (arg@unchecked, tpe: Class[_]) => try {
-          tpe.cast(arg)
-        } catch {
-          case cce: ClassCastException => throw new RuntimeException(s"Could not dispatch on '$on' at method '$m' at argument '$arg'!")
-        }
+        case (arg@unchecked, tpe: Class[_]) => arg.asInstanceOf[Object]
       }
 
-      m.invoke(on, actualArgs.map {
-        _.asInstanceOf[Object]
-      }: _*).asInstanceOf[E]
+      m.invoke(on, actualArgs: _*).asInstanceOf[E]
     }
 
   }
