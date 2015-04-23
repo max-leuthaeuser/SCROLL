@@ -2,6 +2,7 @@ package examples
 
 import java.util
 import internal.Compartment
+import internal.DispatchQuery._
 import internal.util.Log.info
 
 object LegacyCodeExample extends App {
@@ -17,6 +18,14 @@ object LegacyCodeExample extends App {
     case class Iterateable[T]() {
       def foreach(f: T => Unit) {
         (0 until (+this).size).foreach(i => f((+this).get(i)))
+      }
+
+      def addAll(list: util.LinkedList[T]) {
+        implicit val dd = From(_.isInstanceOf[BrokenOldList[T]]).
+          To(_.isInstanceOf[Iterateable[T]]).
+          Through(_ => true).
+          Bypassing(_.isInstanceOf[Iterateable[T]])
+        +this addAll list
       }
     }
 
@@ -38,6 +47,9 @@ object LegacyCodeExample extends App {
 
     // and now we patch foreach to it
     fixedList play Iterateable()
+
+    // double the fun
+    fixedList addAll fixedList
 
     fixedList.foreach((a: String) => info(a))
   }
