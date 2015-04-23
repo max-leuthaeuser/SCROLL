@@ -59,7 +59,7 @@ object BankExample extends App {
       def decrease(amount: Currency) {
         dd = From(_.isInstanceOf[Account]).
           To(_.isInstanceOf[CheckingsAccount]).
-          Through(_ => true).
+          Through(anything).
           // so we won't calling decrease() recursively on this
           Bypassing(_.isInstanceOf[CheckingsAccount])
         +this decrease amount
@@ -73,7 +73,7 @@ object BankExample extends App {
         info("Increasing with fee.")
         dd = From(_.isInstanceOf[Account]).
           To(_.isInstanceOf[SavingsAccount]).
-          Through(_ => true).
+          Through(anything).
           // so we won't calling increase() recursively on this
           Bypassing(_.isInstanceOf[SavingsAccount])
         +this increase (amount - transactionFee(amount))
@@ -85,7 +85,7 @@ object BankExample extends App {
         info("Executing from Role.")
         dd = From(_.isInstanceOf[Transaction]).
           To(_.isInstanceOf[TransactionRole]).
-          Through(_ => true).
+          Through(anything).
           // so we won't calling execute() recursively on this
           Bypassing(_.isInstanceOf[TransactionRole])
         +this execute()

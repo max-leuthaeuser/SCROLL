@@ -32,7 +32,7 @@ object APICallsExample extends App {
 
         implicit val dd = From(_.isInstanceOf[API]).
           To(_.isInstanceOf[FixedAPI]).
-          Through(_ => true).
+          Through(anything).
           Bypassing(_.isInstanceOf[FixedAPI])
         api.callC()
       }

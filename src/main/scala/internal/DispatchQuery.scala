@@ -5,6 +5,9 @@ import internal.util.QueueUtils
 import scala.collection.immutable.Queue
 
 object DispatchQuery extends ReflectiveHelper {
+  val anything: Any => Boolean = _ => true
+  val nothing: Any => Boolean = _ => false
+
   def From(f: Any => Boolean) = new {
     def To(t: Any => Boolean) = new {
       def Through(th: Any => Boolean) = new {
@@ -25,10 +28,10 @@ object DispatchQuery extends ReflectiveHelper {
  * @param bypassing query function specifying all elements to be left out for the role dispatch query
  */
 class DispatchQuery(
-                     val from: Any => Boolean = _ => true,
-                     val to: Any => Boolean = _ => true,
-                     val through: Any => Boolean = _ => true,
-                     val bypassing: Any => Boolean = _ => false,
+                     val from: Any => Boolean = DispatchQuery.anything,
+                     val to: Any => Boolean = DispatchQuery.anything,
+                     val through: Any => Boolean = DispatchQuery.anything,
+                     val bypassing: Any => Boolean = DispatchQuery.nothing,
                      private val empty: Boolean = false) {
   def isEmpty: Boolean = empty
 

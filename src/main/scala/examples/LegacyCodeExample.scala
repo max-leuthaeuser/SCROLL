@@ -21,9 +21,9 @@ object LegacyCodeExample extends App {
       }
 
       def addAll(list: util.LinkedList[T]) {
-        implicit val dd = From(_.isInstanceOf[BrokenOldList[T]]).
+        implicit val dd = From(anything).
           To(_.isInstanceOf[Iterateable[T]]).
-          Through(_ => true).
+          Through(anything).
           Bypassing(_.isInstanceOf[Iterateable[T]])
         +this addAll list
       }

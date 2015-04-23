@@ -36,7 +36,7 @@ object AnotherBankExample extends App {
         if (amount > limit) info("Limit reached in increase!")
         implicit val dd = From(_.isInstanceOf[Account]).
           To(_.isInstanceOf[CheckingsAccount]).
-          Through(_ => true).
+          Through(anything).
           // so we won't calling decrease() recursively on this
           Bypassing(_.isInstanceOf[CheckingsAccount])
         (+this).increase(Math.min(amount, limit))
@@ -47,7 +47,7 @@ object AnotherBankExample extends App {
         if (amount > limit) info("Limit reached in decrease!")
         implicit val dd = From(_.isInstanceOf[Account]).
           To(_.isInstanceOf[CheckingsAccount]).
-          Through(_ => true).
+          Through(anything).
           // so we won't calling decrease() recursively on this
           Bypassing(_.isInstanceOf[CheckingsAccount])
         (+this).decrease(Math.min(amount, limit))

@@ -217,7 +217,7 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
 
         implicit var dd = From(_.isInstanceOf[CoreA]).
           To(_.isInstanceOf[RoleA]).
-          Through(_ => true).
+          Through(anything).
           Bypassing({
           case r: RoleA => 1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
           case _ => false
