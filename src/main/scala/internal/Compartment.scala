@@ -249,23 +249,20 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     private def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean = {
       lazy val matchName = m.getName == name
       lazy val matchParamCount = m.getParameterCount == args.size
-      lazy val matchArgTypes = args.zip(m.getParameterTypes).forall(t => {
-        t._2 match {
-          case lang.Boolean.TYPE => t._1.isInstanceOf[Boolean]
-          case lang.Character.TYPE => t._1.isInstanceOf[Char]
-          case lang.Short.TYPE => t._1.isInstanceOf[Short]
-          case lang.Integer.TYPE => t._1.isInstanceOf[Integer]
-          case lang.Long.TYPE => t._1.isInstanceOf[Long]
-          case lang.Float.TYPE => t._1.isInstanceOf[Float]
-          case lang.Double.TYPE => t._1.isInstanceOf[Double]
-          case lang.Byte.TYPE => t._1.isInstanceOf[Byte]
-          case _ => if (t._1.getClass == getClass) {
-            plays.getRoles(getCoreFor(t._1)).exists(_.getClass == t._2)
-          } else {
-            t._2.isAssignableFrom(t._1.getClass)
-          }
+      lazy val matchArgTypes = args.zip(m.getParameterTypes).forall {
+        case (arg@unchecked, paramType: Class[_]) => paramType match {
+          case lang.Boolean.TYPE => arg.isInstanceOf[Boolean]
+          case lang.Character.TYPE => arg.isInstanceOf[Char]
+          case lang.Short.TYPE => arg.isInstanceOf[Short]
+          case lang.Integer.TYPE => arg.isInstanceOf[Integer]
+          case lang.Long.TYPE => arg.isInstanceOf[Long]
+          case lang.Float.TYPE => arg.isInstanceOf[Float]
+          case lang.Double.TYPE => arg.isInstanceOf[Double]
+          case lang.Byte.TYPE => arg.isInstanceOf[Byte]
+          case _ if arg.getClass == getClass => plays.getRoles(getCoreFor(arg)).exists(_.getClass == paramType)
+          case _ => paramType.isAssignableFrom(arg.getClass)
         }
-      })
+      }
       matchName && matchParamCount && matchArgTypes
     }
 
@@ -292,21 +289,20 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       val core = getCoreFor(wrapped)
       val anys = dispatchQuery.reorder(Queue() ++ plays.getRoles(core) :+ wrapped :+ core)
       val attName = translateFunctionName(name)
-      anys.foreach(r => if (r.hasAttribute(attName)) return r.propertyOf[E](attName))
-      // otherwise give up
-      throw new RuntimeException(s"No role with value '$attName' found! (core: '$wrapped')")
+      anys.find(_.hasAttribute(attName)) match {
+        case Some(r) => r.propertyOf[E](attName)
+        case None => throw new RuntimeException(s"No role with value '$attName' found! (core: '$wrapped')")
+      }
     }
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty) {
       val core = getCoreFor(wrapped)
       val anys = dispatchQuery.reorder(Queue() ++ plays.getRoles(core) :+ wrapped :+ core)
       val attName = translateFunctionName(name)
-      anys.foreach(r => if (r.hasAttribute(attName)) {
-        r.setPropertyOf(attName, value)
-        return
-      })
-      // otherwise give up
-      throw new RuntimeException(s"No role with value '$attName' found! (core: '$wrapped')")
+      anys.find(_.hasAttribute(attName)) match {
+        case Some(r) => r.setPropertyOf(attName, value)
+        case None => throw new RuntimeException(s"No role with value '$attName' found! (core: '$wrapped')")
+      }
     }
 
     override def equals(o: Any) = o match {
