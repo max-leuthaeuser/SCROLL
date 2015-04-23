@@ -46,11 +46,25 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     })
   }
 
+  /**
+   * Query the role playing graph for all player instances that do conform to the given matcher.
+   *
+   * @param matcher the matcher that should match the queried player instance in the role playing graph
+   * @tparam T the type of the player instance to query for
+   * @return all player instances as Seq, that do conform to the given matcher
+   */
   def all[T: WeakTypeTag](matcher: RoleQueryStrategy = *()): Seq[T] = {
     plays.store.nodes.toSeq.filter(_.value.is[T])
       .map(_.value.asInstanceOf[T]).filter(a => matcher.matches(getCoreFor(a)))
   }
 
+  /**
+   * Query the role playing graph for all player instances that do conform to the given function.
+   *
+   * @param matcher the matching function that should match the queried player instance in the role playing graph
+   * @tparam T the type of the player instance to query for
+   * @return all player instances as Seq, that do conform to the given matcher
+   */
   def all[T: WeakTypeTag](matcher: () => Boolean): Seq[T] = {
     plays.store.nodes.toSeq.filter(_.value.is[T])
       .map(_.value.asInstanceOf[T]).filter(_ => matcher())
@@ -61,20 +75,53 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     case false => seq
   }
 
+  /**
+   * Query the role playing graph for all player instances that do conform to the given matcher and return the first found.
+   *
+   * @param matcher the matcher that should match the queried player instance in the role playing graph
+   * @tparam T the type of the player instance to query for
+   * @return the first player instances, that do conform to the given matcher
+   */
   def one[T: WeakTypeTag](matcher: RoleQueryStrategy = *()): T = safeReturn(all[T](matcher), weakTypeOf[T].toString).head
 
+  /**
+   * Query the role playing graph for all player instances that do conform to the given function and return the first found.
+   *
+   * @param matcher the matching function that should match the queried player instance in the role playing graph
+   * @tparam T the type of the player instance to query for
+   * @return the first player instances, that do conform to the given matcher
+   */
   def one[T: WeakTypeTag](matcher: () => Boolean): T = safeReturn(all[T](matcher), weakTypeOf[T].toString).head
 
+  /**
+   * Adds a play relation between core and role.
+   *
+   * @param core the core to add the given role at
+   * @param role the role that should added to the given core
+   */
   def addPlaysRelation(core: Any, role: Any) {
     //require(isRole(role), "Argument for adding a role must be a role (you maybe want to add the @Role annotation).")
     plays.addBinding(core, role)
   }
 
+  /**
+   * Removes the play relation between core and role.
+   *
+   * @param core the core the given role should removed from
+   * @param role the role that should removed from the given core
+   */
   def removePlaysRelation(core: Any, role: Any) {
     //require(isRole(role), "Argument for removing a role must be a role (you maybe want to add the @Role annotation).")
     plays.removeBinding(core, role)
   }
 
+  /**
+   * Transfers a role from one core to another.
+   *
+   * @param coreFrom the core the given role should removed from
+   * @param coreTo the core the given should attached to
+   * @param role the role that should be transferred
+   */
   def transferRole(coreFrom: Any, coreTo: Any, role: Any) {
     require(null != coreFrom)
     require(null != coreTo)
@@ -85,6 +132,13 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     addPlaysRelation(coreTo, role)
   }
 
+  /**
+   * Transfers a Set of roles from one core to another.
+   *
+   * @param coreFrom the core all roles should removed from
+   * @param coreTo the core the given roles in the Set should attached to
+   * @param roles the Set of roles that should be transferred
+   */
   def transferRoles(coreFrom: Any, coreTo: Any, roles: Set[Any]) {
     require(null != roles)
     roles.foreach(transferRole(coreFrom, coreTo, _))
@@ -148,14 +202,18 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
   }
 
   trait DispatchType {
-    // for single method dispatch
+    /**
+     * For single method dispatch.
+     */
     def dispatch[E](on: Any, m: Method): E = {
       require(null != on)
       require(null != m)
       m.invoke(on, Array.empty[Object]: _*).asInstanceOf[E]
     }
 
-    // for multi-method / multi-argument dispatch
+    /**
+     * For multi-method / multi-argument dispatch.
+     */
     def dispatch[E, A](on: Any, m: Method, args: Seq[A]): E = {
       require(null != on)
       require(null != m)
@@ -194,6 +252,12 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
      */
     def player: Any = getCoreFor(this)
 
+    /**
+     * Adds a play relation between core and role.
+     *
+     * @param role the role that should played
+     * @return this
+     */
     def play(role: Any): Player[T] = {
       wrapped match {
         case p: Player[_] => addPlaysRelation(p.wrapped, role)
@@ -202,17 +266,29 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       this
     }
 
+    /**
+     * Removes the play relation between core and role.
+     *
+     * @param role the role that should be removed
+     * @return this
+     */
     def drop(role: Any): Player[T] = {
       removePlaysRelation(wrapped, role)
       this
     }
 
+    /**
+     * Transfers a role to another player.
+     */
     def transfer(role: Any) = new {
       def to(player: Any) {
         transferRole(this, player, role)
       }
     }
 
+    /**
+     * Checks of this Player is playing a role of the given type.
+     */
     def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(wrapped).exists(r => r.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(weakTypeOf[E]))
 
     private val translationRules = Map("=" -> "$eq",
