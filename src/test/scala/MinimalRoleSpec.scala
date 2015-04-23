@@ -1,9 +1,5 @@
-// removes warnings by Eclipse about reflective calls
-
 import internal.DispatchQuery._
 import internal.util.Log
-
-import scala.language.reflectiveCalls
 import mocks.{CoreB, SomeCompartment, CoreA}
 import org.scalatest._
 

@@ -2,9 +2,6 @@ package internal
 
 import internal.UnionTypes.RoleUnionTypes
 import scala.annotation.tailrec
-import scala.language.implicitConversions
-import scala.language.postfixOps
-import scala.language.dynamics
 import java.lang.reflect.Method
 import reflect.runtime.universe._
 import scala.collection.immutable.Queue

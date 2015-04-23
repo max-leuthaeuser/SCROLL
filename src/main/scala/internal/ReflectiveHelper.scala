@@ -29,18 +29,12 @@ trait ReflectiveHelper {
 
     def hasAttribute(name: String): Boolean = {
       safeString(name)
-      fields.find(m => m.getName == name) match {
-        case None => false
-        case _ => true
-      }
+      fields.exists(_.getName == name)
     }
 
     def hasMethod(name: String): Boolean = {
       safeString(name)
-      methods.find(m => m.getName == name) match {
-        case None => false
-        case _ => true
-      }
+      methods.exists(_.getName == name)
     }
 
     def propertyOf[T](name: String): T = {

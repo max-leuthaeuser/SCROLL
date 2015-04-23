@@ -33,28 +33,27 @@ class DispatchQuery(
   def isEmpty: Boolean = empty
 
   def reorder(anys: Queue[Any]): Queue[Any] = {
-    require(null != anys)
+    def apply(in: Queue[Any]): Queue[Any] = {
+      if (isEmpty) return in
+      // we only apply the reordering on the path from DispatchQuery.from to DispatchQuery.to
+      QueueUtils.hasPath(from, to, in) match {
+        case true =>
+          lazy val startIndex = in.indexWhere(from)
+          lazy val endIndex = in.indexWhere(to)
 
-    val dist_anys = anys.distinct
+          if (startIndex == 0 || endIndex == 1) {
+            return in.filter(through).filterNot(bypassing)
+          }
 
-    if (isEmpty) return dist_anys.reverse
+          val head = in.take(startIndex - 1)
+          val path = in.slice(startIndex, endIndex - 1)
+          val tail = in.slice(endIndex, in.size)
 
-    // we only apply the reordering on the path from DispatchQuery.from to DispatchQuery.to
-    QueueUtils.hasPath(from, to, dist_anys) match {
-      case true =>
-        val startIndex = dist_anys.indexWhere(from)
-        val endIndex = dist_anys.indexWhere(to)
-
-        if (startIndex == 0 || endIndex == 1) {
-          return dist_anys.filter(through).filterNot(bypassing).reverse
-        }
-
-        val head = dist_anys.take(startIndex - 1)
-        val path = dist_anys.slice(startIndex, endIndex - 1)
-        val tail = dist_anys.slice(endIndex, dist_anys.size)
-
-        (head ++ path.filter(through).filterNot(bypassing) ++ tail).reverse
-      case false => dist_anys.reverse
+          head ++ path.filter(through).filterNot(bypassing) ++ tail
+        case false => in
+      }
     }
+    require(null != anys)
+    apply(anys.distinct).reverse
   }
 }

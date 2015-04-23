@@ -1,12 +1,12 @@
 package internal.graph
 
-import internal.graph.ScalaRoleGraph.{ RelationType, Relation }
-import scalax.collection.constrained.constraints.{ Connected, Acyclic }
+import internal.graph.ScalaRoleGraph.{RelationType, Relation}
+import scalax.collection.constrained.constraints.{Connected, Acyclic}
 import scalax.collection.GraphEdge._
 import scalax.collection.GraphPredef._
-import internal.util.Log._
 
 object ScalaRoleGraph {
+
   object RelationType extends Enumeration {
     type RelationType = Value
     val Plays, Fills = Value
@@ -15,8 +15,8 @@ object ScalaRoleGraph {
   import RelationType._
 
   class Relation[N](
-    nodes: Product,
-    val rtype: RelationType)
+                     nodes: Product,
+                     val rtype: RelationType)
     extends DiEdge[N](nodes)
     with ExtendedKey[N]
     with EdgeCopy[Relation]
@@ -30,9 +30,9 @@ object ScalaRoleGraph {
 
   object Relation {
     def apply(
-      from: Any,
-      to: Any,
-      t: RelationType) =
+               from: Any,
+               to: Any,
+               t: RelationType) =
       new Relation[Any](NodeProduct(from, to), t)
 
     def unapply(e: Relation[Any]): Option[(Any, Any, RelationType)] =
@@ -51,13 +51,11 @@ class ScalaRoleGraph extends RoleGraph[Any] {
   var store = scalax.collection.mutable.Graph[Any, Relation]()
 
   override def addBinding(core: Any, role: Any) {
-    //info(s"Adding core '$core' and role '$role'.")
     val relA = core ~> role ## RelationType.Plays
     store += relA
   }
 
   override def removeBinding(core: Any, role: Any) {
-    //info(s"Removing core '$core' and role '$role'.")
     val relA = core ~> role ## RelationType.Plays
     store -= relA
   }

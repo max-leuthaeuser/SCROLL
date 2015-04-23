@@ -2,8 +2,6 @@ package examples
 
 import internal.Compartment
 import internal.DispatchQuery._
-
-import scala.language.reflectiveCalls
 import annotations.Role
 import internal.util.Log.info
 import annotations.Relationship

@@ -14,7 +14,13 @@ libraryDependencies ++= Seq(
   "com.assembla.scala-incubator" %% "graph-constrained" % "1.9.0"
 )
 
-scalacOptions ++= Seq("-unchecked", "-deprecation", "-language:dynamics")
+scalacOptions ++= Seq("-unchecked",
+  "-deprecation",
+  "-feature",
+  "-language:dynamics",
+  "-language:reflectiveCalls",
+  "-language:postfixOps",
+  "-language:implicitConversions")
 
 testOptions in Test += Tests.Argument("-oD")
 

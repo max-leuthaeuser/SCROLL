@@ -1,7 +1,5 @@
 package examples
 
-
-import scala.language.reflectiveCalls
 import examples.currency.Currency
 import annotations.Role
 import internal.{Compartment, DispatchQuery}
