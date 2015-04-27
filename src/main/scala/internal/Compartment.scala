@@ -149,11 +149,12 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     require(null != role)
     role match {
       case cur: Player[_] => getCoreFor(cur.wrapped)
-      case cur: Any => plays.store.get(cur).diPredecessors.toList match {
+      case cur: Any if plays.store.contains(cur) => plays.store.get(cur).diPredecessors.toList match {
         case p :: Nil => getCoreFor(p.value)
         case Nil => cur
         case _ =>
       }
+      case _ => throw new RuntimeException(s"Player '$role' was not found in the role playing graph. Maybe you forgot to union the corresponding compartments?")
     }
   }
 
