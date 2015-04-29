@@ -1,5 +1,5 @@
-import mocks.{ SomeCompartment, CoreA }
-import org.scalatest.{ Matchers, GivenWhenThen, FeatureSpec }
+import mocks.{SomeCompartment, CoreA}
+import org.scalatest.{Matchers, GivenWhenThen, FeatureSpec}
 import examples._
 
 class ExamplesRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
@@ -34,6 +34,18 @@ class ExamplesRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
       When("Running the APICalls example")
       Then("There should be no error or exception.")
       APICallsExample.main(null)
+    }
+
+    scenario("Robot") {
+      When("Running the Robot example")
+      Then("There should be no error or exception.")
+      RobotExample.main(null)
+    }
+
+    scenario("Expression Problem") {
+      When("Running the Expression Problem example")
+      Then("There should be no error or exception.")
+      ExpressionProblemExample.main(null)
     }
   }
 }
