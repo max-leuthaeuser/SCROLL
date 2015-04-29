@@ -152,7 +152,8 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       case cur: Any if plays.store.contains(cur) => plays.store.get(cur).diPredecessors.toList match {
         case p :: Nil => getCoreFor(p.value)
         case Nil => cur
-        case _ =>
+        case l if role.isCaseClass => throw new RuntimeException(s"Role instance '$role' is played multiple times (by ${l.mkString(",")}). This is not supported! '$role' is a case class, implementing it as normal class may solves this problem.")
+        case l => throw new RuntimeException(s"Role instance '$role' is played multiple times (by ${l.mkString(",")}). This is not supported!")
       }
       case _ => throw new RuntimeException(s"Player '$role' was not found in the role playing graph. Maybe you forgot to union the corresponding compartments?")
     }
