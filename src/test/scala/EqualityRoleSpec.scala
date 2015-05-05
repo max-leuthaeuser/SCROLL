@@ -1,6 +1,7 @@
 import mocks.{ SomeCompartment, CoreA }
 import org.scalatest.{ Matchers, GivenWhenThen, FeatureSpec }
 
+//noinspection ComparingUnrelatedTypes
 class EqualityRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for role equality.")
 

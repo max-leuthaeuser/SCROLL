@@ -225,17 +225,16 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       require(null != on)
       require(null != m)
       require(null != args)
-      val argTypes: Array[Class[_]] = m.getParameterTypes
-      val actualArgs: Seq[Object] = args.zip(argTypes).map {
+      val actualArgs = args.zip(m.getParameterTypes).map {
         case (arg: Player[_], tpe: Class[_]) =>
           plays.getRoles(arg.wrapped).find(_.getClass == tpe) match {
-            case Some(curRole) => curRole.asInstanceOf[Object]
+            case Some(curRole) => curRole
             case None => throw new RuntimeException(s"No role for type '$tpe' found.")
           }
-        case (arg@unchecked, tpe: Class[_]) => arg.asInstanceOf[Object]
+        case (arg@unchecked, tpe: Class[_]) => arg
       }
 
-      m.invoke(on, actualArgs: _*).asInstanceOf[E]
+      m.invoke(on, actualArgs.map(_.asInstanceOf[Object]): _*).asInstanceOf[E]
     }
 
   }
