@@ -31,6 +31,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * Declaring a bidirectional is-part-of relation between compartment.
    */
   def union(other: Compartment): Compartment = {
+    require(null != other)
     other.partOf(this)
     this.partOf(other)
     this
@@ -100,6 +101,8 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @param role the role that should added to the given core
    */
   def addPlaysRelation(core: Any, role: Any) {
+    require(null != core)
+    require(null != role)
     //require(isRole(role), "Argument for adding a role must be a role (you maybe want to add the @Role annotation).")
     plays.addBinding(core, role)
   }
@@ -111,6 +114,8 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @param role the role that should removed from the given core
    */
   def removePlaysRelation(core: Any, role: Any) {
+    require(null != core)
+    require(null != role)
     //require(isRole(role), "Argument for removing a role must be a role (you maybe want to add the @Role annotation).")
     plays.removeBinding(core, role)
   }
