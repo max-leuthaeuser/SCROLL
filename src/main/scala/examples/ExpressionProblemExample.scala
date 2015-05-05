@@ -28,8 +28,8 @@ object ExpressionProblemExample extends App {
 
     class NumShowable() {
       def show(): String = {
-        val v: Int = (+this).value
-        v.toString
+        val value: Int = (+this).value
+        value.toString
       }
     }
 
@@ -49,7 +49,7 @@ object ExpressionProblemExample extends App {
     class NegShowable() {
       def show(): String = {
         val e: Exp = (+this).exp
-        "-" + (+e).show()
+        s"-${(+e).show()}"
       }
     }
 

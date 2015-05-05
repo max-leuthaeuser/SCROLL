@@ -9,7 +9,7 @@ object ScalaRoleGraph {
 
   object RelationType extends Enumeration {
     type RelationType = Value
-    val Plays, Fills = Value
+    val Plays = Value
   }
 
   import RelationType._
@@ -51,21 +51,29 @@ class ScalaRoleGraph extends RoleGraph[Any] {
   var store = scalax.collection.mutable.Graph[Any, Relation]()
 
   override def addBinding(core: Any, role: Any) {
+    require(null != core)
+    require(null != role)
     val relA = core ~> role ## RelationType.Plays
     store += relA
   }
 
   override def removeBinding(core: Any, role: Any) {
+    require(null != core)
+    require(null != role)
     val relA = core ~> role ## RelationType.Plays
     store -= relA
   }
 
   override def removePlayer(player: Any) {
+    require(null != player)
     store -= player
   }
 
-  override def getRoles(core: Any): Set[Any] = store.nodes.contains(core) match {
-    case true => store.get(core).outerNodeTraverser.map(_.value).toSet
-    case false => throw new RuntimeException(s"No roles for core '$core' found!")
+  override def getRoles(core: Any): Set[Any] = {
+    require(null != core)
+    store.contains(core) match {
+      case true => store.get(core).outerNodeTraverser.map(_.value).toSet
+      case false => throw new RuntimeException(s"No roles for core '$core' found!")
+    }
   }
 }
