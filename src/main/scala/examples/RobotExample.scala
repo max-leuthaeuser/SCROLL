@@ -15,7 +15,7 @@ object RobotExample extends App {
 
     case class ServiceRole() {
       def move() {
-        val name: String = (+this).name
+        val name: String = +this name()
         val target: String = +this getTarget()
         val sensorValue: Int = +this readSensor()
         val actor: String = +this getActor()
@@ -51,9 +51,9 @@ object RobotExample extends App {
   }
 
   new Compartment {
-    val myRobot = new Robot("Pete") play ServiceRole() play NavigationRole() play ObservingEnvironmentRole() play DriveableRole()
+    val myRobot = Robot("Pete") play ServiceRole() play NavigationRole() play ObservingEnvironmentRole() play DriveableRole()
 
-    this union BehavioralView union NavigationView union SensorView union ActorView
+    BehavioralView partOf this
 
     myRobot move()
   }
