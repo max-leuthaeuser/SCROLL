@@ -157,6 +157,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       case cur: Any if plays.store.contains(cur) => plays.store.get(cur).diPredecessors.toList match {
         case p :: Nil => getCoreFor(p.value)
         case Nil => cur
+        // TODO: handle this 2 cases for transconsistency
         case l if role.isCaseClass => throw new RuntimeException(s"Role instance '$role' is played multiple times (by ${l.mkString(",")}). This is not supported! '$role' is a case class, implementing it as normal class may solves this problem.")
         case l => throw new RuntimeException(s"Role instance '$role' is played multiple times (by ${l.mkString(",")}). This is not supported!")
       }
@@ -297,7 +298,8 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
      */
     def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(wrapped).exists(r => r.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(weakTypeOf[E]))
 
-    private val translationRules = Map("=" -> "$eq",
+    private val translationRules = Map(
+      "=" -> "$eq",
       ">" -> "$greater",
       "<" -> "$less",
       "+" -> "$plus",
@@ -324,6 +326,9 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       })
       s
     }
+
+    private def noRoleException(name: String, args: Seq[Any], c: Any): RuntimeException =
+      new RuntimeException(s"No role with '$name${args.mkString("(", ",", ")")}' found! (core: '${c.getClass}')")
 
     private def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean = {
       lazy val matchName = m.getName == name
@@ -358,7 +363,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
         })
       })
       // otherwise give up
-      throw new RuntimeException(s"No role with method '$functionName' found! (core: '$wrapped')")
+      throw noRoleException(functionName, args.toSeq, core)
     }
 
     override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E =
@@ -370,7 +375,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       val attName = translateFunctionName(name)
       anys.find(_.hasAttribute(attName)) match {
         case Some(r) => r.propertyOf[E](attName)
-        case None => throw new RuntimeException(s"No role with value '$attName' found! (core: '$wrapped')")
+        case None => throw noRoleException(attName, Seq.empty, wrapped)
       }
     }
 
@@ -380,7 +385,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       val attName = translateFunctionName(name)
       anys.find(_.hasAttribute(attName)) match {
         case Some(r) => r.setPropertyOf(attName, value)
-        case None => throw new RuntimeException(s"No role with value '$attName' found! (core: '$wrapped')")
+        case None => throw noRoleException(attName, Seq.empty, wrapped)
       }
     }
 

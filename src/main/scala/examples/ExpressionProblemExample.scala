@@ -6,25 +6,33 @@ import internal.util.Log.info
 object ExpressionProblemExample extends App {
 
   // M1
-  trait Exp {
-    def eval(): Int
-  }
+  trait M1 extends Compartment {
 
-  case class Num(value: Int) extends Exp {
-    override def eval(): Int = value
-  }
+    trait Exp {
+      def eval(): Int
+    }
 
-  case class Add(left: Exp, right: Exp) extends Exp {
-    override def eval(): Int = left.eval() + right.eval()
+    case class Num(value: Int) extends Exp {
+      override def eval(): Int = value
+    }
+
+    case class Add(left: Exp, right: Exp) extends Exp {
+      override def eval(): Int = left.eval() + right.eval()
+    }
+
   }
 
   // M2
-  case class Neg(exp: Exp) extends Exp {
-    override def eval(): Int = -exp.eval
+  trait M2 extends M1 {
+
+    case class Neg(exp: Exp) extends Exp {
+      override def eval(): Int = -exp.eval
+    }
+
   }
 
   // M3
-  trait M3 extends Compartment {
+  trait M3 extends M2 {
 
     class NumShowable() {
       def show(): String = {
@@ -55,7 +63,7 @@ object ExpressionProblemExample extends App {
 
   }
 
-  new Compartment with M4 {
+  new M4 {
     val n1 = Num(11)
     n1 play new NumShowable()
     val n2 = Num(2)

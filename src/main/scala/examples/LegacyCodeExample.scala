@@ -7,13 +7,13 @@ import internal.util.Log.info
 
 object LegacyCodeExample extends App {
 
-  class LegacyCode extends Compartment {
-
-    case class BrokenOldList[T]() {
-      def add(item: T) {
-        info(s"Nope, this is broken. Item '$item' was not added!")
-      }
+  class BrokenOldList[T]() {
+    def add(item: T) {
+      info(s"Nope, this is broken. Item '$item' was not added!")
     }
+  }
+
+  class LegacyCode extends Compartment {
 
     case class Iterateable[T]() {
       def foreach(f: T => Unit) {
@@ -33,7 +33,7 @@ object LegacyCodeExample extends App {
 
   new LegacyCode {
     val newFancyList = new util.LinkedList[String]()
-    val oldList = BrokenOldList[String]()
+    val oldList = new BrokenOldList[String]()
 
     val fixedList = oldList play newFancyList
 
