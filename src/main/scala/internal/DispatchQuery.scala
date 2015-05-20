@@ -35,8 +35,8 @@ class DispatchQuery(
                      private val empty: Boolean = false) {
   def isEmpty: Boolean = empty
 
-  def reorder(anys: Queue[Any]): Queue[Any] = {
-    def apply(in: Queue[Any]): Queue[Any] = {
+  def reorder(anys: Seq[Any]): Seq[Any] = {
+    def apply(in: Seq[Any]): Seq[Any] = {
       if (isEmpty) return in
       // we only apply the reordering on the path from DispatchQuery.from to DispatchQuery.to
       QueueUtils.hasPath(from, to, in) match {
