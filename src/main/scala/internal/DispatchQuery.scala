@@ -42,7 +42,7 @@ class DispatchQuery(
       QueueUtils.hasPath(from, to, in) match {
         case true =>
           lazy val startIndex = in.indexWhere(from)
-          lazy val endIndex = in.indexWhere(to)
+          lazy val endIndex = in.lastIndexWhere(to)
 
           if (startIndex == 0 || endIndex == 1) {
             return in.filter(through).filterNot(bypassing)

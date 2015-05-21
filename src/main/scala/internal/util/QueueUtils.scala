@@ -67,7 +67,7 @@ object QueueUtils {
    */
   def hasPath[T](from: T => Boolean, to: T => Boolean, in: Seq[T]): Boolean = {
     val s = in.indexWhere(from)
-    val e = in.indexWhere(to)
+    val e = in.lastIndexWhere(to)
     s != -1 && e != -1 && s < e
   }
 }

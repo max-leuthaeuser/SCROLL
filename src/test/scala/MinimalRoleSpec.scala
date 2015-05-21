@@ -1,6 +1,5 @@
 import internal.DispatchQuery
 import internal.DispatchQuery._
-import internal.util.Log
 import mocks.{CoreB, SomeCompartment, CoreA}
 import org.scalatest._
 
@@ -353,9 +352,10 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
     Given("some players and role in a compartment")
     val someCoreA = new CoreA()
     val someCoreB = new CoreB()
-    implicit var dd = DispatchQuery.empty
 
     new SomeCompartment {
+      implicit var dd = DispatchQuery.empty
+
       val someRole = new RoleA()
       And("a play relationship")
       someCoreA play someRole
@@ -382,11 +382,9 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
 
       When("getting the player of RoleA with an explicit dispatch description")
       dd = From(anything).
-        To(anything).
+        To(c => c.isInstanceOf[CoreA] || c.isInstanceOf[CoreB]).
         Through(anything).
-        Bypassing({
-        _.getClass == someCoreB.getClass // skipp CoreB
-      })
+        Bypassing(_.isInstanceOf[CoreB])
       val player2 = someRole.player
       Then("it should be the correct player.")
       assert(player2 == someCoreA)
