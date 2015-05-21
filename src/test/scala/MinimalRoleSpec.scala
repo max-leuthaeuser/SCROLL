@@ -1,3 +1,4 @@
+import internal.DispatchQuery
 import internal.DispatchQuery._
 import internal.util.Log
 import mocks.{CoreB, SomeCompartment, CoreA}
@@ -175,7 +176,7 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
       }
     }
 
-    scenario("Playing a role multiple times (different instances)") {
+    scenario("Playing a role multiple times (different instances) from one player") {
       Given("some players and 2 role instance of the same type in a compartment")
       val someCoreA = new CoreA()
 
@@ -345,6 +346,50 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
       assert(actualByteP == expectedByte)
       assert(actualCharP == expectedChar)
       assert(actualBooleanP == expectedBoolean)
+    }
+  }
+
+  scenario("Playing a role multiple times (same instance) from different players") {
+    Given("some players and role in a compartment")
+    val someCoreA = new CoreA()
+    val someCoreB = new CoreB()
+    implicit var dd = DispatchQuery.empty
+
+    new SomeCompartment {
+      val someRole = new RoleA()
+      And("a play relationship")
+      someCoreA play someRole
+      someCoreB play someRole
+
+      When("updating role attributes")
+      val expected = "updated"
+      (+someCoreA).update(expected)
+      (+someCoreB).update(expected)
+
+      val actual1: String = someRole.valueC
+      val actual2: String = (+someCoreA).valueC
+      val actual3: String = (+someCoreB).valueC
+
+      Then("the role and player instance should be updated correctly.")
+      assert(expected == actual1)
+      assert(expected == actual2)
+      assert(expected == actual3)
+
+      When("getting the player of RoleA without an explicit dispatch description")
+      val player = someRole.player
+      Then("it should be one of the player this role actually plays.")
+      assert(player == someCoreA || player == someCoreB)
+
+      When("getting the player of RoleA with an explicit dispatch description")
+      dd = From(anything).
+        To(anything).
+        Through(anything).
+        Bypassing({
+        _.getClass == someCoreB.getClass // skipp CoreB
+      })
+      val player2 = someRole.player
+      Then("it should be the correct player.")
+      assert(player2 == someCoreA)
     }
   }
 }

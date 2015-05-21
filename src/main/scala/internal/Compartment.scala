@@ -4,7 +4,6 @@ import internal.UnionTypes.RoleUnionTypes
 import scala.annotation.tailrec
 import java.lang.reflect.Method
 import reflect.runtime.universe._
-import scala.collection.immutable.Queue
 import annotations.Role
 import graph.ScalaRoleGraph
 import java.lang
@@ -55,8 +54,13 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @return all player instances as Seq, that do conform to the given matcher
    */
   def all[T: WeakTypeTag](matcher: RoleQueryStrategy = *()): Seq[T] = {
-    plays.store.nodes.toSeq.filter(_.value.is[T])
-      .map(_.value.asInstanceOf[T]).filter(a => matcher.matches(getCoreFor(a)))
+    plays.store.nodes.toSeq.filter(_.value.is[T]).map(_.value.asInstanceOf[T]).filter(a => {
+      getCoreFor(a) match {
+        case p :: Nil => matcher.matches(p)
+        case Nil => false
+        case l => l.forall(matcher.matches)
+      }
+    })
   }
 
   /**
@@ -150,16 +154,14 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
   }
 
   @tailrec
-  private def getCoreFor(role: Any): Any = {
+  private def getCoreFor(role: Any): Seq[Any] = {
     require(null != role)
     role match {
       case cur: Player[_] => getCoreFor(cur.wrapped)
       case cur: Any if plays.store.contains(cur) => plays.store.get(cur).diPredecessors.toList match {
         case p :: Nil => getCoreFor(p.value)
-        case Nil => cur
-        // TODO: handle this 2 cases for transconsistency
-        case l if role.isCaseClass => throw new RuntimeException(s"Role instance '$role' is played multiple times (by ${l.mkString(",")}). This is not supported! '$role' is a case class, implementing it as normal class may solves this problem.")
-        case l => throw new RuntimeException(s"Role instance '$role' is played multiple times (by ${l.mkString(",")}). This is not supported!")
+        case Nil => Seq(cur)
+        case l => l.map(_.value)
       }
       case _ => throw new RuntimeException(s"Player '$role' was not found in the role playing graph. Maybe you forgot to union the corresponding compartments?")
     }
@@ -255,9 +257,13 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     def unary_+ : Player[T] = this
 
     /**
-     * @return the player of this Player instance if this is a role, or this itself. Alias for [[Compartment.getCoreFor]].
+     * Returns the player of this player instance if this is a role, or this itself.
+     *
+     * @param dispatchQuery provide this to sort the resulting instances if a role instance is played by multiple core objects
+     * @return the player of this player instance if this is a role, or this itself.
      */
-    def player: Any = getCoreFor(this)
+    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Any =
+      dispatchQuery.reorder(getCoreFor(this)).head
 
     /**
      * Adds a play relation between core and role.
@@ -343,7 +349,8 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
           case lang.Float.TYPE => arg.isInstanceOf[Float]
           case lang.Double.TYPE => arg.isInstanceOf[Double]
           case lang.Byte.TYPE => arg.isInstanceOf[Byte]
-          case _ if arg.getClass == getClass => plays.getRoles(getCoreFor(arg)).exists(_.getClass == paramType)
+          case _ if arg.getClass == this.getClass => getCoreFor(arg).flatMap(plays.getRoles).exists(_.getClass == paramType)
+
           case _ => paramType.isAssignableFrom(arg.getClass)
         }
       }
@@ -351,7 +358,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     }
 
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
-      val core = getCoreFor(wrapped)
+      val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
       val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
       val functionName = translateFunctionName(name)
       anys.foreach(r => {
@@ -370,7 +377,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
-      val core = getCoreFor(wrapped)
+      val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
       val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
       val attName = translateFunctionName(name)
       anys.find(_.hasAttribute(attName)) match {
@@ -380,7 +387,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     }
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty) {
-      val core = getCoreFor(wrapped)
+      val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
       val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
       val attName = translateFunctionName(name)
       anys.find(_.hasAttribute(attName)) match {
@@ -391,7 +398,11 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
     override def equals(o: Any) = o match {
       case other: Player[_] => getCoreFor(this.wrapped) == getCoreFor(other.wrapped)
-      case other: Any => getCoreFor(this.wrapped) == other
+      case other: Any => getCoreFor(this.wrapped) match {
+        case Nil => false
+        case p :: Nil => p == other
+        case l => false
+      }
     }
 
     override def hashCode(): Int = wrapped.hashCode()
