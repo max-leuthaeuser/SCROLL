@@ -2,8 +2,6 @@ package internal
 
 import internal.util.QueueUtils
 
-import scala.collection.immutable.Queue
-
 object DispatchQuery extends ReflectiveHelper {
   val anything: Any => Boolean = _ => true
   val nothing: Any => Boolean = _ => false
