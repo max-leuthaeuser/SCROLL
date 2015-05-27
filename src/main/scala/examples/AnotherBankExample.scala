@@ -4,7 +4,6 @@ import internal.Compartment
 import internal.DispatchQuery._
 import annotations.Role
 import internal.util.Log.info
-import annotations.Relationship
 
 object AnotherBankExample extends App {
 
@@ -58,9 +57,9 @@ object AnotherBankExample extends App {
 
     @Role case class Target()
 
-    @Relationship case class Owns(left: Customer, right: Set[CheckingsAccount])
+    case class Owns(left: Customer, right: Set[CheckingsAccount])
 
-    @Relationship case class Transfer(left: Source, right: Target) {
+    case class Transfer(left: Source, right: Target) {
       var amount: Money = 0
       var creation: String = "now"
     }

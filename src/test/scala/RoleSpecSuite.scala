@@ -5,4 +5,5 @@ class RoleSpecSuite
     new MinimalRoleSpec,
     new EqualityRoleSpec,
     new ExamplesRoleSpec,
+    new RelationshipSpec,
     new UnionTypesRoleSpec)

@@ -12,6 +12,63 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
   val plays = new ScalaRoleGraph()
 
+  import Relationship._
+
+  object Relationship {
+
+    abstract class Multiplicity
+
+    abstract class ExpMultiplicity extends Multiplicity
+
+    case class Many() extends ExpMultiplicity
+
+    case class ConcreteValue(v: Int) extends ExpMultiplicity {
+      require(v >= 0)
+
+      def To(t: ExpMultiplicity): Multiplicity = RangeMultiplicity(v, t)
+    }
+
+    implicit def intToConcreteValue(v: Int): ConcreteValue = new ConcreteValue(v)
+
+    case class RangeMultiplicity(from: ConcreteValue, to: ExpMultiplicity) extends Multiplicity
+
+    def apply(name: String) = new {
+      def from[L: WeakTypeTag](leftMul: Multiplicity) = new {
+        def to[R: WeakTypeTag](rightMul: Multiplicity): Relationship[L, R] = new Relationship(name, leftMul, rightMul)
+      }
+    }
+
+  }
+
+  class Relationship[L: WeakTypeTag, R: WeakTypeTag](name: String,
+                                                     var leftMul: Multiplicity,
+                                                     var rightMul: Multiplicity) {
+
+    private def checkMul[T](m: Multiplicity, on: Seq[T]) {
+      m match {
+        case Many() => assert(on.nonEmpty, s"With left multiplicity for '$name' of '*', the resulting role set should not be empty!")
+        case ConcreteValue(v) => assert(on.size == v, s"With a concrete multiplicity for '$name' of '$v' the resulting role set should have the same size!")
+        case RangeMultiplicity(f, t) => (f, t) match {
+          case (ConcreteValue(v1), ConcreteValue(v2)) => assert(v1 <= on.size && on.size <= v2, s"With a multiplicity for '$name' from '$v1' to '$v2', the resulting role set size should be in between!")
+          case (ConcreteValue(v), Many()) => assert(v <= on.size, s"With a multiplicity for '$name' from '$v' to '*', the resulting role set size should be in between!")
+        }
+      }
+    }
+
+    def left(matcher: RoleQueryStrategy = *()): Seq[L] = {
+      val res = all[L](matcher)
+      checkMul[L](leftMul, res)
+      res
+    }
+
+    def right(matcher: RoleQueryStrategy = *()): Seq[R] = {
+      val res = all[R](matcher)
+      checkMul[R](rightMul, res)
+      res
+    }
+
+  }
+
   @deprecated("Since we want to apply role playing for legacy code, do not use this any more!", "0.4")
   private def isRole(value: Any): Boolean = {
     require(null != value)
