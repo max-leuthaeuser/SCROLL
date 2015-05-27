@@ -12,13 +12,20 @@ class RelationshipSpec extends FeatureSpec with GivenWhenThen with Matchers {
       new SomeCompartment {
         val rA = new RoleA
         val rB = new RoleB
+        val rC = new RoleC
         p play rA play rB
 
         When("specifying a 1-1 relationship")
-        val rel = Relationship("rel").from[RoleA](1).to[RoleB](1)
+        val rel1 = Relationship("rel1").from[RoleA](1).to[RoleB](1)
         Then("the given multiplicities and queries should be correct")
-        rel.left() shouldBe Seq(rA)
-        rel.right() shouldBe Seq(rB)
+        rel1.left() shouldBe Seq(rA)
+        rel1.right() shouldBe Seq(rB)
+        And("querying for a role that is not played should throw an error")
+        val rel2 = Relationship("rel2").from[RoleA](1).to[RoleC](1)
+        rel2.left() shouldBe Seq(rA)
+        a[AssertionError] should be thrownBy {
+          rel2.right()
+        }
       }
     }
   }
