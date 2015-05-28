@@ -56,9 +56,9 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       on
     }
 
-    def left(matcher: RoleQueryStrategy = *()): Seq[L] = checkMul(leftMul, all[L](matcher))
+    def left(matcher: L => Boolean = _ => true): Seq[L] = checkMul(leftMul, all[L](matcher))
 
-    def right(matcher: RoleQueryStrategy = *()): Seq[R] = checkMul(rightMul, all[R](matcher))
+    def right(matcher: R => Boolean = _ => true): Seq[R] = checkMul(rightMul, all[R](matcher))
 
   }
 
@@ -120,9 +120,9 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @tparam T the type of the player instance to query for
    * @return all player instances as Seq, that do conform to the given matcher
    */
-  def all[T: WeakTypeTag](matcher: () => Boolean): Seq[T] = {
+  def all[T: WeakTypeTag](matcher: T => Boolean): Seq[T] = {
     plays.store.nodes.toSeq.filter(_.value.is[T])
-      .map(_.value.asInstanceOf[T]).filter(_ => matcher())
+      .map(_.value.asInstanceOf[T]).filter(matcher)
   }
 
   private def safeReturn[T](seq: Seq[T], typeName: String): Seq[T] = seq.isEmpty match {
@@ -146,7 +146,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @tparam T the type of the player instance to query for
    * @return the first player instances, that do conform to the given matcher
    */
-  def one[T: WeakTypeTag](matcher: () => Boolean): T = safeReturn(all[T](matcher), weakTypeOf[T].toString).head
+  def one[T: WeakTypeTag](matcher: T => Boolean): T = safeReturn(all[T](matcher), weakTypeOf[T].toString).head
 
   /**
    * Adds a play relation between core and role.
