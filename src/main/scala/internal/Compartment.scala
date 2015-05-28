@@ -44,7 +44,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
                                                      var leftMul: Multiplicity,
                                                      var rightMul: Multiplicity) {
 
-    private def checkMul[T](m: Multiplicity, on: Seq[T]) {
+    private def checkMul[T](m: Multiplicity, on: Seq[T]): Seq[T] = {
       m match {
         case Many() => assert(on.nonEmpty, s"With left multiplicity for '$name' of '*', the resulting role set should not be empty!")
         case ConcreteValue(v) => assert(on.size == v, s"With a concrete multiplicity for '$name' of '$v' the resulting role set should have the same size!")
@@ -53,19 +53,12 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
           case (ConcreteValue(v), Many()) => assert(v <= on.size, s"With a multiplicity for '$name' from '$v' to '*', the resulting role set size should be in between!")
         }
       }
+      on
     }
 
-    def left(matcher: RoleQueryStrategy = *()): Seq[L] = {
-      val res = all[L](matcher)
-      checkMul[L](leftMul, res)
-      res
-    }
+    def left(matcher: RoleQueryStrategy = *()): Seq[L] = checkMul(leftMul, all[L](matcher))
 
-    def right(matcher: RoleQueryStrategy = *()): Seq[R] = {
-      val res = all[R](matcher)
-      checkMul[R](rightMul, res)
-      res
-    }
+    def right(matcher: RoleQueryStrategy = *()): Seq[R] = checkMul(rightMul, all[R](matcher))
 
   }
 
