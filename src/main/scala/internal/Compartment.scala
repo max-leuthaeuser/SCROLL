@@ -213,7 +213,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
         case Nil => Seq(cur)
         case l => l.map(_.value)
       }
-      case _ => throw new RuntimeException(s"Player '$role' was not found in the role playing graph. Maybe you forgot to union the corresponding compartments?")
+      case _ => Seq(role)
     }
   }
 
