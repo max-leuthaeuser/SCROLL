@@ -34,7 +34,7 @@ parallelExecution in Test := false
 
 mainClass := None
 
-sonatypeProfileName := "max-leuthaeuser"
+organization := "com.github.max-leuthaeuser.scroll"
 
 publishTo := {
   val nexus = "https://oss.sonatype.org/"
