@@ -64,13 +64,12 @@ object ExpressionProblemExample extends App {
   }
 
   new M4 {
-    val n1 = Num(11)
-    n1 play new NumShowable()
-    val n2 = Num(2)
-    n2 play new NumShowable()
-    val neg = Neg(n2)
-    neg play new NegShowable()
-    val e = Add(neg, n1) play new AddShowable()
+    val e = Add(
+      Neg(
+        Num(2) playing new NumShowable
+      ) playing new NegShowable,
+      Num(11) playing new NumShowable
+    ) play new AddShowable
 
     info("Eval: " + e.eval())
     info("Show: " + e.show())

@@ -31,3 +31,43 @@ scalacOptions ++= Seq("-unchecked",
 testOptions in Test += Tests.Argument("-oD")
 
 parallelExecution in Test := false
+
+mainClass := None
+
+sonatypeProfileName := "max-leuthaeuser"
+
+publishTo := {
+  val nexus = "https://oss.sonatype.org/"
+  if (isSnapshot.value)
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases" at nexus + "service/local/staging/deploy/maven2")
+}
+
+publishMavenStyle := true
+
+publishArtifact in Test := false
+
+pomIncludeRepository := { _ => false }
+
+pomExtra :=
+  <url>https://github.com/max-leuthaeuser/SCROLL</url>
+    <licenses>
+      <license>
+        <name>LGPL 3.0 license</name>
+        <url>http://www.opensource.org/licenses/lgpl-3.0.html</url>
+        <distribution>repo</distribution>
+      </license>
+    </licenses>
+    <scm>
+      <connection>scm:git:github.com/max-leuthaeuser/SCROLL.git</connection>
+      <developerConnection>scm:git:git@github.com:max-leuthaeuser/SCROLL.git</developerConnection>
+      <url>github.com/max-leuthaeuser/SCROLL</url>
+    </scm>
+    <developers>
+      <developer>
+        <id>max-leuthaeuser</id>
+        <name>Max Leuthaeuser</name>
+        <url>https://wwwdb.inf.tu-dresden.de/rosi/investigators/doctoral-students/</url>
+      </developer>
+    </developers>

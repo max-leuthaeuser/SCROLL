@@ -1,8 +1,6 @@
 package examples
 
 import internal.Compartment
-import internal.util.Log.info
-
 import org.kiama.attribution.Attribution.attr
 import org.kiama.util.TreeNode
 
@@ -16,12 +14,12 @@ object KiamaExample extends App with Compartment {
 
   class Repmin {
 
-    def calc(left: Int, right: Int) = left min right
+    private def calc(left: Int, right: Int) = left min right
 
     val locmin: RepminTree => Int =
       attr {
         case Fork(l, r) => +this calc(locmin(l), locmin(r))
-        case Leaf(v) => v
+        case l: Leaf => +l value()
       }
 
     val globmin: RepminTree => Int =
@@ -41,20 +39,24 @@ object KiamaExample extends App with Compartment {
     def calc(left: Int, right: Int) = left max right
   }
 
+  class DoubleLeaf() {
+    def value: Int = (+this).value[Int] * 2
+  }
+
   val in = Fork(Leaf(3), Fork(Leaf(1), Leaf(10)))
-  val min = Fork(Leaf(1), Fork(Leaf(1), Leaf(1)))
-  val max = Fork(Leaf(10), Fork(Leaf(10), Leaf(10)))
+  val inWithRole = Fork(Leaf(3), Fork(Leaf(1), Leaf(20) playing new DoubleLeaf()))
+
+  val expectedMin = Fork(Leaf(1), Fork(Leaf(1), Leaf(1)))
+  val expectedMax = Fork(Leaf(10), Fork(Leaf(10), Leaf(10)))
+  val expectedMaxWithRole = Fork(Leaf(40), Fork(Leaf(40), Leaf(40)))
 
   in.initTreeProperties()
+  inWithRole.initTreeProperties()
+
   val resultMin: RepminTree => RepminTree = new Repmin().repmin
   val resultMax: RepminTree => RepminTree = (new Repmin() play new Repmax()).repmin
 
-  info(resultMin(in).toString)
-  info(min.toString)
-
-  info(resultMax(in).toString)
-  info(max.toString)
-
-  assert(min == resultMin(in))
-  assert(max == resultMax(in))
+  assert(expectedMin == resultMin(in))
+  assert(expectedMax == resultMax(in))
+  assert(expectedMaxWithRole == resultMax(inWithRole))
 }

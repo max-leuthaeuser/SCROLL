@@ -262,17 +262,24 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
   }
 
   trait DispatchType {
+    private def handleAccessibility(of: Method) {
+      // TODO: do we really want to do this statically every time?
+      // Or should the dev be able to configure this somehow?
+      if (!of.isAccessible) of.setAccessible(true)
+    }
+
     /**
-     * For single method dispatch.
+     * For empty argument list dispatch.
      */
     def dispatch[E](on: Any, m: Method): E = {
       require(null != on)
       require(null != m)
+      handleAccessibility(m)
       m.invoke(on, Array.empty[Object]: _*).asInstanceOf[E]
     }
 
     /**
-     * For multi-method / multi-argument dispatch.
+     * For multi-argument dispatch.
      */
     def dispatch[E, A](on: Any, m: Method, args: Seq[A]): E = {
       require(null != on)
@@ -286,7 +293,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
           }
         case (arg@unchecked, tpe: Class[_]) => arg
       }
-
+      handleAccessibility(m)
       m.invoke(on, actualArgs.map(_.asInstanceOf[Object]): _*).asInstanceOf[E]
     }
 
@@ -328,6 +335,14 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       }
       this
     }
+
+    /**
+     * Adds a play relation between core and role but always returns the player instance.
+     *
+     * @param role the role that should played
+     * @return the player instance
+     */
+    def playing(role: Any): T = play(role).wrapped
 
     /**
      * Removes the play relation between core and role.
