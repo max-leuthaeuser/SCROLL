@@ -53,10 +53,10 @@ object RepminKiamaExample extends App with Compartment {
   in.initTreeProperties()
   inWithRole.initTreeProperties()
 
-  val resultMin: RepminTree => RepminTree = new Repmin().repmin
-  val resultMax: RepminTree => RepminTree = (new Repmin() play new Repmax()).repmin
+  val resultMinFunc: RepminTree => RepminTree = new Repmin().repmin
+  val resultMaxFunc: RepminTree => RepminTree = (new Repmin() play new Repmax()).repmin
 
-  assert(expectedMin == resultMin(in))
-  assert(expectedMax == resultMax(in))
-  assert(expectedMaxWithRole == resultMax(inWithRole))
+  assert(expectedMin == resultMinFunc(in))
+  assert(expectedMax == resultMaxFunc(in))
+  assert(expectedMaxWithRole == resultMaxFunc(inWithRole))
 }

@@ -24,13 +24,11 @@ object MathKiamaExample extends App with Compartment {
       }
   }
 
-  case class OptimizerRole() {
+  case class Optimizer() {
 
-    def optimise(e: Exp): Exp =
-      rewrite(optimiser)(e)
+    def optimise(e: Exp): Exp = rewrite(optimiser)(e)
 
-    lazy val optimiser =
-      bottomup(attempt(simplifier))
+    lazy val optimiser = bottomup(attempt(simplifier))
 
     lazy val simplifier =
       rule[Exp] {
@@ -43,15 +41,14 @@ object MathKiamaExample extends App with Compartment {
       }
   }
 
-  case class ParserRole() extends ParserUtilities {
+  case class Parser() extends ParserUtilities {
 
     def parse(in: String): Exp = parseString(parser, in) match {
       case Left(a) => a
       case Right(err) => throw new IllegalArgumentException(in + " is no valid Exp! " + err)
     }
 
-    lazy val parser =
-      phrase(exp)
+    lazy val parser = phrase(exp)
 
     lazy val exp: PackratParser[Exp] = exp ~ ("+" ~> term) ^^ Add | term
 
@@ -64,7 +61,7 @@ object MathKiamaExample extends App with Compartment {
   }
 
   // make it run
-  val someMath = SimpleMath() play OptimizerRole() play ParserRole()
+  val someMath = SimpleMath() play Optimizer() play Parser()
 
   val ast: Exp = someMath.parse("1+2*3*0")
   val optimizedAst: Exp = someMath.optimise(ast)
