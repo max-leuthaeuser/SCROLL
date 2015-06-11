@@ -48,10 +48,16 @@ class ExamplesRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
       ExpressionProblemExample.main(null)
     }
 
-    scenario("Kiama Example") {
-      When("Running the Kiama example")
+    scenario("Repmin Kiama Example") {
+      When("Running the Repmin Kiama example")
       Then("There should be no error or exception.")
-      KiamaExample.main(null)
+      RepminKiamaExample.main(null)
+    }
+
+    scenario("Math Kiama Example") {
+      When("Running the Math Kiama example")
+      Then("There should be no error or exception.")
+      MathKiamaExample.main(null)
     }
   }
 }

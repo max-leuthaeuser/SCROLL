@@ -4,7 +4,7 @@ import internal.Compartment
 import org.kiama.attribution.Attribution.attr
 import org.kiama.util.TreeNode
 
-object KiamaExample extends App with Compartment {
+object RepminKiamaExample extends App with Compartment {
 
   sealed abstract class RepminTree extends TreeNode
 
