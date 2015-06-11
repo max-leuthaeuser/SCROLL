@@ -1,4 +1,4 @@
-name := "RoleDispatch"
+name := "SCROLL"
 
 scalaVersion := "2.11.6"
 
