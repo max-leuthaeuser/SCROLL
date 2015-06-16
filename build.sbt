@@ -9,7 +9,7 @@ val scalaxmlVersion = "1.0.1"
 val graphCoreVersion = "1.9.0"
 val graphConstrainedVersion = "1.9.0"
 
-version := "0.4"
+version := "0.5"
 
 libraryDependencies ++= Seq(
   "com.chuusai" %% "shapeless" % shapelessVersion,
@@ -20,13 +20,16 @@ libraryDependencies ++= Seq(
   "com.assembla.scala-incubator" %% "graph-constrained" % graphConstrainedVersion
 )
 
+javacOptions in Compile ++= Seq("-source", "1.7", "-target", "1.7")
+
 scalacOptions ++= Seq("-unchecked",
   "-deprecation",
   "-feature",
   "-language:dynamics",
   "-language:reflectiveCalls",
   "-language:postfixOps",
-  "-language:implicitConversions")
+  "-language:implicitConversions",
+  "-target:jvm-1.7")
 
 testOptions in Test += Tests.Argument("-oD")
 
