@@ -403,7 +403,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
     private def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean = {
       lazy val matchName = m.getName == name
-      lazy val matchParamCount = m.getParameterCount == args.size
+      lazy val matchParamCount = m.getParameterTypes.length == args.size
       lazy val matchArgTypes = args.zip(m.getParameterTypes).forall {
         case (arg@unchecked, paramType: Class[_]) => paramType match {
           case lang.Boolean.TYPE => arg.isInstanceOf[Boolean]
