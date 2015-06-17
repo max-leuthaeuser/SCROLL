@@ -60,12 +60,6 @@ trait ReflectiveHelper {
 
     def is[T: WeakTypeTag]: Boolean = ReflectiveHelper.classSimpleClassName(cur.getClass) == ReflectiveHelper.typeSimpleClassName(weakTypeOf[T])
 
-    def isCaseClass: Boolean = {
-      val typeMirror = runtimeMirror(cur.getClass.getClassLoader)
-      val instanceMirror = typeMirror.reflect(cur)
-      val symbol = instanceMirror.symbol
-      symbol.isCaseClass
-    }
   }
 
 }

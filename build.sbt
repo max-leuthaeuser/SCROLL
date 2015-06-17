@@ -9,7 +9,7 @@ val scalaxmlVersion = "1.0.1"
 val graphCoreVersion = "1.9.0"
 val graphConstrainedVersion = "1.9.0"
 
-version := "0.5.1"
+version := "0.6"
 
 libraryDependencies ++= Seq(
   "com.chuusai" %% "shapeless" % shapelessVersion,
