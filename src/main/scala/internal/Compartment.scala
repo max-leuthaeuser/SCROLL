@@ -73,7 +73,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    */
   def partOf(other: Compartment) {
     require(null != other)
-    plays.store ++= other.plays.store
+    plays.merge(other.plays)
   }
 
   /**
@@ -91,9 +91,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    */
   def notPartOf(other: Compartment) {
     require(null != other)
-    other.plays.store.edges.toSeq.foreach(e => {
-      plays.store -= e.value
-    })
+    plays.detach(other.plays)
   }
 
   /**
@@ -104,7 +102,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @return all player instances as Seq, that do conform to the given matcher
    */
   def all[T: WeakTypeTag](matcher: RoleQueryStrategy = *()): Seq[T] = {
-    plays.store.nodes.toSeq.filter(_.value.is[T]).map(_.value.asInstanceOf[T]).filter(a => {
+    plays.allPlayers.filter(_.value.is[T]).map(_.value.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
         case p :: Nil => matcher.matches(p)
         case Nil => false
@@ -120,10 +118,8 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @tparam T the type of the player instance to query for
    * @return all player instances as Seq, that do conform to the given matcher
    */
-  def all[T: WeakTypeTag](matcher: T => Boolean): Seq[T] = {
-    plays.store.nodes.toSeq.filter(_.value.is[T])
-      .map(_.value.asInstanceOf[T]).filter(matcher)
-  }
+  def all[T: WeakTypeTag](matcher: T => Boolean): Seq[T] =
+    plays.allPlayers.filter(_.value.is[T]).map(_.value.asInstanceOf[T]).filter(matcher)
 
   private def safeReturn[T](seq: Seq[T], typeName: String): Seq[T] = seq.isEmpty match {
     case true => throw new RuntimeException(s"No player with type '$typeName' found!")
@@ -208,7 +204,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     require(null != role)
     role match {
       case cur: Player[_] => getCoreFor(cur.wrapped)
-      case cur: Any if plays.store.contains(cur) => plays.store.get(cur).diPredecessors.toList match {
+      case cur: Any if plays.contains(cur) => plays.get(cur).diPredecessors.toList match {
         case p :: Nil => getCoreFor(p.value)
         case Nil => Seq(cur)
         case l => l.map(_.value)

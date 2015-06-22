@@ -1,6 +1,7 @@
 package examples
 
 import internal.Compartment
+import internal.DispatchQuery._
 import org.kiama.attribution.Attribution.attr
 import org.kiama.rewriting.Rewriter.{attempt, bottomup, rewrite, rule}
 import org.kiama.util.TreeNode
@@ -77,16 +78,31 @@ object MathKiamaExample extends App with Compartment {
 
   }
 
+  case class LoggerRole() {
+    val value: Exp => Double = attr {
+      case exp: Exp =>
+        println("Evaluating: " + exp)
+        implicit val dd = From(_.isInstanceOf[SimpleMath]).
+          To(_.isInstanceOf[LoggerRole]).
+          Through(anything).
+          Bypassing(_.isInstanceOf[LoggerRole])
+        val rFunc: Exp => Double = (+this).value
+        rFunc(exp)
+    }
+  }
+
   // make it run
-  val someMath = SimpleMath() play Optimizer() play Parser()
+  val someMath = SimpleMath() play Optimizer() play Parser() play LoggerRole()
 
   val ast: Exp = someMath.parse("1+2+3*0")
+  println("AST: " + ast)
+
   val optimizedAst: Exp = someMath.optimise(ast)
+  println("optimized AST: " + optimizedAst)
+
   val resultFunc: Exp => Double = someMath.value
   val result = resultFunc(optimizedAst)
-
-  println("AST: " + ast)
-  println("optimized AST: " + optimizedAst)
   println("Result: " + result)
+
   assert(3 == result)
 }

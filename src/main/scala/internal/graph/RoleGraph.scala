@@ -10,32 +10,40 @@ trait RoleGraph[N] {
   /**
    * Adds a plays relationship between core and role.
    *
-   * @param core
+   * @param player the player instance to add the given role
    * @param role
    */
-  def addBinding(core: N, role: N)
+  def addBinding(player: N, role: N)
 
   /**
    * Removes a plays relationship between core and role.
    *
-   * @param core
-   * @param role
+   * @param player the player instance to remove the given role from
+   * @param role the role instance to remove
    */
-  def removeBinding(core: N, role: N)
+  def removeBinding(player: N, role: N)
 
   /**
    * Removes the given player from the graph.
    * This should remove its binding too!
    *
-   * @param player
+   * @param player the player to remove
    */
   def removePlayer(player: N)
 
   /**
    * Returns a Set of all roles attached to the given player (core object).
    *
-   * @param core
+   * @param player the player instance to get the roles for
    * @return a Set of all roles of core
    */
-  def getRoles(core: N): Set[N]
+  def getRoles(player: N): Set[N]
+
+  /**
+   * Checks if the role graph contains the given player.
+   *
+   * @param player the player instance to check
+   * @return true if the role graph contains the given player, false otherwise
+   */
+  def contains(player: Any): Boolean
 }
