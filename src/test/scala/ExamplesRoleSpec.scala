@@ -24,12 +24,6 @@ class ExamplesRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
       AnotherBankExample.main(null)
     }
 
-    scenario("Legacy Code") {
-      When("Running the LegacyCode example")
-      Then("There should be no error or exception.")
-      LegacyCodeExample.main(null)
-    }
-
     scenario("API Calls") {
       When("Running the APICalls example")
       Then("There should be no error or exception.")

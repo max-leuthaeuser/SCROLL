@@ -41,8 +41,8 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
   }
 
   class Relationship[L: Manifest, R: Manifest](name: String,
-                                                     var leftMul: Multiplicity,
-                                                     var rightMul: Multiplicity) {
+                                               var leftMul: Multiplicity,
+                                               var rightMul: Multiplicity) {
 
     private def checkMul[T](m: Multiplicity, on: Seq[T]): Seq[T] = {
       m match {
@@ -102,7 +102,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @return all player instances as Seq, that do conform to the given matcher
    */
   def all[T: Manifest](matcher: RoleQueryStrategy = *()): Seq[T] = {
-    plays.allPlayers.filter(_.value.is[T]).map(_.value.asInstanceOf[T]).filter(a => {
+    plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
         case p :: Nil => matcher.matches(p)
         case Nil => false
@@ -119,7 +119,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @return all player instances as Seq, that do conform to the given matcher
    */
   def all[T: Manifest](matcher: T => Boolean): Seq[T] =
-    plays.allPlayers.filter(_.value.is[T]).map(_.value.asInstanceOf[T]).filter(matcher)
+    plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(matcher)
 
   private def safeReturn[T](seq: Seq[T], typeName: String): Seq[T] = seq.isEmpty match {
     case true => throw new RuntimeException(s"No player with type '$typeName' found!")
@@ -204,10 +204,10 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     require(null != role)
     role match {
       case cur: Player[_] => getCoreFor(cur.wrapped)
-      case cur: Any if plays.contains(cur) => plays.get(cur).diPredecessors.toList match {
-        case p :: Nil => getCoreFor(p.value)
+      case cur: Any if plays.containsPlayer(cur) => plays.getPredecessors(cur) match {
+        case p :: Nil => getCoreFor(p)
         case Nil => Seq(cur)
-        case l => l.map(_.value)
+        case l => l
       }
       case _ => Seq(role)
     }
@@ -363,8 +363,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     /**
      * Checks of this Player is playing a role of the given type.
      */
-    def isPlaying[E: Manifest]: Boolean =
-      plays.getRoles(wrapped).exists(r => r.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(manifest[E].getClass.toString))
+    def isPlaying[E: Manifest]: Boolean = plays.getRoles(wrapped).exists(_.is[E])
 
     private val translationRules = Map(
       "=" -> "$eq",

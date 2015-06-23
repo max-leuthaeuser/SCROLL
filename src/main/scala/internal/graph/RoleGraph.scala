@@ -45,5 +45,5 @@ trait RoleGraph[N] {
    * @param player the player instance to check
    * @return true if the role graph contains the given player, false otherwise
    */
-  def contains(player: Any): Boolean
+  def containsPlayer(player: Any): Boolean
 }
