@@ -3,7 +3,7 @@ package internal
 import internal.UnionTypes.RoleUnionTypes
 import scala.annotation.tailrec
 import java.lang.reflect.Method
-import reflect.runtime.universe._
+import reflect.Manifest
 import annotations.Role
 import graph.ScalaRoleGraph
 import java.lang
@@ -33,14 +33,14 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     case class RangeMultiplicity(from: ConcreteValue, to: ExpMultiplicity) extends Multiplicity
 
     def apply(name: String) = new {
-      def from[L: WeakTypeTag](leftMul: Multiplicity) = new {
-        def to[R: WeakTypeTag](rightMul: Multiplicity): Relationship[L, R] = new Relationship(name, leftMul, rightMul)
+      def from[L: Manifest](leftMul: Multiplicity) = new {
+        def to[R: Manifest](rightMul: Multiplicity): Relationship[L, R] = new Relationship(name, leftMul, rightMul)
       }
     }
 
   }
 
-  class Relationship[L: WeakTypeTag, R: WeakTypeTag](name: String,
+  class Relationship[L: Manifest, R: Manifest](name: String,
                                                      var leftMul: Multiplicity,
                                                      var rightMul: Multiplicity) {
 
@@ -101,7 +101,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @tparam T the type of the player instance to query for
    * @return all player instances as Seq, that do conform to the given matcher
    */
-  def all[T: WeakTypeTag](matcher: RoleQueryStrategy = *()): Seq[T] = {
+  def all[T: Manifest](matcher: RoleQueryStrategy = *()): Seq[T] = {
     plays.allPlayers.filter(_.value.is[T]).map(_.value.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
         case p :: Nil => matcher.matches(p)
@@ -118,7 +118,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @tparam T the type of the player instance to query for
    * @return all player instances as Seq, that do conform to the given matcher
    */
-  def all[T: WeakTypeTag](matcher: T => Boolean): Seq[T] =
+  def all[T: Manifest](matcher: T => Boolean): Seq[T] =
     plays.allPlayers.filter(_.value.is[T]).map(_.value.asInstanceOf[T]).filter(matcher)
 
   private def safeReturn[T](seq: Seq[T], typeName: String): Seq[T] = seq.isEmpty match {
@@ -133,7 +133,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @tparam T the type of the player instance to query for
    * @return the first player instances, that do conform to the given matcher
    */
-  def one[T: WeakTypeTag](matcher: RoleQueryStrategy = *()): T = safeReturn(all[T](matcher), weakTypeOf[T].toString).head
+  def one[T: Manifest](matcher: RoleQueryStrategy = *()): T = safeReturn(all[T](matcher), manifest[T].toString()).head
 
   /**
    * Query the role playing graph for all player instances that do conform to the given function and return the first found.
@@ -142,7 +142,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @tparam T the type of the player instance to query for
    * @return the first player instances, that do conform to the given matcher
    */
-  def one[T: WeakTypeTag](matcher: T => Boolean): T = safeReturn(all[T](matcher), weakTypeOf[T].toString).head
+  def one[T: Manifest](matcher: T => Boolean): T = safeReturn(all[T](matcher), manifest[T].toString()).head
 
   /**
    * Adds a play relation between core and role.
@@ -363,7 +363,8 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     /**
      * Checks of this Player is playing a role of the given type.
      */
-    def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(wrapped).exists(r => r.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(weakTypeOf[E]))
+    def isPlaying[E: Manifest]: Boolean =
+      plays.getRoles(wrapped).exists(r => r.getClass.getSimpleName == ReflectiveHelper.typeSimpleClassName(manifest[E].getClass.toString))
 
     private val translationRules = Map(
       "=" -> "$eq",

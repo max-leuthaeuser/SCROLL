@@ -3,13 +3,13 @@ name := "SCROLL"
 scalaVersion := "2.11.6"
 
 val scalatestVersion = "2.2.1"
-val shapelessVersion = "2.2.0-RC4"
+val shapelessVersion = "2.2.3"
 val kiamaVersion = "1.8.0"
 val scalaxmlVersion = "1.0.1"
 val graphCoreVersion = "1.9.0"
 val graphConstrainedVersion = "1.9.0"
 
-version := "0.6"
+version := "0.7"
 
 libraryDependencies ++= Seq(
   "com.chuusai" %% "shapeless" % shapelessVersion,
@@ -35,6 +35,7 @@ testOptions in Test += Tests.Argument("-oD")
 
 parallelExecution in Test := false
 
+// its a library
 mainClass := None
 
 organization := "com.github.max-leuthaeuser"
