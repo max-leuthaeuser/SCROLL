@@ -5,8 +5,7 @@ scalaVersion := "2.11.6"
 val scalatestVersion = "2.2.1"
 val shapelessVersion = "2.2.3"
 val kiamaVersion = "1.8.0"
-val scalaxmlVersion = "1.0.1"
-val graphCoreVersion = "1.9.0"
+val graphCoreVersion = "1.9.2"
 val graphConstrainedVersion = "1.9.0"
 
 version := "0.7"
@@ -15,7 +14,6 @@ libraryDependencies ++= Seq(
   "com.chuusai" %% "shapeless" % shapelessVersion,
   "com.googlecode.kiama" %% "kiama" % kiamaVersion,
   "org.scalatest" %% "scalatest" % scalatestVersion % "test",
-  "org.scala-lang.modules" %% "scala-xml" % scalaxmlVersion,
   "com.assembla.scala-incubator" %% "graph-core" % graphCoreVersion,
   "com.assembla.scala-incubator" %% "graph-constrained" % graphConstrainedVersion
 )
