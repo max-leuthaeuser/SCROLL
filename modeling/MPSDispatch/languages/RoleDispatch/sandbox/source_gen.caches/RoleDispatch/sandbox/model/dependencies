@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<dependenciesRoot>
-  <dependency className="RoleDispatch.sandbox.model.BankModel" file="BankModel.scala" />
-  <dependency className="RoleDispatch.sandbox.model.MinimalModel" file="MinimalModel.scala" />
-</dependenciesRoot>
-
