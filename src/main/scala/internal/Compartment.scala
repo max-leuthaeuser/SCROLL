@@ -420,7 +420,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
       val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
+      val anys = dispatchQuery.reorder(plays.getRoles(core) :+ wrapped :+ core)
       val functionName = translateFunctionName(name)
       anys.foreach(r => {
         r.getClass.getDeclaredMethods.find(matchMethod(_, functionName, args.toSeq)).foreach(fm => {
@@ -439,7 +439,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
       val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
+      val anys = dispatchQuery.reorder(plays.getRoles(core) :+ wrapped :+ core)
       val attName = translateFunctionName(name)
       anys.find(_.hasAttribute(attName)) match {
         case Some(r) => r.propertyOf[E](attName)
@@ -449,7 +449,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty) {
       val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
+      val anys = dispatchQuery.reorder(plays.getRoles(core) :+ wrapped :+ core)
       val attName = translateFunctionName(name)
       anys.find(_.hasAttribute(attName)) match {
         case Some(r) => r.setPropertyOf(attName, value)

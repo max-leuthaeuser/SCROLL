@@ -11,7 +11,7 @@ trait RoleGraph[N] {
    * Adds a plays relationship between core and role.
    *
    * @param player the player instance to add the given role
-   * @param role
+   * @param role the role instance to add
    */
   def addBinding(player: N, role: N)
 
@@ -37,7 +37,7 @@ trait RoleGraph[N] {
    * @param player the player instance to get the roles for
    * @return a Set of all roles of core
    */
-  def getRoles(player: N): Set[N]
+  def getRoles(player: N): Seq[N]
 
   /**
    * Checks if the role graph contains the given player.

@@ -1,8 +1,8 @@
 package internal.graph
 
 import org.jgrapht.Graphs
-import org.jgrapht.graph.DefaultDirectedGraph
-import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.alg.CycleDetector
+import org.jgrapht.graph.{EdgeReversedGraph, DefaultDirectedGraph, DefaultEdge}
 import org.jgrapht.traverse.DepthFirstIterator
 import scala.collection.JavaConversions._
 
@@ -10,14 +10,21 @@ class ScalaRoleGraph extends RoleGraph[Any] {
   // TODO: cycle detection
   var store = new DefaultDirectedGraph[Any, DefaultEdge](classOf[DefaultEdge])
 
+  private def checkForCycles() {
+    val cycle = new CycleDetector[Any, DefaultEdge](store)
+    if (cycle.detectCycles()) {
+      throw new RuntimeException(s"Cyclic role-playing relationships like this are not allowed: ${cycle.findCycles()}!")
+    }
+  }
+
   def merge(other: ScalaRoleGraph) {
     require(null != other)
     Graphs.addGraph(store, other.store)
+    checkForCycles()
   }
 
   def detach(other: ScalaRoleGraph) {
     require(null != other)
-    store.removeAllEdges(other.store.edgeSet())
     store.removeAllVertices(other.store.vertexSet())
   }
 
@@ -27,6 +34,7 @@ class ScalaRoleGraph extends RoleGraph[Any] {
     store.addVertex(player)
     store.addVertex(role)
     store.addEdge(player, role)
+    checkForCycles()
   }
 
   override def removeBinding(player: Any, role: Any) {
@@ -40,11 +48,11 @@ class ScalaRoleGraph extends RoleGraph[Any] {
     store.removeVertex(player)
   }
 
-  override def getRoles(player: Any): Set[Any] = {
+  override def getRoles(player: Any): Seq[Any] = {
     require(null != player)
     containsPlayer(player) match {
-      case true => new DepthFirstIterator[Any, DefaultEdge](store, player).toSet
-      case false => Set(player)
+      case true => new DepthFirstIterator[Any, DefaultEdge](store, player).toSeq
+      case false => Seq(player)
     }
   }
 
@@ -57,13 +65,17 @@ class ScalaRoleGraph extends RoleGraph[Any] {
    */
   def allPlayers: Seq[Any] = store.vertexSet().toSeq
 
-  def getPredecessors(player: Any): List[Any] = {
-    val revGraph = new DefaultDirectedGraph[Any, DefaultEdge](classOf[DefaultEdge])
-    Graphs.addGraphReversed(revGraph, store)
-    new DepthFirstIterator[Any, DefaultEdge](revGraph, player).toList match {
+  /**
+   * Returns a list of all predecessors of the given player, i.e. a transitive closure
+   * of its cores (deep roles).
+   *
+   * @param player the player instance to calculate the cores of
+   * @return a list of all predecessors of the given player
+   */
+  def getPredecessors(player: Any): List[Any] =
+    new DepthFirstIterator[Any, DefaultEdge](new EdgeReversedGraph[Any, DefaultEdge](store), player).toList match {
       case Nil => List.empty
       case p :: Nil if p == player => List.empty
       case l => l.tail
     }
-  }
 }

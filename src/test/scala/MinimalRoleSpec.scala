@@ -390,4 +390,24 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
       assert(player2 == someCoreA)
     }
   }
+
+  scenario("Cyclic role-playing relationship") {
+    Given("a player and some roles in a compartment")
+    val someCoreA = new CoreA()
+
+    new SomeCompartment {
+      val someRoleA = new RoleA()
+      val someRoleB = new RoleB()
+      val someRoleC = new RoleC()
+      And("some play relationships")
+      When("creating a cycle")
+      someCoreA play someRoleA
+      someRoleA play someRoleB
+      someRoleB play someRoleC
+      Then("a runtime exception should be thrown")
+      a[RuntimeException] should be thrownBy {
+        someRoleC play someRoleA
+      }
+    }
+  }
 }
