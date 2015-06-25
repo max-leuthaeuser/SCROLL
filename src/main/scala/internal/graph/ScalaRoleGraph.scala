@@ -7,8 +7,7 @@ import org.jgrapht.traverse.DepthFirstIterator
 import scala.collection.JavaConversions._
 
 class ScalaRoleGraph extends RoleGraph[Any] {
-  // TODO: cycle detection
-  var store = new DefaultDirectedGraph[Any, DefaultEdge](classOf[DefaultEdge])
+  override val store = new DefaultDirectedGraph[Any, DefaultEdge](classOf[DefaultEdge])
 
   private def checkForCycles() {
     val cycle = new CycleDetector[Any, DefaultEdge](store)
@@ -17,13 +16,13 @@ class ScalaRoleGraph extends RoleGraph[Any] {
     }
   }
 
-  def merge(other: ScalaRoleGraph) {
+  override def merge(other: RoleGraph[Any]) {
     require(null != other)
     Graphs.addGraph(store, other.store)
     checkForCycles()
   }
 
-  def detach(other: ScalaRoleGraph) {
+  override def detach(other: RoleGraph[Any]) {
     require(null != other)
     store.removeAllVertices(other.store.vertexSet())
   }
@@ -58,21 +57,9 @@ class ScalaRoleGraph extends RoleGraph[Any] {
 
   override def containsPlayer(player: Any): Boolean = store.containsVertex(player)
 
-  /**
-   * Returns a Seq of all players
-   *
-   * @return a Seq of all players
-   */
-  def allPlayers: Seq[Any] = store.vertexSet().toSeq
+  override def allPlayers: Seq[Any] = store.vertexSet().toSeq
 
-  /**
-   * Returns a list of all predecessors of the given player, i.e. a transitive closure
-   * of its cores (deep roles).
-   *
-   * @param player the player instance to calculate the cores of
-   * @return a list of all predecessors of the given player
-   */
-  def getPredecessors(player: Any): List[Any] =
+  override def getPredecessors(player: Any): List[Any] =
     new DepthFirstIterator[Any, DefaultEdge](new EdgeReversedGraph[Any, DefaultEdge](store), player).toList match {
       case Nil => List.empty
       case p :: Nil if p == player => List.empty
