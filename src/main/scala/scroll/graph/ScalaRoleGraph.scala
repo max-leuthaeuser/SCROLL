@@ -47,11 +47,11 @@ class ScalaRoleGraph extends RoleGraph[Any] {
     store.removeVertex(player)
   }
 
-  override def getRoles(player: Any): Seq[Any] = {
+  override def getRoles(player: Any): Set[Any] = {
     require(null != player)
     containsPlayer(player) match {
-      case true => new DepthFirstIterator[Any, DefaultEdge](store, player).toSeq
-      case false => Seq(player)
+      case true => new DepthFirstIterator[Any, DefaultEdge](store, player).toSet
+      case false => Set(player)
     }
   }
 

@@ -62,7 +62,7 @@ trait RoleGraph[N] {
    * @param player the player instance to get the roles for
    * @return a Set of all roles of core
    */
-  def getRoles(player: N): Seq[N]
+  def getRoles(player: N): Set[N]
 
   /**
    * Checks if the role graph contains the given player.
