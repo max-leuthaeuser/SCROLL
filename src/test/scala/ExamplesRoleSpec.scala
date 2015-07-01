@@ -1,11 +1,10 @@
-import mocks.{SomeCompartment, CoreA}
 import org.scalatest.{Matchers, GivenWhenThen, FeatureSpec}
-import examples._
+import scroll.examples._
 
 class ExamplesRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
-  info("Test spec for examples.")
+  info("Test spec for scroll.examples.")
 
-  feature("Running examples") {
+  feature("Running scroll.examples") {
     scenario("University") {
       When("Running the University example")
       Then("There should be no error or exception.")

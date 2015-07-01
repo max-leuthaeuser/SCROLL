@@ -1,11 +1,11 @@
-package internal
+package scroll.internal
 
-import internal.UnionTypes.RoleUnionTypes
+import scroll.internal.UnionTypes.RoleUnionTypes
 import scala.annotation.tailrec
 import java.lang.reflect.Method
 import reflect.Manifest
 import annotations.Role
-import graph.ScalaRoleGraph
+import scroll.graph.ScalaRoleGraph
 import java.lang
 
 trait Compartment extends QueryStrategies with RoleUnionTypes {

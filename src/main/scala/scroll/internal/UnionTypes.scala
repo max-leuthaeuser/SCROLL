@@ -1,4 +1,4 @@
-package internal
+package scroll.internal
 
 object UnionTypes {
 

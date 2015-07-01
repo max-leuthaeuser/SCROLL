@@ -1,11 +1,11 @@
-package examples
+package scroll.examples
 
-import internal.Compartment
-import examples.RobotExample.ActorView.DriveableRole
-import examples.RobotExample.BehavioralView.ServiceRole
-import examples.RobotExample.NavigationView.NavigationRole
-import examples.RobotExample.SensorView.ObservingEnvironmentRole
-import internal.util.Log.info
+import scroll.internal.Compartment
+import scroll.examples.RobotExample.ActorView.DriveableRole
+import scroll.examples.RobotExample.BehavioralView.ServiceRole
+import scroll.examples.RobotExample.NavigationView.NavigationRole
+import scroll.examples.RobotExample.SensorView.ObservingEnvironmentRole
+import scroll.internal.util.Log.info
 
 object RobotExample extends App {
 

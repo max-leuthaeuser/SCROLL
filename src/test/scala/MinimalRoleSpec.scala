@@ -1,5 +1,5 @@
-import internal.DispatchQuery
-import internal.DispatchQuery._
+import scroll.internal.DispatchQuery
+import scroll.internal.DispatchQuery._
 import mocks.{CoreB, SomeCompartment, CoreA}
 import org.scalatest._
 

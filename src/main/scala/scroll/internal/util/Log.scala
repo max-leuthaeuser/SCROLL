@@ -1,4 +1,4 @@
-package internal.util
+package scroll.internal.util
 
 import java.util.Calendar
 import java.text.SimpleDateFormat

@@ -1,7 +1,7 @@
-package examples
+package scroll.examples
 
-import internal.Compartment
-import internal.DispatchQuery._
+import scroll.internal.Compartment
+import scroll.internal.DispatchQuery._
 import org.kiama.attribution.Attribution.attr
 import org.kiama.rewriting.Rewriter.{attempt, bottomup, rewrite, rule}
 import org.kiama.util.TreeNode

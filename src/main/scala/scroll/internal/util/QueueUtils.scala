@@ -1,4 +1,4 @@
-package internal.util
+package scroll.internal.util
 
 import scala.collection.immutable.Queue
 

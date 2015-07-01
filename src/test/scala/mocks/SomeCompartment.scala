@@ -1,6 +1,6 @@
 package mocks
 
-import internal.Compartment
+import scroll.internal.Compartment
 import annotations.Role
 
 class SomeCompartment extends Compartment {

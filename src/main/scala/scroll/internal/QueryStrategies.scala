@@ -1,4 +1,4 @@
-package internal
+package scroll.internal
 
 trait QueryStrategies extends ReflectiveHelper {
 

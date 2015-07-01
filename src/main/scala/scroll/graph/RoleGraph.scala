@@ -1,4 +1,4 @@
-package internal.graph
+package scroll.graph
 
 import org.jgrapht.DirectedGraph
 import org.jgrapht.graph.DefaultEdge

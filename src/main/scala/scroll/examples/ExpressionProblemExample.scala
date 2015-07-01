@@ -1,7 +1,7 @@
-package examples
+package scroll.examples
 
-import internal.Compartment
-import internal.util.Log.info
+import scroll.internal.Compartment
+import scroll.internal.util.Log.info
 
 object ExpressionProblemExample extends App {
 

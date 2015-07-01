@@ -1,6 +1,6 @@
-package examples
+package scroll.examples
 
-import internal.Compartment
+import scroll.internal.Compartment
 import org.kiama.attribution.Attribution.attr
 import org.kiama.util.TreeNode
 

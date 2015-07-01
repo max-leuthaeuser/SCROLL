@@ -1,10 +1,10 @@
-package examples
+package scroll.examples
 
-import examples.currency.Currency
+import scroll.examples.currency.Currency
 import annotations.Role
-import internal.{Compartment, DispatchQuery}
-import internal.DispatchQuery._
-import internal.util.Log.info
+import scroll.internal.{Compartment, DispatchQuery}
+import scroll.internal.DispatchQuery._
+import scroll.internal.util.Log.info
 
 object BankExample extends App {
 

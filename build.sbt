@@ -1,13 +1,13 @@
 name := "SCROLL"
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.7"
 
 val scalatestVersion = "2.2.1"
 val shapelessVersion = "2.2.3"
 val kiamaVersion = "1.8.0"
 val jgraphTVersion = "0.9.1"
 
-version := "0.8"
+version := "0.9"
 
 libraryDependencies ++= Seq(
   "com.chuusai" %% "shapeless" % shapelessVersion,

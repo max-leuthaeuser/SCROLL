@@ -1,4 +1,4 @@
-package internal
+package scroll.internal
 
 object ReflectiveHelper {
   private def simpleClassName(s: String, on: String) = s.contains(on) match {
