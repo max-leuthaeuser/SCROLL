@@ -2,6 +2,6 @@ jdk:
   - oraclejdk7
 language: scala
 scala:
-    - 2.11.6
+    - 2.11.7
 install:
     - sbt test
