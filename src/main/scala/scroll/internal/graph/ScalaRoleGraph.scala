@@ -1,4 +1,4 @@
-package scroll.graph
+package scroll.internal.graph
 
 import org.jgrapht.Graphs
 import org.jgrapht.alg.CycleDetector

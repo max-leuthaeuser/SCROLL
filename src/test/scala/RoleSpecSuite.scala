@@ -6,4 +6,6 @@ class RoleSpecSuite
     new EqualityRoleSpec,
     new ExamplesRoleSpec,
     new RelationshipSpec,
-    new UnionTypesRoleSpec)
+    new UnionTypesRoleSpec,
+    new FormalCROMSpec,
+    new FormalCROMExampleSpec)
