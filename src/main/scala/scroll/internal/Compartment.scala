@@ -423,7 +423,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
       val functionName = translateFunctionName(name)
       anys.foreach(r => {
-        r.getClass.getDeclaredMethods.find(matchMethod(_, functionName, args.toSeq)).foreach(fm => {
+        r.allMethods.find(matchMethod(_, functionName, args.toSeq)).foreach(fm => {
           args match {
             case Nil => return dispatch(r, fm)
             case _ => return dispatch(r, fm, args.toSeq)
