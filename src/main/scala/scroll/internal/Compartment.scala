@@ -119,7 +119,13 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @return all player instances as Seq, that do conform to the given matcher
    */
   def all[T: Manifest](matcher: T => Boolean): Seq[T] =
-    plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(matcher)
+    plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
+      getCoreFor(a) match {
+        case p :: Nil => matcher(p.asInstanceOf[T])
+        case Nil => false
+        case l => l.forall(i => matcher(i.asInstanceOf[T]))
+      }
+    })
 
   private def safeReturn[T](seq: Seq[T], typeName: String): Seq[T] = seq.isEmpty match {
     case true => throw new RuntimeException(s"No player with type '$typeName' found!")
