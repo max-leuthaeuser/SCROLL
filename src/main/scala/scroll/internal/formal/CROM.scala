@@ -6,7 +6,7 @@ object CROM {
   def empty[NT >: Null, RT >: Null, CT >: Null, RST >: Null] = CROM[NT, RT, CT, RST](List.empty, List.empty, List.empty, List.empty, List.empty, Map.empty, Map.empty)
 
   /**
-   * Little helper factory method for creating a ConstrainModel with Strings only.
+   * Little helper factory method for creating a CROM with Strings only.
    */
   def forStrings(
                   nt: List[String],
