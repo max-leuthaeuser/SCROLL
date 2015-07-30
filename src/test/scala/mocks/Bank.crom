@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ASCII"?>
+<crom_l1_composed:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:crom_l1_composed="platform:/resource/org.rosi.crom.metamodel/">
+  <elements xsi:type="crom_l1_composed:DataType" name="Money">
+    <attributes name="value"/>
+    <attributes name="currency"/>
+    <operations name="add" type="//@elements.0">
+      <params name="o" type="//@elements.0"/>
+    </operations>
+    <operations name="sub" type="//@elements.0">
+      <params name="o" type="//@elements.0"/>
+    </operations>
+    <operations name="mult" type="//@elements.0">
+      <params name="o"/>
+    </operations>
+  </elements>
+  <elements xsi:type="crom_l1_composed:NaturalType" name="Person">
+    <attributes name="address"/>
+    <attributes name="lastName"/>
+    <attributes name="firstName"/>
+    <attributes name="title"/>
+  </elements>
+  <elements xsi:type="crom_l1_composed:NaturalType" name="Company">
+    <attributes name="addresses"/>
+    <attributes name="POBox"/>
+    <attributes name="legalFrom"/>
+    <attributes name="name"/>
+  </elements>
+  <elements xsi:type="crom_l1_composed:CompartmentType" name="Bank">
+    <attributes name="name"/>
+    <operations name="executeTransactions"/>
+    <operations name="login">
+      <params name="id"/>
+      <params name="cred"/>
+    </operations>
+    <parts lower="1">
+      <role xsi:type="crom_l1_composed:RoleType" name="Customer" incoming="//@elements.3/@relationships.2" outgoing="//@elements.3/@relationships.0 //@elements.3/@relationships.1"/>
+    </parts>
+    <parts lower="1">
+      <role xsi:type="crom_l1_composed:RoleType" name="Consultant" outgoing="//@elements.3/@relationships.2">
+        <attributes name="phone"/>
+      </role>
+    </parts>
+    <parts>
+      <role xsi:type="crom_l1_composed:RoleGroup" name="BankAccounts" lower="1" upper="1">
+        <elements xsi:type="crom_l1_composed:RoleType" name="SavingsAccount" incoming="//@elements.3/@relationships.1"/>
+        <elements xsi:type="crom_l1_composed:RoleType" name="CheckingAccount" incoming="//@elements.3/@relationships.0"/>
+      </role>
+    </parts>
+    <parts>
+      <role xsi:type="crom_l1_composed:RoleType" name="MoneyTransfer"/>
+    </parts>
+    <relationships name="own_ca">
+      <first lower="1" upper="1"/>
+      <second/>
+    </relationships>
+    <relationships name="own_sa">
+      <first lower="1"/>
+      <second/>
+    </relationships>
+    <relationships name="advices"/>
+    <constraints xsi:type="crom_l1_composed:Irreflexive" relation="//@elements.3/@relationships.2"/>
+  </elements>
+  <elements xsi:type="crom_l1_composed:CompartmentType" name="Transaction">
+    <attributes name="creationTime"/>
+    <attributes name="amount" type="//@elements.0"/>
+    <operations name="execute"/>
+    <parts lower="1" upper="1">
+      <role xsi:type="crom_l1_composed:RoleType" name="Target" incoming="//@elements.4/@relationships.0">
+        <operations name="deposite">
+          <params name="amount" type="//@elements.0"/>
+        </operations>
+      </role>
+    </parts>
+    <parts lower="1" upper="1">
+      <role xsi:type="crom_l1_composed:RoleType" name="Source" outgoing="//@elements.4/@relationships.0">
+        <operations name="withdraw">
+          <params name="amount" type="//@elements.0"/>
+        </operations>
+      </role>
+    </parts>
+    <relationships name="transfer">
+      <first lower="1" upper="1"/>
+      <second lower="1" upper="1"/>
+    </relationships>
+    <constraints xsi:type="crom_l1_composed:RoleProhibition" first="//@elements.4/@parts.1/@role" second="//@elements.4/@parts.0/@role"/>
+    <constraints xsi:type="crom_l1_composed:Irreflexive" relation="//@elements.4/@relationships.0"/>
+  </elements>
+  <elements xsi:type="crom_l1_composed:NaturalType" name="Account">
+    <attributes name="id"/>
+    <attributes name="balance" type="//@elements.0"/>
+    <operations name="decrease">
+      <params name="amount" type="//@elements.0"/>
+    </operations>
+    <operations name="increase">
+      <params name="amount" type="//@elements.0"/>
+    </operations>
+    <operations name="getBalance" type="//@elements.0"/>
+  </elements>
+  <elements xsi:type="crom_l1_composed:NaturalType" name="Alien">
+    <attributes name="nouble"/>
+  </elements>
+  <relations xsi:type="crom_l1_composed:Fulfillment" filled="//@elements.3/@parts.0/@role" filler="//@elements.2"/>
+  <relations xsi:type="crom_l1_composed:Fulfillment" filled="//@elements.3/@parts.0/@role" filler="//@elements.1"/>
+  <relations xsi:type="crom_l1_composed:Fulfillment" filled="//@elements.3/@parts.1/@role" filler="//@elements.1"/>
+  <relations xsi:type="crom_l1_composed:Fulfillment" filled="//@elements.4/@parts.0/@role" filler="//@elements.5"/>
+  <relations xsi:type="crom_l1_composed:Fulfillment" filled="//@elements.4/@parts.1/@role" filler="//@elements.5"/>
+  <relations xsi:type="crom_l1_composed:Fulfillment" filled="//@elements.3/@parts.2/@role" filler="//@elements.5"/>
+  <relations xsi:type="crom_l1_composed:Fulfillment" filled="//@elements.3/@parts.0/@role" filler="//@elements.6"/>
+  <relations xsi:type="crom_l1_composed:Fulfillment" filled="//@elements.3/@parts.3/@role" filler="//@elements.4"/>
+</crom_l1_composed:Model>

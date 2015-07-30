@@ -13,7 +13,10 @@ libraryDependencies ++= Seq(
   "com.chuusai" %% "shapeless" % shapelessVersion,
   "com.googlecode.kiama" %% "kiama" % kiamaVersion,
   "org.scalatest" %% "scalatest" % scalatestVersion % "test",
-  "org.jgrapht" % "jgrapht-core" % jgraphTVersion
+  "org.jgrapht" % "jgrapht-core" % jgraphTVersion,
+  "org.eclipse.emf" % "org.eclipse.emf.common" % "2.10.1",
+  "org.eclipse.emf" % "org.eclipse.emf.ecore" % "2.10.1",
+  "org.eclipse.uml2" % "org.eclipse.uml2.uml" % "3.1.0.v201006071150"
 )
 
 javacOptions in Compile ++= Seq("-source", "1.7", "-target", "1.7")
