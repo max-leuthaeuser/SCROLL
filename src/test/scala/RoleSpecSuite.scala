@@ -8,4 +8,5 @@ class RoleSpecSuite
     new RelationshipSpec,
     new UnionTypesRoleSpec,
     new FormalCROMSpec,
-    new FormalCROMExampleSpec)
+    new FormalCROMExampleSpec,
+    new ECoreInstanceTest)

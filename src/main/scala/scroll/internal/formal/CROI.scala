@@ -61,11 +61,11 @@ case class CROI[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
     !links(rst1, c1).contains((r_1, null)) && !links((rst1, c1)).contains((null, r_2))
     )
 
-  def o: List[Any] = n.union(c)
+  private def o: List[Any] = n.union(c)
 
   def o_c(c: CT): List[NT] = plays.filter(_._2 == c).map(_._1)
 
-  def repsilon: List[RT] = r :+ null
+  private def repsilon: List[RT] = r :+ null
 
   def pred(rst: RST, c: CT, r: RT): List[RT] = links.contains((rst, c)) match {
     case true => links((rst, c)).filter(_._2 == r).map(_._1)
@@ -77,7 +77,7 @@ case class CROI[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
     case false => List.empty
   }
 
-  def player(r: RT): NT = r match {
+  private def player(r: RT): NT = r match {
     case null => null
     case _ => plays.find(_._3 == r) match {
       case Some(p) => p._1

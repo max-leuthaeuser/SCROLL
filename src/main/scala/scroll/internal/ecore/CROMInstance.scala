@@ -9,7 +9,15 @@ import scala.collection.mutable.ListBuffer
 import scala.collection.mutable
 
 trait CROMInstance extends ECoreImporter {
-  private val validTypes = Set("NaturalType", "RoleType", "CompartmentType", "RoleGroup", "Relationship", "Fulfillment", "Part")
+  private val NATURALTYPE = "NaturalType"
+  private val ROLETYPE = "RoleType"
+  private val COMPARTMENTTYPE = "CompartmentType"
+  private val ROLEGROUP = "RoleGroup"
+  private val RELATIONSHIP = "Relationship"
+  private val FULFILLMENT = "Fulfillment"
+  private val PART = "Part"
+
+  private val validTypes = Set(NATURALTYPE, ROLEGROUP, ROLETYPE, COMPARTMENTTYPE, RELATIONSHIP, FULFILLMENT, PART)
 
   private def getInstanceName(of: EObject): String = of.eClass().getEAllAttributes.find(_.getName == "name") match {
     case Some(a) => of.eGet(a).toString
@@ -28,7 +36,7 @@ trait CROMInstance extends ECoreImporter {
     val obj = elem.asInstanceOf[DynamicEObjectImpl]
     val filler = obj.dynamicGet(1).asInstanceOf[DynamicEObjectImpl].dynamicGet(0).asInstanceOf[NT]
     val filledObj = obj.dynamicGet(0).asInstanceOf[DynamicEObjectImpl]
-    if (filledObj.eClass().getName == "RoleGroup") {
+    if (filledObj.eClass().getName == ROLEGROUP) {
       collectRoles(filledObj).map(r => (filler, getInstanceName(r).asInstanceOf[RT]))
     } else {
       val filled = obj.dynamicGet(0).asInstanceOf[DynamicEObjectImpl].dynamicGet(0).asInstanceOf[RT]
@@ -37,9 +45,9 @@ trait CROMInstance extends ECoreImporter {
   }
 
   private def collectRoles(of: EObject): List[EObject] = of.eContents().toList.map(e => e.eClass().getName match {
-    case "RoleGroup" => collectRoles(e)
-    case "RoleType" => List(e)
-    case "Part" => collectRoles(e)
+    case ROLEGROUP => collectRoles(e)
+    case ROLETYPE => List(e)
+    case PART => collectRoles(e)
     case _ => List()
   }).flatten
 
@@ -90,14 +98,14 @@ trait CROMInstance extends ECoreImporter {
 
     loadModel().getAllContents.filter(e => validTypes.contains(e.eClass().getName)).foreach(curr => {
       curr.eClass().getName match {
-        case "NaturalType" => nt += constructNT(curr)
-        case "RoleType" => rt += constructRT(curr)
-        case "CompartmentType" => ct += constructCT(curr)
-        case "Relationship" =>
+        case NATURALTYPE => nt += constructNT(curr)
+        case ROLETYPE => rt += constructRT(curr)
+        case COMPARTMENTTYPE => ct += constructCT(curr)
+        case RELATIONSHIP =>
           rst += constructRST[String](curr)
           addToMap(rel, constructRel[String, String](curr))
-        case "Fulfillment" => fills ++= constructFills(curr)
-        case "Part" => addToMap(parts, constructParts[String, String](curr))
+        case FULFILLMENT => fills ++= constructFills(curr)
+        case PART => addToMap(parts, constructParts[String, String](curr))
         case _ =>
       }
     })
