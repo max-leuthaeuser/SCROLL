@@ -19,6 +19,26 @@ trait CROMInstance extends ECoreImporter {
 
   private val validTypes = Set(NATURALTYPE, ROLEGROUP, ROLETYPE, COMPARTMENTTYPE, RELATIONSHIP, FULFILLMENT, PART)
 
+  protected var crom = Option.empty[CROM[String, String, String, String]]
+
+  /**
+   * Load and replace the current model instance.
+   *
+   * @param path the file path to load a CROM from
+   */
+  def withModel(path: String) {
+    require(null != path && path.nonEmpty)
+    this.path = path
+    crom = Option(construct())
+  }
+
+  /**
+   * Checks if the loaded CROM is wellformed.
+   *
+   * @return true if a model was loaded using `withModel()` and it is wellformed, false otherwise
+   */
+  def wellformed: Boolean = crom.isDefined && crom.forall(_.wellformed)
+
   private def getInstanceName(of: EObject): String = of.eClass().getEAllAttributes.find(_.getName == "name") match {
     case Some(a) => of.eGet(a).toString
     case None => "-"
@@ -87,7 +107,7 @@ trait CROMInstance extends ECoreImporter {
     }
   }
 
-  def construct[NT >: Null, RT >: Null, CT >: Null, RST >: Null](): CROM[NT, RT, CT, RST] = {
+  private def construct[NT >: Null, RT >: Null, CT >: Null, RST >: Null](): CROM[NT, RT, CT, RST] = {
     val nt = ListBuffer[String]()
     val rt = ListBuffer[String]()
     val ct = ListBuffer[String]()

@@ -6,24 +6,20 @@ class ECoreInstanceTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for loading ECore CROM model instances.")
 
   feature("Loading an ECore CROM model instance") {
-    scenario("From path") {
+    scenario("No model is loaded") {
       new Compartment with CROMInstance {
-        path = "src/test/scala/mocks/Bank.crom"
+        When("No model is available")
+        Then("it can not be wellformed")
+        wellformed shouldBe false
+      }
+    }
 
+    scenario("Loading from a valid path containing a valid model") {
+      new Compartment with CROMInstance {
         When("A specific valid CROM instance is given")
-        val model = construct()
-        Then("Axiom1 should hold")
-        model.axiom1 shouldBe true
-        And("Axiom2 should hold")
-        model.axiom2 shouldBe true
-        And("Axiom3 should hold")
-        model.axiom3 shouldBe true
-        And("Axiom4 should hold")
-        model.axiom4 shouldBe true
-        And("Axiom5 should hold")
-        model.axiom5 shouldBe true
-        And("hence model should be wellformed")
-        model.wellformed shouldBe true
+        withModel("src/test/scala/mocks/Bank.crom")
+        Then("it should be wellformed")
+        wellformed shouldBe true
       }
     }
   }
