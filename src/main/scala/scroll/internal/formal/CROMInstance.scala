@@ -1,12 +1,13 @@
-package scroll.internal.ecore
+package scroll.internal.formal
 
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl
 import org.eclipse.emf.ecore.util.EcoreEList
-import org.eclipse.emf.ecore.EObject
-import scroll.internal.formal.CROM
+import scroll.internal.ecore.ECoreImporter
+
 import scala.collection.JavaConversions._
-import scala.collection.mutable.ListBuffer
 import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 trait CROMInstance extends ECoreImporter {
   private val NATURALTYPE = "NaturalType"

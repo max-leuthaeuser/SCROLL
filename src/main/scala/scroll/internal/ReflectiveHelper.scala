@@ -11,6 +11,8 @@ object ReflectiveHelper {
   def typeSimpleClassName(t: String): String = simpleClassName(t, ".")
 
   def classSimpleClassName(t: String): String = simpleClassName(t, "$")
+
+  def hash(of: Any): String = of.hashCode().toString
 }
 
 trait ReflectiveHelper {

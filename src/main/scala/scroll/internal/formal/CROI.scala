@@ -19,12 +19,12 @@ object CROI {
 }
 
 case class CROI[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
-                                                                  n: List[NT],
-                                                                  r: List[RT],
-                                                                  c: List[CT],
-                                                                  type1: Map[Any, Any],
-                                                                  plays: List[(NT, CT, RT)],
-                                                                  links: Map[(RST, CT), List[(RT, RT)]]
+                                                                  var n: List[NT],
+                                                                  var r: List[RT],
+                                                                  var c: List[CT],
+                                                                  var type1: Map[Any, Any],
+                                                                  var plays: List[(NT, CT, RT)],
+                                                                  var links: Map[(RST, CT), List[(RT, RT)]]
                                                                   ) {
 
   assert(mutualDisjoint(List(n, r, c, List(null))))

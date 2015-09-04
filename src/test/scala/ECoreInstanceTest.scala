@@ -1,6 +1,6 @@
 import org.scalatest.{Matchers, GivenWhenThen, FeatureSpec}
 import scroll.internal.Compartment
-import scroll.internal.ecore.CROMInstance
+import scroll.internal.formal.CROMInstance
 
 class ECoreInstanceTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for loading ECore CROM model instances.")
