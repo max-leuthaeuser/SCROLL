@@ -10,8 +10,8 @@ import java.lang
 
 trait Compartment extends QueryStrategies with RoleUnionTypes {
 
-  private val plays = new ScalaRoleGraph()
-  private val roleConstraints = new RoleConstraintsGraph(plays)
+  private lazy val plays = new ScalaRoleGraph()
+  private lazy val roleConstraints = new RoleConstraintsGraph(plays)
 
   /**
    * Adds an role implication constraint between the given role types.
@@ -320,8 +320,6 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
   trait DispatchType {
     private def handleAccessibility(of: Method) {
-      // TODO: do we really want to do this statically every time?
-      // Or should the dev be able to configure this somehow?
       if (!of.isAccessible) of.setAccessible(true)
     }
 

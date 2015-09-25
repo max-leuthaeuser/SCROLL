@@ -7,7 +7,7 @@ import org.jgrapht.traverse.DepthFirstIterator
 import scala.collection.JavaConversions._
 
 class ScalaRoleGraph extends RoleGraph[Any] {
-  override val store = new DirectedAcyclicGraph[Any, DefaultEdge](classOf[DefaultEdge])
+  override lazy val store = new DirectedAcyclicGraph[Any, DefaultEdge](classOf[DefaultEdge])
 
   override def merge(other: RoleGraph[Any]) {
     require(null != other)

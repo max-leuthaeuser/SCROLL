@@ -8,30 +8,38 @@ import scala.collection.JavaConversions._
 import scala.reflect.Manifest
 
 class RoleConstraintsGraph(private val forGraph: RoleGraph[Any]) {
-  private val roleImplications = new DefaultDirectedGraph[String, DefaultEdge](classOf[DefaultEdge])
-  private val roleEquivalents = new DefaultDirectedGraph[String, DefaultEdge](classOf[DefaultEdge])
-  private val roleProhibitions = new DefaultDirectedGraph[String, DefaultEdge](classOf[DefaultEdge])
+  private lazy val roleImplications = newRoleConstraintGraph
+  private lazy val roleEquivalents = newRoleConstraintGraph
+  private lazy val roleProhibitions = newRoleConstraintGraph
 
   private def isInstanceOf(mani: String, that: Any) =
     ReflectiveHelper.classSimpleClassName(that.getClass.toString) == ReflectiveHelper.classSimpleClassName(mani)
 
+  private def newRoleConstraintGraph = new DefaultDirectedGraph[String, DefaultEdge](classOf[DefaultEdge])
+
   def addImplication[A: Manifest, B: Manifest]() {
-    roleImplications.addVertex(manifest[A].toString())
-    roleImplications.addVertex(manifest[B].toString())
-    roleImplications.addEdge(manifest[A].toString(), manifest[B].toString())
+    val rA = manifest[A].toString()
+    val rB = manifest[B].toString()
+    roleImplications.addVertex(rA)
+    roleImplications.addVertex(rB)
+    roleImplications.addEdge(rA, rB)
   }
 
   def addEquivalence[A: Manifest, B: Manifest]() {
-    roleEquivalents.addVertex(manifest[A].toString())
-    roleEquivalents.addVertex(manifest[B].toString())
-    roleEquivalents.addEdge(manifest[A].toString(), manifest[B].toString())
-    roleEquivalents.addEdge(manifest[B].toString(), manifest[A].toString())
+    val rA = manifest[A].toString()
+    val rB = manifest[B].toString()
+    roleEquivalents.addVertex(rA)
+    roleEquivalents.addVertex(rB)
+    roleEquivalents.addEdge(rA, rB)
+    roleEquivalents.addEdge(rB, rA)
   }
 
   def addProhibition[A: Manifest, B: Manifest]() {
-    roleProhibitions.addVertex(manifest[A].toString())
-    roleProhibitions.addVertex(manifest[B].toString())
-    roleProhibitions.addEdge(manifest[A].toString(), manifest[B].toString())
+    val rA = manifest[A].toString()
+    val rB = manifest[B].toString()
+    roleProhibitions.addVertex(rA)
+    roleProhibitions.addVertex(rB)
+    roleProhibitions.addEdge(rA, rB)
   }
 
   private def checkImplications(player: Any, role: Any): Boolean = {
