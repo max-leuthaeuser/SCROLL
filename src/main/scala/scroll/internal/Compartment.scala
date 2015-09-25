@@ -5,12 +5,69 @@ import scala.annotation.tailrec
 import java.lang.reflect.Method
 import reflect.Manifest
 import annotations.Role
-import graph.ScalaRoleGraph
+import scroll.internal.graph.{RoleConstraintsGraph, ScalaRoleGraph}
 import java.lang
+
+import scala.util.{Failure, Try, Success}
 
 trait Compartment extends QueryStrategies with RoleUnionTypes {
 
-  val plays = new ScalaRoleGraph()
+  private val plays = new ScalaRoleGraph()
+  private val roleConstraints = new RoleConstraintsGraph(plays)
+
+  /**
+   * Adds an role implication constraint between the given role types.
+   * Interpretation: if a core object plays an instance of role type A
+   * it also has to play an instance of role type B.
+   *
+   * @tparam A type of role A
+   * @tparam B type of role B that should be played implicitly if A is played
+   */
+  def RoleImplication[A: Manifest, B: Manifest]() {
+    roleConstraints.addImplication[A, B]()
+  }
+
+  /**
+   * Adds an role equivalent constraint between the given role types.
+   * Interpretation: if a core object plays an instance of role type A
+   * it also has to play an instance of role type B and visa versa.
+   *
+   * @tparam A type of role A that should be played implicitly if B is played
+   * @tparam B type of role B that should be played implicitly if A is played
+   */
+  def RoleEquivalents[A: Manifest, B: Manifest]() {
+    roleConstraints.addEquivalents[A, B]()
+  }
+
+  /**
+   * Adds an role prohibition constraint between the given role types.
+   * Interpretation: if a core object plays an instance of role type A
+   * it is not allowed to play B as well.
+   *
+   * @tparam A type of role A
+   * @tparam B type of role B that is not allowed to be played if A is played already
+   */
+  def RoleProhibition[A: Manifest, B: Manifest]() {
+    roleConstraints.addProhibition[A, B]()
+  }
+
+  /**
+   * Wrapping function that checks all available role constraints for
+   * all core objects and its roles after the given function was executed.
+   *
+   * @param func the function to execute and check role constraints afterwards
+   * @return Success iff no role constraint is violated, Failure with a RuntimeException otherwise
+   */
+  def RoleConstraintsChecked(func: => Unit): Either[String, RuntimeException] = {
+    func
+    plays.allPlayers.foreach(p => {
+      val roles = plays.getRoles(p).diff(Set(p))
+      roles.foreach(r => if (!roleConstraints.validateRoleConstraints(p, r)) {
+        return Right(new RuntimeException(s"Role constraints violated for player '$p' and role '$r'!"))
+      })
+    })
+    Left("All role constraints hold.")
+  }
 
   import Relationship._
 

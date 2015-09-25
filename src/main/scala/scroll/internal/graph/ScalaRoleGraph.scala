@@ -1,25 +1,17 @@
 package scroll.internal.graph
 
 import org.jgrapht.Graphs
-import org.jgrapht.alg.CycleDetector
-import org.jgrapht.graph.{EdgeReversedGraph, DefaultDirectedGraph, DefaultEdge}
+import org.jgrapht.experimental.dag.DirectedAcyclicGraph
+import org.jgrapht.graph.{EdgeReversedGraph, DefaultEdge}
 import org.jgrapht.traverse.DepthFirstIterator
 import scala.collection.JavaConversions._
 
 class ScalaRoleGraph extends RoleGraph[Any] {
-  override val store = new DefaultDirectedGraph[Any, DefaultEdge](classOf[DefaultEdge])
-
-  private def checkForCycles() {
-    val cycle = new CycleDetector[Any, DefaultEdge](store)
-    if (cycle.detectCycles()) {
-      throw new RuntimeException(s"Cyclic role-playing relationships like this are not allowed: ${cycle.findCycles()}!")
-    }
-  }
+  override val store = new DirectedAcyclicGraph[Any, DefaultEdge](classOf[DefaultEdge])
 
   override def merge(other: RoleGraph[Any]) {
     require(null != other)
     Graphs.addGraph(store, other.store)
-    checkForCycles()
   }
 
   override def detach(other: RoleGraph[Any]) {
@@ -33,7 +25,6 @@ class ScalaRoleGraph extends RoleGraph[Any] {
     store.addVertex(player)
     store.addVertex(role)
     store.addEdge(player, role)
-    checkForCycles()
   }
 
   override def removeBinding(player: Any, role: Any) {

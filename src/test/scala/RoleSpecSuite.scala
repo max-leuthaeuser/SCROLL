@@ -9,4 +9,6 @@ class RoleSpecSuite
     new UnionTypesRoleSpec,
     new FormalCROMSpec,
     new FormalCROMExampleSpec,
-    new ECoreInstanceTest)
+    new ECoreInstanceTest,
+    new CROIInstanceTest,
+    new RoleConstraintsTest)
