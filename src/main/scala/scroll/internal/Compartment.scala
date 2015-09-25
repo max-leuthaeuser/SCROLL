@@ -8,8 +8,6 @@ import annotations.Role
 import scroll.internal.graph.{RoleConstraintsGraph, ScalaRoleGraph}
 import java.lang
 
-import scala.util.{Failure, Try, Success}
-
 trait Compartment extends QueryStrategies with RoleUnionTypes {
 
   private val plays = new ScalaRoleGraph()
@@ -35,8 +33,8 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @tparam A type of role A that should be played implicitly if B is played
    * @tparam B type of role B that should be played implicitly if A is played
    */
-  def RoleEquivalents[A: Manifest, B: Manifest]() {
-    roleConstraints.addEquivalents[A, B]()
+  def RoleEquivalence[A: Manifest, B: Manifest]() {
+    roleConstraints.addEquivalence[A, B]()
   }
 
   /**

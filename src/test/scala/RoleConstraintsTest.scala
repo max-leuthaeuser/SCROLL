@@ -7,7 +7,7 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
   feature("Role implication") {
     scenario("Role implication constraint") {
       new SomeCompartment {
-        Given("A compartment, a player and two roles")
+        Given("A compartment, a player and some roles")
         val player = new CoreA()
         val roleA = new RoleA()
         val roleB = new RoleB()
@@ -51,7 +51,7 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
   feature("Role prohibition") {
     scenario("Role prohibition constraint") {
       new SomeCompartment {
-        Given("A compartment, a player and two roles")
+        Given("A compartment, a player and some roles")
         val player = new CoreA()
         val roleA = new RoleA()
         val roleB = new RoleB()
@@ -92,5 +92,45 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  // TODO add tests for role equivalence
+  feature("Role equivalence") {
+    scenario("Role equivalence constraint") {
+      new SomeCompartment {
+        Given("A compartment, a player and some roles")
+        val player = new CoreA()
+        val roleA = new RoleA()
+        val roleB = new RoleB()
+        val roleC = new RoleC()
+        And("an role equivalence constraint")
+        RoleEquivalence[RoleA, RoleB]()
+        When("checking the constraints")
+        Then("they should hold")
+        RoleConstraintsChecked {
+          player play roleA
+        } should be('right)
+
+        RoleConstraintsChecked {
+          player play roleB
+        } should be('left)
+
+        RoleConstraintsChecked {
+          player drop roleA
+        } should be('right)
+
+        RoleConstraintsChecked {
+          player drop roleB
+        } should be('left)
+
+        RoleEquivalence[RoleB, RoleC]()
+        RoleConstraintsChecked {
+          player play roleA
+          player play roleB
+          player play roleC
+        } should be('left)
+
+        RoleConstraintsChecked {
+          player drop roleB
+        } should be('right)
+      }
+    }
+  }
 }

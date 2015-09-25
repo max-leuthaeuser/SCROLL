@@ -21,7 +21,7 @@ class RoleConstraintsGraph(private val forGraph: RoleGraph[Any]) {
     roleImplications.addEdge(manifest[A].toString(), manifest[B].toString())
   }
 
-  def addEquivalents[A: Manifest, B: Manifest]() {
+  def addEquivalence[A: Manifest, B: Manifest]() {
     roleEquivalents.addVertex(manifest[A].toString())
     roleEquivalents.addVertex(manifest[B].toString())
     roleEquivalents.addEdge(manifest[A].toString(), manifest[B].toString())
@@ -44,7 +44,7 @@ class RoleConstraintsGraph(private val forGraph: RoleGraph[Any]) {
     allImplicitRoles.forall(r => allRoles.exists(isInstanceOf(r, _)))
   }
 
-  private def checkEquivalents(player: Any, role: Any): Boolean = {
+  private def checkEquivalence(player: Any, role: Any): Boolean = {
     val candidates = roleEquivalents.vertexSet().filter(isInstanceOf(_, role))
     if (candidates.isEmpty) return true
 
@@ -70,5 +70,5 @@ class RoleConstraintsGraph(private val forGraph: RoleGraph[Any]) {
   }
 
   def validateRoleConstraints(player: Any, role: Any): Boolean =
-    checkImplications(player, role) && checkEquivalents(player, role) && checkProhibitions(player, role)
+    checkImplications(player, role) && checkEquivalence(player, role) && checkProhibitions(player, role)
 }
