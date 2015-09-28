@@ -137,4 +137,25 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
       }
     }
   }
+
+  feature("Mixed constraints") {
+    scenario("Role implication and prohibition constraint") {
+      new SomeCompartment {
+        Given("A compartment, a player and some roles")
+        val player = new CoreA()
+        val roleA = new RoleA()
+        val roleB = new RoleB()
+        And("an implication and prohibition constraint")
+        RoleImplication[RoleA, RoleB]()
+        RoleProhibition[RoleA, RoleB]()
+
+        When("checking the constraints")
+        Then("they should hold")
+        RoleConstraintsChecked {
+          player play roleA
+          player play roleB
+        } should be(FAILURE)
+      }
+    }
+  }
 }

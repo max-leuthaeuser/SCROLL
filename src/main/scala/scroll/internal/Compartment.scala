@@ -60,8 +60,9 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     func
     plays.allPlayers.foreach(p => {
       val roles = plays.getRoles(p).diff(Set(p))
-      roles.foreach(r => if (!roleConstraints.validateRoleConstraints(p, r)) {
-        return Right(new RuntimeException(s"Role constraints violated for player '$p' and role '$r'!"))
+      roles.foreach(r => roleConstraints.validateRoleConstraints(p, r) match {
+        case Right(e) => return Right(e)
+        case _ =>
       })
     })
     Left("All role constraints hold.")
