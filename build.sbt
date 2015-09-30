@@ -2,21 +2,23 @@ name := "SCROLL"
 
 scalaVersion := "2.11.7"
 
-val scalatestVersion = "2.2.1"
 val shapelessVersion = "2.2.3"
 val kiamaVersion = "1.8.0"
 val jgraphTVersion = "0.9.1"
+val scalameterVersion = "0.7"
+val scalatestVersion = "2.2.1"
 
 version := "0.9.3"
 
 libraryDependencies ++= Seq(
   "com.chuusai" %% "shapeless" % shapelessVersion,
   "com.googlecode.kiama" %% "kiama" % kiamaVersion,
-  "org.scalatest" %% "scalatest" % scalatestVersion % "test",
   "org.jgrapht" % "jgrapht-core" % jgraphTVersion,
   "org.eclipse.emf" % "org.eclipse.emf.common" % "2.10.1",
   "org.eclipse.emf" % "org.eclipse.emf.ecore" % "2.10.1",
-  "org.eclipse.uml2" % "org.eclipse.uml2.uml" % "3.1.0.v201006071150"
+  "org.eclipse.uml2" % "org.eclipse.uml2.uml" % "3.1.0.v201006071150",
+  "org.scalatest" %% "scalatest" % scalatestVersion % "test",
+  "com.storm-enroute" %% "scalameter" % scalameterVersion % "test"
 )
 
 javacOptions in Compile ++= Seq("-source", "1.7", "-target", "1.7")
@@ -29,6 +31,8 @@ scalacOptions ++= Seq("-unchecked",
   "-language:postfixOps",
   "-language:implicitConversions",
   "-target:jvm-1.7")
+
+testFrameworks += new TestFramework("org.scalameter.ScalaMeterFramework")
 
 testOptions in Test += Tests.Argument("-oD")
 
