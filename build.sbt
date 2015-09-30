@@ -5,10 +5,15 @@ scalaVersion := "2.11.7"
 val shapelessVersion = "2.2.3"
 val kiamaVersion = "1.8.0"
 val jgraphTVersion = "0.9.1"
-val scalameterVersion = "0.7"
+val scalameterVersion = "0.8-SNAPSHOT"
 val scalatestVersion = "2.2.1"
 
 version := "0.9.3"
+
+resolvers ++= Seq(
+  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+  "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
+)
 
 libraryDependencies ++= Seq(
   "com.chuusai" %% "shapeless" % shapelessVersion,
@@ -32,11 +37,15 @@ scalacOptions ++= Seq("-unchecked",
   "-language:implicitConversions",
   "-target:jvm-1.7")
 
-testFrameworks += new TestFramework("org.scalameter.ScalaMeterFramework")
+val scalaMeterFramework = new TestFramework("org.scalameter.ScalaMeterFramework")
 
-testOptions in Test += Tests.Argument("-oD")
+testFrameworks in Test += scalaMeterFramework
+
+testOptions in Test += Tests.Argument(scalaMeterFramework, "-silent")
 
 parallelExecution in Test := false
+
+logBuffered := false
 
 // its a library
 mainClass := None

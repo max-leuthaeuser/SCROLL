@@ -43,7 +43,6 @@ object RoleGraphBenchmarks extends Bench.OfflineReport {
     }
   }
 
-
   // actual benchmarks
   performance of "RoleGraph" in {
     measure method "play" in {
