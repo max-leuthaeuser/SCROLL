@@ -11,7 +11,7 @@ object RoleGraphBenchmarks extends Bench.OfflineReport {
   class MockRole(id: Int = 0)
 
   class MockRoleWithFunc {
-    def func() {}
+    def func(): Int = 0
   }
 
   class MockPlayer(id: Int = 0)
@@ -36,8 +36,7 @@ object RoleGraphBenchmarks extends Bench.OfflineReport {
 
       def invoke() {
         players.foreach(p => {
-          p.func()
-          "Done" // TODO: why is it required to return something here?
+          val r: Int = p.func()
         })
       }
     }
