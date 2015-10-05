@@ -3,7 +3,7 @@ package benchmarks
 import org.scalameter.api._
 import scroll.internal.Compartment
 
-trait BenchmarkHelper extends Bench.OfflineReport {
+trait BenchmarkHelper extends Bench.LocalTime {
   protected val NUM_OF_RUNS = 10
   protected val NUM_OF_VMS = 3
 
