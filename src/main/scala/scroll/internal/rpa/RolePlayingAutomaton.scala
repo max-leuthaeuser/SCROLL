@@ -6,14 +6,14 @@ import scroll.internal.Compartment
 object RolePlayingAutomaton {
 
   // some predefined states
-  sealed trait RPAState
+  trait RPAState
 
   case object Start extends RPAState
 
   case object Stop extends RPAState
 
   // some predefined data objects for messaging
-  sealed trait RPAData
+  trait RPAData
 
   case object Uninitialized extends RPAData
 
@@ -24,6 +24,8 @@ object RolePlayingAutomaton {
   case object TransferRole extends RPAData
 
   case object CheckConstraints extends RPAData
+
+  case object Terminate extends RPAData
 
   def Use[T: Manifest] = new {
     def For(comp: Compartment): ActorRef = ActorSystem().actorOf(Props(manifest[T].runtimeClass, comp), "rpa_" + comp.hashCode())

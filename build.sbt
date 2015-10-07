@@ -28,7 +28,7 @@ libraryDependencies ++= Seq(
   "com.storm-enroute" %% "scalameter" % scalameterVersion % "test"
 )
 
-javacOptions in Compile ++= Seq("-source", "1.7", "-target", "1.7")
+javacOptions in Compile ++= Seq("-source", "1.8", "-target", "1.8")
 
 scalacOptions ++= Seq("-unchecked",
   "-deprecation",
@@ -37,7 +37,7 @@ scalacOptions ++= Seq("-unchecked",
   "-language:reflectiveCalls",
   "-language:postfixOps",
   "-language:implicitConversions",
-  "-target:jvm-1.7")
+  "-target:jvm-1.8")
 
 val scalaMeterFramework = new TestFramework("org.scalameter.ScalaMeterFramework")
 
