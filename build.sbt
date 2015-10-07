@@ -2,6 +2,7 @@ name := "SCROLL"
 
 scalaVersion := "2.11.7"
 
+val akkaVersion = "2.4.0"
 val shapelessVersion = "2.2.3"
 val kiamaVersion = "1.8.0"
 val jgraphTVersion = "0.9.1"
@@ -16,6 +17,7 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
+  "com.typesafe.akka" %% "akka-actor" % akkaVersion,
   "com.chuusai" %% "shapeless" % shapelessVersion,
   "com.googlecode.kiama" %% "kiama" % kiamaVersion,
   "org.jgrapht" % "jgrapht-core" % jgraphTVersion,

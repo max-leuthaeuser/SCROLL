@@ -40,4 +40,23 @@ trait BenchmarkHelper extends Bench.LocalTime {
       }
     }
   }
+
+  def readFromCSV(path: String, split: String = ",", removeHeadline: Boolean = true): Seq[Seq[String]] = {
+    assert(null != path && path.nonEmpty)
+
+    def using[A <: {def close() : Unit}, B](resource: A)(f: A => B): B =
+      try {
+        f(resource)
+      } finally {
+        resource.close()
+      }
+
+    using(io.Source.fromFile(path))(source => {
+      val lines = removeHeadline match {
+        case true => source.getLines().toSeq.tail
+        case false => source.getLines().toSeq
+      }
+      return lines.map(l => l.split(split).map(_.trim).toSeq)
+    })
+  }
 }
