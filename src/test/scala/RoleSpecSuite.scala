@@ -11,4 +11,5 @@ class RoleSpecSuite
     new FormalCROMExampleSpec,
     new ECoreInstanceTest,
     new CROIInstanceTest,
-    new RoleConstraintsTest)
+    new RoleConstraintsTest,
+    new RolePlayingAutomatonTest)

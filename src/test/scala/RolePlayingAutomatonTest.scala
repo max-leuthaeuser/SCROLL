@@ -48,25 +48,23 @@ class RolePlayingAutomatonTest extends FeatureSpec with GivenWhenThen with Match
             case StateB -> StateC => player play roleC; self ! Terminate
           }
 
-          onTransition {
-            case _ -> Stop =>
-              Then("player should play RoleA")
-              (+player).isPlaying[RoleA] shouldBe true
-              And("player should play RoleB")
-              (+player).isPlaying[RoleB] shouldBe true
-              And("player should play RoleC")
-              (+player).isPlaying[RoleC] shouldBe true
-              w.dismiss()
-          }
-
           run()
         }
-
 
         (Use[MyRPA] For this) ! BindRole
       }
 
-      new ACompartment()
+      new ACompartment() {
+        w {
+          Then("player should play RoleA")
+          (+player).isPlaying[RoleA] shouldBe true
+          And("player should play RoleB")
+          (+player).isPlaying[RoleB] shouldBe true
+          And("player should play RoleC")
+          (+player).isPlaying[RoleC] shouldBe true
+        }
+        w.dismiss()
+      }
       w.await()
     }
 
