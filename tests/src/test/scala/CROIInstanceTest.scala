@@ -14,7 +14,7 @@ class CROIInstanceTest extends FeatureSpec with GivenWhenThen with Matchers {
         val r = new RoleA()
 
         When("A specific valid CROM instance is given")
-        withModel("src/test/scala/mocks/Bank.crom")
+        withModel("tests/src/test/scala/mocks/Bank.crom")
         Then("it should be wellformed")
         wellformed shouldBe true
         And("specifying a CROI instance")

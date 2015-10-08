@@ -17,7 +17,7 @@ class ECoreInstanceTest extends FeatureSpec with GivenWhenThen with Matchers {
     scenario("Loading from a valid path containing a valid model") {
       new Compartment with CROMInstance {
         When("A specific valid CROM instance is given")
-        withModel("src/test/scala/mocks/Bank.crom")
+        withModel("tests/src/test/scala/mocks/Bank.crom")
         Then("it should be wellformed")
         wellformed shouldBe true
       }

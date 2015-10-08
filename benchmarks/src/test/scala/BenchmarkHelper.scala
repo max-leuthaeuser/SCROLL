@@ -1,5 +1,3 @@
-package benchmarks
-
 import org.scalameter.api._
 import scroll.internal.Compartment
 

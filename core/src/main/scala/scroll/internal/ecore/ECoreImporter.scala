@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.xmi.impl.{EcoreResourceFactoryImpl, XMIResourceFact
 trait ECoreImporter {
   var path: String = _
 
-  private val META_MODEL_PATH = "src/main/scala/scroll/internal/ecore/"
+  private val META_MODEL_PATH = "core/src/main/scala/scroll/internal/ecore/"
   private val META_MODEL_NAME = "crom_l1_composed.ecore"
 
   private def registerMetaModel(rs: ResourceSetImpl) {
