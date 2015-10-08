@@ -34,7 +34,9 @@ lazy val commonSettings = Seq(
     "-target:jvm-1.8")
 )
 
-lazy val root = (project in file(".")).aggregate(core, tests, examples, benchmarks)
+lazy val root = (project in file(".")).settings(
+    name := "SCROLLRoot"
+  ).aggregate(core, tests, examples, benchmarks)
 
 lazy val core = (project in file("core")).
   settings(commonSettings: _*).
