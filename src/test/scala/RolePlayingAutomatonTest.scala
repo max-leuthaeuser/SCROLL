@@ -39,7 +39,7 @@ class RolePlayingAutomatonTest extends FeatureSpec with GivenWhenThen with Match
           }
 
           when(StateC) {
-            case Event(Terminate, _) => goto(Stop)
+            case Event(Terminate, _) => w.dismiss(); goto(Stop)
           }
 
           onTransition {
@@ -55,18 +55,14 @@ class RolePlayingAutomatonTest extends FeatureSpec with GivenWhenThen with Match
       }
 
       new ACompartment() {
-        w {
-          Then("player should play RoleA")
-          (+player).isPlaying[RoleA] shouldBe true
-          And("player should play RoleB")
-          (+player).isPlaying[RoleB] shouldBe true
-          And("player should play RoleC")
-          (+player).isPlaying[RoleC] shouldBe true
-        }
-        w.dismiss()
+        w.await()
+        Then("player should play RoleA")
+        (+player).isPlaying[RoleA] shouldBe true
+        And("player should play RoleB")
+        (+player).isPlaying[RoleB] shouldBe true
+        And("player should play RoleC")
+        (+player).isPlaying[RoleC] shouldBe true
       }
-      w.await()
     }
-
   }
 }
