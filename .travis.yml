@@ -4,4 +4,4 @@ language: scala
 scala:
     - 2.11.7
 install:
-    - sbt test
+    - sbt tests/test
