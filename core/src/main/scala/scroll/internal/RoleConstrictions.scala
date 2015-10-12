@@ -2,23 +2,22 @@ package scroll.internal
 
 import java.lang.reflect.Method
 
-import scroll.internal.graph.RoleGraph
 import scala.reflect.runtime.universe._
 import java.lang
 
-class RoleConstrictions(private val forGraph: RoleGraph[Any]) extends ReflectiveHelper {
+class RoleConstrictions extends ReflectiveHelper {
   private lazy val restrictions = scala.collection.mutable.HashMap.empty[String, Type]
 
   def addRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]) {
     restrictions(manifest[A].toString()) = tag.tpe
   }
 
-  private def isInstanceOf(mani: String, that: Any) =
-    ReflectiveHelper.typeSimpleClassName(that.getClass.toString) == ReflectiveHelper.typeSimpleClassName(mani)
+  private def isInstanceOf(mani: String, that: String) =
+    ReflectiveHelper.typeSimpleClassName(that) == ReflectiveHelper.typeSimpleClassName(mani)
 
   private def matchMethod[A](m: Method, name: String, rType: String, args: List[Type]): Boolean = {
     lazy val matchName = m.getName == name
-    lazy val matchRType = ReflectiveHelper.typeSimpleClassName(rType.toLowerCase) == ReflectiveHelper.typeSimpleClassName(m.getReturnType.toString.toLowerCase)
+    lazy val matchRType = isInstanceOf(rType.toLowerCase, m.getReturnType.toString.toLowerCase)
     lazy val matchParamCount = m.getParameterTypes.length == args.size
 
     lazy val matchArgTypes = args.zip(m.getParameterTypes).forall {
@@ -51,7 +50,7 @@ class RoleConstrictions(private val forGraph: RoleGraph[Any]) extends Reflective
   def validateRoleRestrictions(player: Any, role: Any) = {
     val roleInterface = role.allMethods
     restrictions.find { case (pt, rt) =>
-      isInstanceOf(pt, player) && !isSameInterface(roleInterface, rt.decls)
+      isInstanceOf(pt, player.getClass.toString) && !isSameInterface(roleInterface, rt.decls)
     } match {
       case Some((pt, rt)) => throw new RuntimeException(s"Role '$role' can not be played by '$player' due to the active role restrictions '$pt must be played by $rt'!")
       case None => // fine, thanks
