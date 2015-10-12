@@ -12,4 +12,5 @@ class RoleSpecSuite
     new ECoreInstanceTest,
     new CROIInstanceTest,
     new RoleConstraintsTest,
-    new RolePlayingAutomatonTest)
+    new RolePlayingAutomatonTest,
+    new RoleRestrictionsTest)

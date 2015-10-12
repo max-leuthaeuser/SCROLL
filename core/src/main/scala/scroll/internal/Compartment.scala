@@ -7,11 +7,17 @@ import reflect.Manifest
 import annotations.Role
 import scroll.internal.graph.{RoleConstraintsGraph, ScalaRoleGraph}
 import java.lang
+import scala.reflect.runtime.universe._
 
 trait Compartment extends QueryStrategies with RoleUnionTypes {
 
   private lazy val plays = new ScalaRoleGraph()
   private lazy val roleConstraints = new RoleConstraintsGraph(plays)
+  private lazy val roleRestrictions = new RoleConstrictions(plays)
+
+  def RoleRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]) {
+    roleRestrictions.addRestriction[A, B]
+  }
 
   /**
    * Adds an role implication constraint between the given role types.
@@ -216,6 +222,8 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     require(null != core)
     require(null != role)
     //require(isRole(role), "Argument for adding a role must be a role (you maybe want to add the @Role annotation).")
+    // check role restrictions first
+    roleRestrictions.validateRoleRestrictions(core, role)
     plays.addBinding(core, role)
   }
 
