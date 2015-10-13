@@ -20,7 +20,7 @@ class RoleRestrictions {
   }
 
   private def isSameInterface(roleInterface: MemberScope, restrInterface: MemberScope): Boolean = {
-    restrInterface.sorted.forall(m => {
+    restrInterface.sorted.filter(_.isMethod).forall(m => {
       val method = m.asMethod
       roleInterface.sorted.exists {
         case v if v.isMethod => method.name == v.asMethod.name &&
