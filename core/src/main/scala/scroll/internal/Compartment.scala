@@ -13,7 +13,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
   private lazy val plays = new ScalaRoleGraph()
   private lazy val roleConstraints = new RoleConstraintsGraph(plays)
-  private lazy val roleRestrictions = new RoleConstrictions()
+  private lazy val roleRestrictions = new RoleRestrictions()
 
   def RoleRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]) {
     roleRestrictions.addRestriction[A, B]

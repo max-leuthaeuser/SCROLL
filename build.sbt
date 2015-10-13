@@ -35,8 +35,8 @@ lazy val commonSettings = Seq(
 )
 
 lazy val root = (project in file(".")).settings(
-    name := "SCROLLRoot"
-  ).aggregate(core, tests, examples, benchmarks)
+  name := "SCROLLRoot"
+).aggregate(core, tests, examples, benchmarks)
 
 lazy val core = (project in file("core")).
   settings(commonSettings: _*).
@@ -77,7 +77,13 @@ lazy val core = (project in file("core")).
   )
 
 lazy val examples = (project in file("examples")).
-  settings(commonSettings: _*).dependsOn(core)
+  settings(commonSettings: _*).
+  settings(
+    libraryDependencies ++= Seq(
+      "com.googlecode.kiama" %% "kiama" % kiamaVersion
+    )
+  ).
+  dependsOn(core)
 
 def isSuite(name: String): Boolean = name endsWith "Suite"
 
