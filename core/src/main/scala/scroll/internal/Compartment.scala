@@ -66,7 +66,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     func
     plays.allPlayers.foreach(p => {
       val roles = plays.getRoles(p).diff(Set(p))
-      roles.foreach(r => roleConstraints.validateRoleConstraints(p, r) match {
+      roles.foreach(r => roleConstraints.validate(p, r) match {
         case Right(e) => return Right(e)
         case _ =>
       })
@@ -224,7 +224,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     require(null != role)
     //require(isRole(role), "Argument for adding a role must be a role (you maybe want to add the @Role annotation).")
     // check role restrictions first
-    roleRestrictions.validateRoleRestrictions(core, tag.tpe)
+    roleRestrictions.validate(core, tag.tpe)
     plays.addBinding(core, role)
   }
 

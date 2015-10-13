@@ -31,7 +31,7 @@ class RoleRestrictions {
     })
   }
 
-  def validateRoleRestrictions(player: Any, role: Type) = {
+  def validate(player: Any, role: Type) = {
     val roleInterface = role.members
     restrictions.find { case (pt, rt) =>
       isInstanceOf(pt, player.getClass.toString) && !isSameInterface(roleInterface, rt.decls)

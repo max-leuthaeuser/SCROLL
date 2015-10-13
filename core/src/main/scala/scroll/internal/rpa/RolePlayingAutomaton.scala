@@ -1,6 +1,7 @@
 package scroll.internal.rpa
 
 import akka.actor._
+import RolePlayingAutomaton._
 import scroll.internal.Compartment
 
 object RolePlayingAutomaton {
@@ -31,8 +32,6 @@ object RolePlayingAutomaton {
     def For(comp: Compartment): ActorRef = ActorSystem().actorOf(Props(manifest[T].runtimeClass, comp), "rpa_" + comp.hashCode())
   }
 }
-
-import RolePlayingAutomaton._
 
 /**
  * Use this trait to implement your own [[scroll.internal.Compartment]] specific

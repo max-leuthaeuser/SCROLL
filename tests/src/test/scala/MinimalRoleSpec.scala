@@ -290,14 +290,14 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
 
       When("updating role attributes")
 
-      var expectedInt: Int = 0
-      var expectedDouble: Double = 0
-      var expectedFloat: Float = 0
-      var expectedLong: Long = 0
-      var expectedShort: Short = 0
-      var expectedByte: Byte = 0
-      var expectedChar: Char = 'B'
-      var expectedBoolean: Boolean = true
+      val expectedInt: Int = 0
+      val expectedDouble: Double = 0
+      val expectedFloat: Float = 0
+      val expectedLong: Long = 0
+      val expectedShort: Short = 0
+      val expectedByte: Byte = 0
+      val expectedChar: Char = 'B'
+      val expectedBoolean: Boolean = true
 
       (+someCoreA).updateInt(expectedInt)
       (+someCoreA).updateDouble(expectedDouble)

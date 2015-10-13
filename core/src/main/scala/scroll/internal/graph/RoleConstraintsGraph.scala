@@ -86,7 +86,7 @@ class RoleConstraintsGraph(private val forGraph: RoleGraph[Any]) {
     Left(true)
   }
 
-  def validateRoleConstraints(player: Any, role: Any): Either[Boolean, RuntimeException] =
+  def validate(player: Any, role: Any): Either[Boolean, RuntimeException] =
     for {
       res1 <- checkImplications(player, role).left
       res2 <- checkEquivalence(player, role).left

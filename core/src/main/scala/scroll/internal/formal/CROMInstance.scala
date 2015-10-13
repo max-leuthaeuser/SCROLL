@@ -84,14 +84,14 @@ trait CROMInstance extends ECoreImporter {
     // TODO: make sure order of roles (incoming/outgoing) is correct for the given relationship
     val rsts = roles.filter(role => {
       val incoming = role.asInstanceOf[DynamicEObjectImpl].dynamicGet(1).asInstanceOf[EcoreEList[DynamicEObjectImpl]]
-      var inCond = false
-      if (incoming != null) {
-        inCond = incoming.exists(e => e.dynamicGet(0).asInstanceOf[String] == rstName)
+      val inCond = incoming match {
+        case null => false
+        case _ => incoming.exists(e => e.dynamicGet(0).asInstanceOf[String] == rstName)
       }
       val outgoing = role.asInstanceOf[DynamicEObjectImpl].dynamicGet(2).asInstanceOf[EcoreEList[DynamicEObjectImpl]]
-      var outCond = false
-      if (outgoing != null) {
-        outCond = outgoing.exists(e => e.dynamicGet(0).asInstanceOf[String] == rstName)
+      val outCond = outgoing match {
+        case null => false
+        case _ => outgoing.exists(e => e.dynamicGet(0).asInstanceOf[String] == rstName)
       }
       inCond || outCond
     }).map(getInstanceName(_).asInstanceOf[RT])

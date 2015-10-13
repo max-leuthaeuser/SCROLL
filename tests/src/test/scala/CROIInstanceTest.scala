@@ -1,5 +1,4 @@
-import mocks.CoreA
-import mocks.SomeCompartment
+import mocks.{CoreA, SomeCompartment}
 import org.scalatest.{Matchers, GivenWhenThen, FeatureSpec}
 import scroll.internal.formal.CROIInstance
 
