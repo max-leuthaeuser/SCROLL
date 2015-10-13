@@ -215,6 +215,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
   /**
    * Adds a play relation between core and role.
    *
+   * @tparam R type of role
    * @param core the core to add the given role at
    * @param role the role that should added to the given core
    */
@@ -243,6 +244,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
   /**
    * Transfers a role from one core to another.
    *
+   * @tparam R type of role
    * @param coreFrom the core the given role should removed from
    * @param coreTo the core the given should attached to
    * @param role the role that should be transferred
@@ -376,6 +378,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     /**
      * Adds a play relation between core and role.
      *
+     * @tparam R type of role
      * @param role the role that should played
      * @return this
      */
@@ -390,6 +393,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     /**
      * Adds a play relation between core and role but always returns the player instance.
      *
+     * @tparam R type of role
      * @param role the role that should played
      * @return the player instance
      */
@@ -408,6 +412,9 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
 
     /**
      * Transfers a role to another player.
+     *
+     * @tparam R type of role
+     * @param role the role to transfer
      */
     def transfer[R](role: R) = new {
       def to(player: Any) {
