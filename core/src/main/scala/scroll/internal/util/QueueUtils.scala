@@ -1,7 +1,5 @@
 package scroll.internal.util
 
-import scala.collection.immutable.Queue
-
 /**
  * Generic Queue ordering utility.
  */

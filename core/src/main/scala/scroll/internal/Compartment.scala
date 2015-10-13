@@ -519,12 +519,12 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       }
     }
 
-    override def equals(o: Any) = o match {
+    override def equals(o: Any): Boolean = o match {
       case other: Player[_] => getCoreFor(this.wrapped) == getCoreFor(other.wrapped)
       case other: Any => getCoreFor(this.wrapped) match {
         case Nil => false
         case p :: Nil => p == other
-        case l => false
+        case _ => false
       }
     }
 

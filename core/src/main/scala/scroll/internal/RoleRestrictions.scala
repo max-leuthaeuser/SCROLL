@@ -1,9 +1,10 @@
 package scroll.internal
 
+import scala.collection.mutable
 import scala.reflect.runtime.universe._
 
 class RoleRestrictions {
-  private lazy val restrictions = scala.collection.mutable.HashMap.empty[String, Type]
+  private lazy val restrictions = mutable.HashMap.empty[String, Type]
 
   def addRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]) {
     restrictions(manifest[A].toString()) = tag.tpe
@@ -31,7 +32,7 @@ class RoleRestrictions {
     })
   }
 
-  def validate(player: Any, role: Type) = {
+  def validate(player: Any, role: Type) {
     val roleInterface = role.members
     restrictions.find { case (pt, rt) =>
       isInstanceOf(pt, player.getClass.toString) && !isSameInterface(roleInterface, rt.decls)

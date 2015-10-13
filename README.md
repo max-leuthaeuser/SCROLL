@@ -2,7 +2,7 @@ SCROLL
 ======
 *SCala ROLes Language*
 
-[![Build Status](https://travis-ci.org/max-leuthaeuser/SCROLL.svg)](https://travis-ci.org/max-leuthaeuser/SCROLL) [![Codacy Badge](https://api.codacy.com/project/badge/d830151a9ef246dd85dafd42b216ea4e)](https://www.codacy.com/app/max-leuthaeuser/SCROLL)
+[![Build Status](https://travis-ci.org/max-leuthaeuser/SCROLL.svg)](https://travis-ci.org/max-leuthaeuser/SCROLL) [![Codacy Badge](https://api.codacy.com/project/badge/0021c87e1b824c2f8a58b81406d5db48)](https://www.codacy.com/app/max-leuthaeuser/SCROLL)
 
 A playground for role dispatch based on Scala.
 
