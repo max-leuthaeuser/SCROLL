@@ -1,6 +1,7 @@
 package scroll.internal
 
 import java.lang.reflect.{Field, Method}
+import scala.reflect.runtime.universe._
 
 object ReflectiveHelper {
   private def simpleClassName(s: String, on: String) = s.contains(on) match {
@@ -13,6 +14,8 @@ object ReflectiveHelper {
   def classSimpleClassName(t: String): String = simpleClassName(t, "$")
 
   def hash(of: Any): String = of.hashCode().toString
+
+  def weakType[T](x: T)(implicit tag: WeakTypeTag[T]): Type = tag.tpe
 }
 
 trait ReflectiveHelper {

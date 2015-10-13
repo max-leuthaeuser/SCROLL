@@ -1,11 +1,8 @@
 package scroll.internal
 
-import java.lang.reflect.Method
-
 import scala.reflect.runtime.universe._
-import java.lang
 
-class RoleRestrictions extends ReflectiveHelper {
+class RoleRestrictions {
   private lazy val restrictions = scala.collection.mutable.HashMap.empty[String, Type]
 
   def addRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]) {
@@ -15,37 +12,27 @@ class RoleRestrictions extends ReflectiveHelper {
   private def isInstanceOf(mani: String, that: String) =
     ReflectiveHelper.typeSimpleClassName(that) == ReflectiveHelper.typeSimpleClassName(mani)
 
-  private def matchMethod[A](m: Method, name: String, rType: Type, args: Seq[Type]): Boolean = {
-    lazy val matchName = m.getName == name
-    lazy val matchParamCount = m.getParameterTypes.length == args.size
-    lazy val matchTypes = (args ++ Seq(rType)).zip(m.getParameterTypes ++ Seq(m.getReturnType)).forall {
-      case (arg, paramType: Class[_]) => arg.toString match {
-        case "Boolean" => paramType == lang.Boolean.TYPE
-        case "Char" => paramType == lang.Character.TYPE
-        case "Short" => paramType == lang.Short.TYPE
-        case "Int" => paramType == lang.Integer.TYPE
-        case "Long" => paramType == lang.Long.TYPE
-        case "Float" => paramType == lang.Float.TYPE
-        case "Double" => paramType == lang.Double.TYPE
-        case "Byte" => paramType == lang.Byte.TYPE
-        case "Unit" => paramType == lang.Void.TYPE
-        case t => isInstanceOf(paramType.toString, t.toString)
-      }
+  private def compareParams(a: List[Symbol], b: List[Symbol]): Boolean = a.size - b.size match {
+    case 0 => a.zip(b).forall {
+      case (e1, e2) => e1.info =:= e2.info
     }
-    matchName && matchParamCount && matchTypes
+    case _ => false
   }
 
-  private def isSameInterface(roleInterface: Seq[Method], restrInterface: MemberScope): Boolean = {
-    restrInterface.sorted.forall(sy => {
-      val mName = sy.asMethod.name.toString
-      val rType = sy.asMethod.returnType
-      val args = sy.asMethod.paramLists.flatten.map(_.info)
-      roleInterface.exists(matchMethod(_, mName, rType, args))
+  private def isSameInterface(roleInterface: MemberScope, restrInterface: MemberScope): Boolean = {
+    restrInterface.sorted.forall(m => {
+      val method = m.asMethod
+      roleInterface.sorted.exists {
+        case v if v.isMethod => method.name == v.asMethod.name &&
+          method.returnType =:= v.asMethod.returnType &&
+          compareParams(method.paramLists.flatten, v.asMethod.paramLists.flatten)
+        case _ => false
+      }
     })
   }
 
-  def validateRoleRestrictions(player: Any, role: Any) = {
-    val roleInterface = role.allMethods.toSeq
+  def validateRoleRestrictions(player: Any, role: Type) = {
+    val roleInterface = role.members
     restrictions.find { case (pt, rt) =>
       isInstanceOf(pt, player.getClass.toString) && !isSameInterface(roleInterface, rt.decls)
     } match {

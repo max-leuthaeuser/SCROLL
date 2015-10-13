@@ -218,12 +218,12 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @param core the core to add the given role at
    * @param role the role that should added to the given core
    */
-  def addPlaysRelation(core: Any, role: Any) {
+  def addPlaysRelation[R](core: Any, role: R)(implicit tag: WeakTypeTag[R]) {
     require(null != core)
     require(null != role)
     //require(isRole(role), "Argument for adding a role must be a role (you maybe want to add the @Role annotation).")
     // check role restrictions first
-    roleRestrictions.validateRoleRestrictions(core, role)
+    roleRestrictions.validateRoleRestrictions(core, tag.tpe)
     plays.addBinding(core, role)
   }
 
@@ -247,26 +247,13 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @param coreTo the core the given should attached to
    * @param role the role that should be transferred
    */
-  def transferRole(coreFrom: Any, coreTo: Any, role: Any) {
+  def transferRole[R](coreFrom: Any, coreTo: Any, role: R)(implicit tag: WeakTypeTag[R]) {
     require(null != coreFrom)
     require(null != coreTo)
     require(coreFrom != coreTo, "You can not transfer a role from itself.")
     //require(isRole(role), "Argument for transferring a role must be a role (you maybe want to add the @Role annotation).")
-
     removePlaysRelation(coreFrom, role)
     addPlaysRelation(coreTo, role)
-  }
-
-  /**
-   * Transfers a Set of roles from one core to another.
-   *
-   * @param coreFrom the core all roles should removed from
-   * @param coreTo the core the given roles in the Set should attached to
-   * @param roles the Set of roles that should be transferred
-   */
-  def transferRoles(coreFrom: Any, coreTo: Any, roles: Set[Any]) {
-    require(null != roles)
-    roles.foreach(transferRole(coreFrom, coreTo, _))
   }
 
   @tailrec
@@ -392,7 +379,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
      * @param role the role that should played
      * @return this
      */
-    def play(role: Any): Player[T] = {
+    def play[R](role: R)(implicit tag: WeakTypeTag[R]): Player[T] = {
       wrapped match {
         case p: Player[_] => addPlaysRelation(p.wrapped, role)
         case p: Any => addPlaysRelation(p, role)
@@ -406,7 +393,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
      * @param role the role that should played
      * @return the player instance
      */
-    def playing(role: Any): T = play(role).wrapped
+    def playing[R](role: R): T = play(role).wrapped
 
     /**
      * Removes the play relation between core and role.
@@ -422,7 +409,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     /**
      * Transfers a role to another player.
      */
-    def transfer(role: Any) = new {
+    def transfer[R](role: R) = new {
       def to(player: Any) {
         transferRole(this, player, role)
       }
