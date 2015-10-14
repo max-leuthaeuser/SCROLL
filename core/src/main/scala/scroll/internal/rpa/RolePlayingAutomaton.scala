@@ -1,8 +1,8 @@
 package scroll.internal.rpa
 
 import akka.actor._
-import RolePlayingAutomaton._
 import scroll.internal.Compartment
+import scroll.internal.rpa.RolePlayingAutomaton.{RPAData, RPAState, Start, Stop, Uninitialized}
 
 object RolePlayingAutomaton {
 

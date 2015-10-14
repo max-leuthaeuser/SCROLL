@@ -1,11 +1,8 @@
 package scroll.internal.formal
 
-import scroll.internal.Compartment
-import scroll.internal.ReflectiveHelper._
-
+import scroll.internal.{Compartment, ReflectiveHelper}
 
 trait CROIInstance extends CROMInstance {
-
   protected val croi = CROI.empty[String, String, String, String]
 
   def compliant: Boolean = crom.isDefined && croi.compliant(this.crom.get)
@@ -13,19 +10,19 @@ trait CROIInstance extends CROMInstance {
   private def addType1(of: Any) {
     val className = of.getClass.toString
     val typeName = className.contains("$") match {
-      case false => typeSimpleClassName(className)
-      case true => classSimpleClassName(className)
+      case false => ReflectiveHelper.typeSimpleClassName(className)
+      case true => ReflectiveHelper.classSimpleClassName(className)
     }
-    croi.type1 += (hash(of) -> typeName)
+    croi.type1 += (ReflectiveHelper.hash(of) -> typeName)
   }
 
   def addNatural(n: Any) {
-    croi.n ::= hash(n)
+    croi.n ::= ReflectiveHelper.hash(n)
     addType1(n)
   }
 
   def addRole(r: Any) {
-    croi.r ::= hash(r)
+    croi.r ::= ReflectiveHelper.hash(r)
     addType1(r)
   }
 
@@ -33,12 +30,12 @@ trait CROIInstance extends CROMInstance {
     require(c.isInstanceOf[Compartment])
     val man = manifest[T].toString()
     val typeName = man.substring(man.indexOf(".") + 1, man.lastIndexOf(" with"))
-    croi.c ::= hash(c)
-    croi.type1 += (hash(c) -> typeName)
+    croi.c ::= ReflectiveHelper.hash(c)
+    croi.type1 += (ReflectiveHelper.hash(c) -> typeName)
   }
 
   def addPlays(player: Any, comp: Any, role: Any) {
-    val elem = (hash(player), hash(comp), hash(role))
+    val elem = (ReflectiveHelper.hash(player), ReflectiveHelper.hash(comp), ReflectiveHelper.hash(role))
     croi.plays ::= elem
   }
 

@@ -1,8 +1,8 @@
-import mocks.{SomeCompartment, CoreA}
-import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
+import mocks.{CoreA, SomeCompartment}
 import org.scalatest.concurrent.AsyncAssertions._
+import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.rpa.RolePlayingAutomaton
-import scroll.internal.rpa.RolePlayingAutomaton._
+import scroll.internal.rpa.RolePlayingAutomaton.{BindRole, RPAState, Start, Stop, Terminate, Use}
 
 class RolePlayingAutomatonTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for role playing automaton.")

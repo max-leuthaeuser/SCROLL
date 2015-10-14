@@ -1,25 +1,24 @@
-import org.scalatest.{Matchers, GivenWhenThen, FeatureSpec}
-import scroll.internal.formal._
-import scroll.internal.formal.FormalUtils._
+import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
+import scroll.internal.formal.{CROI, CROM, ConstraintModel, FormalUtils, RoleGroup}
 
 class FormalCROMSpec extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for ScalaFormalCROM.")
 
   feature("Testing util functions") {
     scenario("Testing function for mutually disjoint Lists") {
-      mutualDisjoint(List(List.empty, List.empty)) shouldBe true
-      mutualDisjoint(List(List(1, 2), List(3, 4))) shouldBe true
-      mutualDisjoint(List(List(1), List(1))) shouldBe false
-      mutualDisjoint(List(List.empty, List(1), List(1))) shouldBe false
-      mutualDisjoint(List(List(1, 2, 3), List(3, 4, 5))) shouldBe false
-      mutualDisjoint(List(List(1, 1), List(2))) shouldBe true
+      FormalUtils.mutualDisjoint(List(List.empty, List.empty)) shouldBe true
+      FormalUtils.mutualDisjoint(List(List(1, 2), List(3, 4))) shouldBe true
+      FormalUtils.mutualDisjoint(List(List(1), List(1))) shouldBe false
+      FormalUtils.mutualDisjoint(List(List.empty, List(1), List(1))) shouldBe false
+      FormalUtils.mutualDisjoint(List(List(1, 2, 3), List(3, 4, 5))) shouldBe false
+      FormalUtils.mutualDisjoint(List(List(1, 1), List(2))) shouldBe true
     }
 
     scenario("Testing function for total function") {
-      totalFunction(List.empty, Map(1 -> List(1))) shouldBe true
-      totalFunction(List(1, 2), Map(1 -> List(1), 2 -> List(2))) shouldBe true
-      totalFunction(List(1, 2), Map(1 -> List(1))) shouldBe false
-      totalFunction(List(1), Map.empty[Int, List[Int]]) shouldBe false
+      FormalUtils.totalFunction(List.empty, Map(1 -> List(1))) shouldBe true
+      FormalUtils.totalFunction(List(1, 2), Map(1 -> List(1), 2 -> List(2))) shouldBe true
+      FormalUtils.totalFunction(List(1, 2), Map(1 -> List(1))) shouldBe false
+      FormalUtils.totalFunction(List(1), Map.empty[Int, List[Int]]) shouldBe false
     }
   }
 
@@ -105,8 +104,8 @@ class FormalCROMSpec extends FeatureSpec with GivenWhenThen with Matchers {
       (testrg7, List("5"), 1))
 
     for ((t, s, e) <- rgtests) {
-      atoms(t) shouldBe s
-      evaluate(t, test8, "1", "4") shouldBe e
+      FormalUtils.atoms(t) shouldBe s
+      FormalUtils.evaluate(t, test8, "1", "4") shouldBe e
     }
   }
 

@@ -1,6 +1,7 @@
 package scroll.internal
 
 import java.lang.reflect.{Field, Method}
+
 import scala.reflect.runtime.universe._
 
 object ReflectiveHelper {
@@ -21,12 +22,22 @@ object ReflectiveHelper {
 trait ReflectiveHelper {
 
   implicit class Reflective(cur: Any) {
-    private lazy val methods = getAllMethods
-    private lazy val fields = getAllFields
+    private lazy val methods: Set[Method] = getAllMethods
+    private lazy val fields: Set[Field] = getAllFields
 
     private def safeString(s: String) {
       require(null != s)
       require(!s.isEmpty)
+    }
+
+    private def safeFindField(name: String): Field = fields.find(_.getName == name) match {
+      case Some(f) => f
+      case None => throw new RuntimeException(s"Field '$name' not found!")
+    }
+
+    private def safeFindMethod(name: String) = methods.find(_.getName == name) match {
+      case Some(m) => m
+      case None => throw new RuntimeException(s"Method '$name' not found!")
     }
 
     private def getAllMethods: Set[Method] = {
@@ -59,21 +70,21 @@ trait ReflectiveHelper {
 
     def propertyOf[T](name: String): T = {
       safeString(name)
-      val field = fields.find(_.getName == name).get
+      val field = safeFindField(name)
       field.setAccessible(true)
       field.get(cur).asInstanceOf[T]
     }
 
     def setPropertyOf(name: String, value: Any) {
       safeString(name)
-      val field = fields.find(_.getName == name).get
+      val field = safeFindField(name)
       field.setAccessible(true)
       field.set(cur, value)
     }
 
     def resultOf[T](name: String): T = {
       safeString(name)
-      val method = methods.find(_.getName == name).get
+      val method = safeFindMethod(name)
       method.setAccessible(true)
       method.invoke(cur).asInstanceOf[T]
     }

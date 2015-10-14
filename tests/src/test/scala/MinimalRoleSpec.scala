@@ -1,7 +1,7 @@
+import mocks.{CoreA, CoreB, SomeCompartment}
+import org.scalatest._
 import scroll.internal.DispatchQuery
 import scroll.internal.DispatchQuery._
-import mocks.{CoreB, SomeCompartment, CoreA}
-import org.scalatest._
 
 class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for an excerpt of the role concept.")
@@ -215,7 +215,7 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
 
         When("updating role attributes")
 
-        implicit var dd = From(_.isInstanceOf[CoreA]).
+        implicit val dd = From(_.isInstanceOf[CoreA]).
           To(_.isInstanceOf[RoleA]).
           Through(anything).
           Bypassing({

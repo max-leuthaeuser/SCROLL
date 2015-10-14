@@ -2,8 +2,9 @@ package scroll.internal.graph
 
 import org.jgrapht.Graphs
 import org.jgrapht.experimental.dag.DirectedAcyclicGraph
-import org.jgrapht.graph.{EdgeReversedGraph, DefaultEdge}
+import org.jgrapht.graph.{DefaultEdge, EdgeReversedGraph}
 import org.jgrapht.traverse.DepthFirstIterator
+
 import scala.collection.JavaConversions._
 
 class ScalaRoleGraph extends RoleGraph[Any] {

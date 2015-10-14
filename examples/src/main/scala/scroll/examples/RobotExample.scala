@@ -1,10 +1,10 @@
 package scroll.examples
 
-import scroll.internal.Compartment
 import scroll.examples.RobotExample.ActorView.DriveableRole
 import scroll.examples.RobotExample.BehavioralView.ServiceRole
 import scroll.examples.RobotExample.NavigationView.NavigationRole
 import scroll.examples.RobotExample.SensorView.ObservingEnvironmentRole
+import scroll.internal.Compartment
 import scroll.internal.util.Log.info
 
 object RobotExample extends App {

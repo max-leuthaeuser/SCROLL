@@ -65,12 +65,12 @@ trait CROMInstance extends ECoreImporter {
     }
   }
 
-  private def collectRoles(of: EObject): List[EObject] = of.eContents().toList.map(e => e.eClass().getName match {
+  private def collectRoles(of: EObject): List[EObject] = of.eContents().toList.flatMap(e => e.eClass().getName match {
     case ROLEGROUP => collectRoles(e)
     case ROLETYPE => List(e)
     case PART => collectRoles(e)
     case _ => List()
-  }).flatten
+  })
 
   private def constructParts[CT >: Null, RT >: Null](elem: EObject): (CT, List[RT]) = {
     val ct = getInstanceName(elem.eContainer()).asInstanceOf[CT]

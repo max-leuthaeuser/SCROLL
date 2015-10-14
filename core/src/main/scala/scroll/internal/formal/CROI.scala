@@ -1,9 +1,8 @@
 package scroll.internal.formal
 
-import FormalUtils._
-
 object CROI {
-  def empty[NT >: Null, RT >: Null, CT >: Null, RST >: Null] = CROI[NT, RT, CT, RST](List.empty, List.empty, List.empty, Map.empty, List.empty, Map.empty)
+  def empty[NT >: Null, RT >: Null, CT >: Null, RST >: Null]: CROI[NT, RT, CT, RST] =
+    CROI[NT, RT, CT, RST](List.empty, List.empty, List.empty, Map.empty, List.empty, Map.empty)
 
   /**
    * Little helper factory method for creating a CROI with Strings only.
@@ -15,7 +14,8 @@ object CROI {
                   type1: Map[Any, Any],
                   plays: List[(String, String, String)],
                   links: Map[(String, String), List[(String, String)]]
-                  ): CROI[String, String, String, String] = CROI(n, r, c, type1, plays, links)
+                  ): CROI[String, String, String, String] =
+    CROI(n, r, c, type1, plays, links)
 }
 
 case class CROI[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
@@ -27,37 +27,37 @@ case class CROI[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
                                                                   var links: Map[(RST, CT), List[(RT, RT)]]
                                                                   ) {
 
-  assert(mutualDisjoint(List(n, r, c, List(null))))
-  assert(totalFunction(n.union(r).union(c), type1.map { case (k, v) => (k, List(v)) }))
+  assert(FormalUtils.mutualDisjoint(List(n, r, c, List(null))))
+  assert(FormalUtils.totalFunction(n.union(r).union(c), type1.map { case (k, v) => (k, List(v)) }))
 
   def compliant(crom: CROM[NT, RT, CT, RST]): Boolean = crom.wellformed &&
     axiom6(crom) && axiom7(crom) && axiom8(crom) &&
     axiom9(crom) && axiom10(crom) && axiom11(crom)
 
   def axiom6(crom: CROM[NT, RT, CT, RST]): Boolean =
-    all(plays.map { case (o, c1, r1) =>
+    FormalUtils.all(plays.map { case (o, c1, r1) =>
       // TODO: fix asInstanceOf
       crom.fills.contains((type1(o), type1(r1))) && crom.parts(type1(c1).asInstanceOf[CT]).contains(type1(r1))
     })
 
   def axiom7(crom: CROM[NT, RT, CT, RST]): Boolean =
-    all(for ((o, c, r) <- plays; (o1, c1, r1) <- plays if o1 == o && c1 == c && r1 != r) yield type1(r1) != type1(r))
+    FormalUtils.all(for ((o, c, r) <- plays; (o1, c1, r1) <- plays if o1 == o && c1 == c && r1 != r) yield type1(r1) != type1(r))
 
   def axiom8(crom: CROM[NT, RT, CT, RST]): Boolean =
-    all((for (r1 <- r) yield for ((o, c, r2) <- plays if r2 == r1) yield (o, c)).map(_.size == 1))
+    FormalUtils.all((for (r1 <- r) yield for ((o, c, r2) <- plays if r2 == r1) yield (o, c)).map(_.size == 1))
 
   def axiom9(crom: CROM[NT, RT, CT, RST]): Boolean =
-    all(for (c1 <- c; r1 <- crom.rst if links.contains((r1, c1))) yield !links((r1, c1)).contains((null, null)))
+    FormalUtils.all(for (c1 <- c; r1 <- crom.rst if links.contains((r1, c1))) yield !links((r1, c1)).contains((null, null)))
 
   def axiom10(crom: CROM[NT, RT, CT, RST]): Boolean =
-    all(for (rst1 <- crom.rst; c1 <- c if links.contains((rst1, c1)); r1 <- r; o1 <- o) yield
-    any(for (r_1 <- repsilon) yield
+    FormalUtils.all(for (rst1 <- crom.rst; c1 <- c if links.contains((rst1, c1)); r1 <- r; o1 <- o) yield
+    FormalUtils.any(for (r_1 <- repsilon) yield
     ((plays.contains(o1, c1, r1) && (type1(r1) == crom.rel(rst1).head)) == links((rst1, c1)).contains((r1, r_1))) && ((plays.contains(o1, c1, r1) && (type1(r1) == crom.rel(rst1).tail.head)) == links((rst1, c1)).contains((r_1, r1)))
     )
     )
 
   def axiom11(crom: CROM[NT, RT, CT, RST]): Boolean =
-    all(for (rst1 <- crom.rst; c1 <- c if links.contains((rst1, c1)); (r_1, r_2) <- links((rst1, c1)) if r_1 != null && r_2 != null) yield
+    FormalUtils.all(for (rst1 <- crom.rst; c1 <- c if links.contains((rst1, c1)); (r_1, r_2) <- links((rst1, c1)) if r_1 != null && r_2 != null) yield
     !links(rst1, c1).contains((r_1, null)) && !links((rst1, c1)).contains((null, r_2))
     )
 

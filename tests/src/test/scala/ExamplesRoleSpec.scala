@@ -1,5 +1,5 @@
-import org.scalatest.{Matchers, GivenWhenThen, FeatureSpec}
-import scroll.examples._
+import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
+import scroll.examples.{APICallsExample, AnotherBankExample, BankExample, ExpressionProblemExample, MathKiamaExample, RepminKiamaExample, RobotExample, UniversityExample}
 
 class ExamplesRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for scroll.examples.")

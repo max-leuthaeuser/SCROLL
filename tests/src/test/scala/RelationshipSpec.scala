@@ -1,4 +1,4 @@
-import mocks.{SomeCompartment, CoreA}
+import mocks.{CoreA, SomeCompartment}
 import org.scalatest._
 
 class RelationshipSpec extends FeatureSpec with GivenWhenThen with Matchers {

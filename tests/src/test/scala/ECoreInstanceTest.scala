@@ -1,4 +1,4 @@
-import org.scalatest.{Matchers, GivenWhenThen, FeatureSpec}
+import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.Compartment
 import scroll.internal.formal.CROMInstance
 

@@ -1,6 +1,6 @@
 package scroll.internal.graph
 
-import org.jgrapht.graph.{DefaultEdge, DefaultDirectedGraph}
+import org.jgrapht.graph.{DefaultDirectedGraph, DefaultEdge}
 import org.jgrapht.traverse.DepthFirstIterator
 import scroll.internal.ReflectiveHelper
 

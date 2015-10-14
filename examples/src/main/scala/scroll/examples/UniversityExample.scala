@@ -1,8 +1,8 @@
 package scroll.examples
 
+import annotations.Role
 import scroll.internal.Compartment
 import scroll.internal.util.Log.info
-import annotations.Role
 
 object UniversityExample extends App {
 

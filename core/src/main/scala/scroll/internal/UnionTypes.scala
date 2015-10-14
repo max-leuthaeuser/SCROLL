@@ -5,7 +5,7 @@ import shapeless._
 object UnionTypes {
 
   /**
-   * Implements union types in unmodified Scala via Curry-Howard isomorphism. 
+   * Implements union types in unmodified Scala via Curry-Howard isomorphism.
    * see: http://www.chuusai.com/2011/06/09/scala-union-types-curry-howard/
    */
   trait CurryHowardUnionTypes {

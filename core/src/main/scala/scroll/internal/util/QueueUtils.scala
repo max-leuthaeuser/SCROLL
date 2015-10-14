@@ -6,7 +6,7 @@ package scroll.internal.util
 object QueueUtils {
   /**
    * Checks if the given Queue 'in' of type T contains a chain (non-empty queue)
-   * starting with an element matching constraint 'from' and ending with one matching 'to'. 
+   * starting with an element matching constraint 'from' and ending with one matching 'to'.
    *
    * @param from the starting constraint
    * @param to the end constraint

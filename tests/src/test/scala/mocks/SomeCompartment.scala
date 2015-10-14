@@ -1,7 +1,7 @@
 package mocks
 
-import scroll.internal.Compartment
 import annotations.Role
+import scroll.internal.Compartment
 
 class SomeCompartment extends Compartment {
 
@@ -29,7 +29,7 @@ class SomeCompartment extends Compartment {
   }
 
   @Role class RoleC {
-    def unionTypedMethod[T: (Int or String)#λ](param: T) = param match {
+    def unionTypedMethod[T: (Int or String)#λ](param: T): Int = param match {
       case i: Int => i
       case s: String => s.length
     }

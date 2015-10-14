@@ -1,6 +1,5 @@
-import org.scalatest.{Matchers, GivenWhenThen, FeatureSpec}
-
-import scroll.internal.formal._
+import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
+import scroll.internal.formal.{CROI, CROM, ConstraintModel, FormalUtils, RoleGroup}
 
 class FormalCROMExampleSpec extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for ScalaFormalCROMExamples.")

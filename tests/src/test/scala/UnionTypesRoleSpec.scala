@@ -1,5 +1,5 @@
 import mocks.{CoreA, SomeCompartment}
-import org.scalatest.{Matchers, GivenWhenThen, FeatureSpec}
+import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 
 class UnionTypesRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for union types in the context of roles.")

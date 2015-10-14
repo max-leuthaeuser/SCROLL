@@ -1,7 +1,8 @@
+import org.scalameter.Measurer.MemoryFootprint
 import org.scalameter.api._
 
 trait RoleGraphMemoryBenchmarks extends BenchmarkHelper {
-  override def measurer = new Measurer.MemoryFootprint
+  override def measurer: MemoryFootprint = new Measurer.MemoryFootprint
 
   performance of "Memory Footprint" in {
     performance of "Compartment" in {

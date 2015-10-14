@@ -1,5 +1,5 @@
-import mocks.{ SomeCompartment, CoreA }
-import org.scalatest.{ Matchers, GivenWhenThen, FeatureSpec }
+import mocks.{CoreA, SomeCompartment}
+import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 
 //noinspection ComparingUnrelatedTypes
 class EqualityRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {

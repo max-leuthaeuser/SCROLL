@@ -1,5 +1,5 @@
 import mocks.{CoreA, SomeCompartment}
-import org.scalatest.{Matchers, GivenWhenThen, FeatureSpec}
+import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.formal.CROIInstance
 
 class CROIInstanceTest extends FeatureSpec with GivenWhenThen with Matchers {
