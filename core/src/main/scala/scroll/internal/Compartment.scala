@@ -17,6 +17,13 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
   private lazy val roleConstraints = new RoleConstraintsGraph(plays)
   private lazy val roleRestrictions = new RoleRestrictions()
 
+  /**
+   * Add a role restriction between the given player type A and role type B.
+   *
+   * @param tag implicitly added WeakTypeTag for the role type
+   * @tparam A the player type
+   * @tparam B the role type
+   */
   def RoleRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]) {
     roleRestrictions.addRestriction[A, B]
   }
@@ -60,20 +67,13 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
   /**
    * Wrapping function that checks all available role constraints for
    * all core objects and its roles after the given function was executed.
+   * Throws a RuntimeException if a role constraint is violated!
    *
    * @param func the function to execute and check role constraints afterwards
-   * @return Success iff no role constraint is violated, Failure with a RuntimeException otherwise
    */
-  def RoleConstraintsChecked(func: => Unit): Either[String, RuntimeException] = {
+  def RoleConstraintsChecked(func: => Unit) {
     func
-    plays.allPlayers.foreach(p => {
-      val roles = plays.getRoles(p).diff(Set(p))
-      roles.foreach(r => roleConstraints.validate(p, r) match {
-        case Right(e) => return Right(e)
-        case _ =>
-      })
-    })
-    Left("All role constraints hold.")
+    plays.allPlayers.foreach(p => plays.getRoles(p).diff(Set(p)).foreach(r => roleConstraints.validate(p, r)))
   }
 
   import Relationship._
@@ -225,7 +225,6 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     require(null != core)
     require(null != role)
     //require(isRole(role), "Argument for adding a role must be a role (you maybe want to add the @Role annotation).")
-    // check role restrictions first
     roleRestrictions.validate(core, tag.tpe)
     plays.addBinding(core, role)
   }

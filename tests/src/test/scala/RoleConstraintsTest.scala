@@ -2,10 +2,6 @@ import mocks.{CoreA, SomeCompartment}
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 
 class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
-
-  val SUCCESS = 'left
-  val FAILURE = 'right
-
   info("Test spec for role constraints.")
 
   feature("Role implication") {
@@ -22,32 +18,38 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
         Then("they should hold")
         RoleConstraintsChecked {
           player play roleA play roleB
-        } should be(SUCCESS)
+        }
 
-        RoleConstraintsChecked {
-          player drop roleB
-        } should be(FAILURE)
+        a[RuntimeException] should be thrownBy {
+          RoleConstraintsChecked {
+            player drop roleB
+          }
+        }
 
         RoleConstraintsChecked {
           player play roleB
-        } should be(SUCCESS)
+        }
 
         RoleImplication[RoleB, RoleC]()
         RoleConstraintsChecked {
           player play roleC
-        } should be(SUCCESS)
+        }
 
-        RoleConstraintsChecked {
-          player drop roleB
-        } should be(FAILURE)
+        a[RuntimeException] should be thrownBy {
+          RoleConstraintsChecked {
+            player drop roleB
+          }
+        }
 
-        RoleConstraintsChecked {
-          player drop roleC
-        } should be(FAILURE)
+        a[RuntimeException] should be thrownBy {
+          RoleConstraintsChecked {
+            player drop roleC
+          }
+        }
 
         RoleConstraintsChecked {
           player play roleC play roleB
-        } should be(SUCCESS)
+        }
       }
     }
   }
@@ -66,32 +68,36 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
         Then("they should hold")
         RoleConstraintsChecked {
           player play roleA
-        } should be(SUCCESS)
+        }
 
         RoleConstraintsChecked {
           player drop roleA
           player play roleB
-        } should be(SUCCESS)
+        }
 
-        RoleConstraintsChecked {
-          player play roleA
-        } should be(FAILURE)
+        a[RuntimeException] should be thrownBy {
+          RoleConstraintsChecked {
+            player play roleA
+          }
+        }
 
         RoleProhibition[RoleB, RoleC]()
         RoleConstraintsChecked {
           player drop roleA
           player drop roleB
-        } should be(SUCCESS)
+        }
 
-        RoleConstraintsChecked {
-          player play roleA
-          player play roleB
-          player play roleC
-        } should be(FAILURE)
+        a[RuntimeException] should be thrownBy {
+          RoleConstraintsChecked {
+            player play roleA
+            player play roleB
+            player play roleC
+          }
+        }
 
         RoleConstraintsChecked {
           player drop roleB
-        } should be(SUCCESS)
+        }
       }
     }
   }
@@ -108,32 +114,38 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
         RoleEquivalence[RoleA, RoleB]()
         When("checking the constraints")
         Then("they should hold")
-        RoleConstraintsChecked {
-          player play roleA
-        } should be(FAILURE)
+        a[RuntimeException] should be thrownBy {
+          RoleConstraintsChecked {
+            player play roleA
+          }
+        }
 
         RoleConstraintsChecked {
           player play roleB
-        } should be(SUCCESS)
+        }
 
-        RoleConstraintsChecked {
-          player drop roleA
-        } should be(FAILURE)
+        a[RuntimeException] should be thrownBy {
+          RoleConstraintsChecked {
+            player drop roleA
+          }
+        }
 
         RoleConstraintsChecked {
           player drop roleB
-        } should be(SUCCESS)
+        }
 
         RoleEquivalence[RoleB, RoleC]()
         RoleConstraintsChecked {
           player play roleA
           player play roleB
           player play roleC
-        } should be(SUCCESS)
+        }
 
-        RoleConstraintsChecked {
-          player drop roleB
-        } should be(FAILURE)
+        a[RuntimeException] should be thrownBy {
+          RoleConstraintsChecked {
+            player drop roleB
+          }
+        }
       }
     }
   }
@@ -151,10 +163,12 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
 
         When("checking the constraints")
         Then("they should hold")
-        RoleConstraintsChecked {
-          player play roleA
-          player play roleB
-        } should be(FAILURE)
+        a[RuntimeException] should be thrownBy {
+          RoleConstraintsChecked {
+            player play roleA
+            player play roleB
+          }
+        }
       }
     }
   }

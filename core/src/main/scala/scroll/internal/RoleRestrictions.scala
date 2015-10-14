@@ -32,6 +32,13 @@ class RoleRestrictions {
     })
   }
 
+  /**
+   * Checks all role restriction between the given player and a role type.
+   * Will throw a RuntimeException if a restriction is violated!
+   *
+   * @param player the player instance to check
+   * @param role the role type to check
+   */
   def validate(player: Any, role: Type) {
     val roleInterface = role.members
     restrictions.find { case (pt, rt) =>
