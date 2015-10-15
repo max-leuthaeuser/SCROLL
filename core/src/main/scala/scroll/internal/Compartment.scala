@@ -115,7 +115,9 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
         case RangeMultiplicity(f, t) => (f, t) match {
           case (ConcreteValue(v1), ConcreteValue(v2)) => assert(v1 <= on.size && on.size <= v2, s"With a multiplicity for '$name' from '$v1' to '$v2', the resulting role set size should be in between!")
           case (ConcreteValue(v), Many()) => assert(v <= on.size, s"With a multiplicity for '$name' from '$v' to '*', the resulting role set size should be in between!")
+          case _ => throw new RuntimeException("This multiplicity is not allowed!") // default case
         }
+        case _ => throw new RuntimeException("This multiplicity is not allowed!") // default case
       }
       on
     }
@@ -187,7 +189,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       getCoreFor(a) match {
         case p :: Nil => matcher(p.asInstanceOf[T])
         case Nil => false
-        case l => l.forall(i => matcher(i.asInstanceOf[T]))
+        case l: Seq[Any] => l.forall(i => matcher(i.asInstanceOf[T]))
       }
     })
 
@@ -203,7 +205,11 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @tparam T the type of the player instance to query for
    * @return the first player instances, that do conform to the given matcher
    */
-  def one[T: Manifest](matcher: RoleQueryStrategy = *()): T = safeReturn(all[T](matcher), manifest[T].toString()).head
+  def one[T: Manifest](matcher: RoleQueryStrategy = *()): T = safeReturn(all[T](matcher), manifest[T].toString()) match {
+    case elem :: Nil => elem
+    case l: Seq[T] => l.head
+    case _ => throw new RuntimeException(s"Query for such a type unsuccessful.")
+  }
 
   /**
    * Query the role playing graph for all player instances that do conform to the given function and return the first found.
@@ -212,7 +218,11 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
    * @tparam T the type of the player instance to query for
    * @return the first player instances, that do conform to the given matcher
    */
-  def one[T: Manifest](matcher: T => Boolean): T = safeReturn(all[T](matcher), manifest[T].toString()).head
+  def one[T: Manifest](matcher: T => Boolean): T = safeReturn(all[T](matcher), manifest[T].toString()) match {
+    case elem :: Nil => elem
+    case l: Seq[T] => l.head
+    case _ => throw new RuntimeException(s"Query for such a type unsuccessful.")
+  }
 
   /**
    * Adds a play relation between core and role.
@@ -267,7 +277,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       case cur: Any if plays.containsPlayer(cur) => plays.getPredecessors(cur) match {
         case p :: Nil => getCoreFor(p)
         case Nil => Seq(cur)
-        case l => l
+        case l: List[Any] => l
       }
       case _ => Seq(role)
     }
@@ -373,8 +383,11 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
      * @param dispatchQuery provide this to sort the resulting instances if a role instance is played by multiple core objects
      * @return the player of this player instance if this is a role, or this itself.
      */
-    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Any =
-      dispatchQuery.reorder(getCoreFor(this)).head
+    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Any = dispatchQuery.reorder(getCoreFor(this)) match {
+      case elem :: Nil => elem
+      case l: Seq[T] => l.head
+      case _ => throw new RuntimeException(s"Query for such a player unsuccessful.")
+    }
 
     /**
      * Adds a play relation between core and role.
@@ -387,6 +400,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       wrapped match {
         case p: Player[_] => addPlaysRelation(p.wrapped, role)
         case p: Any => addPlaysRelation(p, role)
+        case _ => throw new RuntimeException(s"'$wrapped' cannot play role '$role' because its neither of type 'Player' nor 'Any'!") // default case
       }
       this
     }
@@ -417,7 +431,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
      * @tparam R type of role
      * @param role the role to transfer
      */
-    def transfer[R](role: R) = new {
+    def transfer[R](role: R): {def to(player: Any)} = new {
       def to(player: Any) {
         transferRole(this, player, role)
       }
@@ -449,12 +463,12 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
       ":" -> "$colon")
 
     private def translateFunctionName(fn: String): String = {
-      var s = ""
+      val s = new StringBuilder()
       fn.foreach(c => translationRules.get(c.toString) match {
-        case Some(r) => s = s + r
-        case None => s = s + c
+        case Some(r) => s.append(r)
+        case None => s.append(c)
       })
-      s
+      s.toString()
     }
 
     private def noRoleException(name: String, args: Seq[Any], c: Any): RuntimeException =
@@ -527,6 +541,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
         case p :: Nil => p == other
         case _ => false
       }
+      case _ => false // default case
     }
 
     override def hashCode(): Int = wrapped.hashCode()
