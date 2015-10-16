@@ -10,6 +10,10 @@ class RoleRestrictions {
     restrictions(manifest[A].toString()) = tag.tpe
   }
 
+  def removeRestrictions[A: Manifest]() {
+    restrictions.remove(manifest[A].toString())
+  }
+
   private def isInstanceOf(mani: String, that: String) =
     ReflectiveHelper.typeSimpleClassName(that) == ReflectiveHelper.typeSimpleClassName(mani)
 

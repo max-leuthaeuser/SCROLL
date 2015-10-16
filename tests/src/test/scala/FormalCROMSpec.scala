@@ -1,5 +1,5 @@
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
-import scroll.internal.formal.{CROI, CROM, ConstraintModel, FormalUtils, RoleGroup}
+import scroll.internal.formal.{FormalCROI, FormalCROM, FormalConstraintModel, FormalUtils, FormalRoleGroup}
 
 class FormalCROMSpec extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for ScalaFormalCROM.")
@@ -23,14 +23,14 @@ class FormalCROMSpec extends FeatureSpec with GivenWhenThen with Matchers {
   }
 
   feature("Testing CROM") {
-    val test0 = CROM.empty[String, String, String, String]
-    val test1 = CROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
-    val test2 = CROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
-    val test3 = CROM(List("1"), List("2", "3"), List("4", "5"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3"), "5" -> List.empty), Map("a" -> List("2", "3")))
-    val test4 = CROM(List("1"), List("2", "3"), List("4", "5"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3"), "5" -> List("2")), Map("a" -> List("2", "3")))
-    val test5 = CROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "2")))
-    val test6 = CROM(List("1"), List("2", "3"), List("4", "5"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2"), "5" -> List("3")), Map("a" -> List("2", "3")))
-    val test7 = CROM(List("1"), List("2", "3", "4"), List("5", "6"), List("a"), List(("1", "2"), ("1", "3")), Map("5" -> List("3"), "6" -> List.empty), Map("a" -> List("2", "2")))
+    val test0 = FormalCROM.empty[String, String, String, String]
+    val test1 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
+    val test2 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
+    val test3 = FormalCROM(List("1"), List("2", "3"), List("4", "5"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3"), "5" -> List.empty), Map("a" -> List("2", "3")))
+    val test4 = FormalCROM(List("1"), List("2", "3"), List("4", "5"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3"), "5" -> List("2")), Map("a" -> List("2", "3")))
+    val test5 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "2")))
+    val test6 = FormalCROM(List("1"), List("2", "3"), List("4", "5"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2"), "5" -> List("3")), Map("a" -> List("2", "3")))
+    val test7 = FormalCROM(List("1"), List("2", "3", "4"), List("5", "6"), List("a"), List(("1", "2"), ("1", "3")), Map("5" -> List("3"), "6" -> List.empty), Map("a" -> List("2", "2")))
 
     val cromtests = Seq((test0, true, true, true, true, true),
       (test1, true, true, true, true, true), (test2, false, true, true, true, true),
@@ -49,19 +49,19 @@ class FormalCROMSpec extends FeatureSpec with GivenWhenThen with Matchers {
   }
 
   feature("Testing CROI") {
-    val test1 = CROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
-    val test8 = CROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
-    val test8b = CROI.empty[String, String, String, String]
-    val test9 = CROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "5", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
-    val test10 = CROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "2", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", null), ("3", null))))
-    val test11 = CROI(List("1"), List("2", "3"), List("4", "5"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4", "5" -> "4"), List(("1", "4", "2"), ("1", "5", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
-    val test11b = CROI(List("1", "5"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4", "5" -> "1"), List(("1", "4", "2"), ("5", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
-    val test12 = CROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"), (null, null))))
-    val test13 = CROI(List("1", "6"), List("2", "3", "5"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4", "5" -> "3", "6" -> "1"), List(("1", "4", "2"), ("1", "4", "3"), ("6", "4", "5")), Map(("a", "4") -> List(("2", "3"))))
-    val test13b = CROI(List("1", "6"), List("2", "3", "5"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "5" -> "2", "6" -> "1", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3"), ("6", "4", "5")), Map(("a", "4") -> List(("2", "3"))))
-    val test14 = CROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"), ("2", null))))
-    val test14b = CROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"), (null, "3"))))
-    val test15 = CROI(List("1"), List("2", "3", "5", "6"), List("4"), Map("1" -> "1", "2" -> "5", "3" -> "3", "4" -> "4", "5" -> "3", "6" -> "2"), List(("1", "4", "2"), ("1", "4", "5"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"), (null, null), ("2", null))))
+    val test1 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
+    val test8 = FormalCROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
+    val test8b = FormalCROI.empty[String, String, String, String]
+    val test9 = FormalCROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "5", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
+    val test10 = FormalCROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "2", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", null), ("3", null))))
+    val test11 = FormalCROI(List("1"), List("2", "3"), List("4", "5"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4", "5" -> "4"), List(("1", "4", "2"), ("1", "5", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
+    val test11b = FormalCROI(List("1", "5"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4", "5" -> "1"), List(("1", "4", "2"), ("5", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
+    val test12 = FormalCROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"), (null, null))))
+    val test13 = FormalCROI(List("1", "6"), List("2", "3", "5"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4", "5" -> "3", "6" -> "1"), List(("1", "4", "2"), ("1", "4", "3"), ("6", "4", "5")), Map(("a", "4") -> List(("2", "3"))))
+    val test13b = FormalCROI(List("1", "6"), List("2", "3", "5"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "5" -> "2", "6" -> "1", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3"), ("6", "4", "5")), Map(("a", "4") -> List(("2", "3"))))
+    val test14 = FormalCROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"), ("2", null))))
+    val test14b = FormalCROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"), (null, "3"))))
+    val test15 = FormalCROI(List("1"), List("2", "3", "5", "6"), List("4"), Map("1" -> "1", "2" -> "5", "3" -> "3", "4" -> "4", "5" -> "3", "6" -> "2"), List(("1", "4", "2"), ("1", "4", "5"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"), (null, null), ("2", null))))
 
     val croitests = Seq((test8, true, true, true, true, true, true),
       (test8b, true, true, true, true, true, true),
@@ -89,14 +89,14 @@ class FormalCROMSpec extends FeatureSpec with GivenWhenThen with Matchers {
 
   feature("Testing Role Groups") {
     val testrg1 = "2"
-    val testrg2 = RoleGroup(List("2", "3"), 2, 2)
-    val testrg3 = RoleGroup(List(RoleGroup(List("2", RoleGroup(List("3"), 1, 2)), 0, 1), "2"), 1, 1)
-    val testrg4 = RoleGroup(List.empty, 0, 0)
-    val testrg5 = RoleGroup(List.empty, 1, 1)
-    val testrg6 = RoleGroup(List("2"), 0, 0)
-    val testrg7 = RoleGroup(List("5"), 0, 0)
+    val testrg2 = FormalRoleGroup(List("2", "3"), 2, 2)
+    val testrg3 = FormalRoleGroup(List(FormalRoleGroup(List("2", FormalRoleGroup(List("3"), 1, 2)), 0, 1), "2"), 1, 1)
+    val testrg4 = FormalRoleGroup(List.empty, 0, 0)
+    val testrg5 = FormalRoleGroup(List.empty, 1, 1)
+    val testrg6 = FormalRoleGroup(List("2"), 0, 0)
+    val testrg7 = FormalRoleGroup(List("5"), 0, 0)
 
-    val test8 = CROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
+    val test8 = FormalCROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
 
     val rgtests = Seq((testrg1, List("2"), 1), (testrg2, List("2", "3"), 1),
       (testrg3, List("2", "3"), 1), (testrg4, List.empty, 1),
@@ -110,18 +110,18 @@ class FormalCROMSpec extends FeatureSpec with GivenWhenThen with Matchers {
   }
 
   feature("Testing Constraint Models") {
-    val test0 = CROM.empty[String, String, String, String]
-    val test1 = CROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
+    val test0 = FormalCROM.empty[String, String, String, String]
+    val test1 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
 
     val order = (r: List[(String, String)]) => FormalUtils.all(for ((x, y) <- r) yield x <= y)
-    val rgxor = RoleGroup(List("2", "3"), 1, 1)
+    val rgxor = FormalRoleGroup(List("2", "3"), 1, 1)
 
-    val testcm0 = ConstraintModel.empty[String, String, String, String]
-    val testcm1 = ConstraintModel.forStrings(Map("4" -> List(((1, 3), rgxor))), Map("a" ->((1, 1), (1, 1))), List(("a", order)))
-    val testcm2 = ConstraintModel.forStrings(Map("4" -> List(((1, 1), "2"))), Map("a" ->((1, 1), (1, 1))), List.empty)
-    val testcm3 = ConstraintModel.forStrings(Map("4" -> List(((1, 1), "2"))), Map.empty, List.empty)
-    val testcm4 = ConstraintModel.forStrings(Map("4" -> List(((1, 1), "5"))), Map.empty, List.empty)
-    val testcm5 = ConstraintModel.forStrings(Map("5" -> List(((1, 1), "2"))), Map.empty, List.empty)
+    val testcm0 = FormalConstraintModel.empty[String, String, String, String]
+    val testcm1 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 3), rgxor))), Map("a" ->((1, 1), (1, 1))), List(("a", order)))
+    val testcm2 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 1), "2"))), Map("a" ->((1, 1), (1, 1))), List.empty)
+    val testcm3 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 1), "2"))), Map.empty, List.empty)
+    val testcm4 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 1), "5"))), Map.empty, List.empty)
+    val testcm5 = FormalConstraintModel.forStrings(Map("5" -> List(((1, 1), "2"))), Map.empty, List.empty)
 
     val cmtests = Seq((testcm0, true), (testcm1, true), (testcm2, true),
       (testcm3, true), (testcm4, false), (testcm5, true))
@@ -135,21 +135,21 @@ class FormalCROMSpec extends FeatureSpec with GivenWhenThen with Matchers {
   }
 
   feature("Testing Validity") {
-    val test0 = CROM.empty[String, String, String, String]
-    val test1 = CROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
-    val testcm0 = ConstraintModel.empty[String, String, String, String]
+    val test0 = FormalCROM.empty[String, String, String, String]
+    val test1 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
+    val testcm0 = FormalConstraintModel.empty[String, String, String, String]
     val order = (r: List[(String, String)]) => FormalUtils.all(for ((x, y) <- r) yield x <= y)
-    val rgxor = RoleGroup(List("2", "3"), 1, 1)
-    val testcm1 = ConstraintModel.forStrings(Map("4" -> List(((1, 3), rgxor))), Map("a" ->((1, 1), (1, 1))), List(("a", order)))
-    val test8 = CROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
-    val test8b = CROI.empty[String, String, String, String]
+    val rgxor = FormalRoleGroup(List("2", "3"), 1, 1)
+    val testcm1 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 3), rgxor))), Map("a" ->((1, 1), (1, 1))), List(("a", order)))
+    val test8 = FormalCROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
+    val test8b = FormalCROI.empty[String, String, String, String]
 
-    val test16 = CROI(List("1", "5"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4", "5" -> "1"), List(("1", "4", "2"), ("5", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
-    val test17 = CROI(List("1", "0"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4", "0" -> "1"), List(("1", "4", "2"), ("0", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
-    val test18 = CROI(List("1", "5", "6"), List("2", "3", "7"), List("4"), Map("1" -> "1", "6" -> "1", "2" -> "2", "3" -> "3", "7" -> "3", "4" -> "4", "5" -> "1"), List(("1", "4", "2"), ("5", "4", "3"), ("6", "4", "7")), Map(("a", "4") -> List(("2", "3"), ("2", "7"))))
-    val test18b = CROI(List("1", "5", "0"), List("2", "3", "7"), List("4"), Map("1" -> "1", "0" -> "1", "2" -> "2", "3" -> "3", "7" -> "2", "4" -> "4", "5" -> "1"), List(("1", "4", "2"), ("5", "4", "3"), ("0", "4", "7")), Map(("a", "4") -> List(("2", "3"), ("7", "3"))))
-    val test19 = CROI(List("1", "5", "6"), List("2", "3", "7", "8"), List("4"), Map("1" -> "1", "5" -> "1", "6" -> "1", "2" -> "2", "3" -> "3", "7" -> "2", "8" -> "3", "4" -> "4"), List(("1", "4", "2"), ("5", "4", "3"), ("5", "4", "7"), ("6", "4", "8")), Map(("a", "4") -> List(("2", "3"), ("7", "8"))))
-    val test20 = CROI(List("1", "5", "6", "9"), List("2", "3", "7", "8"), List("4"), Map("1" -> "1", "5" -> "1", "6" -> "1", "9" -> "1", "2" -> "2", "3" -> "3", "7" -> "2", "8" -> "3", "4" -> "4"), List(("1", "4", "2"), ("5", "4", "3"), ("6", "4", "7"), ("9", "4", "8")), Map(("a", "4") -> List(("2", "3"), ("7", "8"))))
+    val test16 = FormalCROI(List("1", "5"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4", "5" -> "1"), List(("1", "4", "2"), ("5", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
+    val test17 = FormalCROI(List("1", "0"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4", "0" -> "1"), List(("1", "4", "2"), ("0", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
+    val test18 = FormalCROI(List("1", "5", "6"), List("2", "3", "7"), List("4"), Map("1" -> "1", "6" -> "1", "2" -> "2", "3" -> "3", "7" -> "3", "4" -> "4", "5" -> "1"), List(("1", "4", "2"), ("5", "4", "3"), ("6", "4", "7")), Map(("a", "4") -> List(("2", "3"), ("2", "7"))))
+    val test18b = FormalCROI(List("1", "5", "0"), List("2", "3", "7"), List("4"), Map("1" -> "1", "0" -> "1", "2" -> "2", "3" -> "3", "7" -> "2", "4" -> "4", "5" -> "1"), List(("1", "4", "2"), ("5", "4", "3"), ("0", "4", "7")), Map(("a", "4") -> List(("2", "3"), ("7", "3"))))
+    val test19 = FormalCROI(List("1", "5", "6"), List("2", "3", "7", "8"), List("4"), Map("1" -> "1", "5" -> "1", "6" -> "1", "2" -> "2", "3" -> "3", "7" -> "2", "8" -> "3", "4" -> "4"), List(("1", "4", "2"), ("5", "4", "3"), ("5", "4", "7"), ("6", "4", "8")), Map(("a", "4") -> List(("2", "3"), ("7", "8"))))
+    val test20 = FormalCROI(List("1", "5", "6", "9"), List("2", "3", "7", "8"), List("4"), Map("1" -> "1", "5" -> "1", "6" -> "1", "9" -> "1", "2" -> "2", "3" -> "3", "7" -> "2", "8" -> "3", "4" -> "4"), List(("1", "4", "2"), ("5", "4", "3"), ("6", "4", "7"), ("9", "4", "8")), Map(("a", "4") -> List(("2", "3"), ("7", "8"))))
 
     val valtests = Seq((test0, testcm0, test8, false, true, true, true, true),
       (test0, testcm0, test8b, true, true, true, true, true),

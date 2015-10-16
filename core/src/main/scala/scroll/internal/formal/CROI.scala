@@ -1,89 +1,42 @@
 package scroll.internal.formal
 
-object CROI {
-  def empty[NT >: Null, RT >: Null, CT >: Null, RST >: Null]: CROI[NT, RT, CT, RST] =
-    CROI[NT, RT, CT, RST](List.empty, List.empty, List.empty, Map.empty, List.empty, Map.empty)
+import scroll.internal.{Compartment, ReflectiveHelper}
 
-  /**
-   * Little helper factory method for creating a CROI with Strings only.
-   */
-  def forStrings(
-                  n: List[String],
-                  r: List[String],
-                  c: List[String],
-                  type1: Map[Any, Any],
-                  plays: List[(String, String, String)],
-                  links: Map[(String, String), List[(String, String)]]
-                  ): CROI[String, String, String, String] =
-    CROI(n, r, c, type1, plays, links)
-}
+trait CROI extends CROM {
+  protected val croi = FormalCROI.empty[String, String, String, String]
 
-case class CROI[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
-                                                                  var n: List[NT],
-                                                                  var r: List[RT],
-                                                                  var c: List[CT],
-                                                                  var type1: Map[Any, Any],
-                                                                  var plays: List[(NT, CT, RT)],
-                                                                  var links: Map[(RST, CT), List[(RT, RT)]]
-                                                                  ) {
+  def compliant: Boolean = crom.isDefined && croi.compliant(this.crom.get)
 
-  assert(FormalUtils.mutualDisjoint(List(n, r, c, List(null))))
-  assert(FormalUtils.totalFunction(n.union(r).union(c), type1.map { case (k, v) => (k, List(v)) }))
-
-  def compliant(crom: CROM[NT, RT, CT, RST]): Boolean = crom.wellformed &&
-    axiom6(crom) && axiom7(crom) && axiom8(crom) &&
-    axiom9(crom) && axiom10(crom) && axiom11(crom)
-
-  def axiom6(crom: CROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(plays.map { case (o, c1, r1) =>
-      // TODO: fix asInstanceOf
-      crom.fills.contains((type1(o), type1(r1))) && crom.parts(type1(c1).asInstanceOf[CT]).contains(type1(r1))
-    })
-
-  def axiom7(crom: CROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(for ((o, c, r) <- plays; (o1, c1, r1) <- plays if o1 == o && c1 == c && r1 != r) yield type1(r1) != type1(r))
-
-  def axiom8(crom: CROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all((for (r1 <- r) yield for ((o, c, r2) <- plays if r2 == r1) yield (o, c)).map(_.size == 1))
-
-  def axiom9(crom: CROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(for (c1 <- c; r1 <- crom.rst if links.contains((r1, c1))) yield !links((r1, c1)).contains((null, null)))
-
-  def axiom10(crom: CROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(for (rst1 <- crom.rst; c1 <- c if links.contains((rst1, c1)); r1 <- r; o1 <- o) yield
-    FormalUtils.any(for (r_1 <- repsilon) yield
-    ((plays.contains(o1, c1, r1) && (type1(r1) == crom.rel(rst1).head)) == links((rst1, c1)).contains((r1, r_1))) && ((plays.contains(o1, c1, r1) && (type1(r1) == crom.rel(rst1).tail.head)) == links((rst1, c1)).contains((r_1, r1)))
-    )
-    )
-
-  def axiom11(crom: CROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(for (rst1 <- crom.rst; c1 <- c if links.contains((rst1, c1)); (r_1, r_2) <- links((rst1, c1)) if r_1 != null && r_2 != null) yield
-    !links(rst1, c1).contains((r_1, null)) && !links((rst1, c1)).contains((null, r_2))
-    )
-
-  private def o: List[Any] = n.union(c)
-
-  def o_c(c: CT): List[NT] = plays.filter(_._2 == c).map(_._1)
-
-  private def repsilon: List[RT] = r :+ null
-
-  def pred(rst: RST, c: CT, r: RT): List[RT] = links.contains((rst, c)) match {
-    case true => links((rst, c)).filter(_._2 == r).map(_._1)
-    case false => List.empty
-  }
-
-  def succ(rst: RST, c: CT, r: RT): List[RT] = links.contains((rst, c)) match {
-    case true => links((rst, c)).filter(_._1 == r).map(_._2)
-    case false => List.empty
-  }
-
-  private def player(r: RT): NT = r match {
-    case null => null
-    case _ => plays.find(_._3 == r) match {
-      case Some(p) => p._1
-      case _ => throw new RuntimeException(s"The given role '$r' is not played in the CROI!")
+  private def addType1(of: Any) {
+    val className = of.getClass.toString
+    val typeName = className.contains("$") match {
+      case false => ReflectiveHelper.typeSimpleClassName(className)
+      case true => ReflectiveHelper.classSimpleClassName(className)
     }
+    croi.type1 += (ReflectiveHelper.hash(of) -> typeName)
   }
 
-  def overline_links(rst: RST, c: CT): List[(NT, NT)] = links((rst, c)).map { case (r_1, r_2) => (player(r_1), player(r_2)) }
+  def addNatural(n: Any) {
+    croi.n ::= ReflectiveHelper.hash(n)
+    addType1(n)
+  }
+
+  def addRole(r: Any) {
+    croi.r ::= ReflectiveHelper.hash(r)
+    addType1(r)
+  }
+
+  def addCompartment[T: Manifest](c: T) {
+    require(c.isInstanceOf[Compartment])
+    val man = manifest[T].toString()
+    val typeName = man.substring(man.indexOf(".") + 1, man.lastIndexOf(" with"))
+    croi.c ::= ReflectiveHelper.hash(c)
+    croi.type1 += (ReflectiveHelper.hash(c) -> typeName)
+  }
+
+  def addPlays(player: Any, comp: Any, role: Any) {
+    val elem = (ReflectiveHelper.hash(player), ReflectiveHelper.hash(comp), ReflectiveHelper.hash(role))
+    croi.plays ::= elem
+  }
+
 }

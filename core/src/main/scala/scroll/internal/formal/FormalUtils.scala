@@ -16,15 +16,15 @@ object FormalUtils {
   def atoms[T >: Null](a: Any): List[T] = a match {
     // TODO: fix asInstanceOf
     case elem: String => List(elem).asInstanceOf[List[T]]
-    case elem: RoleGroup => elem.rolegroups.map(atoms).flatten.distinct
+    case elem: FormalRoleGroup => elem.rolegroups.map(atoms).flatten.distinct
   }
 
-  def evaluate[NT >: Null, RT >: Null, CT >: Null, RST >: Null](a: Any, croi: CROI[NT, RT, CT, RST], o: NT, c: CT): Int = a match {
+  def evaluate[NT >: Null, RT >: Null, CT >: Null, RST >: Null](a: Any, croi: FormalCROI[NT, RT, CT, RST], o: NT, c: CT): Int = a match {
     case elem: String => any(croi.r.filter(croi.type1(_) == a).map(rr => croi.plays.contains((o, c, rr)))) match {
       case true => 1
       case false => 0
     }
-    case elem: RoleGroup =>
+    case elem: FormalRoleGroup =>
       val sum = elem.rolegroups.map(evaluate(_, croi, o, c)).sum
       if (elem.lower <= sum && sum <= elem.upper) 1 else 0
   }

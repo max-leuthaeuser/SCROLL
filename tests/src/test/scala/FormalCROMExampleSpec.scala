@@ -1,11 +1,11 @@
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
-import scroll.internal.formal.{CROI, CROM, ConstraintModel, FormalUtils, RoleGroup}
+import scroll.internal.formal.{FormalCROI, FormalCROM, FormalConstraintModel, FormalUtils, FormalRoleGroup}
 
 class FormalCROMExampleSpec extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for ScalaFormalCROMExamples.")
 
   feature("Testing the banking example") {
-    val bank = CROM(List("Person", "Company", "Account"),
+    val bank = FormalCROM(List("Person", "Company", "Account"),
       List("Customer", "Consultant", "CA", "SA", "Source", "Target", "MoneyTransfer"),
       List("Bank", "Transaction"),
       List("own_ca", "own_sa", "advises", "trans"),
@@ -24,15 +24,15 @@ class FormalCROMExampleSpec extends FeatureSpec with GivenWhenThen with Matchers
       bank.wellformed shouldBe true
     }
 
-    val bankaccounts = RoleGroup(List("CA", "SA"), 1, 1)
-    val participants = RoleGroup(List("Source", "Target"), 1, 1)
+    val bankaccounts = FormalRoleGroup(List("CA", "SA"), 1, 1)
+    val participants = FormalRoleGroup(List("Source", "Target"), 1, 1)
 
     val irreflexive = (r: List[(String, String)]) => !FormalUtils.any(for ((x, y) <- r) yield x == y)
 
     // TODO: how to represent * as multiplicity?
     val inf = Integer.MAX_VALUE
 
-    val c_bank = ConstraintModel.forStrings(Map("Bank" -> List(((1, inf), "Consultant"), ((0, inf), bankaccounts)),
+    val c_bank = FormalConstraintModel.forStrings(Map("Bank" -> List(((1, inf), "Consultant"), ((0, inf), bankaccounts)),
       "Transaction" -> List(((2, 2), participants))),
       Map("own_ca" ->((1, 1), (0, inf)),
         "own_sa" ->((1, inf), (0, inf)),
@@ -45,7 +45,7 @@ class FormalCROMExampleSpec extends FeatureSpec with GivenWhenThen with Matchers
       c_bank.compliant(bank) shouldBe true
     }
 
-    val bank1 = CROI(List("Peter", "Klaus", "Google", "Account_1", "Account_2"),
+    val bank1 = FormalCROI(List("Peter", "Klaus", "Google", "Account_1", "Account_2"),
       List("Cu_1", "Cu_2", "Cu_3", "Ca", "Sa", "S", "T", "M"),
       List("bank", "transaction"),
       Map("Peter" -> "Person", "Klaus" -> "Person", "Google" -> "Company",
@@ -74,7 +74,7 @@ class FormalCROMExampleSpec extends FeatureSpec with GivenWhenThen with Matchers
       bank1.axiom11(bank) shouldBe true
     }
 
-    val bank2 = CROI(List("Peter", "Klaus", "Google", "Account_1", "Account_2"),
+    val bank2 = FormalCROI(List("Peter", "Klaus", "Google", "Account_1", "Account_2"),
       List("Con", "Cu_1", "Cu_2", "Ca", "Sa", "S", "T", "M"),
       List("bank", "transaction"),
       Map("Peter" -> "Person", "Klaus" -> "Person", "Google" -> "Company",

@@ -10,7 +10,7 @@ class RoleSpecSuite
     new FormalCROMSpec,
     new FormalCROMExampleSpec,
     new ECoreInstanceTest,
-    new CROIInstanceTest,
+    new CROITest,
     new RoleConstraintsTest,
     new RolePlayingAutomatonTest,
     new RoleRestrictionsTest)
