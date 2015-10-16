@@ -7,7 +7,7 @@ val scalatestVersion = "2.2.1"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.7",
-  version := "0.9.3",
+  version := "0.9.4",
   logBuffered := false,
   mainClass := None,
   resolvers ++= Seq(
