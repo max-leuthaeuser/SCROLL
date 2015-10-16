@@ -1,7 +1,8 @@
 import mocks.{CoreA, CoreB, SomeCompartment}
 import org.scalatest._
-import scroll.internal.DispatchQuery
-import scroll.internal.DispatchQuery._
+import scroll.internal.support.DispatchQuery
+import DispatchQuery._
+import scroll.internal.support.DispatchQuery
 
 class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for an excerpt of the role concept.")

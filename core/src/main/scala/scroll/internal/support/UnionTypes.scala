@@ -1,4 +1,4 @@
-package scroll.internal
+package scroll.internal.support
 
 import shapeless._
 

@@ -1,7 +1,8 @@
 package scroll.examples
 
 import scroll.internal.Compartment
-import scroll.internal.DispatchQuery._
+import scroll.internal.support.DispatchQuery
+import DispatchQuery._
 import scroll.internal.util.Log.info
 
 object APICallsExample extends App {

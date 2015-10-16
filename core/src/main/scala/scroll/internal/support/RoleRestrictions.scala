@@ -1,18 +1,12 @@
-package scroll.internal
+package scroll.internal.support
+
+import scroll.internal.util.ReflectiveHelper
 
 import scala.collection.mutable
 import scala.reflect.runtime.universe._
 
-class RoleRestrictions {
+trait RoleRestrictions {
   private lazy val restrictions = mutable.HashMap.empty[String, Type]
-
-  def addRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]) {
-    restrictions(manifest[A].toString()) = tag.tpe
-  }
-
-  def removeRestrictions[A: Manifest]() {
-    restrictions.remove(manifest[A].toString())
-  }
 
   private def isInstanceOf(mani: String, that: String) =
     ReflectiveHelper.typeSimpleClassName(that) == ReflectiveHelper.typeSimpleClassName(mani)
@@ -34,6 +28,17 @@ class RoleRestrictions {
         case _ => false
       }
     })
+  }
+
+  /**
+   * Add a role restriction between the given player type A and role type B.
+   *
+   * @param tag implicitly added WeakTypeTag for the role type
+   * @tparam A the player type
+   * @tparam B the role type
+   */
+  def RoleRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]) {
+    restrictions(manifest[A].toString()) = tag.tpe
   }
 
   /**

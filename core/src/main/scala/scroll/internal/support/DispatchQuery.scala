@@ -1,6 +1,6 @@
-package scroll.internal
+package scroll.internal.support
 
-import scroll.internal.util.QueueUtils
+import scroll.internal.util.{QueueUtils, ReflectiveHelper}
 
 object DispatchQuery extends ReflectiveHelper {
   val anything: Any => Boolean = _ => true

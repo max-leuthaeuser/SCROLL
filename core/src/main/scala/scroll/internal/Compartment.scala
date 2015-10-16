@@ -3,136 +3,17 @@ package scroll.internal
 import java.lang
 import java.lang.reflect.Method
 
-import annotations.Role
-import scroll.internal.UnionTypes.RoleUnionTypes
-import scroll.internal.graph.{RoleConstraintsGraph, ScalaRoleGraph}
+import scroll.internal.support.{RoleRestrictions, RoleConstraints, Relationships, QueryStrategies, DispatchQuery, UnionTypes}
+import UnionTypes.RoleUnionTypes
+import scroll.internal.graph.ScalaRoleGraph
 
 import scala.annotation.tailrec
 import scala.reflect.Manifest
 import scala.reflect.runtime.universe._
 
-trait Compartment extends QueryStrategies with RoleUnionTypes {
+trait Compartment extends RoleConstraints with RoleRestrictions with Relationships with QueryStrategies with RoleUnionTypes {
 
-  private lazy val plays = new ScalaRoleGraph()
-  private lazy val roleConstraints = new RoleConstraintsGraph(plays)
-  private lazy val roleRestrictions = new RoleRestrictions()
-
-  /**
-   * Add a role restriction between the given player type A and role type B.
-   *
-   * @param tag implicitly added WeakTypeTag for the role type
-   * @tparam A the player type
-   * @tparam B the role type
-   */
-  def RoleRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]) {
-    roleRestrictions.addRestriction[A, B]
-  }
-
-  /**
-   * Adds an role implication constraint between the given role types.
-   * Interpretation: if a core object plays an instance of role type A
-   * it also has to play an instance of role type B.
-   *
-   * @tparam A type of role A
-   * @tparam B type of role B that should be played implicitly if A is played
-   */
-  def RoleImplication[A: Manifest, B: Manifest]() {
-    roleConstraints.addImplication[A, B]()
-  }
-
-  /**
-   * Adds an role equivalent constraint between the given role types.
-   * Interpretation: if a core object plays an instance of role type A
-   * it also has to play an instance of role type B and visa versa.
-   *
-   * @tparam A type of role A that should be played implicitly if B is played
-   * @tparam B type of role B that should be played implicitly if A is played
-   */
-  def RoleEquivalence[A: Manifest, B: Manifest]() {
-    roleConstraints.addEquivalence[A, B]()
-  }
-
-  /**
-   * Adds an role prohibition constraint between the given role types.
-   * Interpretation: if a core object plays an instance of role type A
-   * it is not allowed to play B as well.
-   *
-   * @tparam A type of role A
-   * @tparam B type of role B that is not allowed to be played if A is played already
-   */
-  def RoleProhibition[A: Manifest, B: Manifest]() {
-    roleConstraints.addProhibition[A, B]()
-  }
-
-  /**
-   * Wrapping function that checks all available role constraints for
-   * all core objects and its roles after the given function was executed.
-   * Throws a RuntimeException if a role constraint is violated!
-   *
-   * @param func the function to execute and check role constraints afterwards
-   */
-  def RoleConstraintsChecked(func: => Unit) {
-    func
-    plays.allPlayers.foreach(p => plays.getRoles(p).diff(Set(p)).foreach(r => roleConstraints.validate(p, r)))
-  }
-
-  import Relationship._
-
-  object Relationship {
-
-    abstract class Multiplicity
-
-    abstract class ExpMultiplicity extends Multiplicity
-
-    case class Many() extends ExpMultiplicity
-
-    case class ConcreteValue(v: Int) extends ExpMultiplicity {
-      require(v >= 0)
-
-      def To(t: ExpMultiplicity): Multiplicity = RangeMultiplicity(v, t)
-    }
-
-    implicit def intToConcreteValue(v: Int): ConcreteValue = new ConcreteValue(v)
-
-    case class RangeMultiplicity(from: ConcreteValue, to: ExpMultiplicity) extends Multiplicity
-
-    def apply(name: String) = new {
-      def from[L: Manifest](leftMul: Multiplicity) = new {
-        def to[R: Manifest](rightMul: Multiplicity): Relationship[L, R] = new Relationship(name, leftMul, rightMul)
-      }
-    }
-
-  }
-
-  class Relationship[L: Manifest, R: Manifest](name: String,
-                                               var leftMul: Multiplicity,
-                                               var rightMul: Multiplicity) {
-
-    private def checkMul[T](m: Multiplicity, on: Seq[T]): Seq[T] = {
-      m match {
-        case Many() => assert(on.nonEmpty, s"With left multiplicity for '$name' of '*', the resulting role set should not be empty!")
-        case ConcreteValue(v) => assert(on.size == v, s"With a concrete multiplicity for '$name' of '$v' the resulting role set should have the same size!")
-        case RangeMultiplicity(f, t) => (f, t) match {
-          case (ConcreteValue(v1), ConcreteValue(v2)) => assert(v1 <= on.size && on.size <= v2, s"With a multiplicity for '$name' from '$v1' to '$v2', the resulting role set size should be in between!")
-          case (ConcreteValue(v), Many()) => assert(v <= on.size, s"With a multiplicity for '$name' from '$v' to '*', the resulting role set size should be in between!")
-          case _ => throw new RuntimeException("This multiplicity is not allowed!") // default case
-        }
-        case _ => throw new RuntimeException("This multiplicity is not allowed!") // default case
-      }
-      on
-    }
-
-    def left(matcher: L => Boolean = _ => true): Seq[L] = checkMul(leftMul, all[L](matcher))
-
-    def right(matcher: R => Boolean = _ => true): Seq[R] = checkMul(rightMul, all[R](matcher))
-
-  }
-
-  @deprecated("Since we want to apply role playing for legacy code, do not use this any more!", "0.4")
-  private def isRole(value: Any): Boolean = {
-    require(null != value)
-    value.getClass.isAnnotationPresent(classOf[Role])
-  }
+  protected lazy val plays = new ScalaRoleGraph()
 
   /**
    * Declaring a is-part-of relation between compartments.
@@ -234,8 +115,7 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
   def addPlaysRelation[R](core: Any, role: R)(implicit tag: WeakTypeTag[R]) {
     require(null != core)
     require(null != role)
-    //require(isRole(role), "Argument for adding a role must be a role (you maybe want to add the @Role annotation).")
-    roleRestrictions.validate(core, tag.tpe)
+    validate(core, tag.tpe)
     plays.addBinding(core, role)
   }
 
@@ -248,7 +128,6 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
   def removePlaysRelation(core: Any, role: Any) {
     require(null != core)
     require(null != role)
-    //require(isRole(role), "Argument for removing a role must be a role (you maybe want to add the @Role annotation).")
     plays.removeBinding(core, role)
   }
 
@@ -264,7 +143,6 @@ trait Compartment extends QueryStrategies with RoleUnionTypes {
     require(null != coreFrom)
     require(null != coreTo)
     require(coreFrom != coreTo, "You can not transfer a role from itself.")
-    //require(isRole(role), "Argument for transferring a role must be a role (you maybe want to add the @Role annotation).")
     removePlaysRelation(coreFrom, role)
     addPlaysRelation(coreTo, role)
   }

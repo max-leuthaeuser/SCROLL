@@ -1,4 +1,6 @@
-package scroll.internal
+package scroll.internal.support
+
+import scroll.internal.util.ReflectiveHelper
 
 trait QueryStrategies extends ReflectiveHelper {
 

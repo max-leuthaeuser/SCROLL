@@ -2,7 +2,8 @@ package scroll.examples
 
 import annotations.Role
 import scroll.internal.Compartment
-import scroll.internal.DispatchQuery._
+import scroll.internal.support.DispatchQuery
+import DispatchQuery._
 import scroll.internal.util.Log.info
 
 object AnotherBankExample extends App {

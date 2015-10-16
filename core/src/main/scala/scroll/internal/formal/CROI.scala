@@ -1,6 +1,7 @@
 package scroll.internal.formal
 
-import scroll.internal.{Compartment, ReflectiveHelper}
+import scroll.internal.Compartment
+import scroll.internal.util.ReflectiveHelper
 
 trait CROI extends CROM {
   protected val croi = FormalCROI.empty[String, String, String, String]

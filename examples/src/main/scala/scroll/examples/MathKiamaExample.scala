@@ -4,7 +4,8 @@ import org.kiama.attribution.Attribution.attr
 import org.kiama.rewriting.Rewriter.{attempt, bottomup, rewrite, rule}
 import org.kiama.util.TreeNode
 import scroll.internal.Compartment
-import scroll.internal.DispatchQuery._
+import scroll.internal.support.DispatchQuery
+import DispatchQuery._
 
 import scala.util.parsing.combinator.JavaTokenParsers
 
