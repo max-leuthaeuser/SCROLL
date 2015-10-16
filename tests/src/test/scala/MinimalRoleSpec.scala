@@ -2,7 +2,6 @@ import mocks.{CoreA, CoreB, SomeCompartment}
 import org.scalatest._
 import scroll.internal.support.DispatchQuery
 import DispatchQuery._
-import scroll.internal.support.DispatchQuery
 
 class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for an excerpt of the role concept.")
@@ -409,6 +408,22 @@ class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
       a[RuntimeException] should be thrownBy {
         someRoleC play someRoleA
       }
+    }
+  }
+
+  scenario("Compartment plays a role that is part of themselves") {
+    Given("a compartment and a role in it")
+    class ACompartment extends SomeCompartment {
+
+      class ARole
+
+    }
+    And("an new instance of that compartment")
+    new ACompartment {
+      When("defining a play relationship")
+      this play new ARole
+      Then("That compartment should be able to play that role")
+      this.isPlaying[ARole] shouldBe true
     }
   }
 }
