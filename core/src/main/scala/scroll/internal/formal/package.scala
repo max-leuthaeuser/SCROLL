@@ -6,9 +6,9 @@ package scroll.internal
  * importantly close to their formalization. This is an adaption of [[https://github.com/Eden-06/formalCROM]].
  *
  * The reference implementation contains the following classes:
- * $ - [[scroll.internal.formal.CROM]] representing a Compartment Role Object Model
- * $ - [[scroll.internal.formal.CROI]] a Compartment Role Object Instance
- * $ - [[scroll.internal.formal.FormalRoleGroup]] the notion of a Role Group
- * $ - [[scroll.internal.formal.FormalConstraintModel]] a Constraint Model
+ *  - [[scroll.internal.formal.CROM]] representing a Compartment Role Object Model
+ *  - [[scroll.internal.formal.CROI]] a Compartment Role Object Instance
+ *  - [[scroll.internal.formal.FormalRoleGroup]] the notion of a Role Group
+ *  - [[scroll.internal.formal.FormalConstraintModel]] a Constraint Model
  */
-package object formal {}
+package object formal
