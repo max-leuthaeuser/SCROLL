@@ -1,5 +1,8 @@
 package scroll.internal.formal
 
+/**
+ * Companion object for the formal representation of the Compartment Role Object Model (CROM).
+ */
 object FormalCROM {
   def empty[NT >: Null, RT >: Null, CT >: Null, RST >: Null]: FormalCROM[NT, RT, CT, RST] =
     FormalCROM[NT, RT, CT, RST](List.empty, List.empty, List.empty, List.empty, List.empty, Map.empty, Map.empty)
@@ -19,6 +22,21 @@ object FormalCROM {
     FormalCROM(nt, rt, ct, rst, fills, parts, rel)
 }
 
+/**
+ * Class representation of the Compartment Role Object Model (CROM).
+ *
+ * @param nt list of all natural types
+ * @param rt list of all role types
+ * @param ct list of all compartment types
+ * @param rst list of all relationship types
+ * @param fills fills-relation
+ * @param parts parts-relation
+ * @param rel relationship mappings
+ * @tparam NT type of naturals
+ * @tparam RT type of roles
+ * @tparam CT type of compartments
+ * @tparam RST type of relationships
+ */
 case class FormalCROM[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
                                                                         nt: List[NT],
                                                                         rt: List[RT],
@@ -33,6 +51,9 @@ case class FormalCROM[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
   assert(FormalUtils.totalFunction(ct, parts))
   assert(FormalUtils.totalFunction(rst, rel))
 
+  /**
+   * @return true iff the CROM is wellformed w.r.t. all axioms provided, false otherwise
+   */
   def wellformed: Boolean = axiom1 && axiom2 && axiom3 && axiom4 && axiom5
 
   def axiom1: Boolean =

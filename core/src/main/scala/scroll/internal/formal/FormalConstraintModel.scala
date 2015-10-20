@@ -1,20 +1,38 @@
 package scroll.internal.formal
 
+/**
+ * Companion object for the formal representation of the constraint model.
+ */
 object FormalConstraintModel {
   def empty[NT >: Null, RT >: Null, CT >: Null, RST >: Null]: FormalConstraintModel[NT, RT, CT, RST] = FormalConstraintModel[NT, RT, CT, RST](Map.empty, Map.empty, List.empty)
 
   /**
-   * Little helper factory method for creating a ConstrainModel with Strings only.
+   * Little helper factory method for creating a constraint model with Strings only.
    */
   def forStrings(rolec: Map[String, List[((Int, Int), Any)]],
                  card: Map[String, ((Int, Int), (Int, Int))],
                  intra: List[(String, (List[(String, String)]) => Boolean)]): FormalConstraintModel[String, String, String, String] = FormalConstraintModel(rolec, card, intra)
 }
 
+/**
+ * Class representation of the Constraint Model.
+ *
+ * @param rolec the role constraints
+ * @param card cardinality mappings
+ * @param intra intra-relationship constraints
+ * @tparam NT type of naturals
+ * @tparam RT type of roles
+ * @tparam CT type of compartments
+ * @tparam RST type of relationships
+ */
 case class FormalConstraintModel[NT >: Null, RT >: Null, CT >: Null, RST >: Null](rolec: Map[CT, List[((Int, Int), Any)]],
-                                                                            card: Map[RST, ((Int, Int), (Int, Int))],
-                                                                            intra: List[(RST, (List[(NT, NT)]) => Boolean)]) {
+                                                                                  card: Map[RST, ((Int, Int), (Int, Int))],
+                                                                                  intra: List[(RST, (List[(NT, NT)]) => Boolean)]) {
 
+  /**
+   * @param crom the CROM instance to check against
+   * @return true iff the constraint model is compliant to the given CROM.
+   */
   def compliant(crom: FormalCROM[NT, RT, CT, RST]): Boolean = crom.wellformed && axiom12(crom)
 
   def axiom12(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
@@ -22,6 +40,11 @@ case class FormalConstraintModel[NT >: Null, RT >: Null, CT >: Null, RST >: Null
     FormalUtils.atoms(a).toSet.subsetOf(crom.parts(ct1).toSet)
     )
 
+  /**
+   * @param crom the CROM instance to check against
+   * @param croi the CROI instance to check against
+   * @return true iff the constraint model is compliant to the given CROM and the given CROI is valid wrt. the constraint model
+   */
   def validity(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean = compliant(crom) && croi.compliant(crom) &&
     axiom13(crom, croi) && axiom14(crom, croi) && axiom15(crom, croi) && axiom16(crom, croi)
 

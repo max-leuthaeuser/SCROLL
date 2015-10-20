@@ -1,5 +1,8 @@
 package scroll.internal.formal
 
+/**
+ * Companion object for the formal representation of the Compartment Role Object Instance (CROI).
+ */
 object FormalCROI {
   def empty[NT >: Null, RT >: Null, CT >: Null, RST >: Null]: FormalCROI[NT, RT, CT, RST] =
     FormalCROI[NT, RT, CT, RST](List.empty, List.empty, List.empty, Map.empty, List.empty, Map.empty)
@@ -18,18 +21,36 @@ object FormalCROI {
     FormalCROI(n, r, c, type1, plays, links)
 }
 
+/**
+ * Class representation of the Compartment Role Object Instance (CROI).
+ *
+ * @param n list of all naturals
+ * @param r list of all roles
+ * @param c list of all compartments
+ * @param type1 type mapping
+ * @param plays plays relation
+ * @param links link function
+ * @tparam NT type of naturals
+ * @tparam RT type of roles
+ * @tparam CT type of compartments
+ * @tparam RST type of relationships
+ */
 case class FormalCROI[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
-                                                                  var n: List[NT],
-                                                                  var r: List[RT],
-                                                                  var c: List[CT],
-                                                                  var type1: Map[Any, Any],
-                                                                  var plays: List[(NT, CT, RT)],
-                                                                  var links: Map[(RST, CT), List[(RT, RT)]]
-                                                                  ) {
+                                                                        var n: List[NT],
+                                                                        var r: List[RT],
+                                                                        var c: List[CT],
+                                                                        var type1: Map[Any, Any],
+                                                                        var plays: List[(NT, CT, RT)],
+                                                                        var links: Map[(RST, CT), List[(RT, RT)]]
+                                                                        ) {
 
   assert(FormalUtils.mutualDisjoint(List(n, r, c, List(null))))
   assert(FormalUtils.totalFunction(n.union(r).union(c), type1.map { case (k, v) => (k, List(v)) }))
 
+  /**
+   * @param crom the CROM to check against
+   * @return true iff the CROI is compliant to the given CROM
+   */
   def compliant(crom: FormalCROM[NT, RT, CT, RST]): Boolean = crom.wellformed &&
     axiom6(crom) && axiom7(crom) && axiom8(crom) &&
     axiom9(crom) && axiom10(crom) && axiom11(crom)

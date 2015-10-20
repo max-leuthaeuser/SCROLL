@@ -2,11 +2,18 @@ package scroll.internal.support
 
 import scroll.internal.Compartment
 
+/**
+ * Allows to add and check role relationships to a compartment instance.
+ */
 trait Relationships {
   self: Compartment =>
 
   import Relationship._
 
+  /**
+   * Companion object for [[scroll.internal.support.Relationships.Relationship]] providing
+   * some predefined multiplicities and a fluent relationship creation API.
+   */
   object Relationship {
 
     abstract class Multiplicity
@@ -33,6 +40,15 @@ trait Relationships {
 
   }
 
+  /**
+   * Class representation of a relationship between two (role) types.
+   *
+   * @param name name of the relationship
+   * @param leftMul multiplicity of the left side of the relationship
+   * @param rightMul multiplicity of the right side of the relationship
+   * @tparam L type of the role of the left side of the relationship
+   * @tparam R type of the role of the right side of the relationship
+   */
   class Relationship[L: Manifest, R: Manifest](name: String,
                                                var leftMul: Multiplicity,
                                                var rightMul: Multiplicity) {
@@ -51,8 +67,20 @@ trait Relationships {
       on
     }
 
+    /**
+     * Get all instances of the left side of the relationship w.r.t. the provided matching function and checking the multiplicity.
+     *
+     * @param matcher a matching function to select the appropriate instances
+     * @return all instances of the left side of the relationship w.r.t. the provided matching function.
+     */
     def left(matcher: L => Boolean = _ => true): Seq[L] = checkMul(leftMul, all[L](matcher))
 
+    /**
+     * Get all instances of the right side of the relationship w.r.t. the provided matching function and checking the multiplicity.
+     *
+     * @param matcher a matching function to select the appropriate instances
+     * @return all instances of the right side of the relationship w.r.t. the provided matching function.
+     */
     def right(matcher: R => Boolean = _ => true): Seq[R] = checkMul(rightMul, all[R](matcher))
 
   }

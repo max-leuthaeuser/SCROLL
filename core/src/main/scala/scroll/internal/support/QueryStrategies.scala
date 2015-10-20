@@ -2,6 +2,10 @@ package scroll.internal.support
 
 import scroll.internal.util.ReflectiveHelper
 
+/**
+ * Allows to write queries looking for the content of an attribute of the certain role playing
+ * object or the return value of one of its functions.
+ */
 trait QueryStrategies extends ReflectiveHelper {
 
   implicit class RoleQueryStrategy(name: String) {

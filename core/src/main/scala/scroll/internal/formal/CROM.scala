@@ -9,6 +9,9 @@ import scala.collection.JavaConversions._
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
+/**
+ * Representation of a Compartment Role Object Model (CROM).
+ */
 trait CROM extends ECoreImporter {
   private val NATURALTYPE = "NaturalType"
   private val ROLETYPE = "RoleType"

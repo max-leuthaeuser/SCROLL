@@ -11,6 +11,29 @@ import scala.annotation.tailrec
 import scala.reflect.Manifest
 import scala.reflect.runtime.universe._
 
+/**
+ * This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
+ *
+ * ==Overview==
+ * Roles are dependent on some sort of context. We call them compartments. A typical example of a compartment is a university,
+ * which contains the roles Student and Teacher collaborating in Courses. Everything in SCROLL happens inside of Compartments
+ * but roles (implemented as standard Scala classes) can be defined or imported from everywhere. Just mix in this Trait
+ * into your own specific compartment class or create an anonymous instance.
+ *
+ * ==Example==
+ * {{{
+ * val player = new Player()
+ * new Compartment {
+ *   class RoleA
+ *   class RoleB
+ *
+ *   player play new RoleA()
+ *   player play new RoleB()
+ *
+ *   // call some behaviour
+ * }
+ * }}}
+ */
 trait Compartment extends RoleConstraints with RoleRestrictions with Relationships with QueryStrategies with RoleUnionTypes {
 
   protected lazy val plays = new ScalaRoleGraph()
@@ -161,6 +184,9 @@ trait Compartment extends RoleConstraints with RoleRestrictions with Relationshi
     }
   }
 
+  /**
+   * Generic Trait that enables dynamic invocation of role methods that are not natively available on the player object.
+   */
   trait DynamicType extends Dynamic {
     /**
      * Allows to call a function with arguments.
@@ -205,6 +231,9 @@ trait Compartment extends RoleConstraints with RoleRestrictions with Relationshi
     def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty)
   }
 
+  /**
+   * Trait handling the actual dispatching of role methods.
+   */
   trait DispatchType {
     private def handleAccessibility(of: Method) {
       if (!of.isAccessible) of.setAccessible(true)

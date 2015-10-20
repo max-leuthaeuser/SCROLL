@@ -4,6 +4,10 @@ import akka.actor._
 import scroll.internal.Compartment
 import scroll.internal.rpa.RolePlayingAutomaton.{RPAData, RPAState, Start, Stop, Uninitialized}
 
+/**
+ * Companion object for the [[scroll.internal.rpa.RolePlayingAutomaton]] containing
+ * predefined states and data objects for messaging.
+ */
 object RolePlayingAutomaton {
 
   // some predefined states
@@ -48,7 +52,7 @@ object RolePlayingAutomaton {
  *
  * Use the factory method <code>RolePlayingAutomaton.Use</code> to gain an instance of your specific FSM, e.g.:
  *
- * <pre>
+ * {{{
  * trait MyCompartment extends Compartment {
  * // ... some roles and interaction
  *
@@ -71,7 +75,7 @@ object RolePlayingAutomaton {
  *
  * // start everything
  * new MyCompartment {}
- * </pre>
+ * }}}
  *
  * Some predefined event types for messaging are available in the companion object.
  * You may want to define your own states and event types.

@@ -17,6 +17,11 @@ object Log {
     "[ - " + sdf.format(cal.getTime) + " - ] "
   }
 
+  /**
+   * Prints the provided message to stdout iff DEBUG is set to true.
+   *
+   * @param message the message to print to stdout
+   */
   def info(message: String) {
     if (DEBUG) println(now + message)
   }

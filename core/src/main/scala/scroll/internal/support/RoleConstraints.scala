@@ -8,6 +8,9 @@ import scroll.internal.util.ReflectiveHelper
 import scala.collection.JavaConversions._
 import scala.reflect.Manifest
 
+/**
+ * Allows to add and check role constraints (Riehle constraints) to a compartment instance.
+ */
 trait RoleConstraints {
   self: Compartment =>
 

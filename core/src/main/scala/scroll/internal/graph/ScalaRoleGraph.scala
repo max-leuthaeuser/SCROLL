@@ -7,6 +7,10 @@ import org.jgrapht.traverse.DepthFirstIterator
 
 import scala.collection.JavaConversions._
 
+/**
+ * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
+ * JGraphTs [[org.jgrapht.experimental.dag.DirectedAcyclicGraph]] as underlying data model.
+ */
 class ScalaRoleGraph extends RoleGraph[Any] {
   override lazy val store = new DirectedAcyclicGraph[Any, DefaultEdge](classOf[DefaultEdge])
 

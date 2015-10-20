@@ -2,8 +2,18 @@ package scroll.internal.support
 
 import scroll.internal.util.{QueueUtils, ReflectiveHelper}
 
+/**
+ * Companion object for [[scroll.internal.support.DispatchQuery]] providing
+ * some static dispatch functions and a fluent dispatch query creation API.
+ */
 object DispatchQuery extends ReflectiveHelper {
+  /**
+   * Function always returning true
+   */
   val anything: Any => Boolean = _ => true
+  /**
+   * Function always returning false
+   */
   val nothing: Any => Boolean = _ => false
 
   def From(f: Any => Boolean) = new {

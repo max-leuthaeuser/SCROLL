@@ -3,6 +3,9 @@ package scroll.internal.formal
 import scroll.internal.Compartment
 import scroll.internal.util.ReflectiveHelper
 
+/**
+ * Representation of a Compartment Role Object Instance (CROI).
+ */
 trait CROI extends CROM {
   protected val croi = FormalCROI.empty[String, String, String, String]
 

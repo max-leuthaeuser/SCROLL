@@ -5,6 +5,9 @@ import scroll.internal.util.ReflectiveHelper
 import scala.collection.mutable
 import scala.reflect.runtime.universe._
 
+/**
+ * Allows to add and check role restrictions (in the sense of structural typing) to a compartment instance.
+ */
 trait RoleRestrictions {
   private lazy val restrictions = mutable.HashMap.empty[String, Type]
 
