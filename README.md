@@ -14,8 +14,8 @@ You are able to define compartments, roles and play-relationships. Invoking Role
 
 [BankExample][BankExample]
 
-  You can find more scroll.examples in the ```scroll/examples/``` folder.
-  You also might want to check the ```test/```folder.
+  You can find more scroll.examples in the ```examples/``` folder.
+  You also might want to check the ```tests/```folder.
 
 **3. Edit and develop:**
   1. Clone this repo.
@@ -31,5 +31,5 @@ Just add the dependency to your SBT config:
 [sbt-gen-idea]: https://github.com/mpeltonen/sbt-idea
 [gen-eclipse]: https://github.com/typesafehub/sbteclipse
 [scala-dynamic]: http://www.scala-lang.org/api/current/#scala.Dynamic
-[BankExample]: https://github.com/max-leuthaeuser/SCROLL/blob/master/src/main/scala/scroll/examples/BankExample.scala
+[BankExample]: https://github.com/max-leuthaeuser/SCROLL/blob/master/examples/src/main/scala/scroll/examples/BankExample.scala
 [scaladoc]: http://max-leuthaeuser.github.io/SCROLL
