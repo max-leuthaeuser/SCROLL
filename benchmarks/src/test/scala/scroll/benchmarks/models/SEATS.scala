@@ -1,6 +1,6 @@
 package scroll.benchmarks.models
 
-import annotations.Role
+import scroll.internal.annotations.Role
 import scroll.internal.Compartment
 
 object SEATS {

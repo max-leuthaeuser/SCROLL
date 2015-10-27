@@ -1,7 +1,7 @@
 package scroll.benchmarks.models
 
-import annotations.Role
 import scroll.internal.Compartment
+import scroll.internal.annotations.Role
 
 object SmallBank {
 
