@@ -1,6 +1,6 @@
 package scroll.examples
 
-import annotations.Role
+import scroll.internal.annotations.Role
 import scroll.internal.Compartment
 import scroll.internal.util.Log.info
 
