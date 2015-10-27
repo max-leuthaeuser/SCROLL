@@ -1,3 +1,5 @@
+package scroll.internal;
+
 import org.apache.commons.lang3.reflect.MethodUtils;
 import scala.collection.JavaConversions;
 import scroll.internal.Compartment;
