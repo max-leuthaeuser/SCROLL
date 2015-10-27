@@ -1,6 +1,6 @@
 package scroll.examples
 
-import annotations.Role
+import scroll.internal.annotations.Role
 import scroll.examples.currency.Currency
 import scroll.internal.support.DispatchQuery
 import DispatchQuery._
