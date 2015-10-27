@@ -19,7 +19,6 @@ lazy val commonSettings = Seq(
     "com.chuusai" %% "shapeless" % shapelessVersion,
     "com.googlecode.kiama" %% "kiama" % kiamaVersion,
     "org.jgrapht" % "jgrapht-core" % jgraphTVersion,
-    "org.kie.modules" % "org-apache-commons-lang3" % "6.3.0.Final",
     "org.eclipse.emf" % "org.eclipse.emf.common" % "2.10.1",
     "org.eclipse.emf" % "org.eclipse.emf.ecore" % "2.10.1",
     "org.eclipse.uml2" % "org.eclipse.uml2.uml" % "3.1.0.v201006071150"

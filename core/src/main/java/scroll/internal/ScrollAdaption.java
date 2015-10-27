@@ -1,8 +1,6 @@
 package scroll.internal;
 
-import org.apache.commons.lang3.reflect.MethodUtils;
 import scala.collection.JavaConversions;
-import scroll.internal.Compartment;
 import scroll.internal.support.DispatchQuery;
 import scroll.internal.support.DispatchQuery$;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -178,12 +176,10 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
     public Object invoke(Object player, String method, Object... args) {
         if (player == null || method == null || method.isEmpty())
             throw new IllegalArgumentException("No Argument should be null or empty!");
-        try {
-            return MethodUtils.invokeExactMethod(player, method, args);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
+
+        Object c = getCompartment(player);
+        if (c == null) throw new RuntimeException("Player '" + player + "' is not contained in any Compartment!");
+        return invoke(player, c, method, args);
     }
 
     @Override
