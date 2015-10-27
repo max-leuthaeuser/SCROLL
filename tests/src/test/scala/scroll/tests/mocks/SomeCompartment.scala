@@ -1,6 +1,6 @@
 package scroll.tests.mocks
 
-import annotations.Role
+import scroll.internal.annotations.Role
 import scroll.internal.Compartment
 
 class SomeCompartment extends Compartment {
