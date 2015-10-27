@@ -1,3 +1,5 @@
+package scroll.tests
+
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.examples.{APICallsExample, AnotherBankExample, BankExample, ExpressionProblemExample, MathKiamaExample, RepminKiamaExample, RobotExample, UniversityExample}
 

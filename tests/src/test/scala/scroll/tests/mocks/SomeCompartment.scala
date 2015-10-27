@@ -1,4 +1,4 @@
-package mocks
+package scroll.tests.mocks
 
 import annotations.Role
 import scroll.internal.Compartment

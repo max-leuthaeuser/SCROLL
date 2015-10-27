@@ -1,3 +1,5 @@
+package scroll.tests
+
 import mocks.{CoreA, CoreB, SomeCompartment}
 import org.scalatest._
 import scroll.internal.support.DispatchQuery

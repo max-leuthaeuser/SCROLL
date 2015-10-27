@@ -1,3 +1,5 @@
+package scroll.tests
+
 import mocks.{CoreA, SomeCompartment}
 import org.scalatest._
 

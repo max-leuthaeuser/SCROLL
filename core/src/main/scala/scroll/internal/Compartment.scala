@@ -271,10 +271,20 @@ trait Compartment extends RoleConstraints with RoleRestrictions with Relationshi
   }
 
   /**
+   * Explicit helper factory method for creating a new Player instance
+   * without the need to relying on the implicit mechanics of Scala.
+   *
+   * @param obj the player or role that is wrapped into this dynamic player type
+   * @tparam T type of wrapped object
+   * @return a new Player instance wrapping the given object
+   */
+  def newPlayer[T](obj: T): Player[T] = new Player(obj)
+
+  /**
    * Implicit wrapper class to add basic functionality to roles and its players as unified types.
    *
    * @param wrapped the player or role that is wrapped into this dynamic type
-   * @tparam T type of wrapped
+   * @tparam T type of wrapped object
    */
   implicit class Player[T](val wrapped: T) extends DynamicType with DispatchType {
     /**

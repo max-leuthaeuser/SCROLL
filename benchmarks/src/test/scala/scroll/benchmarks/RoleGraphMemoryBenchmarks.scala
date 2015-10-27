@@ -1,3 +1,5 @@
+package scroll.benchmarks
+
 import org.scalameter.Measurer.MemoryFootprint
 import org.scalameter.api._
 

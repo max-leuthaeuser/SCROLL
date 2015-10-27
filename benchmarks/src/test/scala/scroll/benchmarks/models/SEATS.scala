@@ -1,4 +1,4 @@
-package models
+package scroll.benchmarks.models
 
 import annotations.Role
 import scroll.internal.Compartment

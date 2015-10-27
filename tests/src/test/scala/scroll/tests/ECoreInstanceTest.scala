@@ -1,3 +1,5 @@
+package scroll.tests
+
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.Compartment
 import scroll.internal.formal.CROM
@@ -17,7 +19,7 @@ class ECoreInstanceTest extends FeatureSpec with GivenWhenThen with Matchers {
     scenario("Loading from a valid path containing a valid model") {
       new Compartment with CROM {
         When("A specific valid CROM instance is given")
-        withModel("tests/src/test/scala/mocks/Bank.crom")
+        withModel("tests/src/test/scala/scroll/tests/mocks/Bank.crom")
         Then("it should be wellformed")
         wellformed shouldBe true
       }

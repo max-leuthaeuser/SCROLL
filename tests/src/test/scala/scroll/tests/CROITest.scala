@@ -1,3 +1,5 @@
+package scroll.tests
+
 import mocks.{CoreA, SomeCompartment}
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.formal.CROI
@@ -13,7 +15,7 @@ class CROITest extends FeatureSpec with GivenWhenThen with Matchers {
         val r = new RoleA()
 
         When("A specific valid CROM instance is given")
-        withModel("tests/src/test/scala/mocks/Bank.crom")
+        withModel("tests/src/test/scala/scroll/tests/mocks/Bank.crom")
         Then("it should be wellformed")
         wellformed shouldBe true
         And("specifying a CROI")

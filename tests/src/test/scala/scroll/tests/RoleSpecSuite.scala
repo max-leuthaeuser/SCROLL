@@ -1,3 +1,5 @@
+package scroll.tests
+
 import org.scalatest.Suites
 
 class RoleSpecSuite

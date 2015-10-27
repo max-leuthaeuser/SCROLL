@@ -1,3 +1,5 @@
+package scroll.benchmarks
+
 import org.scalameter.api._
 
 trait RoleGraphExecutionBenchmarks extends BenchmarkHelper {

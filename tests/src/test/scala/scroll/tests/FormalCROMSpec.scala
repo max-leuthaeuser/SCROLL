@@ -1,3 +1,5 @@
+package scroll.tests
+
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.formal.{FormalCROI, FormalCROM, FormalConstraintModel, FormalUtils, FormalRoleGroup}
 
