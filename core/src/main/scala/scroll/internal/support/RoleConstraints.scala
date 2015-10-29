@@ -134,7 +134,7 @@ trait RoleConstraints {
    * @param player the player instance to check
    * @param role the role instance to check
    */
-  def validate(player: Any, role: Any) {
+  private def validate(player: Any, role: Any) {
     checkImplications(player, role)
     checkEquivalence(player, role)
     checkProhibitions(player, role)

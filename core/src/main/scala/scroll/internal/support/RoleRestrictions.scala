@@ -51,7 +51,7 @@ trait RoleRestrictions {
    * @param player the player instance to check
    * @param role the role type to check
    */
-  def validate(player: Any, role: Type) {
+  protected def validate(player: Any, role: Type) {
     val roleInterface = role.members
     restrictions.find { case (pt, rt) =>
       isInstanceOf(pt, player.getClass.toString) && !isSameInterface(roleInterface, rt.decls)

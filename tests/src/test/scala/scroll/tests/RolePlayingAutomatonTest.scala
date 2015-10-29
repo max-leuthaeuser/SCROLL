@@ -2,6 +2,7 @@ package scroll.tests
 
 import mocks.{CoreA, SomeCompartment}
 import org.scalatest.concurrent.AsyncAssertions._
+import org.scalatest.time.SpanSugar._
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.rpa.RolePlayingAutomaton
 import scroll.internal.rpa.RolePlayingAutomaton.{BindRole, RPAState, Start, Stop, Terminate, Use}
@@ -57,7 +58,7 @@ class RolePlayingAutomatonTest extends FeatureSpec with GivenWhenThen with Match
       }
 
       new ACompartment() {
-        w.await()
+        w.await(timeout(1 second))
         Then("player should play RoleA")
         (+player).isPlaying[RoleA] shouldBe true
         And("player should play RoleB")

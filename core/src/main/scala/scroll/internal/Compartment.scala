@@ -3,7 +3,7 @@ package scroll.internal
 import java.lang
 import java.lang.reflect.Method
 
-import scroll.internal.support.{RoleRestrictions, RoleConstraints, Relationships, QueryStrategies, DispatchQuery, UnionTypes}
+import scroll.internal.support.{RoleGroups, RoleRestrictions, RoleConstraints, Relationships, QueryStrategies, DispatchQuery, UnionTypes}
 import UnionTypes.RoleUnionTypes
 import scroll.internal.graph.ScalaRoleGraph
 
@@ -34,7 +34,7 @@ import scala.reflect.runtime.universe._
  * }
  * }}}
  */
-trait Compartment extends RoleConstraints with RoleRestrictions with Relationships with QueryStrategies with RoleUnionTypes {
+trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups with Relationships with QueryStrategies with RoleUnionTypes {
 
   protected lazy val plays = new ScalaRoleGraph()
 
