@@ -1,6 +1,7 @@
 package scroll.internal.support
 
 import scroll.internal.Compartment
+import scroll.internal.util.ReflectiveHelper
 
 import scala.collection.mutable
 
@@ -20,7 +21,11 @@ trait RoleGroups {
     def getTypes: Seq[String]
   }
 
-  case class Types(ts: String*) extends Entry {
+  object Types {
+    def apply(ts: String*): Types = new Types(ts.map(ReflectiveHelper.classSimpleClassName))
+  }
+
+  class Types(ts: Seq[String]) extends Entry {
     def getTypes: Seq[String] = ts
   }
 

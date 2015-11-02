@@ -23,10 +23,10 @@ object ReflectiveHelper {
 
   /**
    * Translates a Class name to a String, i.e. removing anything before the last
-   * occurrence of "<code>.</code>".
+   * occurrence of "<code>$</code>".
    *
    * @param t the Class name as String
-   * @return anything after the last occurrence of "<code>.</code>"
+   * @return anything after the last occurrence of "<code>$</code>"
    */
   def classSimpleClassName(t: String): String = simpleClassName(t, "$")
 

@@ -17,7 +17,7 @@ class RoleGroupsTest extends FeatureSpec with GivenWhenThen with Matchers {
         val comb = RoleGroup("comp").containing(rg1, rg2).from(1).to(1)
 
         Then("the resulting types seq should be correct")
-        comb.getTypes shouldBe Seq(manifest[RoleA].toString(), manifest[RoleB].toString())
+        comb.getTypes shouldBe Seq("RoleA", "RoleB")
       }
     }
     scenario("Added role groups with the same name") {
