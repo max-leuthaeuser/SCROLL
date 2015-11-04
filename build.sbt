@@ -4,6 +4,8 @@ val kiamaVersion = "1.8.0"
 val jgraphTVersion = "0.9.1"
 val scalameterVersion = "0.8-SNAPSHOT"
 val scalatestVersion = "2.2.1"
+val chocoVersion = "3.3.1"
+val slf4jVersion = "1.7.12"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.7",
@@ -19,6 +21,8 @@ lazy val commonSettings = Seq(
     "com.chuusai" %% "shapeless" % shapelessVersion,
     "com.googlecode.kiama" %% "kiama" % kiamaVersion,
     "org.jgrapht" % "jgrapht-core" % jgraphTVersion,
+    "org.choco-solver" % "choco-solver" % chocoVersion,
+    "org.slf4j" % "slf4j-simple" % slf4jVersion,
     "org.eclipse.emf" % "org.eclipse.emf.common" % "2.10.1",
     "org.eclipse.emf" % "org.eclipse.emf.ecore" % "2.10.1",
     "org.eclipse.uml2" % "org.eclipse.uml2.uml" % "3.1.0.v201006071150"
