@@ -29,8 +29,9 @@ trait RoleGroups {
     def getTypes: Seq[String] = ts
   }
 
-  case class RoleGroup(name: String, entries: Seq[Entry], lowerBound: Int, upperBound: Int) extends Entry {
-    assert(0 <= lowerBound && lowerBound <= upperBound)
+  case class RoleGroup(name: String, entries: Seq[Entry], occ: (Int, Int), limit: (Int, Int)) extends Entry {
+    assert(0 <= occ._1 && occ._1 <= occ._2)
+    assert(0 <= limit._1 && limit._1 <= limit._2)
 
     def getTypes: Seq[String] = entries.flatMap {
       case ts: Types => ts.getTypes
@@ -42,56 +43,36 @@ trait RoleGroups {
   object RoleGroup {
     def apply(name: String) = new {
 
-      def containing(rg: RoleGroup*) = new {
-        def from(l: Int) = new {
-          def to(u: Int): RoleGroup = addRoleGroup(new RoleGroup(name, rg, l, u))
-        }
+      def containing(rg: RoleGroup*)(occ_l: Int, occ_u: Int)(limit_l: Int, limit_u: Int) =
+        addRoleGroup(new RoleGroup(name, rg, (occ_l, occ_u), (limit_l, limit_u)))
+
+      def containing[T1: Manifest](occ_l: Int, occ_u: Int)(limit_l: Int, limit_u: Int) = {
+        val entry = Types(manifest[T1].toString())
+        addRoleGroup(new RoleGroup(name, Seq(entry), (occ_l, occ_u), (limit_l, limit_u)))
       }
 
-      def containing[T1: Manifest] = new {
-        def from(l: Int) = new {
-          def to(u: Int): RoleGroup = {
-            val entry = Types(manifest[T1].toString())
-            addRoleGroup(new RoleGroup(name, Seq(entry), l, u))
-          }
-        }
+
+      def containing[T1: Manifest, T2: Manifest](occ_l: Int, occ_u: Int)(limit_l: Int, limit_u: Int): RoleGroup = {
+        val entry = Types(manifest[T1].toString(), manifest[T2].toString())
+        addRoleGroup(new RoleGroup(name, Seq(entry), (occ_l, occ_u), (limit_l, limit_u)))
       }
 
-      def containing[T1: Manifest, T2: Manifest] = new {
-        def from(l: Int) = new {
-          def to(u: Int): RoleGroup = {
-            val entry = Types(manifest[T1].toString(), manifest[T2].toString())
-            addRoleGroup(new RoleGroup(name, Seq(entry), l, u))
-          }
-        }
+      def containing[T1: Manifest, T2: Manifest, T3: Manifest](occ_l: Int, occ_u: Int)(limit_l: Int, limit_u: Int): RoleGroup = {
+        val entry = Types(manifest[T1].toString(), manifest[T2].toString(), manifest[T3].toString())
+        addRoleGroup(new RoleGroup(name, Seq(entry), (occ_l, occ_u), (limit_l, limit_u)))
       }
 
-      def containing[T1: Manifest, T2: Manifest, T3: Manifest] = new {
-        def from(l: Int) = new {
-          def to(u: Int): RoleGroup = {
-            val entry = Types(manifest[T1].toString(), manifest[T2].toString(), manifest[T3].toString())
-            addRoleGroup(new RoleGroup(name, Seq(entry), l, u))
-          }
-        }
+      def containing[T1: Manifest, T2: Manifest, T3: Manifest, T4: Manifest](occ_l: Int, occ_u: Int)(limit_l: Int, limit_u: Int): RoleGroup = {
+        val entry = Types(manifest[T1].toString(), manifest[T2].toString(), manifest[T3].toString(), manifest[T4].toString())
+        addRoleGroup(new RoleGroup(name, Seq(entry), (occ_l, occ_u), (limit_l, limit_u)))
       }
 
-      def containing[T1: Manifest, T2: Manifest, T3: Manifest, T4: Manifest] = new {
-        def from(l: Int) = new {
-          def to(u: Int): RoleGroup = {
-            val entry = Types(manifest[T1].toString(), manifest[T2].toString(), manifest[T3].toString(), manifest[T4].toString())
-            addRoleGroup(new RoleGroup(name, Seq(entry), l, u))
-          }
-        }
+
+      def containing[T1: Manifest, T2: Manifest, T3: Manifest, T4: Manifest, T5: Manifest](occ_l: Int, occ_u: Int)(limit_l: Int, limit_u: Int): RoleGroup = {
+        val entry = Types(manifest[T1].toString(), manifest[T2].toString(), manifest[T3].toString(), manifest[T4].toString(), manifest[T5].toString())
+        addRoleGroup(new RoleGroup(name, Seq(entry), (occ_l, occ_u), (limit_l, limit_u)))
       }
 
-      def containing[T1: Manifest, T2: Manifest, T3: Manifest, T4: Manifest, T5: Manifest] = new {
-        def from(l: Int) = new {
-          def to(u: Int): RoleGroup = {
-            val entry = Types(manifest[T1].toString(), manifest[T2].toString(), manifest[T3].toString(), manifest[T4].toString(), manifest[T5].toString())
-            addRoleGroup(new RoleGroup(name, Seq(entry), l, u))
-          }
-        }
-      }
     }
   }
 

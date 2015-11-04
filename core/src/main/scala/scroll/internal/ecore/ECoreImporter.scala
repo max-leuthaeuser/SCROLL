@@ -15,8 +15,7 @@ import org.eclipse.emf.ecore.xmi.impl.{EcoreResourceFactoryImpl, XMIResourceFact
 trait ECoreImporter {
   var path: String = _
 
-  private val META_MODEL_PATH = "core/src/main/scala/scroll/internal/ecore/"
-  private val META_MODEL_NAME = "crom_l1_composed.ecore"
+  private val META_MODEL_PATH = getClass.getResource("/crom_l1_composed.ecore").getPath
 
   private def registerMetaModel(rs: ResourceSetImpl) {
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap.put(
@@ -25,7 +24,7 @@ trait ECoreImporter {
     val extendedMetaData = new BasicExtendedMetaData(rs.getPackageRegistry)
     rs.getLoadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData)
 
-    val r = rs.getResource(URI.createFileURI(META_MODEL_PATH + META_MODEL_NAME), true)
+    val r = rs.getResource(URI.createFileURI(META_MODEL_PATH), true)
     val eObject = r.getContents.get(0)
     eObject match {
       case p: EPackage =>

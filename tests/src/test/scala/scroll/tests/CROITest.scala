@@ -9,13 +9,15 @@ class CROITest extends FeatureSpec with GivenWhenThen with Matchers {
 
   feature("Specifying a CROI manually") {
     scenario("CROI is filled manually") {
+      val p = getClass.getResource("/Bank.crom").getPath
+
       new SomeCompartment with CROI {
         Given("A natural, a role and a compartment instance")
         val n = new CoreA()
         val r = new RoleA()
 
         When("A specific valid CROM instance is given")
-        withModel("tests/src/test/scala/scroll/tests/mocks/Bank.crom")
+        withModel(p)
         Then("it should be wellformed")
         wellformed shouldBe true
         And("specifying a CROI")
