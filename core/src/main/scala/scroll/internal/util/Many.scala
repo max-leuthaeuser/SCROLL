@@ -1,9 +1,11 @@
 package scroll.internal.util
 
 object Many {
-  def * = new Many()
+  def * = Many()
 }
 
-class Many(private val self: Int = 0) extends AnyVal with Ordered[Int] {
-  override def compare(that: Int): Int = 0 // Many is as large as any Int
+case class Many() extends Ordered[Int] {
+  override def compare(that: Int): Int = 1 // Many is larger as any Int
+
+  override def toString: String = "*"
 }

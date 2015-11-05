@@ -1,36 +1,30 @@
 package scroll.tests
 
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
-import scroll.tests.mocks.SomeCompartment
+import scroll.tests.mocks.{CoreA, SomeCompartment}
 import scroll.internal.util.Many._
 
 class RoleGroupsTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for role groups.")
 
   feature("Role groups") {
-    scenario("Calculating seq of types") {
+    scenario("Validating role group cardinality") {
+      val acc1 = new CoreA()
+      val acc2 = new CoreA()
       new SomeCompartment {
-        Given("A compartment and some role groups")
+        Given("A compartment and a role group")
 
-        When("adding some role groups")
-        val rg1 = RoleGroup("rg1").containing[RoleA](1, 1)(1, 1)
-        val rg2 = RoleGroup("rg2").containing[RoleB](1, 1)(1, 1)
-        val comb = RoleGroup("comp").containing(rg1, rg2)(1, 1)(1, 1)
+        class Source
 
-        Then("the resulting types seq should be correct")
-        comb.getTypes shouldBe Seq("RoleA", "RoleB")
-      }
-    }
-    scenario("Added role groups with the same name") {
-      new SomeCompartment {
-        Given("A compartment and some role groups")
+        class Target
 
-        When("adding some role groups")
-        Then("it should fail adding them twice with the same name")
+        When("adding the role group")
+        val transaction = RoleGroup("Transaction").containing[Source, Target](2, 2)(0, *)
 
-        val rg1 = RoleGroup("rg1").containing[RoleA](1, 1)(1, *)
-        a[RuntimeException] should be thrownBy {
-          RoleGroup("rg1").containing[RoleA](1, 1)(1, 1)
+        Then("the validation should be correct")
+        RoleGroupsChecked {
+          acc1 play new Source
+          acc2 play new Target
         }
       }
     }

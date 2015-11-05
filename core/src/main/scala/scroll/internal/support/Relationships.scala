@@ -1,6 +1,7 @@
 package scroll.internal.support
 
 import scroll.internal.Compartment
+import scroll.internal.util.Many
 
 /**
   * Allows to add and check role relationships to a compartment instance.
@@ -20,17 +21,22 @@ trait Relationships {
 
     abstract class ExpMultiplicity extends Multiplicity
 
+    case class MMany() extends ExpMultiplicity
+
     case class ConcreteValue(v: Ordered[Int]) extends ExpMultiplicity {
       require(v >= 0)
 
       def To(t: ExpMultiplicity): Multiplicity = RangeMultiplicity(v, t)
     }
 
-    implicit def orderedToConcreteValue(v: Ordered[Int]): ConcreteValue = new ConcreteValue(v)
+    implicit def orderedToConcreteValue(v: Ordered[Int]): ExpMultiplicity = v match {
+      case Many() => MMany()
+      case _ => new ConcreteValue(v)
+    }
 
     implicit def intToConcreteValue(v: Int): ConcreteValue = new ConcreteValue(v)
 
-    case class RangeMultiplicity(from: ConcreteValue, to: ExpMultiplicity) extends Multiplicity
+    case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity) extends Multiplicity
 
     def apply(name: String) = new {
       def from[L: Manifest](leftMul: Multiplicity) = new {
@@ -55,9 +61,11 @@ trait Relationships {
 
     private def checkMul[T](m: Multiplicity, on: Seq[T]): Seq[T] = {
       m match {
+        case MMany() => assert(on.nonEmpty, s"With left multiplicity for '$name' of '*', the resulting role set should not be empty!")
         case ConcreteValue(v) => assert(v.compare(on.size) == 0, s"With a concrete multiplicity for '$name' of '$v' the resulting role set should have the same size!")
         case RangeMultiplicity(f, t) => (f, t) match {
           case (ConcreteValue(v1), ConcreteValue(v2)) => assert(v1 <= on.size && v2 >= on.size, s"With a multiplicity for '$name' from '$v1' to '$v2', the resulting role set size should be in between!")
+          case (ConcreteValue(v), MMany()) => assert(v <= on.size, s"With a multiplicity for '$name' from '$v' to '*', the resulting role set size should be in between!")
           case _ => throw new RuntimeException("This multiplicity is not allowed!") // default case
         }
         case _ => throw new RuntimeException("This multiplicity is not allowed!") // default case
