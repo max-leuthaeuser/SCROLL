@@ -28,6 +28,21 @@ class RelationshipSpec extends FeatureSpec with GivenWhenThen with Matchers {
         a[AssertionError] should be thrownBy {
           rel2.right()
         }
+
+        When("specifying a 1-* relationship")
+
+        import scroll.internal.util.Many._
+
+        val rel3 = Relationship("rel3").from[RoleA](1).to[RoleB](*)
+        Then("the given multiplicities and queries should be correct")
+        rel3.left() shouldBe Seq(rA)
+        rel3.right() shouldBe Seq(rB)
+        val rB2 = new RoleB
+        p play rB2
+        rel3.right() shouldBe Seq(rB, rB2)
+        val rB3 = new RoleB
+        p play rB3
+        rel3.right() shouldBe Seq(rB, rB2, rB3)
       }
     }
   }

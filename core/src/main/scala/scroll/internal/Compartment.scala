@@ -71,7 +71,7 @@ trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups 
    * @tparam T the type of the player instance to query for
    * @return all player instances as Seq, that do conform to the given matcher
    */
-  def all[T: Manifest](matcher: RoleQueryStrategy = *()): Seq[T] = {
+  def all[T: Manifest](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
     plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
         case p :: Nil => matcher.matches(p)
@@ -109,7 +109,7 @@ trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups 
    * @tparam T the type of the player instance to query for
    * @return the first player instances, that do conform to the given matcher
    */
-  def one[T: Manifest](matcher: RoleQueryStrategy = *()): T = safeReturn(all[T](matcher), manifest[T].toString()) match {
+  def one[T: Manifest](matcher: RoleQueryStrategy = MatchAny()): T = safeReturn(all[T](matcher), manifest[T].toString()) match {
     case elem :: Nil => elem
     case l: Seq[T] => l.head
     case _ => throw new RuntimeException(s"Query for such a type unsuccessful.")

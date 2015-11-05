@@ -30,7 +30,7 @@ trait QueryStrategies extends ReflectiveHelper {
     def ==>[T](value: T): WithResult[T] = new WithResult(name, value)
   }
 
-  case class *() extends RoleQueryStrategy("")
+  case class MatchAny() extends RoleQueryStrategy("")
 
   case class WithProperty[T](name: String, value: T) extends RoleQueryStrategy(name) {
     override def matches(on: Any): Boolean = on.propertyOf[T](name) == value

@@ -3,7 +3,7 @@ package scroll.tests
 import mocks.{CoreA, SomeCompartment}
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 
-class UnionTypesRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
+class UnionTypesTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for union types in the context of roles.")
 
   feature("Simple method invocation") {

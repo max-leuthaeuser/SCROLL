@@ -3,7 +3,7 @@ package scroll.tests
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.formal.{FormalCROI, FormalCROM, FormalConstraintModel, FormalUtils, FormalRoleGroup}
 
-class FormalCROMExampleSpec extends FeatureSpec with GivenWhenThen with Matchers {
+class FormalCROMExampleTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for ScalaFormalCROMExamples.")
 
   feature("Testing the banking example") {

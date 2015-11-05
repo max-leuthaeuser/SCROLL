@@ -24,10 +24,9 @@ class ChocoTest extends FeatureSpec with GivenWhenThen with Matchers {
       // 5. Launch the resolution process
       solver.findSolution() shouldBe true
       //6. Print search statistics
-      Chatterbox.printStatistics(solver)
+      // Chatterbox.printStatistics(solver)
       val solution = solver.getSolutionRecorder.getLastSolution
-      println(solution.toString)
-
+      // println(solution.toString)
       solution.getIntVal(x) shouldBe 0
       solution.getIntVal(y) shouldBe 0
     }

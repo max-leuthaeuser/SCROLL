@@ -3,7 +3,7 @@ package scroll.tests
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.examples.{APICallsExample, AnotherBankExample, BankExample, ExpressionProblemExample, MathKiamaExample, RepminKiamaExample, RobotExample, UniversityExample}
 
-class ExamplesRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
+class ExamplesTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for scroll.examples.")
 
   feature("Running scroll.examples") {

@@ -37,6 +37,8 @@ trait RoleGroups {
     }
   }
 
+  private type CInt = Ordered[Int]
+
   trait Entry {
     def getTypes: Seq[String]
   }
@@ -49,9 +51,9 @@ trait RoleGroups {
     def getTypes: Seq[String] = ts
   }
 
-  case class RoleGroup(name: String, entries: Seq[Entry], occ: (Int, Int), limit: (Int, Int)) extends Entry {
-    assert(0 <= occ._1 && occ._1 <= occ._2)
-    assert(0 <= limit._1 && limit._1 <= limit._2)
+  case class RoleGroup(name: String, entries: Seq[Entry], occ: (Int, CInt), limit: (Int, CInt)) extends Entry {
+    assert(0 <= occ._1 && occ._2 >= occ._1)
+    assert(0 <= limit._1 && limit._2 >= limit._1)
 
     def getTypes: Seq[String] = entries.flatMap {
       case ts: Types => ts.getTypes
@@ -65,32 +67,32 @@ trait RoleGroups {
 
     def apply(name: String) = new {
 
-      def containing(rg: RoleGroup*)(occ_l: Int, occ_u: Int)(limit_l: Int, limit_u: Int) =
+      def containing(rg: RoleGroup*)(occ_l: Int, occ_u: CInt)(limit_l: Int, limit_u: CInt) =
         addRoleGroup(new RoleGroup(name, rg, (occ_l, occ_u), (limit_l, limit_u)))
 
-      def containing[T1: Manifest](occ_l: Int, occ_u: Int)(limit_l: Int, limit_u: Int) = {
+      def containing[T1: Manifest](occ_l: Int, occ_u: CInt)(limit_l: Int, limit_u: CInt) = {
         val entry = Types(manifest[T1])
         addRoleGroup(new RoleGroup(name, Seq(entry), (occ_l, occ_u), (limit_l, limit_u)))
       }
 
 
-      def containing[T1: Manifest, T2: Manifest](occ_l: Int, occ_u: Int)(limit_l: Int, limit_u: Int): RoleGroup = {
+      def containing[T1: Manifest, T2: Manifest](occ_l: Int, occ_u: CInt)(limit_l: Int, limit_u: CInt): RoleGroup = {
         val entry = Types(manifest[T1], manifest[T2])
         addRoleGroup(new RoleGroup(name, Seq(entry), (occ_l, occ_u), (limit_l, limit_u)))
       }
 
-      def containing[T1: Manifest, T2: Manifest, T3: Manifest](occ_l: Int, occ_u: Int)(limit_l: Int, limit_u: Int): RoleGroup = {
+      def containing[T1: Manifest, T2: Manifest, T3: Manifest](occ_l: Int, occ_u: CInt)(limit_l: Int, limit_u: CInt): RoleGroup = {
         val entry = Types(manifest[T1], manifest[T2], manifest[T3])
         addRoleGroup(new RoleGroup(name, Seq(entry), (occ_l, occ_u), (limit_l, limit_u)))
       }
 
-      def containing[T1: Manifest, T2: Manifest, T3: Manifest, T4: Manifest](occ_l: Int, occ_u: Int)(limit_l: Int, limit_u: Int): RoleGroup = {
+      def containing[T1: Manifest, T2: Manifest, T3: Manifest, T4: Manifest](occ_l: Int, occ_u: CInt)(limit_l: Int, limit_u: CInt): RoleGroup = {
         val entry = Types(manifest[T1], manifest[T2], manifest[T3], manifest[T4])
         addRoleGroup(new RoleGroup(name, Seq(entry), (occ_l, occ_u), (limit_l, limit_u)))
       }
 
 
-      def containing[T1: Manifest, T2: Manifest, T3: Manifest, T4: Manifest, T5: Manifest](occ_l: Int, occ_u: Int)(limit_l: Int, limit_u: Int): RoleGroup = {
+      def containing[T1: Manifest, T2: Manifest, T3: Manifest, T4: Manifest, T5: Manifest](occ_l: Int, occ_u: CInt)(limit_l: Int, limit_u: CInt): RoleGroup = {
         val entry = Types(manifest[T1], manifest[T2], manifest[T3], manifest[T4], manifest[T5])
         addRoleGroup(new RoleGroup(name, Seq(entry), (occ_l, occ_u), (limit_l, limit_u)))
       }

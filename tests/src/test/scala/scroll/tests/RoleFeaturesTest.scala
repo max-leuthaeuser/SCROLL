@@ -5,7 +5,7 @@ import org.scalatest._
 import scroll.internal.support.DispatchQuery
 import DispatchQuery._
 
-class MinimalRoleSpec extends FeatureSpec with GivenWhenThen with Matchers {
+class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for an excerpt of the role concept.")
   info("Things like role playing and method invocation are tested.")
 
