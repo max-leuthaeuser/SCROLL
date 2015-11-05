@@ -1,7 +1,13 @@
 jdk:
   - oraclejdk8
+
 language: scala
+
 scala:
     - 2.11.7
+
 install:
+    - true
+
+script:
     - sbt tests/test
