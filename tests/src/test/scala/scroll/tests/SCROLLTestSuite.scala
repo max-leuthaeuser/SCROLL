@@ -7,7 +7,7 @@ class SCROLLTestSuite
     new RoleFeaturesTest,
     new EqualityRoleTest,
     new ExamplesTest,
-    new RelationshipSpec,
+    new RelationshipTest,
     new UnionTypesTest,
     new FormalCROMTest,
     new FormalCROMExampleTest,

@@ -3,7 +3,7 @@ package scroll.tests
 import mocks.{CoreA, SomeCompartment}
 import org.scalatest._
 
-class RelationshipSpec extends FeatureSpec with GivenWhenThen with Matchers {
+class RelationshipTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for the relationship concept.")
 
   feature("Relationship specification and querying") {
