@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>RoleConstraints - scroll.internal.support.RoleConstraints</title>
-          <meta name="description" content="RoleConstraints - scroll.internal.support.RoleConstraints" />
-          <meta name="keywords" content="RoleConstraints scroll.internal.support.RoleConstraints" />
+          <title>MatchAny - scroll.internal.support.QueryStrategies.MatchAny</title>
+          <meta name="description" content="MatchAny - scroll.internal.support.QueryStrategies.MatchAny" />
+          <meta name="keywords" content="MatchAny scroll.internal.support.QueryStrategies.MatchAny" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../index.html';
-            var hash = 'scroll.internal.support.RoleConstraints';
+            var hash = 'scroll.internal.support.QueryStrategies$MatchAny';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -28,12 +28,12 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Trait" src="../../../lib/trait_big.png" />
-        <p id="owner"><a href="../../package.html" class="extype" name="scroll">scroll</a>.<a href="../package.html" class="extype" name="scroll.internal">internal</a>.<a href="package.html" class="extype" name="scroll.internal.support">support</a></p>
-        <h1>RoleConstraints</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="scroll.internal.support">package support</a>
+        <img alt="Class" src="../../../lib/class_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="scroll">scroll</a>.<a href="../package.html" class="extype" name="scroll.internal">internal</a>.<a href="package.html" class="extype" name="scroll.internal.support">support</a>.<a href="QueryStrategies.html" class="extype" name="scroll.internal.support.QueryStrategies">QueryStrategies</a></p>
+        <h1>MatchAny</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="QueryStrategies.html" class="extype" name="scroll.internal.support.QueryStrategies">package QueryStrategies</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -42,21 +42,17 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">RoleConstraints</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">MatchAny</span><span class="params">()</span><span class="result"> extends <a href="QueryStrategies$RoleQueryStrategy.html" class="extype" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy">RoleQueryStrategy</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Allows to add and check role constraints (Riehle constraints) to a compartment instance.
-</p></div><dl class="attributes block"> <dt>Self Type</dt><dd><a href="../Compartment.html" class="extype" name="scroll.internal.Compartment">Compartment</a></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div><div class="toggleContainer block">
-            <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="../Compartment.html" class="extype" name="scroll.internal.Compartment">Compartment</a></div>
-          </div></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <a href="QueryStrategies$RoleQueryStrategy.html" class="extype" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy">RoleQueryStrategy</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
         
 
       <div id="mbrsel">
@@ -73,7 +69,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="scroll.internal.support.RoleConstraints"><span>RoleConstraints</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="scroll.internal.support.QueryStrategies.MatchAny"><span>MatchAny</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy"><span>RoleQueryStrategy</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -90,7 +86,27 @@
 
       <div id="template">
         <div id="allMembers">
-        
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="scroll.internal.support.QueryStrategies.MatchAny#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;():QueryStrategies.this.MatchAny"></a>
+      <a id="&lt;init&gt;:MatchAny"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MatchAny</span><span class="params">()</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@&lt;init&gt;():QueryStrategies.this.MatchAny" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
 
         
 
@@ -110,7 +126,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -127,7 +143,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@##():Int" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@##():Int" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -144,92 +160,47 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scroll.internal.support.RoleConstraints#RoleConstraintsChecked" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="RoleConstraintsChecked(func:=&gt;Unit):Unit"></a>
-      <a id="RoleConstraintsChecked(⇒Unit):Unit"></a>
+    </li><li name="scroll.internal.support.QueryStrategies.RoleQueryStrategy#==#" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==#[T](value:T):QueryStrategies.this.WithProperty[T]"></a>
+      <a id="==#[T](T):WithProperty[T]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">RoleConstraintsChecked</span><span class="params">(<span name="func">func: ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span title="gt4s: $eq$eq$hash" class="name">==#</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="value">value: <span class="extype" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy.==#.T">T</span></span>)</span><span class="result">: <a href="QueryStrategies$WithProperty.html" class="extype" name="scroll.internal.support.QueryStrategies.WithProperty">WithProperty</a>[<span class="extype" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy.==#.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@RoleConstraintsChecked(func:=&gt;Unit):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@==#[T](value:T):QueryStrategies.this.WithProperty[T]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Wrapping function that checks all available role constraints for
-all core objects and its roles after the given function was executed.</p><div class="fullcomment"><div class="comment cmt"><p>Wrapping function that checks all available role constraints for
-all core objects and its roles after the given function was executed.
-Throws a RuntimeException if a role constraint is violated!
-</p></div><dl class="paramcmts block"><dt class="param">func</dt><dd class="cmt"><p>the function to execute and check role constraints afterwards</p></dd></dl></div>
-    </li><li name="scroll.internal.support.RoleConstraints#RoleEquivalence" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="RoleEquivalence[A,B]()(implicitevidence$3:scala.reflect.Manifest[A],implicitevidence$4:scala.reflect.Manifest[B]):Unit"></a>
-      <a id="RoleEquivalence[A,B]()(Manifest[A],Manifest[B]):Unit"></a>
+      <p class="shortcomment cmt">Returns the value the queried attribute.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the value the queried attribute.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>its type</p></dd><dt class="param">value</dt><dd class="cmt"><p>the name of the attribute that is queried</p></dd><dt>returns</dt><dd class="cmt"><p>the value of the queried attribute</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="QueryStrategies$RoleQueryStrategy.html" class="extype" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy">RoleQueryStrategy</a></dd></dl></div>
+    </li><li name="scroll.internal.support.QueryStrategies.RoleQueryStrategy#==&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==&gt;[T](value:T):QueryStrategies.this.WithResult[T]"></a>
+      <a id="==&gt;[T](T):WithResult[T]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">RoleEquivalence</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.Manifest">Manifest</span>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleEquivalence.A">A</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.Manifest">Manifest</span>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleEquivalence.B">B</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span title="gt4s: $eq$eq$greater" class="name">==&gt;</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="value">value: <span class="extype" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy.==&gt;.T">T</span></span>)</span><span class="result">: <a href="QueryStrategies$WithResult.html" class="extype" name="scroll.internal.support.QueryStrategies.WithResult">WithResult</a>[<span class="extype" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy.==&gt;.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@RoleEquivalence[A,B]()(implicitevidence$3:scala.reflect.Manifest[A],implicitevidence$4:scala.reflect.Manifest[B]):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@==&gt;[T](value:T):QueryStrategies.this.WithResult[T]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Adds an role equivalent constraint between the given role types.</p><div class="fullcomment"><div class="comment cmt"><p>Adds an role equivalent constraint between the given role types.
-Interpretation: if a core object plays an instance of role type A
-it also has to play an instance of role type B and visa versa.
-</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>type of role A that should be played implicitly if B is played</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>type of role B that should be played implicitly if A is played</p></dd></dl></div>
-    </li><li name="scroll.internal.support.RoleConstraints#RoleImplication" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="RoleImplication[A,B]()(implicitevidence$1:scala.reflect.Manifest[A],implicitevidence$2:scala.reflect.Manifest[B]):Unit"></a>
-      <a id="RoleImplication[A,B]()(Manifest[A],Manifest[B]):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">RoleImplication</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.Manifest">Manifest</span>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleImplication.A">A</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.Manifest">Manifest</span>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleImplication.B">B</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@RoleImplication[A,B]()(implicitevidence$1:scala.reflect.Manifest[A],implicitevidence$2:scala.reflect.Manifest[B]):Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Adds an role implication constraint between the given role types.</p><div class="fullcomment"><div class="comment cmt"><p>Adds an role implication constraint between the given role types.
-Interpretation: if a core object plays an instance of role type A
-it also has to play an instance of role type B.
-</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>type of role A</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>type of role B that should be played implicitly if A is played</p></dd></dl></div>
-    </li><li name="scroll.internal.support.RoleConstraints#RoleProhibition" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="RoleProhibition[A,B]()(implicitevidence$5:scala.reflect.Manifest[A],implicitevidence$6:scala.reflect.Manifest[B]):Unit"></a>
-      <a id="RoleProhibition[A,B]()(Manifest[A],Manifest[B]):Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">RoleProhibition</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.Manifest">Manifest</span>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleProhibition.A">A</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.Manifest">Manifest</span>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleProhibition.B">B</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@RoleProhibition[A,B]()(implicitevidence$5:scala.reflect.Manifest[A],implicitevidence$6:scala.reflect.Manifest[B]):Unit" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Adds an role prohibition constraint between the given role types.</p><div class="fullcomment"><div class="comment cmt"><p>Adds an role prohibition constraint between the given role types.
-Interpretation: if a core object plays an instance of role type A
-it is not allowed to play B as well.
-</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>type of role A</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>type of role B that is not allowed to be played if A is played already</p></dd></dl></div>
+      <p class="shortcomment cmt">Returns the return value the queried function.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the return value the queried function.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>its return type</p></dd><dt class="param">value</dt><dd class="cmt"><p>the name of the function that is queried</p></dd><dt>returns</dt><dd class="cmt"><p>the return value of the queried function</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="QueryStrategies$RoleQueryStrategy.html" class="extype" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy">RoleQueryStrategy</a></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -242,7 +213,7 @@ it is not allowed to play B as well.
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -259,7 +230,7 @@ it is not allowed to play B as well.
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@clone():Object" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@clone():Object" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -282,28 +253,11 @@ it is not allowed to play B as well.
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="equals(x$1:Any):Boolean"></a>
-      <a id="equals(Any):Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@equals(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -316,7 +270,7 @@ it is not allowed to play B as well.
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -339,24 +293,7 @@ it is not allowed to play B as well.
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@getClass():Class[_]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hashCode():Int"></a>
-      <a id="hashCode():Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -373,11 +310,28 @@ it is not allowed to play B as well.
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scroll.internal.support.QueryStrategies.RoleQueryStrategy#matches" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="matches(on:Any):Boolean"></a>
+      <a id="matches(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">matches</span><span class="params">(<span name="on">on: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@matches(on:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="QueryStrategies$RoleQueryStrategy.html" class="extype" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy">RoleQueryStrategy</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -390,7 +344,7 @@ it is not allowed to play B as well.
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -407,7 +361,7 @@ it is not allowed to play B as well.
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@notify():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -424,7 +378,7 @@ it is not allowed to play B as well.
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -441,28 +395,11 @@ it is not allowed to play B as well.
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="toString():String"></a>
-      <a id="toString():String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@toString():String" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -475,7 +412,7 @@ it is not allowed to play B as well.
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@wait():Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -498,7 +435,7 @@ it is not allowed to play B as well.
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -521,7 +458,7 @@ it is not allowed to play B as well.
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.RoleConstraints@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.QueryStrategies$MatchAny@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -541,7 +478,17 @@ it is not allowed to play B as well.
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="scala.Serializable">
+              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.Product">
+              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy">
+              <h3>Inherited from <a href="QueryStrategies$RoleQueryStrategy.html" class="extype" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy">RoleQueryStrategy</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
