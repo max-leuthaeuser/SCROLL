@@ -2,7 +2,6 @@ package scroll.tests
 
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.tests.mocks.{CoreA, SomeCompartment}
-import scroll.internal.util.Many._
 
 class RoleGroupsTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for role groups.")
@@ -19,7 +18,7 @@ class RoleGroupsTest extends FeatureSpec with GivenWhenThen with Matchers {
         class Target
 
         When("adding the role group")
-        val transaction = RoleGroup("Transaction").containing[Source, Target](2, 2)(0, *)
+        val transaction = RoleGroup("Transaction").containing[Source, Target](1, 1)(2, 2)
 
         Then("the validation should be correct")
         RoleGroupsChecked {

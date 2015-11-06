@@ -1,9 +1,7 @@
 package scroll.internal.support
 
 import org.chocosolver.solver.constraints.IntConstraintFactory
-
-import scala.collection.JavaConversions._
-
+import org.chocosolver.solver.search.solution.Solution
 import org.chocosolver.solver.Solver
 import org.chocosolver.solver.search.strategy.IntStrategyFactory
 import org.chocosolver.solver.variables.{IntVar, VariableFactory}
@@ -41,14 +39,13 @@ trait RoleGroups {
 
   private def validateOccurrenceCardinality() {
     roleGroups.foreach { case (name, rg) =>
-      rg.getTypes.foreach(ts => {
-        val min = rg.occ._1
-        val max = rg.occ._2
-        val actual = plays.allPlayers.count(r => ts == ReflectiveHelper.classSimpleClassName(r.getClass.toString))
-        if (actual < min || max <= actual)
-          throw new RuntimeException(s"Occurrence cardinality in role group '$name' violated! " +
-            s"Role '$ts' is played $actual times but should be between $min and $max.")
-      })
+      val min = rg.occ._1
+      val max = rg.occ._2
+      val types = rg.getTypes
+      val actual = types.map(ts => plays.allPlayers.count(r => ts == ReflectiveHelper.classSimpleClassName(r.getClass.toString))).sum
+      if (actual < min || max < actual)
+        throw new RuntimeException(s"Occurrence cardinality in role group '$name' violated! " +
+          s"Roles '$types' are played $actual times but should be between $min and $max.")
     }
   }
 
@@ -97,33 +94,38 @@ trait RoleGroups {
     solver.post(IntConstraintFactory.sum(constrMap.values.toArray, sum))
 
     solver.set(IntStrategyFactory.lexico_LB(constrMap.values.toArray: _*))
-    if (!solver.findSolution()) {
-      throw new RuntimeException(s"Constraint set of role group '${rg.name}' unsolvable!")
-    }
 
-    val resultRoleTypeSet = mutable.HashSet.empty[String]
-    solver.getSolutionRecorder.getSolutions.foreach(s => {
-      // TODO: revise
-      // println(s.toString)
-      if (types.forall(t => {
-        plays.allPlayers.find(r => t == ReflectiveHelper.classSimpleClassName(r.getClass.toString)) match {
-          case Some(role) =>
-            val player = +role player
-            val numRole = plays.getRoles(player).count(r => t == ReflectiveHelper.classSimpleClassName(r.getClass.toString))
-            resultRoleTypeSet += t
-            numRole == s.getIntVal(constrMap(t))
-          case None if op == NOT() => true
-          case None => throw new RuntimeException(s"Role instance of type '$t' was never played, but is addressed in role group '${rg.name}'!")
-        }
+    if (solver.findSolution()) {
+      val resultRoleTypeSet = mutable.Set.empty[String]
+
+      val solutions = mutable.ListBuffer.empty[Solution]
+      do {
+        val sol = new Solution
+        sol.record(solver)
+        solutions += sol
+      } while (solver.nextSolution())
+
+      val allPlayers = plays.allPlayers.filter(p => !types.contains(ReflectiveHelper.classSimpleClassName(p.getClass.toString)))
+      if (allPlayers.forall(p => {
+        solutions.exists(s => {
+          types.forall(t => {
+            val numRole = plays.getRoles(p).count(r => t == ReflectiveHelper.classSimpleClassName(r.getClass.toString))
+            if (numRole == s.getIntVal(constrMap(t))) {
+              resultRoleTypeSet.add(t)
+              true
+            } else false
+          })
+        })
       })) {
         rg.evaluated = true
         return resultRoleTypeSet.toSeq
       }
-    })
 
+    } else {
+      throw new RuntimeException(s"Constraint set of role group '${rg.name}' unsolvable!")
+    }
     // give up
     throw new RuntimeException(s"Constraint set for inner cardinality of role group '${rg.name}' violated!")
-
   }
 
   private def validateInnerCardinality() {
