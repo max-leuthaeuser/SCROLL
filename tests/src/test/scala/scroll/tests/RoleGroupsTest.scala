@@ -17,13 +17,30 @@ class RoleGroupsTest extends FeatureSpec with GivenWhenThen with Matchers {
 
         class Target
 
+        val source = new Source
+        val target = new Target
+
         When("adding the role group")
         val transaction = RoleGroup("Transaction").containing[Source, Target](1, 1)(2, 2)
 
         Then("the validation should be correct")
         RoleGroupsChecked {
-          acc1 play new Source
-          acc2 play new Target
+          acc1 play source
+          acc2 play target
+        }
+
+        And("an exception should be thrown if the validation fails!")
+        a[RuntimeException] should be thrownBy {
+          RoleGroupsChecked {
+            acc2 drop target
+          }
+        }
+
+        And("an exception should be thrown if the validation fails!")
+        a[RuntimeException] should be thrownBy {
+          RoleGroupsChecked {
+            acc1 play target
+          }
         }
       }
     }
