@@ -89,10 +89,10 @@ trait RoleGroups {
       case OR() => ts -> VariableFactory.bounded("NUM$" + ts, 0, numOfTypes, solver)
       case XOR() => ts -> VariableFactory.bounded("NUM$" + ts, 0, 1, solver)
       case NOT() => ts -> VariableFactory.fixed("NUM$" + ts, 0, solver)
+      case _ => throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
     }).toMap
 
     solver.post(IntConstraintFactory.sum(constrMap.values.toArray, sum))
-
     solver.set(IntStrategyFactory.lexico_LB(constrMap.values.toArray: _*))
 
     if (solver.findSolution()) {
@@ -173,7 +173,7 @@ trait RoleGroups {
     def getTypes: Seq[String] = entries.flatMap {
       case ts: Types => ts.getTypes
       case rg: RoleGroup => eval(rg)
-      case _ => throw new RuntimeException("Rolegroups can only contain a list of types or Rolegroups itself!")
+      case _ => throw new RuntimeException("Role groups can only contain a list of types or role groups itself!")
     }
   }
 
