@@ -19,10 +19,10 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.chuusai" %% "shapeless" % shapelessVersion,
-    "com.googlecode.kiama" %% "kiama" % kiamaVersion,
     "org.jgrapht" % "jgrapht-core" % jgraphTVersion,
     "org.choco-solver" % "choco-solver" % chocoVersion,
     "org.slf4j" % "slf4j-simple" % slf4jVersion,
+    "org.scala-lang" % "scala-reflect" % scalaVersion.value,
     "org.eclipse.emf" % "org.eclipse.emf.common" % "2.10.1",
     "org.eclipse.emf" % "org.eclipse.emf.ecore" % "2.10.1",
     "org.eclipse.uml2" % "org.eclipse.uml2.uml" % "3.1.0.v201006071150"

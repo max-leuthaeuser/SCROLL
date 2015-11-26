@@ -16,5 +16,4 @@ class SCROLLTestSuite
     new RoleConstraintsTest,
     new RolePlayingAutomatonTest,
     new RoleRestrictionsTest,
-    new ChocoTest,
     new RoleGroupsTest)
