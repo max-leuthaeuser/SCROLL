@@ -57,43 +57,47 @@ trait RoleGroups {
     val max = rg.limit._2
 
     val sumName = "SUM$" + rg.name
-    var sum: IntVar = null
-    var op: Constraint = null
+    var sum = Option.empty[IntVar]
+    var op = Option.empty[Constraint]
 
     // AND
     if (max.compare(min) == 0 && min == numOfTypes) {
-      sum = VariableFactory.fixed(sumName, numOfTypes, solver)
-      op = AND()
+      sum = Some(VariableFactory.fixed(sumName, numOfTypes, solver))
+      op = Some(AND())
     }
 
     // OR
     if (min == 1 && max.compare(numOfTypes) == 0) {
-      sum = VariableFactory.bounded(sumName, 1, numOfTypes, solver)
-      op = OR()
+      sum = Some(VariableFactory.bounded(sumName, 1, numOfTypes, solver))
+      op = Some(OR())
     }
 
     // XOR
     if (min == 1 && max.compare(1) == 0) {
-      sum = VariableFactory.fixed(sumName, 1, solver)
-      op = XOR()
+      sum = Some(VariableFactory.fixed(sumName, 1, solver))
+      op = Some(XOR())
     }
 
     // NOT
     if (min == 0 && max.compare(0) == 0) {
-      sum = VariableFactory.fixed(sumName, 0, solver)
-      op = NOT()
+      sum = Some(VariableFactory.fixed(sumName, 0, solver))
+      op = Some(NOT())
     }
 
     val constrMap = types.map(ts => op match {
-      case AND() => ts -> VariableFactory.fixed("NUM$" + ts, 1, solver)
-      case OR() => ts -> VariableFactory.bounded("NUM$" + ts, 0, numOfTypes, solver)
-      case XOR() => ts -> VariableFactory.bounded("NUM$" + ts, 0, 1, solver)
-      case NOT() => ts -> VariableFactory.fixed("NUM$" + ts, 0, solver)
-      case _ => throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
+      case Some(AND()) => ts -> VariableFactory.fixed("NUM$" + ts, 1, solver)
+      case Some(OR()) => ts -> VariableFactory.bounded("NUM$" + ts, 0, numOfTypes, solver)
+      case Some(XOR()) => ts -> VariableFactory.bounded("NUM$" + ts, 0, 1, solver)
+      case Some(NOT()) => ts -> VariableFactory.fixed("NUM$" + ts, 0, solver)
+      case None => throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
     }).toMap
 
-    solver.post(IntConstraintFactory.sum(constrMap.values.toArray, sum))
-    solver.set(IntStrategyFactory.lexico_LB(constrMap.values.toArray: _*))
+    sum match {
+      case Some(s) =>
+        solver.post(IntConstraintFactory.sum(constrMap.values.toArray, s))
+        solver.set(IntStrategyFactory.lexico_LB(constrMap.values.toArray: _*))
+      case None => throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
+    }
 
     if (solver.findSolution()) {
       val resultRoleTypeSet = mutable.Set.empty[String]

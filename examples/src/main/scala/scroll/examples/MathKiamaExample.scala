@@ -6,6 +6,7 @@ import org.kiama.util.TreeNode
 import scroll.internal.Compartment
 import scroll.internal.support.DispatchQuery
 import DispatchQuery._
+import scroll.internal.util.Log.info
 
 import scala.util.parsing.combinator.JavaTokenParsers
 
@@ -82,7 +83,7 @@ object MathKiamaExample extends App with Compartment {
   case class LoggerRole() {
     val value: Exp => Double = attr {
       case exp: Exp =>
-        println("Evaluating: " + exp)
+        info("Evaluating: " + exp)
         implicit val dd = From(_.isInstanceOf[SimpleMath]).
           To(_.isInstanceOf[LoggerRole]).
           Through(anything).
@@ -96,14 +97,14 @@ object MathKiamaExample extends App with Compartment {
   val someMath = SimpleMath() play Optimizer() play Parser() play LoggerRole()
 
   val ast: Exp = someMath.parse("1+2+3*0")
-  println("AST: " + ast)
+  info("AST: " + ast)
 
   val optimizedAst: Exp = someMath.optimise(ast)
-  println("optimized AST: " + optimizedAst)
+  info("optimized AST: " + optimizedAst)
 
   val resultFunc: Exp => Double = someMath.value
   val result = resultFunc(optimizedAst)
-  println("Result: " + result)
+  info("Result: " + result)
 
   assert(3 == result)
 }

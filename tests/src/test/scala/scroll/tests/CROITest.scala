@@ -3,6 +3,7 @@ package scroll.tests
 import mocks.{CoreA, SomeCompartment}
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.formal.CROI
+import scroll.internal.util.Log
 
 class CROITest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for CROIs.")
@@ -26,7 +27,7 @@ class CROITest extends FeatureSpec with GivenWhenThen with Matchers {
         addRole(r)
         addCompartment(this)
         addPlays(n, this, r)
-        println(croi)
+        Log.info(croi.toString)
       }
     }
 

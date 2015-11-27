@@ -1,29 +1,25 @@
 package scroll.internal.util
 
-import java.text.SimpleDateFormat
-import java.util.Calendar
+import org.slf4j.LoggerFactory
 
 /**
- * Very simple logging utility. Simply set the DEBUG flag
- * and show logging message to STDOUT via info().
- */
+  * Very simple logging utility using slf4j.
+  */
 object Log {
-  val DEBUG = true
+  private lazy val logger = LoggerFactory.getLogger("SCROLL")
 
-  private def now(): String = {
-    val DATE_FORMAT_NOW = "HH:mm:ss:SSS"
-    val cal = Calendar.getInstance()
-    val sdf = new SimpleDateFormat(DATE_FORMAT_NOW)
-    "[ - " + sdf.format(cal.getTime) + " - ] "
-  }
+  // set a system property such that Simple Logger will include timestamp
+  System.setProperty("org.slf4j.simpleLogger.showDateTime", "true")
+  // set a system property such that Simple Logger will include timestamp in the given format
+  System.setProperty("org.slf4j.simpleLogger.dateTimeFormat", "yyyy-MM-dd/HH:mm:ss.SSS/zzz")
 
   /**
-   * Prints the provided message to stdout iff DEBUG is set to true.
-   *
-   * @param message the message to print to stdout
-   */
+    * Log a info message.
+    *
+    * @param message the message to log
+    */
   def info(message: String) {
-    if (DEBUG) println(now + message)
+    logger.info(message)
   }
 
 }
