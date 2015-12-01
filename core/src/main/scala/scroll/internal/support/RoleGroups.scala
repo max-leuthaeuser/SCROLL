@@ -43,9 +43,10 @@ trait RoleGroups {
       val max = rg.occ._2
       val types = rg.getTypes
       val actual = types.map(ts => plays.allPlayers.count(r => ts == ReflectiveHelper.classSimpleClassName(r.getClass.toString))).sum
-      if (actual < min || max < actual)
+      if (actual < min || max < actual) {
         throw new RuntimeException(s"Occurrence cardinality in role group '$name' violated! " +
           s"Roles '$types' are played $actual times but should be between $min and $max.")
+      }
     }
   }
 
