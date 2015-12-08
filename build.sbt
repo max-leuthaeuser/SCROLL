@@ -9,7 +9,7 @@ val slf4jVersion = "1.7.12"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.7",
-  version := "0.9.4",
+  version := "0.9.5",
   logBuffered := false,
   mainClass := None,
   resolvers ++= Seq(

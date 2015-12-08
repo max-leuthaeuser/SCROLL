@@ -24,18 +24,25 @@ trait BenchmarkHelper extends Bench.LocalTime {
 
   class MockCompartment(id: Int = 0) extends Compartment
 
-  def createCompartment(numOfPlayers: Int, numOfRoles: Int): Compartment {def invoke()} = {
+  def createCompartment(numOfPlayers: Int, numOfRoles: Int) = {
     new Compartment {
       val players = (0 until numOfPlayers).map(id => +new MockPlayer(id))
+      val mRole = new MockRoleWithFunc()
 
       players.foreach(p => {
         (0 until numOfRoles).foreach(p play new MockRole(_))
-        p play new MockRoleWithFunc()
+        p play mRole
       })
 
-      def invoke() {
+      def invokeAtRole() {
         players.foreach(p => {
           val r: Int = p.func()
+        })
+      }
+
+      def invokeDirectly() {
+        players.foreach(p => {
+          val r: Int = mRole.func()
         })
       }
     }

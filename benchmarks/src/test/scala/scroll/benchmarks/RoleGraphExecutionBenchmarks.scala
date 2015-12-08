@@ -25,7 +25,16 @@ trait RoleGraphExecutionBenchmarks extends BenchmarkHelper {
         exec.benchRuns -> NUM_OF_RUNS,
         exec.independentSamples -> NUM_OF_VMS
         ) in {
-        c => c.invoke()
+        c => c.invokeAtRole()
+      }
+    }
+
+    measure method "call role method directly" in {
+      using(compartments) config(
+        exec.benchRuns -> NUM_OF_RUNS,
+        exec.independentSamples -> NUM_OF_VMS
+        ) in {
+        c => c.invokeDirectly()
       }
     }
   }
