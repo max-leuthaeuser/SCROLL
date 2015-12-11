@@ -6,16 +6,19 @@ val scalameterVersion = "0.8-SNAPSHOT"
 val scalatestVersion = "2.2.1"
 val chocoVersion = "3.3.1"
 val slf4jVersion = "1.7.12"
+val contVersion = "1.0.2"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.7",
   version := "0.9.5",
   logBuffered := false,
   mainClass := None,
+  autoCompilerPlugins := true,
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
     "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
   ),
+  addCompilerPlugin("org.scala-lang.plugins" % "scala-continuations-plugin_2.11.7" % contVersion),
   libraryDependencies ++= Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.chuusai" %% "shapeless" % shapelessVersion,
@@ -23,6 +26,7 @@ lazy val commonSettings = Seq(
     "org.choco-solver" % "choco-solver" % chocoVersion,
     "org.slf4j" % "slf4j-simple" % slf4jVersion,
     "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+    "org.scala-lang.plugins" %% "scala-continuations-library" % contVersion,
     "org.eclipse.emf" % "org.eclipse.emf.common" % "2.10.1",
     "org.eclipse.emf" % "org.eclipse.emf.ecore" % "2.10.1",
     "org.eclipse.uml2" % "org.eclipse.uml2.uml" % "3.1.0.v201006071150"
@@ -35,7 +39,8 @@ lazy val commonSettings = Seq(
     "-language:reflectiveCalls",
     "-language:postfixOps",
     "-language:implicitConversions",
-    "-target:jvm-1.8")
+    "-target:jvm-1.8",
+    "-P:continuations:enable")
 )
 
 lazy val root = (project in file(".")).settings(
