@@ -10,8 +10,8 @@ import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 /**
- * Representation of a Compartment Role Object Model (CROM).
- */
+  * Representation of a Compartment Role Object Model (CROM).
+  */
 trait CROM extends ECoreImporter {
   private val NATURALTYPE = "NaturalType"
   private val ROLETYPE = "RoleType"
@@ -26,10 +26,10 @@ trait CROM extends ECoreImporter {
   protected var crom = Option.empty[FormalCROM[String, String, String, String]]
 
   /**
-   * Load and replace the current model instance.
-   *
-   * @param path the file path to load a CROM from
-   */
+    * Load and replace the current model instance.
+    *
+    * @param path the file path to load a CROM from
+    */
   def withModel(path: String) {
     require(null != path && path.nonEmpty)
     this.path = path
@@ -37,10 +37,10 @@ trait CROM extends ECoreImporter {
   }
 
   /**
-   * Checks if the loaded CROM is wellformed.
-   *
-   * @return true if a model was loaded using `withModel()` and it is wellformed, false otherwise
-   */
+    * Checks if the loaded CROM is wellformed.
+    *
+    * @return true if a model was loaded using `withModel()` and it is wellformed, false otherwise
+    */
   def wellformed: Boolean = crom.isDefined && crom.forall(_.wellformed)
 
   private def getInstanceName(of: EObject): String = of.eClass().getEAllAttributes.find(_.getName == "name") match {

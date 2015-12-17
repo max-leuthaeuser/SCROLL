@@ -1,15 +1,15 @@
 package scroll.internal.formal
 
 /**
- * Companion object for the formal representation of the Compartment Role Object Instance (CROI).
- */
+  * Companion object for the formal representation of the Compartment Role Object Instance (CROI).
+  */
 object FormalCROI {
   def empty[NT >: Null, RT >: Null, CT >: Null, RST >: Null]: FormalCROI[NT, RT, CT, RST] =
     FormalCROI[NT, RT, CT, RST](List.empty, List.empty, List.empty, Map.empty, List.empty, Map.empty)
 
   /**
-   * Little helper factory method for creating a CROI with Strings only.
-   */
+    * Little helper factory method for creating a CROI with Strings only.
+    */
   def forStrings(
                   n: List[String],
                   r: List[String],
@@ -17,24 +17,24 @@ object FormalCROI {
                   type1: Map[Any, Any],
                   plays: List[(String, String, String)],
                   links: Map[(String, String), List[(String, String)]]
-                  ): FormalCROI[String, String, String, String] =
+                ): FormalCROI[String, String, String, String] =
     FormalCROI(n, r, c, type1, plays, links)
 }
 
 /**
- * Class representation of the Compartment Role Object Instance (CROI).
- *
- * @param n list of all naturals
- * @param r list of all roles
- * @param c list of all compartments
- * @param type1 type mapping
- * @param plays plays relation
- * @param links link function
- * @tparam NT type of naturals
- * @tparam RT type of roles
- * @tparam CT type of compartments
- * @tparam RST type of relationships
- */
+  * Class representation of the Compartment Role Object Instance (CROI).
+  *
+  * @param n list of all naturals
+  * @param r list of all roles
+  * @param c list of all compartments
+  * @param type1 type mapping
+  * @param plays plays relation
+  * @param links link function
+  * @tparam NT type of naturals
+  * @tparam RT type of roles
+  * @tparam CT type of compartments
+  * @tparam RST type of relationships
+  */
 case class FormalCROI[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
                                                                         var n: List[NT],
                                                                         var r: List[RT],
@@ -42,15 +42,15 @@ case class FormalCROI[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
                                                                         var type1: Map[Any, Any],
                                                                         var plays: List[(NT, CT, RT)],
                                                                         var links: Map[(RST, CT), List[(RT, RT)]]
-                                                                        ) {
+                                                                      ) {
 
   assert(FormalUtils.mutualDisjoint(List(n, r, c, List(null))))
   assert(FormalUtils.totalFunction(n.union(r).union(c), type1.map { case (k, v) => (k, List(v)) }))
 
   /**
-   * @param crom the CROM to check against
-   * @return true iff the CROI is compliant to the given CROM
-   */
+    * @param crom the CROM to check against
+    * @return true iff the CROI is compliant to the given CROM
+    */
   def compliant(crom: FormalCROM[NT, RT, CT, RST]): Boolean = crom.wellformed &&
     axiom6(crom) && axiom7(crom) && axiom8(crom) &&
     axiom9(crom) && axiom10(crom) && axiom11(crom)
@@ -72,14 +72,14 @@ case class FormalCROI[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
 
   def axiom10(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
     FormalUtils.all(for (rst1 <- crom.rst; c1 <- c if links.contains((rst1, c1)); r1 <- r; o1 <- o) yield
-    FormalUtils.any(for (r_1 <- repsilon) yield
-    ((plays.contains(o1, c1, r1) && (type1(r1) == crom.rel(rst1).head)) == links((rst1, c1)).contains((r1, r_1))) && ((plays.contains(o1, c1, r1) && (type1(r1) == crom.rel(rst1).tail.head)) == links((rst1, c1)).contains((r_1, r1)))
-    )
+      FormalUtils.any(for (r_1 <- repsilon) yield
+        ((plays.contains(o1, c1, r1) && (type1(r1) == crom.rel(rst1).head)) == links((rst1, c1)).contains((r1, r_1))) && ((plays.contains(o1, c1, r1) && (type1(r1) == crom.rel(rst1).tail.head)) == links((rst1, c1)).contains((r_1, r1)))
+      )
     )
 
   def axiom11(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
     FormalUtils.all(for (rst1 <- crom.rst; c1 <- c if links.contains((rst1, c1)); (r_1, r_2) <- links((rst1, c1)) if r_1 != null && r_2 != null) yield
-    !links(rst1, c1).contains((r_1, null)) && !links((rst1, c1)).contains((null, r_2))
+      !links(rst1, c1).contains((r_1, null)) && !links((rst1, c1)).contains((null, r_2))
     )
 
   private def o: List[Any] = n.union(c)

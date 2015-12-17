@@ -221,9 +221,9 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
           To(_.isInstanceOf[RoleA]).
           Through(anything).
           Bypassing({
-          case r: RoleA => 1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
-          case _ => false
-        })
+            case r: RoleA => 1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
+            case _ => false
+          })
 
         (+someCoreA).update("updated")
 
@@ -270,16 +270,16 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
   }
 
   /**
-   * test case for primitive types:
-   * Int
-   * Double
-   * Float
-   * Long
-   * Short
-   * Byte
-   * Char
-   * boolean
-   */
+    * test case for primitive types:
+    * Int
+    * Double
+    * Float
+    * Long
+    * Short
+    * Byte
+    * Char
+    * boolean
+    */
   scenario("Calling method on a role with different primitive types") {
     Given("a player and a role instance in a compartment")
     val someCoreA = new CoreA()

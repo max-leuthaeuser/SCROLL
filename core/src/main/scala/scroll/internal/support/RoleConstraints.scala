@@ -9,8 +9,8 @@ import scala.collection.JavaConversions._
 import scala.reflect.Manifest
 
 /**
- * Allows to add and check role constraints (Riehle constraints) to a compartment instance.
- */
+  * Allows to add and check role constraints (Riehle constraints) to a compartment instance.
+  */
 trait RoleConstraints {
   self: Compartment =>
 
@@ -67,13 +67,13 @@ trait RoleConstraints {
   }
 
   /**
-   * Adds an role implication constraint between the given role types.
-   * Interpretation: if a core object plays an instance of role type A
-   * it also has to play an instance of role type B.
-   *
-   * @tparam A type of role A
-   * @tparam B type of role B that should be played implicitly if A is played
-   */
+    * Adds an role implication constraint between the given role types.
+    * Interpretation: if a core object plays an instance of role type A
+    * it also has to play an instance of role type B.
+    *
+    * @tparam A type of role A
+    * @tparam B type of role B that should be played implicitly if A is played
+    */
   def RoleImplication[A: Manifest, B: Manifest]() {
     val rA = manifest[A].toString()
     val rB = manifest[B].toString()
@@ -83,13 +83,13 @@ trait RoleConstraints {
   }
 
   /**
-   * Adds an role equivalent constraint between the given role types.
-   * Interpretation: if a core object plays an instance of role type A
-   * it also has to play an instance of role type B and visa versa.
-   *
-   * @tparam A type of role A that should be played implicitly if B is played
-   * @tparam B type of role B that should be played implicitly if A is played
-   */
+    * Adds an role equivalent constraint between the given role types.
+    * Interpretation: if a core object plays an instance of role type A
+    * it also has to play an instance of role type B and visa versa.
+    *
+    * @tparam A type of role A that should be played implicitly if B is played
+    * @tparam B type of role B that should be played implicitly if A is played
+    */
   def RoleEquivalence[A: Manifest, B: Manifest]() {
     val rA = manifest[A].toString()
     val rB = manifest[B].toString()
@@ -100,13 +100,13 @@ trait RoleConstraints {
   }
 
   /**
-   * Adds an role prohibition constraint between the given role types.
-   * Interpretation: if a core object plays an instance of role type A
-   * it is not allowed to play B as well.
-   *
-   * @tparam A type of role A
-   * @tparam B type of role B that is not allowed to be played if A is played already
-   */
+    * Adds an role prohibition constraint between the given role types.
+    * Interpretation: if a core object plays an instance of role type A
+    * it is not allowed to play B as well.
+    *
+    * @tparam A type of role A
+    * @tparam B type of role B that is not allowed to be played if A is played already
+    */
   def RoleProhibition[A: Manifest, B: Manifest]() {
     val rA = manifest[A].toString()
     val rB = manifest[B].toString()
@@ -116,24 +116,24 @@ trait RoleConstraints {
   }
 
   /**
-   * Wrapping function that checks all available role constraints for
-   * all core objects and its roles after the given function was executed.
-   * Throws a RuntimeException if a role constraint is violated!
-   *
-   * @param func the function to execute and check role constraints afterwards
-   */
+    * Wrapping function that checks all available role constraints for
+    * all core objects and its roles after the given function was executed.
+    * Throws a RuntimeException if a role constraint is violated!
+    *
+    * @param func the function to execute and check role constraints afterwards
+    */
   def RoleConstraintsChecked(func: => Unit) {
     func
     plays.allPlayers.foreach(p => plays.getRoles(p).diff(Set(p)).foreach(r => validate(p, r)))
   }
 
   /**
-   * Checks all role constraints between the given player and role instance.
-   * Will throw a RuntimeException if a constraint is violated!
-   *
-   * @param player the player instance to check
-   * @param role the role instance to check
-   */
+    * Checks all role constraints between the given player and role instance.
+    * Will throw a RuntimeException if a constraint is violated!
+    *
+    * @param player the player instance to check
+    * @param role the role instance to check
+    */
   private def validate(player: Any, role: Any) {
     checkImplications(player, role)
     checkEquivalence(player, role)

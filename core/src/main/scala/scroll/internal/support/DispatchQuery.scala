@@ -3,17 +3,17 @@ package scroll.internal.support
 import scroll.internal.util.{QueueUtils, ReflectiveHelper}
 
 /**
- * Companion object for [[scroll.internal.support.DispatchQuery]] providing
- * some static dispatch functions and a fluent dispatch query creation API.
- */
+  * Companion object for [[scroll.internal.support.DispatchQuery]] providing
+  * some static dispatch functions and a fluent dispatch query creation API.
+  */
 object DispatchQuery extends ReflectiveHelper {
   /**
-   * Function always returning true
-   */
+    * Function always returning true
+    */
   val anything: Any => Boolean = _ => true
   /**
-   * Function always returning false
-   */
+    * Function always returning false
+    */
   val nothing: Any => Boolean = _ => false
 
   def From(f: Any => Boolean) = new {
@@ -28,13 +28,13 @@ object DispatchQuery extends ReflectiveHelper {
 }
 
 /**
- * All provided query function must be side-effect free!
- *
- * @param from query function selecting the starting element for the role dispatch query
- * @param to query function selecting the end element for the role dispatch query
- * @param through query function specifying intermediate elements for the role dispatch query
- * @param bypassing query function specifying all elements to be left out for the role dispatch query
- */
+  * All provided query function must be side-effect free!
+  *
+  * @param from query function selecting the starting element for the role dispatch query
+  * @param to query function selecting the end element for the role dispatch query
+  * @param through query function specifying intermediate elements for the role dispatch query
+  * @param bypassing query function specifying all elements to be left out for the role dispatch query
+  */
 class DispatchQuery(
                      val from: Any => Boolean = DispatchQuery.anything,
                      val to: Any => Boolean = DispatchQuery.anything,

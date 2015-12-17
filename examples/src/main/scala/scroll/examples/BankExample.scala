@@ -15,9 +15,9 @@ object BankExample extends App {
   case class Company(name: String)
 
   /**
-   * Those could also be roles. But here they are only used
-   * as Interfaces and bound statically so this would not add any value.
-   */
+    * Those could also be roles. But here they are only used
+    * as Interfaces and bound statically so this would not add any value.
+    */
   trait Accountable
 
   trait Decreasable extends Accountable {

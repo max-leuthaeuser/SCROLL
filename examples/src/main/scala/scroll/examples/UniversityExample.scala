@@ -41,13 +41,13 @@ object UniversityExample extends App {
 
     val student = new Student
     info("Player equals core: " + ((hans play student) == hans))
-    +hans talk ()
+    +hans talk()
 
     info((+student).name)
     info("Role core equals core: " + (+student == hans))
 
     uwe play new Professor
-    +uwe talk ()
+    +uwe talk()
     info("Core equals core playing a role: " + (+uwe == uwe))
 
     +uwe teach +hans

@@ -3,30 +3,30 @@ package scroll.internal.support
 import scroll.internal.util.ReflectiveHelper
 
 /**
- * Allows to write queries looking for the content of an attribute of the certain role playing
- * object or the return value of one of its functions.
- */
+  * Allows to write queries looking for the content of an attribute of the certain role playing
+  * object or the return value of one of its functions.
+  */
 trait QueryStrategies extends ReflectiveHelper {
 
   implicit class RoleQueryStrategy(name: String) {
     def matches(on: Any): Boolean = true
 
     /**
-     * Returns the value the queried attribute.
-     *
-     * @param value the name of the attribute that is queried
-     * @tparam T its type
-     * @return the value of the queried attribute
-     */
+      * Returns the value the queried attribute.
+      *
+      * @param value the name of the attribute that is queried
+      * @tparam T its type
+      * @return the value of the queried attribute
+      */
     def ==#[T](value: T): WithProperty[T] = new WithProperty(name, value)
 
     /**
-     * Returns the return value the queried function.
-     *
-     * @param value the name of the function that is queried
-     * @tparam T its return type
-     * @return the return value of the queried function
-     */
+      * Returns the return value the queried function.
+      *
+      * @param value the name of the function that is queried
+      * @tparam T its return type
+      * @return the return value of the queried function
+      */
     def ==>[T](value: T): WithResult[T] = new WithResult(name, value)
   }
 
