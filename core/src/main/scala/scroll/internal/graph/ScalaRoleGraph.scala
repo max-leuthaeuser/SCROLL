@@ -6,25 +6,26 @@ import org.jgrapht.graph.{DefaultEdge, EdgeReversedGraph}
 import org.jgrapht.traverse.DepthFirstIterator
 
 import scala.collection.JavaConversions._
+import scala.reflect.runtime.universe._
 
 /**
- * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
- * JGraphTs [[org.jgrapht.experimental.dag.DirectedAcyclicGraph]] as underlying data model.
- */
-class ScalaRoleGraph extends RoleGraph[Any] {
+  * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
+  * JGraphTs [[org.jgrapht.experimental.dag.DirectedAcyclicGraph]] as underlying data model.
+  */
+class ScalaRoleGraph extends RoleGraph {
   override lazy val store = new DirectedAcyclicGraph[Any, DefaultEdge](classOf[DefaultEdge])
 
-  override def merge(other: RoleGraph[Any]) {
+  override def merge(other: RoleGraph) {
     require(null != other)
     Graphs.addGraph(store, other.store)
   }
 
-  override def detach(other: RoleGraph[Any]) {
+  override def detach(other: RoleGraph) {
     require(null != other)
     store.removeAllVertices(other.store.vertexSet())
   }
 
-  override def addBinding(player: Any, role: Any) {
+  override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
     require(null != player)
     require(null != role)
     store.addVertex(player)
@@ -32,13 +33,13 @@ class ScalaRoleGraph extends RoleGraph[Any] {
     store.addEdge(player, role)
   }
 
-  override def removeBinding(player: Any, role: Any) {
+  override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
     require(null != player)
     require(null != role)
     store.removeEdge(player, role)
   }
 
-  override def removePlayer(player: Any) {
+  override def removePlayer[P <: AnyRef : WeakTypeTag](player: P) {
     require(null != player)
     store.removeVertex(player)
   }

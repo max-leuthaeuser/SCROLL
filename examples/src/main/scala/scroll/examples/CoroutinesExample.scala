@@ -1,37 +1,31 @@
 package scroll.examples
 
 import scroll.internal.Compartment
-import scroll.internal.support.Coroutines
-import scala.concurrent.blocking
+import scroll.internal.util.Log.info
 
 object CoroutinesExample extends App {
-  val sleep = 100
-
-  new Compartment with Coroutines {
+  new Compartment {
     coroutine {
       while (true) {
-        println("Hi!")
-        blocking(Thread.sleep(sleep))
+        info("Hi!")
         yld
-        println("cont'd!")
+        info("cont'd!")
       }
     }
 
     coroutine {
       while (true) {
-        println("Ho!")
-        blocking(Thread.sleep(sleep))
+        info("Ho!")
         yld
-        println("cont'd!")
+        info("cont'd!")
       }
     }
 
     coroutine {
       while (true) {
-        println("Ha!")
-        blocking(Thread.sleep(sleep))
+        info("Ha!")
         yld
-        println("cont'd!")
+        info("cont'd!")
       }
     }
 

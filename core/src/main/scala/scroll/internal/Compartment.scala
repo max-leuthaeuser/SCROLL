@@ -3,7 +3,7 @@ package scroll.internal
 import java.lang
 import java.lang.reflect.Method
 
-import scroll.internal.support.{RoleGroups, RoleRestrictions, RoleConstraints, Relationships, QueryStrategies, DispatchQuery, UnionTypes}
+import scroll.internal.support._
 import UnionTypes.RoleUnionTypes
 import scroll.internal.graph.ScalaRoleGraph
 
@@ -12,43 +12,50 @@ import scala.reflect.Manifest
 import scala.reflect.runtime.universe._
 
 /**
- * This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
- *
- * ==Overview==
- * Roles are dependent on some sort of context. We call them compartments. A typical example of a compartment is a university,
- * which contains the roles Student and Teacher collaborating in Courses. Everything in SCROLL happens inside of Compartments
- * but roles (implemented as standard Scala classes) can be defined or imported from everywhere. Just mix in this Trait
- * into your own specific compartment class or create an anonymous instance.
- *
- * ==Example==
- * {{{
- * val player = new Player()
- * new Compartment {
- *   class RoleA
- *   class RoleB
- *
- *   player play new RoleA()
- *   player play new RoleB()
- *
- *   // call some behaviour
- * }
- * }}}
- */
-trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups with Relationships with QueryStrategies with RoleUnionTypes {
+  * This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
+  *
+  * ==Overview==
+  * Roles are dependent on some sort of context. We call them compartments. A typical example of a compartment is a university,
+  * which contains the roles Student and Teacher collaborating in Courses. Everything in SCROLL happens inside of Compartments
+  * but roles (implemented as standard Scala classes) can be defined or imported from everywhere. Just mix in this Trait
+  * into your own specific compartment class or create an anonymous instance.
+  *
+  * ==Example==
+  * {{{
+  * val player = new Player()
+  * new Compartment {
+  *   class RoleA
+  *   class RoleB
+  *
+  *   player play new RoleA()
+  *   player play new RoleB()
+  *
+  *   // call some behaviour
+  * }
+  * }}}
+  */
+trait Compartment
+  extends RoleConstraints
+  with RoleRestrictions
+  with RoleGroups
+  with Relationships
+  with QueryStrategies
+  with RoleUnionTypes
+  with Coroutines {
 
-  protected lazy val plays = new ScalaRoleGraph()
+  protected var plays = new ScalaRoleGraph()
 
   /**
-   * Declaring a is-part-of relation between compartments.
-   */
+    * Declaring a is-part-of relation between compartments.
+    */
   def partOf(other: Compartment) {
     require(null != other)
     plays.merge(other.plays)
   }
 
   /**
-   * Declaring a bidirectional is-part-of relation between compartment.
-   */
+    * Declaring a bidirectional is-part-of relation between compartment.
+    */
   def union(other: Compartment): Compartment = {
     require(null != other)
     other.partOf(this)
@@ -57,20 +64,20 @@ trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups 
   }
 
   /**
-   * Removing is-part-of relation between compartments.
-   */
+    * Removing is-part-of relation between compartments.
+    */
   def notPartOf(other: Compartment) {
     require(null != other)
     plays.detach(other.plays)
   }
 
   /**
-   * Query the role playing graph for all player instances that do conform to the given matcher.
-   *
-   * @param matcher the matcher that should match the queried player instance in the role playing graph
-   * @tparam T the type of the player instance to query for
-   * @return all player instances as Seq, that do conform to the given matcher
-   */
+    * Query the role playing graph for all player instances that do conform to the given matcher.
+    *
+    * @param matcher the matcher that should match the queried player instance in the role playing graph
+    * @tparam T the type of the player instance to query for
+    * @return all player instances as Seq, that do conform to the given matcher
+    */
   def all[T: Manifest](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
     plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
@@ -82,12 +89,12 @@ trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups 
   }
 
   /**
-   * Query the role playing graph for all player instances that do conform to the given function.
-   *
-   * @param matcher the matching function that should match the queried player instance in the role playing graph
-   * @tparam T the type of the player instance to query for
-   * @return all player instances as Seq, that do conform to the given matcher
-   */
+    * Query the role playing graph for all player instances that do conform to the given function.
+    *
+    * @param matcher the matching function that should match the queried player instance in the role playing graph
+    * @tparam T the type of the player instance to query for
+    * @return all player instances as Seq, that do conform to the given matcher
+    */
   def all[T: Manifest](matcher: T => Boolean): Seq[T] =
     plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
@@ -103,12 +110,12 @@ trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups 
   }
 
   /**
-   * Query the role playing graph for all player instances that do conform to the given matcher and return the first found.
-   *
-   * @param matcher the matcher that should match the queried player instance in the role playing graph
-   * @tparam T the type of the player instance to query for
-   * @return the first player instances, that do conform to the given matcher
-   */
+    * Query the role playing graph for all player instances that do conform to the given matcher and return the first found.
+    *
+    * @param matcher the matcher that should match the queried player instance in the role playing graph
+    * @tparam T the type of the player instance to query for
+    * @return the first player instances, that do conform to the given matcher
+    */
   def one[T: Manifest](matcher: RoleQueryStrategy = MatchAny()): T = safeReturn(all[T](matcher), manifest[T].toString()) match {
     case elem :: Nil => elem
     case l: Seq[T] => l.head
@@ -116,12 +123,12 @@ trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups 
   }
 
   /**
-   * Query the role playing graph for all player instances that do conform to the given function and return the first found.
-   *
-   * @param matcher the matching function that should match the queried player instance in the role playing graph
-   * @tparam T the type of the player instance to query for
-   * @return the first player instances, that do conform to the given matcher
-   */
+    * Query the role playing graph for all player instances that do conform to the given function and return the first found.
+    *
+    * @param matcher the matching function that should match the queried player instance in the role playing graph
+    * @tparam T the type of the player instance to query for
+    * @return the first player instances, that do conform to the given matcher
+    */
   def one[T: Manifest](matcher: T => Boolean): T = safeReturn(all[T](matcher), manifest[T].toString()) match {
     case elem :: Nil => elem
     case l: Seq[T] => l.head
@@ -129,40 +136,45 @@ trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups 
   }
 
   /**
-   * Adds a play relation between core and role.
-   *
-   * @tparam R type of role
-   * @param core the core to add the given role at
-   * @param role the role that should added to the given core
-   */
-  def addPlaysRelation[R](core: Any, role: R)(implicit tag: WeakTypeTag[R]) {
+    * Adds a play relation between core and role.
+    *
+    * @tparam C type of core
+    * @tparam R type of role
+    * @param core the core to add the given role at
+    * @param role the role that should added to the given core
+    */
+  def addPlaysRelation[C <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](core: C, role: R) {
     require(null != core)
     require(null != role)
-    validate(core, tag.tpe)
+    validate(core, weakTypeOf[R])
     plays.addBinding(core, role)
   }
 
   /**
-   * Removes the play relation between core and role.
-   *
-   * @param core the core the given role should removed from
-   * @param role the role that should removed from the given core
-   */
-  def removePlaysRelation(core: Any, role: Any) {
+    * Removes the play relation between core and role.
+    *
+    * @tparam C type of core
+    * @tparam R type of role
+    * @param core the core the given role should removed from
+    * @param role the role that should removed from the given core
+    */
+  def removePlaysRelation[C <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](core: C, role: R) {
     require(null != core)
     require(null != role)
     plays.removeBinding(core, role)
   }
 
   /**
-   * Transfers a role from one core to another.
-   *
-   * @tparam R type of role
-   * @param coreFrom the core the given role should removed from
-   * @param coreTo the core the given should attached to
-   * @param role the role that should be transferred
-   */
-  def transferRole[R](coreFrom: Any, coreTo: Any, role: R)(implicit tag: WeakTypeTag[R]) {
+    * Transfers a role from one core to another.
+    *
+    * @tparam F type of core the given role should be removed from
+    * @tparam T type of core the given role should be attached to
+    * @tparam R type of role
+    * @param coreFrom the core the given role should be removed from
+    * @param coreTo the core the given role should be attached to
+    * @param role the role that should be transferred
+    */
+  def transferRole[F <: AnyRef : WeakTypeTag, T <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](coreFrom: F, coreTo: T, role: R) {
     require(null != coreFrom)
     require(null != coreTo)
     require(coreFrom != coreTo, "You can not transfer a role from itself.")
@@ -185,63 +197,63 @@ trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups 
   }
 
   /**
-   * Generic Trait that enables dynamic invocation of role methods that are not natively available on the player object.
-   */
+    * Generic Trait that enables dynamic invocation of role methods that are not natively available on the player object.
+    */
   trait DynamicType extends Dynamic {
     /**
-     * Allows to call a function with arguments.
-     *
-     * @param name the function name
-     * @param args the arguments handed over to the given function
-     * @param dispatchQuery the dispatch rules that should be applied
-     * @tparam E return type
-     * @tparam A argument type
-     * @return the result of the function call
-     */
+      * Allows to call a function with arguments.
+      *
+      * @param name the function name
+      * @param args the arguments handed over to the given function
+      * @param dispatchQuery the dispatch rules that should be applied
+      * @tparam E return type
+      * @tparam A argument type
+      * @return the result of the function call
+      */
     def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E
 
     /**
-     * Allows to call a function with named arguments.
-     *
-     * @param name the function name
-     * @param args tuple with the the name and argument handed over to the given function
-     * @param dispatchQuery the dispatch rules that should be applied
-     * @tparam E return type
-     * @return the result of the function call
-     */
+      * Allows to call a function with named arguments.
+      *
+      * @param name the function name
+      * @param args tuple with the the name and argument handed over to the given function
+      * @param dispatchQuery the dispatch rules that should be applied
+      * @tparam E return type
+      * @return the result of the function call
+      */
     def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E
 
     /**
-     * Allows to write field accessors.
-     *
-     * @param name of the field
-     * @param dispatchQuery the dispatch rules that should be applied
-     * @tparam E return type
-     * @return the result of the field access
-     */
+      * Allows to write field accessors.
+      *
+      * @param name of the field
+      * @param dispatchQuery the dispatch rules that should be applied
+      * @tparam E return type
+      * @return the result of the field access
+      */
     def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E
 
     /**
-     * Allows to write field updates.
-     *
-     * @param name of the field
-     * @param value the new value to write
-     * @param dispatchQuery the dispatch rules that should be applied
-     */
+      * Allows to write field updates.
+      *
+      * @param name of the field
+      * @param value the new value to write
+      * @param dispatchQuery the dispatch rules that should be applied
+      */
     def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty)
   }
 
   /**
-   * Trait handling the actual dispatching of role methods.
-   */
+    * Trait handling the actual dispatching of role methods.
+    */
   trait DispatchType {
     private def handleAccessibility(of: Method) {
       if (!of.isAccessible) of.setAccessible(true)
     }
 
     /**
-     * For empty argument list dispatch.
-     */
+      * For empty argument list dispatch.
+      */
     def dispatch[E](on: Any, m: Method): E = {
       require(null != on)
       require(null != m)
@@ -250,8 +262,8 @@ trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups 
     }
 
     /**
-     * For multi-argument dispatch.
-     */
+      * For multi-argument dispatch.
+      */
     def dispatch[E, A](on: Any, m: Method, args: Seq[A]): E = {
       require(null != on)
       require(null != m)
@@ -271,35 +283,34 @@ trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups 
   }
 
   /**
-   * Explicit helper factory method for creating a new Player instance
-   * without the need to relying on the implicit mechanics of Scala.
-   *
-   * @param obj the player or role that is wrapped into this dynamic player type
-   * @tparam T type of wrapped object
-   * @return a new Player instance wrapping the given object
-   */
-  def newPlayer[T](obj: T): Player[T] = new Player(obj)
+    * Explicit helper factory method for creating a new Player instance
+    * without the need to relying on the implicit mechanics of Scala.
+    *
+    * @param obj the player or role that is wrapped into this dynamic player type
+    * @return a new Player instance wrapping the given object
+    */
+  def newPlayer(obj: Object): Player[Object] = new Player(obj)
 
   /**
-   * Implicit wrapper class to add basic functionality to roles and its players as unified types.
-   *
-   * @param wrapped the player or role that is wrapped into this dynamic type
-   * @tparam T type of wrapped object
-   */
-  implicit class Player[T](val wrapped: T) extends DynamicType with DispatchType {
+    * Implicit wrapper class to add basic functionality to roles and its players as unified types.
+    *
+    * @param wrapped the player or role that is wrapped into this dynamic type
+    * @tparam T type of wrapped object
+    */
+  implicit class Player[T <: AnyRef : WeakTypeTag](val wrapped: T) extends DynamicType with DispatchType {
     /**
-     * Applies lifting to Player
-     *
-     * @return an lifted Player instance with the calling object as wrapped.
-     */
+      * Applies lifting to Player
+      *
+      * @return an lifted Player instance with the calling object as wrapped.
+      */
     def unary_+ : Player[T] = this
 
     /**
-     * Returns the player of this player instance if this is a role, or this itself.
-     *
-     * @param dispatchQuery provide this to sort the resulting instances if a role instance is played by multiple core objects
-     * @return the player of this player instance if this is a role, or this itself.
-     */
+      * Returns the player of this player instance if this is a role, or this itself.
+      *
+      * @param dispatchQuery provide this to sort the resulting instances if a role instance is played by multiple core objects
+      * @return the player of this player instance if this is a role, or this itself.
+      */
     def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Any = dispatchQuery.reorder(getCoreFor(this)) match {
       case elem :: Nil => elem
       case l: Seq[T] => l.head
@@ -307,56 +318,56 @@ trait Compartment extends RoleConstraints with RoleRestrictions with RoleGroups 
     }
 
     /**
-     * Adds a play relation between core and role.
-     *
-     * @tparam R type of role
-     * @param role the role that should played
-     * @return this
-     */
-    def play[R](role: R)(implicit tag: WeakTypeTag[R]): Player[T] = {
+      * Adds a play relation between core and role.
+      *
+      * @tparam R type of role
+      * @param role the role that should played
+      * @return this
+      */
+    def play[R <: AnyRef : WeakTypeTag](role: R): Player[T] = {
       wrapped match {
-        case p: Player[_] => addPlaysRelation(p.wrapped, role)
-        case p: Any => addPlaysRelation(p, role)
+        case p: Player[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
+        case p: Any => addPlaysRelation[T, R](p.asInstanceOf[T], role)
         case _ => throw new RuntimeException(s"'$wrapped' cannot play role '$role' because its neither of type 'Player' nor 'Any'!") // default case
       }
       this
     }
 
     /**
-     * Adds a play relation between core and role but always returns the player instance.
-     *
-     * @tparam R type of role
-     * @param role the role that should played
-     * @return the player instance
-     */
-    def playing[R](role: R): T = play(role).wrapped
+      * Adds a play relation between core and role but always returns the player instance.
+      *
+      * @tparam R type of role
+      * @param role the role that should played
+      * @return the player instance
+      */
+    def playing[R <: AnyRef : WeakTypeTag](role: R): T = play(role).wrapped
 
     /**
-     * Removes the play relation between core and role.
-     *
-     * @param role the role that should be removed
-     * @return this
-     */
-    def drop(role: Any): Player[T] = {
-      removePlaysRelation(wrapped, role)
+      * Removes the play relation between core and role.
+      *
+      * @param role the role that should be removed
+      * @return this
+      */
+    def drop[R <: AnyRef : WeakTypeTag](role: R): Player[T] = {
+      removePlaysRelation[T, R](wrapped, role)
       this
     }
 
     /**
-     * Transfers a role to another player.
-     *
-     * @tparam R type of role
-     * @param role the role to transfer
-     */
-    def transfer[R](role: R): {def to(player: Any)} = new {
-      def to(player: Any) {
-        transferRole(this, player, role)
+      * Transfers a role to another player.
+      *
+      * @tparam R type of role
+      * @param role the role to transfer
+      */
+    def transfer[R <: AnyRef : WeakTypeTag](role: R) = new {
+      def to[P <: AnyRef : WeakTypeTag](player: P) {
+        transferRole[T, P, R](Player.this.wrapped, player, role)
       }
     }
 
     /**
-     * Checks of this Player is playing a role of the given type.
-     */
+      * Checks of this Player is playing a role of the given type.
+      */
     def isPlaying[E: Manifest]: Boolean = plays.getRoles(wrapped).exists(_.is[E])
 
     private val translationRules = Map(

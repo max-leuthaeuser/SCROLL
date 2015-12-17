@@ -7,6 +7,7 @@ val scalatestVersion = "2.2.1"
 val chocoVersion = "3.3.1"
 val slf4jVersion = "1.7.12"
 val contVersion = "1.0.2"
+val macrosVersion = "2.0.1"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.7",
@@ -18,7 +19,9 @@ lazy val commonSettings = Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
     "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
   ),
+  dependencyOverrides += "org.scala-lang" % "scala-compiler" % scalaVersion.value, // fix for SORM
   addCompilerPlugin("org.scala-lang.plugins" % "scala-continuations-plugin_2.11.7" % contVersion),
+  addCompilerPlugin("org.scalamacros" % "paradise" % macrosVersion cross CrossVersion.full),
   libraryDependencies ++= Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.chuusai" %% "shapeless" % shapelessVersion,
@@ -85,6 +88,28 @@ lazy val core = (project in file("core")).
         </developers>
   )
 
+lazy val persistence = (project in file("persistence")).
+  settings(commonSettings: _*).
+  settings(
+    libraryDependencies ++= Seq(
+      "com.mchange" % "c3p0" % "0.9.2-pre5",
+      "com.github.nikita-volkov" % "embrace" % "0.1.4",
+      "com.github.nikita-volkov" % "sext" % "0.2.4",
+      "joda-time" % "joda-time" % "2.1",
+      "org.joda" % "joda-convert" % "1.2",
+      "com.google.guava" % "guava" % "13.0.1",
+      "com.typesafe.scala-logging" % "scala-logging_2.11" % "3.1.0",
+      "postgresql" % "postgresql" % "9.1-901.jdbc4",
+      "org.hsqldb" % "hsqldb" % "2.2.8",
+      "com.h2database" % "h2" % "1.3.168",
+      "mysql" % "mysql-connector-java" % "5.1.19"
+    )
+  ).
+  dependsOn(core, macros)
+
+lazy val macros = (project in file("macros")).
+  settings(commonSettings: _*)
+
 lazy val examples = (project in file("examples")).
   settings(commonSettings: _*).
   settings(
@@ -102,7 +127,7 @@ lazy val tests = (project in file("tests")).
     testOptions in Test := Seq(Tests.Filter(isSuite)),
     parallelExecution in Test := false,
     libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % "test")
-  ).dependsOn(core, examples)
+  ).dependsOn(core, examples, persistence)
 
 val scalaMeterFramework = new TestFramework("org.scalameter.ScalaMeterFramework")
 

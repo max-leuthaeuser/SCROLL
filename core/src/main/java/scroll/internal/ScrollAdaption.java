@@ -242,8 +242,10 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
         Object c = getCompartment(player);
         if (sourcePlayer == null || c == null) return false;
         Compartment comp = (Compartment) c;
-        comp.removePlaysRelation(sourcePlayer, role);
-        comp.plays().addBinding(player, role);
+        comp.plays().store().removeEdge(sourcePlayer, role);
+        comp.plays().store().addVertex(player);
+        comp.plays().store().addVertex(role);
+        comp.plays().store().addEdge(player, role);
         return true;
     }
 
@@ -269,7 +271,9 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
         if (compartment instanceof Compartment) {
             Compartment comp = (Compartment) compartment;
             Compartment.Player<Object> p = comp.newPlayer(player);
-            comp.plays().addBinding(p, role);
+            comp.plays().store().addVertex(p);
+            comp.plays().store().addVertex(role);
+            comp.plays().store().addEdge(p, role);
             return true;
         } else {
             throw new IllegalArgumentException("Argument 'compartment' must be of type 'Compartment!'");
@@ -281,7 +285,7 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
         if (role == null)
             throw new IllegalArgumentException("No Argument should be null!");
         if (model.values().stream().noneMatch(c -> c.plays().containsPlayer(role))) return false;
-        model.values().stream().filter(c -> c.plays().containsPlayer(role)).forEach(c -> c.plays().removePlayer(role));
+        model.values().stream().filter(c -> c.plays().containsPlayer(role)).forEach(c -> c.plays().store().removeVertex(role));
         return true;
     }
 

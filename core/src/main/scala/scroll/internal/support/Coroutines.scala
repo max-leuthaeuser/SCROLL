@@ -6,7 +6,7 @@ import scala.collection.mutable
 import scala.util.continuations._
 
 /**
-  * Allowes to use coroutines in your compartment.
+  * Allows to use coroutines in your compartment.
   */
 trait Coroutines {
   self: Compartment =>
@@ -25,7 +25,7 @@ trait Coroutines {
     def yld {
       if (ready.nonEmpty) {
         val thunk = ready.dequeue()
-        thunk() match {
+        thunk(()) match {
           case Continue(next) => ready.enqueue(next)
           case _ =>
         }

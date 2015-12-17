@@ -6,8 +6,8 @@ import scala.collection.mutable
 import scala.reflect.runtime.universe._
 
 /**
- * Allows to add and check role restrictions (in the sense of structural typing) to a compartment instance.
- */
+  * Allows to add and check role restrictions (in the sense of structural typing) to a compartment instance.
+  */
 trait RoleRestrictions {
   private lazy val restrictions = mutable.HashMap.empty[String, Type]
 
@@ -34,23 +34,23 @@ trait RoleRestrictions {
   }
 
   /**
-   * Add a role restriction between the given player type A and role type B.
-   *
-   * @param tag implicitly added WeakTypeTag for the role type
-   * @tparam A the player type
-   * @tparam B the role type
-   */
+    * Add a role restriction between the given player type A and role type B.
+    *
+    * @param tag implicitly added WeakTypeTag for the role type
+    * @tparam A the player type
+    * @tparam B the role type
+    */
   def RoleRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]) {
     restrictions(manifest[A].toString()) = tag.tpe
   }
 
   /**
-   * Checks all role restriction between the given player and a role type.
-   * Will throw a RuntimeException if a restriction is violated!
-   *
-   * @param player the player instance to check
-   * @param role the role type to check
-   */
+    * Checks all role restriction between the given player and a role type.
+    * Will throw a RuntimeException if a restriction is violated!
+    *
+    * @param player the player instance to check
+    * @param role the role type to check
+    */
   protected def validate(player: Any, role: Type) {
     val roleInterface = role.members
     restrictions.find { case (pt, rt) =>
