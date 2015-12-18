@@ -2,7 +2,7 @@ package scroll.tests
 
 import org.jgrapht.graph.DefaultEdge
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
-import scroll.internal.persistence.{DBConnection, PersistentTypes, TypeFactory, PersistentCompartment}
+import scroll.internal.persistence.{PersistentType, DBConnection, PersistentTypes, TypeFactory, PersistentCompartment}
 import sorm.{InitMode, Entity}
 import scala.collection.JavaConverters._
 
@@ -25,7 +25,10 @@ class PersistenceTest extends FeatureSpec with GivenWhenThen with Matchers {
       url = "jdbc:h2:mem:test",
       initMode = InitMode.DropAllCreate)
 
-    @PersistentTypes("PersistentPlayer", "PersistentRoleA", "PersistentRoleB")
+    @PersistentTypes(
+      PersistentType[PersistentPlayer](),
+      PersistentType[PersistentRoleA](),
+      PersistentType[PersistentRoleB]())
     class Factory extends TypeFactory
 
     val factory = new Factory()

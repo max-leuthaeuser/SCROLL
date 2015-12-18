@@ -4,7 +4,7 @@ import scala.annotation.StaticAnnotation
 import scala.language.experimental.macros
 import scala.reflect.macros.whitebox
 
-class PersistentTypes(entities: String*) extends StaticAnnotation {
+class PersistentTypes(entities: PersistentType*) extends StaticAnnotation {
   def macroTransform(annottees: Any*): Any = macro PersistentTypesImpl.impl
 }
 
@@ -18,11 +18,19 @@ object PersistentTypesImpl {
 
     val sensitiveFields = extractAnnotationParameters(c.prefix.tree)
 
+    def extractTypeName(s: String): String = {
+      s.substring(s.indexOf("[") + 1, s.lastIndexOf("]")).replaceAll("\"", "")
+    }
+
+    def extractMethodName(s: String): String = {
+      extractTypeName(s).replaceAll("#", "")
+    }
+
     def extractNewToString(sensitiveFields: List[Tree]): List[c.universe.Tree] = {
       val cases = sensitiveFields map {
         case f =>
-          val n = f.toString.replace("\"", "")
-          val newName = TermName("create" + n)
+          val n = extractTypeName(f.toString)
+          val newName = TermName("create" + extractMethodName(f.toString))
           CaseDef(Literal(Constant(n)), EmptyTree, q"$newName(playerID, db)")
       }
       val m = Match(q"playerType", cases :+ CaseDef(Ident(termNames.WILDCARD), EmptyTree, q"""throw new RuntimeException("Match error: '" + playerType + "'")"""))
@@ -32,10 +40,9 @@ object PersistentTypesImpl {
         """
       val creators = sensitiveFields.map {
         case f =>
-          val n = f.toString.replace("\"", "")
-          val typeName = TypeName(n)
-          val newName = TermName("create" + n)
-          q"def $newName(playerID: Long, db: Instance):$typeName = db.fetchById[$typeName](playerID).mixoutPersisted[$typeName]._2"
+          val n = TypeName(extractTypeName(f.toString))
+          val newName = TermName("create" + extractMethodName(f.toString))
+          q"def $newName(playerID: Long, db: Instance):$n = db.fetchById[$n](playerID).mixoutPersisted[$n]._2"
       }
       creators :+ factoryMethod
     }

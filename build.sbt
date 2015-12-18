@@ -48,7 +48,7 @@ lazy val commonSettings = Seq(
 
 lazy val root = (project in file(".")).settings(
   name := "SCROLLRoot"
-).aggregate(core, tests, examples, benchmarks)
+).aggregate(core, tests, examples, benchmarks, persistence, macros)
 
 lazy val core = (project in file("core")).
   settings(commonSettings: _*).
@@ -104,8 +104,7 @@ lazy val persistence = (project in file("persistence")).
       "com.h2database" % "h2" % "1.3.168",
       "mysql" % "mysql-connector-java" % "5.1.19"
     )
-  ).
-  dependsOn(core, macros)
+  ).dependsOn(core, macros)
 
 lazy val macros = (project in file("macros")).
   settings(commonSettings: _*)
@@ -116,8 +115,7 @@ lazy val examples = (project in file("examples")).
     libraryDependencies ++= Seq(
       "com.googlecode.kiama" %% "kiama" % kiamaVersion
     )
-  ).
-  dependsOn(core)
+  ).dependsOn(core)
 
 def isSuite(name: String): Boolean = name endsWith "Suite"
 
