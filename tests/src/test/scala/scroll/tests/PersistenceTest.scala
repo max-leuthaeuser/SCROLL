@@ -2,6 +2,7 @@ package scroll.tests
 
 import org.jgrapht.graph.DefaultEdge
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
+import scroll.internal.Compartment
 import scroll.internal.persistence.{PersistentType, DBConnection, PersistentTypes, TypeFactory, PersistentCompartment}
 import sorm.{InitMode, Entity}
 import scala.collection.JavaConverters._
@@ -12,8 +13,29 @@ case class PersistentRoleA(name: String)
 
 case class PersistentRoleB(name: String)
 
+case class PCompartment(name: String) extends Compartment
+
 class PersistenceTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for persistence.")
+
+  feature("Persist Compartments with SORM directly") {
+    val db = new DBConnection(
+      entities = Set(
+        Entity[PersistentPlayer](),
+        Entity[PCompartment]()),
+      url = "jdbc:h2:mem:test",
+      initMode = InitMode.DropAllCreate)
+
+    @PersistentTypes(
+      PersistentType[PersistentPlayer](),
+      PersistentType[PCompartment]())
+    class Factory extends TypeFactory
+
+    val factory = new Factory()
+
+    db.save(new PersistentPlayer("P"))
+    db.save(new PCompartment("C"))
+  }
 
   feature("PersistentCompartments") {
 

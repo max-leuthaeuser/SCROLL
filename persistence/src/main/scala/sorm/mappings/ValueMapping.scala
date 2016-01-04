@@ -1,5 +1,6 @@
 package sorm.mappings
 
+import scroll.internal.graph.ScalaRoleGraph
 import sorm._
 import driver.DriverConnection
 import core._
@@ -43,6 +44,12 @@ class ValueMapping
     case _ if reflection <:< Reflection[LocalDate]
     ⇒ ColumnType.Date
     case _
+      if reflection.toString == "(x$1: scroll.internal.graph.ScalaRoleGraph)scala.Unit"
+    => ColumnType.Text
+    case _
+      if reflection <:< Reflection[ScalaRoleGraph]
+    => ColumnType.Text
+    case _
     ⇒ ???
   }
 
@@ -51,22 +58,20 @@ class ValueMapping
     def isKeyPart
     (m: Mapping)
     : Boolean
-    = m.membership
-      .map {
-        case Membership.EntityId(_) =>
-          true
-        case Membership.EntityProperty(n, e) =>
-          val s = e.settings(e.reflection)
-          s.uniqueKeys.view.flatten.exists(_ == n) ||
-            s.indexes.view.flatten.exists(_ == n)
-        case Membership.TupleItem(_, m) =>
-          isKeyPart(m)
-        case Membership.OptionToNullableItem(m) =>
-          isKeyPart(m)
-        case _ =>
-          false
-      }
-      .getOrElse(false)
+    = m.membership.exists {
+      case Membership.EntityId(_) =>
+        true
+      case Membership.EntityProperty(n, e) =>
+        val s = e.settings(e.reflection)
+        s.uniqueKeys.view.flatten.exists(_ == n) ||
+          s.indexes.view.flatten.exists(_ == n)
+      case Membership.TupleItem(_, m) =>
+        isKeyPart(m)
+      case Membership.OptionToNullableItem(m) =>
+        isKeyPart(m)
+      case _ =>
+        false
+    }
 
     isKeyPart(this)
   }

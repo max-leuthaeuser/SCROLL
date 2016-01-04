@@ -1,6 +1,7 @@
 package sorm.mappings
 
-import sext._, embrace._
+import scroll.internal.graph.ScalaRoleGraph
+import embrace._
 import sorm._
 import core.SormException
 import reflection._
@@ -28,6 +29,8 @@ object MappingKind {
   case object Map extends MappingKind
 
   case object Range extends MappingKind
+
+  case object Graph extends MappingKind
 
   def apply
   (reflection: Reflection)
@@ -61,7 +64,7 @@ object MappingKind {
         || (reflection <:< Reflection[org.joda.time.LocalTime])
     => Value
     case _
-      if (reflection <:< Reflection[Enumeration#Value])
+      if reflection <:< Reflection[Enumeration#Value]
     => Enum
     case _
       if (reflection <:< Reflection[Tuple1[_]])
@@ -90,6 +93,12 @@ object MappingKind {
     case _
       if reflection.isCaseClass
     => Entity
+    case _
+      if reflection.toString == "(x$1: scroll.internal.graph.ScalaRoleGraph)scala.Unit"
+    => Graph
+    case _
+      if reflection <:< Reflection[ScalaRoleGraph]
+    => Graph
     case _
     => throw new SormException("Unsupported type: " + reflection)
   }

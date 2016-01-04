@@ -23,7 +23,7 @@ trait StdDropAllTables {
       tables = listTables()
     }
 
-    if (!lastTables.isEmpty) {
+    if (lastTables.nonEmpty) {
       throw new SormException("Couldn't drop all tables")
     }
 

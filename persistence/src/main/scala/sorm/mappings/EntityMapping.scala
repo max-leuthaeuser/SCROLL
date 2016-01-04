@@ -1,5 +1,6 @@
 package sorm.mappings
 
+import scroll.internal.graph.ScalaRoleGraph
 import sext._, embrace._
 import sorm._
 import driver.DriverConnection

@@ -2,18 +2,16 @@ package sorm.jdbc
 
 import sorm._
 import core.SormException
-import java.sql.{ResultSet, PreparedStatement, Connection, Statement => JStatement}
+import java.sql.{ResultSet, PreparedStatement, Connection}
 import org.joda.time._
-
-import sext._, embrace._
 
 object `package` {
 
-  implicit def connectionAdapter(x: Connection) = new JdbcConnection(x)
+  implicit def connectionAdapter(x: Connection): JdbcConnection = new JdbcConnection(x)
 
-  implicit def preparedStatementAdapter(x: PreparedStatement) = new PreparedStatementView(x)
+  implicit def preparedStatementAdapter(x: PreparedStatement): PreparedStatementView = new PreparedStatementView(x)
 
-  implicit def resultSetAdapter(x: ResultSet) = new ResultSetView(x)
+  implicit def resultSetAdapter(x: ResultSet): ResultSetView = new ResultSetView(x)
 
 
   type JdbcType = Int

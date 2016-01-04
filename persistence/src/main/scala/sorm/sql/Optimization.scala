@@ -59,9 +59,9 @@ object Optimization {
 
       val filtered
       = s.join filter {
-        _.as map {
-          allRefs contains _
-        } getOrElse false
+        _.as exists {
+          allRefs contains
+        }
       }
 
       if (filtered == s.join)

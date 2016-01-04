@@ -3,7 +3,6 @@ package sorm.mappings
 import sorm._
 import driver.DriverConnection
 import reflection.Reflection
-import core._
 import scala.Some
 import ddl._
 
@@ -92,6 +91,8 @@ object Mapping {
       new EnumMapping(reflection, membership, settings)
     case MappingKind.Range =>
       new RangeMapping(reflection, membership, settings)
+    case MappingKind.Graph =>
+      new ValueMapping(reflection, membership, settings)
   }
 
   def apply

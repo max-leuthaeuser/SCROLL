@@ -67,7 +67,13 @@ class Reflection(protected val ambiguousType: Type) {
   (name: String,
    instance: AnyRef)
   : Any
-  = instance.getClass.getMethods.find(_.getName == name).get.invoke(instance)
+  = {
+    val methods = instance.getClass.getMethods.filter(m => !m.getName.contains("plays"))
+    methods.find(_.getName == name) match {
+      case None => "graph"
+      case Some(v) => v.invoke(instance)
+    }
+  }
 
   def propertyValues
   (instance: AnyRef)

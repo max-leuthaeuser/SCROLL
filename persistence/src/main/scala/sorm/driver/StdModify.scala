@@ -30,5 +30,5 @@ trait StdModify {
   }
 
   private def where(pk: Iterable[(String, Any)])
-  = pk.view map (_ $$ (Column(_) -> Value(_)) $$ (Comparison(_, _, Equal): Condition[WhereObject])) reduceOption (CompositeCondition(_, _, And)) map (Where(_))
+  = pk.view map (_ $$ (Column(_) -> Value(_)) $$ (Comparison(_, _, Equal): Condition[WhereObject])) reduceOption (CompositeCondition(_, _, And)) map Where
 }

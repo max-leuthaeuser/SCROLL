@@ -11,7 +11,7 @@ object FormalUtils {
     * @return true iff the given sets are mutually disjoint to each other
     */
   def mutualDisjoint[T <: Any](sets: List[List[T]]): Boolean = {
-    val all = sets.map(_.distinct).flatten
+    val all = sets.flatMap(_.distinct)
     all.size == all.distinct.size
   }
 
@@ -33,7 +33,7 @@ object FormalUtils {
   def atoms[T >: Null](a: Any): List[T] = a match {
     // TODO: fix asInstanceOf
     case elem: String => List(elem).asInstanceOf[List[T]]
-    case elem: FormalRoleGroup => elem.rolegroups.map(atoms).flatten.distinct
+    case elem: FormalRoleGroup => elem.rolegroups.flatMap(atoms).distinct
   }
 
   def evaluate[NT >: Null, RT >: Null, CT >: Null, RST >: Null](a: Any, croi: FormalCROI[NT, RT, CT, RST], o: NT, c: CT): Int = a match {
