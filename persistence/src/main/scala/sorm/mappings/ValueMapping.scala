@@ -44,7 +44,7 @@ class ValueMapping
     case _ if reflection <:< Reflection[LocalDate]
     ⇒ ColumnType.Date
     case _
-      if reflection.toString == "(x$1: scroll.internal.graph.ScalaRoleGraph)scala.Unit"
+      if reflection.toString.contains("ScalaRoleGraph")
     => ColumnType.Text
     case _
       if reflection <:< Reflection[ScalaRoleGraph]

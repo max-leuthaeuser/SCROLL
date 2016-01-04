@@ -94,7 +94,7 @@ object MappingKind {
       if reflection.isCaseClass
     => Entity
     case _
-      if reflection.toString == "(x$1: scroll.internal.graph.ScalaRoleGraph)scala.Unit"
+      if reflection.toString.contains("ScalaRoleGraph")
     => Graph
     case _
       if reflection <:< Reflection[ScalaRoleGraph]
