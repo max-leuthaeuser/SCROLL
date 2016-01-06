@@ -19,8 +19,8 @@ You are able to define compartments, roles and play-relationships. Invoking Role
 
 **3. Edit and develop:**
   1. Clone this repo.
-  2. You may want to use SBT and run ```gen-idea```if you are using Intellij IDE <= 13 (to config see [here][sbt-gen-idea]). This is not required anymore since Intellij 14. Just use the built-in import SBT project functionality.
-  3. You may want to use SBT and run ```eclipse``` if you are using the Eclipse Scala IDE. (to config see [here][gen-eclipse])
+  2. You may want to use SBT and run ```gen-idea```if you are using Intellij IDE (to config see [here][sbt-gen-idea]).
+  3. You may want to use SBT and run ```eclipse``` if you are using the Eclipse Scala IDE (to config see [here][gen-eclipse]).
   4. ScalaDoc is available [here][scaladoc].
   
 **4. Use the library:**

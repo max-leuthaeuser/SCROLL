@@ -58,7 +58,7 @@ class RolePlayingAutomatonTest extends FeatureSpec with GivenWhenThen with Match
       }
 
       new ACompartment() {
-        w.await(timeout(1 second))
+        w.await(timeout(10 seconds))
         Then("player should play RoleA")
         (+player).isPlaying[RoleA] shouldBe true
         And("player should play RoleB")

@@ -19,6 +19,7 @@ class PersistenceTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for persistence.")
 
   feature("Persist Compartments with SORM directly") {
+    Given("A valid DBConnection")
     val db = new DBConnection(
       entities = Set(
         Entity[PersistentPlayer](),
@@ -33,12 +34,13 @@ class PersistenceTest extends FeatureSpec with GivenWhenThen with Matchers {
 
     val factory = new Factory()
 
+    Then("objects of registered types should be persistable.")
     db.save(new PersistentPlayer("P"))
     db.save(new PCompartment("C"))
   }
 
   feature("PersistentCompartments") {
-
+    Given("A valid DBConnection")
     val db = new DBConnection(
       entities = Set(
         Entity[PersistentPlayer](),
@@ -58,17 +60,20 @@ class PersistenceTest extends FeatureSpec with GivenWhenThen with Matchers {
     var c1Plays: java.util.Set[DefaultEdge] = null
     var c2Plays: java.util.Set[DefaultEdge] = null
 
+    And("some player and role instances")
     val player1 = PersistentPlayer("P1")
     val player2 = PersistentPlayer("P2")
     val roleA = PersistentRoleA("RA")
     val roleB = PersistentRoleB("RB")
 
+    Then("these objects of registered types should be persistable.")
     val p_player1 = db.save(player1)
     val p_player2 = db.save(player2)
     val p_roleA = db.save(roleA)
     val p_roleB = db.save(roleB)
 
     scenario("play") {
+      And("should play their roles after saving and reloading")
       new PersistentCompartment(db, factory) {
         p_player1 play p_roleA
         p_player1 play p_roleB
@@ -88,6 +93,7 @@ class PersistenceTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
 
     scenario("drop") {
+      And("should play their roles after saving and reloading when dropping some roles")
       new PersistentCompartment(db, factory) {
         p_player1 play p_roleA
         p_player1 play p_roleB
@@ -108,6 +114,7 @@ class PersistenceTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
 
     scenario("transfer") {
+      And("as well as after transferring some roles")
       new PersistentCompartment(db, factory) {
         p_player1 play p_roleA
         p_player2 play p_roleB
