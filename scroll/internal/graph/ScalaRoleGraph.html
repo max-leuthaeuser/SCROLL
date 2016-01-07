@@ -45,7 +45,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">ScalaRoleGraph</span><span class="result"> extends <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a>[<span class="extype" name="scala.Any">Any</span>]</span>
+        <span class="name">ScalaRoleGraph</span><span class="result"> extends <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></span>
       </span>
       </h4>
       
@@ -53,7 +53,7 @@
 JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclicGraph">org.jgrapht.experimental.dag.DirectedAcyclicGraph</span> as underlying data model.
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a>[<span class="extype" name="scala.Any">Any</span>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -168,23 +168,23 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scroll.internal.graph.ScalaRoleGraph#addBinding" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="addBinding(player:Any,role:Any):Unit"></a>
-      <a id="addBinding(Any,Any):Unit"></a>
+      <a id="addBinding[P&lt;:AnyRef,R&lt;:AnyRef](player:P,role:R)(implicitevidence$1:reflect.runtime.universe.WeakTypeTag[P],implicitevidence$2:reflect.runtime.universe.WeakTypeTag[R]):Unit"></a>
+      <a id="addBinding[P&lt;:AnyRef,R&lt;:AnyRef](P,R)(scala.reflect.api.JavaUniverse.WeakTypeTag[P],scala.reflect.api.JavaUniverse.WeakTypeTag[R]):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addBinding</span><span class="params">(<span name="player">player: <span class="extype" name="scala.Any">Any</span></span>, <span name="role">role: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">addBinding</span><span class="tparams">[<span name="P">P &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>, <span name="R">R &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="params">(<span name="player">player: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.addBinding.P">P</span></span>, <span name="role">role: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.addBinding.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.addBinding.P">P</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.addBinding.R">R</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@addBinding(player:Any,role:Any):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@addBinding[P&lt;:AnyRef,R&lt;:AnyRef](player:P,role:R)(implicitevidence$1:reflect.runtime.universe.WeakTypeTag[P],implicitevidence$2:reflect.runtime.universe.WeakTypeTag[R]):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Adds a plays relationship between core and role.</p><div class="fullcomment"><div class="comment cmt"><p>Adds a plays relationship between core and role.
-</p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player instance to add the given role</p></dd><dt class="param">role</dt><dd class="cmt"><p>the role instance to add</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a> → <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">P</dt><dd class="cmt"><p>type of the player</p></dd><dt class="tparam">R</dt><dd class="cmt"><p>type of the role</p></dd><dt class="param">player</dt><dd class="cmt"><p>the player instance to add the given role</p></dd><dt class="param">role</dt><dd class="cmt"><p>the role instance to add</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a> → <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></dd></dl></div>
     </li><li name="scroll.internal.graph.ScalaRoleGraph#allPlayers" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="allPlayers:Seq[Any]"></a>
       <a id="allPlayers:Seq[Any]"></a>
@@ -263,18 +263,18 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
       <p class="shortcomment cmt">Checks if the role graph contains the given player.</p><div class="fullcomment"><div class="comment cmt"><p>Checks if the role graph contains the given player.
 </p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player instance to check</p></dd><dt>returns</dt><dd class="cmt"><p>true if the role graph contains the given player, false otherwise</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a> → <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></dd></dl></div>
     </li><li name="scroll.internal.graph.ScalaRoleGraph#detach" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="detach(other:scroll.internal.graph.RoleGraph[Any]):Unit"></a>
-      <a id="detach(RoleGraph[Any]):Unit"></a>
+      <a id="detach(other:scroll.internal.graph.RoleGraph):Unit"></a>
+      <a id="detach(RoleGraph):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">detach</span><span class="params">(<span name="other">other: <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a>[<span class="extype" name="scala.Any">Any</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">detach</span><span class="params">(<span name="other">other: <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@detach(other:scroll.internal.graph.RoleGraph[Any]):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@detach(other:scroll.internal.graph.RoleGraph):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -426,18 +426,18 @@ of its cores (deep roles).
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="scroll.internal.graph.ScalaRoleGraph#merge" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="merge(other:scroll.internal.graph.RoleGraph[Any]):Unit"></a>
-      <a id="merge(RoleGraph[Any]):Unit"></a>
+      <a id="merge(other:scroll.internal.graph.RoleGraph):Unit"></a>
+      <a id="merge(RoleGraph):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">merge</span><span class="params">(<span name="other">other: <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a>[<span class="extype" name="scala.Any">Any</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">merge</span><span class="params">(<span name="other">other: <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@merge(other:scroll.internal.graph.RoleGraph[Any]):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@merge(other:scroll.internal.graph.RoleGraph):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -495,36 +495,36 @@ of its cores (deep roles).
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="scroll.internal.graph.ScalaRoleGraph#removeBinding" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="removeBinding(player:Any,role:Any):Unit"></a>
-      <a id="removeBinding(Any,Any):Unit"></a>
+      <a id="removeBinding[P&lt;:AnyRef,R&lt;:AnyRef](player:P,role:R)(implicitevidence$3:reflect.runtime.universe.WeakTypeTag[P],implicitevidence$4:reflect.runtime.universe.WeakTypeTag[R]):Unit"></a>
+      <a id="removeBinding[P&lt;:AnyRef,R&lt;:AnyRef](P,R)(scala.reflect.api.JavaUniverse.WeakTypeTag[P],scala.reflect.api.JavaUniverse.WeakTypeTag[R]):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">removeBinding</span><span class="params">(<span name="player">player: <span class="extype" name="scala.Any">Any</span></span>, <span name="role">role: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">removeBinding</span><span class="tparams">[<span name="P">P &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>, <span name="R">R &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="params">(<span name="player">player: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removeBinding.P">P</span></span>, <span name="role">role: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removeBinding.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removeBinding.P">P</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removeBinding.R">R</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@removeBinding(player:Any,role:Any):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@removeBinding[P&lt;:AnyRef,R&lt;:AnyRef](player:P,role:R)(implicitevidence$3:reflect.runtime.universe.WeakTypeTag[P],implicitevidence$4:reflect.runtime.universe.WeakTypeTag[R]):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Removes a plays relationship between core and role.</p><div class="fullcomment"><div class="comment cmt"><p>Removes a plays relationship between core and role.
 </p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player instance to remove the given role from</p></dd><dt class="param">role</dt><dd class="cmt"><p>the role instance to remove</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a> → <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></dd></dl></div>
     </li><li name="scroll.internal.graph.ScalaRoleGraph#removePlayer" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="removePlayer(player:Any):Unit"></a>
-      <a id="removePlayer(Any):Unit"></a>
+      <a id="removePlayer[P&lt;:AnyRef](player:P)(implicitevidence$5:reflect.runtime.universe.WeakTypeTag[P]):Unit"></a>
+      <a id="removePlayer[P&lt;:AnyRef](P)(scala.reflect.api.JavaUniverse.WeakTypeTag[P]):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">removePlayer</span><span class="params">(<span name="player">player: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">removePlayer</span><span class="tparams">[<span name="P">P &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="params">(<span name="player">player: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removePlayer.P">P</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removePlayer.P">P</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@removePlayer(player:Any):Unit" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@removePlayer[P&lt;:AnyRef](player:P)(implicitevidence$5:reflect.runtime.universe.WeakTypeTag[P]):Unit" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -661,7 +661,7 @@ This should remove its binding too!
 
         <div id="inheritedMembers">
         <div class="parent" name="scroll.internal.graph.RoleGraph">
-              <h3>Inherited from <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a>[<span class="extype" name="scala.Any">Any</span>]</h3>
+              <h3>Inherited from <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">

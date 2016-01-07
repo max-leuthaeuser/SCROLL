@@ -45,7 +45,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">Player</span><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="Compartment$DynamicType.html" class="extype" name="scroll.internal.Compartment.DynamicType">DynamicType</a> with <a href="Compartment$DispatchType.html" class="extype" name="scroll.internal.Compartment.DispatchType">DispatchType</a></span>
+        <span class="name">Player</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="result"> extends <a href="Compartment$DynamicType.html" class="extype" name="scroll.internal.Compartment.DynamicType">DynamicType</a> with <a href="Compartment$DispatchType.html" class="extype" name="scroll.internal.Compartment.DispatchType">DispatchType</a></span>
       </span>
       </h4>
       
@@ -90,7 +90,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="scroll.internal.Compartment.Player#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(wrapped:T):Compartment.this.Player[T]"></a>
+      <a id="&lt;init&gt;(wrapped:T)(implicitevidence$12:reflect.runtime.universe.WeakTypeTag[T]):Compartment.this.Player[T]"></a>
       <a id="&lt;init&gt;:Player[T]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -98,10 +98,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Player</span><span class="params">(<span name="wrapped">wrapped: <span class="extype" name="scroll.internal.Compartment.Player.T">T</span></span>)</span>
+        <span class="name">Player</span><span class="params">(<span name="wrapped">wrapped: <span class="extype" name="scroll.internal.Compartment.Player.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.Player.T">T</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#scroll.internal.Compartment$Player@&lt;init&gt;(wrapped:T):Compartment.this.Player[T]" title="Permalink" target="_top">
+      <a href="../../index.html#scroll.internal.Compartment$Player@&lt;init&gt;(wrapped:T)(implicitevidence$12:reflect.runtime.universe.WeakTypeTag[T]):Compartment.this.Player[T]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -279,18 +279,18 @@
       <p class="shortcomment cmt">For empty argument list dispatch.</p><div class="fullcomment"><div class="comment cmt"><p>For empty argument list dispatch.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Compartment$DispatchType.html" class="extype" name="scroll.internal.Compartment.DispatchType">DispatchType</a></dd></dl></div>
     </li><li name="scroll.internal.Compartment.Player#drop" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="drop(role:Any):Compartment.this.Player[T]"></a>
-      <a id="drop(Any):Player[T]"></a>
+      <a id="drop[R&lt;:AnyRef](role:R)(implicitevidence$15:reflect.runtime.universe.WeakTypeTag[R]):Compartment.this.Player[T]"></a>
+      <a id="drop[R&lt;:AnyRef](R)(scala.reflect.api.JavaUniverse.WeakTypeTag[R]):Player[T]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">drop</span><span class="params">(<span name="role">role: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a>[<span class="extype" name="scroll.internal.Compartment.Player.T">T</span>]</span>
+        <span class="name">drop</span><span class="tparams">[<span name="R">R &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.drop.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.Player.drop.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a>[<span class="extype" name="scroll.internal.Compartment.Player.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#scroll.internal.Compartment$Player@drop(role:Any):Compartment.this.Player[T]" title="Permalink" target="_top">
+      <a href="../../index.html#scroll.internal.Compartment$Player@drop[R&lt;:AnyRef](role:R)(implicitevidence$15:reflect.runtime.universe.WeakTypeTag[R]):Compartment.this.Player[T]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -405,7 +405,7 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="scroll.internal.Compartment.Player#isPlaying" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="isPlaying[E](implicitevidence$5:scala.reflect.Manifest[E]):Boolean"></a>
+      <a id="isPlaying[E](implicitevidence$18:scala.reflect.Manifest[E]):Boolean"></a>
       <a id="isPlaying[E](Manifest[E]):Boolean"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -416,7 +416,7 @@
         <span class="name">isPlaying</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.Manifest">Manifest</span>[<span class="extype" name="scroll.internal.Compartment.Player.isPlaying.E">E</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#scroll.internal.Compartment$Player@isPlaying[E](implicitevidence$5:scala.reflect.Manifest[E]):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#scroll.internal.Compartment$Player@isPlaying[E](implicitevidence$18:scala.reflect.Manifest[E]):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -473,18 +473,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="scroll.internal.Compartment.Player#play" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="play[R](role:R)(implicittag:reflect.runtime.universe.WeakTypeTag[R]):Compartment.this.Player[T]"></a>
-      <a id="play[R](R)(scala.reflect.api.JavaUniverse.WeakTypeTag[R]):Player[T]"></a>
+      <a id="play[R&lt;:AnyRef](role:R)(implicitevidence$13:reflect.runtime.universe.WeakTypeTag[R]):Compartment.this.Player[T]"></a>
+      <a id="play[R&lt;:AnyRef](R)(scala.reflect.api.JavaUniverse.WeakTypeTag[R]):Player[T]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">play</span><span class="tparams">[<span name="R">R</span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.play.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="tag">tag: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.Player.play.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a>[<span class="extype" name="scroll.internal.Compartment.Player.T">T</span>]</span>
+        <span class="name">play</span><span class="tparams">[<span name="R">R &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.play.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.Player.play.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a>[<span class="extype" name="scroll.internal.Compartment.Player.T">T</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#scroll.internal.Compartment$Player@play[R](role:R)(implicittag:reflect.runtime.universe.WeakTypeTag[R]):Compartment.this.Player[T]" title="Permalink" target="_top">
+      <a href="../../index.html#scroll.internal.Compartment$Player@play[R&lt;:AnyRef](role:R)(implicitevidence$13:reflect.runtime.universe.WeakTypeTag[R]):Compartment.this.Player[T]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -509,18 +509,18 @@
       <p class="shortcomment cmt">Returns the player of this player instance if this is a role, or this itself.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the player of this player instance if this is a role, or this itself.
 </p></div><dl class="paramcmts block"><dt class="param">dispatchQuery</dt><dd class="cmt"><p>provide this to sort the resulting instances if a role instance is played by multiple core objects</p></dd><dt>returns</dt><dd class="cmt"><p>the player of this player instance if this is a role, or this itself.</p></dd></dl></div>
     </li><li name="scroll.internal.Compartment.Player#playing" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="playing[R](role:R):T"></a>
-      <a id="playing[R](R):T"></a>
+      <a id="playing[R&lt;:AnyRef](role:R)(implicitevidence$14:reflect.runtime.universe.WeakTypeTag[R]):T"></a>
+      <a id="playing[R&lt;:AnyRef](R)(scala.reflect.api.JavaUniverse.WeakTypeTag[R]):T"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">playing</span><span class="tparams">[<span name="R">R</span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.playing.R">R</span></span>)</span><span class="result">: <span class="extype" name="scroll.internal.Compartment.Player.T">T</span></span>
+        <span class="name">playing</span><span class="tparams">[<span name="R">R &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.playing.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.Player.playing.R">R</span>]</span>)</span><span class="result">: <span class="extype" name="scroll.internal.Compartment.Player.T">T</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#scroll.internal.Compartment$Player@playing[R](role:R):T" title="Permalink" target="_top">
+      <a href="../../index.html#scroll.internal.Compartment$Player@playing[R&lt;:AnyRef](role:R)(implicitevidence$14:reflect.runtime.universe.WeakTypeTag[R]):T" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -579,18 +579,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scroll.internal.Compartment.Player#transfer" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="transfer[R](role:R):AnyRef{defto(player:Any):Unit}"></a>
-      <a id="transfer[R](R):AnyRef{defto(player:Any):Unit}"></a>
+      <a id="transfer[R&lt;:AnyRef](role:R)(implicitevidence$16:reflect.runtime.universe.WeakTypeTag[R]):AnyRef{defto[P&lt;:AnyRef](player:P)(implicitevidence$17:reflect.runtime.universe.WeakTypeTag[P]):Unit}"></a>
+      <a id="transfer[R&lt;:AnyRef](R)(scala.reflect.api.JavaUniverse.WeakTypeTag[R]):AnyRef{defto[P&lt;:AnyRef](player:P)(implicitevidence$17:reflect.runtime.universe.WeakTypeTag[P]):Unit}"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">transfer</span><span class="tparams">[<span name="R">R</span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.transfer.R">R</span></span>)</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span> { def to(player: Any): Unit }</span>
+        <span class="name">transfer</span><span class="tparams">[<span name="R">R &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.transfer.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.Player.transfer.R">R</span>]</span>)</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span> { def to[P &lt;: AnyRef](player: P)(implicit evidence$17: reflect.runtime.universe.WeakTypeTag[P]): Unit }</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#scroll.internal.Compartment$Player@transfer[R](role:R):AnyRef{defto(player:Any):Unit}" title="Permalink" target="_top">
+      <a href="../../index.html#scroll.internal.Compartment$Player@transfer[R&lt;:AnyRef](role:R)(implicitevidence$16:reflect.runtime.universe.WeakTypeTag[R]):AnyRef{defto[P&lt;:AnyRef](player:P)(implicitevidence$17:reflect.runtime.universe.WeakTypeTag[P]):Unit}" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
