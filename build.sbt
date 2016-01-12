@@ -11,7 +11,7 @@ val macrosVersion = "2.0.1"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.7",
-  version := "0.9.5",
+  version := "0.9.6",
   logBuffered := false,
   mainClass := None,
   autoCompilerPlugins := true,
