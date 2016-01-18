@@ -34,9 +34,19 @@ class PersistenceTest extends FeatureSpec with GivenWhenThen with Matchers {
 
     val factory = new Factory()
 
+    val somePlayer = new PersistentPlayer("P")
+    val someComp = new PCompartment("C")
+
     Then("objects of registered types should be persistable.")
-    db.save(new PersistentPlayer("P"))
-    db.save(new PCompartment("C"))
+    val sP = db.save(somePlayer)
+    val sC = db.save(someComp)
+
+    And("should be loaded correctly.")
+    val lP = db.fetchById[PersistentPlayer](sP.id).mixoutPersisted[PersistentPlayer]._2
+    val lC = db.fetchById[PCompartment](sC.id).mixoutPersisted[PCompartment]._2
+
+    lP shouldBe somePlayer
+    lC shouldBe someComp
   }
 
   feature("PersistentCompartments") {
