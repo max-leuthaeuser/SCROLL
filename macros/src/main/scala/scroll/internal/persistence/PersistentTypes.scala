@@ -16,7 +16,7 @@ object PersistentTypesImpl {
       case _ => throw new Exception("PersistentTypes annotation must be have at least one parameter.")
     }
 
-    val sensitiveFields = extractAnnotationParameters(c.prefix.tree)
+    val params = extractAnnotationParameters(c.prefix.tree)
 
     def extractTypeName(s: String): String = {
       s.substring(s.indexOf("[") + 1, s.lastIndexOf("]")).replaceAll("\"", "")
@@ -26,7 +26,7 @@ object PersistentTypesImpl {
       extractTypeName(s).replaceAll("#", "")
     }
 
-    def extractNewToString(sensitiveFields: List[Tree]): List[c.universe.Tree] = {
+    def buildFactoryBody(sensitiveFields: List[Tree]): List[c.universe.Tree] = {
       val cases = sensitiveFields map {
         case f =>
           val n = extractTypeName(f.toString)
@@ -48,18 +48,18 @@ object PersistentTypesImpl {
     }
 
     def modifiedDeclaration(classDecl: ClassDef): c.Expr[Any] = {
-      val newToString = extractNewToString(sensitiveFields)
+      val factoryBody = buildFactoryBody(params)
       c.Expr[Any](
         q"""
           import sorm.Instance
           class Factory extends TypeFactory {
-            ..$newToString
+            ..$factoryBody
           }""")
     }
 
     annottees.map(_.tree).toList match {
       case (classDecl: ClassDef) :: Nil => modifiedDeclaration(classDecl)
-      case _ => c.abort(c.enclosingPosition, "Invalid annottee")
+      case _ => c.abort(c.enclosingPosition, "Invalid annottee!")
     }
   }
 }
