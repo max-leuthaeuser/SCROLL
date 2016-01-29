@@ -10,7 +10,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Things like role playing and method invocation are tested.")
 
   feature("Role playing") {
-    scenario("Dropping compartment and invoking methods") {
+    scenario("Dropping role and invoking methods") {
       Given("some player and role in a compartment")
       val someCore = new CoreA()
       new SomeCompartment {
@@ -24,11 +24,14 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
 
         Then("the call must be invoked on the core object")
         someCore a()
-        And("a role call should fail")
-        a[RuntimeException] should be thrownBy {
-          +someCore a()
-        }
+        +someCore a()
+
+        And("a role should be dropped correctly")
+        (+someCore).isPlaying[RoleA] shouldBe false
         And("binding to RoleB is left untouched of course")
+        (+someCore).isPlaying[RoleB] shouldBe true
+
+        And("role method invocation to i should work.")
         val resB: String = +someCore b()
         assert(resB == "b")
       }
@@ -50,10 +53,9 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
         Then("the result of the call to the role of player someCoreB should be correct")
         val res: Int = +someCoreB a()
         assert(res == 0)
-        And("a call to the player the role was moved away from should fail")
-        a[RuntimeException] should be thrownBy {
-          +someCoreA a()
-        }
+        And("the role should be transferred correctly.")
+        (+someCoreA).isPlaying[RoleA] shouldBe false
+        (+someCoreB).isPlaying[RoleA] shouldBe true
       }
     }
 
@@ -421,7 +423,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
 
     }
     And("an new instance of that compartment")
-    new ACompartment {
+    val c: ACompartment = new ACompartment {
       When("defining a play relationship")
       this play new ARole
       Then("That compartment should be able to play that role")
