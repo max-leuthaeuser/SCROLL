@@ -2,10 +2,13 @@ package scroll.benchmarks
 
 import org.scalameter.api._
 import scroll.internal.Compartment
+import scroll.internal.graph.{ScalaRoleGraph, CachedScalaRoleGraph}
 
-trait BenchmarkHelper extends Bench.LocalTime {
-  protected val NUM_OF_RUNS = 10
-  protected val NUM_OF_VMS = 3
+trait BenchmarkHelper extends Bench.OfflineReport {
+  var cached: Boolean = false
+
+  protected val NUM_OF_RUNS = 5
+  protected val NUM_OF_VMS = 2
 
   // generators
   protected val roleSizes = Gen.exponential("#Roles")(1, 100, 10)
@@ -22,10 +25,20 @@ trait BenchmarkHelper extends Bench.LocalTime {
 
   class MockPlayer(id: Int = 0)
 
-  class MockCompartment(id: Int = 0) extends Compartment
+  class MockCompartment(id: Int = 0) extends Compartment {
+    plays = cached match {
+      case true => new CachedScalaRoleGraph()
+      case false => new ScalaRoleGraph()
+    }
+  }
 
   def createCompartment(numOfPlayers: Int, numOfRoles: Int) = {
     new Compartment {
+      plays = cached match {
+        case true => new CachedScalaRoleGraph()
+        case false => new ScalaRoleGraph()
+      }
+
       val players = (0 until numOfPlayers).map(id => +new MockPlayer(id))
       val mRole = new MockRoleWithFunc()
 

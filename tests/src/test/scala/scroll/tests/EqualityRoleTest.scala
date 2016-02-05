@@ -3,8 +3,7 @@ package scroll.tests
 import mocks.{CoreA, SomeCompartment}
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 
-//noinspection ComparingUnrelatedTypes
-class EqualityRoleTest extends FeatureSpec with GivenWhenThen with Matchers {
+class EqualityRoleTest extends FeatureSpec with GivenWhenThen with Matchers with SCROLLTestConfig {
   info("Test spec for role equality.")
 
   feature("Role playing equality") {
@@ -12,7 +11,7 @@ class EqualityRoleTest extends FeatureSpec with GivenWhenThen with Matchers {
       Given("some player and a role in a compartment")
 
       val someCore = new CoreA()
-      new SomeCompartment {
+      new SomeCompartment(cached) {
         val someRole = new RoleA()
         And("a play relationship")
         val player = someCore play someRole
@@ -47,7 +46,7 @@ class EqualityRoleTest extends FeatureSpec with GivenWhenThen with Matchers {
       Given("some player and roles in a compartment")
 
       val someCore = new CoreA()
-      new SomeCompartment {
+      new SomeCompartment(cached) {
         val someRole = new RoleA()
         val someOtherRole = new RoleB()
         And("some play relationships")

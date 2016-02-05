@@ -1,15 +1,15 @@
 package scroll.tests
 
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
-import scroll.internal.Compartment
 import scroll.internal.formal.CROM
+import scroll.tests.mocks.SomeCompartment
 
-class ECoreInstanceTest extends FeatureSpec with GivenWhenThen with Matchers {
+class ECoreInstanceTest extends FeatureSpec with GivenWhenThen with Matchers with SCROLLTestConfig {
   info("Test spec for loading ECore CROM model instances.")
 
   feature("Loading an ECore CROM model instance") {
     scenario("No model is loaded") {
-      new Compartment with CROM {
+      new SomeCompartment(cached) with CROM {
         When("No model is available")
         Then("it can not be wellformed")
         wellformed shouldBe false
@@ -19,7 +19,7 @@ class ECoreInstanceTest extends FeatureSpec with GivenWhenThen with Matchers {
     scenario("Loading from a valid path containing a valid model") {
       val p = getClass.getResource("/Bank.crom").getPath
 
-      new Compartment with CROM {
+      new SomeCompartment(cached) with CROM {
         When("A specific valid CROM instance is given")
         withModel(p)
         Then("it should be wellformed")

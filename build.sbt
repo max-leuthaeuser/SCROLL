@@ -8,6 +8,7 @@ val chocoVersion = "3.3.1"
 val slf4jVersion = "1.7.12"
 val contVersion = "1.0.2"
 val macrosVersion = "2.0.1"
+val guavaVersion = "19.0"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.7",
@@ -23,6 +24,7 @@ lazy val commonSettings = Seq(
   addCompilerPlugin("org.scala-lang.plugins" % "scala-continuations-plugin_2.11.7" % contVersion),
   addCompilerPlugin("org.scalamacros" % "paradise" % macrosVersion cross CrossVersion.full),
   libraryDependencies ++= Seq(
+    "com.google.guava" % "guava" % guavaVersion,
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.chuusai" %% "shapeless" % shapelessVersion,
     "org.jgrapht" % "jgrapht-core" % jgraphTVersion,
@@ -117,12 +119,10 @@ lazy val examples = (project in file("examples")).
     )
   ).dependsOn(core)
 
-def isSuite(name: String): Boolean = name endsWith "Suite"
-
 lazy val tests = (project in file("tests")).
   settings(commonSettings: _*).
   settings(
-    testOptions in Test := Seq(Tests.Filter(isSuite)),
+    testOptions in Test := Seq(Tests.Filter(s => s.endsWith("Suite"))),
     parallelExecution in Test := false,
     libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % "test")
   ).dependsOn(core, examples, persistence)

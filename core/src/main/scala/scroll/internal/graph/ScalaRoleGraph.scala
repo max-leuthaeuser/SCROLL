@@ -5,7 +5,6 @@ import org.jgrapht.experimental.dag.DirectedAcyclicGraph
 import org.jgrapht.graph.{DefaultEdge, EdgeReversedGraph}
 import org.jgrapht.traverse.{BreadthFirstIterator, DepthFirstIterator}
 import scroll.internal.support.DispatchQuery
-import scroll.internal.support.DispatchQuery.TraversalStrategy
 
 import scala.collection.JavaConversions._
 import scala.reflect.runtime.universe._

@@ -3,12 +3,12 @@ package scroll.tests
 import mocks.{CoreA, SomeCompartment}
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 
-class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
+class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers with SCROLLTestConfig {
   info("Test spec for role constraints.")
 
   feature("Role implication") {
     scenario("Role implication constraint") {
-      new SomeCompartment {
+      new SomeCompartment(cached) {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
         val roleA = new RoleA()
@@ -58,7 +58,7 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
 
   feature("Role prohibition") {
     scenario("Role prohibition constraint") {
-      new SomeCompartment {
+      new SomeCompartment(cached) {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
         val roleA = new RoleA()
@@ -106,7 +106,7 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
 
   feature("Role equivalence") {
     scenario("Role equivalence constraint") {
-      new SomeCompartment {
+      new SomeCompartment(cached) {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
         val roleA = new RoleA()
@@ -154,7 +154,7 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
 
   feature("Mixed constraints") {
     scenario("Role implication and prohibition constraint") {
-      new SomeCompartment {
+      new SomeCompartment(cached) {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
         val roleA = new RoleA()

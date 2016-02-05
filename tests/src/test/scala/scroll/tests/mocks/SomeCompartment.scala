@@ -2,8 +2,14 @@ package scroll.tests.mocks
 
 import scroll.internal.annotations.Role
 import scroll.internal.Compartment
+import scroll.internal.graph.{ScalaRoleGraph, CachedScalaRoleGraph}
 
-class SomeCompartment extends Compartment {
+class SomeCompartment(val cached: Boolean) extends Compartment {
+
+  plays = cached match {
+    case true => new CachedScalaRoleGraph()
+    case false => new ScalaRoleGraph()
+  }
 
   @Role class RoleA {
     val valueA: String = "valueA"
