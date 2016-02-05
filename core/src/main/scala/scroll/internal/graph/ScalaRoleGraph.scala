@@ -3,7 +3,9 @@ package scroll.internal.graph
 import org.jgrapht.Graphs
 import org.jgrapht.experimental.dag.DirectedAcyclicGraph
 import org.jgrapht.graph.{DefaultEdge, EdgeReversedGraph}
-import org.jgrapht.traverse.DepthFirstIterator
+import org.jgrapht.traverse.{BreadthFirstIterator, DepthFirstIterator}
+import scroll.internal.support.DispatchQuery
+import scroll.internal.support.DispatchQuery.TraversalStrategy
 
 import scala.collection.JavaConversions._
 import scala.reflect.runtime.universe._
@@ -44,10 +46,13 @@ class ScalaRoleGraph extends RoleGraph {
     store.removeVertex(player)
   }
 
-  override def getRoles(player: Any): Set[Any] = {
+  override def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Set[Any] = {
     require(null != player)
     containsPlayer(player) match {
-      case true => new DepthFirstIterator[Any, DefaultEdge](store, player).toSet
+      case true => dispatchQuery.traversalStrategy match {
+        case DispatchQuery.DFS => new DepthFirstIterator[Any, DefaultEdge](store, player).toSet
+        case DispatchQuery.BFS => new BreadthFirstIterator[Any, DefaultEdge](store, player).toSet
+      }
       case false => Set(player)
     }
   }
@@ -56,10 +61,15 @@ class ScalaRoleGraph extends RoleGraph {
 
   override def allPlayers: Seq[Any] = store.vertexSet().toSeq
 
-  override def getPredecessors(player: Any): List[Any] =
-    new DepthFirstIterator[Any, DefaultEdge](new EdgeReversedGraph[Any, DefaultEdge](store), player).toList match {
+  override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): List[Any] = {
+    val it = dispatchQuery.traversalStrategy match {
+      case DispatchQuery.DFS => new DepthFirstIterator[Any, DefaultEdge](new EdgeReversedGraph[Any, DefaultEdge](store), player).toList
+      case DispatchQuery.BFS => new BreadthFirstIterator[Any, DefaultEdge](new EdgeReversedGraph[Any, DefaultEdge](store), player).toList
+    }
+    it match {
       case Nil => List.empty
       case p :: Nil if p == player => List.empty
       case l => l.tail
     }
+  }
 }

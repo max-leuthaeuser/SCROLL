@@ -228,7 +228,7 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
             Compartment comp = (Compartment) compartment;
             Compartment.Player<Object> p = comp.newPlayer(player);
             // TODO: might not work, maybe we have to use class name comparison here
-            return comp.plays().getRoles(p).contains(role);
+            return comp.plays().getRoles(p, EMPTY_QUERY).contains(role);
         } else {
             throw new IllegalArgumentException("Argument 'compartment' must be of type 'Compartment!'");
         }
@@ -340,7 +340,7 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
 
         for (Compartment comp : model.values()) {
             if (comp.plays().containsPlayer(player)) {
-                return JavaConversions.seqAsJavaList(comp.plays().getRoles(player).toSeq());
+                return JavaConversions.seqAsJavaList(comp.plays().getRoles(player, EMPTY_QUERY).toSeq());
             }
         }
         return Collections.emptyList();
@@ -352,7 +352,7 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
             throw new IllegalArgumentException("No Argument should be null or empty!");
         if (compartment instanceof Compartment) {
             Compartment comp = (Compartment) compartment;
-            return JavaConversions.seqAsJavaList(comp.plays().getRoles(player).toSeq());
+            return JavaConversions.seqAsJavaList(comp.plays().getRoles(player, EMPTY_QUERY).toSeq());
         } else {
             throw new IllegalArgumentException("Argument 'compartment' must be of type 'Compartment!'");
         }

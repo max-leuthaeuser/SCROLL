@@ -2,6 +2,8 @@ package scroll.internal.graph
 
 import org.jgrapht.DirectedGraph
 import org.jgrapht.graph.DefaultEdge
+import scroll.internal.support.DispatchQuery
+import scroll.internal.support.DispatchQuery.TraversalStrategy
 import scala.reflect.runtime.universe._
 
 /**
@@ -30,7 +32,7 @@ trait RoleGraph {
     * @tparam P type of the player
     * @tparam R type of the role
     * @param player the player instance to add the given role
-    * @param role the role instance to add
+    * @param role   the role instance to add
     */
   def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R)
 
@@ -38,7 +40,7 @@ trait RoleGraph {
     * Removes a plays relationship between core and role.
     *
     * @param player the player instance to remove the given role from
-    * @param role the role instance to remove
+    * @param role   the role instance to remove
     */
   def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R)
 
@@ -60,10 +62,11 @@ trait RoleGraph {
   /**
     * Returns a Set of all roles attached to the given player (core object).
     *
-    * @param player the player instance to get the roles for
+    * @param player        the player instance to get the roles for
+    * @param dispatchQuery the strategy used to get all roles while traversing the role-playing graph, standard is DFS
     * @return a Set of all roles of core
     */
-  def getRoles(player: Any): Set[Any]
+  def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Set[Any]
 
   /**
     * Checks if the role graph contains the given player.
@@ -77,8 +80,9 @@ trait RoleGraph {
     * Returns a list of all predecessors of the given player, i.e. a transitive closure
     * of its cores (deep roles).
     *
-    * @param player the player instance to calculate the cores of
+    * @param player        the player instance to calculate the cores of
+    * @param dispatchQuery the strategy used to get all predecessors while traversing the role-playing graph, standard is DFS
     * @return a list of all predecessors of the given player
     */
-  def getPredecessors(player: Any): List[Any]
+  def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): List[Any]
 }
