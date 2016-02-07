@@ -7,14 +7,15 @@ import scroll.internal.graph.{ScalaRoleGraph, CachedScalaRoleGraph}
 trait BenchmarkHelper extends Bench.OfflineReport {
   var cached: Boolean = false
 
-  protected val NUM_OF_RUNS = 5
+  protected val NUM_OF_RUNS = 3
   protected val NUM_OF_VMS = 2
 
   // generators
-  protected val roleSizes = Gen.exponential("#Roles")(1, 100, 10)
-  protected val playerSizes = Gen.exponential("#Players")(1, 1000, 10)
+  protected val roleSizes = Gen.exponential("#Roles")(1, 1000, 10)
+  protected val playerSizes = Gen.exponential("#Players")(1, 100, 10)
   protected val input = Gen.crossProduct(playerSizes, roleSizes)
-  protected val compartments = (for (ps <- playerSizes; rs <- roleSizes) yield createCompartment(ps, rs)).cached
+
+  protected def compartments = for (ps <- playerSizes; rs <- roleSizes) yield createCompartment(ps, rs)
 
   // mock objects
   class MockRole(id: Int = 0)
