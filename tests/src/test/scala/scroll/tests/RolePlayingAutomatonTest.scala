@@ -16,7 +16,7 @@ class RolePlayingAutomatonTest extends FeatureSpec with GivenWhenThen with Match
       Given("A natural, some role instances")
       val player = new CoreA()
       When("A role playing automaton is specified")
-      class ACompartment extends SomeCompartment(cached) {
+      class ACompartment extends SomeCompartment(backend) {
         val roleA = new RoleA()
         val roleB = new RoleB()
         val roleC = new RoleC()

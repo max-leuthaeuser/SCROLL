@@ -1,16 +1,17 @@
 package scroll.tests
 
 import org.scalatest.Suites
+import SCROLLTestConfig._
 
 class SCROLLCachedTestSuite
   extends Suites(
-    new RoleFeaturesTest { cached = true },
-    new EqualityRoleTest { cached = true },
-    new RelationshipTest { cached = true },
-    new UnionTypesTest { cached = true },
-    new ECoreInstanceTest { cached = true },
-    new CROITest { cached = true },
-    new RoleConstraintsTest { cached = true },
-    new RolePlayingAutomatonTest { cached = true },
-    new RoleRestrictionsTest { cached = true },
-    new RoleGroupsTest { cached = true })
+    new RoleFeaturesTest { backend = CACHED },
+    new EqualityRoleTest { backend = CACHED },
+    new RelationshipTest { backend = CACHED },
+    new UnionTypesTest { backend = CACHED },
+    new ECoreInstanceTest { backend = CACHED },
+    new CROITest { backend = CACHED },
+    new RoleConstraintsTest { backend = CACHED },
+    new RolePlayingAutomatonTest { backend = CACHED },
+    new RoleRestrictionsTest { backend = CACHED },
+    new RoleGroupsTest { backend = CACHED })

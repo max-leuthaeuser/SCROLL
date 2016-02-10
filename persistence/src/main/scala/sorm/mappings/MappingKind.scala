@@ -1,6 +1,6 @@
 package sorm.mappings
 
-import scroll.internal.graph.ScalaRoleGraph
+import scroll.internal.graph.RoleGraph
 import embrace._
 import sorm._
 import core.SormException
@@ -94,10 +94,10 @@ object MappingKind {
       if reflection.isCaseClass
     => Entity
     case _
-      if reflection.toString.contains("ScalaRoleGraph")
+      if reflection.toString.contains("RoleGraph")
     => Graph
     case _
-      if reflection <:< Reflection[ScalaRoleGraph]
+      if reflection <:< Reflection[RoleGraph]
     => Graph
     case _
     => throw new SormException("Unsupported type: " + reflection)

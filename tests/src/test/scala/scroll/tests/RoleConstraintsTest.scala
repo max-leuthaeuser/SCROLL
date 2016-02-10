@@ -8,7 +8,7 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers w
 
   feature("Role implication") {
     scenario("Role implication constraint") {
-      new SomeCompartment(cached) {
+      new SomeCompartment(backend) {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
         val roleA = new RoleA()
@@ -58,7 +58,7 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers w
 
   feature("Role prohibition") {
     scenario("Role prohibition constraint") {
-      new SomeCompartment(cached) {
+      new SomeCompartment(backend) {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
         val roleA = new RoleA()
@@ -106,7 +106,7 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers w
 
   feature("Role equivalence") {
     scenario("Role equivalence constraint") {
-      new SomeCompartment(cached) {
+      new SomeCompartment(backend) {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
         val roleA = new RoleA()
@@ -154,7 +154,7 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers w
 
   feature("Mixed constraints") {
     scenario("Role implication and prohibition constraint") {
-      new SomeCompartment(cached) {
+      new SomeCompartment(backend) {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
         val roleA = new RoleA()

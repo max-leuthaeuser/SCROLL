@@ -3,7 +3,6 @@ package scroll.internal.graph
 import org.jgrapht.DirectedGraph
 import org.jgrapht.graph.DefaultEdge
 import scroll.internal.support.DispatchQuery
-import scroll.internal.support.DispatchQuery.TraversalStrategy
 import scala.reflect.runtime.universe._
 
 /**

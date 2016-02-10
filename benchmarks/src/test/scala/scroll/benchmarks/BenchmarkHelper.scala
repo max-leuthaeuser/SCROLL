@@ -2,10 +2,11 @@ package scroll.benchmarks
 
 import org.scalameter.api._
 import scroll.internal.Compartment
-import scroll.internal.graph.{ScalaRoleGraph, CachedScalaRoleGraph}
+import scroll.internal.graph.{KiamaScalaRoleGraph, ScalaRoleGraph, CachedScalaRoleGraph}
+import SCROLLBenchmarkConfig._
 
 trait BenchmarkHelper extends Bench.OfflineReport {
-  var cached: Boolean = false
+  var backend = JGRAPHT
 
   protected val NUM_OF_RUNS = 3
   protected val NUM_OF_VMS = 2
@@ -27,17 +28,19 @@ trait BenchmarkHelper extends Bench.OfflineReport {
   class MockPlayer(id: Int = 0)
 
   class MockCompartment(id: Int = 0) extends Compartment {
-    plays = cached match {
-      case true => new CachedScalaRoleGraph()
-      case false => new ScalaRoleGraph()
+    plays = backend match {
+      case CACHED => new CachedScalaRoleGraph()
+      case JGRAPHT => new ScalaRoleGraph()
+      case KIAMA => new KiamaScalaRoleGraph()
     }
   }
 
   def createCompartment(numOfPlayers: Int, numOfRoles: Int) = {
     new Compartment {
-      plays = cached match {
-        case true => new CachedScalaRoleGraph()
-        case false => new ScalaRoleGraph()
+      plays = backend match {
+        case CACHED => new CachedScalaRoleGraph()
+        case JGRAPHT => new ScalaRoleGraph()
+        case KIAMA => new KiamaScalaRoleGraph()
       }
 
       val players = (0 until numOfPlayers).map(id => +new MockPlayer(id))

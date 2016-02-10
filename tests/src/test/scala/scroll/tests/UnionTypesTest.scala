@@ -10,7 +10,7 @@ class UnionTypesTest extends FeatureSpec with GivenWhenThen with Matchers with S
     scenario("Calling some role method directly") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
-      new SomeCompartment(cached) {
+      new SomeCompartment(backend) {
         val someRoleC = new RoleC()
 
         And("a play relationship")
@@ -30,7 +30,7 @@ class UnionTypesTest extends FeatureSpec with GivenWhenThen with Matchers with S
     scenario("Matching players and roles with Scala match") {
       Given("some players and role in a compartment")
       val someCore = new CoreA()
-      new SomeCompartment(cached) {
+      new SomeCompartment(backend) {
         val roleA = new RoleA
 
         val matcher = new {

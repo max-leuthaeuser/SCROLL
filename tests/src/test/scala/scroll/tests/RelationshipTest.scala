@@ -11,7 +11,7 @@ class RelationshipTest extends FeatureSpec with GivenWhenThen with Matchers with
       Given("A compartment, a player and attached roles")
 
       val p = new CoreA
-      new SomeCompartment(cached) {
+      new SomeCompartment(backend) {
         val rA = new RoleA
         val rB = new RoleB
         val rC = new RoleC

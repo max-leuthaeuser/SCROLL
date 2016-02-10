@@ -8,7 +8,6 @@ val chocoVersion = "3.3.1"
 val slf4jVersion = "1.7.12"
 val contVersion = "1.0.2"
 val macrosVersion = "2.0.1"
-val guavaVersion = "19.0"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.7",
@@ -24,7 +23,7 @@ lazy val commonSettings = Seq(
   addCompilerPlugin("org.scala-lang.plugins" % "scala-continuations-plugin_2.11.7" % contVersion),
   addCompilerPlugin("org.scalamacros" % "paradise" % macrosVersion cross CrossVersion.full),
   libraryDependencies ++= Seq(
-    "com.google.guava" % "guava" % guavaVersion,
+    "com.googlecode.kiama" %% "kiama" % kiamaVersion,
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.chuusai" %% "shapeless" % shapelessVersion,
     "org.jgrapht" % "jgrapht-core" % jgraphTVersion,
@@ -112,12 +111,7 @@ lazy val macros = (project in file("macros")).
   settings(commonSettings: _*)
 
 lazy val examples = (project in file("examples")).
-  settings(commonSettings: _*).
-  settings(
-    libraryDependencies ++= Seq(
-      "com.googlecode.kiama" %% "kiama" % kiamaVersion
-    )
-  ).dependsOn(core)
+  settings(commonSettings: _*).dependsOn(core)
 
 lazy val tests = (project in file("tests")).
   settings(commonSettings: _*).
@@ -137,7 +131,6 @@ lazy val benchmarks = (project in file("benchmarks")).
       "org.scalatest" %% "scalatest" % scalatestVersion % "test",
       "com.storm-enroute" %% "scalameter" % scalameterVersion % "test"
     ),
-    testFrameworks in Test += scalaMeterFramework,
-    testOptions in Test += Tests.Argument(scalaMeterFramework, "-silent")
+    testFrameworks in Test += scalaMeterFramework
   ).dependsOn(core)
 

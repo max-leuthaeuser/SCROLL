@@ -10,7 +10,7 @@ class RoleGroupsTest extends FeatureSpec with GivenWhenThen with Matchers with S
     scenario("Validating role group cardinality") {
       val acc1 = new CoreA()
       val acc2 = new CoreA()
-      new SomeCompartment(cached) {
+      new SomeCompartment(backend) {
         Given("A compartment and a role group")
 
         class Source

@@ -12,7 +12,7 @@ class CROITest extends FeatureSpec with GivenWhenThen with Matchers with SCROLLT
     scenario("CROI is filled manually") {
       val p = getClass.getResource("/Bank.crom").getPath
 
-      new SomeCompartment(cached) with CROI {
+      new SomeCompartment(backend) with CROI {
         Given("A natural, a role and a compartment instance")
         val n = new CoreA()
         val r = new RoleA()

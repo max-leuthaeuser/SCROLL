@@ -1,9 +1,8 @@
 package sorm.mappings
 
-import scroll.internal.graph.ScalaRoleGraph
+import scroll.internal.graph.RoleGraph
 import sorm._
 import driver.DriverConnection
-import core._
 import reflection._
 import ddl._
 import org.joda.time._
@@ -44,10 +43,10 @@ class ValueMapping
     case _ if reflection <:< Reflection[LocalDate]
     ⇒ ColumnType.Date
     case _
-      if reflection.toString.contains("ScalaRoleGraph")
+      if reflection.toString.contains("RoleGraph")
     => ColumnType.Text
     case _
-      if reflection <:< Reflection[ScalaRoleGraph]
+      if reflection <:< Reflection[RoleGraph]
     => ColumnType.Text
     case _
     ⇒ ???

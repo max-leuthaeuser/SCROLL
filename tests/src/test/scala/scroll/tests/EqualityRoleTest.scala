@@ -11,7 +11,7 @@ class EqualityRoleTest extends FeatureSpec with GivenWhenThen with Matchers with
       Given("some player and a role in a compartment")
 
       val someCore = new CoreA()
-      new SomeCompartment(cached) {
+      new SomeCompartment(backend) {
         val someRole = new RoleA()
         And("a play relationship")
         val player = someCore play someRole
@@ -46,7 +46,7 @@ class EqualityRoleTest extends FeatureSpec with GivenWhenThen with Matchers with
       Given("some player and roles in a compartment")
 
       val someCore = new CoreA()
-      new SomeCompartment(cached) {
+      new SomeCompartment(backend) {
         val someRole = new RoleA()
         val someOtherRole = new RoleB()
         And("some play relationships")

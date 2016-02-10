@@ -9,7 +9,7 @@ class ECoreInstanceTest extends FeatureSpec with GivenWhenThen with Matchers wit
 
   feature("Loading an ECore CROM model instance") {
     scenario("No model is loaded") {
-      new SomeCompartment(cached) with CROM {
+      new SomeCompartment(backend) with CROM {
         When("No model is available")
         Then("it can not be wellformed")
         wellformed shouldBe false
@@ -19,7 +19,7 @@ class ECoreInstanceTest extends FeatureSpec with GivenWhenThen with Matchers wit
     scenario("Loading from a valid path containing a valid model") {
       val p = getClass.getResource("/Bank.crom").getPath
 
-      new SomeCompartment(cached) with CROM {
+      new SomeCompartment(backend) with CROM {
         When("A specific valid CROM instance is given")
         withModel(p)
         Then("it should be wellformed")

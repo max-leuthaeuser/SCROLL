@@ -5,7 +5,7 @@ import java.lang.reflect.Method
 
 import scroll.internal.support._
 import UnionTypes.RoleUnionTypes
-import scroll.internal.graph.ScalaRoleGraph
+import scroll.internal.graph.{RoleGraph, ScalaRoleGraph}
 
 import scala.annotation.tailrec
 import scala.reflect.Manifest
@@ -36,14 +36,14 @@ import scala.reflect.runtime.universe._
   */
 trait Compartment
   extends RoleConstraints
-  with RoleRestrictions
-  with RoleGroups
-  with Relationships
-  with QueryStrategies
-  with RoleUnionTypes
-  with Coroutines {
+    with RoleRestrictions
+    with RoleGroups
+    with Relationships
+    with QueryStrategies
+    with RoleUnionTypes
+    with Coroutines {
 
-  protected var plays = new ScalaRoleGraph()
+  protected var plays: RoleGraph = new ScalaRoleGraph()
 
   /**
     * Declaring a is-part-of relation between compartments.
@@ -171,8 +171,8 @@ trait Compartment
     * @tparam T type of core the given role should be attached to
     * @tparam R type of role
     * @param coreFrom the core the given role should be removed from
-    * @param coreTo the core the given role should be attached to
-    * @param role the role that should be transferred
+    * @param coreTo   the core the given role should be attached to
+    * @param role     the role that should be transferred
     */
   def transferRole[F <: AnyRef : WeakTypeTag, T <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](coreFrom: F, coreTo: T, role: R) {
     require(null != coreFrom)
@@ -203,8 +203,8 @@ trait Compartment
     /**
       * Allows to call a function with arguments.
       *
-      * @param name the function name
-      * @param args the arguments handed over to the given function
+      * @param name          the function name
+      * @param args          the arguments handed over to the given function
       * @param dispatchQuery the dispatch rules that should be applied
       * @tparam E return type
       * @tparam A argument type
@@ -215,8 +215,8 @@ trait Compartment
     /**
       * Allows to call a function with named arguments.
       *
-      * @param name the function name
-      * @param args tuple with the the name and argument handed over to the given function
+      * @param name          the function name
+      * @param args          tuple with the the name and argument handed over to the given function
       * @param dispatchQuery the dispatch rules that should be applied
       * @tparam E return type
       * @return the result of the function call
@@ -226,7 +226,7 @@ trait Compartment
     /**
       * Allows to write field accessors.
       *
-      * @param name of the field
+      * @param name          of the field
       * @param dispatchQuery the dispatch rules that should be applied
       * @tparam E return type
       * @return the result of the field access
@@ -236,8 +236,8 @@ trait Compartment
     /**
       * Allows to write field updates.
       *
-      * @param name of the field
-      * @param value the new value to write
+      * @param name          of the field
+      * @param value         the new value to write
       * @param dispatchQuery the dispatch rules that should be applied
       */
     def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty)

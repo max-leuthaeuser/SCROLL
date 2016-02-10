@@ -1,6 +1,7 @@
 package scroll.benchmarks
 
 import org.scalameter.api._
+import SCROLLBenchmarkConfig._
 
 trait RoleGraphExecutionBenchmarks extends BenchmarkHelper {
 
@@ -36,32 +37,47 @@ trait RoleGraphExecutionBenchmarks extends BenchmarkHelper {
   performance of "RoleGraph" in {
 
     measure method "play" in {
-      cached = false
+      backend = JGRAPHT
       runPlayBenchmark()
     }
 
     measure method "play (cached)" in {
-      cached = true
+      backend = CACHED
+      runPlayBenchmark()
+    }
+
+    measure method "play (kiama)" in {
+      backend = KIAMA
       runPlayBenchmark()
     }
 
     measure method "invoke role method" in {
-      cached = false
+      backend = JGRAPHT
       runInvokeRoleBenchmark()
     }
 
     measure method "invoke role method (cached)" in {
-      cached = true
+      backend = CACHED
+      runInvokeRoleBenchmark()
+    }
+
+    measure method "invoke role method (kiama)" in {
+      backend = KIAMA
       runInvokeRoleBenchmark()
     }
 
     measure method "call role method directly" in {
-      cached = false
+      backend = JGRAPHT
       runInvokeDirectlyBenchmark()
     }
 
     measure method "call role method directly (cached)" in {
-      cached = true
+      backend = CACHED
+      runInvokeDirectlyBenchmark()
+    }
+
+    measure method "call role method directly (kiama)" in {
+      backend = KIAMA
       runInvokeDirectlyBenchmark()
     }
   }
