@@ -4,11 +4,12 @@ import org.scalameter.api._
 import SCROLLBenchmarkConfig._
 
 trait RoleGraphExecutionBenchmarks extends BenchmarkHelper {
-
-  private def runPlayBenchmark() = using(input) config(
+  val opts = Seq(
     exec.benchRuns -> NUM_OF_RUNS,
     exec.independentSamples -> NUM_OF_VMS
-    ) in {
+  )
+
+  private def runPlayBenchmark() = using(input) config (opts: _*) in {
     case (players, roles) =>
       val comp = new MockCompartment()
       (0 until players).foreach(playerID => {
@@ -19,23 +20,16 @@ trait RoleGraphExecutionBenchmarks extends BenchmarkHelper {
       })
   }
 
-  private def runInvokeRoleBenchmark() = using(compartments) config(
-    exec.benchRuns -> NUM_OF_RUNS,
-    exec.independentSamples -> NUM_OF_VMS
-    ) in {
+  private def runInvokeRoleBenchmark() = using(compartments) config (opts: _*) in {
     c => c.invokeAtRole()
   }
 
-  private def runInvokeDirectlyBenchmark() = using(compartments) config(
-    exec.benchRuns -> NUM_OF_RUNS,
-    exec.independentSamples -> NUM_OF_VMS
-    ) in {
+  private def runInvokeDirectlyBenchmark() = using(compartments) config (opts: _*) in {
     c => c.invokeDirectly()
   }
 
 
   performance of "RoleGraph" in {
-
     measure method "play" in {
       backend = JGRAPHT
       runPlayBenchmark()
@@ -43,11 +37,6 @@ trait RoleGraphExecutionBenchmarks extends BenchmarkHelper {
 
     measure method "play (cached)" in {
       backend = CACHED
-      runPlayBenchmark()
-    }
-
-    measure method "play (kiama)" in {
-      backend = KIAMA
       runPlayBenchmark()
     }
 
@@ -61,23 +50,14 @@ trait RoleGraphExecutionBenchmarks extends BenchmarkHelper {
       runInvokeRoleBenchmark()
     }
 
-    measure method "invoke role method (kiama)" in {
-      backend = KIAMA
-      runInvokeRoleBenchmark()
-    }
-
     measure method "call role method directly" in {
       backend = JGRAPHT
       runInvokeDirectlyBenchmark()
     }
 
+
     measure method "call role method directly (cached)" in {
       backend = CACHED
-      runInvokeDirectlyBenchmark()
-    }
-
-    measure method "call role method directly (kiama)" in {
-      backend = KIAMA
       runInvokeDirectlyBenchmark()
     }
   }
