@@ -3,84 +3,79 @@ package scroll.benchmarks
 import org.scalameter.api._
 import scroll.internal.Compartment
 import scroll.internal.graph.{KiamaScalaRoleGraph, ScalaRoleGraph, CachedScalaRoleGraph}
-import SCROLLBenchmarkConfig._
 
 trait BenchmarkHelper extends Bench.OfflineReport {
-  var backend = JGRAPHT
+
+  sealed trait Backend
+
+  case class JGRAPHT() extends Backend
+
+  case class KIAMA() extends Backend
+
+  case class CACHED() extends Backend
 
   protected val NUM_OF_RUNS = 3
   protected val NUM_OF_VMS = 2
+  protected val MIN_WARMUPS = 1
+  protected val MAX_WARMUPS = 3
+  protected val JVM_FLAGS = List("-Xms4g", "-Xmx4g")
 
   // generators
   protected val roleSizes = Gen.exponential("#Roles")(1, 1000, 10)
   protected val playerSizes = Gen.exponential("#Players")(1, 100, 10)
   protected val input = Gen.crossProduct(playerSizes, roleSizes)
 
-  protected def compartments = for (ps <- playerSizes; rs <- roleSizes) yield createCompartment(ps, rs)
+  protected val compartmentsJGRAPHT = (for (ps <- playerSizes; rs <- roleSizes) yield new InvokeCompartment(ps, rs, JGRAPHT())).cached
+
+  protected val compartmentsCACHED = (for (ps <- playerSizes; rs <- roleSizes) yield new InvokeCompartment(ps, rs, CACHED())).cached
+
+  protected val compartmentsKIAMA = (for (ps <- playerSizes; rs <- roleSizes) yield new InvokeCompartment(ps, rs, KIAMA())).cached
 
   // mock objects
-  class MockRole(id: Int = 0)
+  case class MockRole(id: Int = 0)
 
-  class MockRoleWithFunc {
+  case class MockRoleWithFunc(id: Int = 0) {
     def func(): Int = 0
   }
 
-  class MockPlayer(id: Int = 0)
+  case class MockPlayer(id: Int = 0)
 
-  class MockCompartment(id: Int = 0) extends Compartment {
+  case class MockCompartment(id: Int = 0, backend: Backend) extends Compartment {
     plays = backend match {
-      case CACHED => new CachedScalaRoleGraph()
-      case JGRAPHT => new ScalaRoleGraph()
-      case KIAMA => new KiamaScalaRoleGraph()
+      case CACHED() => new CachedScalaRoleGraph()
+      case JGRAPHT() => new ScalaRoleGraph()
+      case KIAMA() => new KiamaScalaRoleGraph()
     }
   }
 
-  def createCompartment(numOfPlayers: Int, numOfRoles: Int) = {
-    new Compartment {
-      plays = backend match {
-        case CACHED => new CachedScalaRoleGraph()
-        case JGRAPHT => new ScalaRoleGraph()
-        case KIAMA => new KiamaScalaRoleGraph()
-      }
+  class InvokeCompartment(numOfPlayers: Int, numOfRoles: Int, backend: Backend) extends Compartment {
+    plays = backend match {
+      case CACHED() => new CachedScalaRoleGraph()
+      case JGRAPHT() => new ScalaRoleGraph()
+      case KIAMA() => new KiamaScalaRoleGraph()
+    }
 
-      val players = (0 until numOfPlayers).map(id => +new MockPlayer(id))
-      val mRole = new MockRoleWithFunc()
+    val players = (0 until numOfPlayers).map(id => +MockPlayer(id))
+    val mRole = MockRoleWithFunc(numOfRoles)
 
+    players.foreach(p => {
+      (0 until numOfRoles).foreach(p play MockRole(_))
+      p play mRole
+    })
+
+    def invokeAtRole() {
       players.foreach(p => {
-        (0 until numOfRoles).foreach(p play new MockRole(_))
-        p play mRole
-      })
-
-      def invokeAtRole() {
-        players.foreach(p => {
+        (0 until 100).foreach(_ => {
           val r: Int = p.func()
         })
-      }
+      })
+    }
 
-      def invokeDirectly() {
-        players.foreach(p => {
-          val r: Int = mRole.func()
-        })
-      }
+    def invokeDirectly() {
+      players.foreach(p => {
+        (0 until 100).foreach(_ => mRole.func())
+      })
     }
   }
 
-  def readFromCSV(path: String, split: String = ",", removeHeadline: Boolean = true): Seq[Seq[String]] = {
-    assert(null != path && path.nonEmpty)
-
-    def using[A <: {def close() : Unit}, B](resource: A)(f: A => B): B =
-      try {
-        f(resource)
-      } finally {
-        resource.close()
-      }
-
-    using(io.Source.fromFile(path))(source => {
-      val lines = removeHeadline match {
-        case true => source.getLines().toSeq.tail
-        case false => source.getLines().toSeq
-      }
-      return lines.map(l => l.split(split).map(_.trim).toSeq)
-    })
-  }
 }

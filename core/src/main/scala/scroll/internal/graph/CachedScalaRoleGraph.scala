@@ -26,7 +26,7 @@ class CachedScalaRoleGraph extends ScalaRoleGraph {
 
   private lazy val cache = new Cache()
 
-  override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit = {
+  override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
     super.addBinding(player, role)
     cache.resetAt(Key(player, Contains))
     cache.resetAt(Key(player, Predecessors))
@@ -52,7 +52,8 @@ class CachedScalaRoleGraph extends ScalaRoleGraph {
     }
   }
 
-  override def detach(other: RoleGraph) = {
+  override def detach(other: RoleGraph) {
+    assert(other.isInstanceOf[CachedScalaRoleGraph], "You can only detach RoleGraphs of the same type!")
     super.detach(other)
     cache.reset()
   }
@@ -79,12 +80,13 @@ class CachedScalaRoleGraph extends ScalaRoleGraph {
     }
   }
 
-  override def merge(other: RoleGraph) = {
+  override def merge(other: RoleGraph) {
+    assert(other.isInstanceOf[CachedScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
     super.merge(other)
     cache.reset()
   }
 
-  override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) = {
+  override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
     super.removeBinding(player, role)
     cache.resetAt(Key(player, Contains))
     cache.resetAt(Key(player, Predecessors))
@@ -94,7 +96,7 @@ class CachedScalaRoleGraph extends ScalaRoleGraph {
     cache.resetAt(Key(role, Roles))
   }
 
-  override def removePlayer[P <: AnyRef : WeakTypeTag](player: P) = {
+  override def removePlayer[P <: AnyRef : WeakTypeTag](player: P) {
     super.removePlayer(player)
     cache.resetAt(Key(player, Contains))
     cache.resetAt(Key(player, Predecessors))

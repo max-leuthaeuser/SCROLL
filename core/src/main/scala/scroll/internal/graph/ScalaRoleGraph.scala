@@ -18,11 +18,13 @@ class ScalaRoleGraph extends RoleGraph {
 
   override def merge(other: RoleGraph) {
     require(null != other)
+    assert(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
     Graphs.addGraph(store, other.store)
   }
 
   override def detach(other: RoleGraph) {
     require(null != other)
+    assert(other.isInstanceOf[ScalaRoleGraph], "You can only detach RoleGraphs of the same type!")
     store.removeAllVertices(other.store.vertexSet())
   }
 
