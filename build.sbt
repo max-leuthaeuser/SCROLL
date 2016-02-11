@@ -124,13 +124,5 @@ lazy val tests = (project in file("tests")).
 val scalaMeterFramework = new TestFramework("org.scalameter.ScalaMeterFramework")
 
 lazy val benchmarks = (project in file("benchmarks")).
-  settings(commonSettings: _*).
-  settings(
-    parallelExecution in Test := false,
-    libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % scalatestVersion % "test",
-      "com.storm-enroute" %% "scalameter" % scalameterVersion % "test"
-    ),
-    testFrameworks in Test += scalaMeterFramework
-  ).dependsOn(core)
+  settings(commonSettings: _*).dependsOn(core)
 

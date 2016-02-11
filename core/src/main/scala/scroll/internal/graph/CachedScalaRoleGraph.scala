@@ -16,7 +16,7 @@ object CachedScalaRoleGraph extends Memoiser {
 
   case class Key(obj: Any, opt: KeyOption)
 
-  class Cache extends IdMemoised[Key, Set[Any]]
+  class Cache extends Memoised[Key, Set[Any]]
 
 }
 
