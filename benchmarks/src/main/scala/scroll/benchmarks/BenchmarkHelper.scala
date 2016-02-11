@@ -1,7 +1,5 @@
 package scroll.benchmarks
 
-import scroll.benchmarks.mocks.MockCompartment
-
 object BenchmarkHelper {
 
   sealed trait Backend
@@ -16,9 +14,9 @@ object BenchmarkHelper {
 
 trait BenchmarkHelper {
   // generators
-  protected val roles = List(10, 100)
+  protected val roles = List(10, 1000)
   protected val players = List(10)
-  protected val invokes = 10000
+  protected val invokes = 1000
 
   implicit class RichElapsed(f: => Unit) {
 
