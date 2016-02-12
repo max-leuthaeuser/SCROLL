@@ -8,7 +8,7 @@ case class MockCompartment(numOfPlayers: Int, numOfRoles: Int, numOfInvokes: Int
   plays = backend match {
     case CACHED() => new CachedScalaRoleGraph()
     case JGRAPHT() => new ScalaRoleGraph()
-    case KIAMA() => new KiamaScalaRoleGraph()
+    case KIAMA() => new KiamaScalaRoleGraph(checkForCycles = false)
   }
 
   val players = (0 until numOfPlayers).map(id => +MockPlayer(id))
