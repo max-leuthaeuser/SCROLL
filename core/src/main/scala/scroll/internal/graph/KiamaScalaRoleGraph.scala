@@ -2,10 +2,12 @@ package scroll.internal.graph
 
 import org.jgrapht.DirectedGraph
 import org.jgrapht.graph.DefaultEdge
+import org.kiama.attribution.ParamAttributeKey
 import org.kiama.rewriting.{Rewriter, Strategy}
 import org.kiama.util.TreeNode
 import scroll.internal.support.DispatchQuery
 
+import scala.collection.mutable
 import scala.reflect.runtime.universe._
 import org.kiama.attribution.Attribution._
 
@@ -13,9 +15,9 @@ object KiamaScalaRoleGraph {
 
   sealed trait Node extends TreeNode
 
-  case class RolePlayingGraphRoot(var players: Seq[Player]) extends Node
+  case class RolePlayingGraphRoot(var players: mutable.ListBuffer[Player]) extends Node
 
-  case class Player(obj: Any, var roles: Seq[Player] = Seq.empty) extends Node {
+  case class Player(obj: Any, var roles: mutable.ListBuffer[Player] = mutable.ListBuffer.empty) extends Node {
     override def equals(other: scala.Any): Boolean = other match {
       case Player(o, _) => obj == o
       case _ => false
@@ -30,25 +32,10 @@ class KiamaScalaRoleGraph extends Rewriter with RoleGraph {
 
   import KiamaScalaRoleGraph._
 
-  private lazy val root = RolePlayingGraphRoot(Seq.empty)
+  private lazy val root = RolePlayingGraphRoot(mutable.ListBuffer.empty)
 
-  private lazy val depSet: Set[MemoisedBase[_, _]] =
-    Set(kiama_hasCycle, kiama_containsPlayer, kiama_allPlayers, kiama_getRoles, kiama_getPredecessors)
-
-  private lazy val deps = Map(
-    "kiama_addBinding" -> depSet,
-    "kiama_removePlayer" -> depSet,
-    "kiama_removeBinding" -> depSet,
-    "kiama_merge" -> depSet,
-    "kiama_detach" -> depSet
-  )
-
-  override def rewrite[T](s: Strategy)(t: T): T = {
-    try {
-      super.rewrite(s)(t)
-    } finally {
-      deps(s.name).foreach(_.reset())
-    }
+  private def resetAll() {
+    Set(kiama_hasCycle, kiama_containsPlayer, kiama_allPlayers, kiama_getRoles, kiama_getPredecessors).foreach(_.reset())
   }
 
   private lazy val kiama_hasCycleDef: Node => Boolean = {
@@ -60,28 +47,31 @@ class KiamaScalaRoleGraph extends Rewriter with RoleGraph {
 
   private lazy val kiama_hasCycle = attr(kiama_hasCycleDef)
 
-  private def kiama_addBinding(player: Player, role: Player): RolePlayingGraphRoot = {
-    lazy val addBindingRule: Strategy =
-      rule[Node] {
-        case r: RolePlayingGraphRoot =>
-          if (!kiama_containsPlayer(player)(r)) {
-            r.players = r.players :+ player
-          }
-          r
+  private def kiama_addBinding(player: Player, role: Player) {
+    def addBindingRule(n: Node) {
+      n match {
+        case r: RolePlayingGraphRoot => kiama_allPlayers(r).find(_ == player) match {
+          case Some(p) => addBindingRule(p)
+          case None =>
+            r.players += player
+            addBindingRule(player)
+        }
         case p: Player if p == player && !p.roles.contains(role) =>
-          p.roles = p.roles :+ role
-          p
+          p.roles += role
+        case p: Player => p.roles.foreach(addBindingRule(_))
       }
-
-    try {
-      rewrite(topdown(attempt(addBindingRule)))(root)
-    } finally {
-      if (kiama_hasCycle(root)) throw new RuntimeException(s"Cyclic role-playing relationship for player '$player' found!")
     }
+    addBindingRule(root)
   }
 
   override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
-    root.players = kiama_addBinding(Player(player), Player(role)).players
+    kiama_addBinding(Player(player), Player(role))
+    kiama_hasCycle.reset()
+    kiama_containsPlayer.reset()
+    kiama_allPlayers.reset()
+    kiama_getRoles.reset()
+    kiama_getPredecessors.reset()
+    if (kiama_hasCycle(root)) throw new RuntimeException(s"Cyclic role-playing relationship for player '$player' found!")
   }
 
   private lazy val kiama_getRolesDef: Player => Node => Seq[Player] = {
@@ -152,6 +142,7 @@ class KiamaScalaRoleGraph extends Rewriter with RoleGraph {
 
   override def detach(other: RoleGraph) {
     root.players = kiama_detach(other).players
+    resetAll()
   }
 
   private lazy val kiama_getPredecessorsDef: Player => Node => Seq[Player] = {
@@ -183,9 +174,9 @@ class KiamaScalaRoleGraph extends Rewriter with RoleGraph {
           otherStore.players.foreach(pl => {
             r.players.contains(pl) match {
               case true => pl.roles.foreach(rl => {
-                r.players = kiama_addBinding(pl, rl).players
+                kiama_addBinding(pl, rl)
               })
-              case false => r.players = r.players :+ pl
+              case false => r.players += pl
             }
           })
           r
@@ -196,6 +187,7 @@ class KiamaScalaRoleGraph extends Rewriter with RoleGraph {
 
   override def merge(other: RoleGraph) {
     root.players = kiama_merge(other).players
+    resetAll()
   }
 
   private def kiama_removePlayer(player: Player): RolePlayingGraphRoot = {
@@ -203,21 +195,34 @@ class KiamaScalaRoleGraph extends Rewriter with RoleGraph {
       rule[Node] {
         case g@RolePlayingGraphRoot(players) =>
           if (players.contains(player)) {
-            g.players = g.players diff Seq(player)
+            g.players -= player
           }
           g
         case p@Player(_, roles) =>
           if (roles.contains(player)) {
-            p.roles = roles diff Seq(player)
+            p.roles -= player
           }
           p
       }
-    println("Removing: " + player)
     rewrite(topdown(attempt(removePlayerRule)))(root)
   }
 
   override def removePlayer[P <: AnyRef : WeakTypeTag](player: P) {
-    root.players = kiama_removePlayer(Player(player)).players
+    val p = Player(player)
+    val newRoot = kiama_removePlayer(p)
+
+    kiama_containsPlayer.reset()
+    kiama_allPlayers.reset()
+
+    val key1 = new ParamAttributeKey(p, root)
+    val key2 = new ParamAttributeKey(p, p)
+    if (kiama_getRoles.hasBeenComputedAt(key1)) kiama_getRoles.resetAt(key1)
+    if (kiama_getRoles.hasBeenComputedAt(key2)) kiama_getRoles.resetAt(key2)
+
+    if (kiama_getPredecessors.hasBeenComputedAt(key1)) kiama_getPredecessors.resetAt(key1)
+    if (kiama_getPredecessors.hasBeenComputedAt(key2)) kiama_getPredecessors.resetAt(key1)
+
+    root.players = newRoot.players
   }
 
   private def kiama_removeBinding(player: Player, role: Player): RolePlayingGraphRoot = {
@@ -225,22 +230,28 @@ class KiamaScalaRoleGraph extends Rewriter with RoleGraph {
       rule[Node] {
         case r@RolePlayingGraphRoot(players) =>
           if (players.contains(player) && player.roles.contains(role)) {
-            player.roles = player.roles diff Seq(role)
+            player.roles -= role
           }
           r
         case p: Player if p == player && p.roles.contains(role) =>
-          p.roles = p.roles diff Seq(role)
+          p.roles -= role
           p
         case p: Player if p == player && kiama_getRoles(p)(p).contains(role) =>
           val pred = kiama_getPredecessors(role)(p).head
-          pred.roles = pred.roles diff Seq(role)
+          pred.roles -= role
           p
       }
     rewrite(topdown(attempt(removeBindingRule)))(root)
   }
 
   override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
-    root.players = kiama_removeBinding(Player(player), Player(role)).players
+    val newRoot = kiama_removeBinding(Player(player), Player(role))
+    kiama_hasCycle.reset()
+    kiama_containsPlayer.reset()
+    kiama_allPlayers.reset()
+    kiama_getRoles.reset()
+    kiama_getPredecessors.reset()
+    root.players = newRoot.players
   }
 
   override val store: DirectedGraph[Any, DefaultEdge] = null // we are not using it here!

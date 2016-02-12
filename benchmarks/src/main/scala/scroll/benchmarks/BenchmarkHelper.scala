@@ -14,7 +14,7 @@ object BenchmarkHelper {
 
 trait BenchmarkHelper {
   // generators
-  protected val roles = List(10, 1000)
+  protected val roles = List(100)
   protected val players = List(10)
   protected val invokes = 1000
 
@@ -26,6 +26,18 @@ trait BenchmarkHelper {
       val end = System.nanoTime()
 
       (end - start) / 1e3
+    }
+
+  }
+
+  implicit class RichElapsedT[T](f: => T) {
+
+    def elapsed(): (T, Double) = {
+      val start = System.nanoTime()
+      val result = f
+      val end = System.nanoTime()
+
+      (result, (end - start) / 1e3)
     }
 
   }

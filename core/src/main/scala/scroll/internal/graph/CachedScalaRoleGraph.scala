@@ -28,12 +28,12 @@ class CachedScalaRoleGraph extends ScalaRoleGraph {
 
   override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
     super.addBinding(player, role)
-    cache.resetAt(Key(player, Contains))
-    cache.resetAt(Key(player, Predecessors))
-    cache.resetAt(Key(player, Roles))
-    cache.resetAt(Key(role, Contains))
-    cache.resetAt(Key(role, Predecessors))
-    cache.resetAt(Key(role, Roles))
+    reset(player)
+    reset(role)
+  }
+
+  private def reset(o: Any) {
+    Seq(Key(o, Contains), Key(o, Predecessors), Key(o, Roles)).filter(cache.hasBeenComputedAt).foreach(cache.resetAt)
   }
 
   override def containsPlayer(player: Any): Boolean = {
@@ -88,18 +88,12 @@ class CachedScalaRoleGraph extends ScalaRoleGraph {
 
   override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
     super.removeBinding(player, role)
-    cache.resetAt(Key(player, Contains))
-    cache.resetAt(Key(player, Predecessors))
-    cache.resetAt(Key(player, Roles))
-    cache.resetAt(Key(role, Contains))
-    cache.resetAt(Key(role, Predecessors))
-    cache.resetAt(Key(role, Roles))
+    reset(player)
+    reset(role)
   }
 
   override def removePlayer[P <: AnyRef : WeakTypeTag](player: P) {
     super.removePlayer(player)
-    cache.resetAt(Key(player, Contains))
-    cache.resetAt(Key(player, Predecessors))
-    cache.resetAt(Key(player, Roles))
+    reset(player)
   }
 }

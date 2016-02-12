@@ -1,17 +1,21 @@
 package scroll.benchmarks
 
-import scroll.benchmarks.BenchmarkHelper.{KIAMA, CACHED, JGRAPHT}
+import scroll.benchmarks.BenchmarkHelper.{Backend, KIAMA, CACHED, JGRAPHT}
 import scroll.benchmarks.mocks.MockCompartment
 
 object RoleGraphExecutionBenchmarks extends App with BenchmarkHelper {
 
   private val result = StringBuilder.newBuilder
 
+  private def buildCompartments(backend: Backend): List[MockCompartment] = for (ps <- players; rs <- roles) yield MockCompartment(ps, rs, invokes, backend)
+
   println("Building Compartments ...")
-  val compartmentsJGRAPHT = for (ps <- players; rs <- roles) yield MockCompartment(ps, rs, invokes, JGRAPHT())
-  val compartmentsCACHED = for (ps <- players; rs <- roles) yield MockCompartment(ps, rs, invokes, CACHED())
-  val compartmentsKIAMA = for (ps <- players; rs <- roles) yield MockCompartment(ps, rs, invokes, KIAMA())
-  println("finished.")
+  val (compartmentsJGRAPHT, t1) = buildCompartments(JGRAPHT()).elapsed()
+  println("finished in " + t1 + "ns")
+  val (compartmentsCACHED, t2) = buildCompartments(CACHED()).elapsed()
+  println("finished in " + t2 + "ns")
+  val (compartmentsKIAMA, t3) = buildCompartments(KIAMA()).elapsed()
+  println("finished in " + t3 + "ns")
 
   result.append("backend;#player;#roles;time\n")
   println("Running benchmark for JGRAPHT backend ...")
