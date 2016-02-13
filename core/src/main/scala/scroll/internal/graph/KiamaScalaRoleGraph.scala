@@ -54,12 +54,12 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
     kiama_addBinding(Player(player, role))
-    if(checkForCycles) kiama_hasCycle.reset()
+    if (checkForCycles) kiama_hasCycle.reset()
     kiama_containsPlayer.reset()
     kiama_allPlayers.reset()
     kiama_getRoles.reset()
     kiama_getPredecessors.reset()
-    if(checkForCycles) if (kiama_hasCycle(Player(player, role))) throw new RuntimeException(s"Cyclic role-playing relationship for player '$player' found!")
+    if (checkForCycles) if (kiama_hasCycle(Player(player, role))) throw new RuntimeException(s"Cyclic role-playing relationship for player '$player' found!")
   }
 
   private lazy val kiama_getRolesDef: Player => Node => Seq[Any] = {
@@ -136,14 +136,12 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
   }
 
   private def kiama_removePlayer(player: Player) {
-    if (root.players.contains(player)) {
-      root.players -= player
-    }
+    root.players -= player
   }
 
   override def removePlayer[P <: AnyRef : WeakTypeTag](player: P) {
     val p = Player(player, null)
-    val newRoot = kiama_removePlayer(p)
+    kiama_removePlayer(p)
 
     kiama_containsPlayer.reset()
     kiama_allPlayers.reset()
@@ -163,7 +161,7 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
     kiama_removeBinding(Player(player, role))
-    if(checkForCycles) kiama_hasCycle.reset()
+    if (checkForCycles) kiama_hasCycle.reset()
     kiama_containsPlayer.reset()
     kiama_allPlayers.reset()
     kiama_getRoles.reset()

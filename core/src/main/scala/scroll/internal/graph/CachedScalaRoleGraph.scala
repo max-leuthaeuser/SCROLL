@@ -20,7 +20,7 @@ object CachedScalaRoleGraph extends Memoiser {
 
 }
 
-class CachedScalaRoleGraph extends ScalaRoleGraph {
+class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGraph(checkForCycles) {
 
   import CachedScalaRoleGraph._
 

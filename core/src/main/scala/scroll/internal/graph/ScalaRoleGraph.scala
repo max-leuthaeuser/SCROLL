@@ -2,7 +2,7 @@ package scroll.internal.graph
 
 import org.jgrapht.Graphs
 import org.jgrapht.experimental.dag.DirectedAcyclicGraph
-import org.jgrapht.graph.{DefaultEdge, EdgeReversedGraph}
+import org.jgrapht.graph.{SimpleDirectedGraph, DefaultEdge, EdgeReversedGraph}
 import org.jgrapht.traverse.{BreadthFirstIterator, DepthFirstIterator}
 import scroll.internal.support.DispatchQuery
 
@@ -11,10 +11,16 @@ import scala.reflect.runtime.universe._
 
 /**
   * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
-  * JGraphTs [[org.jgrapht.experimental.dag.DirectedAcyclicGraph]] as underlying data model.
+  * JGraphTs [[org.jgrapht.DirectedGraph]] as underlying data model.
+  *
+  * @param checkForCycles set to true to use an [[org.jgrapht.experimental.dag.DirectedAcyclicGraph]] as underlying
+  *                       data model, or to false to use [[org.jgrapht.graph.SimpleDirectedGraph]]
   */
-class ScalaRoleGraph extends RoleGraph {
-  override lazy val store = new DirectedAcyclicGraph[Any, DefaultEdge](classOf[DefaultEdge])
+class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
+  override lazy val store = checkForCycles match {
+    case true => new DirectedAcyclicGraph[Any, DefaultEdge](classOf[DefaultEdge])
+    case false => new SimpleDirectedGraph[Any, DefaultEdge](classOf[DefaultEdge])
+  }
 
   override def merge(other: RoleGraph) {
     require(null != other)

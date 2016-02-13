@@ -7,14 +7,16 @@ object RoleGraphExecutionBenchmarks extends App with BenchmarkHelper {
 
   private val result = StringBuilder.newBuilder
 
-  private def buildCompartments(backend: Backend): List[MockCompartment] = for (ps <- players; rs <- roles) yield MockCompartment(ps, rs, invokes, backend)
+  private def buildCompartments(backend: Backend): List[MockCompartment] =
+    for (ps <- players; rs <- roles)
+      yield MockCompartment(ps, rs, invokes, backend, checkForCycles = false)
 
   println("Building Compartments ...")
-  val (compartmentsJGRAPHT, t1) = buildCompartments(JGRAPHT()).elapsed()
+  val (compartmentsJGRAPHT, t1) = buildCompartments(JGRAPHT).elapsed()
   println("finished in " + t1 + "ns")
-  val (compartmentsCACHED, t2) = buildCompartments(CACHED()).elapsed()
+  val (compartmentsCACHED, t2) = buildCompartments(CACHED).elapsed()
   println("finished in " + t2 + "ns")
-  val (compartmentsKIAMA, t3) = buildCompartments(KIAMA()).elapsed()
+  val (compartmentsKIAMA, t3) = buildCompartments(KIAMA).elapsed()
   println("finished in " + t3 + "ns")
 
   result.append("backend;#player;#roles;time\n")

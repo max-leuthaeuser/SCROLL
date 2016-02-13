@@ -13,7 +13,7 @@ object PersistentScalaRoleGraph {
 
 }
 
-class PersistentScalaRoleGraph(db: Instance, factory: TypeFactory) extends ScalaRoleGraph {
+class PersistentScalaRoleGraph(db: Instance, factory: TypeFactory, checkForCycles: Boolean = true) extends ScalaRoleGraph(checkForCycles) {
 
   private def checkType[T <: AnyRef : WeakTypeTag](o: T): T = o match {
     case _: Persisted => o

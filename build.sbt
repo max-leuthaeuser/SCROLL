@@ -124,5 +124,9 @@ lazy val tests = (project in file("tests")).
 val scalaMeterFramework = new TestFramework("org.scalameter.ScalaMeterFramework")
 
 lazy val benchmarks = (project in file("benchmarks")).
-  settings(commonSettings: _*).dependsOn(core)
+  settings(commonSettings: _*).
+  settings(
+    javaOptions += "-Xms4g",
+    javaOptions += "-Xmx4g"
+  ).dependsOn(core)
 

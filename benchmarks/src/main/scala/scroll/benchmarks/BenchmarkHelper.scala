@@ -4,19 +4,19 @@ object BenchmarkHelper {
 
   sealed trait Backend
 
-  case class JGRAPHT() extends Backend
+  object JGRAPHT extends Backend
 
-  case class KIAMA() extends Backend
+  object KIAMA extends Backend
 
-  case class CACHED() extends Backend
+  object CACHED extends Backend
 
 }
 
 trait BenchmarkHelper {
   // generators
-  protected val roles = List(100)
-  protected val players = List(10)
-  protected val invokes = 1000
+  protected val roles = List(1,10,100)
+  protected val players = List(1,10,100)
+  protected val invokes = 100
 
   implicit class RichElapsed(f: => Unit) {
 

@@ -1,8 +1,15 @@
 package scroll.tests
 
-object SCROLLTestConfig extends Enumeration {
-  type Backend = Value
-  val JGRAPHT, CACHED, KIAMA = Value
+object SCROLLTestConfig {
+
+  sealed trait Backend
+
+  object JGRAPHT extends Backend
+
+  object KIAMA extends Backend
+
+  object CACHED extends Backend
+
 }
 
 trait SCROLLTestConfig {
