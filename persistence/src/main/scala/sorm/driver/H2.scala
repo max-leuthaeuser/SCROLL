@@ -1,27 +1,28 @@
 package sorm.driver
 
-import sext._, embrace._
-import sorm.jdbc.{Statement, JdbcConnection}
+import embrace._
+import sext._
 import sorm.ddl.Table
+import sorm.jdbc.{JdbcConnection, Statement}
 
 class H2(protected val connection: JdbcConnection)
   extends DriverConnection
-  with StdConnection
-  with StdTransaction
-  with StdAbstractSqlToSql
-  with StdQuote
-  with StdSqlRendering
-  with StdStatement
-  with StdQuery
-  with StdModify
-  with StdCreateTable
-  with StdListTables
-  with StdDropTables
-  with StdDropAllTables
-  with StdNow {
+    with StdConnection
+    with StdTransaction
+    with StdAbstractSqlToSql
+    with StdQuote
+    with StdSqlRendering
+    with StdStatement
+    with StdQuery
+    with StdModify
+    with StdCreateTable
+    with StdListTables
+    with StdDropTables
+    with StdDropAllTables
+    with StdNow {
   override def listTables() = super.listTables().map(_.toLowerCase)
 
-  override def createTable(table: Table) {
+  override def createTable(table: Table): Unit = {
     super.createTable(table)
     table.indexes.foreach {
       createIndexDdl(table.name, _) $ (Statement(_)) $ connection.executeUpdate

@@ -1,12 +1,9 @@
 package sorm.mappings
 
-import sext._, embrace._
-
-import sorm._
-import driver.DriverConnection
-import reflection.Reflection
-import core._
-import ddl._
+import embrace._
+import sext._
+import sorm.ddl._
+import sorm.driver.DriverConnection
 
 sealed trait TableMapping extends CompositeMapping with Querying {
 

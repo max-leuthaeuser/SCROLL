@@ -1,14 +1,11 @@
 package sorm.query
 
-import sext._, embrace._
-
-import sorm.mappings._
-import sorm.persisted._
-
-import sorm.abstractSql.{AbstractSql => AS}
-import sorm.abstractSql.Combinators._
-import Query._
 import com.typesafe.scalalogging.{StrictLogging => Logging}
+import sext._
+import sorm.abstractSql.Combinators._
+import sorm.abstractSql.{AbstractSql => AS}
+import sorm.mappings._
+import sorm.query.Query._
 
 object AbstractSqlComposition extends Logging {
 

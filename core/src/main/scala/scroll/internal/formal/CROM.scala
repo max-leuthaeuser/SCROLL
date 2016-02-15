@@ -30,7 +30,7 @@ trait CROM extends ECoreImporter {
     *
     * @param path the file path to load a CROM from
     */
-  def withModel(path: String) {
+  def withModel(path: String): Unit = {
     require(null != path && path.nonEmpty)
     this.path = path
     crom = Option(construct())
@@ -101,13 +101,13 @@ trait CROM extends ECoreImporter {
     (rstName, rsts)
   }
 
-  private def addToMap(m: mutable.Map[String, List[String]], elem: (String, List[String])) {
+  private def addToMap(m: mutable.Map[String, List[String]], elem: (String, List[String])): Unit = {
     val key = elem._1
     val value = elem._2
     if (m.contains(key)) {
       m(key) = m(key) ++ value
     } else {
-      m += elem
+      val _ = m += elem
     }
   }
 

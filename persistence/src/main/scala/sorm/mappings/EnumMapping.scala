@@ -1,11 +1,9 @@
 package sorm.mappings
 
-import sext._, embrace._
-import sorm._
-import driver.DriverConnection
-import reflection._
-import ddl._
-import core._
+import embrace._
+import sorm.ddl._
+import sorm.driver.DriverConnection
+import sorm.reflection._
 
 class EnumMapping
 (val reflection: Reflection,

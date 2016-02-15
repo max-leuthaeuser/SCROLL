@@ -1,11 +1,8 @@
 package sorm.abstractSql
 
-import sorm._
-import sql._
-import sext._, embrace._
-
-import AbstractSql._
-import sql.Compositing._
+import sext._
+import sorm.abstractSql.AbstractSql._
+import sorm.sql._
 
 object SqlComposition {
 

@@ -1,8 +1,8 @@
 package sorm
 
-import reflection._
+import sorm.reflection._
 
-import reflect.runtime.universe._
+import scala.reflect.runtime.universe._
 
 sealed case class Entity
 (reflection: Reflection,

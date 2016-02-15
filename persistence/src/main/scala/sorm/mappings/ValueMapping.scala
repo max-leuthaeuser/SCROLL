@@ -1,11 +1,10 @@
 package sorm.mappings
 
-import scroll.internal.graph.RoleGraph
-import sorm._
-import driver.DriverConnection
-import reflection._
-import ddl._
 import org.joda.time._
+import scroll.internal.graph.RoleGraph
+import sorm.ddl._
+import sorm.driver.DriverConnection
+import sorm.reflection._
 
 class ValueMapping
 (val reflection: Reflection,

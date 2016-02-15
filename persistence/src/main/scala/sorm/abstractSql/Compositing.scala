@@ -1,8 +1,7 @@
 package sorm.abstractSql
 
-import sext._, embrace._
-
-import AbstractSql._
+import embrace._
+import sorm.abstractSql.AbstractSql._
 
 object Compositing {
 

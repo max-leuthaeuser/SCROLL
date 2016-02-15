@@ -1,11 +1,11 @@
 package sorm.driver
 
-import sext._, embrace._
-import sorm.jdbc.{JdbcConnection, Statement}
+import embrace._
+import sorm.jdbc.Statement
 
 trait StdDropTables {
   self: StdConnection with StdQuote =>
-  def dropTable(table: String) {
-    table $ ("DROP TABLE " + quote(_)) $ (Statement(_)) $ connection.executeUpdate
+  def dropTable(table: String): Unit = {
+    val _ = table $ ("DROP TABLE " + quote(_)) $ (Statement(_)) $ connection.executeUpdate
   }
 }

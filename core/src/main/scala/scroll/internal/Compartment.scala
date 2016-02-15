@@ -1,8 +1,9 @@
 package scroll.internal
 
 import java.lang
-import java.lang.reflect.Method
+import java.lang.reflect.{InvocationTargetException, Method}
 
+import scroll.internal.errors.SCROLLErrors._
 import scroll.internal.support._
 import UnionTypes.RoleUnionTypes
 import scroll.internal.graph.{RoleGraph, ScalaRoleGraph}
@@ -40,15 +41,21 @@ trait Compartment
     with RoleGroups
     with Relationships
     with QueryStrategies
-    with RoleUnionTypes
-    with Coroutines {
+    with RoleUnionTypes {
 
   protected var plays: RoleGraph = new ScalaRoleGraph()
+
+  implicit def either2TorException[T](either: Either[_, T]): T = either.fold(
+    l => {
+      throw new RuntimeException(l.toString)
+    }, r => {
+      r
+    })
 
   /**
     * Declaring a is-part-of relation between compartments.
     */
-  def partOf(other: Compartment) {
+  def partOf(other: Compartment): Unit = {
     require(null != other)
     plays.merge(other.plays)
   }
@@ -66,7 +73,7 @@ trait Compartment
   /**
     * Removing is-part-of relation between compartments.
     */
-  def notPartOf(other: Compartment) {
+  def notPartOf(other: Compartment): Unit = {
     require(null != other)
     plays.detach(other.plays)
   }
@@ -104,9 +111,9 @@ trait Compartment
       }
     })
 
-  private def safeReturn[T](seq: Seq[T], typeName: String): Seq[T] = seq.isEmpty match {
-    case true => throw new RuntimeException(s"No player with type '$typeName' found!")
-    case false => seq
+  private def safeReturn[T](seq: Seq[T], typeName: String): Either[TypeError, Seq[T]] = seq.isEmpty match {
+    case true => Left(TypeNotFound(typeName))
+    case false => Right(seq)
   }
 
   /**
@@ -114,26 +121,29 @@ trait Compartment
     *
     * @param matcher the matcher that should match the queried player instance in the role playing graph
     * @tparam T the type of the player instance to query for
-    * @return the first player instances, that do conform to the given matcher
+    * @return the first player instance, that does conform to the given matcher or an appropriate error
     */
-  def one[T: Manifest](matcher: RoleQueryStrategy = MatchAny()): T = safeReturn(all[T](matcher), manifest[T].toString()) match {
-    case elem :: Nil => elem
-    case l: Seq[T] => l.head
-    case _ => throw new RuntimeException(s"Query for such a type unsuccessful.")
-  }
+  def one[T: Manifest](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] = safeReturn(all[T](matcher), manifest[T].toString()).fold(
+    l => {
+      Left(l)
+    }, r => {
+      Right(r.head)
+    })
+
 
   /**
     * Query the role playing graph for all player instances that do conform to the given function and return the first found.
     *
     * @param matcher the matching function that should match the queried player instance in the role playing graph
     * @tparam T the type of the player instance to query for
-    * @return the first player instances, that do conform to the given matcher
+    * @return the first player instances, that do conform to the given matcher or an appropriate error
     */
-  def one[T: Manifest](matcher: T => Boolean): T = safeReturn(all[T](matcher), manifest[T].toString()) match {
-    case elem :: Nil => elem
-    case l: Seq[T] => l.head
-    case _ => throw new RuntimeException(s"Query for such a type unsuccessful.")
-  }
+  def one[T: Manifest](matcher: T => Boolean): Either[TypeError, T] = safeReturn(all[T](matcher), manifest[T].toString()).fold(
+    l => {
+      Left(l)
+    }, r => {
+      Right(r.head)
+    })
 
   /**
     * Adds a play relation between core and role.
@@ -143,7 +153,7 @@ trait Compartment
     * @param core the core to add the given role at
     * @param role the role that should added to the given core
     */
-  def addPlaysRelation[C <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](core: C, role: R) {
+  def addPlaysRelation[C <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](core: C, role: R): Unit = {
     require(null != core)
     require(null != role)
     validate(core, weakTypeOf[R])
@@ -158,7 +168,7 @@ trait Compartment
     * @param core the core the given role should removed from
     * @param role the role that should removed from the given core
     */
-  def removePlaysRelation[C <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](core: C, role: R) {
+  def removePlaysRelation[C <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](core: C, role: R): Unit = {
     require(null != core)
     require(null != role)
     plays.removeBinding(core, role)
@@ -174,7 +184,7 @@ trait Compartment
     * @param coreTo   the core the given role should be attached to
     * @param role     the role that should be transferred
     */
-  def transferRole[F <: AnyRef : WeakTypeTag, T <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](coreFrom: F, coreTo: T, role: R) {
+  def transferRole[F <: AnyRef : WeakTypeTag, T <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](coreFrom: F, coreTo: T, role: R): Unit = {
     require(null != coreFrom)
     require(null != coreTo)
     require(coreFrom != coreTo, "You can not transfer a role from itself.")
@@ -199,7 +209,7 @@ trait Compartment
   /**
     * Generic Trait that enables dynamic invocation of role methods that are not natively available on the player object.
     */
-  trait DynamicType extends Dynamic {
+  trait SCROLLDynamic extends Dynamic {
     /**
       * Allows to call a function with arguments.
       *
@@ -208,9 +218,9 @@ trait Compartment
       * @param dispatchQuery the dispatch rules that should be applied
       * @tparam E return type
       * @tparam A argument type
-      * @return the result of the function call
+      * @return the result of the function call or an appropriate error
       */
-    def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E
+    def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E]
 
     /**
       * Allows to call a function with named arguments.
@@ -219,19 +229,19 @@ trait Compartment
       * @param args          tuple with the the name and argument handed over to the given function
       * @param dispatchQuery the dispatch rules that should be applied
       * @tparam E return type
-      * @return the result of the function call
+      * @return the result of the function call or an appropriate error
       */
-    def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E
+    def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E]
 
     /**
-      * Allows to write field accessors.
+      * Allows to read a field.
       *
       * @param name          of the field
       * @param dispatchQuery the dispatch rules that should be applied
       * @tparam E return type
-      * @return the result of the field access
+      * @return the result of the field access or an appropriate error
       */
-    def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E
+    def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E]
 
     /**
       * Allows to write field updates.
@@ -240,31 +250,54 @@ trait Compartment
       * @param value         the new value to write
       * @param dispatchQuery the dispatch rules that should be applied
       */
-    def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty)
+    def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit
+  }
+
+  trait Dispatchable {
+    /**
+      * For empty argument list dispatch.
+      *
+      * @param on the instance to dispatch the given method m on
+      * @param m  the method to dispatch
+      * @tparam E the return type of method m
+      * @return the resulting return value of the method invocation or an appropriate error
+      */
+    def dispatch[E](on: Any, m: Method): Either[InvocationError, E]
+
+    /**
+      * For multi-argument dispatch.
+      *
+      * @param on   the instance to dispatch the given method m on
+      * @param m    the method to dispatch
+      * @param args the arguments to pass to method m
+      * @tparam E the return type of method m
+      * @tparam A the type of the argument values
+      * @return the resulting return value of the method invocation or an appropriate error
+      */
+    def dispatch[E, A](on: Any, m: Method, args: Seq[A]): Either[InvocationError, E]
   }
 
   /**
     * Trait handling the actual dispatching of role methods.
     */
-  trait DispatchType {
-    private def handleAccessibility(of: Method) {
+  trait SCROLLDispatch extends Dispatchable {
+    private def handleAccessibility(of: Method): Unit = {
       if (!of.isAccessible) of.setAccessible(true)
     }
 
-    /**
-      * For empty argument list dispatch.
-      */
-    def dispatch[E](on: Any, m: Method): E = {
+    override def dispatch[E](on: Any, m: Method): Either[InvocationError, E] = {
       require(null != on)
       require(null != m)
       handleAccessibility(m)
-      m.invoke(on, Array.empty[Object]: _*).asInstanceOf[E]
+      try {
+        Right(m.invoke(on, Array.empty[Object]: _*).asInstanceOf[E])
+      } catch {
+        case e@(_: IllegalAccessException | _: IllegalArgumentException | _: InvocationTargetException) =>
+          Left(IllegalRoleInvocationSingleDispatch(on.toString, m.getName))
+      }
     }
 
-    /**
-      * For multi-argument dispatch.
-      */
-    def dispatch[E, A](on: Any, m: Method, args: Seq[A]): E = {
+    override def dispatch[E, A](on: Any, m: Method, args: Seq[A]): Either[InvocationError, E] = {
       require(null != on)
       require(null != m)
       require(null != args)
@@ -272,12 +305,17 @@ trait Compartment
         case (arg: Player[_], tpe: Class[_]) =>
           plays.getRoles(arg.wrapped).find(_.getClass == tpe) match {
             case Some(curRole) => curRole
-            case None => throw new RuntimeException(s"No role for type '$tpe' found.")
+            case None => return Left(IllegalRoleInvocationMultipleDispatch(on.toString, m.getName, args.toString()))
           }
         case (arg@unchecked, tpe: Class[_]) => arg
       }
       handleAccessibility(m)
-      m.invoke(on, actualArgs.map(_.asInstanceOf[Object]): _*).asInstanceOf[E]
+      try {
+        Right(m.invoke(on, actualArgs.map(_.asInstanceOf[Object]): _*).asInstanceOf[E])
+      } catch {
+        case e@(_: IllegalAccessException | _: IllegalArgumentException | _: InvocationTargetException) =>
+          Left(IllegalRoleInvocationMultipleDispatch(on.toString, m.getName, args.toString()))
+      }
     }
 
   }
@@ -297,7 +335,7 @@ trait Compartment
     * @param wrapped the player or role that is wrapped into this dynamic type
     * @tparam T type of wrapped object
     */
-  implicit class Player[T <: AnyRef : WeakTypeTag](val wrapped: T) extends DynamicType with DispatchType {
+  implicit class Player[T <: AnyRef : WeakTypeTag](val wrapped: T) extends SCROLLDynamic with SCROLLDispatch {
     /**
       * Applies lifting to Player
       *
@@ -309,12 +347,12 @@ trait Compartment
       * Returns the player of this player instance if this is a role, or this itself.
       *
       * @param dispatchQuery provide this to sort the resulting instances if a role instance is played by multiple core objects
-      * @return the player of this player instance if this is a role, or this itself.
+      * @return the player of this player instance if this is a role, or this itself or an appropriate error
       */
-    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Any = dispatchQuery.reorder(getCoreFor(this)) match {
-      case elem :: Nil => elem
-      case l: Seq[T] => l.head
-      case _ => throw new RuntimeException(s"Query for such a player unsuccessful.")
+    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, Any] = dispatchQuery.reorder(getCoreFor(this)) match {
+      case elem :: Nil => Right(elem)
+      case l: Seq[T] => Right(l.head)
+      case _ => Left(TypeNotFound(this.getClass.toString))
     }
 
     /**
@@ -328,7 +366,7 @@ trait Compartment
       wrapped match {
         case p: Player[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
         case p: Any => addPlaysRelation[T, R](p.asInstanceOf[T], role)
-        case _ => throw new RuntimeException(s"'$wrapped' cannot play role '$role' because its neither of type 'Player' nor 'Any'!") // default case
+        case _ => // do nothing
       }
       this
     }
@@ -360,7 +398,7 @@ trait Compartment
       * @param role the role to transfer
       */
     def transfer[R <: AnyRef : WeakTypeTag](role: R) = new {
-      def to[P <: AnyRef : WeakTypeTag](player: P) {
+      def to[P <: AnyRef : WeakTypeTag](player: P): Unit = {
         transferRole[T, P, R](Player.this.wrapped, player, role)
       }
     }
@@ -399,9 +437,6 @@ trait Compartment
       s.toString()
     }
 
-    private def noRoleException(name: String, args: Seq[Any], c: Any): RuntimeException =
-      new RuntimeException(s"No role with '$name${args.mkString("(", ",", ")")}' found! (core: '${c.getClass}')")
-
     private def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean = {
       lazy val matchName = m.getName == name
       lazy val matchParamCount = m.getParameterTypes.length == args.size
@@ -423,7 +458,7 @@ trait Compartment
       matchName && matchParamCount && matchArgTypes
     }
 
-    override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
+    override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
       val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
       val functionName = translateFunctionName(name)
@@ -436,29 +471,30 @@ trait Compartment
         })
       })
       // otherwise give up
-      throw noRoleException(functionName, args.toSeq, core)
+      Left(RoleNotFound(core.getClass.toString, functionName, args.toString()))
     }
 
-    override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E =
+    override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
       applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
 
-    override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): E = {
+    override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
       val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
       val attName = translateFunctionName(name)
       anys.find(_.hasAttribute(attName)) match {
-        case Some(r) => r.propertyOf[E](attName)
-        case None => throw noRoleException(attName, Seq.empty, wrapped)
+        case Some(r) => Right(r.propertyOf[E](attName))
+        case None => Left(RoleNotFound(core.getClass.toString, attName, ""))
       }
     }
 
-    override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty) {
+    override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit = {
       val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
       val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
       val attName = translateFunctionName(name)
       anys.find(_.hasAttribute(attName)) match {
-        case Some(r) => r.setPropertyOf(attName, value)
-        case None => throw noRoleException(attName, Seq.empty, wrapped)
+        case Some(r) =>
+          r.setPropertyOf(attName, value)
+        case None => // do nothing
       }
     }
 

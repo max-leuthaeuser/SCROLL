@@ -76,8 +76,10 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
         Then("the result of the call to the role of player someCoreA should be correct")
         assert(expected == actual)
         And("a call to the role with a method that does not exist should fail")
-        a[RuntimeException] should be thrownBy {
-          +someCoreA c()
+        val r = +someCoreA c()
+        r match {
+          case Left(_) => // correct
+          case Right(_) => fail("A call to the role with a method that does not exist should fail")
         }
       }
     }
@@ -97,10 +99,6 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
 
         Then("the result of the call to the role of player someCoreA should be correct")
         assert(expected == actual)
-        And("a call to the role with a method that does not exist should fail")
-        a[RuntimeException] should be thrownBy {
-          +someCoreA b("some", otherParam = "out")
-        }
       }
     }
 
@@ -123,8 +121,10 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
         assert(expectedA == actualA)
         assert(expectedB == actualB)
         And("a call to the role with a value that does not exist should fail")
-        a[RuntimeException] should be thrownBy {
-          (+someCoreA).valueC
+        val r = (+someCoreA).valueD
+        r match {
+          case Left(_) => // correct
+          case Right(_) => fail("A call to the role with a method that does not exist should fail")
         }
       }
     }
@@ -150,95 +150,91 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
         Then("the result of the call to the role of player someCoreA should be correct")
         assert(expectedA == actualA)
         assert(expectedB == actualB)
-        And("a call to the role with a value that does not exist should fail")
-        a[RuntimeException] should be thrownBy {
-          (+someCoreA).valueUnkown = "unknown"
-        }
       }
     }
+  }
 
-    scenario("Playing a role multiple times (same instance)") {
-      Given("some players and role in a compartment")
-      val someCoreA = new CoreA()
+  scenario("Playing a role multiple times (same instance)") {
+    Given("some players and role in a compartment")
+    val someCoreA = new CoreA()
 
-      new SomeCompartment(backend) {
-        val someRole = new RoleA()
-        And("a play relationship")
-        someCoreA play someRole
-        someCoreA play someRole
+    new SomeCompartment(backend) {
+      val someRole = new RoleA()
+      And("a play relationship")
+      someCoreA play someRole
+      someCoreA play someRole
 
-        When("updating role attributes")
-        val expected = "updated"
-        (+someCoreA).update(expected)
+      When("updating role attributes")
+      val expected = "updated"
+      (+someCoreA).update(expected)
 
-        val actual1: String = someRole.valueC
-        val actual2: String = (+someCoreA).valueC
+      val actual1: String = someRole.valueC
+      val actual2: String = (+someCoreA).valueC
 
-        Then("the role and player instance should be updated correctly.")
-        assert(expected == actual1)
-        assert(expected == actual2)
-      }
+      Then("the role and player instance should be updated correctly.")
+      assert(expected == actual1)
+      assert(expected == actual2)
     }
+  }
 
-    scenario("Playing a role multiple times (different instances) from one player") {
-      Given("some players and 2 role instance of the same type in a compartment")
-      val someCoreA = new CoreA()
+  scenario("Playing a role multiple times (different instances) from one player") {
+    Given("some players and 2 role instance of the same type in a compartment")
+    val someCoreA = new CoreA()
 
-      new SomeCompartment(backend) {
-        val someRole1 = new RoleA()
-        val someRole2 = new RoleA()
-        And("a play relationship")
-        someCoreA play someRole1
-        someCoreA play someRole2
+    new SomeCompartment(backend) {
+      val someRole1 = new RoleA()
+      val someRole2 = new RoleA()
+      And("a play relationship")
+      someCoreA play someRole1
+      someCoreA play someRole2
 
-        When("updating role attributes")
-        val expected = "updated"
-        (+someCoreA).update(expected)
+      When("updating role attributes")
+      val expected = "updated"
+      (+someCoreA).update(expected)
 
-        val actual1a: String = someRole1.valueC
-        val actual1b: String = someRole2.valueC
-        val actual2: String = (+someCoreA).valueC
+      val actual1a: String = someRole1.valueC
+      val actual1b: String = someRole2.valueC
+      val actual2: String = (+someCoreA).valueC
 
-        Then("one role and the player instance should be updated correctly.")
-        assert(expected == actual1a || expected == actual1b)
-        assert(expected == actual2)
-      }
+      Then("one role and the player instance should be updated correctly.")
+      assert(expected == actual1a || expected == actual1b)
+      assert(expected == actual2)
     }
+  }
 
-    scenario("Playing a role multiple times (different instances, but using dispatch to select one)") {
-      Given("some players and 2 role instance of the same type in a compartment")
-      val someCoreA = new CoreA()
+  scenario("Playing a role multiple times (different instances, but using dispatch to select one)") {
+    Given("some players and 2 role instance of the same type in a compartment")
+    val someCoreA = new CoreA()
 
-      new SomeCompartment(backend) {
-        val someRole1 = new RoleA()
-        val someRole2 = new RoleA()
-        someRole1.valueB = 1
-        someRole2.valueB = 2
-        And("a play relationship")
-        someCoreA play someRole1
-        someCoreA play someRole2
+    new SomeCompartment(backend) {
+      val someRole1 = new RoleA()
+      val someRole2 = new RoleA()
+      someRole1.valueB = 1
+      someRole2.valueB = 2
+      And("a play relationship")
+      someCoreA play someRole1
+      someCoreA play someRole2
 
-        When("updating role attributes")
+      When("updating role attributes")
 
-        implicit val dd = From(_.isInstanceOf[CoreA]).
-          To(_.isInstanceOf[RoleA]).
-          Through(anything).
-          Bypassing({
-            case r: RoleA => 1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
-            case _ => false
-          })
+      implicit val dd = From(_.isInstanceOf[CoreA]).
+        To(_.isInstanceOf[RoleA]).
+        Through(anything).
+        Bypassing({
+          case r: RoleA => 1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
+          case _ => false
+        })
 
-        (+someCoreA).update("updated")
+      (+someCoreA).update("updated")
 
-        val actual1: String = someRole1.valueC
-        val actual2: String = someRole2.valueC
-        val actual3: String = (+someCoreA).valueC
+      val actual1: String = someRole1.valueC
+      val actual2: String = someRole2.valueC
+      val actual3: String = (+someCoreA).valueC
 
-        Then("one role and the player instance should be updated correctly.")
-        assert("valueC" == actual1)
-        assert("updated" == actual2)
-        assert("updated" == actual3)
-      }
+      Then("one role and the player instance should be updated correctly.")
+      assert("valueC" == actual1)
+      assert("updated" == actual2)
+      assert("updated" == actual3)
     }
   }
 
@@ -381,7 +377,10 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
       assert(expected == actual3)
 
       When("getting the player of RoleA without an explicit dispatch description")
-      val player = someRole.player
+      val player = someRole.player match {
+        case Left(_) => fail("Player should be defined here!")
+        case Right(p) => p
+      }
       Then("it should be one of the player this role actually plays.")
       assert(player == someCoreA || player == someCoreB)
 
@@ -390,7 +389,10 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
         To(c => c.isInstanceOf[CoreA] || c.isInstanceOf[CoreB]).
         Through(anything).
         Bypassing(_.isInstanceOf[CoreB])
-      val player2 = someRole.player
+      val player2 = someRole.player match {
+        case Left(_) => fail("Player should be defined here!")
+        case Right(p) => p
+      }
       Then("it should be the correct player.")
       assert(player2 == someCoreA)
     }
@@ -418,11 +420,13 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
 
   scenario("Compartment plays a role that is part of themselves") {
     Given("a compartment and a role in it")
+
     class ACompartment extends SomeCompartment(backend) {
 
       class ARole
 
     }
+
     And("an new instance of that compartment")
     val c: ACompartment = new ACompartment {
       When("defining a play relationship")

@@ -1,7 +1,6 @@
 package sorm.tableSorters
 
-import sorm._
-import mappings._
+import sorm.mappings._
 
 object Create {
 

@@ -1,11 +1,6 @@
 package sorm.mappings
 
-import sext._, embrace._
-
-import sorm._
-import reflection.Reflection
-import core._
-import ddl._
+import sorm.ddl._
 
 trait CompositeMapping extends Mapping {
 

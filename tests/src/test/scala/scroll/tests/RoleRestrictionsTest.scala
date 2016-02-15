@@ -40,7 +40,7 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
         And("some role type specifications are given")
         type RoleTypeA = {def a(): Int}
         type RoleTypeB = {def a(i: Int, s: String): Int}
-        type RoleTypeD = {def update(vA: String, vB: Int)}
+        type RoleTypeD = {def update(vA: String, vB: Int): Unit}
         RoleRestriction[CoreA, RoleTypeA]
 
         Then("All role restriction should hold")

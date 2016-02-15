@@ -1,10 +1,7 @@
 package sorm.mappings
 
-import sext._, embrace._
-import sorm._
-import driver.DriverConnection
-import core._
-import reflection._
+import sorm.driver.DriverConnection
+import sorm.reflection._
 
 class RangeMapping
 (val reflection: Reflection,

@@ -1,8 +1,7 @@
 package sorm.pooling
 
-import sext._, embrace._
 import com.mchange.v2.c3p0.ComboPooledDataSource
-
+import embrace._
 import sorm.core.DbType
 import sorm.jdbc.JdbcConnection
 

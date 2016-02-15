@@ -1,7 +1,7 @@
 package sorm.driver
 
-import sorm.sql.Sql
 import sorm.jdbc
+import sorm.sql.Sql
 
 trait StdStatement {
   def statement(sql: Sql): jdbc.Statement

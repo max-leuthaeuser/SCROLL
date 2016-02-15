@@ -1,12 +1,9 @@
 package sorm.driver
 
-import sext._, embrace._
 import org.joda.time.DateTime
-
 import sorm._
-import sorm.core._
 import sorm.abstractSql.AbstractSql._
-import jdbc.ResultSetView
+import sorm.jdbc.ResultSetView
 
 /**
   * An abstraction over jdbc connection, instances of which implement sql dialects of different databases
@@ -29,24 +26,24 @@ trait DriverConnection {
   def listTables(): List[String]
 
   def dropTable
-  (table: String)
+  (table: String): Unit
 
-  def dropAllTables()
+  def dropAllTables(): Unit
 
   def update
-  (table: String, values: Iterable[(String, Any)], pk: Iterable[(String, Any)])
+  (table: String, values: Iterable[(String, Any)], pk: Iterable[(String, Any)]): Unit
 
   def insert
-  (table: String, values: Iterable[(String, Any)])
+  (table: String, values: Iterable[(String, Any)]): Unit
 
   def insertAndGetGeneratedKeys
   (table: String, values: Iterable[(String, Any)])
   : Seq[Any]
 
   def delete
-  (table: String, pk: Iterable[(String, Any)])
+  (table: String, pk: Iterable[(String, Any)]): Unit
 
   def transaction[T](f: => T): T
 
-  def createTable(table: ddl.Table)
+  def createTable(table: ddl.Table): Unit
 }

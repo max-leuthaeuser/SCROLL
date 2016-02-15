@@ -21,22 +21,22 @@ object BankExample extends App {
   trait Accountable
 
   trait Decreasable extends Accountable {
-    def decrease(amount: Currency)
+    def decrease(amount: Currency): Unit
   }
 
   trait Increasable extends Accountable {
-    def increase(amount: Currency)
+    def increase(amount: Currency): Unit
   }
 
   class Account(var balance: Currency = Currency(0, "USD"))
     extends Increasable
-    with Decreasable {
+      with Decreasable {
 
-    def increase(amount: Currency) {
+    def increase(amount: Currency): Unit = {
       balance = balance + amount
     }
 
-    def decrease(amount: Currency) {
+    def decrease(amount: Currency): Unit = {
       balance = balance - amount
     }
   }
@@ -47,56 +47,56 @@ object BankExample extends App {
     @Role class Customer() {
       var accounts = List[Accountable]()
 
-      def addAccount(acc: Accountable) {
+      def addAccount(acc: Accountable): Unit = {
         accounts = accounts :+ acc
       }
 
-      def listBalances() {
+      def listBalances(): Unit = {
         accounts.foreach { a => info("Account: " + a + " -> " + (+a).balance) }
       }
     }
 
     @Role class CheckingsAccount() extends Decreasable {
-      def decrease(amount: Currency) {
+      def decrease(amount: Currency): Unit = {
         dd = From(_.isInstanceOf[Account]).
           To(_.isInstanceOf[CheckingsAccount]).
           Through(anything).
           // so we won't calling decrease() recursively on this
           Bypassing(_.isInstanceOf[CheckingsAccount])
-        +this decrease amount
+        val _ = +this decrease amount
       }
     }
 
     @Role class SavingsAccount() extends Increasable {
-      private def transactionFee(amount: Currency) = amount * 0.1
+      private def transactionFee(amount: Currency): Currency = amount * 0.1
 
-      def increase(amount: Currency) {
+      def increase(amount: Currency): Unit = {
         info("Increasing with fee.")
         dd = From(_.isInstanceOf[Account]).
           To(_.isInstanceOf[SavingsAccount]).
           Through(anything).
           // so we won't calling increase() recursively on this
           Bypassing(_.isInstanceOf[SavingsAccount])
-        +this increase (amount - transactionFee(amount))
+        val _ = +this increase (amount - transactionFee(amount))
       }
     }
 
     @Role class TransactionRole() {
-      def execute() {
+      def execute(): Unit = {
         info("Executing from Role.")
         dd = From(_.isInstanceOf[Transaction]).
           To(_.isInstanceOf[TransactionRole]).
           Through(anything).
           // so we won't calling execute() recursively on this
           Bypassing(_.isInstanceOf[TransactionRole])
-        +this execute()
+        val _ = +this execute()
       }
     }
 
   }
 
   class Transaction(val amount: Currency) extends Compartment {
-    def execute() {
+    def execute(): Unit = {
       info("Executing from Player.")
       // one queries for the first role of the provided type it can find in scope.
       one[Source]().withDraw(amount)
@@ -104,14 +104,14 @@ object BankExample extends App {
     }
 
     @Role class Source() {
-      def withDraw(m: Currency) {
-        +this decrease m
+      def withDraw(m: Currency): Unit = {
+        val _ = +this decrease m
       }
     }
 
     @Role class Target() {
-      def deposit(m: Currency) {
-        +this increase m
+      def deposit(m: Currency): Unit = {
+        val _ = +this increase m
       }
     }
 

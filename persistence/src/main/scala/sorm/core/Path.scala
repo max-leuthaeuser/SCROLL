@@ -1,12 +1,8 @@
 package sorm.core
 
-import sorm._
-import core._
-import query._
-import mappings._
-import sext._, embrace._
-
-import Query.{Filter => QFilter, _}
+import sext._
+import sorm.mappings._
+import sorm.query.Query.{Filter => QFilter, _}
 
 object Path {
 

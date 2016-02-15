@@ -86,7 +86,7 @@ trait RolePlayingAutomaton extends Actor with LoggingFSM[RPAState, RPAData] {
     * Starts this automaton. Needs to be called first!
     * Will set the initial state to [[scroll.internal.rpa.RolePlayingAutomaton.Start]].
     */
-  def run() {
+  def run(): Unit = {
     log.debug(s"Starting RPA '${self.path}'")
     startWith(Start, Uninitialized)
     initialize()
@@ -109,6 +109,6 @@ trait RolePlayingAutomaton extends Actor with LoggingFSM[RPAState, RPAData] {
   onTransition {
     case _ -> Stop =>
       log.debug(s"Stopping RPA '${self.path}'")
-      halt()
+      val _ = halt()
   }
 }

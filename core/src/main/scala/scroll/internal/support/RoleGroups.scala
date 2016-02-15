@@ -32,12 +32,12 @@ trait RoleGroups {
     *
     * @param func the function to execute and check role group constraints afterwards
     */
-  def RoleGroupsChecked(func: => Unit) {
+  def RoleGroupsChecked(func: => Unit): Unit = {
     func
     validate()
   }
 
-  private def validateOccurrenceCardinality() {
+  private def validateOccurrenceCardinality(): Unit = {
     roleGroups.foreach { case (name, rg) =>
       val min = rg.occ._1
       val max = rg.occ._2
@@ -133,7 +133,7 @@ trait RoleGroups {
     throw new RuntimeException(s"Constraint set for inner cardinality of role group '${rg.name}' violated!")
   }
 
-  private def validateInnerCardinality() {
+  private def validateInnerCardinality(): Unit = {
     try {
       roleGroups.values.filter(!_.evaluated).foreach(eval)
     } finally {
@@ -145,7 +145,7 @@ trait RoleGroups {
     * Checks all role groups.
     * Will throw a RuntimeException if a role group constraint is violated!
     */
-  private def validate() {
+  private def validate(): Unit = {
     validateOccurrenceCardinality()
     validateInnerCardinality()
   }
@@ -187,7 +187,7 @@ trait RoleGroups {
 
     def apply(name: String) = new {
 
-      def containing(rg: RoleGroup*)(limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt) =
+      def containing(rg: RoleGroup*)(limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup =
         addRoleGroup(new RoleGroup(name, rg, (limit_l, limit_u), (occ_l, occ_u)))
 
       def containing[T1: Manifest](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt) = {

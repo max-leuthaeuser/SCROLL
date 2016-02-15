@@ -11,7 +11,7 @@ import scala.reflect.runtime.universe._
 trait RoleRestrictions {
   private lazy val restrictions = mutable.HashMap.empty[String, Type]
 
-  private def isInstanceOf(mani: String, that: String) =
+  private def isInstanceOf(mani: String, that: String): Boolean =
     ReflectiveHelper.typeSimpleClassName(that) == ReflectiveHelper.typeSimpleClassName(mani)
 
   private def compareParams(a: List[Symbol], b: List[Symbol]): Boolean = a.size - b.size match {
@@ -40,7 +40,7 @@ trait RoleRestrictions {
     * @tparam A the player type
     * @tparam B the role type
     */
-  def RoleRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]) {
+  def RoleRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]): Unit = {
     restrictions(manifest[A].toString()) = tag.tpe
   }
 
@@ -49,9 +49,9 @@ trait RoleRestrictions {
     * Will throw a RuntimeException if a restriction is violated!
     *
     * @param player the player instance to check
-    * @param role the role type to check
+    * @param role   the role type to check
     */
-  protected def validate(player: Any, role: Type) {
+  protected def validate(player: Any, role: Type): Unit = {
     val roleInterface = role.members
     restrictions.find { case (pt, rt) =>
       isInstanceOf(pt, player.getClass.toString) && !isSameInterface(roleInterface, rt.decls)

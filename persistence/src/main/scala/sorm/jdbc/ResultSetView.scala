@@ -2,9 +2,9 @@ package sorm.jdbc
 
 import java.sql._
 
-import sorm._
-import joda.Extensions._
-import sext._, embrace._
+import embrace._
+import sext._
+import sorm.joda.Extensions._
 
 class ResultSetView
 (rs: ResultSet) {
@@ -24,7 +24,7 @@ class ResultSetView
   = new Traversable[IndexedSeq[Any]] {
     def foreach
     [U]
-    (f: IndexedSeq[Any] => U) {
+    (f: IndexedSeq[Any] => U): Unit = {
       while (rs.next()) {
         f(indexTypeSeq.map { case (i, t) ⇒ value(i, t) })
       }
@@ -35,7 +35,7 @@ class ResultSetView
   = new Traversable[Map[String, Any]] {
     def foreach
     [U]
-    (f: (Map[String, Any]) => U) {
+    (f: (Map[String, Any]) => U): Unit = {
       while (rs.next()) {
         indexTypeByName.map { case (n, (i, t)) ⇒ n -> value(i, t) } $ f
       }

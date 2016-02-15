@@ -1,13 +1,12 @@
 package sorm.core
 
-import sorm._
-import reflection._
-import mappings._
-import jdbc._
-import tableSorters._
-
-import sext._, embrace._
 import com.typesafe.scalalogging.{StrictLogging => Logging}
+import embrace._
+import sext._
+import sorm._
+import sorm.mappings._
+import sorm.reflection._
+import sorm.tableSorters._
 
 object Initialization extends Logging {
 
@@ -90,7 +89,7 @@ object Initialization extends Logging {
     entities.toStream.flatMap(validateEntity)
   }
 
-  def initializeSchema(mappings: Iterable[EntityMapping], connector: Connector, initMode: InitMode) {
+  def initializeSchema(mappings: Iterable[EntityMapping], connector: Connector, initMode: InitMode): Unit = {
     initMode match {
       case InitMode.DropAllCreate =>
         connector.withConnection { connection =>

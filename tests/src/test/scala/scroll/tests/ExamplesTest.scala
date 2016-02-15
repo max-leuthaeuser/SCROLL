@@ -57,11 +57,5 @@ class ExamplesTest extends FeatureSpec with GivenWhenThen with Matchers {
       Then("There should be no error or exception.")
       MathKiamaExample.main(null)
     }
-
-    scenario("Coroutines Example") {
-      When("Running the Coroutines example")
-      Then("There should be no error or exception.")
-      CoroutinesExample.main(null)
-    }
   }
 }

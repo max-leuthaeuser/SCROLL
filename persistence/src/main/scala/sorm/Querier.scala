@@ -1,15 +1,13 @@
 package sorm
 
-import sext._, embrace._
-import reflect.runtime.universe._
+import embrace._
+import sorm.core._
+import sorm.mappings._
+import sorm.persisted._
+import sorm.query.Query._
+import sorm.query.{AbstractSqlComposition, _}
 
-import sorm._
-import mappings._
-import query._
-import query.AbstractSqlComposition
-import query.Query._
-import persisted._
-import core._
+import scala.reflect.runtime.universe._
 
 class Querier[T <: AnyRef : WeakTypeTag](query: Query, connector: Connector) {
 

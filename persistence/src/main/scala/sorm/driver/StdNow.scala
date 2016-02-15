@@ -1,7 +1,7 @@
 package sorm.driver
 
 import org.joda.time.DateTime
-import sorm.jdbc.{JdbcConnection, Statement}
+import sorm.jdbc.Statement
 
 trait StdNow {
   self: StdConnection =>

@@ -1,8 +1,8 @@
 package sorm.driver
 
-import sorm._, ddl._, jdbc._
-import sext._, embrace._
-import sql.Sql
+import sorm.ddl._
+import sorm.jdbc._
+import sorm.sql.Sql
 
 class Mysql(protected val connection: JdbcConnection)
   extends DriverConnection

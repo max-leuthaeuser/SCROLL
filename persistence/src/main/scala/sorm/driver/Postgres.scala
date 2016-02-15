@@ -1,27 +1,29 @@
 package sorm.driver
 
-import sorm._, ddl._, jdbc._
-import sext._, embrace._
+import embrace._
+import sext._
+import sorm.ddl._
+import sorm.jdbc._
 import sorm.sql.Sql
 
 class Postgres(protected val connection: JdbcConnection)
   extends DriverConnection
-  with StdConnection
-  with StdTransaction
-  with StdAbstractSqlToSql
-  with StdQuote
-  with StdSqlRendering
-  with StdStatement
-  with StdQuery
-  with StdModify
-  with StdCreateTable
-  with StdListTables
-  with StdDropTables
-  with StdDropAllTables
-  with StdNow {
+    with StdConnection
+    with StdTransaction
+    with StdAbstractSqlToSql
+    with StdQuote
+    with StdSqlRendering
+    with StdStatement
+    with StdQuery
+    with StdModify
+    with StdCreateTable
+    with StdListTables
+    with StdDropTables
+    with StdDropAllTables
+    with StdNow {
   override protected def quote(x: String) = "\"" + x + "\""
 
-  override def createTable(table: Table) {
+  override def createTable(table: Table): Unit = {
     super.createTable(table)
     table.indexes.foreach {
       createIndexDdl(table.name, _) $ (Statement(_)) $ connection.executeUpdate

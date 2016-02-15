@@ -1,12 +1,12 @@
 package sorm.pooling
 
-import sorm.jdbc.JdbcConnection
 import com.typesafe.scalalogging.{StrictLogging => Logging}
+import sorm.jdbc.JdbcConnection
 
 trait ConnectionPool extends Logging {
   protected def fetchConnection(): JdbcConnection
 
-  protected def returnConnection(c: JdbcConnection)
+  protected def returnConnection(c: JdbcConnection): Unit
 
   private val openConnection = new ThreadLocal[Option[JdbcConnection]] {
     override def initialValue() = None

@@ -1,11 +1,8 @@
 package sorm.mappings
 
-import sext._, embrace._
-import sorm._
-import driver.DriverConnection
-import core._
-import jdbc.ResultSetView
-import reflection._
+import sorm.driver.DriverConnection
+import sorm.jdbc.ResultSetView
+import sorm.reflection._
 
 class OptionToTableMapping
 (val reflection: Reflection,
@@ -21,12 +18,12 @@ class OptionToTableMapping
   def parseResultSet(rs: ResultSetView, connection: DriverConnection)
   = rs.byNameRowsTraversable.toStream.headOption.map(item.valueFromContainerRow(_, connection))
 
-  override def update(value: Any, masterKey: Stream[Any], connection: DriverConnection) {
+  override def update(value: Any, masterKey: Stream[Any], connection: DriverConnection): Unit = {
     connection.delete(tableName, masterTableColumnNames zip masterKey)
     insert(value, masterKey, connection)
   }
 
-  override def insert(v: Any, masterKey: Stream[Any], connection: DriverConnection) {
+  override def insert(v: Any, masterKey: Stream[Any], connection: DriverConnection): Unit = {
     v.asInstanceOf[Option[_]]
       .foreach { v =>
         val pk = masterKey

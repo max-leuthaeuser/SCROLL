@@ -1,10 +1,10 @@
 package sorm.driver
 
-import sext._, embrace._
-
-import sorm._
-import sql._, Compositing._
-import abstractSql._, AbstractSql._
+import sext._
+import sorm.abstractSql.AbstractSql._
+import sorm.abstractSql._
+import sorm.sql.Compositing._
+import sorm.sql._
 
 trait StdAbstractSqlToSql {
   def sql

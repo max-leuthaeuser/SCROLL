@@ -1,7 +1,7 @@
 package sorm.joda
 
+import embrace._
 import org.joda.time._
-import sext._, embrace._
 
 object Extensions {
 
@@ -14,7 +14,7 @@ object Extensions {
   }
 
   implicit class LocalTimeToJava(val self: LocalTime) extends AnyVal {
-    def toJava = new java.sql.Time(self.getMillisOfDay)
+    def toJava = new java.sql.Time(self.getMillisOfDay.toLong)
   }
 
 

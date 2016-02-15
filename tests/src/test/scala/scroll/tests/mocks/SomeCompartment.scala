@@ -25,7 +25,7 @@ class SomeCompartment(val backend: Backend) extends Compartment {
 
     def b(a: String, param: String = "in"): String = param
 
-    def update(value: String) {
+    def update(value: String): Unit = {
       this.valueC = value
     }
   }
@@ -47,7 +47,7 @@ class SomeCompartment(val backend: Backend) extends Compartment {
     var valueA: String = "valueA"
     var valueB: Int = -1
 
-    def update(vA: String, vB: Int) {
+    def update(vA: String, vB: Int): Unit = {
       valueA = vA
       valueB = vB
     }
@@ -70,35 +70,35 @@ class SomeCompartment(val backend: Backend) extends Compartment {
 
     var valueBoolean: Boolean = false
 
-    def updateInt(newValue: Int) {
+    def updateInt(newValue: Int): Unit = {
       valueInt = newValue
     }
 
-    def updateDouble(newValue: Double) {
+    def updateDouble(newValue: Double): Unit = {
       valueDouble = newValue
     }
 
-    def updateFloat(newValue: Float) {
+    def updateFloat(newValue: Float): Unit = {
       valueFloat = newValue
     }
 
-    def updateLong(newValue: Long) {
+    def updateLong(newValue: Long): Unit = {
       valueLong = newValue
     }
 
-    def updateShort(newValue: Short) {
+    def updateShort(newValue: Short): Unit = {
       valueShort = newValue
     }
 
-    def updateByte(newValue: Byte) {
+    def updateByte(newValue: Byte): Unit = {
       valueByte = newValue
     }
 
-    def updateChar(newValue: Char) {
+    def updateChar(newValue: Char): Unit = {
       valueChar = newValue
     }
 
-    def updateBoolean(newValue: Boolean) {
+    def updateBoolean(newValue: Boolean): Unit = {
       valueBoolean = newValue
     }
 

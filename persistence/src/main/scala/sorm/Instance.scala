@@ -1,13 +1,14 @@
 package sorm
 
-import core._
-import persisted._
-import reflection._
-import mappings._
-
-import sext._, embrace._
-import reflect.runtime.universe._
 import com.typesafe.scalalogging.{StrictLogging => Logging}
+import embrace._
+import sext._
+import sorm.core._
+import sorm.mappings._
+import sorm.persisted._
+import sorm.reflection._
+
+import scala.reflect.runtime.universe._
 
 /**
   * The instance of SORM

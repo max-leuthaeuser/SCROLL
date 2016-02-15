@@ -3,7 +3,6 @@ package scroll.internal;
 import scala.collection.JavaConversions;
 import scroll.internal.support.DispatchQuery;
 import scroll.internal.support.DispatchQuery$;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -151,25 +150,25 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
     @Override
     public boolean link(String relationshipType, Object compartment, Object first, Object second) {
         // TODO: implement!
-        throw new NotImplementedException();
+        throw new RuntimeException("Not implemented yet!");
     }
 
     @Override
     public boolean unlink(String relationshipType, Object compartment, Object first, Object second) {
         // TODO: implement!
-        throw new NotImplementedException();
+        throw new RuntimeException("Not implemented yet!");
     }
 
     @Override
     public Set<Object> navigateFrom(String relationshipType, Object compartment, Object role) {
         // TODO: implement!
-        throw new NotImplementedException();
+        throw new RuntimeException("Not implemented yet!");
     }
 
     @Override
     public boolean isLinked(String relationshipType, Object compartment, Object first, Object second) {
         // TODO: implement!
-        throw new NotImplementedException();
+        throw new RuntimeException("Not implemented yet!");
     }
 
     @Override

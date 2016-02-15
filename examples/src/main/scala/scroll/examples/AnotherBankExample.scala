@@ -16,11 +16,11 @@ object AnotherBankExample extends App {
   type Money = Double
 
   case class Account(var balance: Money = 0) {
-    def increase(amount: Money) {
+    def increase(amount: Money): Unit = {
       balance = balance + amount
     }
 
-    def decrease(amount: Money) {
+    def decrease(amount: Money): Unit = {
       balance = balance - amount
     }
   }
@@ -32,25 +32,25 @@ object AnotherBankExample extends App {
     @Role case class Customer(id: String)
 
     @Role case class CheckingsAccount(limit: Money) {
-      def increase(amount: Money) {
+      def increase(amount: Money): Unit = {
         if (amount > limit) info("Limit reached in increase!")
         implicit val dd = From(_.isInstanceOf[Account]).
           To(_.isInstanceOf[CheckingsAccount]).
           Through(anything).
           // so we won't calling decrease() recursively on this
           Bypassing(_.isInstanceOf[CheckingsAccount])
-        (+this).increase(Math.min(amount, limit))
+        val _ = (+this).increase(Math.min(amount, limit))
 
       }
 
-      def decrease(amount: Money) {
+      def decrease(amount: Money): Unit = {
         if (amount > limit) info("Limit reached in decrease!")
         implicit val dd = From(_.isInstanceOf[Account]).
           To(_.isInstanceOf[CheckingsAccount]).
           Through(anything).
           // so we won't calling decrease() recursively on this
           Bypassing(_.isInstanceOf[CheckingsAccount])
-        (+this).decrease(Math.min(amount, limit))
+        val _ = (+this).decrease(Math.min(amount, limit))
       }
     }
 

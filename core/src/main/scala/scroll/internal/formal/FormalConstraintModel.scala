@@ -62,7 +62,7 @@ case class FormalConstraintModel[NT >: Null, RT >: Null, CT >: Null, RST >: Null
     )
 
   def axiom15(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(for (rst <- crom.rst if card.contains(rst); c <- croi.c if croi.links.contains(rst, c); (r_1, r_2) <- croi.links((rst, c))) yield {
+    FormalUtils.all(for (rst <- crom.rst if card.contains(rst); c <- croi.c if croi.links.contains((rst, c)); (r_1, r_2) <- croi.links((rst, c))) yield {
       val l1 = croi.pred(rst, c, r_2).size
       val l2 = croi.succ(rst, c, r_1).size
       card(rst)._1._1 <= l1 && l1 <= card(rst)._1._2 && card(rst)._2._1 <= l2 && l2 <= card(rst)._2._2

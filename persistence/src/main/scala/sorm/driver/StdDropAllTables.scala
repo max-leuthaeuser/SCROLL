@@ -1,15 +1,15 @@
 package sorm.driver
 
-import sorm.jdbc.{JdbcConnection, Statement}
 import sorm.core.SormException
+import sorm.jdbc.Statement
 
 trait StdDropAllTables {
   self: StdConnection with StdListTables with StdQuote =>
-  def dropAllTables() {
+  def dropAllTables(): Unit = {
     def tryToDrop
-    (table: String) {
+    (table: String): Unit = {
       try {
-        connection.executeUpdate(Statement("DROP TABLE " + quote(table)))
+        val _ = connection.executeUpdate(Statement("DROP TABLE " + quote(table)))
       } catch {
         case e: Throwable =>
       }

@@ -1,11 +1,9 @@
 package sorm.persisted
 
-import reflect.runtime.universe._
-
 import sorm._
-import reflection._
+import sorm.reflection._
 
-import sext._, embrace._
+import scala.reflect.runtime.universe._
 
 object Persisted {
 

@@ -1,10 +1,9 @@
 package sorm.mappings
 
-import scroll.internal.graph.RoleGraph
 import embrace._
-import sorm._
-import core.SormException
-import reflection._
+import scroll.internal.graph.RoleGraph
+import sorm.core.SormException
+import sorm.reflection._
 
 sealed trait MappingKind
 

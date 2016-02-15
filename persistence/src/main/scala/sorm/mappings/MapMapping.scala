@@ -1,11 +1,9 @@
 package sorm.mappings
 
-import sext._, embrace._
 import sorm._
-import driver.DriverConnection
-import core._
-import jdbc.ResultSetView
-import reflection.Reflection
+import sorm.driver.DriverConnection
+import sorm.jdbc.ResultSetView
+import sorm.reflection.Reflection
 
 class MapMapping
 (val reflection: Reflection,
@@ -24,12 +22,12 @@ class MapMapping
   = rs.byNameRowsTraversable.view.map(r => key.valueFromContainerRow(r, c) -> value.valueFromContainerRow(r, c)).toMap
 
 
-  override def update(value: Any, masterKey: Stream[Any], connection: DriverConnection) {
+  override def update(value: Any, masterKey: Stream[Any], connection: DriverConnection): Unit = {
     connection.delete(tableName, masterTableColumnNames zip masterKey)
     insert(value, masterKey, connection)
   }
 
-  override def insert(v: Any, masterKey: Stream[Any], connection: DriverConnection) {
+  override def insert(v: Any, masterKey: Stream[Any], connection: DriverConnection): Unit = {
     v.asInstanceOf[Map[_, _]].view
       .zipWithIndex.foreach { case ((k, v), i) =>
       val pk = masterKey :+ i

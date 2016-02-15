@@ -19,15 +19,15 @@ case class MockCompartment(numOfPlayers: Int, numOfRoles: Int, numOfInvokes: Int
     p play mRole
   })
 
-  def invokeAtRole() {
+  def invokeAtRole(): Unit = {
     players.foreach(p => {
       (0 until numOfInvokes).foreach(_ => {
-        val r: Int = p.func()
+        val _: Int = p.func()
       })
     })
   }
 
-  def invokeDirectly() {
+  def invokeDirectly(): Unit = {
     players.foreach(p => {
       (0 until numOfInvokes).foreach(_ => mRole.func())
     })

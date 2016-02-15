@@ -1,11 +1,10 @@
 package sorm.abstractSql
 
-import sext._, embrace._
 import sorm._
-import mappings._
-import core._
-import AbstractSql._
-import Compositing._
+import sorm.abstractSql.AbstractSql._
+import sorm.abstractSql.Compositing._
+import sorm.core._
+import sorm.mappings._
 
 object Combinators {
 

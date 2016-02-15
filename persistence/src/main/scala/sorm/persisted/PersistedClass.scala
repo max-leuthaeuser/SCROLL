@@ -1,10 +1,9 @@
 package sorm.persisted
 
-import sorm._
-import reflection._
-
-import sext._, embrace._
 import com.typesafe.scalalogging.{StrictLogging => Logging}
+import sext._
+import sorm._
+import sorm.reflection._
 
 object PersistedClass extends Logging {
 

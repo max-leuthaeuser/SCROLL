@@ -1,6 +1,6 @@
 package scroll.internal.persistence
 
-import sorm.{InitMode, Entity, Instance}
+import sorm.{Entity, InitMode, Instance}
 
 class DBConnection(entities: Traversable[Entity],
                    url: String,

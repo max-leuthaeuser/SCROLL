@@ -1,9 +1,6 @@
 package sorm.query
 
-import sorm._
-import reflection._
-import mappings._
-import sext._, embrace._
+import sorm.mappings._
 
 //  in future it should be used as instructions on what to fetch, thus becoming an internal lingua for queries, a frontend abstraction over abstractSql and etc.
 //  TODO:

@@ -1,27 +1,29 @@
 package sorm.driver
 
-import sorm._, ddl._, jdbc._
-import sext._, embrace._
+import embrace._
 import org.joda.time.DateTime
+import sext._
 import sorm.core.SormException
-import sql.Sql
+import sorm.ddl._
+import sorm.jdbc._
+import sorm.sql.Sql
 
 class Hsqldb(protected val connection: JdbcConnection)
   extends DriverConnection
-  with StdConnection
-  with StdTransaction
-  with StdAbstractSqlToSql
-  with StdQuote
-  with StdSqlRendering
-  with StdStatement
-  with StdQuery
-  with StdModify
-  with StdCreateTable
-  with StdListTables
-  with StdDropTables
-  with StdDropAllTables
-  with StdNow {
-  override def createTable(table: Table) {
+    with StdConnection
+    with StdTransaction
+    with StdAbstractSqlToSql
+    with StdQuote
+    with StdSqlRendering
+    with StdStatement
+    with StdQuery
+    with StdModify
+    with StdCreateTable
+    with StdListTables
+    with StdDropTables
+    with StdDropAllTables
+    with StdNow {
+  override def createTable(table: Table): Unit = {
     super.createTable(table)
     table.indexes.view.zipWithIndex.foreach { case (cols, i) =>
       createIndexDdl(table.name, cols, table.name + "_idx_" + i) $

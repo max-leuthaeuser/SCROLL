@@ -34,7 +34,7 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   private lazy val root = RolePlayingGraphRoot(mutable.ListBuffer.empty)
 
-  private def resetAll() {
+  private def resetAll(): Unit = {
     Set(kiama_hasCycle, kiama_containsPlayer, kiama_allPlayers, kiama_getRoles, kiama_getPredecessors).foreach(_.reset())
   }
 
@@ -48,11 +48,11 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   private lazy val kiama_hasCycle = attr(kiama_hasCycleDef)
 
-  private def kiama_addBinding(player: Player) {
-    root.players += player
+  private def kiama_addBinding(player: Player): Unit = {
+    val _ = root.players += player
   }
 
-  override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
+  override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit = {
     kiama_addBinding(Player(player, role))
     if (checkForCycles) kiama_hasCycle.reset()
     kiama_containsPlayer.reset()
@@ -94,14 +94,14 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def containsPlayer(player: Any): Boolean = kiama_containsPlayer(Player(player, null))(root)
 
-  private def kiama_detach(other: RoleGraph) {
+  private def kiama_detach(other: RoleGraph): Unit = {
     other.allPlayers.foreach(pl =>
       other.getRoles(pl).foreach(rl =>
         removeBinding(pl.asInstanceOf[AnyRef], rl.asInstanceOf[AnyRef])))
     root.players.foreach(kiama_removePlayer)
   }
 
-  override def detach(other: RoleGraph) {
+  override def detach(other: RoleGraph): Unit = {
     kiama_detach(other)
     resetAll()
   }
@@ -121,7 +121,7 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
   override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): List[Any] =
     kiama_getPredecessors(Player(player, null))(root).distinct.toList
 
-  private def kiama_merge(other: RoleGraph) {
+  private def kiama_merge(other: RoleGraph): Unit = {
     other.store.asInstanceOf[RolePlayingGraphRoot].players.foreach(pl => {
       root.players.contains(pl) match {
         case true => addBinding(pl.core.asInstanceOf[AnyRef], pl.role.asInstanceOf[AnyRef])
@@ -130,16 +130,16 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     })
   }
 
-  override def merge(other: RoleGraph) {
+  override def merge(other: RoleGraph): Unit = {
     kiama_merge(other)
     resetAll()
   }
 
-  private def kiama_removePlayer(player: Player) {
-    root.players -= player
+  private def kiama_removePlayer(player: Player): Unit = {
+    val _ = root.players -= player
   }
 
-  override def removePlayer[P <: AnyRef : WeakTypeTag](player: P) {
+  override def removePlayer[P <: AnyRef : WeakTypeTag](player: P): Unit = {
     val p = Player(player, null)
     kiama_removePlayer(p)
 
@@ -155,11 +155,11 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     if (kiama_getPredecessors.hasBeenComputedAt(key2)) kiama_getPredecessors.resetAt(key1)
   }
 
-  private def kiama_removeBinding(player: Player) {
+  private def kiama_removeBinding(player: Player): Unit = {
     root.players.find(p => p.core == player.core && p.role == player.role).foreach(root.players -= _)
   }
 
-  override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
+  override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit = {
     kiama_removeBinding(Player(player, role))
     if (checkForCycles) kiama_hasCycle.reset()
     kiama_containsPlayer.reset()

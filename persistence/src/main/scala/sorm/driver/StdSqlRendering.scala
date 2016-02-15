@@ -1,10 +1,11 @@
 package sorm.driver
 
-import sext._, embrace._
-
+import embrace._
+import sext._
 import sorm._
-import jdbc._
-import sql._, Sql._
+import sorm.jdbc._
+import sorm.sql.Sql._
+import sorm.sql._
 
 trait StdSqlRendering {
   def statement(sql: Sql): jdbc.Statement

@@ -9,17 +9,17 @@ object UniversityExample extends App {
   class University extends Compartment {
 
     @Role class Student {
-      def talk() {
+      def talk(): Unit = {
         info("I am a student")
       }
     }
 
     @Role class Professor {
-      def teach(student: Student) {
+      def teach(student: Student): Unit = {
         info("Teaching: " + (+student name))
       }
 
-      def talk() {
+      def talk(): Unit = {
         info("I am a professor")
       }
     }
@@ -27,7 +27,7 @@ object UniversityExample extends App {
   }
 
   class Person(val name: String) {
-    def talk() {
+    def talk(): Unit = {
       info("I am a person")
     }
   }

@@ -1,12 +1,9 @@
 package sorm.core
 
-import sorm._
-import core._
-import jdbc._
-import driver._
-import pooling._
-
-import sext._, embrace._
+import embrace._
+import sorm.driver._
+import sorm.jdbc._
+import sorm.pooling._
 
 /**
   * Abstracts connections pooling away by binding connections to threads

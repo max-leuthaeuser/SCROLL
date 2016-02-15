@@ -1,11 +1,9 @@
 package sorm.mappings
 
-import sext._, embrace._
 import sorm._
-import driver.DriverConnection
-import core._
-import jdbc.ResultSetView
-import reflection.Reflection
+import sorm.driver.DriverConnection
+import sorm.jdbc.ResultSetView
+import sorm.reflection.Reflection
 
 class SetMapping
 (val reflection: Reflection,
@@ -19,15 +17,15 @@ class SetMapping
   lazy val hashColumn = ddl.Column("h", ddl.ColumnType.Integer)
   lazy val mappings = item +: Stream()
 
-  def parseResultSet(rs: ResultSetView, c: DriverConnection)
+  def parseResultSet(rs: ResultSetView, c: DriverConnection): Set[Any]
   = rs.byNameRowsTraversable.view.map(item.valueFromContainerRow(_, c)).toSet
 
-  override def update(value: Any, masterKey: Stream[Any], connection: DriverConnection) {
+  override def update(value: Any, masterKey: Stream[Any], connection: DriverConnection): Unit = {
     connection.delete(tableName, masterTableColumnNames zip masterKey)
     insert(value, masterKey, connection)
   }
 
-  override def insert(v: Any, masterKey: Stream[Any], connection: DriverConnection) {
+  override def insert(v: Any, masterKey: Stream[Any], connection: DriverConnection): Unit = {
     v.asInstanceOf[Set[_]].view
       .zipWithIndex.foreach { case (v, i) =>
       val pk = masterKey :+ i

@@ -14,7 +14,7 @@ object RobotExample extends App {
   object BehavioralView extends Compartment {
 
     case class ServiceRole() {
-      def move() {
+      def move(): Unit = {
         val name: String = +this name()
         val target: String = +this getTarget()
         val sensorValue: Int = +this readSensor()

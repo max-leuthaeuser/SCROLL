@@ -1,11 +1,8 @@
 package sorm.mappings
 
-import sext._, embrace._
-
-import sorm._
-import driver.DriverConnection
-import core._
-import reflection._
+import embrace._
+import sorm.driver.DriverConnection
+import sorm.reflection._
 
 class OptionToNullableMapping
 (val reflection: Reflection,
@@ -27,11 +24,11 @@ class OptionToNullableMapping
     case None => columnsForContainer.map(_.name -> null)
   }
 
-  override def update(value: Any, masterKey: Stream[Any], connection: DriverConnection) {
+  override def update(value: Any, masterKey: Stream[Any], connection: DriverConnection): Unit = {
     value.asInstanceOf[T] foreach (item.update(_, masterKey, connection))
   }
 
-  override def insert(value: Any, masterKey: Stream[Any], connection: DriverConnection) {
+  override def insert(value: Any, masterKey: Stream[Any], connection: DriverConnection): Unit = {
     value.asInstanceOf[T] foreach (item.insert(_, masterKey, connection))
   }
 

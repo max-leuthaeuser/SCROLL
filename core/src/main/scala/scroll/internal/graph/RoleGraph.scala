@@ -16,14 +16,14 @@ trait RoleGraph {
     *
     * @param other the RoleGraph to merge with.
     */
-  def merge(other: RoleGraph)
+  def merge(other: RoleGraph): Unit
 
   /**
     * Removes all players and plays-relationships specified in other from this RoleGraph.
     *
     * @param other the RoleGraph all players and plays-relationships specified in should removed from this
     */
-  def detach(other: RoleGraph)
+  def detach(other: RoleGraph): Unit
 
   /**
     * Adds a plays relationship between core and role.
@@ -33,7 +33,7 @@ trait RoleGraph {
     * @param player the player instance to add the given role
     * @param role   the role instance to add
     */
-  def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R)
+  def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit
 
   /**
     * Removes a plays relationship between core and role.
@@ -41,7 +41,7 @@ trait RoleGraph {
     * @param player the player instance to remove the given role from
     * @param role   the role instance to remove
     */
-  def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R)
+  def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit
 
   /**
     * Removes the given player from the graph.
@@ -49,7 +49,7 @@ trait RoleGraph {
     *
     * @param player the player to remove
     */
-  def removePlayer[P <: AnyRef : WeakTypeTag](player: P)
+  def removePlayer[P <: AnyRef : WeakTypeTag](player: P): Unit
 
   /**
     * Returns a Seq of all players

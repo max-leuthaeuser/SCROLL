@@ -1,8 +1,9 @@
 package sorm.reflection
 
-import reflect.runtime.universe._
-import reflect.runtime.{currentMirror => mirror}
-import sext._, embrace._
+import sext._
+
+import scala.reflect.runtime.universe._
+import scala.reflect.runtime.{currentMirror => mirror}
 
 object ScalaApi {
 

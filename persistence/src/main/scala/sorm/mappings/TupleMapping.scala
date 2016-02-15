@@ -1,11 +1,8 @@
 package sorm.mappings
 
-import sext._, embrace._
-
-import sorm._
-import driver.DriverConnection
-import reflection._
-import core._
+import embrace._
+import sorm.driver.DriverConnection
+import sorm.reflection._
 
 class TupleMapping
 (val reflection: Reflection,
@@ -28,11 +25,11 @@ class TupleMapping
   private def itemValues(value: Any)
   = mappings zip value.asInstanceOf[Product].productIterator.toIterable
 
-  override def update(value: Any, masterKey: Stream[Any], connection: DriverConnection) {
+  override def update(value: Any, masterKey: Stream[Any], connection: DriverConnection): Unit = {
     itemValues(value).foreach(_ $$ (_.update(_, masterKey, connection)))
   }
 
-  override def insert(value: Any, masterKey: Stream[Any], connection: DriverConnection) {
+  override def insert(value: Any, masterKey: Stream[Any], connection: DriverConnection): Unit = {
     itemValues(value).foreach(_ $$ (_.insert(_, masterKey, connection)))
   }
 

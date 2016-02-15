@@ -55,7 +55,7 @@ trait ReflectiveHelper {
     private lazy val methods: Set[Method] = getAllMethods
     private lazy val fields: Set[Field] = getAllFields
 
-    private def safeString(s: String) {
+    private def safeString(s: String): Unit = {
       require(null != s)
       require(!s.isEmpty)
     }
@@ -65,7 +65,7 @@ trait ReflectiveHelper {
       case None => throw new RuntimeException(s"Field '$name' not found!")
     }
 
-    private def safeFindMethod(name: String) = methods.find(_.getName == name) match {
+    private def safeFindMethod(name: String): Method = methods.find(_.getName == name) match {
       case Some(m) => m
       case None => throw new RuntimeException(s"Method '$name' not found!")
     }
@@ -127,7 +127,7 @@ trait ReflectiveHelper {
       field.get(cur).asInstanceOf[T]
     }
 
-    def setPropertyOf(name: String, value: Any) {
+    def setPropertyOf(name: String, value: Any): Unit = {
       safeString(name)
       val field = safeFindField(name)
       field.setAccessible(true)

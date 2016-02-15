@@ -1,9 +1,9 @@
 package sorm.jdbc
 
-import sorm._
-import core.SormException
-import java.sql.{ResultSet, PreparedStatement, Connection}
+import java.sql.{Connection, PreparedStatement, ResultSet}
+
 import org.joda.time._
+import sorm.core.SormException
 
 object `package` {
 
@@ -40,24 +40,6 @@ object `package` {
       case null => NULL
       case _ => throw new SormException("Value of unsupported type `" + v.getClass + "`: " + v)
     }
-  }
-
-  case class JdbcValue
-  (value: Any,
-   t: JdbcType)
-
-  object JdbcValue {
-    def apply(v: Any): JdbcValue = apply(v, JdbcType(v))
-  }
-
-
-  case class Statement
-  (sql: String,
-   data: Seq[JdbcValue] = Nil)
-
-  object Statement {
-    def simple(sql: String, data: Seq[Any] = Nil)
-    = Statement(sql, data.map(JdbcValue(_)))
   }
 
 }

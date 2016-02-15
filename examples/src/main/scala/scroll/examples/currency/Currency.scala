@@ -90,7 +90,7 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
 
   /* Trims trailing zeros from decimal positions of a numeric String
    */
-  private def trimZeros(s: String) = {
+  private def trimZeros(s: String): String = {
     if (s.indexOf('.') > -1) {
       var i = s.length
       while (i > 0 && s(i - 1) == '0') i -= 1
@@ -487,163 +487,163 @@ object Currency {
   /* ----- CURRENCY DATA ----- */
 
   private val currencies = Map(
-    "AED" ->("", 784, 2, "Fils", "UAE Dirham", "AE"),
-    "AFN" ->("", 971, 2, "Pul", "Afghani", "AF"),
-    "ALL" ->("L", 8, 2, "Qintar", "Lek", "AL"),
-    "AMD" ->("դր", 51, 0, "Luma", "Armenian Dram", "AM"),
-    "ANG" ->("ƒ", 532, 2, "Cent", "Netherlands Antillean Guilder", "AN"),
-    "AOA" ->("Kz", 973, 1, "Cêntimo", "Kwanza", "AO"),
-    "ARS" ->("$", 32, 2, "Centavo", "Argentine Peso", "AR"),
-    "AUD" ->("$", 36, 2, "Cent", "Australian Dollar", "AU"),
-    "AWG" ->("ƒ", 533, 2, "Cent", "Aruban Florin", "AW"),
-    "AZN" ->("", 944, 2, "Qəpik", "Azerbaijanian Manat", "AZ"),
-    "BAM" ->("КМ", 977, 2, "Fening", "Convertible Marks", "BA"),
-    "BBD" ->("$", 52, 2, "Cent", "Barbados Dollar", "BB"),
-    "BDT" ->("৳", 50, 2, "Paisa", "Bangladeshi Taka", "BD"),
-    "BGN" ->("лв", 975, 2, "Stotinka", "Bulgarian Lev", "BG"),
-    "BHD" ->("", 48, 3, "Fils", "Bahraini Dinar", "BH"),
-    "BIF" ->("Fr", 108, 0, "Centime", "Burundian Franc", "BI"),
-    "BMD" ->("$", 60, 2, "Cent", "Bermuda Dollar", "BM"),
-    "BND" ->("$", 96, 2, "Sen", "Brunei Dollar", "BN"),
-    "BOB" ->("Bs.", 68, 2, "Centavo", "Boliviano", "BO"),
-    "BRL" ->("R$", 986, 2, "Centavo", "Brazilian Real", "BR"),
-    "BSD" ->("$", 44, 2, "Cent", "Bahamian Dollar", "BS"),
-    "BTN" ->("", 64, 2, "Chertrum", "Ngultrum", "BT"),
-    "BWP" ->("P", 72, 2, "Thebe", "Pula", "BW"),
-    "BYR" ->("Br", 974, 0, "Kapyeyka", "Belarussian Ruble", "BY"),
-    "BZD" ->("$", 84, 2, "Cent", "Belize Dollar", "BZ"),
-    "CAD" ->("$", 124, 2, "Cent", "Canadian Dollar", "CA"),
-    "CDF" ->("Fr", 976, 2, "Centime", "Franc Congolais", "CD"),
-    "CHF" ->("Fr", 756, 2, "Rappen", "Swiss Franc", "CH"),
-    "CLP" ->("$", 152, 0, "Centavo", "Chilean Peso", "CL"),
-    "CNY" ->("¥", 156, 1, "Fen", "Yuan", "CN"),
-    "COP" ->("$", 170, 0, "Centavo", "Colombian Peso", "CO"),
-    "CRC" ->("₡", 188, 2, "Céntimo", "Costa Rican Colon", "CR"),
-    "CUP" ->("$", 192, 2, "Centavo", "Cuban Peso", "CU"),
-    "CVE" ->("Esc", 132, 2, "Centavo", "Cape Verde Escudo", "CV"),
-    "CZK" ->("Kč", 203, 2, "Haléř", "Czech Koruna", "CZ"),
-    "DJF" ->("Fr", 262, 0, "Centime", "Djibouti Franc", "DJ"),
-    "DKK" ->("kr", 208, 2, "Øre", "Danish Krone", "DK"),
-    "DOP" ->("$", 214, 2, "Centavo", "Dominican Peso", "DO"),
-    "DZD" ->("", 12, 2, "Centime", "Algerian Dinar", "DZ"),
-    "EEK" ->("KR", 233, 2, "Sent", "Kroon", "EE"),
-    "EGP" ->("£", 818, 2, "Piastre", "Egyptian Pound", "EG"),
-    "ERN" ->("Nfk", 232, 2, "Cent", "Nakfa", "ER"),
-    "ETB" ->("", 230, 2, "Santim", "Ethiopian Birr", "ET"),
-    "EUR" ->("€", 978, 2, "Cent", "Euro", "AT,BE,CY,ES,FI,FR,DE,GR,IE,IT,LU,MT,NL,PT,SI,SK"),
-    "FJD" ->("$", 242, 2, "Cent", "Fiji Dollar", "FJ"),
-    "FKP" ->("£", 238, 2, "Penny", "Falkland Islands Pound", "FK"),
-    "GBP" ->("£", 826, 2, "Penny", "Pound Sterling", "UK"),
-    "GEL" ->("ლ", 981, 2, "Tetri", "Lari", "GE"),
-    "GHS" ->("₵", 936, 2, "Pesewa", "Cedi", "GH"),
-    "GIP" ->("£", 292, 2, "Penny", "Gibraltar Pound", "GI"),
-    "GMD" ->("D", 270, 2, "Butut", "Dalasi", "GM"),
-    "GNF" ->("Fr", 324, 0, "Centime", "Guinea Franc", "GQ"),
-    "GTQ" ->("Q", 320, 2, "Centavo", "Quetzal", "GT"),
-    "GYD" ->("$", 328, 2, "Cent", "Guyana Dollar", "GY"),
-    "HKD" ->("$", 344, 1, "cent", "Hong Kong Dollar", "HK"),
-    "HNL" ->("L", 340, 2, "Centavo", "Lempira", "HN"),
-    "HRK" ->("kn", 191, 2, "Lipa", "Croatian Kuna", "HR"),
-    "HTG" ->("G", 332, 2, "Centime", "Haiti Gourde", "HT"),
-    "HUF" ->("Ft", 348, 0, "Penny", "Fillér", "HU"),
-    "IDR" ->("Rp", 360, 0, "Sen", "Rupiah", "ID"),
-    "ILS" ->("₪", 376, 2, "Agora", "Israeli New Sheqel", "IL"),
-    "INR" ->("₨", 356, 2, "Penny", "Paisa", "IN"),
-    "IQD" ->("", 368, 0, "Fils", "Iraqi Dinar", "IQ"),
-    "IRR" ->("", 364, 0, "Dinar", "Iranian Rial", "IR"),
-    "ISK" ->("kr", 352, 0, "Eyrir", "Iceland Krona", "IS"),
-    "JMD" ->("$", 388, 2, "Cent", "Jamaican Dollar", "JM"),
-    "JOD" ->("", 400, 3, "Piastre", "Jordanian Dinar", "JO"),
-    "JPY" ->("¥", 392, 0, "Sen", "Japanese Yen", "JP"),
-    "KES" ->("Sh", 404, 2, "Cent", "Kenyan Shilling", "KE"),
-    "KGS" ->("", 417, 2, "Tyiyn", "Som", "KG"),
-    "KHR" ->("", 116, 0, "Sen", "Riel", "KH"),
-    "KMF" ->("Fr", 174, 0, "Centime", "Comoro Franc", "KM"),
-    "KPW" ->("₩", 408, 0, "Chŏn", "North Korean Won", "KP"),
-    "KRW" ->("₩", 410, 0, "Jeon", "South Korean Won", "KR"),
-    "KWD" ->("", 414, 3, "Fils", "Kuwaiti Dinar", "KW"),
-    "KYD" ->("$", 136, 2, "Cent", "Cayman Islands Dollar", "KY"),
-    "KZT" ->("〒", 398, 2, "Tiyn", "Tenge", "KZ"),
-    "LAK" ->("₭", 418, 0, "Att", "Kip", "LA"),
-    "LBP" ->("", 422, 0, "Piastre", "Lebanese Pound", "LB"),
-    "LKR" ->("Rs", 144, 2, "Cent", "Sri Lanka Rupee", "LK"),
-    "LRD" ->("$", 430, 2, "Cent", "Liberian Dollar", "LR"),
-    "LSL" ->("L", 426, 2, "Sente", "Lesotho Loti", "LS"),
-    "LTL" ->("Lt", 440, 2, "Centas", "Lithuanian Litas", "LT"),
-    "LVL" ->("Ls", 428, 2, "Santīms", "Latvian Lats", "LV"),
-    "LYD" ->("", 434, 3, "Dirham", "Libyan Dinar", "LY"),
-    "MAD" ->("", 504, 2, "Centime", "Moroccan Dirham", "MA"),
-    "MDL" ->("L", 498, 2, "Ban", "Moldovan Leu", "MD"),
-    "MGA" ->("", 969, 1, "Iraimbilanja", "Malagasy Ariary", "MG"),
-    "MKD" ->("ден", 807, 2, "Deni", "Denar", "MK"),
-    "MMK" ->("K", 104, 0, "Pya", "Kyat", "MM"),
-    "MNT" ->("₮", 496, 2, "Möngö", "Tugrik", "MN"),
-    "MOP" ->("", 446, 1, "Penny", "Pataca", "MO"),
-    "MRO" ->("P", 478, 1, "Avo", "Ouguiya", "MR"),
-    "MUR" ->("₨", 480, 2, "Cent", "Mauritius Rupee", "MU"),
-    "MVR" ->("", 462, 2, "Lari", "Rufiyaa", "MV"),
-    "MWK" ->("MK", 454, 2, "Tambala", "Kwacha", "MW"),
-    "MXN" ->("$", 484, 2, "Centavo", "Mexican Peso", "MX"),
-    "MYR" ->("RM", 458, 2, "Sen", "Malaysian Ringgit", "MY"),
-    "MZN" ->("MTn", 943, 2, "Centavo", "Metical", "MZ"),
-    "NAD" ->("$", 516, 2, "Cent", "Namibian Dollar", "NA"),
-    "NGN" ->("₦", 566, 2, "Kobo", "Naira", "NG"),
-    "NIO" ->("C$", 558, 2, "Centavo", "Cordoba Oro", "NI"),
-    "NOK" ->("kr", 578, 2, "Øre", "Norwegian Krone", "NO"),
-    "NPR" ->("₨", 524, 2, "Paisa", "Nepalese Rupee", "NP"),
-    "NZD" ->("$", 554, 2, "Cent", "New Zealand Dollar", "NZ"),
-    "OMR" ->("", 512, 3, "Baisa", "Rial Omani", "OM"),
-    "PAB" ->("B/.", 590, 2, "Centésimo", "Balboa", "PA"),
-    "PEN" ->("S/.", 604, 2, "Céntimo", "Nuevo Sol", "PE"),
-    "PGK" ->("K", 598, 2, "Toea", "Kina Papua", "PG"),
-    "PHP" ->("₱", 608, 2, "Centavo", "Philippine Peso", "PH"),
-    "PKR" ->("₨", 586, 2, "Paisa", "Pakistan Rupee", "PK"),
-    "PLN" ->("zł", 985, 2, "Grosz", "Złoty", "PL"),
-    "PYG" ->("₲", 600, 0, "Céntimo", "Guarani", "PY"),
-    "QAR" ->("", 634, 2, "Dirham", "Qatari Rial", "QA"),
-    "RON" ->("L", 946, 2, "Ban", "Romanian Leu", "RO"),
-    "RSD" ->("din.", 941, 2, "Para", "Serbian Dinar", "RS"),
-    "RUB" ->("р.", 643, 2, "Kopek", "Russian Rouble", "RU"),
-    "RWF" ->("Fr", 646, 0, "Centime", "Rwanda Franc", "RW"),
-    "SAR" ->("", 682, 2, "Hallallah", "Saudi Riyal", "SA"),
-    "SBD" ->("$", 90, 2, "Cent", "Solomon Islands Dollar", "SB"),
-    "SCR" ->("₨", 690, 2, "Cent", "Seychelles Rupee", "SC"),
-    "SDG" ->("£", 938, 2, "Piastre", "Sudanese Pound", "SD"),
-    "SEK" ->("kr", 752, 2, "Öre", "Swedish Krona", "SE"),
-    "SGD" ->("$", 702, 2, "Cent", "Singapore Dollar", "SG"),
-    "SHP" ->("£", 654, 2, "Penny", "Saint Helena Pound", "SH"),
-    "SLL" ->("Le", 694, 0, "Cent", "Leone", "SL"),
-    "SOS" ->("Sh", 706, 2, "Cent", "Somali Shilling", "SO"),
-    "SRD" ->("$", 968, 2, "Cent", "Surinam Dollar", "SR"),
-    "STD" ->("Db", 678, 0, "Cêntimo", "Dobra", "ST"),
-    "SYP" ->("£", 760, 2, "Piastre", "Syrian Pound", "SY"),
-    "SZL" ->("L", 748, 2, "Cent", "Lilangeni", "SZ"),
-    "THB" ->("฿", 764, 2, "Satang", "Baht", "TH"),
-    "TJS" ->("ЅМ", 972, 2, "Diram", "Somoni", "TJ"),
-    "TMM" ->("m", 934, 2, "Tennesi", "Manat", "TM"),
-    "TND" ->("", 788, 3, "Millime", "Tunisian Dinar", "TN"),
-    "TOP" ->("T$", 776, 2, "Seniti", "Pa'anga", "TO"),
-    "TRY" ->("₤", 949, 2, "kuruş", "Turkish Lira", "TR"),
-    "TTD" ->("$", 780, 2, "Cent", "Trinidad and Tobago Dollar", "TT"),
-    "TWD" ->("$", 901, 1, "Cent", "New Taiwan Dollar", "TW"),
-    "TZS" ->("Sh", 834, 2, "Cent", "Tanzanian Shilling", "TZ"),
-    "UAH" ->("₴", 980, 2, "Kopiyka", "Hryvnia", "UA"),
-    "UGX" ->("Sh", 800, 0, "Cent", "Uganda Shilling", "UG"),
-    "USD" ->("$", 840, 2, "Cent", "Dollar", "US"),
-    "UYU" ->("$", 858, 2, "Centésimo", "Peso Uruguayo", "UY"),
-    "UZS" ->("", 860, 2, "Tiyin", "Uzbekistan Som", "UZ"),
-    "VEF" ->("Bs F", 937, 2, "Céntimo", "Venezuelan Bolívar", "VE"),
-    "VND" ->("₫", 704, 0, "Hào", "Vietnamese Dồng", "VN"),
-    "VUV" ->("Vt", 548, 0, "", "Vatu", "VU"),
-    "WST" ->("T", 882, 2, "Sene", "Samoan Tala", "WS"),
-    "XAF" ->("Fr", 950, 0, "Centime", "Central African CFA Franc", "CM,CF,CD,GQ,GA,TD"),
-    "XCD" ->("$", 951, 2, "Cent", "East Caribbean Dollar", "AG,DM,GD,KN,LC,VC"),
-    "XOF" ->("Fr", 952, 0, "Centime", "CFA Franc BCEAO", "BJ,BF,CI,GW,ML,NE,SN,TG"),
-    "XPF" ->("Fr", 953, 0, "Centime", "CFP Franc", "PF"),
-    "YER" ->("", 886, 0, "Fils", "Yemeni Rial", "YE"),
-    "ZAR" ->("R", 710, 2, "Cent", "South African Rand", "ZA"),
-    "ZMK" ->("ZK", 894, 0, "Ngwee", "Kwacha", "ZM"),
-    "ZWR" ->("$", 932, 2, "Cent", "Zimbabwe Dollar", "ZW")
+    "AED".->(("", 784, 2, "Fils", "UAE Dirham", "AE")),
+    "AFN".->(("", 971, 2, "Pul", "Afghani", "AF")),
+    "ALL".->(("L", 8, 2, "Qintar", "Lek", "AL")),
+    "AMD".->(("դր", 51, 0, "Luma", "Armenian Dram", "AM")),
+    "ANG".->(("ƒ", 532, 2, "Cent", "Netherlands Antillean Guilder", "AN")),
+    "AOA".->(("Kz", 973, 1, "Cêntimo", "Kwanza", "AO")),
+    "ARS".->(("$", 32, 2, "Centavo", "Argentine Peso", "AR")),
+    "AUD".->(("$", 36, 2, "Cent", "Australian Dollar", "AU")),
+    "AWG".->(("ƒ", 533, 2, "Cent", "Aruban Florin", "AW")),
+    "AZN".->(("", 944, 2, "Qəpik", "Azerbaijanian Manat", "AZ")),
+    "BAM".->(("КМ", 977, 2, "Fening", "Convertible Marks", "BA")),
+    "BBD".->(("$", 52, 2, "Cent", "Barbados Dollar", "BB")),
+    "BDT".->(("৳", 50, 2, "Paisa", "Bangladeshi Taka", "BD")),
+    "BGN".->(("лв", 975, 2, "Stotinka", "Bulgarian Lev", "BG")),
+    "BHD".->(("", 48, 3, "Fils", "Bahraini Dinar", "BH")),
+    "BIF".->(("Fr", 108, 0, "Centime", "Burundian Franc", "BI")),
+    "BMD".->(("$", 60, 2, "Cent", "Bermuda Dollar", "BM")),
+    "BND".->(("$", 96, 2, "Sen", "Brunei Dollar", "BN")),
+    "BOB".->(("Bs.", 68, 2, "Centavo", "Boliviano", "BO")),
+    "BRL".->(("R$", 986, 2, "Centavo", "Brazilian Real", "BR")),
+    "BSD".->(("$", 44, 2, "Cent", "Bahamian Dollar", "BS")),
+    "BTN".->(("", 64, 2, "Chertrum", "Ngultrum", "BT")),
+    "BWP".->(("P", 72, 2, "Thebe", "Pula", "BW")),
+    "BYR".->(("Br", 974, 0, "Kapyeyka", "Belarussian Ruble", "BY")),
+    "BZD".->(("$", 84, 2, "Cent", "Belize Dollar", "BZ")),
+    "CAD".->(("$", 124, 2, "Cent", "Canadian Dollar", "CA")),
+    "CDF".->(("Fr", 976, 2, "Centime", "Franc Congolais", "CD")),
+    "CHF".->(("Fr", 756, 2, "Rappen", "Swiss Franc", "CH")),
+    "CLP".->(("$", 152, 0, "Centavo", "Chilean Peso", "CL")),
+    "CNY".->(("¥", 156, 1, "Fen", "Yuan", "CN")),
+    "COP".->(("$", 170, 0, "Centavo", "Colombian Peso", "CO")),
+    "CRC".->(("₡", 188, 2, "Céntimo", "Costa Rican Colon", "CR")),
+    "CUP".->(("$", 192, 2, "Centavo", "Cuban Peso", "CU")),
+    "CVE".->(("Esc", 132, 2, "Centavo", "Cape Verde Escudo", "CV")),
+    "CZK".->(("Kč", 203, 2, "Haléř", "Czech Koruna", "CZ")),
+    "DJF".->(("Fr", 262, 0, "Centime", "Djibouti Franc", "DJ")),
+    "DKK".->(("kr", 208, 2, "Øre", "Danish Krone", "DK")),
+    "DOP".->(("$", 214, 2, "Centavo", "Dominican Peso", "DO")),
+    "DZD".->(("", 12, 2, "Centime", "Algerian Dinar", "DZ")),
+    "EEK".->(("KR", 233, 2, "Sent", "Kroon", "EE")),
+    "EGP".->(("£", 818, 2, "Piastre", "Egyptian Pound", "EG")),
+    "ERN".->(("Nfk", 232, 2, "Cent", "Nakfa", "ER")),
+    "ETB".->(("", 230, 2, "Santim", "Ethiopian Birr", "ET")),
+    "EUR".->(("€", 978, 2, "Cent", "Euro", "AT,BE,CY,ES,FI,FR,DE,GR,IE,IT,LU,MT,NL,PT,SI,SK")),
+    "FJD".->(("$", 242, 2, "Cent", "Fiji Dollar", "FJ")),
+    "FKP".->(("£", 238, 2, "Penny", "Falkland Islands Pound", "FK")),
+    "GBP".->(("£", 826, 2, "Penny", "Pound Sterling", "UK")),
+    "GEL".->(("ლ", 981, 2, "Tetri", "Lari", "GE")),
+    "GHS".->(("₵", 936, 2, "Pesewa", "Cedi", "GH")),
+    "GIP".->(("£", 292, 2, "Penny", "Gibraltar Pound", "GI")),
+    "GMD".->(("D", 270, 2, "Butut", "Dalasi", "GM")),
+    "GNF".->(("Fr", 324, 0, "Centime", "Guinea Franc", "GQ")),
+    "GTQ".->(("Q", 320, 2, "Centavo", "Quetzal", "GT")),
+    "GYD".->(("$", 328, 2, "Cent", "Guyana Dollar", "GY")),
+    "HKD".->(("$", 344, 1, "cent", "Hong Kong Dollar", "HK")),
+    "HNL".->(("L", 340, 2, "Centavo", "Lempira", "HN")),
+    "HRK".->(("kn", 191, 2, "Lipa", "Croatian Kuna", "HR")),
+    "HTG".->(("G", 332, 2, "Centime", "Haiti Gourde", "HT")),
+    "HUF".->(("Ft", 348, 0, "Penny", "Fillér", "HU")),
+    "IDR".->(("Rp", 360, 0, "Sen", "Rupiah", "ID")),
+    "ILS".->(("₪", 376, 2, "Agora", "Israeli New Sheqel", "IL")),
+    "INR".->(("₨", 356, 2, "Penny", "Paisa", "IN")),
+    "IQD".->(("", 368, 0, "Fils", "Iraqi Dinar", "IQ")),
+    "IRR".->(("", 364, 0, "Dinar", "Iranian Rial", "IR")),
+    "ISK".->(("kr", 352, 0, "Eyrir", "Iceland Krona", "IS")),
+    "JMD".->(("$", 388, 2, "Cent", "Jamaican Dollar", "JM")),
+    "JOD".->(("", 400, 3, "Piastre", "Jordanian Dinar", "JO")),
+    "JPY".->(("¥", 392, 0, "Sen", "Japanese Yen", "JP")),
+    "KES".->(("Sh", 404, 2, "Cent", "Kenyan Shilling", "KE")),
+    "KGS".->(("", 417, 2, "Tyiyn", "Som", "KG")),
+    "KHR".->(("", 116, 0, "Sen", "Riel", "KH")),
+    "KMF".->(("Fr", 174, 0, "Centime", "Comoro Franc", "KM")),
+    "KPW".->(("₩", 408, 0, "Chŏn", "North Korean Won", "KP")),
+    "KRW".->(("₩", 410, 0, "Jeon", "South Korean Won", "KR")),
+    "KWD".->(("", 414, 3, "Fils", "Kuwaiti Dinar", "KW")),
+    "KYD".->(("$", 136, 2, "Cent", "Cayman Islands Dollar", "KY")),
+    "KZT".->(("〒", 398, 2, "Tiyn", "Tenge", "KZ")),
+    "LAK".->(("₭", 418, 0, "Att", "Kip", "LA")),
+    "LBP".->(("", 422, 0, "Piastre", "Lebanese Pound", "LB")),
+    "LKR".->(("Rs", 144, 2, "Cent", "Sri Lanka Rupee", "LK")),
+    "LRD".->(("$", 430, 2, "Cent", "Liberian Dollar", "LR")),
+    "LSL".->(("L", 426, 2, "Sente", "Lesotho Loti", "LS")),
+    "LTL".->(("Lt", 440, 2, "Centas", "Lithuanian Litas", "LT")),
+    "LVL".->(("Ls", 428, 2, "Santīms", "Latvian Lats", "LV")),
+    "LYD".->(("", 434, 3, "Dirham", "Libyan Dinar", "LY")),
+    "MAD".->(("", 504, 2, "Centime", "Moroccan Dirham", "MA")),
+    "MDL".->(("L", 498, 2, "Ban", "Moldovan Leu", "MD")),
+    "MGA".->(("", 969, 1, "Iraimbilanja", "Malagasy Ariary", "MG")),
+    "MKD".->(("ден", 807, 2, "Deni", "Denar", "MK")),
+    "MMK".->(("K", 104, 0, "Pya", "Kyat", "MM")),
+    "MNT".->(("₮", 496, 2, "Möngö", "Tugrik", "MN")),
+    "MOP".->(("", 446, 1, "Penny", "Pataca", "MO")),
+    "MRO".->(("P", 478, 1, "Avo", "Ouguiya", "MR")),
+    "MUR".->(("₨", 480, 2, "Cent", "Mauritius Rupee", "MU")),
+    "MVR".->(("", 462, 2, "Lari", "Rufiyaa", "MV")),
+    "MWK".->(("MK", 454, 2, "Tambala", "Kwacha", "MW")),
+    "MXN".->(("$", 484, 2, "Centavo", "Mexican Peso", "MX")),
+    "MYR".->(("RM", 458, 2, "Sen", "Malaysian Ringgit", "MY")),
+    "MZN".->(("MTn", 943, 2, "Centavo", "Metical", "MZ")),
+    "NAD".->(("$", 516, 2, "Cent", "Namibian Dollar", "NA")),
+    "NGN".->(("₦", 566, 2, "Kobo", "Naira", "NG")),
+    "NIO".->(("C$", 558, 2, "Centavo", "Cordoba Oro", "NI")),
+    "NOK".->(("kr", 578, 2, "Øre", "Norwegian Krone", "NO")),
+    "NPR".->(("₨", 524, 2, "Paisa", "Nepalese Rupee", "NP")),
+    "NZD".->(("$", 554, 2, "Cent", "New Zealand Dollar", "NZ")),
+    "OMR".->(("", 512, 3, "Baisa", "Rial Omani", "OM")),
+    "PAB".->(("B/.", 590, 2, "Centésimo", "Balboa", "PA")),
+    "PEN".->(("S/.", 604, 2, "Céntimo", "Nuevo Sol", "PE")),
+    "PGK".->(("K", 598, 2, "Toea", "Kina Papua", "PG")),
+    "PHP".->(("₱", 608, 2, "Centavo", "Philippine Peso", "PH")),
+    "PKR".->(("₨", 586, 2, "Paisa", "Pakistan Rupee", "PK")),
+    "PLN".->(("zł", 985, 2, "Grosz", "Złoty", "PL")),
+    "PYG".->(("₲", 600, 0, "Céntimo", "Guarani", "PY")),
+    "QAR".->(("", 634, 2, "Dirham", "Qatari Rial", "QA")),
+    "RON".->(("L", 946, 2, "Ban", "Romanian Leu", "RO")),
+    "RSD".->(("din.", 941, 2, "Para", "Serbian Dinar", "RS")),
+    "RUB".->(("р.", 643, 2, "Kopek", "Russian Rouble", "RU")),
+    "RWF".->(("Fr", 646, 0, "Centime", "Rwanda Franc", "RW")),
+    "SAR".->(("", 682, 2, "Hallallah", "Saudi Riyal", "SA")),
+    "SBD".->(("$", 90, 2, "Cent", "Solomon Islands Dollar", "SB")),
+    "SCR".->(("₨", 690, 2, "Cent", "Seychelles Rupee", "SC")),
+    "SDG".->(("£", 938, 2, "Piastre", "Sudanese Pound", "SD")),
+    "SEK".->(("kr", 752, 2, "Öre", "Swedish Krona", "SE")),
+    "SGD".->(("$", 702, 2, "Cent", "Singapore Dollar", "SG")),
+    "SHP".->(("£", 654, 2, "Penny", "Saint Helena Pound", "SH")),
+    "SLL".->(("Le", 694, 0, "Cent", "Leone", "SL")),
+    "SOS".->(("Sh", 706, 2, "Cent", "Somali Shilling", "SO")),
+    "SRD".->(("$", 968, 2, "Cent", "Surinam Dollar", "SR")),
+    "STD".->(("Db", 678, 0, "Cêntimo", "Dobra", "ST")),
+    "SYP".->(("£", 760, 2, "Piastre", "Syrian Pound", "SY")),
+    "SZL".->(("L", 748, 2, "Cent", "Lilangeni", "SZ")),
+    "THB".->(("฿", 764, 2, "Satang", "Baht", "TH")),
+    "TJS".->(("ЅМ", 972, 2, "Diram", "Somoni", "TJ")),
+    "TMM".->(("m", 934, 2, "Tennesi", "Manat", "TM")),
+    "TND".->(("", 788, 3, "Millime", "Tunisian Dinar", "TN")),
+    "TOP".->(("T$", 776, 2, "Seniti", "Pa'anga", "TO")),
+    "TRY".->(("₤", 949, 2, "kuruş", "Turkish Lira", "TR")),
+    "TTD".->(("$", 780, 2, "Cent", "Trinidad and Tobago Dollar", "TT")),
+    "TWD".->(("$", 901, 1, "Cent", "New Taiwan Dollar", "TW")),
+    "TZS".->(("Sh", 834, 2, "Cent", "Tanzanian Shilling", "TZ")),
+    "UAH".->(("₴", 980, 2, "Kopiyka", "Hryvnia", "UA")),
+    "UGX".->(("Sh", 800, 0, "Cent", "Uganda Shilling", "UG")),
+    "USD".->(("$", 840, 2, "Cent", "Dollar", "US")),
+    "UYU".->(("$", 858, 2, "Centésimo", "Peso Uruguayo", "UY")),
+    "UZS".->(("", 860, 2, "Tiyin", "Uzbekistan Som", "UZ")),
+    "VEF".->(("Bs F", 937, 2, "Céntimo", "Venezuelan Bolívar", "VE")),
+    "VND".->(("₫", 704, 0, "Hào", "Vietnamese Dồng", "VN")),
+    "VUV".->(("Vt", 548, 0, "", "Vatu", "VU")),
+    "WST".->(("T", 882, 2, "Sene", "Samoan Tala", "WS")),
+    "XAF".->(("Fr", 950, 0, "Centime", "Central African CFA Franc", "CM,CF,CD,GQ,GA,TD")),
+    "XCD".->(("$", 951, 2, "Cent", "East Caribbean Dollar", "AG,DM,GD,KN,LC,VC")),
+    "XOF".->(("Fr", 952, 0, "Centime", "CFA Franc BCEAO", "BJ,BF,CI,GW,ML,NE,SN,TG")),
+    "XPF".->(("Fr", 953, 0, "Centime", "CFP Franc", "PF")),
+    "YER".->(("", 886, 0, "Fils", "Yemeni Rial", "YE")),
+    "ZAR".->(("R", 710, 2, "Cent", "South African Rand", "ZA")),
+    "ZMK".->(("ZK", 894, 0, "Ngwee", "Kwacha", "ZM")),
+    "ZWR".->(("$", 932, 2, "Cent", "Zimbabwe Dollar", "ZW"))
   )
 
   /* Verfies that the given currency code is in the currency list.
@@ -758,9 +758,9 @@ object Currency {
 
   /** Constructs a <code>Currency</code> value from a numeric <code>String</code> value.
     *
-    * @param amount specified amount as <code>String</code> value.
+    * @param amount       specified amount as <code>String</code> value.
     * @param currencyCode ISO 4217 three-letter currency code.
-    * @param decimals number of decimal places.
+    * @param decimals     number of decimal places.
     * @param roundingMode rounding mode to apply.
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
@@ -770,9 +770,9 @@ object Currency {
   /** Constructs a <code>Currency</code> value from a numeric <code>String</code> value
     * with default rounding mode (<code>ROUND_HALF_UP</code>).
     *
-    * @param amount specified amount as <code>String</code> value.
+    * @param amount       specified amount as <code>String</code> value.
     * @param currencyCode ISO 4217 three-letter currency code.
-    * @param decimals number of decimal places.
+    * @param decimals     number of decimal places.
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
   def apply(amount: String, currencyCode: String, decimals: Int): Currency =
@@ -783,7 +783,7 @@ object Currency {
     * decimal places. The number of decimal places is determined by the designated
     * currency (e.g. 2 for most currencies, 1 for Chinese Yuan, 0 for Colombian Peso, etc.)
     *
-    * @param amount specified amount as <code>String</code> value.
+    * @param amount       specified amount as <code>String</code> value.
     * @param currencyCode ISO 4217 three-letter currency code.
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
@@ -800,7 +800,7 @@ object Currency {
   /** Constructs a non-specific <code>Currency</code> value from a numeric <code>String</code> value
     * with the given number of decimal places.
     *
-    * @param amount specified amount as <code>String</code> value.
+    * @param amount   specified amount as <code>String</code> value.
     * @param decimals number of decimal places.
     */
   def apply(amount: String, decimals: Int): Currency =
@@ -809,7 +809,7 @@ object Currency {
   /** Constructs a non-specific <code>Currency</code> value from a numeric <code>String</code> value
     * with the given rounding mode.
     *
-    * @param amount specified amount as <code>String</code> value.
+    * @param amount       specified amount as <code>String</code> value.
     * @param roundingMode rounding mode to apply.
     */
   def apply(amount: String, roundingMode: RoundingMode): Currency =
@@ -818,8 +818,8 @@ object Currency {
   /** Constructs a non-specific <code>Currency</code> value from a numeric <code>String</code> value
     * with the given number of decimal places and the given rounding mode.
     *
-    * @param amount specified amount as <code>String</code> value.
-    * @param decimals number of decimal places.
+    * @param amount       specified amount as <code>String</code> value.
+    * @param decimals     number of decimal places.
     * @param roundingMode rounding mode to apply.
     */
   def apply(amount: String, decimals: Int, roundingMode: RoundingMode): Currency =
@@ -829,9 +829,9 @@ object Currency {
 
   /** Constructs a <code>Currency</code> value from a <code>Double</code> value.
     *
-    * @param amount specified amount as <code>Double</code> value.
+    * @param amount       specified amount as <code>Double</code> value.
     * @param currencyCode ISO 4217 three-letter currency code.
-    * @param decimals number of decimal places.
+    * @param decimals     number of decimal places.
     * @param roundingMode rounding mode to apply.
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
@@ -841,9 +841,9 @@ object Currency {
   /** Constructs a <code>Currency</code> value from a <code>Double</code> value
     * with default rounding mode (<code>ROUND_HALF_UP</code>).
     *
-    * @param amount specified amount as <code>Double</code> value.
+    * @param amount       specified amount as <code>Double</code> value.
     * @param currencyCode ISO 4217 three-letter currency code.
-    * @param decimals number of decimal places.
+    * @param decimals     number of decimal places.
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
   def apply(amount: Double, currencyCode: String, decimals: Int): Currency =
@@ -854,7 +854,7 @@ object Currency {
     * of decimal places. The number of decimal places is determined by the designated
     * currency (e.g. 2 for most currencies, 1 for Chinese Yuan, 0 for Colombian Peso, etc.)
     *
-    * @param amount specified amount as <code>Double</code> value.
+    * @param amount       specified amount as <code>Double</code> value.
     * @param currencyCode ISO 4217 three-letter currency code.
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
@@ -871,7 +871,7 @@ object Currency {
   /** Constructs a non-specific <code>Currency</code> value from a <code>Double</code> value
     * with the given number of decimal places.
     *
-    * @param amount specified amount as <code>Double</code> value.
+    * @param amount   specified amount as <code>Double</code> value.
     * @param decimals number of decimal places.
     */
   def apply(amount: Double, decimals: Int): Currency =
@@ -880,7 +880,7 @@ object Currency {
   /** Constructs a non-specific <code>Currency</code> value from a <code>Double</code> value
     * with the given rounding mode.
     *
-    * @param amount specified amount as <code>Double</code> value.
+    * @param amount       specified amount as <code>Double</code> value.
     * @param roundingMode rounding mode to apply.
     */
   def apply(amount: Double, roundingMode: RoundingMode): Currency =
@@ -889,8 +889,8 @@ object Currency {
   /** Constructs a non-specific <code>Currency</code> value from a <code>Double</code> value
     * with the given number of decimal places and the given rounding mode.
     *
-    * @param amount specified amount as <code>Double</code> value.
-    * @param decimals number of decimal places.
+    * @param amount       specified amount as <code>Double</code> value.
+    * @param decimals     number of decimal places.
     * @param roundingMode rounding mode to apply.
     */
   def apply(amount: Double, decimals: Int, roundingMode: RoundingMode): Currency =
@@ -900,9 +900,9 @@ object Currency {
 
   /** Constructs a <code>Currency</code> value from a <code>Long</code> value.
     *
-    * @param amount specified amount as <code>Long</code> value.
+    * @param amount       specified amount as <code>Long</code> value.
     * @param currencyCode ISO 4217 three-letter currency code.
-    * @param decimals number of decimal places.
+    * @param decimals     number of decimal places.
     * @param roundingMode rounding mode to apply.
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
@@ -912,9 +912,9 @@ object Currency {
   /** Constructs a <code>Currency</code> value from a <code>Long</code> value
     * with default rounding mode (<code>ROUND_HALF_UP</code>).
     *
-    * @param amount specified amount as <code>Long</code> value.
+    * @param amount       specified amount as <code>Long</code> value.
     * @param currencyCode ISO 4217 three-letter currency code.
-    * @param decimals number of decimal places.
+    * @param decimals     number of decimal places.
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
   def apply(amount: Long, currencyCode: String, decimals: Int): Currency =
@@ -925,7 +925,7 @@ object Currency {
     * decimal places. The number of decimal places is determined by the designated
     * currency (e.g. 2 for most currencies, 1 for Chinese Yuan, 0 for Colombian Peso, etc.)
     *
-    * @param amount specified amount as <code>Long</code> value.
+    * @param amount       specified amount as <code>Long</code> value.
     * @param currencyCode ISO 4217 three-letter currency code.
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
@@ -942,7 +942,7 @@ object Currency {
   /** Constructs a non-specific <code>Currency</code> value from a <code>Long</code> value
     * with the given number of decimal places.
     *
-    * @param amount specified amount as <code>Long</code> value.
+    * @param amount   specified amount as <code>Long</code> value.
     * @param decimals number of decimal places.
     */
   def apply(amount: Long, decimals: Int): Currency =
@@ -951,7 +951,7 @@ object Currency {
   /** Constructs a non-specific <code>Currency</code> value from a <code>Long</code> value
     * with the given rounding mode.
     *
-    * @param amount specified amount as <code>Double</code> value.
+    * @param amount       specified amount as <code>Double</code> value.
     * @param roundingMode rounding mode to apply.
     */
   def apply(amount: Long, roundingMode: RoundingMode): Currency =
@@ -960,8 +960,8 @@ object Currency {
   /** Constructs a non-specific <code>Currency</code> value from a <code>Long</code> value
     * with the given number of decimal places and the given rounding mode.
     *
-    * @param amount specified amount as <code>Long</code> value.
-    * @param decimals number of decimal places.
+    * @param amount       specified amount as <code>Long</code> value.
+    * @param decimals     number of decimal places.
     * @param roundingMode rounding mode to apply.
     */
   def apply(amount: Long, decimals: Int, roundingMode: RoundingMode): Currency =

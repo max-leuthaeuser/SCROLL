@@ -10,15 +10,15 @@ object APICallsExample extends App {
   class APICalls extends Compartment {
 
     case class API() {
-      def callA() {
+      def callA(): Unit = {
         info("Call A is correct.")
       }
 
-      def callB() {
+      def callB(): Unit = {
         info("Call B is a mess somehow.")
       }
 
-      def callC() {
+      def callC(): Unit = {
         info("Call C is correct.")
       }
     }
@@ -26,7 +26,7 @@ object APICallsExample extends App {
     case class MyApp() {
       val api = API() play FixedAPI()
 
-      def run() {
+      def run(): Unit = {
         api.callA()
 
         api.callB()
@@ -35,16 +35,16 @@ object APICallsExample extends App {
           To(_.isInstanceOf[FixedAPI]).
           Through(anything).
           Bypassing(_.isInstanceOf[FixedAPI])
-        api.callC()
+        val _ = api.callC()
       }
     }
 
     case class FixedAPI() {
-      def callB() {
+      def callB(): Unit = {
         info("Call B is fixed now. :-)")
       }
 
-      def callC() {
+      def callC(): Unit = {
         info("Call C is changed too. :-(")
       }
     }

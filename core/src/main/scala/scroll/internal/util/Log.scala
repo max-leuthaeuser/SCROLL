@@ -18,7 +18,7 @@ object Log {
     *
     * @param message the message to log
     */
-  def info(message: String) {
+  def info(message: String): Unit = {
     logger.info(message)
   }
 

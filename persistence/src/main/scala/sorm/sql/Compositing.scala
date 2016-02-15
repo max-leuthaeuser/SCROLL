@@ -1,8 +1,6 @@
 package sorm.sql
 
-import sorm._
-import sext._, embrace._
-import Sql._
+import sorm.sql.Sql._
 
 object Compositing {
 

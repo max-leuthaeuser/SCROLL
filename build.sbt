@@ -20,7 +20,6 @@ lazy val commonSettings = Seq(
     "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
   ),
   dependencyOverrides += "org.scala-lang" % "scala-compiler" % scalaVersion.value, // fix for SORM
-  addCompilerPlugin("org.scala-lang.plugins" % "scala-continuations-plugin_2.11.7" % contVersion),
   addCompilerPlugin("org.scalamacros" % "paradise" % macrosVersion cross CrossVersion.full),
   libraryDependencies ++= Seq(
     "com.googlecode.kiama" %% "kiama" % kiamaVersion,
@@ -36,15 +35,15 @@ lazy val commonSettings = Seq(
     "org.eclipse.uml2" % "org.eclipse.uml2.uml" % "3.1.0.v201006071150"
   ),
   javacOptions in Compile ++= Seq("-source", "1.8", "-target", "1.8"),
-  scalacOptions ++= Seq("-unchecked",
+  scalacOptions ++= Seq(
     "-deprecation",
     "-feature",
     "-language:dynamics",
     "-language:reflectiveCalls",
     "-language:postfixOps",
     "-language:implicitConversions",
-    "-target:jvm-1.8",
-    "-P:continuations:enable")
+    "-unchecked",
+    "-target:jvm-1.8")
 )
 
 lazy val root = (project in file(".")).settings(
@@ -55,6 +54,15 @@ lazy val core = (project in file("core")).
   settings(commonSettings: _*).
   settings(
     name := "SCROLL",
+    scalacOptions ++= Seq(
+      "-Xfatal-warnings",
+      "-Xlint",
+      "-Xlint:-missing-interpolator",
+      "-Yno-adapted-args",
+      "-Ywarn-numeric-widen",
+      "-Ywarn-value-discard",
+      "-Xfuture",
+      "-Ywarn-unused-import"),
     organization := "com.github.max-leuthaeuser",
     publishTo := {
       val nexus = "https://oss.sonatype.org/"

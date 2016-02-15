@@ -3,9 +3,10 @@ package scroll.internal.persistence
 import scroll.internal.graph.ScalaRoleGraph
 import scroll.internal.persistence.PersistentScalaRoleGraph.Plays
 import scroll.internal.util.ReflectiveHelper
-import scala.reflect.runtime.universe._
-import sorm.{Persisted, Instance}
 import sorm.Dsl._
+import sorm.{Instance, Persisted}
+
+import scala.reflect.runtime.universe._
 
 object PersistentScalaRoleGraph {
 
@@ -41,10 +42,10 @@ class PersistentScalaRoleGraph(db: Instance, factory: TypeFactory, checkForCycle
     this
   }
 
-  override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
+  override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
-    db.transaction {
+    val _ = db.transaction {
       val playerID = db.save(checkType(player)).id
       val playerType = weakToTypeString(weakTypeOf[P].toString)
       val roleID = db.save(checkType(role)).id
@@ -59,10 +60,10 @@ class PersistentScalaRoleGraph(db: Instance, factory: TypeFactory, checkForCycle
     }
   }
 
-  override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
+  override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
-    db.transaction {
+    val _ = db.transaction {
       val playerID = db.save(checkType(player)).id
       val playerType = weakToTypeString(weakTypeOf[P].toString)
       val roleID = db.save(checkType(role)).id
@@ -80,9 +81,9 @@ class PersistentScalaRoleGraph(db: Instance, factory: TypeFactory, checkForCycle
     }
   }
 
-  override def removePlayer[P <: AnyRef : WeakTypeTag](player: P) {
+  override def removePlayer[P <: AnyRef : WeakTypeTag](player: P): Unit = {
     require(null != player)
-    db.transaction {
+    val _ = db.transaction {
       val playerID = db.save(checkType(player)).id
       val playerType = weakToTypeString(weakTypeOf[P].toString)
       val p = factory.create(playerID, playerType, db)

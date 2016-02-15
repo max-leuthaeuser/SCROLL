@@ -23,7 +23,7 @@ trait RoleConstraints {
 
   private def newRoleConstraintGraph = new DefaultDirectedGraph[String, DefaultEdge](classOf[DefaultEdge])
 
-  private def checkImplications(player: Any, role: Any) {
+  private def checkImplications(player: Any, role: Any): Unit = {
     val candidates = roleImplications.vertexSet().filter(isInstanceOf(_, role))
     candidates.isEmpty match {
       case false =>
@@ -36,7 +36,7 @@ trait RoleConstraints {
     }
   }
 
-  private def checkEquivalence(player: Any, role: Any) {
+  private def checkEquivalence(player: Any, role: Any): Unit = {
     val candidates = roleEquivalents.vertexSet().filter(isInstanceOf(_, role))
     candidates.isEmpty match {
       case false =>
@@ -49,7 +49,7 @@ trait RoleConstraints {
     }
   }
 
-  private def checkProhibitions(player: Any, role: Any) {
+  private def checkProhibitions(player: Any, role: Any): Unit = {
     val candidates = roleProhibitions.vertexSet().filter(isInstanceOf(_, role))
     candidates.isEmpty match {
       case false =>
@@ -74,12 +74,12 @@ trait RoleConstraints {
     * @tparam A type of role A
     * @tparam B type of role B that should be played implicitly if A is played
     */
-  def RoleImplication[A: Manifest, B: Manifest]() {
+  def RoleImplication[A: Manifest, B: Manifest](): Unit = {
     val rA = manifest[A].toString()
     val rB = manifest[B].toString()
     roleImplications.addVertex(rA)
     roleImplications.addVertex(rB)
-    roleImplications.addEdge(rA, rB)
+    val _ = roleImplications.addEdge(rA, rB)
   }
 
   /**
@@ -90,13 +90,12 @@ trait RoleConstraints {
     * @tparam A type of role A that should be played implicitly if B is played
     * @tparam B type of role B that should be played implicitly if A is played
     */
-  def RoleEquivalence[A: Manifest, B: Manifest]() {
+  def RoleEquivalence[A: Manifest, B: Manifest](): Unit = {
     val rA = manifest[A].toString()
     val rB = manifest[B].toString()
     roleEquivalents.addVertex(rA)
     roleEquivalents.addVertex(rB)
-    roleEquivalents.addEdge(rA, rB)
-    roleEquivalents.addEdge(rB, rA)
+    val _ = (roleEquivalents.addEdge(rA, rB), roleEquivalents.addEdge(rB, rA))
   }
 
   /**
@@ -107,12 +106,12 @@ trait RoleConstraints {
     * @tparam A type of role A
     * @tparam B type of role B that is not allowed to be played if A is played already
     */
-  def RoleProhibition[A: Manifest, B: Manifest]() {
+  def RoleProhibition[A: Manifest, B: Manifest](): Unit = {
     val rA = manifest[A].toString()
     val rB = manifest[B].toString()
     roleProhibitions.addVertex(rA)
     roleProhibitions.addVertex(rB)
-    roleProhibitions.addEdge(rA, rB)
+    val _ = roleProhibitions.addEdge(rA, rB)
   }
 
   /**
@@ -122,7 +121,7 @@ trait RoleConstraints {
     *
     * @param func the function to execute and check role constraints afterwards
     */
-  def RoleConstraintsChecked(func: => Unit) {
+  def RoleConstraintsChecked(func: => Unit): Unit = {
     func
     plays.allPlayers.foreach(p => plays.getRoles(p).diff(Set(p)).foreach(r => validate(p, r)))
   }
@@ -132,9 +131,9 @@ trait RoleConstraints {
     * Will throw a RuntimeException if a constraint is violated!
     *
     * @param player the player instance to check
-    * @param role the role instance to check
+    * @param role   the role instance to check
     */
-  private def validate(player: Any, role: Any) {
+  private def validate(player: Any, role: Any): Unit = {
     checkImplications(player, role)
     checkEquivalence(player, role)
     checkProhibitions(player, role)

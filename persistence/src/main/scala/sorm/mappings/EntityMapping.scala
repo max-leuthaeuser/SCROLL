@@ -1,13 +1,12 @@
 package sorm.mappings
 
-import scroll.internal.graph.ScalaRoleGraph
-import sext._, embrace._
+import embrace._
 import sorm._
-import driver.DriverConnection
-import core._
-import jdbc.ResultSetView
-import persisted.Persisted
-import reflection.Reflection
+import sorm.core._
+import sorm.driver.DriverConnection
+import sorm.jdbc.ResultSetView
+import sorm.persisted.Persisted
+import sorm.reflection.Reflection
 
 class EntityMapping
 (val reflection: Reflection,
@@ -35,7 +34,7 @@ class EntityMapping
     ))
     .get
 
-  def delete(value: Any, connection: DriverConnection) {
+  def delete(value: Any, connection: DriverConnection): Unit = {
     value match {
       case value: Persisted =>
         ("id" -> value.id) $ (Stream(_)) $ (tableName -> _) $$ connection.delete

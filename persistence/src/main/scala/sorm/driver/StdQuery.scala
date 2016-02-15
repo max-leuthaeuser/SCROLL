@@ -1,10 +1,9 @@
 package sorm.driver
 
-import sext._, embrace._
-
+import embrace._
 import sorm._
-import jdbc._
-import sql._
+import sorm.jdbc._
+import sorm.sql._
 
 trait StdQuery {
   self: StdConnection with StdStatement =>

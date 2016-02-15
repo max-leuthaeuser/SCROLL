@@ -1,10 +1,9 @@
 package sorm.mappings
 
-import sext._, embrace._
+import embrace._
 import sorm._
-import driver.DriverConnection
-import core._
-import jdbc.ResultSetView
+import sorm.driver.DriverConnection
+import sorm.jdbc.ResultSetView
 
 trait Querying {
 

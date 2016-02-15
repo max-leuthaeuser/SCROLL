@@ -22,35 +22,35 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     case false => new SimpleDirectedGraph[Any, DefaultEdge](classOf[DefaultEdge])
   }
 
-  override def merge(other: RoleGraph) {
+  override def merge(other: RoleGraph): Unit = {
     require(null != other)
     assert(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
-    Graphs.addGraph(store, other.store)
+    val _ = Graphs.addGraph(store, other.store)
   }
 
-  override def detach(other: RoleGraph) {
+  override def detach(other: RoleGraph): Unit = {
     require(null != other)
     assert(other.isInstanceOf[ScalaRoleGraph], "You can only detach RoleGraphs of the same type!")
-    store.removeAllVertices(other.store.vertexSet())
+    val _ = store.removeAllVertices(other.store.vertexSet())
   }
 
-  override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
+  override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
     store.addVertex(player)
     store.addVertex(role)
-    store.addEdge(player, role)
+    val _ = store.addEdge(player, role)
   }
 
-  override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R) {
+  override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
-    store.removeEdge(player, role)
+    val _ = store.removeEdge(player, role)
   }
 
-  override def removePlayer[P <: AnyRef : WeakTypeTag](player: P) {
+  override def removePlayer[P <: AnyRef : WeakTypeTag](player: P): Unit = {
     require(null != player)
-    store.removeVertex(player)
+    val _ = store.removeVertex(player)
   }
 
   override def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Set[Any] = {

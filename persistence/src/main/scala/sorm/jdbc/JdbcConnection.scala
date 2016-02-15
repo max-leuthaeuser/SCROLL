@@ -1,8 +1,8 @@
 package sorm.jdbc
 
-import java.sql.DriverManager
-import sext._, embrace._
-import java.sql.{Connection, ResultSet, Statement => JdbcStatement}
+import java.sql.{Connection, DriverManager, Statement => JdbcStatement}
+
+import embrace._
 import sorm.core.DbType
 
 class JdbcConnection(protected val connection: Connection) extends Transactions with JdbcConnectionLogging {

@@ -1,10 +1,8 @@
 package sorm.mappings
 
-import sorm._
-import driver.DriverConnection
-import reflection.Reflection
-import scala.Some
-import ddl._
+import sorm.ddl._
+import sorm.driver.DriverConnection
+import sorm.reflection.Reflection
 
 trait Mapping {
   def membership: Option[Membership]
@@ -55,9 +53,9 @@ trait Mapping {
   //  for saving
   def valuesForContainerTableRow(value: Any): Iterable[(String, Any)]
 
-  def update(value: Any, masterKey: Stream[Any], connection: DriverConnection) {}
+  def update(value: Any, masterKey: Stream[Any], connection: DriverConnection): Unit = {}
 
-  def insert(value: Any, masterKey: Stream[Any], connection: DriverConnection) {}
+  def insert(value: Any, masterKey: Stream[Any], connection: DriverConnection): Unit = {}
 
   def columnsForContainer: Stream[Column]
 

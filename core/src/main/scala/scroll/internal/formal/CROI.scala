@@ -11,7 +11,7 @@ trait CROI extends CROM {
 
   def compliant: Boolean = crom.isDefined && croi.compliant(this.crom.get)
 
-  private def addType1(of: Any) {
+  private def addType1(of: Any): Unit = {
     val className = of.getClass.toString
     val typeName = className.contains("$") match {
       case false => ReflectiveHelper.typeSimpleClassName(className)
@@ -20,17 +20,17 @@ trait CROI extends CROM {
     croi.type1 += (ReflectiveHelper.hash(of) -> typeName)
   }
 
-  def addNatural(n: Any) {
+  def addNatural(n: Any): Unit = {
     croi.n ::= ReflectiveHelper.hash(n)
     addType1(n)
   }
 
-  def addRole(r: Any) {
+  def addRole(r: Any): Unit = {
     croi.r ::= ReflectiveHelper.hash(r)
     addType1(r)
   }
 
-  def addCompartment[T: Manifest](c: T) {
+  def addCompartment[T: Manifest](c: T): Unit = {
     require(c.isInstanceOf[Compartment])
     val man = manifest[T].toString()
     val typeName = man.substring(man.indexOf(".") + 1, man.lastIndexOf(" with"))
@@ -38,7 +38,7 @@ trait CROI extends CROM {
     croi.type1 += (ReflectiveHelper.hash(c) -> typeName)
   }
 
-  def addPlays(player: Any, comp: Any, role: Any) {
+  def addPlays(player: Any, comp: Any, role: Any): Unit = {
     val elem = (ReflectiveHelper.hash(player), ReflectiveHelper.hash(comp), ReflectiveHelper.hash(role))
     croi.plays ::= elem
   }
