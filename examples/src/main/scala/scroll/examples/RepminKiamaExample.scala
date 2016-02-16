@@ -10,7 +10,9 @@ object RepminKiamaExample extends App with Compartment {
 
   case class Fork(left: RepminTree, right: RepminTree) extends RepminTree
 
-  case class Leaf(value: Int) extends RepminTree
+  case class Leaf(v: Int) extends RepminTree {
+    def value: Int = v
+  }
 
   class Repmin {
 
@@ -40,7 +42,7 @@ object RepminKiamaExample extends App with Compartment {
   }
 
   class DoubleLeaf() {
-    def value: Int = (+this).value[Int] * 2
+    def value(): Int = (+this).v[Int] * 2
   }
 
   val in = Fork(Leaf(3), Fork(Leaf(1), Leaf(10)))

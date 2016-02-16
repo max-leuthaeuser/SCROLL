@@ -55,13 +55,14 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Set[Any] = {
     require(null != player)
-    containsPlayer(player) match {
+    val r = containsPlayer(player) match {
       case true => dispatchQuery.traversalStrategy match {
         case DispatchQuery.DFS => new DepthFirstIterator[Any, DefaultEdge](store, player).toSet
         case DispatchQuery.BFS => new BreadthFirstIterator[Any, DefaultEdge](store, player).toSet
       }
       case false => Set(player)
     }
+    r.diff(Set(player))
   }
 
   override def containsPlayer(player: Any): Boolean = store.containsVertex(player)

@@ -1,13 +1,11 @@
 package scroll.internal
 
-import java.lang
-import java.lang.reflect.{InvocationTargetException, Method}
-
 import scroll.internal.errors.SCROLLErrors._
 import scroll.internal.support._
 import UnionTypes.RoleUnionTypes
 import scroll.internal.graph.{RoleGraph, ScalaRoleGraph}
 
+import scala.util.{Failure, Success, Try}
 import scala.annotation.tailrec
 import scala.reflect.Manifest
 import scala.reflect.runtime.universe._
@@ -262,7 +260,7 @@ trait Compartment
       * @tparam E the return type of method m
       * @return the resulting return value of the method invocation or an appropriate error
       */
-    def dispatch[E](on: Any, m: Method): Either[InvocationError, E]
+    def dispatch[E](on: Any, m: Symbol): Either[InvocationError, E]
 
     /**
       * For multi-argument dispatch.
@@ -274,47 +272,29 @@ trait Compartment
       * @tparam A the type of the argument values
       * @return the resulting return value of the method invocation or an appropriate error
       */
-    def dispatch[E, A](on: Any, m: Method, args: Seq[A]): Either[InvocationError, E]
+    def dispatch[E, A](on: Any, m: Symbol, args: Seq[A]): Either[InvocationError, E]
   }
 
   /**
     * Trait handling the actual dispatching of role methods.
     */
   trait SCROLLDispatch extends Dispatchable {
-    private def handleAccessibility(of: Method): Unit = {
-      if (!of.isAccessible) of.setAccessible(true)
-    }
-
-    override def dispatch[E](on: Any, m: Method): Either[InvocationError, E] = {
+    override def dispatch[E](on: Any, m: Symbol): Either[InvocationError, E] = {
       require(null != on)
       require(null != m)
-      handleAccessibility(m)
-      try {
-        Right(m.invoke(on, Array.empty[Object]: _*).asInstanceOf[E])
-      } catch {
-        case e@(_: IllegalAccessException | _: IllegalArgumentException | _: InvocationTargetException) =>
-          Left(IllegalRoleInvocationSingleDispatch(on.toString, m.getName))
+      Try(on.resultOf[E](m)) match {
+        case Success(s) => Right(s)
+        case Failure(_) => Left(IllegalRoleInvocationSingleDispatch(on.toString, m.name.decodedName.toString))
       }
     }
 
-    override def dispatch[E, A](on: Any, m: Method, args: Seq[A]): Either[InvocationError, E] = {
+    override def dispatch[E, A](on: Any, m: Symbol, args: Seq[A]): Either[InvocationError, E] = {
       require(null != on)
       require(null != m)
       require(null != args)
-      val actualArgs = args.zip(m.getParameterTypes).map {
-        case (arg: Player[_], tpe: Class[_]) =>
-          plays.getRoles(arg.wrapped).find(_.getClass == tpe) match {
-            case Some(curRole) => curRole
-            case None => return Left(IllegalRoleInvocationMultipleDispatch(on.toString, m.getName, args.toString()))
-          }
-        case (arg@unchecked, tpe: Class[_]) => arg
-      }
-      handleAccessibility(m)
-      try {
-        Right(m.invoke(on, actualArgs.map(_.asInstanceOf[Object]): _*).asInstanceOf[E])
-      } catch {
-        case e@(_: IllegalAccessException | _: IllegalArgumentException | _: InvocationTargetException) =>
-          Left(IllegalRoleInvocationMultipleDispatch(on.toString, m.getName, args.toString()))
+      Try(on.resultOf[E](m, args.map(_.asInstanceOf[Any]))) match {
+        case Success(s) => Right(s)
+        case Failure(_) => Left(IllegalRoleInvocationMultipleDispatch(on.toString, m.name.decodedName.toString, args.toString()))
       }
     }
 
@@ -408,62 +388,11 @@ trait Compartment
       */
     def isPlaying[E: Manifest]: Boolean = plays.getRoles(wrapped).exists(_.is[E])
 
-    private val translationRules = Map(
-      "=" -> "$eq",
-      ">" -> "$greater",
-      "<" -> "$less",
-      "+" -> "$plus",
-      "-" -> "$minus",
-      "*" -> "$times",
-      "/" -> "$div",
-      "!" -> "$bang",
-      "@" -> "$at",
-      "#" -> "$hash",
-      "%" -> "$percent",
-      "^" -> "$up",
-      "&" -> "$amp",
-      "~" -> "$tilde",
-      "?" -> "$qmark",
-      "|" -> "$bar",
-      "\\" -> "$bslash",
-      ":" -> "$colon")
-
-    private def translateFunctionName(fn: String): String = {
-      val s = new StringBuilder()
-      fn.foreach(c => translationRules.get(c.toString) match {
-        case Some(r) => s.append(r)
-        case None => s.append(c)
-      })
-      s.toString()
-    }
-
-    private def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean = {
-      lazy val matchName = m.getName == name
-      lazy val matchParamCount = m.getParameterTypes.length == args.size
-      lazy val matchArgTypes = args.zip(m.getParameterTypes).forall {
-        case (arg@unchecked, paramType: Class[_]) => paramType match {
-          case lang.Boolean.TYPE => arg.isInstanceOf[Boolean]
-          case lang.Character.TYPE => arg.isInstanceOf[Char]
-          case lang.Short.TYPE => arg.isInstanceOf[Short]
-          case lang.Integer.TYPE => arg.isInstanceOf[Integer]
-          case lang.Long.TYPE => arg.isInstanceOf[Long]
-          case lang.Float.TYPE => arg.isInstanceOf[Float]
-          case lang.Double.TYPE => arg.isInstanceOf[Double]
-          case lang.Byte.TYPE => arg.isInstanceOf[Byte]
-          case _ if arg.getClass == this.getClass => getCoreFor(arg).flatMap(plays.getRoles).exists(_.getClass == paramType)
-
-          case _ => paramType.isAssignableFrom(arg.getClass)
-        }
-      }
-      matchName && matchParamCount && matchArgTypes
-    }
-
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
-      val functionName = translateFunctionName(name)
+      val anys = dispatchQuery.reorder(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
       anys.foreach(r => {
-        r.allMethods.find(matchMethod(_, functionName, args.toSeq)).foreach(fm => {
+        r.findMethod(name, args.toSeq).foreach(fm => {
           args match {
             case Nil => return dispatch(r, fm)
             case _ => return dispatch(r, fm, args.toSeq)
@@ -471,7 +400,7 @@ trait Compartment
         })
       })
       // otherwise give up
-      Left(RoleNotFound(core.getClass.toString, functionName, args.toString()))
+      Left(RoleNotFound(core.toString, name, args.toString()))
     }
 
     override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
@@ -479,21 +408,18 @@ trait Compartment
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
-      val attName = translateFunctionName(name)
-      anys.find(_.hasAttribute(attName)) match {
-        case Some(r) => Right(r.propertyOf[E](attName))
-        case None => Left(RoleNotFound(core.getClass.toString, attName, ""))
+      val anys = dispatchQuery.reorder(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
+      anys.find(_.hasMember(name)) match {
+        case Some(r) => Right(r.propertyOf(name))
+        case None => Left(RoleNotFound(core.toString, name, ""))
       }
     }
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit = {
       val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.reorder(plays.getRoles(core).toSeq :+ wrapped :+ core)
-      val attName = translateFunctionName(name)
-      anys.find(_.hasAttribute(attName)) match {
-        case Some(r) =>
-          r.setPropertyOf(attName, value)
+      val anys = dispatchQuery.reorder(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
+      anys.find(_.hasMember(name)) match {
+        case Some(r) => r.setPropertyOf(name, value)
         case None => // do nothing
       }
     }

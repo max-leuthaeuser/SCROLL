@@ -126,6 +126,8 @@ lazy val tests = (project in file("tests")).
   settings(
     testOptions in Test := Seq(Tests.Filter(s => s.endsWith("Suite"))),
     parallelExecution in Test := false,
+    javaOptions += "-Xms4g",
+    javaOptions += "-Xmx4g",
     libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % "test")
   ).dependsOn(core, examples, persistence)
 
