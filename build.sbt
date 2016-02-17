@@ -6,7 +6,6 @@ val scalameterVersion = "0.8-SNAPSHOT"
 val scalatestVersion = "2.2.1"
 val chocoVersion = "3.3.1"
 val slf4jVersion = "1.7.12"
-val contVersion = "1.0.2"
 val macrosVersion = "2.0.1"
 
 lazy val commonSettings = Seq(
@@ -29,7 +28,6 @@ lazy val commonSettings = Seq(
     "org.choco-solver" % "choco-solver" % chocoVersion,
     "org.slf4j" % "slf4j-simple" % slf4jVersion,
     "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-    "org.scala-lang.plugins" %% "scala-continuations-library" % contVersion,
     "org.eclipse.emf" % "org.eclipse.emf.common" % "2.10.1",
     "org.eclipse.emf" % "org.eclipse.emf.ecore" % "2.10.1",
     "org.eclipse.uml2" % "org.eclipse.uml2.uml" % "3.1.0.v201006071150"
@@ -130,8 +128,6 @@ lazy val tests = (project in file("tests")).
     javaOptions += "-Xmx4g",
     libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % "test")
   ).dependsOn(core, examples, persistence)
-
-val scalaMeterFramework = new TestFramework("org.scalameter.ScalaMeterFramework")
 
 lazy val benchmarks = (project in file("benchmarks")).
   settings(commonSettings: _*).
