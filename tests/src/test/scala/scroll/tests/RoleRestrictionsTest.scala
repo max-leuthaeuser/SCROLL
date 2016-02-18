@@ -22,10 +22,32 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
 
         player drop roleA
         When("A role restriction is specified that could not be hold")
-        RoleRestriction[CoreA, RoleD]
+        ReplaceRoleRestriction[CoreA, RoleD]
         Then("A runtime exception is expected")
         a[RuntimeException] should be thrownBy {
           player play roleA
+        }
+      }
+    }
+
+    scenario("Validating role restrictions based on multiple role types") {
+      Given("A natural, some role instances")
+      val player = new CoreA()
+      When("Multiple role restrictions are specified")
+      new SomeCompartment(backend) {
+        val roleA = new RoleA()
+        val roleD = new RoleD()
+        RoleRestriction[CoreA, RoleA]
+        RoleRestriction[CoreA, RoleD]
+
+        Then("All role restriction should hold")
+        player play roleA
+        player play roleD
+
+        When("A role restriction is specified that could not be hold")
+        Then("A runtime exception is expected")
+        a[RuntimeException] should be thrownBy {
+          player play new RoleB()
         }
       }
     }
@@ -48,7 +70,7 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
 
         When("A restriction is not met")
         player drop roleA
-        RoleRestriction[CoreA, RoleTypeB]
+        ReplaceRoleRestriction[CoreA, RoleTypeB]
         Then("A runtime exception is expected")
         a[RuntimeException] should be thrownBy {
           player play roleA
@@ -56,7 +78,7 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
 
         When("A restriction is not met")
         player drop roleA
-        RoleRestriction[CoreA, RoleTypeD]
+        ReplaceRoleRestriction[CoreA, RoleTypeD]
         Then("A runtime exception is expected")
         a[RuntimeException] should be thrownBy {
           player play roleA

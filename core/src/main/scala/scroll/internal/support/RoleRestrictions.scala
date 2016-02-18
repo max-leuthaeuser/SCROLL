@@ -9,7 +9,17 @@ import scala.reflect.runtime.universe._
   * Allows to add and check role restrictions (in the sense of structural typing) to a compartment instance.
   */
 trait RoleRestrictions {
-  private lazy val restrictions = mutable.HashMap.empty[String, Type]
+  private lazy val restrictions = mutable.HashMap.empty[String, List[Type]]
+
+  private def addToMap(m: mutable.Map[String, List[Type]], elem: (String, List[Type])): Unit = {
+    val key = elem._1
+    val value = elem._2
+    if (m.contains(key)) {
+      m(key) = m(key) ++ value
+    } else {
+      val _ = m += elem
+    }
+  }
 
   private def isInstanceOf(mani: String, that: String): Boolean =
     ReflectiveHelper.typeSimpleClassName(that) == ReflectiveHelper.typeSimpleClassName(mani)
@@ -41,7 +51,19 @@ trait RoleRestrictions {
     * @tparam B the role type
     */
   def RoleRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]): Unit = {
-    restrictions(manifest[A].toString()) = tag.tpe
+    addToMap(restrictions, (manifest[A].toString(), List(tag.tpe)))
+  }
+
+  /**
+    * Replaces a role restriction for a player of type A with a
+    * new role restriction between the given player type A and role type B.
+    *
+    * @param tag implicitly added WeakTypeTag for the role type
+    * @tparam A the player type
+    * @tparam B the role type
+    */
+  def ReplaceRoleRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]): Unit = {
+    restrictions(manifest[A].toString()) = List(tag.tpe)
   }
 
   /**
@@ -53,8 +75,8 @@ trait RoleRestrictions {
     */
   protected def validate(player: Any, role: Type): Unit = {
     val roleInterface = role.members
-    restrictions.find { case (pt, rt) =>
-      isInstanceOf(pt, player.getClass.toString) && !isSameInterface(roleInterface, rt.decls)
+    restrictions.find { case (pt, rts) =>
+      isInstanceOf(pt, player.getClass.toString) && !rts.exists(r => isSameInterface(roleInterface, r.decls))
     } match {
       case Some((pt, rt)) => throw new RuntimeException(s"Role '$role' can not be played by '$player' due to the active role restrictions '$pt -> $rt'!")
       case None => // fine, thanks
