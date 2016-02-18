@@ -50,11 +50,14 @@
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Scala specific implementation of a <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">scroll.internal.graph.RoleGraph</a> using
-JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclicGraph">org.jgrapht.experimental.dag.DirectedAcyclicGraph</span> as underlying data model.
+JGraphTs <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/jgrapht/jgrapht-core/0.9.1/jgrapht-core-0.9.1-javadoc.jar/!/index.html#org.jgrapht.DirectedGraph" class="extype" target="_top">org.jgrapht.DirectedGraph</a> as underlying data model.
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div></div>
+          <div class="superTypes hiddenContent"><a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">Known Subclasses</span>
+            <div class="subClasses hiddenContent"><a href="CachedScalaRoleGraph.html" class="extype" name="scroll.internal.graph.CachedScalaRoleGraph">CachedScalaRoleGraph</a></div>
+          </div></div>
         
 
       <div id="mbrsel">
@@ -90,8 +93,8 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="scroll.internal.graph.ScalaRoleGraph#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;():scroll.internal.graph.ScalaRoleGraph"></a>
+              <ol><li name="scroll.internal.graph.ScalaRoleGraph#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(checkForCycles:Boolean):scroll.internal.graph.ScalaRoleGraph"></a>
       <a id="&lt;init&gt;:ScalaRoleGraph"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -99,14 +102,15 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">ScalaRoleGraph</span><span class="params">()</span>
+        <span class="name">ScalaRoleGraph</span><span class="params">(<span name="checkForCycles">checkForCycles: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a> = <span class="symbol">true</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@&lt;init&gt;():scroll.internal.graph.ScalaRoleGraph" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@&lt;init&gt;(checkForCycles:Boolean):scroll.internal.graph.ScalaRoleGraph" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">checkForCycles</dt><dd class="cmt"><p>set to true to use an <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/jgrapht/jgrapht-core/0.9.1/jgrapht-core-0.9.1-javadoc.jar/!/index.html#org.jgrapht.experimental.dag.DirectedAcyclicGraph" class="extype" target="_top">org.jgrapht.experimental.dag.DirectedAcyclicGraph</a> as underlying
+                      data model, or to false to use <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/jgrapht/jgrapht-core/0.9.1/jgrapht-core-0.9.1-javadoc.jar/!/index.html#org.jgrapht.graph.SimpleDirectedGraph" class="extype" target="_top">org.jgrapht.graph.SimpleDirectedGraph</a></p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -125,7 +129,7 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@!=(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -142,7 +146,7 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@##():Int" title="Permalink" target="_top">
@@ -159,7 +163,7 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@==(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -176,7 +180,7 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addBinding</span><span class="tparams">[<span name="P">P &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>, <span name="R">R &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="params">(<span name="player">player: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.addBinding.P">P</span></span>, <span name="role">role: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.addBinding.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.addBinding.P">P</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.addBinding.R">R</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">addBinding</span><span class="tparams">[<span name="P">P &lt;: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>, <span name="R">R &lt;: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>]</span><span class="params">(<span name="player">player: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.addBinding.P">P</span></span>, <span name="role">role: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.addBinding.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.addBinding.P">P</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.addBinding.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@addBinding[P&lt;:AnyRef,R&lt;:AnyRef](player:P,role:R)(implicitevidence$1:reflect.runtime.universe.WeakTypeTag[P],implicitevidence$2:reflect.runtime.universe.WeakTypeTag[R]):Unit" title="Permalink" target="_top">
@@ -194,7 +198,7 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">allPlayers</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Any">Any</span>]</span>
+        <span class="name">allPlayers</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@allPlayers:Seq[Any]" title="Permalink" target="_top">
@@ -230,7 +234,7 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@clone():Object" title="Permalink" target="_top">
@@ -253,7 +257,7 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">containsPlayer</span><span class="params">(<span name="player">player: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">containsPlayer</span><span class="params">(<span name="player">player: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@containsPlayer(player:Any):Boolean" title="Permalink" target="_top">
@@ -271,7 +275,7 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">detach</span><span class="params">(<span name="other">other: <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">detach</span><span class="params">(<span name="other">other: <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@detach(other:scroll.internal.graph.RoleGraph):Unit" title="Permalink" target="_top">
@@ -289,7 +293,7 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
@@ -306,7 +310,7 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@equals(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -323,7 +327,7 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@finalize():Unit" title="Permalink" target="_top">
@@ -355,42 +359,42 @@ JGraphTs <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclic
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scroll.internal.graph.ScalaRoleGraph#getPredecessors" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getPredecessors(player:Any):List[Any]"></a>
-      <a id="getPredecessors(Any):List[Any]"></a>
+      <a id="getPredecessors(player:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):List[Any]"></a>
+      <a id="getPredecessors(Any)(DispatchQuery):List[Any]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getPredecessors</span><span class="params">(<span name="player">player: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Any">Any</span>]</span>
+        <span class="name">getPredecessors</span><span class="params">(<span name="player">player: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="../support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../../package.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@getPredecessors(player:Any):List[Any]" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@getPredecessors(player:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):List[Any]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Returns a list of all predecessors of the given player, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a list of all predecessors of the given player, i.e. a transitive closure
 of its cores (deep roles).
-</p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player instance to calculate the cores of</p></dd><dt>returns</dt><dd class="cmt"><p>a list of all predecessors of the given player</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a> → <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player instance to calculate the cores of</p></dd><dt class="param">dispatchQuery</dt><dd class="cmt"><p>the strategy used to get all predecessors while traversing the role-playing graph, standard is DFS</p></dd><dt>returns</dt><dd class="cmt"><p>a list of all predecessors of the given player</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a> → <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></dd></dl></div>
     </li><li name="scroll.internal.graph.ScalaRoleGraph#getRoles" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getRoles(player:Any):Set[Any]"></a>
-      <a id="getRoles(Any):Set[Any]"></a>
+      <a id="getRoles(player:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Set[Any]"></a>
+      <a id="getRoles(Any)(DispatchQuery):Set[Any]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getRoles</span><span class="params">(<span name="player">player: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="scala.Any">Any</span>]</span>
+        <span class="name">getRoles</span><span class="params">(<span name="player">player: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="../support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../../package.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@getRoles(player:Any):Set[Any]" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@getRoles(player:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Set[Any]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Returns a Set of all roles attached to the given player (core object).</p><div class="fullcomment"><div class="comment cmt"><p>Returns a Set of all roles attached to the given player (core object).
-</p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player instance to get the roles for</p></dd><dt>returns</dt><dd class="cmt"><p>a Set of all roles of core</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a> → <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player instance to get the roles for</p></dd><dt class="param">dispatchQuery</dt><dd class="cmt"><p>the strategy used to get all roles while traversing the role-playing graph, standard is DFS</p></dd><dt>returns</dt><dd class="cmt"><p>a Set of all roles of core</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a> → <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <a id="hashCode():Int"></a>
@@ -400,7 +404,7 @@ of its cores (deep roles).
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@hashCode():Int" title="Permalink" target="_top">
@@ -417,7 +421,7 @@ of its cores (deep roles).
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
@@ -434,7 +438,7 @@ of its cores (deep roles).
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">merge</span><span class="params">(<span name="other">other: <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">merge</span><span class="params">(<span name="other">other: <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@merge(other:scroll.internal.graph.RoleGraph):Unit" title="Permalink" target="_top">
@@ -452,7 +456,7 @@ of its cores (deep roles).
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
@@ -469,7 +473,7 @@ of its cores (deep roles).
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@notify():Unit" title="Permalink" target="_top">
@@ -486,7 +490,7 @@ of its cores (deep roles).
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@notifyAll():Unit" title="Permalink" target="_top">
@@ -503,7 +507,7 @@ of its cores (deep roles).
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">removeBinding</span><span class="tparams">[<span name="P">P &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>, <span name="R">R &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="params">(<span name="player">player: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removeBinding.P">P</span></span>, <span name="role">role: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removeBinding.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removeBinding.P">P</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removeBinding.R">R</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">removeBinding</span><span class="tparams">[<span name="P">P &lt;: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>, <span name="R">R &lt;: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>]</span><span class="params">(<span name="player">player: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removeBinding.P">P</span></span>, <span name="role">role: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removeBinding.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removeBinding.P">P</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removeBinding.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@removeBinding[P&lt;:AnyRef,R&lt;:AnyRef](player:P,role:R)(implicitevidence$3:reflect.runtime.universe.WeakTypeTag[P],implicitevidence$4:reflect.runtime.universe.WeakTypeTag[R]):Unit" title="Permalink" target="_top">
@@ -521,7 +525,7 @@ of its cores (deep roles).
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">removePlayer</span><span class="tparams">[<span name="P">P &lt;: <span class="extype" name="scala.AnyRef">AnyRef</span></span>]</span><span class="params">(<span name="player">player: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removePlayer.P">P</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removePlayer.P">P</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">removePlayer</span><span class="tparams">[<span name="P">P &lt;: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>]</span><span class="params">(<span name="player">player: <span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removePlayer.P">P</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.graph.ScalaRoleGraph.removePlayer.P">P</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@removePlayer[P&lt;:AnyRef](player:P)(implicitevidence$5:reflect.runtime.universe.WeakTypeTag[P]):Unit" title="Permalink" target="_top">
@@ -532,18 +536,18 @@ of its cores (deep roles).
 This should remove its binding too!
 </p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player to remove</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a> → <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></dd></dl></div>
     </li><li name="scroll.internal.graph.ScalaRoleGraph#store" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="store:org.jgrapht.experimental.dag.DirectedAcyclicGraph[Any,org.jgrapht.graph.DefaultEdge]"></a>
-      <a id="store:DirectedAcyclicGraph[Any,DefaultEdge]"></a>
+      <a id="store:org.jgrapht.graph.SimpleDirectedGraph[Any,org.jgrapht.graph.DefaultEdge]"></a>
+      <a id="store:SimpleDirectedGraph[Any,DefaultEdge]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">lazy val</span>
       </span>
       <span class="symbol">
-        <span class="name">store</span><span class="result">: <span class="extype" name="org.jgrapht.experimental.dag.DirectedAcyclicGraph">DirectedAcyclicGraph</span>[<span class="extype" name="scala.Any">Any</span>, <span class="extype" name="org.jgrapht.graph.DefaultEdge">DefaultEdge</span>]</span>
+        <span class="name">store</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/jgrapht/jgrapht-core/0.9.1/jgrapht-core-0.9.1-javadoc.jar/!/index.html#org.jgrapht.graph.SimpleDirectedGraph" class="extype" target="_top">SimpleDirectedGraph</a>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>, <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/org/jgrapht/jgrapht-core/0.9.1/jgrapht-core-0.9.1-javadoc.jar/!/index.html#org.jgrapht.graph.DefaultEdge" class="extype" target="_top">DefaultEdge</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@store:org.jgrapht.experimental.dag.DirectedAcyclicGraph[Any,org.jgrapht.graph.DefaultEdge]" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@store:org.jgrapht.graph.SimpleDirectedGraph[Any,org.jgrapht.graph.DefaultEdge]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -591,7 +595,7 @@ This should remove its binding too!
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@wait():Unit" title="Permalink" target="_top">
@@ -614,7 +618,7 @@ This should remove its binding too!
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
@@ -637,7 +641,7 @@ This should remove its binding too!
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.graph.ScalaRoleGraph@wait(x$1:Long):Unit" title="Permalink" target="_top">
@@ -663,9 +667,9 @@ This should remove its binding too!
         <div class="parent" name="scroll.internal.graph.RoleGraph">
               <h3>Inherited from <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></h3>
             </div><div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
             </div>
         
         </div>
