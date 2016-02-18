@@ -1,16 +1,16 @@
-val akkaVersion = "2.4.0"
-val shapelessVersion = "2.2.3"
+val akkaVersion = "2.4.2"
+val shapelessVersion = "2.3.0-RC1"
 val kiamaVersion = "1.8.0"
 val jgraphTVersion = "0.9.1"
 val scalameterVersion = "0.8-SNAPSHOT"
 val scalatestVersion = "2.2.1"
-val chocoVersion = "3.3.1"
-val slf4jVersion = "1.7.12"
-val macrosVersion = "2.0.1"
+val chocoVersion = "3.3.3"
+val slf4jVersion = "1.7.16"
+val macrosVersion = "2.1.0"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.11.7",
-  version := "0.9.6",
+  version := "0.9.7",
   logBuffered := false,
   mainClass := None,
   autoCompilerPlugins := true,
@@ -28,8 +28,8 @@ lazy val commonSettings = Seq(
     "org.choco-solver" % "choco-solver" % chocoVersion,
     "org.slf4j" % "slf4j-simple" % slf4jVersion,
     "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-    "org.eclipse.emf" % "org.eclipse.emf.common" % "2.10.1",
-    "org.eclipse.emf" % "org.eclipse.emf.ecore" % "2.10.1",
+    "org.eclipse.emf" % "org.eclipse.emf.common" % "2.11.0-v20150805-0538",
+    "org.eclipse.emf" % "org.eclipse.emf.ecore" % "2.11.1-v20150805-0538",
     "org.eclipse.uml2" % "org.eclipse.uml2.uml" % "3.1.0.v201006071150"
   ),
   javacOptions in Compile ++= Seq("-source", "1.8", "-target", "1.8"),
