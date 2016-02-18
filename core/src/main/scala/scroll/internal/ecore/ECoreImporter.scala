@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource
 import org.eclipse.emf.ecore.xmi.impl.{EcoreResourceFactoryImpl, XMIResourceFactoryImpl}
 
 /**
-  * Trait providing functionality for importing ecore models as [[org.eclipse.emf.ecore.resource.Resource]].
+  * Trait providing functionality for importing ecore models.
   * Remember to set the <code>path</code> variable!
   */
 trait ECoreImporter {
@@ -33,10 +33,10 @@ trait ECoreImporter {
   }
 
   /**
-    * Load and imports an ecore model as [[org.eclipse.emf.ecore.resource.Resource]].
+    * Load and imports an ecore model.
     * Remember to set the <code>path</code> variable!
     *
-    * @return the imported model as [[org.eclipse.emf.ecore.resource.Resource]]
+    * @return the imported model as Resource
     */
   protected def loadModel(): Resource = {
     require(null != path && path.nonEmpty)
