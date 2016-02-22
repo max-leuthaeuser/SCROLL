@@ -15,8 +15,14 @@ case class MockCompartment(numOfPlayers: Int, numOfRoles: Int, numOfInvokes: Int
   val mRole = MockRoleWithFunc(numOfRoles)
 
   players.foreach(p => {
-    (0 until numOfRoles).foreach(p play MockRole(_))
-    p play mRole
+    var lastRole = MockRole()
+    p play lastRole
+    (1 until numOfRoles).foreach(i => {
+      val newRole = MockRole(i)
+      lastRole play newRole
+      lastRole = newRole
+    })
+    lastRole play mRole
   })
 
   def invokeAtRole(): Unit = {

@@ -4,7 +4,7 @@ import scroll.internal.support.DispatchQuery
 import scala.reflect.runtime.universe._
 import org.kiama.util.Memoiser
 
-object CachedScalaRoleGraph extends Memoiser {
+object CachedScalaRoleGraph {
 
   sealed trait KeyOption
 
@@ -16,15 +16,15 @@ object CachedScalaRoleGraph extends Memoiser {
 
   case class Key(obj: Any, opt: KeyOption)
 
-  class Cache extends Memoised[Key, Set[Any]]
-
 }
 
-class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGraph(checkForCycles) {
+class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGraph(checkForCycles) with Memoiser {
 
   import CachedScalaRoleGraph._
 
-  private lazy val cache = new Cache()
+  private class Cache extends Memoised[Key, Set[Any]]
+
+  private val cache = new Cache()
 
   override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit = {
     super.addBinding(player, role)

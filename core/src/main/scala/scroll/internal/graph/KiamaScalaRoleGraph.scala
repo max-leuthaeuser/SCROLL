@@ -32,17 +32,17 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   import KiamaScalaRoleGraph._
 
-  private lazy val root = RolePlayingGraphRoot(mutable.ListBuffer.empty)
+  private val empty = Seq.empty[Any]
+
+  private val root = RolePlayingGraphRoot(mutable.ListBuffer.empty)
 
   private def resetAll(): Unit = {
     Set(kiama_hasCycle, kiama_containsPlayer, kiama_allPlayers, kiama_getRoles, kiama_getPredecessors).foreach(_.reset())
   }
 
   private lazy val kiama_hasCycleDef: Node => Boolean = {
-    case RolePlayingGraphRoot(players) =>
-      players.exists(kiama_hasCycle)
-    case p@Player(core, role) if role != null =>
-      kiama_getRoles(p)(root).contains(p) || kiama_hasCycle(Player(role, null))
+    case RolePlayingGraphRoot(players) => players.exists(kiama_hasCycle)
+    case p@Player(core, _) => getRoles(p.core).contains(p.core)
     case _ => false
   }
 
@@ -65,9 +65,19 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
   private lazy val kiama_getRolesDef: Player => Node => Seq[Any] = {
     case player: Player => {
       case node: Node => node match {
-        case r: RolePlayingGraphRoot => r.players.flatMap(p => kiama_getRolesDef(player)(p))
-        case p: Player if p.core == player.core => Seq(p.role) ++ getRoles(p.role)
-        case _ => Seq.empty
+        case r: RolePlayingGraphRoot => r.players.flatMap(p => kiama_getRoles(player)(p))
+        case p: Player if p.core == player.core =>
+          val result = mutable.ListBuffer(p.role)
+          var current = p.role
+          while (current != null) {
+            root.players.find(_.core == current) match {
+              case Some(f) if result.contains(f.role) => current = null
+              case Some(f) => current = f.role; result += f.role
+              case _ => current = null
+            }
+          }
+          result
+        case _ => empty
       }
     }
   }
@@ -111,7 +121,7 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
       case node: Node => node match {
         case RolePlayingGraphRoot(players) => players.flatMap(p => kiama_getPredecessors(player)(p))
         case Player(core, role) if role == player.core => Seq(core) ++ getPredecessors(core)
-        case _ => Seq.empty
+        case _ => empty
       }
     }
   }

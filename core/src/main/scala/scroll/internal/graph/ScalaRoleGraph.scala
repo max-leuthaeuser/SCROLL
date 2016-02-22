@@ -17,7 +17,7 @@ import scala.reflect.runtime.universe._
   *                       data model, or to false to use [[org.jgrapht.graph.SimpleDirectedGraph]]
   */
 class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
-  override lazy val store = checkForCycles match {
+  override val store = checkForCycles match {
     case true => new DirectedAcyclicGraph[Any, DefaultEdge](classOf[DefaultEdge])
     case false => new SimpleDirectedGraph[Any, DefaultEdge](classOf[DefaultEdge])
   }

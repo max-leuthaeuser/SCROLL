@@ -64,8 +64,8 @@ class DispatchQuery(
       // we only apply the reordering on the path from DispatchQuery.from to DispatchQuery.to
       QueueUtils.hasPath(from, to, in) match {
         case true =>
-          lazy val startIndex = in.indexWhere(from)
-          lazy val endIndex = in.lastIndexWhere(to)
+          val startIndex = in.indexWhere(from)
+          val endIndex = in.lastIndexWhere(to)
 
           if (startIndex == 0 || endIndex == 1) {
             return in.filter(through).filterNot(bypassing)

@@ -13,11 +13,11 @@ object RoleGraphExecutionBenchmarks extends App with BenchmarkHelper {
 
   println("Building Compartments ...")
   val (compartmentsJGRAPHT, t1) = buildCompartments(JGRAPHT).elapsed()
-  println("finished in " + t1 + "ns")
+  println("JGRAPHT: finished in " + t1 + "ms")
   val (compartmentsCACHED, t2) = buildCompartments(CACHED).elapsed()
-  println("finished in " + t2 + "ns")
+  println("CACHED: finished in " + t2 + "ms")
   val (compartmentsKIAMA, t3) = buildCompartments(KIAMA).elapsed()
-  println("finished in " + t3 + "ns")
+  println("KIAMA: finished in " + t3 + "ms")
 
   result.append("backend;#player;#roles;time\n")
   println("Running benchmark for JGRAPHT backend ...")
