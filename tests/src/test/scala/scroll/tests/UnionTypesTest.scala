@@ -22,8 +22,8 @@ class UnionTypesTest extends FeatureSpec with GivenWhenThen with Matchers with S
         val expectedS = 4
         val actualI: Int = someRoleC.unionTypedMethod(0)
         val actualS: Int = someRoleC.unionTypedMethod("four")
-        assert(expectedI == actualI)
-        assert(expectedS == actualS)
+        expectedI shouldBe actualI
+        expectedS shouldBe actualS
       }
     }
 
@@ -51,8 +51,8 @@ class UnionTypesTest extends FeatureSpec with GivenWhenThen with Matchers with S
         val actualCore = matcher.m(someCore)
         val actualRoleA = matcher.m(roleA)
 
-        assert(expectedCore == actualCore)
-        assert(expectedRoleA == actualRoleA)
+        expectedCore shouldBe actualCore
+        expectedRoleA shouldBe actualRoleA
       }
     }
   }

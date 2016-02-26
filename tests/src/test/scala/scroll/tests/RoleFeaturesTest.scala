@@ -34,7 +34,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
 
         And("role method invocation to i should work.")
         val resB: String = +someCore b()
-        assert(resB == "b")
+        resB shouldBe "b"
       }
     }
 
@@ -53,7 +53,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
 
         Then("the result of the call to the role of player someCoreB should be correct")
         val res: Int = +someCoreB a()
-        assert(res == 0)
+        res shouldBe 0
         And("the role should be transferred correctly.")
         (+someCoreA).isPlaying[RoleA] shouldBe false
         (+someCoreB).isPlaying[RoleA] shouldBe true
@@ -74,7 +74,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
         val actual: Int = +someCoreA a()
 
         Then("the result of the call to the role of player someCoreA should be correct")
-        assert(expected == actual)
+        expected shouldBe actual
         And("a call to the role with a method that does not exist should fail")
         val r = +someCoreA c()
         r match {
@@ -98,7 +98,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
         val actual: String = +someCoreA b("some", param = "out")
 
         Then("the result of the call to the role of player someCoreA should be correct")
-        assert(expected == actual)
+        expected shouldBe actual
       }
     }
 
@@ -118,8 +118,8 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
         val actualB: Int = (+someCoreA).valueB
 
         Then("the result of the call to the role of player someCoreA should be correct")
-        assert(expectedA == actualA)
-        assert(expectedB == actualB)
+        expectedA shouldBe actualA
+        expectedB shouldBe actualB
         And("a call to the role with a value that does not exist should fail")
         val r = (+someCoreA).valueD
         r match {
@@ -148,8 +148,8 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
         val actualB: Int = (+someCoreA).valueB
 
         Then("the result of the call to the role of player someCoreA should be correct")
-        assert(expectedA == actualA)
-        assert(expectedB == actualB)
+        expectedA shouldBe actualA
+        expectedB shouldBe actualB
       }
     }
   }
@@ -172,8 +172,8 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
       val actual2: String = (+someCoreA).valueC
 
       Then("the role and player instance should be updated correctly.")
-      assert(expected == actual1)
-      assert(expected == actual2)
+      expected shouldBe actual1
+      expected shouldBe actual2
     }
   }
 
@@ -197,8 +197,8 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
       val actual2: String = (+someCoreA).valueC
 
       Then("one role and the player instance should be updated correctly.")
-      assert(expected == actual1a || expected == actual1b)
-      assert(expected == actual2)
+      (expected == actual1a || expected == actual1b) shouldBe true
+      expected shouldBe actual2
     }
   }
 
@@ -232,9 +232,9 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
       val actual3: String = (+someCoreA).valueC
 
       Then("one role and the player instance should be updated correctly.")
-      assert("valueC" == actual1)
-      assert("updated" == actual2)
-      assert("updated" == actual3)
+      "valueC" shouldBe actual1
+      "updated" shouldBe actual2
+      "updated" shouldBe actual3
     }
   }
 
@@ -261,10 +261,10 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
       val actual4: Int = (+someCoreA).valueB
 
       Then("the role and the player instance should be updated correctly.")
-      assert(expected1 == actual1)
-      assert(expected2 == actual2)
-      assert(expected1 == actual3)
-      assert(expected2 == actual4)
+      expected1 shouldBe actual1
+      expected2 shouldBe actual2
+      expected1 shouldBe actual3
+      expected2 shouldBe actual4
     }
   }
 
@@ -319,14 +319,14 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
       val actualBooleanR = someRole.valueBoolean
 
       Then("the role instance should be updated correctly.")
-      assert(actualIntR == expectedInt)
-      assert(actualDoubleR == expectedDouble)
-      assert(actualFloatR == expectedFloat)
-      assert(actualLongR == expectedLong)
-      assert(actualShortR == expectedShort)
-      assert(actualByteR == expectedByte)
-      assert(actualCharR == expectedChar)
-      assert(actualBooleanR == expectedBoolean)
+      actualIntR shouldBe expectedInt
+      actualDoubleR shouldBe expectedDouble
+      actualFloatR shouldBe expectedFloat
+      actualLongR shouldBe expectedLong
+      actualShortR shouldBe expectedShort
+      actualByteR shouldBe expectedByte
+      actualCharR shouldBe expectedChar
+      actualBooleanR shouldBe expectedBoolean
 
       val actualIntP: Int = (+someCoreA).valueInt
       val actualDoubleP: Double = (+someCoreA).valueDouble
@@ -338,14 +338,14 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
       val actualBooleanP: Boolean = (+someCoreA).valueBoolean
 
       And("the player instance should be updated correctly.")
-      assert(actualIntP == expectedInt)
-      assert(actualDoubleP == expectedDouble)
-      assert(actualFloatP == expectedFloat)
-      assert(actualLongP == expectedLong)
-      assert(actualShortP == expectedShort)
-      assert(actualByteP == expectedByte)
-      assert(actualCharP == expectedChar)
-      assert(actualBooleanP == expectedBoolean)
+      actualIntP shouldBe expectedInt
+      actualDoubleP shouldBe expectedDouble
+      actualFloatP shouldBe expectedFloat
+      actualLongP shouldBe expectedLong
+      actualShortP shouldBe expectedShort
+      actualByteP shouldBe expectedByte
+      actualCharP shouldBe expectedChar
+      actualBooleanP shouldBe expectedBoolean
     }
   }
 
@@ -372,9 +372,9 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
       val actual3: String = (+someCoreB).valueC
 
       Then("the role and player instance should be updated correctly.")
-      assert(expected == actual1)
-      assert(expected == actual2)
-      assert(expected == actual3)
+      expected shouldBe actual1
+      expected shouldBe actual2
+      expected shouldBe actual3
 
       When("getting the player of RoleA without an explicit dispatch description")
       val player = someRole.player match {
@@ -382,7 +382,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
         case Right(p) => p
       }
       Then("it should be one of the player this role actually plays.")
-      assert(player == someCoreA || player == someCoreB)
+      (player == someCoreA || player == someCoreB) shouldBe true
 
       When("getting the player of RoleA with an explicit dispatch description")
       dd = From(anything).
@@ -394,7 +394,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
         case Right(p) => p
       }
       Then("it should be the correct player.")
-      assert(player2 == someCoreA)
+      player2 shouldBe someCoreA
     }
   }
 

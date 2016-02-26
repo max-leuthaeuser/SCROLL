@@ -53,7 +53,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
   }
 
   override def detach(other: RoleGraph): Unit = {
-    assert(other.isInstanceOf[CachedScalaRoleGraph], "You can only detach RoleGraphs of the same type!")
+    require(other.isInstanceOf[CachedScalaRoleGraph], "You can only detach RoleGraphs of the same type!")
     super.detach(other)
     cache.reset()
   }
@@ -81,7 +81,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
   }
 
   override def merge(other: RoleGraph): Unit = {
-    assert(other.isInstanceOf[CachedScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+    require(other.isInstanceOf[CachedScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
     super.merge(other)
     cache.reset()
   }

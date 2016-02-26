@@ -18,27 +18,27 @@ class EqualityRoleTest extends FeatureSpec with GivenWhenThen with Matchers with
 
         When("comparing identity between core and player")
         Then("player and core should have the same identity")
-        assert(player == player)
-        assert(someCore == someCore)
-        assert(player == someCore)
+        player shouldBe player
+        someCore shouldBe someCore
+        player shouldBe someCore
 
         When("comparing core and core playing a role")
         Then("They should have the same identity")
-        assert((+player) == player)
-        assert(player == (+player))
+        (+player) shouldBe player
+        player shouldBe (+player)
 
         When("comparing a role to itself")
         Then("it should have the same identity")
-        assert(someRole == someRole)
+        someRole shouldBe someRole
 
         When("comparing a role core to the player")
         Then("it should have the same identity")
-        assert((+someRole) == player)
-        assert(player == (+someRole))
+        (+someRole) shouldBe player
+        player shouldBe (+someRole)
 
         When("comparing a role core to the core")
         Then("it should have the same identity")
-        assert((+someRole) == someCore)
+        (+someRole) shouldBe someCore
       }
     }
 
@@ -54,38 +54,37 @@ class EqualityRoleTest extends FeatureSpec with GivenWhenThen with Matchers with
 
         When("comparing identity between core and player")
         Then("player and core should have the same identity")
-        assert(player == player)
-        assert(someCore == someCore)
-        assert(player == someCore)
+        player shouldBe player
+        someCore shouldBe someCore
+        player shouldBe someCore
 
         When("comparing core and core playing a role")
         Then("They should have the same identity")
-        assert((+player) == player)
-        assert(player == (+player))
+        (+player) shouldBe player
+        player shouldBe (+player)
 
         When("comparing a role to itself")
         Then("it should have the same identity")
-        assert(someRole == someRole)
-        assert(someOtherRole == someOtherRole)
+        someRole shouldBe someRole
+        someOtherRole shouldBe someOtherRole
 
         When("comparing different roles")
         Then("they should not equal")
-        assertResult(false)(someRole.hashCode() == someOtherRole.hashCode())
-        assertResult(false)(someOtherRole.hashCode() == someRole.hashCode())
+        someRole.hashCode() should not be someOtherRole.hashCode()
 
         When("comparing a role core to the player")
         Then("it should have the same identity")
         val a = +someRole
         val b = +someOtherRole
-        assert(a == player)
-        assert(player == a)
-        assert(b == player)
-        assert(player == b)
+        a shouldBe player
+        player shouldBe a
+        b shouldBe player
+        player shouldBe b
 
         When("comparing a role core to the core")
         Then("it should have the same identity")
-        assert((+someRole) == someCore)
-        assert((+someOtherRole) == someCore)
+        (+someRole) shouldBe someCore
+        (+someOtherRole) shouldBe someCore
       }
     }
   }

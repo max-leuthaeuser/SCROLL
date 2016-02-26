@@ -24,13 +24,13 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def merge(other: RoleGraph): Unit = {
     require(null != other)
-    assert(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+    require(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
     val _ = Graphs.addGraph(store, other.store)
   }
 
   override def detach(other: RoleGraph): Unit = {
     require(null != other)
-    assert(other.isInstanceOf[ScalaRoleGraph], "You can only detach RoleGraphs of the same type!")
+    require(other.isInstanceOf[ScalaRoleGraph], "You can only detach RoleGraphs of the same type!")
     val _ = store.removeAllVertices(other.store.vertexSet())
   }
 
