@@ -7,7 +7,6 @@ import scroll.internal.graph.{RoleGraph, ScalaRoleGraph}
 
 import scala.util.{Failure, Success, Try}
 import scala.annotation.tailrec
-import scala.reflect.Manifest
 import scala.reflect.runtime.universe._
 
 /**
@@ -83,7 +82,7 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return all player instances as Seq, that do conform to the given matcher
     */
-  def all[T: Manifest](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
+  def all[T: WeakTypeTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
     plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
         case p :: Nil => matcher.matches(p)
@@ -100,7 +99,7 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return all player instances as Seq, that do conform to the given matcher
     */
-  def all[T: Manifest](matcher: T => Boolean): Seq[T] =
+  def all[T: WeakTypeTag](matcher: T => Boolean): Seq[T] =
     plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
         case p :: Nil => matcher(p.asInstanceOf[T])
@@ -121,7 +120,7 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return the first player instance, that does conform to the given matcher or an appropriate error
     */
-  def one[T: Manifest](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] = safeReturn(all[T](matcher), manifest[T].toString()).fold(
+  def one[T: WeakTypeTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] = safeReturn(all[T](matcher), weakTypeOf[T].toString).fold(
     l => {
       Left(l)
     }, r => {
@@ -136,7 +135,7 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return the first player instances, that do conform to the given matcher or an appropriate error
     */
-  def one[T: Manifest](matcher: T => Boolean): Either[TypeError, T] = safeReturn(all[T](matcher), manifest[T].toString()).fold(
+  def one[T: WeakTypeTag](matcher: T => Boolean): Either[TypeError, T] = safeReturn(all[T](matcher), weakTypeOf[T].toString).fold(
     l => {
       Left(l)
     }, r => {
@@ -386,7 +385,7 @@ trait Compartment
     /**
       * Checks of this Player is playing a role of the given type.
       */
-    def isPlaying[E: Manifest]: Boolean = plays.getRoles(wrapped).exists(_.is[E])
+    def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(wrapped).exists(_.is[E])
 
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = dispatchQuery.reorder(getCoreFor(wrapped)).head

@@ -31,6 +31,15 @@ object ReflectiveHelper {
   def classSimpleClassName(t: String): String = simpleClassName(t, "$")
 
   /**
+    * Translates a Class or Type name to a String, i.e. removing anything before the last
+    * occurrence of "<code>$</code>" or "<code>.</code>".
+    *
+    * @param t the Class or Type name as String
+    * @return anything after the last occurrence of "<code>$</code>" or "<code>.</code>"
+    */
+  def simpleName(t: String): String = typeSimpleClassName(classSimpleClassName(t))
+
+  /**
     * Returns the hash code of any object as String.
     *
     * @param of the object to get the hash code as String
@@ -182,8 +191,8 @@ trait ReflectiveHelper {
       * @tparam T the type to check
       * @return true if the wrapped object is of type T, false otherwise
       */
-    def is[T: Manifest]: Boolean =
-      ReflectiveHelper.typeSimpleClassName(cur.getClass.toString) == ReflectiveHelper.typeSimpleClassName(manifest[T].toString())
+    def is[T: WeakTypeTag]: Boolean =
+      ReflectiveHelper.simpleName(cur.getClass.toString) == ReflectiveHelper.simpleName(weakTypeOf[T].toString)
   }
 
 }

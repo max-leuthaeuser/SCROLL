@@ -7,6 +7,7 @@ import org.chocosolver.solver.search.strategy.IntStrategyFactory
 import org.chocosolver.solver.variables.{IntVar, VariableFactory}
 import scroll.internal.Compartment
 import scroll.internal.util.ReflectiveHelper
+import scala.reflect.runtime.universe._
 
 import scala.collection.mutable
 
@@ -164,7 +165,7 @@ trait RoleGroups {
   }
 
   object Types {
-    def apply(ts: String*): Types = new Types(ts.map(ReflectiveHelper.classSimpleClassName))
+    def apply(ts: String*): Types = new Types(ts.map(ReflectiveHelper.typeSimpleClassName))
   }
 
   class Types(ts: Seq[String]) extends Entry {
@@ -183,37 +184,37 @@ trait RoleGroups {
   }
 
   object RoleGroup {
-    private implicit def manifest2String(m: Manifest[_]): String = m.toString()
+    private implicit def weakTypeOf2String(m: Type): String = m.toString
 
     def apply(name: String) = new {
 
       def containing(rg: RoleGroup*)(limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup =
         addRoleGroup(new RoleGroup(name, rg, (limit_l, limit_u), (occ_l, occ_u)))
 
-      def containing[T1: Manifest](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt) = {
-        val entry = Types(manifest[T1])
+      def containing[T1: WeakTypeTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt) = {
+        val entry = Types(weakTypeOf[T1])
         addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
       }
 
 
-      def containing[T1: Manifest, T2: Manifest](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(manifest[T1], manifest[T2])
+      def containing[T1: WeakTypeTag, T2: WeakTypeTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
+        val entry = Types(weakTypeOf[T1], weakTypeOf[T2])
         addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
       }
 
-      def containing[T1: Manifest, T2: Manifest, T3: Manifest](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(manifest[T1], manifest[T2], manifest[T3])
+      def containing[T1: WeakTypeTag, T2: WeakTypeTag, T3: WeakTypeTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
+        val entry = Types(weakTypeOf[T1], weakTypeOf[T2], weakTypeOf[T3])
         addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
       }
 
-      def containing[T1: Manifest, T2: Manifest, T3: Manifest, T4: Manifest](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(manifest[T1], manifest[T2], manifest[T3], manifest[T4])
+      def containing[T1: WeakTypeTag, T2: WeakTypeTag, T3: WeakTypeTag, T4: WeakTypeTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
+        val entry = Types(weakTypeOf[T1], weakTypeOf[T2], weakTypeOf[T3], weakTypeOf[T4])
         addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
       }
 
 
-      def containing[T1: Manifest, T2: Manifest, T3: Manifest, T4: Manifest, T5: Manifest](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(manifest[T1], manifest[T2], manifest[T3], manifest[T4], manifest[T5])
+      def containing[T1: WeakTypeTag, T2: WeakTypeTag, T3: WeakTypeTag, T4: WeakTypeTag, T5: WeakTypeTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
+        val entry = Types(weakTypeOf[T1], weakTypeOf[T2], weakTypeOf[T3], weakTypeOf[T4], weakTypeOf[T5])
         addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
       }
 

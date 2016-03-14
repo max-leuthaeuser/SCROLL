@@ -50,8 +50,8 @@ trait RoleRestrictions {
     * @tparam A the player type
     * @tparam B the role type
     */
-  def RoleRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]): Unit = {
-    addToMap(restrictions, (manifest[A].toString(), List(tag.tpe)))
+  def RoleRestriction[A: WeakTypeTag, B](implicit tag: WeakTypeTag[B]): Unit = {
+    addToMap(restrictions, (weakTypeOf[A].toString, List(tag.tpe)))
   }
 
   /**
@@ -62,8 +62,8 @@ trait RoleRestrictions {
     * @tparam A the player type
     * @tparam B the role type
     */
-  def ReplaceRoleRestriction[A: Manifest, B](implicit tag: WeakTypeTag[B]): Unit = {
-    restrictions(manifest[A].toString()) = List(tag.tpe)
+  def ReplaceRoleRestriction[A: WeakTypeTag, B](implicit tag: WeakTypeTag[B]): Unit = {
+    restrictions(weakTypeOf[A].toString) = List(tag.tpe)
   }
 
   /**

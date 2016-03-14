@@ -4,6 +4,8 @@ import akka.actor._
 import scroll.internal.Compartment
 import scroll.internal.rpa.RolePlayingAutomaton.{RPAData, RPAState, Start, Stop, Uninitialized}
 
+import scala.reflect.ClassTag
+
 /**
   * Companion object for the [[scroll.internal.rpa.RolePlayingAutomaton]] containing
   * predefined states and data objects for messaging.
@@ -32,8 +34,8 @@ object RolePlayingAutomaton {
 
   case object Terminate extends RPAData
 
-  def Use[T: Manifest] = new {
-    def For(comp: Compartment): ActorRef = ActorSystem().actorOf(Props(manifest[T].runtimeClass, comp), "rpa_" + comp.hashCode())
+  def Use[T](implicit ct: ClassTag[T]) = new {
+    def For(comp: Compartment): ActorRef = ActorSystem().actorOf(Props(ct.runtimeClass, comp), "rpa_" + comp.hashCode())
   }
 }
 

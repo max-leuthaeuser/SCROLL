@@ -5,8 +5,8 @@ import org.jgrapht.traverse.DepthFirstIterator
 import scroll.internal.Compartment
 import scroll.internal.util.ReflectiveHelper
 
+import scala.reflect.runtime.universe._
 import scala.collection.JavaConversions._
-import scala.reflect.Manifest
 
 /**
   * Allows to add and check role constraints (Riehle constraints) to a compartment instance.
@@ -19,7 +19,7 @@ trait RoleConstraints {
   private lazy val roleProhibitions = newRoleConstraintGraph
 
   private def isInstanceOf(mani: String, that: Any) =
-    ReflectiveHelper.classSimpleClassName(that.getClass.toString) == ReflectiveHelper.classSimpleClassName(mani)
+    ReflectiveHelper.classSimpleClassName(that.getClass.toString) == ReflectiveHelper.typeSimpleClassName(mani)
 
   private def newRoleConstraintGraph = new DefaultDirectedGraph[String, DefaultEdge](classOf[DefaultEdge])
 
@@ -74,9 +74,9 @@ trait RoleConstraints {
     * @tparam A type of role A
     * @tparam B type of role B that should be played implicitly if A is played
     */
-  def RoleImplication[A: Manifest, B: Manifest](): Unit = {
-    val rA = manifest[A].toString()
-    val rB = manifest[B].toString()
+  def RoleImplication[A: WeakTypeTag, B: WeakTypeTag](): Unit = {
+    val rA = weakTypeOf[A].toString
+    val rB = weakTypeOf[B].toString
     roleImplications.addVertex(rA)
     roleImplications.addVertex(rB)
     val _ = roleImplications.addEdge(rA, rB)
@@ -90,9 +90,9 @@ trait RoleConstraints {
     * @tparam A type of role A that should be played implicitly if B is played
     * @tparam B type of role B that should be played implicitly if A is played
     */
-  def RoleEquivalence[A: Manifest, B: Manifest](): Unit = {
-    val rA = manifest[A].toString()
-    val rB = manifest[B].toString()
+  def RoleEquivalence[A: WeakTypeTag, B: WeakTypeTag](): Unit = {
+    val rA = weakTypeOf[A].toString
+    val rB = weakTypeOf[B].toString
     roleEquivalents.addVertex(rA)
     roleEquivalents.addVertex(rB)
     val _ = (roleEquivalents.addEdge(rA, rB), roleEquivalents.addEdge(rB, rA))
@@ -106,9 +106,9 @@ trait RoleConstraints {
     * @tparam A type of role A
     * @tparam B type of role B that is not allowed to be played if A is played already
     */
-  def RoleProhibition[A: Manifest, B: Manifest](): Unit = {
-    val rA = manifest[A].toString()
-    val rB = manifest[B].toString()
+  def RoleProhibition[A: WeakTypeTag, B: WeakTypeTag](): Unit = {
+    val rA = weakTypeOf[A].toString
+    val rB = weakTypeOf[B].toString
     roleProhibitions.addVertex(rA)
     roleProhibitions.addVertex(rB)
     val _ = roleProhibitions.addEdge(rA, rB)

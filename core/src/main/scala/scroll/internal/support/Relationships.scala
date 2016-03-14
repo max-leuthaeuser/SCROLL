@@ -2,6 +2,7 @@ package scroll.internal.support
 
 import scroll.internal.Compartment
 import scroll.internal.util.Many
+import scala.reflect.runtime.universe._
 
 /**
   * Allows to add and check role relationships to a compartment instance.
@@ -39,8 +40,8 @@ trait Relationships {
     case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity) extends Multiplicity
 
     def apply(name: String) = new {
-      def from[L: Manifest](leftMul: Multiplicity) = new {
-        def to[R: Manifest](rightMul: Multiplicity): Relationship[L, R] = new Relationship(name, leftMul, rightMul)
+      def from[L: WeakTypeTag](leftMul: Multiplicity) = new {
+        def to[R: WeakTypeTag](rightMul: Multiplicity): Relationship[L, R] = new Relationship(name, leftMul, rightMul)
       }
     }
 
@@ -49,15 +50,15 @@ trait Relationships {
   /**
     * Class representation of a relationship between two (role) types.
     *
-    * @param name name of the relationship
-    * @param leftMul multiplicity of the left side of the relationship
+    * @param name     name of the relationship
+    * @param leftMul  multiplicity of the left side of the relationship
     * @param rightMul multiplicity of the right side of the relationship
     * @tparam L type of the role of the left side of the relationship
     * @tparam R type of the role of the right side of the relationship
     */
-  class Relationship[L: Manifest, R: Manifest](name: String,
-                                               var leftMul: Multiplicity,
-                                               var rightMul: Multiplicity) {
+  class Relationship[L: WeakTypeTag, R: WeakTypeTag](name: String,
+                                                     var leftMul: Multiplicity,
+                                                     var rightMul: Multiplicity) {
 
     private def checkMul[T](m: Multiplicity, on: Seq[T]): Seq[T] = {
       m match {
