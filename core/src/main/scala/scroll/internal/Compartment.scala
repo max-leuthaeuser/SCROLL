@@ -378,7 +378,7 @@ trait Compartment
       */
     def transfer[R <: AnyRef : WeakTypeTag](role: R) = new {
       def to[P <: AnyRef : WeakTypeTag](player: P): Unit = {
-        transferRole[T, P, R](Player.this.wrapped, player, role)
+        transferRole[T, P, R](wrapped, player, role)
       }
     }
 
@@ -424,8 +424,8 @@ trait Compartment
     }
 
     override def equals(o: Any): Boolean = o match {
-      case other: Player[_] => getCoreFor(this.wrapped) == getCoreFor(other.wrapped)
-      case other: Any => getCoreFor(this.wrapped) match {
+      case other: Player[_] => getCoreFor(wrapped) == getCoreFor(other.wrapped)
+      case other: Any => getCoreFor(wrapped) match {
         case Nil => false
         case p :: Nil => p == other
         case _ => false

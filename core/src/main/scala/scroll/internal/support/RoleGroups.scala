@@ -18,13 +18,13 @@ trait RoleGroups {
 
   private sealed trait Constraint
 
-  private case class AND() extends Constraint
+  private object AND extends Constraint
 
-  private case class OR() extends Constraint
+  private object OR extends Constraint
 
-  private case class XOR() extends Constraint
+  private object XOR extends Constraint
 
-  private case class NOT() extends Constraint
+  private object NOT extends Constraint
 
   /**
     * Wrapping function that checks all available role group constraints for
@@ -65,32 +65,32 @@ trait RoleGroups {
     // AND
     if (max.compare(min) == 0 && min == numOfTypes) {
       sum = Some(VariableFactory.fixed(sumName, numOfTypes, solver))
-      op = Some(AND())
+      op = Some(AND)
     }
 
     // OR
     if (min == 1 && max.compare(numOfTypes) == 0) {
       sum = Some(VariableFactory.bounded(sumName, 1, numOfTypes, solver))
-      op = Some(OR())
+      op = Some(OR)
     }
 
     // XOR
     if (min == 1 && max.compare(1) == 0) {
       sum = Some(VariableFactory.fixed(sumName, 1, solver))
-      op = Some(XOR())
+      op = Some(XOR)
     }
 
     // NOT
     if (min == 0 && max.compare(0) == 0) {
       sum = Some(VariableFactory.fixed(sumName, 0, solver))
-      op = Some(NOT())
+      op = Some(NOT)
     }
 
     val constrMap = types.map(ts => op match {
-      case Some(AND()) => ts -> VariableFactory.fixed("NUM$" + ts, 1, solver)
-      case Some(OR()) => ts -> VariableFactory.bounded("NUM$" + ts, 0, numOfTypes, solver)
-      case Some(XOR()) => ts -> VariableFactory.bounded("NUM$" + ts, 0, 1, solver)
-      case Some(NOT()) => ts -> VariableFactory.fixed("NUM$" + ts, 0, solver)
+      case Some(AND) => ts -> VariableFactory.fixed("NUM$" + ts, 1, solver)
+      case Some(OR) => ts -> VariableFactory.bounded("NUM$" + ts, 0, numOfTypes, solver)
+      case Some(XOR) => ts -> VariableFactory.bounded("NUM$" + ts, 0, 1, solver)
+      case Some(NOT) => ts -> VariableFactory.fixed("NUM$" + ts, 0, solver)
       case None => throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
     }).toMap
 

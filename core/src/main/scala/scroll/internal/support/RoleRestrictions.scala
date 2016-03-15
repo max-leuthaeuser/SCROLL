@@ -26,7 +26,7 @@ trait RoleRestrictions {
 
   private def compareParams(a: List[Symbol], b: List[Symbol]): Boolean = a.size - b.size match {
     case 0 => a.zip(b).forall {
-      case (e1, e2) => e1.info =:= e2.info
+      case (e1, e2) => e1.info =:= e2.info || e1.info <:< e2.info
     }
     case _ => false
   }
@@ -35,9 +35,10 @@ trait RoleRestrictions {
     restrInterface.sorted.filter(_.isMethod).forall(m => {
       val method = m.asMethod
       roleInterface.sorted.exists {
-        case v if v.isMethod => method.name == v.asMethod.name &&
-          method.returnType =:= v.asMethod.returnType &&
-          compareParams(method.paramLists.flatten, v.asMethod.paramLists.flatten)
+        case v if v.isMethod =>
+          method.name == v.asMethod.name &&
+            (method.returnType =:= v.asMethod.returnType || method.returnType <:< v.asMethod.returnType) &&
+            compareParams(method.paramLists.flatten, v.asMethod.paramLists.flatten)
         case _ => false
       }
     })

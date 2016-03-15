@@ -18,9 +18,9 @@ trait Relationships {
     */
   object Relationship {
 
-    abstract class Multiplicity
+    sealed trait Multiplicity
 
-    abstract class ExpMultiplicity extends Multiplicity
+    trait ExpMultiplicity extends Multiplicity
 
     case class MMany() extends ExpMultiplicity
 
