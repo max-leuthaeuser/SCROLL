@@ -9,5 +9,9 @@ scala:
 install:
     - true
 
+branches:
+  only:
+    - master
+    
 script:
     - sbt tests/test
