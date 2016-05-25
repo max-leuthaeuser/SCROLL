@@ -1,18 +1,16 @@
 package scroll.internal.graph
 
+import org.bitbucket.inkytonik.kiama.attribution.{Attribution, ParamAttributeKey}
 import org.jgrapht.DirectedGraph
 import org.jgrapht.graph.DefaultEdge
-import org.kiama.attribution.ParamAttributeKey
-import org.kiama.util.TreeNode
 import scroll.internal.support.DispatchQuery
 
 import scala.collection.mutable
 import scala.reflect.runtime.universe._
-import org.kiama.attribution.Attribution._
 
 object KiamaScalaRoleGraph {
 
-  sealed trait Node extends TreeNode
+  sealed trait Node
 
   case class RolePlayingGraphRoot(var players: mutable.ListBuffer[Player]) extends Node
 
@@ -28,7 +26,7 @@ object KiamaScalaRoleGraph {
 
 }
 
-class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
+class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends Attribution with RoleGraph {
 
   import KiamaScalaRoleGraph._
 

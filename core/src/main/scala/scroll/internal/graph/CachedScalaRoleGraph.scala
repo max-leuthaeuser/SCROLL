@@ -1,8 +1,9 @@
 package scroll.internal.graph
 
+import org.bitbucket.inkytonik.kiama.util.Memoiser
 import scroll.internal.support.DispatchQuery
+
 import scala.reflect.runtime.universe._
-import org.kiama.util.Memoiser
 
 object CachedScalaRoleGraph {
 

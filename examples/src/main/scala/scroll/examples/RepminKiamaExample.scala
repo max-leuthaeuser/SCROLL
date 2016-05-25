@@ -1,12 +1,12 @@
 package scroll.examples
 
-import org.kiama.attribution.Attribution.attr
-import org.kiama.util.TreeNode
+import org.bitbucket.inkytonik.kiama.attribution.Attribution
+import org.bitbucket.inkytonik.kiama.relation.Tree
 import scroll.internal.Compartment
 
 object RepminKiamaExample extends App with Compartment {
 
-  sealed abstract class RepminTree extends TreeNode
+  sealed abstract class RepminTree extends Product
 
   case class Fork(left: RepminTree, right: RepminTree) extends RepminTree
 
@@ -14,7 +14,7 @@ object RepminKiamaExample extends App with Compartment {
     def value: Int = v
   }
 
-  class Repmin {
+  class Repmin(tree: Tree[RepminTree, RepminTree]) extends Attribution {
 
     private def calc(left: Int, right: Int) = left min right
 
@@ -26,8 +26,10 @@ object RepminKiamaExample extends App with Compartment {
 
     val globmin: RepminTree => Int =
       attr {
-        case t if t.isRoot => locmin(t)
-        case t => globmin(t.parent[RepminTree])
+        case tree.parent(p) =>
+          globmin(p)
+        case t =>
+          locmin(t)
       }
 
     val repmin: RepminTree => RepminTree =
@@ -52,13 +54,14 @@ object RepminKiamaExample extends App with Compartment {
   val expectedMax = Fork(Leaf(10), Fork(Leaf(10), Leaf(10)))
   val expectedMaxWithRole = Fork(Leaf(40), Fork(Leaf(40), Leaf(40)))
 
-  in.initTreeProperties()
-  inWithRole.initTreeProperties()
+  val inTree = new Tree[RepminTree, RepminTree](in)
+  val inWithRoleTree = new Tree[RepminTree, RepminTree](inWithRole)
 
-  val resultMinFunc: RepminTree => RepminTree = new Repmin().repmin
-  val resultMaxFunc: RepminTree => RepminTree = (new Repmin() play new Repmax()).repmin
+  val resultMinFunc: RepminTree => RepminTree = new Repmin(inTree).repmin
+  val resultMaxFunc: RepminTree => RepminTree = (new Repmin(inTree) play new Repmax()).repmin
+  val resultMaxFuncRole: RepminTree => RepminTree = (new Repmin(inWithRoleTree) play new Repmax()).repmin
 
   assert(expectedMin == resultMinFunc(in))
   assert(expectedMax == resultMaxFunc(in))
-  assert(expectedMaxWithRole == resultMaxFunc(inWithRole))
+  assert(expectedMaxWithRole == resultMaxFuncRole(inWithRole))
 }

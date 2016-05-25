@@ -1,6 +1,6 @@
 val akkaVersion = "2.4.2"
 val shapelessVersion = "2.3.0-RC1"
-val kiamaVersion = "1.8.0"
+val kiamaVersion = "2.0.0"
 val jgraphTVersion = "0.9.1"
 val scalameterVersion = "0.8-SNAPSHOT"
 val scalatestVersion = "2.2.1"
@@ -21,7 +21,7 @@ lazy val commonSettings = Seq(
   dependencyOverrides += "org.scala-lang" % "scala-compiler" % scalaVersion.value, // fix for SORM
   addCompilerPlugin("org.scalamacros" % "paradise" % macrosVersion cross CrossVersion.full),
   libraryDependencies ++= Seq(
-    "com.googlecode.kiama" %% "kiama" % kiamaVersion,
+    "org.bitbucket.inkytonik.kiama" %% "kiama" % kiamaVersion,
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.chuusai" %% "shapeless" % shapelessVersion,
     "org.jgrapht" % "jgrapht-core" % jgraphTVersion,

@@ -1,18 +1,17 @@
 package scroll.examples
 
-import org.kiama.attribution.Attribution.attr
-import org.kiama.rewriting.Rewriter.{attempt, bottomup, rewrite, rule}
-import org.kiama.util.TreeNode
 import scroll.internal.Compartment
 import scroll.internal.support.DispatchQuery
 import DispatchQuery._
 import scroll.internal.util.Log.info
-
-import scala.util.parsing.combinator.JavaTokenParsers
+import org.bitbucket.inkytonik.kiama.attribution.Attribution
+import org.bitbucket.inkytonik.kiama.parsing.{Failure, Parsers, Success}
+import org.bitbucket.inkytonik.kiama.util.{Positions, StringSource}
+import org.bitbucket.inkytonik.kiama.rewriting.Rewriter
 
 object MathKiamaExample extends App with Compartment {
 
-  sealed abstract class Exp extends TreeNode
+  sealed abstract class Exp
 
   case class Num(i: Double) extends Exp
 
@@ -24,18 +23,18 @@ object MathKiamaExample extends App with Compartment {
 
   case class Div(l: Exp, r: Exp) extends Exp
 
-  case class SimpleMath() {
+  case class SimpleMath() extends Attribution {
     val value: Exp => Double =
       attr {
         case Num(i) => i
-        case Add(l, r) => (l -> value) + (r -> value)
-        case Sub(l, r) => (l -> value) - (r -> value)
-        case Mul(l, r) => (l -> value) * (r -> value)
-        case Div(l, r) => (l -> value) / (r -> value)
+        case Add(l, r) => value(l) + value(r)
+        case Sub(l, r) => value(l) - value(r)
+        case Mul(l, r) => value(l) * value(r)
+        case Div(l, r) => value(l) / value(r)
       }
   }
 
-  case class Optimizer() {
+  case class Optimizer() extends Rewriter {
 
     def optimise(e: Exp): Exp = rewrite(optimiser)(e)
 
@@ -56,9 +55,12 @@ object MathKiamaExample extends App with Compartment {
       }
   }
 
-  case class Parser() extends JavaTokenParsers {
+  case class Parser() extends Parsers(new Positions) {
 
-    def parse(in: String): Exp = parseAll(expr, in).get
+    def parse(in: String): Exp = parse(expr, new StringSource(in)) match {
+      case Success(e, _) => e
+      case Failure(m, _) => throw new RuntimeException("Parsing failed: " + m)
+    }
 
     lazy val expr: Parser[Exp] = term ~ rep("[+-]".r ~ term) ^^ {
       case t ~ ts => ts.foldLeft(t) {
@@ -76,11 +78,11 @@ object MathKiamaExample extends App with Compartment {
 
     lazy val factor = "(" ~> expr <~ ")" | num
 
-    lazy val num = floatingPointNumber ^^ (s => Num(s.toDouble))
+    lazy val num = regex("[0-9]+".r) ^^ (s => Num(s.toDouble))
 
   }
 
-  case class LoggerRole() {
+  case class LoggerRole() extends Attribution {
     val value: Exp => Double = attr {
       case exp: Exp =>
         info("Evaluating: " + exp)
