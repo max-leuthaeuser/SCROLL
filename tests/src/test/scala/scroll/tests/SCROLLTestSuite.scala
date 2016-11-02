@@ -5,6 +5,7 @@ import org.scalatest.Suites
 class SCROLLTestSuite
   extends Suites(
     new RoleFeaturesTest,
+    new DynamicExtensionsTest,
     new EqualityRoleTest,
     new ExamplesTest,
     new RelationshipTest,

@@ -6,6 +6,7 @@ import SCROLLTestConfig._
 class SCROLLCachedTestSuite
   extends Suites(
     new RoleFeaturesTest { backend = CACHED },
+    new DynamicExtensionsTest { backend = CACHED },
     new EqualityRoleTest { backend = CACHED },
     new RelationshipTest { backend = CACHED },
     new UnionTypesTest { backend = CACHED },

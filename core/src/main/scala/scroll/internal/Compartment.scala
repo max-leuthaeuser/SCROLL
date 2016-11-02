@@ -100,17 +100,17 @@ trait Compartment
     * @return all player instances as Seq, that do conform to the given matcher
     */
   def all[T: WeakTypeTag](matcher: T => Boolean): Seq[T] =
-    plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
-      getCoreFor(a) match {
-        case p :: Nil => matcher(p.asInstanceOf[T])
-        case Nil => false
-        case l: Seq[Any] => l.forall(i => matcher(i.asInstanceOf[T]))
-      }
-    })
+  plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
+    getCoreFor(a) match {
+      case p :: Nil => matcher(p.asInstanceOf[T])
+      case Nil => false
+      case l: Seq[Any] => l.forall(i => matcher(i.asInstanceOf[T]))
+    }
+  })
 
-  private def safeReturn[T](seq: Seq[T], typeName: String): Either[TypeError, Seq[T]] = seq.isEmpty match {
-    case true => Left(TypeNotFound(typeName))
-    case false => Right(seq)
+  private def safeReturn[T](seq: Seq[T], typeName: String): Either[TypeError, Seq[T]] = seq match {
+    case Nil => Left(TypeNotFound(typeName))
+    case s => Right(s)
   }
 
   /**
@@ -338,7 +338,7 @@ trait Compartment
       * Adds a play relation between core and role.
       *
       * @tparam R type of role
-      * @param role the role that should played
+      * @param role the role that should be played
       * @return this
       */
     def play[R <: AnyRef : WeakTypeTag](role: R): Player[T] = {
@@ -351,6 +351,15 @@ trait Compartment
     }
 
     /**
+      * Alias for [[Player.play]].
+      *
+      * @tparam R type of role
+      * @param role the role that should be played
+      * @return this
+      */
+    def <+>[R <: AnyRef : WeakTypeTag](role: R): Player[T] = play(role)
+
+    /**
       * Adds a play relation between core and role but always returns the player instance.
       *
       * @tparam R type of role
@@ -358,6 +367,15 @@ trait Compartment
       * @return the player instance
       */
     def playing[R <: AnyRef : WeakTypeTag](role: R): T = play(role).wrapped
+
+    /**
+      * Alias for [[Player.playing]].
+      *
+      * @tparam R type of role
+      * @param role the role that should played
+      * @return the player instance
+      */
+    def <=>[R <: AnyRef : WeakTypeTag](role: R): T = playing(role)
 
     /**
       * Removes the play relation between core and role.
@@ -369,6 +387,14 @@ trait Compartment
       removePlaysRelation[T, R](wrapped, role)
       this
     }
+
+    /**
+      * Alias for [[Player.drop]].
+      *
+      * @param role the role that should be removed
+      * @return this
+      */
+    def <->[R <: AnyRef : WeakTypeTag](role: R): Player[T] = drop(role)
 
     /**
       * Transfers a role to another player.
@@ -386,6 +412,12 @@ trait Compartment
       * Checks of this Player is playing a role of the given type.
       */
     def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(wrapped).exists(_.is[E])
+
+    /**
+      * Checks of this Player has an extension of the given type.
+      * Alias for [[Player.isPlaying]].
+      */
+    def hasExtension[E: WeakTypeTag]: Boolean = isPlaying[E]
 
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = dispatchQuery.reorder(getCoreFor(wrapped)).head

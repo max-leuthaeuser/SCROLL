@@ -6,6 +6,7 @@ import scroll.tests.SCROLLTestConfig._
 class SCROLLKiamaTestSuite
   extends Suites(
     new RoleFeaturesTest { backend = KIAMA },
+    new DynamicExtensionsTest { backend = KIAMA },
     new EqualityRoleTest { backend = KIAMA },
     new RelationshipTest { backend = KIAMA },
     new UnionTypesTest { backend = KIAMA },

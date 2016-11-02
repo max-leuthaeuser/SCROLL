@@ -32,7 +32,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers with
         And("binding to RoleB is left untouched of course")
         (+someCore).isPlaying[RoleB] shouldBe true
 
-        And("role method invocation to i should work.")
+        And("role method invocation should work.")
         val resB: String = +someCore b()
         resB shouldBe "b"
       }
