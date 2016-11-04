@@ -130,7 +130,8 @@ class KiamaScalaRoleGraph(checkForCycles: Boolean = true) extends Attribution wi
     kiama_getPredecessors(Player(player, null))(root).distinct.toList
 
   private def kiama_merge(other: RoleGraph): Unit = {
-    other.store.asInstanceOf[RolePlayingGraphRoot].players.foreach(pl => {
+    require(other.isInstanceOf[KiamaScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+    other.asInstanceOf[KiamaScalaRoleGraph].root.players.foreach(pl => {
       root.players.contains(pl) match {
         case true => addBinding(pl.core.asInstanceOf[AnyRef], pl.role.asInstanceOf[AnyRef])
         case false => root.players += pl
