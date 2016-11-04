@@ -1,16 +1,17 @@
-val akkaVersion = "2.4.2"
-val shapelessVersion = "2.3.0-RC1"
+val akkaVersion = "2.4.12"
+val shapelessVersion = "2.3.2"
 val kiamaVersion = "2.0.0"
-val jgraphTVersion = "0.9.1"
-val scalameterVersion = "0.8-SNAPSHOT"
-val scalatestVersion = "2.2.1"
-val chocoVersion = "3.3.3"
-val slf4jVersion = "1.7.16"
+val jgraphTVersion = "1.0.0"
+val scalatestVersion = "3.0.0"
+val chocoVersion = "4.0.0"
+val slf4jVersion = "1.7.21"
 val macrosVersion = "2.1.0"
+val scalaloggingVersion = "3.5.0"
+val guavaVersion = "20.0"
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.11.7",
-  version := "0.9.8",
+  scalaVersion := "2.12.0",
+  version := "1.0.0",
   logBuffered := false,
   mainClass := None,
   autoCompilerPlugins := true,
@@ -104,8 +105,8 @@ lazy val persistence = (project in file("persistence")).
       "com.github.nikita-volkov" % "sext" % "0.2.4",
       "joda-time" % "joda-time" % "2.1",
       "org.joda" % "joda-convert" % "1.2",
-      "com.google.guava" % "guava" % "13.0.1",
-      "com.typesafe.scala-logging" % "scala-logging_2.11" % "3.1.0",
+      "com.google.guava" % "guava" % guavaVersion,
+      "com.typesafe.scala-logging" %% "scala-logging" % scalaloggingVersion,
       "postgresql" % "postgresql" % "9.1-901.jdbc4",
       "org.hsqldb" % "hsqldb" % "2.2.8",
       "com.h2database" % "h2" % "1.3.168",

@@ -1,7 +1,7 @@
 package scroll.tests
 
 import mocks.{CoreA, SomeCompartment}
-import org.scalatest.concurrent.AsyncAssertions._
+import org.scalatest.concurrent.Waiters._
 import org.scalatest.time.SpanSugar._
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.rpa.RolePlayingAutomaton

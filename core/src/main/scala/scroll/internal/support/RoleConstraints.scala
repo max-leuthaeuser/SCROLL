@@ -6,7 +6,7 @@ import scroll.internal.Compartment
 import scroll.internal.util.ReflectiveHelper
 
 import scala.reflect.runtime.universe._
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /**
   * Allows to add and check role constraints (Riehle constraints) to a compartment instance.
@@ -24,45 +24,42 @@ trait RoleConstraints {
   private def newRoleConstraintGraph = new DefaultDirectedGraph[String, DefaultEdge](classOf[DefaultEdge])
 
   private def checkImplications(player: Any, role: Any): Unit = {
-    val candidates = roleImplications.vertexSet().filter(isInstanceOf(_, role))
-    candidates.isEmpty match {
-      case false =>
-        val allImplicitRoles = candidates.flatMap(new DepthFirstIterator[String, DefaultEdge](roleImplications, _).toSet)
+    roleImplications.vertexSet().asScala.filter(isInstanceOf(_, role)).toList match {
+      case Nil => //done, thanks
+      case list =>
+        val allImplicitRoles = list.flatMap(new DepthFirstIterator[String, DefaultEdge](roleImplications, _).asScala)
         val allRoles = plays.getRoles(player).diff(Set(player))
         allImplicitRoles.foreach(r => if (!allRoles.exists(isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role implication constraint violation: '$player' should play role '$r', but it does not!")
         })
-      case true => //done, thanks
     }
   }
 
   private def checkEquivalence(player: Any, role: Any): Unit = {
-    val candidates = roleEquivalents.vertexSet().filter(isInstanceOf(_, role))
-    candidates.isEmpty match {
-      case false =>
-        val allEquivalentRoles = candidates.flatMap(new DepthFirstIterator[String, DefaultEdge](roleEquivalents, _).toSet)
+    roleEquivalents.vertexSet().asScala.filter(isInstanceOf(_, role)).toList match {
+      case Nil => //done, thanks
+      case list =>
+        val allEquivalentRoles = list.flatMap(new DepthFirstIterator[String, DefaultEdge](roleEquivalents, _).asScala)
         val allRoles = plays.getRoles(player).diff(Set(player))
         allEquivalentRoles.foreach(r => if (!allRoles.exists(isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!")
         })
-      case true => //done, thanks
     }
   }
 
   private def checkProhibitions(player: Any, role: Any): Unit = {
-    val candidates = roleProhibitions.vertexSet().filter(isInstanceOf(_, role))
-    candidates.isEmpty match {
-      case false =>
-        val allProhibitedRoles = candidates.flatMap(new DepthFirstIterator[String, DefaultEdge](roleProhibitions, _).toSet)
+    roleProhibitions.vertexSet().asScala.filter(isInstanceOf(_, role)).toList match {
+      case Nil => //done, thanks
+      case list =>
+        val allProhibitedRoles = list.flatMap(new DepthFirstIterator[String, DefaultEdge](roleProhibitions, _).asScala).toSet
         val allRoles = plays.getRoles(player).diff(Set(player))
         val rs = allProhibitedRoles.size == allRoles.size match {
           case false => allProhibitedRoles.filter(r => allRoles.exists(isInstanceOf(r, _)))
-          case true => Set[String]()
+          case true => Set.empty[String]
         }
-        allProhibitedRoles.diff(rs).diff(candidates).foreach(r => if (allRoles.exists(isInstanceOf(r, _))) {
+        allProhibitedRoles.diff(rs).diff(list.toSet).foreach(r => if (allRoles.exists(isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role prohibition constraint violation: '$player' plays role '$r', but it is not allowed to do so!")
         })
-      case true => //done, thanks
     }
   }
 

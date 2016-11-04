@@ -1,14 +1,11 @@
 package scroll.internal.support
 
-import org.chocosolver.solver.constraints.IntConstraintFactory
-import org.chocosolver.solver.search.solution.Solution
-import org.chocosolver.solver.Solver
-import org.chocosolver.solver.search.strategy.IntStrategyFactory
-import org.chocosolver.solver.variables.{IntVar, VariableFactory}
+import org.chocosolver.solver.{Model, Solution}
+import org.chocosolver.solver.variables.IntVar
 import scroll.internal.Compartment
 import scroll.internal.util.ReflectiveHelper
-import scala.reflect.runtime.universe._
 
+import scala.reflect.runtime.universe._
 import scala.collection.mutable
 
 trait RoleGroups {
@@ -52,7 +49,7 @@ trait RoleGroups {
   }
 
   private def eval(rg: RoleGroup): Seq[String] = {
-    val solver = new Solver("SOLVER$" + rg.hashCode())
+    val model = new Model("MODEL$" + rg.hashCode())
     val types = rg.getTypes
     val numOfTypes = types.size
     val min = rg.limit._1
@@ -64,52 +61,52 @@ trait RoleGroups {
 
     // AND
     if (max.compare(min) == 0 && min == numOfTypes) {
-      sum = Some(VariableFactory.fixed(sumName, numOfTypes, solver))
+      sum = Some(model.intVar(sumName, numOfTypes))
       op = Some(AND)
     }
 
     // OR
     if (min == 1 && max.compare(numOfTypes) == 0) {
-      sum = Some(VariableFactory.bounded(sumName, 1, numOfTypes, solver))
+      sum = Some(model.intVar(sumName, 1, numOfTypes))
       op = Some(OR)
     }
 
     // XOR
     if (min == 1 && max.compare(1) == 0) {
-      sum = Some(VariableFactory.fixed(sumName, 1, solver))
+      sum = Some(model.intVar(sumName, 1))
       op = Some(XOR)
     }
 
     // NOT
     if (min == 0 && max.compare(0) == 0) {
-      sum = Some(VariableFactory.fixed(sumName, 0, solver))
+      sum = Some(model.intVar(sumName, 0))
       op = Some(NOT)
     }
 
     val constrMap = types.map(ts => op match {
-      case Some(AND) => ts -> VariableFactory.fixed("NUM$" + ts, 1, solver)
-      case Some(OR) => ts -> VariableFactory.bounded("NUM$" + ts, 0, numOfTypes, solver)
-      case Some(XOR) => ts -> VariableFactory.bounded("NUM$" + ts, 0, 1, solver)
-      case Some(NOT) => ts -> VariableFactory.fixed("NUM$" + ts, 0, solver)
+      case Some(AND) => ts -> model.intVar("NUM$" + ts, 1)
+      case Some(OR) => ts -> model.intVar("NUM$" + ts, 0, numOfTypes)
+      case Some(XOR) => ts -> model.intVar("NUM$" + ts, 0, 1)
+      case Some(NOT) => ts -> model.intVar("NUM$" + ts, 0)
       case None => throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
     }).toMap
 
     sum match {
       case Some(s) =>
-        solver.post(IntConstraintFactory.sum(constrMap.values.toArray, s))
-        solver.set(IntStrategyFactory.lexico_LB(constrMap.values.toArray: _*))
+        model.post(model.sum(constrMap.values.toArray, "=", s))
       case None => throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
     }
 
-    if (solver.findSolution()) {
+    val solver = model.getSolver
+    if (solver.solve()) {
       val resultRoleTypeSet = mutable.Set.empty[String]
 
       val solutions = mutable.ListBuffer.empty[Solution]
       do {
-        val sol = new Solution
-        sol.record(solver)
+        val sol = new Solution(model)
+        sol.record()
         solutions += sol
-      } while (solver.nextSolution())
+      } while (solver.solve())
 
       val allPlayers = plays.allPlayers.filter(p => !types.contains(ReflectiveHelper.classSimpleClassName(p.getClass.toString)))
       if (allPlayers.forall(p => {

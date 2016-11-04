@@ -28,7 +28,7 @@ object PersistentTypesImpl {
 
     def buildFactoryBody(sensitiveFields: List[Tree]): List[c.universe.Tree] = {
       val cases = sensitiveFields map {
-        case f =>
+        f =>
           val n = extractTypeName(f.toString)
           val newName = TermName("create" + extractMethodName(f.toString))
           CaseDef(Literal(Constant(n)), EmptyTree, q"$newName(playerID, db)")
@@ -39,7 +39,7 @@ object PersistentTypesImpl {
           override def create(playerID: Long, playerType: String, db: Instance): Any = $m
         """
       val creators = sensitiveFields.map {
-        case f =>
+        f =>
           val n = TypeName(extractTypeName(f.toString))
           val newName = TermName("create" + extractMethodName(f.toString))
           q"def $newName(playerID: Long, db: Instance):$n = db.fetchById[$n](playerID).mixoutPersisted[$n]._2"

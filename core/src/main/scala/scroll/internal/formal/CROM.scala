@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.impl.DynamicEObjectImpl
 import org.eclipse.emf.ecore.util.EcoreEList
 import scroll.internal.ecore.ECoreImporter
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
@@ -43,7 +43,7 @@ trait CROM extends ECoreImporter {
     */
   def wellformed: Boolean = crom.isDefined && crom.forall(_.wellformed)
 
-  private def getInstanceName(of: EObject): String = of.eClass().getEAllAttributes.find(_.getName == "name") match {
+  private def getInstanceName(of: EObject): String = of.eClass().getEAllAttributes.asScala.find(_.getName == "name") match {
     case Some(a) => of.eGet(a).toString
     case None => "-"
   }
@@ -68,7 +68,7 @@ trait CROM extends ECoreImporter {
     }
   }
 
-  private def collectRoles(of: EObject): List[EObject] = of.eContents().toList.flatMap(e => e.eClass().getName match {
+  private def collectRoles(of: EObject): List[EObject] = of.eContents().asScala.toList.flatMap(e => e.eClass().getName match {
     case ROLEGROUP => collectRoles(e)
     case ROLETYPE => List(e)
     case PART => collectRoles(e)
@@ -86,12 +86,12 @@ trait CROM extends ECoreImporter {
     val roles = collectRoles(elem.eContainer())
     // TODO: make sure order of roles (incoming/outgoing) is correct for the given relationship
     val rsts = roles.filter(role => {
-      val incoming = role.asInstanceOf[DynamicEObjectImpl].dynamicGet(1).asInstanceOf[EcoreEList[DynamicEObjectImpl]]
+      val incoming = role.asInstanceOf[DynamicEObjectImpl].dynamicGet(1).asInstanceOf[EcoreEList[DynamicEObjectImpl]].asScala
       val inCond = incoming match {
         case null => false
         case _ => incoming.exists(e => e.dynamicGet(0).asInstanceOf[String] == rstName)
       }
-      val outgoing = role.asInstanceOf[DynamicEObjectImpl].dynamicGet(2).asInstanceOf[EcoreEList[DynamicEObjectImpl]]
+      val outgoing = role.asInstanceOf[DynamicEObjectImpl].dynamicGet(2).asInstanceOf[EcoreEList[DynamicEObjectImpl]].asScala
       val outCond = outgoing match {
         case null => false
         case _ => outgoing.exists(e => e.dynamicGet(0).asInstanceOf[String] == rstName)
@@ -120,7 +120,7 @@ trait CROM extends ECoreImporter {
     val parts = mutable.Map[String, List[String]]()
     val rel = mutable.Map[String, List[String]]()
 
-    loadModel().getAllContents.filter(e => validTypes.contains(e.eClass().getName)).foreach(curr => {
+    loadModel().getAllContents.asScala.filter(e => validTypes.contains(e.eClass().getName)).foreach(curr => {
       curr.eClass().getName match {
         case NATURALTYPE => nt += constructNT(curr)
         case ROLETYPE => rt += constructRT(curr)
