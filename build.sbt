@@ -60,8 +60,7 @@ lazy val core = (project in file("core")).
       "-Yno-adapted-args",
       "-Ywarn-numeric-widen",
       "-Ywarn-value-discard",
-      "-Xfuture",
-      "-Ywarn-unused-import"),
+      "-Xfuture"),
     organization := "com.github.max-leuthaeuser",
     publishTo := {
       val nexus = "https://oss.sonatype.org/"

@@ -1,6 +1,6 @@
 package scroll.internal;
 
-import scala.collection.JavaConversions;
+import scala.collection.JavaConverters;
 import scroll.internal.support.DispatchQuery;
 import scroll.internal.support.DispatchQuery$;
 
@@ -189,7 +189,7 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
             Compartment comp = (Compartment) compartment;
             Compartment.Player<Object> p = comp.newPlayer(player);
             List<Object> l = Arrays.asList(args);
-            scala.collection.Iterator<Object> i = JavaConversions.asScalaIterator(l.iterator());
+            scala.collection.Iterator<Object> i = JavaConverters.asScalaIterator(l.iterator());
             p.applyDynamic(method, i.toSeq(), EMPTY_QUERY);
         } else {
             throw new IllegalArgumentException("Argument 'compartment' must be of type 'Compartment!'");
@@ -259,7 +259,7 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
         Object player = getPlayer(role);
         List<Object> roles = getPlayedRoles(player, origComp);
         if (player == null || roles.isEmpty()) return false;
-        roles.stream().forEach(r -> bind(player, r, compartment));
+        roles.forEach(r -> bind(player, r, compartment));
         return true;
     }
 
@@ -323,7 +323,7 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
             throw new IllegalArgumentException("No Argument should be null!");
         if (compartment instanceof Compartment) {
             Compartment comp = (Compartment) compartment;
-            return JavaConversions.seqAsJavaList(comp.plays().allPlayers());
+            return JavaConverters.seqAsJavaList(comp.plays().allPlayers());
         } else {
             throw new IllegalArgumentException("Argument 'compartment' must be of type 'Compartment!'");
         }
@@ -339,7 +339,7 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
 
         for (Compartment comp : model.values()) {
             if (comp.plays().containsPlayer(player)) {
-                return JavaConversions.seqAsJavaList(comp.plays().getRoles(player, EMPTY_QUERY).toSeq());
+                return JavaConverters.seqAsJavaList(comp.plays().getRoles(player, EMPTY_QUERY).toSeq());
             }
         }
         return Collections.emptyList();
@@ -351,7 +351,7 @@ public class ScrollAdaption implements IAdaption<Object, Object, Object, Object>
             throw new IllegalArgumentException("No Argument should be null or empty!");
         if (compartment instanceof Compartment) {
             Compartment comp = (Compartment) compartment;
-            return JavaConversions.seqAsJavaList(comp.plays().getRoles(player, EMPTY_QUERY).toSeq());
+            return JavaConverters.seqAsJavaList(comp.plays().getRoles(player, EMPTY_QUERY).toSeq());
         } else {
             throw new IllegalArgumentException("Argument 'compartment' must be of type 'Compartment!'");
         }
