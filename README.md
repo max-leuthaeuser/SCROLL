@@ -26,10 +26,10 @@ You are able to define compartments, roles and play-relationships. Invoking Role
 **4. Use the library:**
 
 Just add the dependency to your SBT config:
-```libraryDependencies ++= Seq("com.github.max-leuthaeuser" % "scroll_2.11" % "0.9.8")```
+```libraryDependencies ++= Seq("com.github.max-leuthaeuser" %% "scroll" % "1.0.0")```
 
 Or to always use the latest version:
-```libraryDependencies ++= Seq("com.github.max-leuthaeuser" % "scroll_2.11" % "latest.integration")```
+```libraryDependencies ++= Seq("com.github.max-leuthaeuser" %% "scroll" % "latest.integration")```
 
 [sbt-gen-idea]: https://github.com/mpeltonen/sbt-idea
 [gen-eclipse]: https://github.com/typesafehub/sbteclipse
