@@ -130,10 +130,10 @@ implementing an objectified collaboration with a limited number of participating
       
       <p class="shortcomment cmt">Package containing the data model of SCROLL which are essentially graphs.</p><div class="fullcomment"><div class="comment cmt"><p>Package containing the data model of SCROLL which are essentially graphs.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="scroll.internal">internal</a></dd></dl></div>
-    </li><li name="scroll.internal.graph.KiamaScalaRoleGraph" visbl="pub" class="indented4 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="KiamaScalaRoleGraph"></a><a id="KiamaScalaRoleGraph:KiamaScalaRoleGraph"></a>
+    </li><li name="scroll.internal.graph.ScalaRoleGraph" visbl="pub" class="indented4 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ScalaRoleGraph"></a><a id="ScalaRoleGraph:ScalaRoleGraph"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/index.html#KiamaScalaRoleGraph" title="Permalink">
+      <a href="../../../scroll/internal/graph/index.html#ScalaRoleGraph" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -142,28 +142,28 @@ implementing an objectified collaboration with a limited number of participating
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="" href="KiamaScalaRoleGraph$.html">
-              <span class="name">KiamaScalaRoleGraph</span>
+        <a title="" href="ScalaRoleGraph$.html">
+              <span class="name">ScalaRoleGraph</span>
             </a>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="scroll.internal.graph">graph</a></dd></dl></div>
     </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="trait" href="KiamaScalaRoleGraph$$Node.html" title=""></a>
-                        <a href="KiamaScalaRoleGraph$$Node.html" title="">
+                        <a class="trait" href="ScalaRoleGraph$$Node.html" title=""></a>
+                        <a href="ScalaRoleGraph$$Node.html" title="">
                           Node
+                        </a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="ScalaRoleGraph$$Player.html" title=""></a>
+                        <a href="ScalaRoleGraph$$Player.html" title="">
+                          Player
                         </a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="" title=""></a>
                         <a href="" title="">
-                          Player
-                        </a>
-                      </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="class" href="KiamaScalaRoleGraph$$RolePlayingGraphRoot.html" title=""></a>
-                        <a href="KiamaScalaRoleGraph$$RolePlayingGraphRoot.html" title="">
                           RolePlayingGraphRoot
                         </a>
                       </li>
@@ -174,9 +174,9 @@ implementing an objectified collaboration with a limited number of participating
             <body class="class type">
       <div id="definition">
         <div class="big-circle class">c</div>
-        <p id="owner"><a href="../../index.html" class="extype" name="scroll">scroll</a>.<a href="../index.html" class="extype" name="scroll.internal">internal</a>.<a href="index.html" class="extype" name="scroll.internal.graph">graph</a>.<a href="KiamaScalaRoleGraph$.html" class="extype" name="scroll.internal.graph.KiamaScalaRoleGraph">KiamaScalaRoleGraph</a></p>
-        <h1>Player<span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html" title="Permalink">
+        <p id="owner"><a href="../../index.html" class="extype" name="scroll">scroll</a>.<a href="../index.html" class="extype" name="scroll.internal">internal</a>.<a href="index.html" class="extype" name="scroll.internal.graph">graph</a>.<a href="ScalaRoleGraph$.html" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a></p>
+        <h1>RolePlayingGraphRoot<span class="permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
@@ -189,7 +189,7 @@ implementing an objectified collaboration with a limited number of participating
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">Player</span><span class="params">(<span name="core">core: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>, <span name="role">role: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result"> extends <a href="KiamaScalaRoleGraph$$Node.html" class="extype" name="scroll.internal.graph.KiamaScalaRoleGraph.Node">Node</a> with <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+        <span class="name">RolePlayingGraphRoot</span><span class="params">(<span name="players">players: <span class="extype" name="scala.collection.mutable.ListBuffer">ListBuffer</span>[<a href="ScalaRoleGraph$$Player.html" class="extype" name="scroll.internal.graph.ScalaRoleGraph.Player">Player</a>]</span>)</span><span class="result"> extends <a href="ScalaRoleGraph$$Node.html" class="extype" name="scroll.internal.graph.ScalaRoleGraph.Node">Node</a> with <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
       </span>
       </h4>
 
@@ -198,7 +198,7 @@ implementing an objectified collaboration with a limited number of participating
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="KiamaScalaRoleGraph$$Node.html" class="extype" name="scroll.internal.graph.KiamaScalaRoleGraph.Node">Node</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="ScalaRoleGraph$$Node.html" class="extype" name="scroll.internal.graph.ScalaRoleGraph.Node">Node</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
         
 
@@ -224,7 +224,7 @@ implementing an objectified collaboration with a limited number of participating
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="scroll.internal.graph.KiamaScalaRoleGraph.Player"><span>Player</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scroll.internal.graph.KiamaScalaRoleGraph.Node"><span>Node</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="scroll.internal.graph.ScalaRoleGraph.RolePlayingGraphRoot"><span>RolePlayingGraphRoot</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scroll.internal.graph.ScalaRoleGraph.Node"><span>Node</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -244,10 +244,10 @@ implementing an objectified collaboration with a limited number of participating
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="scroll.internal.graph.KiamaScalaRoleGraph.Player#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(core:Any,role:Any):scroll.internal.graph.KiamaScalaRoleGraph.Player"></a><a id="&lt;init&gt;:Player"></a>
+              <ol><li name="scroll.internal.graph.ScalaRoleGraph.RolePlayingGraphRoot#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(players:scala.collection.mutable.ListBuffer[scroll.internal.graph.ScalaRoleGraph.Player]):scroll.internal.graph.ScalaRoleGraph.RolePlayingGraphRoot"></a><a id="&lt;init&gt;:RolePlayingGraphRoot"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#&lt;init&gt;(core:Any,role:Any):scroll.internal.graph.KiamaScalaRoleGraph.Player" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#&lt;init&gt;(players:scala.collection.mutable.ListBuffer[scroll.internal.graph.ScalaRoleGraph.Player]):scroll.internal.graph.ScalaRoleGraph.RolePlayingGraphRoot" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -256,7 +256,7 @@ implementing an objectified collaboration with a limited number of participating
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Player</span><span class="params">(<span name="core">core: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>, <span name="role">role: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span>
+        <span class="name">RolePlayingGraphRoot</span><span class="params">(<span name="players">players: <span class="extype" name="scala.collection.mutable.ListBuffer">ListBuffer</span>[<a href="ScalaRoleGraph$$Player.html" class="extype" name="scroll.internal.graph.ScalaRoleGraph.Player">Player</a>]</span>)</span>
       </span>
       
       
@@ -273,7 +273,7 @@ implementing an objectified collaboration with a limited number of participating
                 <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#!=(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#!=(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -289,7 +289,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="##():Int"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html###():Int" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html###():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -305,7 +305,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#==(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#==(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -321,7 +321,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#asInstanceOf[T0]:T0" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#asInstanceOf[T0]:T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -337,7 +337,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#clone():Object" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#clone():Object" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -356,26 +356,10 @@ implementing an objectified collaboration with a limited number of participating
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="scroll.internal.graph.KiamaScalaRoleGraph.Player#core" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="core:Any"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#core:Any" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">core</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>
-      </span>
-      
-      
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#eq(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -388,26 +372,10 @@ implementing an objectified collaboration with a limited number of participating
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scroll.internal.graph.KiamaScalaRoleGraph.Player#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="equals(other:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#equals(other:Any):Boolean" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="other">other: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.KiamaScalaRoleGraph.Player">Player</a> → Equals → AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#finalize():Unit" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#finalize():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -429,7 +397,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#getClass():Class[_]" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#getClass():Class[_]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -442,26 +410,10 @@ implementing an objectified collaboration with a limited number of participating
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scroll.internal.graph.KiamaScalaRoleGraph.Player#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hashCode():Int"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#hashCode():Int" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Int" class="extype" target="_top">Int</a></span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.KiamaScalaRoleGraph.Player">Player</a> → AnyRef → Any</dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#isInstanceOf[T0]:Boolean" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#isInstanceOf[T0]:Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -477,7 +429,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#ne(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -493,7 +445,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#notify():Unit" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#notify():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -509,7 +461,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#notifyAll():Unit" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#notifyAll():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -522,10 +474,10 @@ implementing an objectified collaboration with a limited number of participating
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scroll.internal.graph.KiamaScalaRoleGraph.Player#role" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="role:Any"></a>
+    </li><li name="scroll.internal.graph.ScalaRoleGraph.RolePlayingGraphRoot#players" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="players:scala.collection.mutable.ListBuffer[scroll.internal.graph.ScalaRoleGraph.Player]"></a><a id="players:ListBuffer[Player]"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#role:Any" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#players:scala.collection.mutable.ListBuffer[scroll.internal.graph.ScalaRoleGraph.Player]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -534,14 +486,14 @@ implementing an objectified collaboration with a limited number of participating
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">role</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>
+        <span class="name">players</span><span class="result">: <span class="extype" name="scala.collection.mutable.ListBuffer">ListBuffer</span>[<a href="ScalaRoleGraph$$Player.html" class="extype" name="scroll.internal.graph.ScalaRoleGraph.Player">Player</a>]</span>
       </span>
       
       
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -557,7 +509,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#wait():Unit" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#wait():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -579,7 +531,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -601,7 +553,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/KiamaScalaRoleGraph$$Player.html#wait(x$1:Long):Unit" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph$$RolePlayingGraphRoot.html#wait(x$1:Long):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -638,8 +590,8 @@ implementing an objectified collaboration with a limited number of participating
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Product" class="extype" target="_top">Product</a></h3>
             </div><div class="parent" name="scala.Equals">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Equals" class="extype" target="_top">Equals</a></h3>
-            </div><div class="parent" name="scroll.internal.graph.KiamaScalaRoleGraph.Node">
-              <h3>Inherited from <a href="KiamaScalaRoleGraph$$Node.html" class="extype" name="scroll.internal.graph.KiamaScalaRoleGraph.Node">Node</a></h3>
+            </div><div class="parent" name="scroll.internal.graph.ScalaRoleGraph.Node">
+              <h3>Inherited from <a href="ScalaRoleGraph$$Node.html" class="extype" name="scroll.internal.graph.ScalaRoleGraph.Node">Node</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">

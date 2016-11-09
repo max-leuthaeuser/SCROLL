@@ -111,10 +111,10 @@ implementing an objectified collaboration with a limited number of participating
 implementing an objectified collaboration with a limited number of participating roles and a fixed scope.</p><div class="fullcomment"><div class="comment cmt"><p>This package most notable provides the <a href="../Compartment.html" class="extype" name="scroll.internal.Compartment">scroll.internal.Compartment</a> trait for
 implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="scroll">scroll</a></dd></dl></div>
-    </li><li name="scroll.internal.graph" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="graph"></a><a id="graph:graph"></a>
+    </li><li name="scroll.internal.util" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="util"></a><a id="util:util"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/index.html#graph" title="Permalink">
+      <a href="../../scroll/internal/index.html#util" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -123,72 +123,71 @@ implementing an objectified collaboration with a limited number of participating
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="Package containing the data model of SCROLL which are essentially graphs." href="index.html">
-              <span class="name">graph</span>
+        <a title="Package containing some useful utility classes for SCROLL
+like logging (scroll.internal.util.Log) and reflection (scroll.internal.util.ReflectiveHelper)." href="index.html">
+              <span class="name">util</span>
             </a>
       </span>
       
-      <p class="shortcomment cmt">Package containing the data model of SCROLL which are essentially graphs.</p><div class="fullcomment"><div class="comment cmt"><p>Package containing the data model of SCROLL which are essentially graphs.
+      <p class="shortcomment cmt">Package containing some useful utility classes for SCROLL
+like logging (<a href="Log$.html" class="extype" name="scroll.internal.util.Log">scroll.internal.util.Log</a>) and reflection (<a href="ReflectiveHelper.html" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).</p><div class="fullcomment"><div class="comment cmt"><p>Package containing some useful utility classes for SCROLL
+like logging (<a href="Log$.html" class="extype" name="scroll.internal.util.Log">scroll.internal.util.Log</a>) and reflection (<a href="ReflectiveHelper.html" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="scroll.internal">internal</a></dd></dl></div>
-    </li><li name="scroll.internal.graph.CachedScalaRoleGraph" visbl="pub" class="indented4 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="CachedScalaRoleGraph"></a><a id="CachedScalaRoleGraph:CachedScalaRoleGraph"></a>
+    </li><li name="scroll.internal.util.Memoiser" visbl="pub" class="indented4 " data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="MemoiserextendsAnyRef"></a><a id="Memoiser:Memoiser"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/index.html#CachedScalaRoleGraph" title="Permalink">
+      <a href="../../../scroll/internal/util/index.html#MemoiserextendsAnyRef" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">object</span>
+        <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="CachedScalaRoleGraph$.html">
-              <span class="name">CachedScalaRoleGraph</span>
-            </a>
+        <a title="Support for memoization, encapsulating common behaviour of memoised
+entities and a general reset mechanism for all such entities." href="Memoiser.html">
+              <span class="name">Memoiser</span>
+            </a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="scroll.internal.graph">graph</a></dd></dl></div>
+      <p class="shortcomment cmt">Support for memoization, encapsulating common behaviour of memoised
+entities and a general reset mechanism for all such entities.</p><div class="fullcomment"><div class="comment cmt"><p>Support for memoization, encapsulating common behaviour of memoised
+entities and a general reset mechanism for all such entities.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="scroll.internal.util">util</a></dd></dl></div>
     </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="object" href="CachedScalaRoleGraph$$Contains$.html" title=""></a>
-                        <a href="CachedScalaRoleGraph$$Contains$.html" title="">
-                          Contains
+                        <a class="trait" href="Memoiser$IdMemoised.html" title="A memoised entity that weakly holds onto its keys and uses identity
+to compare them."></a>
+                        <a href="Memoiser$IdMemoised.html" title="A memoised entity that weakly holds onto its keys and uses identity
+to compare them.">
+                          IdMemoised
                         </a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="CachedScalaRoleGraph$$Key.html" title=""></a>
-                        <a href="CachedScalaRoleGraph$$Key.html" title="">
-                          Key
+                        <a class="trait" href="" title="A memoised entity that uses equality to compare keys."></a>
+                        <a href="" title="A memoised entity that uses equality to compare keys.">
+                          Memoised
                         </a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="trait" href="CachedScalaRoleGraph$$KeyOption.html" title=""></a>
-                        <a href="CachedScalaRoleGraph$$KeyOption.html" title="">
-                          KeyOption
-                        </a>
-                      </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="object" href="" title=""></a>
-                        <a href="" title="">
-                          Predecessors
-                        </a>
-                      </li><li class="current-entities indented4">
-                        <span class="separator"></span>
-                        <a class="object" href="CachedScalaRoleGraph$$Roles$.html" title=""></a>
-                        <a href="CachedScalaRoleGraph$$Roles$.html" title="">
-                          Roles
+                        <a class="trait" href="Memoiser$MemoisedBase.html" title="Common interface for encapsulation of memoization for a single memoised
+entity backed by a configurable cache."></a>
+                        <a href="Memoiser$MemoisedBase.html" title="Common interface for encapsulation of memoization for a single memoised
+entity backed by a configurable cache.">
+                          MemoisedBase
                         </a>
                       </li>
               </ul>
             </div>
           </div>
           <div id="content">
-            <body class="object value">
+            <body class="trait type">
       <div id="definition">
-        <div class="big-circle object">o</div>
-        <p id="owner"><a href="../../index.html" class="extype" name="scroll">scroll</a>.<a href="../index.html" class="extype" name="scroll.internal">internal</a>.<a href="index.html" class="extype" name="scroll.internal.graph">graph</a>.<a href="CachedScalaRoleGraph$.html" class="extype" name="scroll.internal.graph.CachedScalaRoleGraph">CachedScalaRoleGraph</a></p>
-        <h1>Predecessors<span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html" title="Permalink">
+        <div class="big-circle trait">t</div>
+        <p id="owner"><a href="../../index.html" class="extype" name="scroll">scroll</a>.<a href="../index.html" class="extype" name="scroll.internal">internal</a>.<a href="index.html" class="extype" name="scroll.internal.util">util</a>.<a href="Memoiser.html" class="extype" name="scroll.internal.util.Memoiser">Memoiser</a></p>
+        <h1>Memoised<span class="permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
@@ -198,19 +197,20 @@ implementing an objectified collaboration with a limited number of participating
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">object</span>
+        <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">Predecessors</span><span class="result"> extends <a href="CachedScalaRoleGraph$$KeyOption.html" class="extype" name="scroll.internal.graph.CachedScalaRoleGraph.KeyOption">KeyOption</a></span>
+        <span class="name">Memoised</span><span class="tparams">[<span name="T">T</span>, <span name="U">U</span>]</span><span class="result"> extends <a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a>[<span class="extype" name="scroll.internal.util.Memoiser.Memoised.T">T</span>, <span class="extype" name="scroll.internal.util.Memoiser.Memoised.U">U</span>]</span>
       </span>
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A memoised entity that uses equality to compare keys.
+</p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="CachedScalaRoleGraph$$KeyOption.html" class="extype" name="scroll.internal.graph.CachedScalaRoleGraph.KeyOption">KeyOption</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a>[<span class="extype" name="scroll.internal.util.Memoiser.Memoised.T">T</span>, <span class="extype" name="scroll.internal.util.Memoiser.Memoised.U">U</span>], <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
         
 
@@ -236,7 +236,7 @@ implementing an objectified collaboration with a limited number of participating
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="scroll.internal.graph.CachedScalaRoleGraph.Predecessors"><span>Predecessors</span></li><li class="in" name="scroll.internal.graph.CachedScalaRoleGraph.KeyOption"><span>KeyOption</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="scroll.internal.util.Memoiser.Memoised"><span>Memoised</span></li><li class="in" name="scroll.internal.util.Memoiser.MemoisedBase"><span>MemoisedBase</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -266,7 +266,7 @@ implementing an objectified collaboration with a limited number of participating
                 <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#!=(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#!=(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -282,7 +282,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="##():Int"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html###():Int" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html###():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -298,7 +298,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#==(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#==(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -314,7 +314,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#asInstanceOf[T0]:T0" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#asInstanceOf[T0]:T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -330,7 +330,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#clone():Object" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#clone():Object" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -349,10 +349,29 @@ implementing an objectified collaboration with a limited number of participating
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#dup" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dup(t1:T,t2:T):Unit"></a><a id="dup(T,T):Unit"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#dup(t1:T,t2:T):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dup</span><span class="params">(<span name="t1">t1: <span class="extype" name="scroll.internal.util.Memoiser.Memoised.T">T</span></span>, <span name="t2">t2: <span class="extype" name="scroll.internal.util.Memoiser.Memoised.T">T</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Duplicate an entry if possible.</p><div class="fullcomment"><div class="comment cmt"><p>Duplicate an entry if possible. If <code>t1</code> has a memoised value associated
+with it, set the value associated with <code>t2</code> to the same value. If there
+is no value associated with <code>t1</code>, do nothing.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#eq(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -368,7 +387,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="equals(x$1:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#equals(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#equals(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -384,7 +403,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#finalize():Unit" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#finalize():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -403,10 +422,27 @@ implementing an objectified collaboration with a limited number of participating
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#get" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get(t:T):Option[U]"></a><a id="get(T):Option[U]"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#get(t:T):Option[U]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="params">(<span name="t">t: <span class="extype" name="scroll.internal.util.Memoiser.Memoised.T">T</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="scroll.internal.util.Memoiser.Memoised.U">U</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Return the value stored at key <code>t</code> as an option.</p><div class="fullcomment"><div class="comment cmt"><p>Return the value stored at key <code>t</code> as an option.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#getClass():Class[_]" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#getClass():Class[_]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -419,10 +455,49 @@ implementing an objectified collaboration with a limited number of participating
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#getWithDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getWithDefault(t:T,u:=&gt;U):U"></a><a id="getWithDefault(T,⇒U):U"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#getWithDefault(t:T,u:=&gt;U):U" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getWithDefault</span><span class="params">(<span name="t">t: <span class="extype" name="scroll.internal.util.Memoiser.Memoised.T">T</span></span>, <span name="u">u: ⇒ <span class="extype" name="scroll.internal.util.Memoiser.Memoised.U">U</span></span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.Memoiser.Memoised.U">U</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Return the value stored at key <code>t</code> if there is one, otherwise
+return <code>u</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Return the value stored at key <code>t</code> if there is one, otherwise
+return <code>u</code>. <code>u</code> is only evaluated if necessary.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
+    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#hasBeenComputedAt" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hasBeenComputedAt(t:T):Boolean"></a><a id="hasBeenComputedAt(T):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#hasBeenComputedAt(t:T):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hasBeenComputedAt</span><span class="params">(<span name="t">t: <span class="extype" name="scroll.internal.util.Memoiser.Memoised.T">T</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Has the value at <code>t</code> already been computed or not? By default, does
+the memo table contain a value for <code>t</code>?
+</p><div class="fullcomment"><div class="comment cmt"><p>Has the value at <code>t</code> already been computed or not? By default, does
+the memo table contain a value for <code>t</code>?
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#hashCode():Int" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#hashCode():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -438,7 +513,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#isInstanceOf[T0]:Boolean" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#isInstanceOf[T0]:Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -451,10 +526,27 @@ implementing an objectified collaboration with a limited number of participating
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scroll.internal.util.Memoiser.Memoised#memo" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="memo:com.google.common.cache.Cache[AnyRef,AnyRef]"></a><a id="memo:Cache[AnyRef,AnyRef]"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#memo:com.google.common.cache.Cache[AnyRef,AnyRef]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">memo</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/google/guava/guava/20.0/guava-20.0-javadoc.jar/!/index.html#com.google.common.cache.Cache" class="extype" target="_top">Cache</a>[<a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">The memo table.</p><div class="fullcomment"><div class="comment cmt"><p>The memo table.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.util.Memoiser.Memoised">Memoised</a> → <a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#ne(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -470,7 +562,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#notify():Unit" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#notify():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -486,7 +578,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#notifyAll():Unit" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#notifyAll():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -499,10 +591,97 @@ implementing an objectified collaboration with a limited number of participating
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#put" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="put(t:T,u:U):Unit"></a><a id="put(T,U):Unit"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#put(t:T,u:U):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">put</span><span class="params">(<span name="t">t: <span class="extype" name="scroll.internal.util.Memoiser.Memoised.T">T</span></span>, <span name="u">u: <span class="extype" name="scroll.internal.util.Memoiser.Memoised.U">U</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Store the value <code>u</code> under the key <code>t</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Store the value <code>u</code> under the key <code>t</code>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
+    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#putIfNotPresent" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="putIfNotPresent(t:T,u:=&gt;U):Unit"></a><a id="putIfNotPresent(T,⇒U):Unit"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#putIfNotPresent(t:T,u:=&gt;U):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">putIfNotPresent</span><span class="params">(<span name="t">t: <span class="extype" name="scroll.internal.util.Memoiser.Memoised.T">T</span></span>, <span name="u">u: ⇒ <span class="extype" name="scroll.internal.util.Memoiser.Memoised.U">U</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Store the value <code>u</code> under the key <code>t</code> if <code>t</code> does not already have an
+associated value.</p><div class="fullcomment"><div class="comment cmt"><p>Store the value <code>u</code> under the key <code>t</code> if <code>t</code> does not already have an
+associated value. <code>u</code> is only evaluated if necessary.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
+    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#reset" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="reset():Unit"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#reset():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">reset</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Immediately reset the memo table.</p><div class="fullcomment"><div class="comment cmt"><p>Immediately reset the memo table.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
+    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#resetAt" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="resetAt(t:T):Unit"></a><a id="resetAt(T):Unit"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#resetAt(t:T):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resetAt</span><span class="params">(<span name="t">t: <span class="extype" name="scroll.internal.util.Memoiser.Memoised.T">T</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Immediately reset the memo table at <code>t</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Immediately reset the memo table at <code>t</code>.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
+    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#size" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="size():Long"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#size():Long" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">size</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Long" class="extype" target="_top">Long</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">The number of entries in the memo table.</p><div class="fullcomment"><div class="comment cmt"><p>The number of entries in the memo table.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -518,7 +697,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#toString():String" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#toString():String" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -534,7 +713,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#wait():Unit" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#wait():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -556,7 +735,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -578,7 +757,7 @@ implementing an objectified collaboration with a limited number of participating
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/CachedScalaRoleGraph$$Predecessors$.html#wait(x$1:Long):Unit" title="Permalink">
+      <a href="../../../scroll/internal/util/Memoiser$Memoised.html#wait(x$1:Long):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -607,8 +786,8 @@ implementing an objectified collaboration with a limited number of participating
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scroll.internal.graph.CachedScalaRoleGraph.KeyOption">
-              <h3>Inherited from <a href="CachedScalaRoleGraph$$KeyOption.html" class="extype" name="scroll.internal.graph.CachedScalaRoleGraph.KeyOption">KeyOption</a></h3>
+        <div class="parent" name="scroll.internal.util.Memoiser.MemoisedBase">
+              <h3>Inherited from <a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a>[<span class="extype" name="scroll.internal.util.Memoiser.Memoised.T">T</span>, <span class="extype" name="scroll.internal.util.Memoiser.Memoised.U">U</span>]</h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
