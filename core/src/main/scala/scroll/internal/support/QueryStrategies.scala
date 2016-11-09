@@ -18,7 +18,7 @@ trait QueryStrategies extends ReflectiveHelper {
       * @tparam T its type
       * @return the value of the queried attribute
       */
-    def ==#[T](value: T): WithProperty[T] = new WithProperty(name, value)
+    def ==#[T](value: T): WithProperty[T] = WithProperty(name, value)
 
     /**
       * Returns the return value the queried function.
@@ -27,7 +27,7 @@ trait QueryStrategies extends ReflectiveHelper {
       * @tparam T its return type
       * @return the return value of the queried function
       */
-    def ==>[T](value: T): WithResult[T] = new WithResult(name, value)
+    def ==>[T](value: T): WithResult[T] = WithResult(name, value)
   }
 
   case class MatchAny() extends RoleQueryStrategy("")

@@ -32,10 +32,10 @@ trait Relationships {
 
     implicit def orderedToConcreteValue(v: Ordered[Int]): ExpMultiplicity = v match {
       case Many() => MMany()
-      case _ => new ConcreteValue(v)
+      case _ => ConcreteValue(v)
     }
 
-    implicit def intToConcreteValue(v: Int): ConcreteValue = new ConcreteValue(v)
+    implicit def intToConcreteValue(v: Int): ConcreteValue = ConcreteValue(v)
 
     case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity) extends Multiplicity
 
