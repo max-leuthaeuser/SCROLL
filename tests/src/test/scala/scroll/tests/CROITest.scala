@@ -5,14 +5,14 @@ import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.formal.CROI
 import scroll.internal.util.Log
 
-class CROITest extends FeatureSpec with GivenWhenThen with Matchers with SCROLLTestConfig {
+class CROITest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for CROIs.")
 
   feature("Specifying a CROI manually") {
     scenario("CROI is filled manually") {
       val p = getClass.getResource("/Bank.crom").getPath
 
-      new SomeCompartment(backend) with CROI {
+      new SomeCompartment() with CROI {
         Given("A natural, a role and a compartment instance")
         val n = new CoreA()
         val r = new RoleA()

@@ -7,7 +7,7 @@ import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.rpa.RolePlayingAutomaton
 import scroll.internal.rpa.RolePlayingAutomaton.{BindRole, RPAState, Start, Stop, Terminate, Use}
 
-class RolePlayingAutomatonTest extends FeatureSpec with GivenWhenThen with Matchers with SCROLLTestConfig {
+class RolePlayingAutomatonTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for role playing automaton.")
 
   feature("Specifying a role playing automaton") {
@@ -16,7 +16,7 @@ class RolePlayingAutomatonTest extends FeatureSpec with GivenWhenThen with Match
       Given("A natural, some role instances")
       val player = new CoreA()
       When("A role playing automaton is specified")
-      class ACompartment extends SomeCompartment(backend) {
+      class ACompartment extends SomeCompartment() {
         val roleA = new RoleA()
         val roleB = new RoleB()
         val roleC = new RoleC()

@@ -2,16 +2,8 @@ package scroll.tests.mocks
 
 import scroll.internal.annotations.Role
 import scroll.internal.Compartment
-import scroll.internal.graph.{KiamaScalaRoleGraph, ScalaRoleGraph, CachedScalaRoleGraph}
-import scroll.tests.SCROLLTestConfig._
 
-class SomeCompartment(val backend: Backend) extends Compartment {
-
-  plays = backend match {
-    case CACHED => new CachedScalaRoleGraph()
-    case JGRAPHT => new ScalaRoleGraph()
-    case KIAMA => new KiamaScalaRoleGraph()
-  }
+class SomeCompartment extends Compartment {
 
   @Role class RoleA {
     val valueA: String = "valueA"

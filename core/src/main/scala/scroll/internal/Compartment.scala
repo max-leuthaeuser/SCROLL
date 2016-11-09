@@ -3,7 +3,7 @@ package scroll.internal
 import scroll.internal.errors.SCROLLErrors._
 import scroll.internal.support._
 import UnionTypes.RoleUnionTypes
-import scroll.internal.graph.{RoleGraph, ScalaRoleGraph}
+import scroll.internal.graph.CachedScalaRoleGraph
 
 import scala.util.{Failure, Success, Try}
 import scala.annotation.tailrec
@@ -40,7 +40,7 @@ trait Compartment
     with QueryStrategies
     with RoleUnionTypes {
 
-  protected var plays: RoleGraph = new ScalaRoleGraph()
+  protected val plays = new CachedScalaRoleGraph()
 
   implicit def either2TorException[T](either: Either[_, T]): T = either.fold(
     l => {
@@ -194,7 +194,7 @@ trait Compartment
     require(null != role)
     role match {
       case cur: Player[_] => getCoreFor(cur.wrapped)
-      case cur: Any if plays.containsPlayer(cur) => plays.getPredecessors(cur) match {
+      case cur: Any if plays.containsPlayer(cur) => plays.getPredecessors(cur).toList match {
         case p :: Nil => getCoreFor(p)
         case Nil => Seq(cur)
         case l: List[Any] => l

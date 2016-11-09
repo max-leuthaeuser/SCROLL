@@ -1,7 +1,5 @@
 val akkaVersion = "2.4.12"
 val shapelessVersion = "2.3.2"
-val kiamaVersion = "2.0.0"
-val jgraphTVersion = "1.0.0"
 val scalatestVersion = "3.0.0"
 val chocoVersion = "4.0.0"
 val slf4jVersion = "1.7.21"
@@ -11,21 +9,16 @@ val guavaVersion = "20.0"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.0",
-  version := "1.0.0",
-  logBuffered := false,
+  version := "1.1.0",
   mainClass := None,
-  autoCompilerPlugins := true,
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
     "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
   ),
-  dependencyOverrides += "org.scala-lang" % "scala-compiler" % scalaVersion.value, // fix for SORM
-  addCompilerPlugin("org.scalamacros" % "paradise" % macrosVersion cross CrossVersion.full),
   libraryDependencies ++= Seq(
-    "org.bitbucket.inkytonik.kiama" %% "kiama" % kiamaVersion,
+    "com.google.guava" % "guava" % guavaVersion,
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.chuusai" %% "shapeless" % shapelessVersion,
-    "org.jgrapht" % "jgrapht-core" % jgraphTVersion,
     "org.choco-solver" % "choco-solver" % chocoVersion,
     "org.slf4j" % "slf4j-simple" % slf4jVersion,
     "org.scala-lang" % "scala-reflect" % scalaVersion.value,
@@ -47,7 +40,7 @@ lazy val commonSettings = Seq(
 
 lazy val root = (project in file(".")).settings(
   name := "SCROLLRoot"
-).aggregate(core, tests, examples, benchmarks, persistence, macros)
+).aggregate(core, tests, examples)
 
 lazy val core = (project in file("core")).
   settings(commonSettings: _*).
@@ -95,27 +88,6 @@ lazy val core = (project in file("core")).
         </developers>
   )
 
-lazy val persistence = (project in file("persistence")).
-  settings(commonSettings: _*).
-  settings(
-    libraryDependencies ++= Seq(
-      "com.mchange" % "c3p0" % "0.9.2-pre5",
-      "com.github.nikita-volkov" % "embrace" % "0.1.4",
-      "com.github.nikita-volkov" % "sext" % "0.2.4",
-      "joda-time" % "joda-time" % "2.1",
-      "org.joda" % "joda-convert" % "1.2",
-      "com.google.guava" % "guava" % guavaVersion,
-      "com.typesafe.scala-logging" %% "scala-logging" % scalaloggingVersion,
-      "postgresql" % "postgresql" % "9.1-901.jdbc4",
-      "org.hsqldb" % "hsqldb" % "2.2.8",
-      "com.h2database" % "h2" % "1.3.168",
-      "mysql" % "mysql-connector-java" % "5.1.19"
-    )
-  ).dependsOn(core, macros)
-
-lazy val macros = (project in file("macros")).
-  settings(commonSettings: _*)
-
 lazy val examples = (project in file("examples")).
   settings(commonSettings: _*).dependsOn(core)
 
@@ -123,10 +95,7 @@ lazy val tests = (project in file("tests")).
   settings(commonSettings: _*).
   settings(
     testOptions in Test := Seq(Tests.Filter(s => s.endsWith("Suite"))),
+    logBuffered in Test := false,
     parallelExecution in Test := false,
     libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % "test")
-  ).dependsOn(core, examples, persistence)
-
-lazy val benchmarks = (project in file("benchmarks")).
-  settings(commonSettings: _*).dependsOn(core)
-
+  ).dependsOn(core, examples)

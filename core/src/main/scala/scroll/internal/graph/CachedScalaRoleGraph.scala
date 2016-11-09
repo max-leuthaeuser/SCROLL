@@ -1,27 +1,21 @@
 package scroll.internal.graph
 
-import org.bitbucket.inkytonik.kiama.util.Memoiser
 import scroll.internal.support.DispatchQuery
+import scroll.internal.util.Memoiser
 
 import scala.reflect.runtime.universe._
 
-object CachedScalaRoleGraph {
-
-  sealed trait KeyOption
-
-  object Contains extends KeyOption
-
-  object Predecessors extends KeyOption
-
-  object Roles extends KeyOption
-
-  case class Key(obj: Any, opt: KeyOption)
-
-}
-
 class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGraph(checkForCycles) with Memoiser {
 
-  import CachedScalaRoleGraph._
+  private sealed trait KeyOption
+
+  private object Contains extends KeyOption
+
+  private object Predecessors extends KeyOption
+
+  private object Roles extends KeyOption
+
+  private case class Key(obj: Any, opt: KeyOption)
 
   private class Cache extends Memoised[Key, Set[Any]]
 
@@ -59,7 +53,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     cache.reset()
   }
 
-  override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery): List[Any] = {
+  override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery): Seq[Any] = {
     val key = Key(player, Predecessors)
     cache.get(key) match {
       case Some(v) => v.toList

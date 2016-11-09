@@ -3,7 +3,7 @@ package scroll.tests
 import mocks.{CoreA, SomeCompartment}
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 
-class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers with SCROLLTestConfig {
+class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for role restrictions.")
 
   feature("Specifying role restrictions") {
@@ -11,7 +11,7 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
       Given("A natural, some role instances")
       val player = new CoreA()
       When("A role restriction is specified")
-      new SomeCompartment(backend) {
+      new SomeCompartment() {
         val roleA = new RoleA()
         val roleD = new RoleD()
         And("some role type specifications are given")
@@ -34,7 +34,7 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
       Given("A natural, some role instances")
       val player = new CoreA()
       When("Multiple role restrictions are specified")
-      new SomeCompartment(backend) {
+      new SomeCompartment() {
         val roleA = new RoleA()
         val roleD = new RoleD()
         RoleRestriction[CoreA, RoleA]
@@ -56,7 +56,7 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
       Given("A natural, some role instances")
       val player = new CoreA()
       When("A role restriction is specified")
-      new SomeCompartment(backend) {
+      new SomeCompartment() {
         val roleA = new RoleA()
         val roleD = new RoleD()
         And("some role type specifications are given")

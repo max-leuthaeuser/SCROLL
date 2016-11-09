@@ -8,12 +8,6 @@ import scroll.internal.support.DispatchQuery._
   */
 object DispatchQuery {
 
-  sealed trait TraversalStrategy
-
-  object DFS extends TraversalStrategy
-
-  object BFS extends TraversalStrategy
-
   /**
     * Function always returning true
     */
@@ -104,25 +98,18 @@ object DispatchQuery {
   * through the function ''reorder''.
   * All provided queries must be side-effect free!
   *
-  * @param from              query selecting the starting element for the role dispatch query
-  * @param to                query selecting the end element for the role dispatch query
-  * @param through           query specifying intermediate elements for the role dispatch query
-  * @param bypassing         query specifying all elements to be left out for the role dispatch query
-  * @param traversalStrategy the traversal strategy to use when querying for roles or the player object
+  * @param from      query selecting the starting element for the role dispatch query
+  * @param to        query selecting the end element for the role dispatch query
+  * @param through   query specifying intermediate elements for the role dispatch query
+  * @param bypassing query specifying all elements to be left out for the role dispatch query
   */
 class DispatchQuery(
                      from: From,
                      to: To,
                      through: Through,
                      bypassing: Bypassing,
-                     var traversalStrategy: TraversalStrategy = DFS,
                      private val empty: Boolean = false) {
   def isEmpty: Boolean = empty
-
-  def withStrategy(traversalStrategy: TraversalStrategy): DispatchQuery = {
-    this.traversalStrategy = traversalStrategy
-    this
-  }
 
   def reorder(anys: Seq[Any]): Seq[Any] = isEmpty match {
     case true => anys.distinct.reverse

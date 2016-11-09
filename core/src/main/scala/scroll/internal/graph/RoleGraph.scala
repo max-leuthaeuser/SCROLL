@@ -1,7 +1,5 @@
 package scroll.internal.graph
 
-import org.jgrapht.DirectedGraph
-import org.jgrapht.graph.DefaultEdge
 import scroll.internal.support.DispatchQuery
 import scala.reflect.runtime.universe._
 
@@ -9,8 +7,6 @@ import scala.reflect.runtime.universe._
   * Trait defining an generic interface for all kind of role graphs.
   */
 trait RoleGraph {
-  val store: DirectedGraph[Any, DefaultEdge]
-
   /**
     * Merges this with another RoleGraph given as other.
     *
@@ -83,5 +79,5 @@ trait RoleGraph {
     * @param dispatchQuery the strategy used to get all predecessors while traversing the role-playing graph, standard is DFS
     * @return a list of all predecessors of the given player
     */
-  def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): List[Any]
+  def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any]
 }
