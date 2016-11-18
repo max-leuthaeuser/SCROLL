@@ -56,7 +56,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
   override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery): Seq[Any] = {
     val key = Key(player, Predecessors)
     cache.get(key) match {
-      case Some(v) => v.toList
+      case Some(v) => v.toSeq
       case None =>
         val ps = super.getPredecessors(player)
         cache.put(key, ps.toSet)
