@@ -9,7 +9,7 @@ val guavaVersion = "20.0"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.0",
-  version := "1.1.0",
+  version := "1.2.0",
   mainClass := None,
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",

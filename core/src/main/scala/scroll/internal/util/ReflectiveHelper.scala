@@ -1,7 +1,5 @@
 package scroll.internal.util
 
-import scala.reflect.runtime.universe._
-
 /**
   * Companion object for the Trait [[ReflectiveHelper]] containing some
   * useful functions for translating class and type names to Strings.
@@ -53,7 +51,12 @@ object ReflectiveHelper {
   * to access common tasks for working with reflections.
   */
 trait ReflectiveHelper {
-  private lazy val mirror = runtimeMirror(getClass.getClassLoader)
+
+  import scala.reflect.runtime.universe.WeakTypeTag
+  import scala.reflect.runtime.universe.weakTypeOf
+
+  import java.lang
+  import java.lang.reflect.{Field, Method}
 
   /**
     * An implicit wrapper which provides helper functions
@@ -62,66 +65,80 @@ trait ReflectiveHelper {
     * @param cur the wrapped object to reflect on
     */
   implicit class Reflective(cur: Any) {
-    private lazy val instanceMirror = mirror.reflect(cur)
-    private lazy val members: Set[Symbol] = allMembersSet
+    private lazy val methods: Set[Method] = getAllMethods
+    private lazy val fields: Set[Field] = getAllFields
 
     private def safeString(s: String): Unit = {
       require(null != s)
       require(!s.isEmpty)
     }
 
-    private def getMember(name: String): Symbol = members.find(_.name.encodedName.toString == name) match {
-      case Some(m) => m
-      case None => throw new RuntimeException(s"Member with '$name' not found!")
+    private def safeFindField(name: String): Field = fields.find(_.getName == name) match {
+      case Some(f) => f
+      case None => throw new RuntimeException(s"Field '$name' not found!")
     }
 
-    private def getMembers(name: String): Set[Symbol] = members.filter(_.name.encodedName.toString == name)
+    private def findMethods(name: String): Set[Method] = methods.filter(_.getName == name)
 
-    private def allMembersSet: Set[Symbol] = instanceMirror.symbol.typeSignature.members.toSet
+    private def getAllMethods: Set[Method] = {
+      def getAccessibleMethods(c: Class[_]): Set[Method] = c match {
+        case null => Set.empty
+        case _ => c.getDeclaredMethods.toSet ++ getAccessibleMethods(c.getSuperclass)
+      }
+      getAccessibleMethods(cur.getClass)
+    }
 
-    def getType: Type = instanceMirror.symbol.toType
+    private def getAllFields: Set[Field] = {
+      def getAccessibleFields(c: Class[_]): Set[Field] = c match {
+        case null => Set.empty
+        case _ => c.getDeclaredFields.toSet ++ getAccessibleFields(c.getSuperclass)
+      }
+      getAccessibleFields(cur.getClass)
+    }
 
-    def allMembers: Set[Symbol] = members
-
-    private def matchMethod[A](m: Symbol, name: String, args: Seq[A]): Boolean = {
-      lazy val matchName = m.name.encodedName.toString == name
-      lazy val params = m.asMethod.paramLists.flatten.map(_.typeSignature)
-      lazy val matchParamCount = params.length == args.size
-      lazy val matchArgTypes = args.zip(params).forall {
-        case (a, p) =>
-          p match {
-            case p: Type if p =:= typeTag[Boolean].tpe => a.isInstanceOf[java.lang.Boolean]
-            case p: Type if p =:= typeTag[Int].tpe => a.isInstanceOf[java.lang.Integer]
-            case p: Type if p =:= typeTag[Double].tpe => a.isInstanceOf[java.lang.Double]
-            case p: Type if p =:= typeTag[Float].tpe => a.isInstanceOf[java.lang.Float]
-            case p: Type if p =:= typeTag[Long].tpe => a.isInstanceOf[java.lang.Long]
-            case p: Type if p =:= typeTag[Short].tpe => a.isInstanceOf[java.lang.Short]
-            case p: Type if p =:= typeTag[Byte].tpe => a.isInstanceOf[java.lang.Byte]
-            case p: Type if p =:= typeTag[Char].tpe => a.isInstanceOf[java.lang.Character]
-            case _ => a.getType =:= p || a.getType <:< p
-          }
+    private def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean = {
+      lazy val matchName = m.getName == name
+      lazy val matchParamCount = m.getParameterTypes.length == args.size
+      lazy val matchArgTypes = args.zip(m.getParameterTypes).forall {
+        case (arg@unchecked, paramType: Class[_]) => paramType match {
+          case lang.Boolean.TYPE => arg.isInstanceOf[Boolean]
+          case lang.Character.TYPE => arg.isInstanceOf[Char]
+          case lang.Short.TYPE => arg.isInstanceOf[Short]
+          case lang.Integer.TYPE => arg.isInstanceOf[Integer]
+          case lang.Long.TYPE => arg.isInstanceOf[Long]
+          case lang.Float.TYPE => arg.isInstanceOf[Float]
+          case lang.Double.TYPE => arg.isInstanceOf[Double]
+          case lang.Byte.TYPE => arg.isInstanceOf[Byte]
+          case _ => paramType.isAssignableFrom(arg.getClass)
+        }
+        case faultyArgs => throw new RuntimeException(s"Can not handle this arguments: '$faultyArgs'")
       }
       matchName && matchParamCount && matchArgTypes
     }
+
+    /**
+      * @return all methods/functions of the wrapped object as Set
+      */
+    def allMethods: Set[Method] = methods
 
     /**
       * Find a method of the wrapped object by its name and argument list given.
       *
       * @param name the name of the function/method of interest
       * @param args the args function/method of interest
-      * @return Some(Symbol) if the wrapped object provides the function/method in question, None otherwise
+      * @return Some(Method) if the wrapped object provides the function/method in question, None otherwise
       */
-    def findMethod(name: String, args: Seq[Any]): Option[Symbol] = getMembers(name).find(matchMethod(_, name, args))
+    def findMethod(name: String, args: Seq[Any]): Option[Method] = findMethods(name).find(matchMethod(_, name, args))
 
     /**
       * Checks if the wrapped object provides a member (field or function/method) with the given name.
       *
       * @param name the name of the member (field or function/method)  of interest
-      * @return true if the wrapped object provides the given field, false otherwise
+      * @return true if the wrapped object provides the given member, false otherwise
       */
     def hasMember(name: String): Boolean = {
       safeString(name)
-      members.exists(_.name.encodedName.toString == name)
+      fields.exists(_.getName == name) || methods.exists(_.getName == name)
     }
 
     /**
@@ -133,12 +150,47 @@ trait ReflectiveHelper {
       */
     def propertyOf[T](name: String): T = {
       safeString(name)
-      instanceMirror.reflectField(getMember(name).asTerm).get.asInstanceOf[T]
+      val field = safeFindField(name)
+      field.setAccessible(true)
+      field.get(cur).asInstanceOf[T]
     }
 
+    /**
+      * Sets the field given as name to the provided value.
+      *
+      * @param name  the name of the field of interest
+      * @param value the value to set for this field
+      */
     def setPropertyOf(name: String, value: Any): Unit = {
       safeString(name)
-      instanceMirror.reflectField(getMember(name).asTerm).set(value)
+      val field = safeFindField(name)
+      field.setAccessible(true)
+      field.set(cur, value)
+    }
+
+    /**
+      * Returns the runtime result of type T of the given function by executing this function of the wrapped object.
+      *
+      * @param m the function of interest
+      * @tparam T the return type of the function
+      * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
+      */
+    def resultOf[T](m: Method): T = {
+      m.setAccessible(true)
+      m.invoke(cur).asInstanceOf[T]
+    }
+
+    /**
+      * Returns the runtime result of type T of the given function and arguments by executing this function of the wrapped object.
+      *
+      * @param m    the function of interest
+      * @param args the arguments of the function of interest
+      * @tparam T the return type of the function
+      * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
+      */
+    def resultOf[T](m: Method, args: Seq[Object]): T = {
+      m.setAccessible(true)
+      m.invoke(cur, args: _*).asInstanceOf[T]
     }
 
     /**
@@ -150,40 +202,18 @@ trait ReflectiveHelper {
       */
     def resultOf[T](name: String): T = {
       safeString(name)
-      instanceMirror.reflectMethod(getMember(name).asMethod).apply().asInstanceOf[T]
+      findMethods(name).toList match {
+        case elem :: Nil =>
+          elem.setAccessible(true)
+          elem.invoke(cur).asInstanceOf[T]
+        case list if list.nonEmpty =>
+          val elem = list.head
+          elem.setAccessible(true)
+          elem.invoke(cur).asInstanceOf[T]
+        case Nil =>
+          throw new RuntimeException(s"Function with name '$name' not found!")
+      }
     }
-
-    /**
-      * Returns the runtime result of type T of the function given by executing this function of the wrapped object.
-      *
-      * @tparam T the return type of the function
-      * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
-      */
-    def resultOf[T](m: Symbol): T = instanceMirror.reflectMethod(m.asMethod).apply().asInstanceOf[T]
-
-    /**
-      * Returns the runtime result of type T of the function with the given name and arguments by executing this function of the wrapped object.
-      *
-      * @param name the name of the function of interest
-      * @param args the arguments of the function of interest
-      * @tparam T the return type of the function
-      * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
-      */
-    def resultOf[T](name: String, args: Seq[Any]): T = {
-      safeString(name)
-      instanceMirror.reflectMethod(getMember(name).asMethod).apply(args: _*).asInstanceOf[T]
-    }
-
-    /**
-      * Returns the runtime result of type T of the given function and arguments by executing this function of the wrapped object.
-      *
-      * @param m    the function of interest
-      * @param args the arguments of the function of interest
-      * @tparam T the return type of the function
-      * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
-      */
-    def resultOf[T](m: Symbol, args: Seq[Any]): T =
-      instanceMirror.reflectMethod(m.asMethod).apply(args: _*).asInstanceOf[T]
 
     /**
       * Checks if the wrapped object is of type T.
@@ -191,8 +221,7 @@ trait ReflectiveHelper {
       * @tparam T the type to check
       * @return true if the wrapped object is of type T, false otherwise
       */
-    def is[T: WeakTypeTag]: Boolean =
-      ReflectiveHelper.simpleName(cur.getClass.toString) == ReflectiveHelper.simpleName(weakTypeOf[T].toString)
+    def is[T: WeakTypeTag]: Boolean = ReflectiveHelper.simpleName(cur.getClass.toString) == ReflectiveHelper.simpleName(weakTypeOf[T].toString)
   }
 
 }

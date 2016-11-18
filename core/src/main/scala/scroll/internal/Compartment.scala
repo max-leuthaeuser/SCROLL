@@ -1,5 +1,7 @@
 package scroll.internal
 
+import java.lang.reflect.Method
+
 import scroll.internal.errors.SCROLLErrors._
 import scroll.internal.support._
 import UnionTypes.RoleUnionTypes
@@ -7,7 +9,8 @@ import scroll.internal.graph.CachedScalaRoleGraph
 
 import scala.util.{Failure, Success, Try}
 import scala.annotation.tailrec
-import scala.reflect.runtime.universe._
+import scala.reflect.runtime.universe.WeakTypeTag
+import scala.reflect.runtime.universe.weakTypeOf
 
 /**
   * This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
@@ -259,7 +262,7 @@ trait Compartment
       * @tparam E the return type of method m
       * @return the resulting return value of the method invocation or an appropriate error
       */
-    def dispatch[E](on: Any, m: Symbol): Either[InvocationError, E]
+    def dispatch[E](on: Any, m: Method): Either[InvocationError, E]
 
     /**
       * For multi-argument dispatch.
@@ -271,29 +274,29 @@ trait Compartment
       * @tparam A the type of the argument values
       * @return the resulting return value of the method invocation or an appropriate error
       */
-    def dispatch[E, A](on: Any, m: Symbol, args: Seq[A]): Either[InvocationError, E]
+    def dispatch[E, A](on: Any, m: Method, args: Seq[A]): Either[InvocationError, E]
   }
 
   /**
     * Trait handling the actual dispatching of role methods.
     */
   trait SCROLLDispatch extends Dispatchable {
-    override def dispatch[E](on: Any, m: Symbol): Either[InvocationError, E] = {
+    override def dispatch[E](on: Any, m: Method): Either[InvocationError, E] = {
       require(null != on)
       require(null != m)
       Try(on.resultOf[E](m)) match {
         case Success(s) => Right(s)
-        case Failure(_) => Left(IllegalRoleInvocationSingleDispatch(on.toString, m.name.decodedName.toString))
+        case Failure(_) => Left(IllegalRoleInvocationSingleDispatch(on.toString, m.getName))
       }
     }
 
-    override def dispatch[E, A](on: Any, m: Symbol, args: Seq[A]): Either[InvocationError, E] = {
+    override def dispatch[E, A](on: Any, m: Method, args: Seq[A]): Either[InvocationError, E] = {
       require(null != on)
       require(null != m)
       require(null != args)
-      Try(on.resultOf[E](m, args.map(_.asInstanceOf[Any]))) match {
+      Try(on.resultOf[E](m, args.map(_.asInstanceOf[Object]))) match {
         case Success(s) => Right(s)
-        case Failure(_) => Left(IllegalRoleInvocationMultipleDispatch(on.toString, m.name.decodedName.toString, args.toString()))
+        case Failure(_) => Left(IllegalRoleInvocationMultipleDispatch(on.toString, m.getName, args.toString()))
       }
     }
 
