@@ -317,10 +317,10 @@ to access common tasks for working with reflections.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#allMembers" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="allMembers:Set[reflect.runtime.universe.Symbol]"></a><a id="allMembers:Set[scala.reflect.api.JavaUniverse.Symbol]"></a>
+    </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#allMethods" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="allMethods:Set[java.lang.reflect.Method]"></a><a id="allMethods:Set[Method]"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/util/ReflectiveHelper$Reflective.html#allMembers:Set[reflect.runtime.universe.Symbol]" title="Permalink">
+      <a href="../../../scroll/internal/util/ReflectiveHelper$Reflective.html#allMethods:Set[java.lang.reflect.Method]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -329,10 +329,10 @@ to access common tasks for working with reflections.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">allMembers</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="scala.reflect.api.Symbols.Symbol">scala.reflect.api.JavaUniverse.Symbol</span>]</span>
+        <span class="name">allMethods</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<span class="extype" name="java.lang.reflect.Method">Method</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>all methods/functions of the wrapped object as Set</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -426,9 +426,9 @@ to access common tasks for working with reflections.
               
         </dd></dl></div>
     </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#findMethod" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="findMethod(name:String,args:Seq[Any]):Option[reflect.runtime.universe.Symbol]"></a><a id="findMethod(String,Seq[Any]):Option[scala.reflect.api.JavaUniverse.Symbol]"></a>
+      <a id="findMethod(name:String,args:Seq[Any]):Option[java.lang.reflect.Method]"></a><a id="findMethod(String,Seq[Any]):Option[Method]"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/util/ReflectiveHelper$Reflective.html#findMethod(name:String,args:Seq[Any]):Option[reflect.runtime.universe.Symbol]" title="Permalink">
+      <a href="../../../scroll/internal/util/ReflectiveHelper$Reflective.html#findMethod(name:String,args:Seq[Any]):Option[java.lang.reflect.Method]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -437,11 +437,11 @@ to access common tasks for working with reflections.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">findMethod</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="scala.reflect.api.Symbols.Symbol">scala.reflect.api.JavaUniverse.Symbol</span>]</span>
+        <span class="name">findMethod</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="java.lang.reflect.Method">Method</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Find a method of the wrapped object by its name and argument list given.</p><div class="fullcomment"><div class="comment cmt"><p>Find a method of the wrapped object by its name and argument list given.
-</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the name of the function/method of interest</p></dd><dt class="param">args</dt><dd class="cmt"><p>the args function/method of interest</p></dd><dt>returns</dt><dd class="cmt"><p>Some(Symbol) if the wrapped object provides the function/method in question, None otherwise</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the name of the function/method of interest</p></dd><dt class="param">args</dt><dd class="cmt"><p>the args function/method of interest</p></dd><dt>returns</dt><dd class="cmt"><p>Some(Method) if the wrapped object provides the function/method in question, None otherwise</p></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -458,22 +458,6 @@ to access common tasks for working with reflections.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#getType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getType:reflect.runtime.universe.Type"></a><a id="getType:scala.reflect.api.JavaUniverse.Type"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/ReflectiveHelper$Reflective.html#getType:reflect.runtime.universe.Type" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getType</span><span class="result">: <span class="extype" name="scala.reflect.api.Types.Type">scala.reflect.api.JavaUniverse.Type</span></span>
-      </span>
-      
-      
     </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#hasMember" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasMember(name:String):Boolean"></a><a id="hasMember(String):Boolean"></a>
       <span class="permalink">
@@ -490,7 +474,7 @@ to access common tasks for working with reflections.
       </span>
       
       <p class="shortcomment cmt">Checks if the wrapped object provides a member (field or function/method) with the given name.</p><div class="fullcomment"><div class="comment cmt"><p>Checks if the wrapped object provides a member (field or function/method) with the given name.
-</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the name of the member (field or function/method)  of interest</p></dd><dt>returns</dt><dd class="cmt"><p>true if the wrapped object provides the given field, false otherwise</p></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the name of the member (field or function/method)  of interest</p></dd><dt>returns</dt><dd class="cmt"><p>true if the wrapped object provides the given member, false otherwise</p></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
@@ -606,57 +590,6 @@ to access common tasks for working with reflections.
       <p class="shortcomment cmt">Returns the runtime content of type T of the field with the given name of the wrapped object.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the runtime content of type T of the field with the given name of the wrapped object.
 </p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the type of the field</p></dd><dt class="param">name</dt><dd class="cmt"><p>the name of the field of interest</p></dd><dt>returns</dt><dd class="cmt"><p>the runtime content of type T of the field with the given name of the wrapped object</p></dd></dl></div>
     </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#resultOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="resultOf[T](m:reflect.runtime.universe.Symbol,args:Seq[Any]):T"></a><a id="resultOf[T](scala.reflect.api.JavaUniverse.Symbol,Seq[Any]):T"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/ReflectiveHelper$Reflective.html#resultOf[T](m:reflect.runtime.universe.Symbol,args:Seq[Any]):T" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">resultOf</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="m">m: <span class="extype" name="scala.reflect.api.Symbols.Symbol">scala.reflect.api.JavaUniverse.Symbol</span></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.ReflectiveHelper.Reflective.resultOf.T">T</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Returns the runtime result of type T of the given function and arguments by executing this function of the wrapped object.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the runtime result of type T of the given function and arguments by executing this function of the wrapped object.
-</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the return type of the function</p></dd><dt class="param">m</dt><dd class="cmt"><p>the function of interest</p></dd><dt class="param">args</dt><dd class="cmt"><p>the arguments of the function of interest</p></dd><dt>returns</dt><dd class="cmt"><p>the runtime result of type T of the function with the given name by executing this function of the wrapped object</p></dd></dl></div>
-    </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#resultOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="resultOf[T](name:String,args:Seq[Any]):T"></a><a id="resultOf[T](String,Seq[Any]):T"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/ReflectiveHelper$Reflective.html#resultOf[T](name:String,args:Seq[Any]):T" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">resultOf</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.ReflectiveHelper.Reflective.resultOf.T">T</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Returns the runtime result of type T of the function with the given name and arguments by executing this function of the wrapped object.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the runtime result of type T of the function with the given name and arguments by executing this function of the wrapped object.
-</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the return type of the function</p></dd><dt class="param">name</dt><dd class="cmt"><p>the name of the function of interest</p></dd><dt class="param">args</dt><dd class="cmt"><p>the arguments of the function of interest</p></dd><dt>returns</dt><dd class="cmt"><p>the runtime result of type T of the function with the given name by executing this function of the wrapped object</p></dd></dl></div>
-    </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#resultOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="resultOf[T](m:reflect.runtime.universe.Symbol):T"></a><a id="resultOf[T](scala.reflect.api.JavaUniverse.Symbol):T"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/ReflectiveHelper$Reflective.html#resultOf[T](m:reflect.runtime.universe.Symbol):T" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">resultOf</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="m">m: <span class="extype" name="scala.reflect.api.Symbols.Symbol">scala.reflect.api.JavaUniverse.Symbol</span></span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.ReflectiveHelper.Reflective.resultOf.T">T</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Returns the runtime result of type T of the function given by executing this function of the wrapped object.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the runtime result of type T of the function given by executing this function of the wrapped object.
-</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the return type of the function</p></dd><dt>returns</dt><dd class="cmt"><p>the runtime result of type T of the function with the given name by executing this function of the wrapped object</p></dd></dl></div>
-    </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#resultOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="resultOf[T](name:String):T"></a><a id="resultOf[T](String):T"></a>
       <span class="permalink">
       <a href="../../../scroll/internal/util/ReflectiveHelper$Reflective.html#resultOf[T](name:String):T" title="Permalink">
@@ -673,7 +606,41 @@ to access common tasks for working with reflections.
       
       <p class="shortcomment cmt">Returns the runtime result of type T of the function with the given name by executing this function of the wrapped object.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the runtime result of type T of the function with the given name by executing this function of the wrapped object.
 </p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the return type of the function</p></dd><dt class="param">name</dt><dd class="cmt"><p>the name of the function of interest</p></dd><dt>returns</dt><dd class="cmt"><p>the runtime result of type T of the function with the given name by executing this function of the wrapped object</p></dd></dl></div>
-    </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#setPropertyOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#resultOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="resultOf[T](m:java.lang.reflect.Method,args:Seq[Object]):T"></a><a id="resultOf[T](Method,Seq[AnyRef]):T"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/ReflectiveHelper$Reflective.html#resultOf[T](m:java.lang.reflect.Method,args:Seq[Object]):T" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resultOf</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="m">m: <span class="extype" name="java.lang.reflect.Method">Method</span></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>]</span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.ReflectiveHelper.Reflective.resultOf.T">T</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns the runtime result of type T of the given function and arguments by executing this function of the wrapped object.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the runtime result of type T of the given function and arguments by executing this function of the wrapped object.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the return type of the function</p></dd><dt class="param">m</dt><dd class="cmt"><p>the function of interest</p></dd><dt class="param">args</dt><dd class="cmt"><p>the arguments of the function of interest</p></dd><dt>returns</dt><dd class="cmt"><p>the runtime result of type T of the function with the given name by executing this function of the wrapped object</p></dd></dl></div>
+    </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#resultOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="resultOf[T](m:java.lang.reflect.Method):T"></a><a id="resultOf[T](Method):T"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/ReflectiveHelper$Reflective.html#resultOf[T](m:java.lang.reflect.Method):T" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resultOf</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="m">m: <span class="extype" name="java.lang.reflect.Method">Method</span></span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.ReflectiveHelper.Reflective.resultOf.T">T</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns the runtime result of type T of the given function by executing this function of the wrapped object.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the runtime result of type T of the given function by executing this function of the wrapped object.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the return type of the function</p></dd><dt class="param">m</dt><dd class="cmt"><p>the function of interest</p></dd><dt>returns</dt><dd class="cmt"><p>the runtime result of type T of the function with the given name by executing this function of the wrapped object</p></dd></dl></div>
+    </li><li name="scroll.internal.util.ReflectiveHelper.Reflective#setPropertyOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setPropertyOf(name:String,value:Any):Unit"></a><a id="setPropertyOf(String,Any):Unit"></a>
       <span class="permalink">
       <a href="../../../scroll/internal/util/ReflectiveHelper$Reflective.html#setPropertyOf(name:String,value:Any):Unit" title="Permalink">
@@ -688,7 +655,8 @@ to access common tasks for working with reflections.
         <span class="name">setPropertyOf</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Sets the field given as name to the provided value.</p><div class="fullcomment"><div class="comment cmt"><p>Sets the field given as name to the provided value.
+</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>the name of the field of interest</p></dd><dt class="param">value</dt><dd class="cmt"><p>the value to set for this field</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
