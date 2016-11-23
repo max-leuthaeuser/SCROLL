@@ -789,9 +789,9 @@ to access common tasks for working with reflections.
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scroll.internal.support.RoleRestrictions#ReplaceRoleRestriction" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ReplaceRoleRestriction[A,B](implicitevidence$2:reflect.runtime.universe.WeakTypeTag[A],implicittag:reflect.runtime.universe.WeakTypeTag[B]):Unit"></a><a id="ReplaceRoleRestriction[A,B](scala.reflect.api.JavaUniverse.WeakTypeTag[A],scala.reflect.api.JavaUniverse.WeakTypeTag[B]):Unit"></a>
+      <a id="ReplaceRoleRestriction[A,B]()(implicitevidence$3:scala.reflect.ClassTag[A],implicitevidence$4:scala.reflect.ClassTag[B]):Unit"></a><a id="ReplaceRoleRestriction[A,B]()(ClassTag[A],ClassTag[B]):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#ReplaceRoleRestriction[A,B](implicitevidence$2:reflect.runtime.universe.WeakTypeTag[A],implicittag:reflect.runtime.universe.WeakTypeTag[B]):Unit" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#ReplaceRoleRestriction[A,B]()(implicitevidence$3:scala.reflect.ClassTag[A],implicitevidence$4:scala.reflect.ClassTag[B]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -800,13 +800,13 @@ to access common tasks for working with reflections.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ReplaceRoleRestriction</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.support.RoleRestrictions.ReplaceRoleRestriction.A">A</span>]</span>, <span name="tag">tag: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.support.RoleRestrictions.ReplaceRoleRestriction.B">B</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">ReplaceRoleRestriction</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.ReplaceRoleRestriction.A">A</span>]</span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.ReplaceRoleRestriction.B">B</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       
       <p class="shortcomment cmt">Replaces a role restriction for a player of type A with a
 new role restriction between the given player type A and role type B.</p><div class="fullcomment"><div class="comment cmt"><p>Replaces a role restriction for a player of type A with a
 new role restriction between the given player type A and role type B.
-</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the player type</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>the role type</p></dd><dt class="param">tag</dt><dd class="cmt"><p>implicitly added WeakTypeTag for the role type</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="support/RoleRestrictions.html" class="extype" name="scroll.internal.support.RoleRestrictions">RoleRestrictions</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the player type</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>the role type</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="support/RoleRestrictions.html" class="extype" name="scroll.internal.support.RoleRestrictions">RoleRestrictions</a></dd></dl></div>
     </li><li name="scroll.internal.support.RoleConstraints#RoleConstraintsChecked" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="RoleConstraintsChecked(func:=&gt;Unit):Unit"></a><a id="RoleConstraintsChecked(⇒Unit):Unit"></a>
       <span class="permalink">
@@ -828,9 +828,9 @@ all core objects and its roles after the given function was executed.
 Throws a RuntimeException if a role constraint is violated!
 </p></div><dl class="paramcmts block"><dt class="param">func</dt><dd class="cmt"><p>the function to execute and check role constraints afterwards</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="support/RoleConstraints.html" class="extype" name="scroll.internal.support.RoleConstraints">RoleConstraints</a></dd></dl></div>
     </li><li name="scroll.internal.support.RoleConstraints#RoleEquivalence" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="RoleEquivalence[A,B]()(implicitevidence$3:reflect.runtime.universe.WeakTypeTag[A],implicitevidence$4:reflect.runtime.universe.WeakTypeTag[B]):Unit"></a><a id="RoleEquivalence[A,B]()(scala.reflect.api.JavaUniverse.WeakTypeTag[A],scala.reflect.api.JavaUniverse.WeakTypeTag[B]):Unit"></a>
+      <a id="RoleEquivalence[A,B]()(implicitevidence$3:scala.reflect.ClassTag[A],implicitevidence$4:scala.reflect.ClassTag[B]):Unit"></a><a id="RoleEquivalence[A,B]()(ClassTag[A],ClassTag[B]):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#RoleEquivalence[A,B]()(implicitevidence$3:reflect.runtime.universe.WeakTypeTag[A],implicitevidence$4:reflect.runtime.universe.WeakTypeTag[B]):Unit" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#RoleEquivalence[A,B]()(implicitevidence$3:scala.reflect.ClassTag[A],implicitevidence$4:scala.reflect.ClassTag[B]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -839,7 +839,7 @@ Throws a RuntimeException if a role constraint is violated!
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">RoleEquivalence</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleEquivalence.A">A</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleEquivalence.B">B</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">RoleEquivalence</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleEquivalence.A">A</span>]</span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleEquivalence.B">B</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       
       <p class="shortcomment cmt">Adds an role equivalent constraint between the given role types.</p><div class="fullcomment"><div class="comment cmt"><p>Adds an role equivalent constraint between the given role types.
@@ -867,9 +867,9 @@ all core objects and its roles after the given function was executed.
 Throws a RuntimeException if a role group constraint is violated!
 </p></div><dl class="paramcmts block"><dt class="param">func</dt><dd class="cmt"><p>the function to execute and check role group constraints afterwards</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="support/RoleGroups.html" class="extype" name="scroll.internal.support.RoleGroups">RoleGroups</a></dd></dl></div>
     </li><li name="scroll.internal.support.RoleConstraints#RoleImplication" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="RoleImplication[A,B]()(implicitevidence$1:reflect.runtime.universe.WeakTypeTag[A],implicitevidence$2:reflect.runtime.universe.WeakTypeTag[B]):Unit"></a><a id="RoleImplication[A,B]()(scala.reflect.api.JavaUniverse.WeakTypeTag[A],scala.reflect.api.JavaUniverse.WeakTypeTag[B]):Unit"></a>
+      <a id="RoleImplication[A,B]()(implicitevidence$1:scala.reflect.ClassTag[A],implicitevidence$2:scala.reflect.ClassTag[B]):Unit"></a><a id="RoleImplication[A,B]()(ClassTag[A],ClassTag[B]):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#RoleImplication[A,B]()(implicitevidence$1:reflect.runtime.universe.WeakTypeTag[A],implicitevidence$2:reflect.runtime.universe.WeakTypeTag[B]):Unit" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#RoleImplication[A,B]()(implicitevidence$1:scala.reflect.ClassTag[A],implicitevidence$2:scala.reflect.ClassTag[B]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -878,7 +878,7 @@ Throws a RuntimeException if a role group constraint is violated!
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">RoleImplication</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleImplication.A">A</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleImplication.B">B</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">RoleImplication</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleImplication.A">A</span>]</span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleImplication.B">B</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       
       <p class="shortcomment cmt">Adds an role implication constraint between the given role types.</p><div class="fullcomment"><div class="comment cmt"><p>Adds an role implication constraint between the given role types.
@@ -886,9 +886,9 @@ Interpretation: if a core object plays an instance of role type A
 it also has to play an instance of role type B.
 </p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>type of role A</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>type of role B that should be played implicitly if A is played</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="support/RoleConstraints.html" class="extype" name="scroll.internal.support.RoleConstraints">RoleConstraints</a></dd></dl></div>
     </li><li name="scroll.internal.support.RoleConstraints#RoleProhibition" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="RoleProhibition[A,B]()(implicitevidence$5:reflect.runtime.universe.WeakTypeTag[A],implicitevidence$6:reflect.runtime.universe.WeakTypeTag[B]):Unit"></a><a id="RoleProhibition[A,B]()(scala.reflect.api.JavaUniverse.WeakTypeTag[A],scala.reflect.api.JavaUniverse.WeakTypeTag[B]):Unit"></a>
+      <a id="RoleProhibition[A,B]()(implicitevidence$5:scala.reflect.ClassTag[A],implicitevidence$6:scala.reflect.ClassTag[B]):Unit"></a><a id="RoleProhibition[A,B]()(ClassTag[A],ClassTag[B]):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#RoleProhibition[A,B]()(implicitevidence$5:reflect.runtime.universe.WeakTypeTag[A],implicitevidence$6:reflect.runtime.universe.WeakTypeTag[B]):Unit" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#RoleProhibition[A,B]()(implicitevidence$5:scala.reflect.ClassTag[A],implicitevidence$6:scala.reflect.ClassTag[B]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -897,7 +897,7 @@ it also has to play an instance of role type B.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">RoleProhibition</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleProhibition.A">A</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleProhibition.B">B</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">RoleProhibition</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleProhibition.A">A</span>]</span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleConstraints.RoleProhibition.B">B</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       
       <p class="shortcomment cmt">Adds an role prohibition constraint between the given role types.</p><div class="fullcomment"><div class="comment cmt"><p>Adds an role prohibition constraint between the given role types.
@@ -905,9 +905,9 @@ Interpretation: if a core object plays an instance of role type A
 it is not allowed to play B as well.
 </p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>type of role A</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>type of role B that is not allowed to be played if A is played already</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="support/RoleConstraints.html" class="extype" name="scroll.internal.support.RoleConstraints">RoleConstraints</a></dd></dl></div>
     </li><li name="scroll.internal.support.RoleRestrictions#RoleRestriction" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="RoleRestriction[A,B](implicitevidence$1:reflect.runtime.universe.WeakTypeTag[A],implicittag:reflect.runtime.universe.WeakTypeTag[B]):Unit"></a><a id="RoleRestriction[A,B](scala.reflect.api.JavaUniverse.WeakTypeTag[A],scala.reflect.api.JavaUniverse.WeakTypeTag[B]):Unit"></a>
+      <a id="RoleRestriction[A,B]()(implicitevidence$1:scala.reflect.ClassTag[A],implicitevidence$2:scala.reflect.ClassTag[B]):Unit"></a><a id="RoleRestriction[A,B]()(ClassTag[A],ClassTag[B]):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#RoleRestriction[A,B](implicitevidence$1:reflect.runtime.universe.WeakTypeTag[A],implicittag:reflect.runtime.universe.WeakTypeTag[B]):Unit" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#RoleRestriction[A,B]()(implicitevidence$1:scala.reflect.ClassTag[A],implicitevidence$2:scala.reflect.ClassTag[B]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -916,15 +916,15 @@ it is not allowed to play B as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">RoleRestriction</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.support.RoleRestrictions.RoleRestriction.A">A</span>]</span>, <span name="tag">tag: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.support.RoleRestrictions.RoleRestriction.B">B</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">RoleRestriction</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.RoleRestriction.A">A</span>]</span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.RoleRestriction.B">B</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       
       <p class="shortcomment cmt">Add a role restriction between the given player type A and role type B.</p><div class="fullcomment"><div class="comment cmt"><p>Add a role restriction between the given player type A and role type B.
-</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the player type</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>the role type</p></dd><dt class="param">tag</dt><dd class="cmt"><p>implicitly added WeakTypeTag for the role type</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="support/RoleRestrictions.html" class="extype" name="scroll.internal.support.RoleRestrictions">RoleRestrictions</a></dd></dl></div>
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the player type</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>the role type</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="support/RoleRestrictions.html" class="extype" name="scroll.internal.support.RoleRestrictions">RoleRestrictions</a></dd></dl></div>
     </li><li name="scroll.internal.Compartment#addPlaysRelation" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="addPlaysRelation[C&lt;:AnyRef,R&lt;:AnyRef](core:C,role:R)(implicitevidence$5:reflect.runtime.universe.WeakTypeTag[C],implicitevidence$6:reflect.runtime.universe.WeakTypeTag[R]):Unit"></a><a id="addPlaysRelation[C&lt;:AnyRef,R&lt;:AnyRef](C,R)(scala.reflect.api.JavaUniverse.WeakTypeTag[C],scala.reflect.api.JavaUniverse.WeakTypeTag[R]):Unit"></a>
+      <a id="addPlaysRelation[C&lt;:AnyRef,R&lt;:AnyRef](core:C,role:R)(implicitevidence$5:scala.reflect.ClassTag[C],implicitevidence$6:scala.reflect.ClassTag[R]):Unit"></a><a id="addPlaysRelation[C&lt;:AnyRef,R&lt;:AnyRef](C,R)(ClassTag[C],ClassTag[R]):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#addPlaysRelation[C&lt;:AnyRef,R&lt;:AnyRef](core:C,role:R)(implicitevidence$5:reflect.runtime.universe.WeakTypeTag[C],implicitevidence$6:reflect.runtime.universe.WeakTypeTag[R]):Unit" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#addPlaysRelation[C&lt;:AnyRef,R&lt;:AnyRef](core:C,role:R)(implicitevidence$5:scala.reflect.ClassTag[C],implicitevidence$6:scala.reflect.ClassTag[R]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -933,15 +933,15 @@ it is not allowed to play B as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addPlaysRelation</span><span class="tparams">[<span name="C">C &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>, <span name="R">R &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>]</span><span class="params">(<span name="core">core: <span class="extype" name="scroll.internal.Compartment.addPlaysRelation.C">C</span></span>, <span name="role">role: <span class="extype" name="scroll.internal.Compartment.addPlaysRelation.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.addPlaysRelation.C">C</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.addPlaysRelation.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">addPlaysRelation</span><span class="tparams">[<span name="C">C &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>, <span name="R">R &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>]</span><span class="params">(<span name="core">core: <span class="extype" name="scroll.internal.Compartment.addPlaysRelation.C">C</span></span>, <span name="role">role: <span class="extype" name="scroll.internal.Compartment.addPlaysRelation.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.addPlaysRelation.C">C</span>]</span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.addPlaysRelation.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       
       <p class="shortcomment cmt">Adds a play relation between core and role.</p><div class="fullcomment"><div class="comment cmt"><p>Adds a play relation between core and role.
 </p></div><dl class="paramcmts block"><dt class="tparam">C</dt><dd class="cmt"><p>type of core</p></dd><dt class="tparam">R</dt><dd class="cmt"><p>type of role</p></dd><dt class="param">core</dt><dd class="cmt"><p>the core to add the given role at</p></dd><dt class="param">role</dt><dd class="cmt"><p>the role that should added to the given core</p></dd></dl></div>
     </li><li name="scroll.internal.Compartment#all" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="all[T](matcher:T=&gt;Boolean)(implicitevidence$2:reflect.runtime.universe.WeakTypeTag[T]):Seq[T]"></a><a id="all[T]((T)⇒Boolean)(scala.reflect.api.JavaUniverse.WeakTypeTag[T]):Seq[T]"></a>
+      <a id="all[T](matcher:T=&gt;Boolean)(implicitevidence$2:scala.reflect.ClassTag[T]):Seq[T]"></a><a id="all[T]((T)⇒Boolean)(ClassTag[T]):Seq[T]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#all[T](matcher:T=&gt;Boolean)(implicitevidence$2:reflect.runtime.universe.WeakTypeTag[T]):Seq[T]" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#all[T](matcher:T=&gt;Boolean)(implicitevidence$2:scala.reflect.ClassTag[T]):Seq[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -950,15 +950,15 @@ it is not allowed to play B as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">all</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="matcher">matcher: (<span class="extype" name="scroll.internal.Compartment.all.T">T</span>) ⇒ <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.all.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scroll.internal.Compartment.all.T">T</span>]</span>
+        <span class="name">all</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="matcher">matcher: (<span class="extype" name="scroll.internal.Compartment.all.T">T</span>) ⇒ <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.all.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scroll.internal.Compartment.all.T">T</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Query the role playing graph for all player instances that do conform to the given function.</p><div class="fullcomment"><div class="comment cmt"><p>Query the role playing graph for all player instances that do conform to the given function.
 </p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the type of the player instance to query for</p></dd><dt class="param">matcher</dt><dd class="cmt"><p>the matching function that should match the queried player instance in the role playing graph</p></dd><dt>returns</dt><dd class="cmt"><p>all player instances as Seq, that do conform to the given matcher</p></dd></dl></div>
     </li><li name="scroll.internal.Compartment#all" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="all[T](matcher:Compartment.this.RoleQueryStrategy)(implicitevidence$1:reflect.runtime.universe.WeakTypeTag[T]):Seq[T]"></a><a id="all[T](RoleQueryStrategy)(scala.reflect.api.JavaUniverse.WeakTypeTag[T]):Seq[T]"></a>
+      <a id="all[T](matcher:Compartment.this.RoleQueryStrategy)(implicitevidence$1:scala.reflect.ClassTag[T]):Seq[T]"></a><a id="all[T](RoleQueryStrategy)(ClassTag[T]):Seq[T]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#all[T](matcher:Compartment.this.RoleQueryStrategy)(implicitevidence$1:reflect.runtime.universe.WeakTypeTag[T]):Seq[T]" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#all[T](matcher:Compartment.this.RoleQueryStrategy)(implicitevidence$1:scala.reflect.ClassTag[T]):Seq[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -967,7 +967,7 @@ it is not allowed to play B as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">all</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="matcher">matcher: <a href="#RoleQueryStrategyextendsAnyRef" class="extmbr" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy">RoleQueryStrategy</a> = <span class="symbol">MatchAny()</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.all.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scroll.internal.Compartment.all.T">T</span>]</span>
+        <span class="name">all</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="matcher">matcher: <a href="#RoleQueryStrategyextendsAnyRef" class="extmbr" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy">RoleQueryStrategy</a> = <span class="symbol">MatchAny()</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.all.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scroll.internal.Compartment.all.T">T</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Query the role playing graph for all player instances that do conform to the given matcher.</p><div class="fullcomment"><div class="comment cmt"><p>Query the role playing graph for all player instances that do conform to the given matcher.
@@ -1212,9 +1212,9 @@ without the need to relying on the implicit mechanics of Scala.
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="scroll.internal.Compartment#one" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="one[T](matcher:T=&gt;Boolean)(implicitevidence$4:reflect.runtime.universe.WeakTypeTag[T]):Either[scroll.internal.errors.SCROLLErrors.TypeError,T]"></a><a id="one[T]((T)⇒Boolean)(scala.reflect.api.JavaUniverse.WeakTypeTag[T]):Either[TypeError,T]"></a>
+      <a id="one[T](matcher:T=&gt;Boolean)(implicitevidence$4:scala.reflect.ClassTag[T]):Either[scroll.internal.errors.SCROLLErrors.TypeError,T]"></a><a id="one[T]((T)⇒Boolean)(ClassTag[T]):Either[TypeError,T]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#one[T](matcher:T=&gt;Boolean)(implicitevidence$4:reflect.runtime.universe.WeakTypeTag[T]):Either[scroll.internal.errors.SCROLLErrors.TypeError,T]" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#one[T](matcher:T=&gt;Boolean)(implicitevidence$4:scala.reflect.ClassTag[T]):Either[scroll.internal.errors.SCROLLErrors.TypeError,T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1223,15 +1223,15 @@ without the need to relying on the implicit mechanics of Scala.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">one</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="matcher">matcher: (<span class="extype" name="scroll.internal.Compartment.one.T">T</span>) ⇒ <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.one.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$TypeError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.TypeError">TypeError</a>, <span class="extype" name="scroll.internal.Compartment.one.T">T</span>]</span>
+        <span class="name">one</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="matcher">matcher: (<span class="extype" name="scroll.internal.Compartment.one.T">T</span>) ⇒ <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.one.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$TypeError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.TypeError">TypeError</a>, <span class="extype" name="scroll.internal.Compartment.one.T">T</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Query the role playing graph for all player instances that do conform to the given function and return the first found.</p><div class="fullcomment"><div class="comment cmt"><p>Query the role playing graph for all player instances that do conform to the given function and return the first found.
 </p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>the type of the player instance to query for</p></dd><dt class="param">matcher</dt><dd class="cmt"><p>the matching function that should match the queried player instance in the role playing graph</p></dd><dt>returns</dt><dd class="cmt"><p>the first player instances, that do conform to the given matcher or an appropriate error</p></dd></dl></div>
     </li><li name="scroll.internal.Compartment#one" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="one[T](matcher:Compartment.this.RoleQueryStrategy)(implicitevidence$3:reflect.runtime.universe.WeakTypeTag[T]):Either[scroll.internal.errors.SCROLLErrors.TypeError,T]"></a><a id="one[T](RoleQueryStrategy)(scala.reflect.api.JavaUniverse.WeakTypeTag[T]):Either[TypeError,T]"></a>
+      <a id="one[T](matcher:Compartment.this.RoleQueryStrategy)(implicitevidence$3:scala.reflect.ClassTag[T]):Either[scroll.internal.errors.SCROLLErrors.TypeError,T]"></a><a id="one[T](RoleQueryStrategy)(ClassTag[T]):Either[TypeError,T]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#one[T](matcher:Compartment.this.RoleQueryStrategy)(implicitevidence$3:reflect.runtime.universe.WeakTypeTag[T]):Either[scroll.internal.errors.SCROLLErrors.TypeError,T]" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#one[T](matcher:Compartment.this.RoleQueryStrategy)(implicitevidence$3:scala.reflect.ClassTag[T]):Either[scroll.internal.errors.SCROLLErrors.TypeError,T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1240,7 +1240,7 @@ without the need to relying on the implicit mechanics of Scala.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">one</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="matcher">matcher: <a href="#RoleQueryStrategyextendsAnyRef" class="extmbr" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy">RoleQueryStrategy</a> = <span class="symbol">MatchAny()</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.one.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$TypeError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.TypeError">TypeError</a>, <span class="extype" name="scroll.internal.Compartment.one.T">T</span>]</span>
+        <span class="name">one</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="matcher">matcher: <a href="#RoleQueryStrategyextendsAnyRef" class="extmbr" name="scroll.internal.support.QueryStrategies.RoleQueryStrategy">RoleQueryStrategy</a> = <span class="symbol">MatchAny()</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.one.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$TypeError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.TypeError">TypeError</a>, <span class="extype" name="scroll.internal.Compartment.one.T">T</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Query the role playing graph for all player instances that do conform to the given matcher and return the first found.</p><div class="fullcomment"><div class="comment cmt"><p>Query the role playing graph for all player instances that do conform to the given matcher and return the first found.
@@ -1278,9 +1278,9 @@ without the need to relying on the implicit mechanics of Scala.
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scroll.internal.Compartment#removePlaysRelation" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="removePlaysRelation[C&lt;:AnyRef,R&lt;:AnyRef](core:C,role:R)(implicitevidence$7:reflect.runtime.universe.WeakTypeTag[C],implicitevidence$8:reflect.runtime.universe.WeakTypeTag[R]):Unit"></a><a id="removePlaysRelation[C&lt;:AnyRef,R&lt;:AnyRef](C,R)(scala.reflect.api.JavaUniverse.WeakTypeTag[C],scala.reflect.api.JavaUniverse.WeakTypeTag[R]):Unit"></a>
+      <a id="removePlaysRelation[C&lt;:AnyRef,R&lt;:AnyRef](core:C,role:R)(implicitevidence$7:scala.reflect.ClassTag[C],implicitevidence$8:scala.reflect.ClassTag[R]):Unit"></a><a id="removePlaysRelation[C&lt;:AnyRef,R&lt;:AnyRef](C,R)(ClassTag[C],ClassTag[R]):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#removePlaysRelation[C&lt;:AnyRef,R&lt;:AnyRef](core:C,role:R)(implicitevidence$7:reflect.runtime.universe.WeakTypeTag[C],implicitevidence$8:reflect.runtime.universe.WeakTypeTag[R]):Unit" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#removePlaysRelation[C&lt;:AnyRef,R&lt;:AnyRef](core:C,role:R)(implicitevidence$7:scala.reflect.ClassTag[C],implicitevidence$8:scala.reflect.ClassTag[R]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1289,7 +1289,7 @@ without the need to relying on the implicit mechanics of Scala.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">removePlaysRelation</span><span class="tparams">[<span name="C">C &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>, <span name="R">R &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>]</span><span class="params">(<span name="core">core: <span class="extype" name="scroll.internal.Compartment.removePlaysRelation.C">C</span></span>, <span name="role">role: <span class="extype" name="scroll.internal.Compartment.removePlaysRelation.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.removePlaysRelation.C">C</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.removePlaysRelation.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">removePlaysRelation</span><span class="tparams">[<span name="C">C &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>, <span name="R">R &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>]</span><span class="params">(<span name="core">core: <span class="extype" name="scroll.internal.Compartment.removePlaysRelation.C">C</span></span>, <span name="role">role: <span class="extype" name="scroll.internal.Compartment.removePlaysRelation.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.removePlaysRelation.C">C</span>]</span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.removePlaysRelation.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       
       <p class="shortcomment cmt">Removes the play relation between core and role.</p><div class="fullcomment"><div class="comment cmt"><p>Removes the play relation between core and role.
@@ -1327,9 +1327,9 @@ without the need to relying on the implicit mechanics of Scala.
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scroll.internal.Compartment#transferRole" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="transferRole[F&lt;:AnyRef,T&lt;:AnyRef,R&lt;:AnyRef](coreFrom:F,coreTo:T,role:R)(implicitevidence$9:reflect.runtime.universe.WeakTypeTag[F],implicitevidence$10:reflect.runtime.universe.WeakTypeTag[T],implicitevidence$11:reflect.runtime.universe.WeakTypeTag[R]):Unit"></a><a id="transferRole[F&lt;:AnyRef,T&lt;:AnyRef,R&lt;:AnyRef](F,T,R)(scala.reflect.api.JavaUniverse.WeakTypeTag[F],scala.reflect.api.JavaUniverse.WeakTypeTag[T],scala.reflect.api.JavaUniverse.WeakTypeTag[R]):Unit"></a>
+      <a id="transferRole[F&lt;:AnyRef,T&lt;:AnyRef,R&lt;:AnyRef](coreFrom:F,coreTo:T,role:R)(implicitevidence$9:scala.reflect.ClassTag[F],implicitevidence$10:scala.reflect.ClassTag[T],implicitevidence$11:scala.reflect.ClassTag[R]):Unit"></a><a id="transferRole[F&lt;:AnyRef,T&lt;:AnyRef,R&lt;:AnyRef](F,T,R)(ClassTag[F],ClassTag[T],ClassTag[R]):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#transferRole[F&lt;:AnyRef,T&lt;:AnyRef,R&lt;:AnyRef](coreFrom:F,coreTo:T,role:R)(implicitevidence$9:reflect.runtime.universe.WeakTypeTag[F],implicitevidence$10:reflect.runtime.universe.WeakTypeTag[T],implicitevidence$11:reflect.runtime.universe.WeakTypeTag[R]):Unit" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#transferRole[F&lt;:AnyRef,T&lt;:AnyRef,R&lt;:AnyRef](coreFrom:F,coreTo:T,role:R)(implicitevidence$9:scala.reflect.ClassTag[F],implicitevidence$10:scala.reflect.ClassTag[T],implicitevidence$11:scala.reflect.ClassTag[R]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1338,7 +1338,7 @@ without the need to relying on the implicit mechanics of Scala.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">transferRole</span><span class="tparams">[<span name="F">F &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>, <span name="T">T &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>, <span name="R">R &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>]</span><span class="params">(<span name="coreFrom">coreFrom: <span class="extype" name="scroll.internal.Compartment.transferRole.F">F</span></span>, <span name="coreTo">coreTo: <span class="extype" name="scroll.internal.Compartment.transferRole.T">T</span></span>, <span name="role">role: <span class="extype" name="scroll.internal.Compartment.transferRole.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.transferRole.F">F</span>]</span>, <span name="arg1">arg1: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.transferRole.T">T</span>]</span>, <span name="arg2">arg2: <span class="extype" name="scala.reflect.api.TypeTags.WeakTypeTag">scala.reflect.api.JavaUniverse.WeakTypeTag</span>[<span class="extype" name="scroll.internal.Compartment.transferRole.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">transferRole</span><span class="tparams">[<span name="F">F &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>, <span name="T">T &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>, <span name="R">R &lt;: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>]</span><span class="params">(<span name="coreFrom">coreFrom: <span class="extype" name="scroll.internal.Compartment.transferRole.F">F</span></span>, <span name="coreTo">coreTo: <span class="extype" name="scroll.internal.Compartment.transferRole.T">T</span></span>, <span name="role">role: <span class="extype" name="scroll.internal.Compartment.transferRole.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.transferRole.F">F</span>]</span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.transferRole.T">T</span>]</span>, <span name="arg2">arg2: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.transferRole.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       
       <p class="shortcomment cmt">Transfers a role from one core to another.</p><div class="fullcomment"><div class="comment cmt"><p>Transfers a role from one core to another.
@@ -1360,9 +1360,9 @@ without the need to relying on the implicit mechanics of Scala.
       
       <p class="shortcomment cmt">Declaring a bidirectional is-part-of relation between compartment.</p>
     </li><li name="scroll.internal.support.RoleRestrictions#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="validate(player:Any,role:reflect.runtime.universe.Type):Unit"></a><a id="validate(Any,scala.reflect.api.JavaUniverse.Type):Unit"></a>
+      <a id="validate[R](player:Any,role:R)(implicitevidence$5:scala.reflect.ClassTag[R]):Unit"></a><a id="validate[R](Any,R)(ClassTag[R]):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment.html#validate(player:Any,role:reflect.runtime.universe.Type):Unit" title="Permalink">
+      <a href="../../scroll/internal/Compartment.html#validate[R](player:Any,role:R)(implicitevidence$5:scala.reflect.ClassTag[R]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1371,7 +1371,7 @@ without the need to relying on the implicit mechanics of Scala.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">validate</span><span class="params">(<span name="player">player: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>, <span name="role">role: <span class="extype" name="scala.reflect.api.Types.Type">scala.reflect.api.JavaUniverse.Type</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
+        <span class="name">validate</span><span class="tparams">[<span name="R">R</span>]</span><span class="params">(<span name="player">player: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>, <span name="role">role: <span class="extype" name="scroll.internal.support.RoleRestrictions.validate.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.reflect.ClassTag" class="extype" target="_top">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.validate.R">R</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       
       <p class="shortcomment cmt">Checks all role restriction between the given player and a role type.</p><div class="fullcomment"><div class="comment cmt"><p>Checks all role restriction between the given player and a role type.
