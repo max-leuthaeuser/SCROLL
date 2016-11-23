@@ -9,7 +9,7 @@ val guavaVersion = "20.0"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.0",
-  version := "1.2.0",
+  version := "1.3.0",
   mainClass := None,
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
@@ -95,7 +95,6 @@ lazy val tests = (project in file("tests")).
   settings(commonSettings: _*).
   settings(
     testOptions in Test := Seq(Tests.Filter(s => s.endsWith("Suite"))),
-    logBuffered in Test := false,
     parallelExecution in Test := false,
     libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % "test")
   ).dependsOn(core, examples)

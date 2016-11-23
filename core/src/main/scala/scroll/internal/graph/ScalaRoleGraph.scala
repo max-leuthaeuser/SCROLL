@@ -3,7 +3,7 @@ package scroll.internal.graph
 import scroll.internal.support.DispatchQuery
 
 import scala.collection.mutable
-import scala.reflect.runtime.universe._
+import scala.reflect.ClassTag
 
 object ScalaRoleGraph {
 
@@ -39,9 +39,10 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     require(null != other)
     require(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
     other.asInstanceOf[ScalaRoleGraph].root.players.foreach(pl => {
-      root.players.contains(pl) match {
-        case true => addBinding(pl.core.asInstanceOf[AnyRef], pl.role.asInstanceOf[AnyRef])
-        case false => root.players += pl
+      if (root.players.contains(pl)) {
+        addBinding(pl.core.asInstanceOf[AnyRef], pl.role.asInstanceOf[AnyRef])
+      } else {
+        root.players += pl
       }
     })
   }
@@ -56,7 +57,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   private def hasCycle(player: Player): Boolean = getRoles(player.core).contains(player.core)
 
-  override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit = {
+  override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
     root.players += Player(player, role)
@@ -65,13 +66,13 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     }
   }
 
-  override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit = {
+  override def removeBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
     root.players.find(p => p.core == player && p.role == role).foreach(root.players -= _)
   }
 
-  override def removePlayer[P <: AnyRef : WeakTypeTag](player: P): Unit = {
+  override def removePlayer[P <: AnyRef : ClassTag](player: P): Unit = {
     require(null != player)
     val _ = root.players -= Player(player, null)
   }
@@ -94,9 +95,10 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Set[Any] = {
     require(null != player)
-    containsPlayer(player) match {
-      case true => getRoles(Player(player, null), root).toSet
-      case false => Set(player)
+    if (containsPlayer(player)) {
+      getRoles(Player(player, null), root).toSet
+    } else {
+      Set(player)
     }
   }
 

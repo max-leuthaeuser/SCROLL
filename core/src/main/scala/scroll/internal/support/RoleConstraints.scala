@@ -5,7 +5,7 @@ import org.jgrapht.traverse.DepthFirstIterator
 import scroll.internal.Compartment
 import scroll.internal.util.ReflectiveHelper
 
-import scala.reflect.runtime.universe._
+import scala.reflect.{ClassTag, classTag}
 import scala.collection.JavaConverters._
 
 /**
@@ -19,7 +19,7 @@ trait RoleConstraints {
   private lazy val roleProhibitions = newRoleConstraintGraph
 
   private def isInstanceOf(mani: String, that: Any) =
-    ReflectiveHelper.classSimpleClassName(that.getClass.toString) == ReflectiveHelper.typeSimpleClassName(mani)
+    ReflectiveHelper.simpleName(that.getClass.toString) == ReflectiveHelper.simpleName(mani)
 
   private def newRoleConstraintGraph = new DefaultDirectedGraph[String, DefaultEdge](classOf[DefaultEdge])
 
@@ -53,9 +53,10 @@ trait RoleConstraints {
       case list =>
         val allProhibitedRoles = list.flatMap(new DepthFirstIterator[String, DefaultEdge](roleProhibitions, _).asScala).toSet
         val allRoles = plays.getRoles(player).diff(Set(player))
-        val rs = allProhibitedRoles.size == allRoles.size match {
-          case false => allProhibitedRoles.filter(r => allRoles.exists(isInstanceOf(r, _)))
-          case true => Set.empty[String]
+        val rs = if (allProhibitedRoles.size == allRoles.size) {
+          Set.empty[String]
+        } else {
+          allProhibitedRoles.filter(r => allRoles.exists(isInstanceOf(r, _)))
         }
         allProhibitedRoles.diff(rs).diff(list.toSet).foreach(r => if (allRoles.exists(isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role prohibition constraint violation: '$player' plays role '$r', but it is not allowed to do so!")
@@ -71,9 +72,9 @@ trait RoleConstraints {
     * @tparam A type of role A
     * @tparam B type of role B that should be played implicitly if A is played
     */
-  def RoleImplication[A: WeakTypeTag, B: WeakTypeTag](): Unit = {
-    val rA = weakTypeOf[A].toString
-    val rB = weakTypeOf[B].toString
+  def RoleImplication[A: ClassTag, B: ClassTag](): Unit = {
+    val rA = classTag[A].toString
+    val rB = classTag[B].toString
     roleImplications.addVertex(rA)
     roleImplications.addVertex(rB)
     val _ = roleImplications.addEdge(rA, rB)
@@ -87,9 +88,9 @@ trait RoleConstraints {
     * @tparam A type of role A that should be played implicitly if B is played
     * @tparam B type of role B that should be played implicitly if A is played
     */
-  def RoleEquivalence[A: WeakTypeTag, B: WeakTypeTag](): Unit = {
-    val rA = weakTypeOf[A].toString
-    val rB = weakTypeOf[B].toString
+  def RoleEquivalence[A: ClassTag, B: ClassTag](): Unit = {
+    val rA = classTag[A].toString
+    val rB = classTag[B].toString
     roleEquivalents.addVertex(rA)
     roleEquivalents.addVertex(rB)
     val _ = (roleEquivalents.addEdge(rA, rB), roleEquivalents.addEdge(rB, rA))
@@ -103,9 +104,9 @@ trait RoleConstraints {
     * @tparam A type of role A
     * @tparam B type of role B that is not allowed to be played if A is played already
     */
-  def RoleProhibition[A: WeakTypeTag, B: WeakTypeTag](): Unit = {
-    val rA = weakTypeOf[A].toString
-    val rB = weakTypeOf[B].toString
+  def RoleProhibition[A: ClassTag, B: ClassTag](): Unit = {
+    val rA = classTag[A].toString
+    val rB = classTag[B].toString
     roleProhibitions.addVertex(rA)
     roleProhibitions.addVertex(rB)
     val _ = roleProhibitions.addEdge(rA, rB)
@@ -120,7 +121,7 @@ trait RoleConstraints {
     */
   def RoleConstraintsChecked(func: => Unit): Unit = {
     func
-    plays.allPlayers.foreach(p => plays.getRoles(p).diff(Set(p)).foreach(r => validate(p, r)))
+    plays.allPlayers.foreach(p => plays.getRoles(p).diff(Set(p)).foreach(r => validateConstraints(p, r)))
   }
 
   /**
@@ -130,7 +131,7 @@ trait RoleConstraints {
     * @param player the player instance to check
     * @param role   the role instance to check
     */
-  private def validate(player: Any, role: Any): Unit = {
+  private def validateConstraints(player: Any, role: Any): Unit = {
     checkImplications(player, role)
     checkEquivalence(player, role)
     checkProhibitions(player, role)

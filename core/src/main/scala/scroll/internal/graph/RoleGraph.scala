@@ -1,7 +1,8 @@
 package scroll.internal.graph
 
 import scroll.internal.support.DispatchQuery
-import scala.reflect.runtime.universe._
+
+import scala.reflect.ClassTag
 
 /**
   * Trait defining an generic interface for all kind of role graphs.
@@ -29,7 +30,7 @@ trait RoleGraph {
     * @param player the player instance to add the given role
     * @param role   the role instance to add
     */
-  def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit
+  def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit
 
   /**
     * Removes a plays relationship between core and role.
@@ -37,7 +38,7 @@ trait RoleGraph {
     * @param player the player instance to remove the given role from
     * @param role   the role instance to remove
     */
-  def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit
+  def removeBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit
 
   /**
     * Removes the given player from the graph.
@@ -45,7 +46,7 @@ trait RoleGraph {
     *
     * @param player the player to remove
     */
-  def removePlayer[P <: AnyRef : WeakTypeTag](player: P): Unit
+  def removePlayer[P <: AnyRef : ClassTag](player: P): Unit
 
   /**
     * Returns a Seq of all players

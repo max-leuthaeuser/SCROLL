@@ -3,7 +3,7 @@ package scroll.internal.graph
 import scroll.internal.support.DispatchQuery
 import scroll.internal.util.Memoiser
 
-import scala.reflect.runtime.universe._
+import scala.reflect.ClassTag
 
 class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGraph(checkForCycles) with Memoiser {
 
@@ -21,7 +21,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
 
   private val cache = new Cache()
 
-  override def addBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit = {
+  override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     super.addBinding(player, role)
     reset(player)
     reset(role)
@@ -36,13 +36,12 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     cache.get(key) match {
       case Some(v) => v.nonEmpty
       case None =>
-        super.containsPlayer(player) match {
-          case true =>
-            cache.put(key, Set(player))
-            true
-          case false =>
-            cache.put(key, Set.empty)
-            false
+        if (super.containsPlayer(player)) {
+          cache.put(key, Set(player))
+          true
+        } else {
+          cache.put(key, Set.empty)
+          false
         }
     }
   }
@@ -81,13 +80,13 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     cache.reset()
   }
 
-  override def removeBinding[P <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](player: P, role: R): Unit = {
+  override def removeBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     super.removeBinding(player, role)
     reset(player)
     reset(role)
   }
 
-  override def removePlayer[P <: AnyRef : WeakTypeTag](player: P): Unit = {
+  override def removePlayer[P <: AnyRef : ClassTag](player: P): Unit = {
     super.removePlayer(player)
     reset(player)
   }

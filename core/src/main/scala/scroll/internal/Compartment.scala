@@ -9,8 +9,7 @@ import scroll.internal.graph.CachedScalaRoleGraph
 
 import scala.util.{Failure, Success, Try}
 import scala.annotation.tailrec
-import scala.reflect.runtime.universe.WeakTypeTag
-import scala.reflect.runtime.universe.weakTypeOf
+import scala.reflect.{ClassTag, classTag}
 
 /**
   * This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
@@ -85,7 +84,7 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return all player instances as Seq, that do conform to the given matcher
     */
-  def all[T: WeakTypeTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
+  def all[T: ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
     plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
         case p :: Nil => matcher.matches(p)
@@ -102,14 +101,14 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return all player instances as Seq, that do conform to the given matcher
     */
-  def all[T: WeakTypeTag](matcher: T => Boolean): Seq[T] =
-  plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
-    getCoreFor(a) match {
-      case p :: Nil => matcher(p.asInstanceOf[T])
-      case Nil => false
-      case l: Seq[Any] => l.forall(i => matcher(i.asInstanceOf[T]))
-    }
-  })
+  def all[T: ClassTag](matcher: T => Boolean): Seq[T] =
+    plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
+      getCoreFor(a) match {
+        case p :: Nil => matcher(p.asInstanceOf[T])
+        case Nil => false
+        case l: Seq[Any] => l.forall(i => matcher(i.asInstanceOf[T]))
+      }
+    })
 
   private def safeReturn[T](seq: Seq[T], typeName: String): Either[TypeError, Seq[T]] = seq match {
     case Nil => Left(TypeNotFound(typeName))
@@ -123,7 +122,7 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return the first player instance, that does conform to the given matcher or an appropriate error
     */
-  def one[T: WeakTypeTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] = safeReturn(all[T](matcher), weakTypeOf[T].toString).fold(
+  def one[T: ClassTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
     l => {
       Left(l)
     }, r => {
@@ -138,7 +137,7 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return the first player instances, that do conform to the given matcher or an appropriate error
     */
-  def one[T: WeakTypeTag](matcher: T => Boolean): Either[TypeError, T] = safeReturn(all[T](matcher), weakTypeOf[T].toString).fold(
+  def one[T: ClassTag](matcher: T => Boolean): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
     l => {
       Left(l)
     }, r => {
@@ -153,10 +152,10 @@ trait Compartment
     * @param core the core to add the given role at
     * @param role the role that should added to the given core
     */
-  def addPlaysRelation[C <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](core: C, role: R): Unit = {
+  def addPlaysRelation[C <: AnyRef : ClassTag, R <: AnyRef : ClassTag](core: C, role: R): Unit = {
     require(null != core)
     require(null != role)
-    validate(core, weakTypeOf[R])
+    validate(core, role)
     plays.addBinding(core, role)
   }
 
@@ -168,7 +167,7 @@ trait Compartment
     * @param core the core the given role should removed from
     * @param role the role that should removed from the given core
     */
-  def removePlaysRelation[C <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](core: C, role: R): Unit = {
+  def removePlaysRelation[C <: AnyRef : ClassTag, R <: AnyRef : ClassTag](core: C, role: R): Unit = {
     require(null != core)
     require(null != role)
     plays.removeBinding(core, role)
@@ -184,7 +183,7 @@ trait Compartment
     * @param coreTo   the core the given role should be attached to
     * @param role     the role that should be transferred
     */
-  def transferRole[F <: AnyRef : WeakTypeTag, T <: AnyRef : WeakTypeTag, R <: AnyRef : WeakTypeTag](coreFrom: F, coreTo: T, role: R): Unit = {
+  def transferRole[F <: AnyRef : ClassTag, T <: AnyRef : ClassTag, R <: AnyRef : ClassTag](coreFrom: F, coreTo: T, role: R): Unit = {
     require(null != coreFrom)
     require(null != coreTo)
     require(coreFrom != coreTo, "You can not transfer a role from itself.")
@@ -317,7 +316,7 @@ trait Compartment
     * @param wrapped the player or role that is wrapped into this dynamic type
     * @tparam T type of wrapped object
     */
-  implicit class Player[T <: AnyRef : WeakTypeTag](val wrapped: T) extends SCROLLDynamic with SCROLLDispatch {
+  implicit class Player[T <: AnyRef : ClassTag](val wrapped: T) extends SCROLLDynamic with SCROLLDispatch {
     /**
       * Applies lifting to Player
       *
@@ -344,7 +343,7 @@ trait Compartment
       * @param role the role that should be played
       * @return this
       */
-    def play[R <: AnyRef : WeakTypeTag](role: R): Player[T] = {
+    def play[R <: AnyRef : ClassTag](role: R): Player[T] = {
       wrapped match {
         case p: Player[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
         case p: Any => addPlaysRelation[T, R](p.asInstanceOf[T], role)
@@ -360,7 +359,7 @@ trait Compartment
       * @param role the role that should be played
       * @return this
       */
-    def <+>[R <: AnyRef : WeakTypeTag](role: R): Player[T] = play(role)
+    def <+>[R <: AnyRef : ClassTag](role: R): Player[T] = play(role)
 
     /**
       * Adds a play relation between core and role but always returns the player instance.
@@ -369,7 +368,7 @@ trait Compartment
       * @param role the role that should played
       * @return the player instance
       */
-    def playing[R <: AnyRef : WeakTypeTag](role: R): T = play(role).wrapped
+    def playing[R <: AnyRef : ClassTag](role: R): T = play(role).wrapped
 
     /**
       * Alias for [[Player.playing]].
@@ -378,7 +377,7 @@ trait Compartment
       * @param role the role that should played
       * @return the player instance
       */
-    def <=>[R <: AnyRef : WeakTypeTag](role: R): T = playing(role)
+    def <=>[R <: AnyRef : ClassTag](role: R): T = playing(role)
 
     /**
       * Removes the play relation between core and role.
@@ -386,7 +385,7 @@ trait Compartment
       * @param role the role that should be removed
       * @return this
       */
-    def drop[R <: AnyRef : WeakTypeTag](role: R): Player[T] = {
+    def drop[R <: AnyRef : ClassTag](role: R): Player[T] = {
       removePlaysRelation[T, R](wrapped, role)
       this
     }
@@ -397,7 +396,7 @@ trait Compartment
       * @param role the role that should be removed
       * @return this
       */
-    def <->[R <: AnyRef : WeakTypeTag](role: R): Player[T] = drop(role)
+    def <->[R <: AnyRef : ClassTag](role: R): Player[T] = drop(role)
 
     /**
       * Transfers a role to another player.
@@ -405,8 +404,8 @@ trait Compartment
       * @tparam R type of role
       * @param role the role to transfer
       */
-    def transfer[R <: AnyRef : WeakTypeTag](role: R) = new {
-      def to[P <: AnyRef : WeakTypeTag](player: P): Unit = {
+    def transfer[R <: AnyRef : ClassTag](role: R) = new {
+      def to[P <: AnyRef : ClassTag](player: P): Unit = {
         transferRole[T, P, R](wrapped, player, role)
       }
     }
@@ -414,13 +413,13 @@ trait Compartment
     /**
       * Checks of this Player is playing a role of the given type.
       */
-    def isPlaying[E: WeakTypeTag]: Boolean = plays.getRoles(wrapped).exists(_.is[E])
+    def isPlaying[E: ClassTag]: Boolean = plays.getRoles(wrapped).exists(_.is[E])
 
     /**
       * Checks of this Player has an extension of the given type.
       * Alias for [[Player.isPlaying]].
       */
-    def hasExtension[E: WeakTypeTag]: Boolean = isPlaying[E]
+    def hasExtension[E: ClassTag]: Boolean = isPlaying[E]
 
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = dispatchQuery.reorder(getCoreFor(wrapped)).head

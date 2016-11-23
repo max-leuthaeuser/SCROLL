@@ -5,7 +5,7 @@ import org.chocosolver.solver.variables.IntVar
 import scroll.internal.Compartment
 import scroll.internal.util.ReflectiveHelper
 
-import scala.reflect.runtime.universe._
+import scala.reflect.{ClassTag, classTag}
 import scala.collection.mutable
 
 trait RoleGroups {
@@ -149,9 +149,11 @@ trait RoleGroups {
   }
 
   private def addRoleGroup(rg: RoleGroup): RoleGroup = {
-    roleGroups.exists { case (n, _) => n == rg.name } match {
-      case true => throw new RuntimeException(s"The RoleGroup ${rg.name} was already added!")
-      case false => roleGroups(rg.name) = rg; rg
+    if (roleGroups.exists { case (n, _) => n == rg.name }) {
+      throw new RuntimeException(s"The RoleGroup ${rg.name} was already added!")
+    } else {
+      roleGroups(rg.name) = rg
+      rg
     }
   }
 
@@ -181,37 +183,37 @@ trait RoleGroups {
   }
 
   object RoleGroup {
-    private implicit def weakTypeOf2String(m: Type): String = m.toString
+    private implicit def classTagToString(m: ClassTag[_]): String = ReflectiveHelper.simpleName(m.toString)
 
     def apply(name: String) = new {
 
       def containing(rg: RoleGroup*)(limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup =
         addRoleGroup(new RoleGroup(name, rg, (limit_l, limit_u), (occ_l, occ_u)))
 
-      def containing[T1: WeakTypeTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt) = {
-        val entry = Types(weakTypeOf[T1])
+      def containing[T1: ClassTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
+        val entry = Types(classTag[T1])
         addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
       }
 
 
-      def containing[T1: WeakTypeTag, T2: WeakTypeTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(weakTypeOf[T1], weakTypeOf[T2])
+      def containing[T1: ClassTag, T2: ClassTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
+        val entry = Types(classTag[T1], classTag[T2])
         addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
       }
 
-      def containing[T1: WeakTypeTag, T2: WeakTypeTag, T3: WeakTypeTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(weakTypeOf[T1], weakTypeOf[T2], weakTypeOf[T3])
+      def containing[T1: ClassTag, T2: ClassTag, T3: ClassTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
+        val entry = Types(classTag[T1], classTag[T2], classTag[T3])
         addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
       }
 
-      def containing[T1: WeakTypeTag, T2: WeakTypeTag, T3: WeakTypeTag, T4: WeakTypeTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(weakTypeOf[T1], weakTypeOf[T2], weakTypeOf[T3], weakTypeOf[T4])
+      def containing[T1: ClassTag, T2: ClassTag, T3: ClassTag, T4: ClassTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
+        val entry = Types(classTag[T1], classTag[T2], classTag[T3], classTag[T4])
         addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
       }
 
 
-      def containing[T1: WeakTypeTag, T2: WeakTypeTag, T3: WeakTypeTag, T4: WeakTypeTag, T5: WeakTypeTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(weakTypeOf[T1], weakTypeOf[T2], weakTypeOf[T3], weakTypeOf[T4], weakTypeOf[T5])
+      def containing[T1: ClassTag, T2: ClassTag, T3: ClassTag, T4: ClassTag, T5: ClassTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
+        val entry = Types(classTag[T1], classTag[T2], classTag[T3], classTag[T4], classTag[T5])
         addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
       }
 

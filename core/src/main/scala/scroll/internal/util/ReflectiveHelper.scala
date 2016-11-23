@@ -1,13 +1,16 @@
 package scroll.internal.util
 
+import scala.reflect.{ClassTag, classTag}
+
 /**
   * Companion object for the Trait [[ReflectiveHelper]] containing some
   * useful functions for translating class and type names to Strings.
   */
 object ReflectiveHelper {
-  private def simpleClassName(s: String, on: String) = s.contains(on) match {
-    case true => s.substring(s.lastIndexOf(on) + 1)
-    case false => s
+  private def simpleClassName(s: String, on: String) = if (s.contains(on)) {
+    s.substring(s.lastIndexOf(on) + 1)
+  } else {
+    s
   }
 
   /**
@@ -52,9 +55,6 @@ object ReflectiveHelper {
   */
 trait ReflectiveHelper {
 
-  import scala.reflect.runtime.universe.WeakTypeTag
-  import scala.reflect.runtime.universe.weakTypeOf
-
   import java.lang
   import java.lang.reflect.{Field, Method}
 
@@ -85,6 +85,7 @@ trait ReflectiveHelper {
         case null => Set.empty
         case _ => c.getDeclaredMethods.toSet ++ getAccessibleMethods(c.getSuperclass)
       }
+
       getAccessibleMethods(cur.getClass)
     }
 
@@ -93,6 +94,7 @@ trait ReflectiveHelper {
         case null => Set.empty
         case _ => c.getDeclaredFields.toSet ++ getAccessibleFields(c.getSuperclass)
       }
+
       getAccessibleFields(cur.getClass)
     }
 
@@ -100,7 +102,7 @@ trait ReflectiveHelper {
       lazy val matchName = m.getName == name
       lazy val matchParamCount = m.getParameterTypes.length == args.size
       lazy val matchArgTypes = args.zip(m.getParameterTypes).forall {
-        case (arg@unchecked, paramType: Class[_]) => paramType match {
+        case (arg, paramType: Class[_]) => paramType match {
           case lang.Boolean.TYPE => arg.isInstanceOf[Boolean]
           case lang.Character.TYPE => arg.isInstanceOf[Char]
           case lang.Short.TYPE => arg.isInstanceOf[Short]
@@ -221,7 +223,7 @@ trait ReflectiveHelper {
       * @tparam T the type to check
       * @return true if the wrapped object is of type T, false otherwise
       */
-    def is[T: WeakTypeTag]: Boolean = ReflectiveHelper.simpleName(cur.getClass.toString) == ReflectiveHelper.simpleName(weakTypeOf[T].toString)
+    def is[T: ClassTag]: Boolean = ReflectiveHelper.simpleName(cur.getClass.toString) == ReflectiveHelper.simpleName(classTag[T].toString)
   }
 
 }
