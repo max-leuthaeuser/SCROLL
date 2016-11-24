@@ -38,13 +38,10 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
   override def merge(other: RoleGraph): Unit = {
     require(null != other)
     require(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
-    other.asInstanceOf[ScalaRoleGraph].root.players.foreach(pl => {
-      if (root.players.contains(pl)) {
-        addBinding(pl.core.asInstanceOf[AnyRef], pl.role.asInstanceOf[AnyRef])
-      } else {
-        root.players += pl
-      }
+    other.asInstanceOf[ScalaRoleGraph].root.players.foreach(pl => if (!root.players.contains(pl)) {
+      root.players += pl
     })
+    checkCycles()
   }
 
   override def detach(other: RoleGraph): Unit = {
@@ -52,7 +49,14 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     other.allPlayers.foreach(pl =>
       other.getRoles(pl).foreach(rl =>
         removeBinding(pl.asInstanceOf[AnyRef], rl.asInstanceOf[AnyRef])))
-    root.players.foreach(removePlayer)
+  }
+
+  private def checkCycles(): Unit = {
+    if (checkForCycles) {
+      root.players.foreach(pl => if (hasCycle(pl)) {
+        throw new RuntimeException(s"Cyclic role-playing relationship for player '$pl' found!")
+      })
+    }
   }
 
   private def hasCycle(player: Player): Boolean = getRoles(player.core).contains(player.core)
