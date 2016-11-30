@@ -330,7 +330,7 @@ trait Compartment
       * @param dispatchQuery provide this to sort the resulting instances if a role instance is played by multiple core objects
       * @return the player of this player instance if this is a role, or this itself or an appropriate error
       */
-    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, Any] = dispatchQuery.reorder(getCoreFor(this)) match {
+    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, Any] = dispatchQuery.filter(getCoreFor(this)) match {
       case elem :: Nil => Right(elem)
       case l: Seq[T] => Right(l.head)
       case _ => Left(TypeNotFound(this.getClass.toString))
@@ -422,8 +422,8 @@ trait Compartment
     def hasExtension[E: ClassTag]: Boolean = isPlaying[E]
 
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
-      val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.reorder(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
+      val core = dispatchQuery.filter(getCoreFor(wrapped)).head
+      val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
       anys.foreach(r => {
         r.findMethod(name, args.toSeq).foreach(fm => {
           args match {
@@ -440,8 +440,8 @@ trait Compartment
       applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
-      val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.reorder(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
+      val core = dispatchQuery.filter(getCoreFor(wrapped)).head
+      val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
       anys.find(_.hasMember(name)) match {
         case Some(r) => Right(r.propertyOf(name))
         case None => Left(RoleNotFound(core.toString, name, ""))
@@ -449,8 +449,8 @@ trait Compartment
     }
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit = {
-      val core = dispatchQuery.reorder(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.reorder(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
+      val core = dispatchQuery.filter(getCoreFor(wrapped)).head
+      val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
       anys.find(_.hasMember(name)) match {
         case Some(r) => r.setPropertyOf(name, value)
         case None => // do nothing
