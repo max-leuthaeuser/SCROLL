@@ -49,7 +49,6 @@ class RoleSortingTest extends FeatureSpec with GivenWhenThen with Matchers {
         When("dispatching with type based sorting")
         dd = DispatchQuery.empty.sortedWith {
           case (_: SomeRoleB, _: SomeRoleC) => swap
-          case _ => identity
         }
         val r3: String = +someCore method()
         Then("the sorting should reorder them")
@@ -58,7 +57,6 @@ class RoleSortingTest extends FeatureSpec with GivenWhenThen with Matchers {
         When("dispatching with filtering and type based sorting")
         dd = Bypassing(_.isInstanceOf[SomeRoleA]).sortedWith {
           case (_: SomeRoleB, _: SomeRoleC) => swap
-          case _ => identity
         }
         val r4: String = +someCore method()
         Then("the sorting should reorder them")

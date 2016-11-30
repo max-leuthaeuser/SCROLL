@@ -21,7 +21,9 @@ object DispatchQuery {
   /**
     * Function to use in [[DispatchQuery.sortedWith]] to simply reverse the set of resulting edges.
     */
-  val reverse: (Any, Any) => Boolean = (_, _) => swap
+  val reverse: PartialFunction[(Any, Any), Boolean] = {
+    case (_, _) => swap
+  }
 
   /**
     * Function always returning true
@@ -137,8 +139,8 @@ class DispatchQuery(
     * @param f the sorting function
     * @return this
     */
-  def sortedWith(f: (Any, Any) => Boolean): DispatchQuery = {
-    _sortedWith = Some(f)
+  def sortedWith(f: PartialFunction[(Any, Any), Boolean]): DispatchQuery = {
+    _sortedWith = Some({ case (a, b) => f.applyOrElse((a, b), (_: (Any, Any)) => identity) })
     this
   }
 
