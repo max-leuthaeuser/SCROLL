@@ -519,7 +519,7 @@ some static dispatch functions and a fluent dispatch query creation API.
         <span class="name">identity</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       
-      <p class="shortcomment cmt">Use this in <a href="DispatchQuery.html#sortedWith(f:(Any,Any)=&gt;Boolean):scroll.internal.support.DispatchQuery" class="extmbr" name="scroll.internal.support.DispatchQuery#sortedWith">DispatchQuery.sortedWith</a> to state that no sorting between the objects in comparison should happen.</p>
+      <p class="shortcomment cmt">Use this in <a href="DispatchQuery.html#sortedWith(f:PartialFunction[(Any,Any),Boolean]):scroll.internal.support.DispatchQuery" class="extmbr" name="scroll.internal.support.DispatchQuery#sortedWith">DispatchQuery.sortedWith</a> to state that no sorting between the objects in comparison should happen.</p>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
@@ -602,9 +602,9 @@ some static dispatch functions and a fluent dispatch query creation API.
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="scroll.internal.support.DispatchQuery#reverse" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="reverse:(Any,Any)=&gt;Boolean"></a><a id="reverse:(Any,Any)⇒Boolean"></a>
+      <a id="reverse:PartialFunction[(Any,Any),Boolean]"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/support/DispatchQuery$.html#reverse:(Any,Any)=&gt;Boolean" title="Permalink">
+      <a href="../../../scroll/internal/support/DispatchQuery$.html#reverse:PartialFunction[(Any,Any),Boolean]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -613,10 +613,10 @@ some static dispatch functions and a fluent dispatch query creation API.
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">reverse</span><span class="result">: (<a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a>) ⇒ <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
+        <span class="name">reverse</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.PartialFunction" class="extype" target="_top">PartialFunction</a>[(<a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a>), <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Boolean" class="extype" target="_top">Boolean</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Function to use in <a href="DispatchQuery.html#sortedWith(f:(Any,Any)=&gt;Boolean):scroll.internal.support.DispatchQuery" class="extmbr" name="scroll.internal.support.DispatchQuery#sortedWith">DispatchQuery.sortedWith</a> to simply reverse the set of resulting edges.</p>
+      <p class="shortcomment cmt">Function to use in <a href="DispatchQuery.html#sortedWith(f:PartialFunction[(Any,Any),Boolean]):scroll.internal.support.DispatchQuery" class="extmbr" name="scroll.internal.support.DispatchQuery#sortedWith">DispatchQuery.sortedWith</a> to simply reverse the set of resulting edges.</p>
     </li><li name="scroll.internal.support.DispatchQuery#swap" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="swap:Boolean"></a>
       <span class="permalink">
@@ -632,7 +632,7 @@ some static dispatch functions and a fluent dispatch query creation API.
         <span class="name">swap</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       
-      <p class="shortcomment cmt">Use this in <a href="DispatchQuery.html#sortedWith(f:(Any,Any)=&gt;Boolean):scroll.internal.support.DispatchQuery" class="extmbr" name="scroll.internal.support.DispatchQuery#sortedWith">DispatchQuery.sortedWith</a> to state that always swapping between the objects in comparison should happen.</p>
+      <p class="shortcomment cmt">Use this in <a href="DispatchQuery.html#sortedWith(f:PartialFunction[(Any,Any),Boolean]):scroll.internal.support.DispatchQuery" class="extmbr" name="scroll.internal.support.DispatchQuery#sortedWith">DispatchQuery.sortedWith</a> to state that always swapping between the objects in comparison should happen.</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
