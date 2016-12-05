@@ -72,7 +72,10 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     }
   }
 
-  private def hasCycle(player: Player): Boolean = getRoles(player.core).contains(player.core)
+  private def hasCycle(player: Player): Boolean = getRoles(player.core).toList match {
+    case e :: Nil if e == player.core => false
+    case list => list.contains(player.core)
+  }
 
   override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     require(null != player)
