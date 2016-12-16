@@ -6,6 +6,7 @@ import scroll.internal.errors.SCROLLErrors._
 import scroll.internal.support._
 import UnionTypes.RoleUnionTypes
 import scroll.internal.graph.CachedScalaRoleGraph
+import scroll.internal.util.ReflectiveHelper
 
 import scala.util.{Failure, Success, Try}
 import scala.annotation.tailrec
@@ -85,7 +86,7 @@ trait Compartment
     * @return all player instances as Seq, that do conform to the given matcher
     */
   def all[T: ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
-    plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
+    plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
         case p :: Nil => matcher.matches(p)
         case Nil => false
@@ -102,7 +103,7 @@ trait Compartment
     * @return all player instances as Seq, that do conform to the given matcher
     */
   def all[T: ClassTag](matcher: T => Boolean): Seq[T] =
-    plays.allPlayers.filter(_.is[T]).map(_.asInstanceOf[T]).filter(a => {
+    plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
         case p :: Nil => matcher(p.asInstanceOf[T])
         case Nil => false
@@ -283,7 +284,7 @@ trait Compartment
     override def dispatch[E](on: Any, m: Method): Either[InvocationError, E] = {
       require(null != on)
       require(null != m)
-      Try(on.resultOf[E](m)) match {
+      Try(ReflectiveHelper.resultOf[E](on, m)) match {
         case Success(s) => Right(s)
         case Failure(_) => Left(IllegalRoleInvocationSingleDispatch(on.toString, m.getName))
       }
@@ -293,7 +294,7 @@ trait Compartment
       require(null != on)
       require(null != m)
       require(null != args)
-      Try(on.resultOf[E](m, args.map(_.asInstanceOf[Object]))) match {
+      Try(ReflectiveHelper.resultOf[E](on, m, args.map(_.asInstanceOf[Object]))) match {
         case Success(s) => Right(s)
         case Failure(_) => Left(IllegalRoleInvocationMultipleDispatch(on.toString, m.getName, args.toString()))
       }
@@ -413,7 +414,7 @@ trait Compartment
     /**
       * Checks of this Player is playing a role of the given type.
       */
-    def isPlaying[E: ClassTag]: Boolean = plays.getRoles(wrapped).exists(_.is[E])
+    def isPlaying[E: ClassTag]: Boolean = plays.getRoles(wrapped).exists(ReflectiveHelper.is[E])
 
     /**
       * Checks of this Player has an extension of the given type.
@@ -425,7 +426,7 @@ trait Compartment
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head
       val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
       anys.foreach(r => {
-        r.findMethod(name, args.toSeq).foreach(fm => {
+        ReflectiveHelper.findMethod(r, name, args.toSeq).foreach(fm => {
           args match {
             case Nil => return dispatch(r, fm)
             case _ => return dispatch(r, fm, args.toSeq)
@@ -442,8 +443,8 @@ trait Compartment
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head
       val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
-      anys.find(_.hasMember(name)) match {
-        case Some(r) => Right(r.propertyOf(name))
+      anys.find(ReflectiveHelper.hasMember(_, name)) match {
+        case Some(r) => Right(ReflectiveHelper.propertyOf(r, name))
         case None => Left(RoleNotFound(core.toString, name, ""))
       }
     }
@@ -451,8 +452,8 @@ trait Compartment
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit = {
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head
       val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
-      anys.find(_.hasMember(name)) match {
-        case Some(r) => r.setPropertyOf(name, value)
+      anys.find(ReflectiveHelper.hasMember(_, name)) match {
+        case Some(r) => ReflectiveHelper.setPropertyOf(r, name, value)
         case None => // do nothing
       }
     }

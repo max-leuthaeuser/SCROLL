@@ -6,7 +6,7 @@ import scroll.internal.util.ReflectiveHelper
   * Allows to write queries looking for the content of an attribute of the certain role playing
   * object or the return value of one of its functions.
   */
-trait QueryStrategies extends ReflectiveHelper {
+trait QueryStrategies {
 
   implicit class RoleQueryStrategy(name: String) {
     def matches(on: Any): Boolean = true
@@ -33,11 +33,11 @@ trait QueryStrategies extends ReflectiveHelper {
   case class MatchAny() extends RoleQueryStrategy("")
 
   case class WithProperty[T](name: String, value: T) extends RoleQueryStrategy(name) {
-    override def matches(on: Any): Boolean = on.propertyOf[T](name) == value
+    override def matches(on: Any): Boolean = ReflectiveHelper.propertyOf[T](on, name) == value
   }
 
   case class WithResult[T](name: String, result: T) extends RoleQueryStrategy(name) {
-    override def matches(on: Any): Boolean = on.resultOf[T](name) == result
+    override def matches(on: Any): Boolean = ReflectiveHelper.resultOf[T](on, name) == result
   }
 
 }
