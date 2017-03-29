@@ -1,6 +1,6 @@
 package scroll.internal.graph
 
-import com.google.common.graph.{GraphBuilder, Graphs}
+import com.google.common.graph.{GraphBuilder, Graphs, MutableGraph}
 import scroll.internal.support.DispatchQuery
 
 import scala.reflect.ClassTag
@@ -14,7 +14,7 @@ import collection.JavaConverters._
   */
 class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
-  private var root = GraphBuilder.directed().build[Object]()
+  private var root : MutableGraph[Object] = GraphBuilder.directed().build[Object]()
 
   override def merge(other: RoleGraph): Unit = {
     require(null != other)
@@ -79,13 +79,20 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Set[Any] = {
     require(null != player)
-    Graphs.reachableNodes(root, player).asScala.toSet
+    //Graphs.reachableNodes(root, player).asScala.toSet
+    root.successors(player).asScala.toSet
   }
 
-  override def containsPlayer(player: Any): Boolean = root.nodes().contains(player)
+  override def containsPlayer(player: Any): Boolean = {
+    root.nodes().contains(player)
+  }
 
-  override def allPlayers: Seq[Any] = root.nodes().asScala.toSeq
+  override def allPlayers: Seq[Any] = {
+    root.nodes().asScala.toSeq
+  }
 
-  override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any] =
-    Graphs.reachableNodes(Graphs.transpose(root), player).asScala.toSeq.tail
+  override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any] = {
+    //Graphs.reachableNodes(Graphs.transpose(root), player).asScala.toSeq.tail
+    root.predecessors(player).asScala.toSeq
+  }
 }
