@@ -56,13 +56,13 @@ trait RoleGraph {
   def allPlayers: Seq[Any]
 
   /**
-    * Returns a Set of all roles attached to the given player (core object).
+    * Returns a Seq of all roles attached to the given player (core object).
     *
     * @param player        the player instance to get the roles for
     * @param dispatchQuery the strategy used to get all roles while traversing the role-playing graph, standard is DFS
-    * @return a Set of all roles of core
+    * @return a Seq of all roles of core
     */
-  def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Set[Any]
+  def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any]
 
   /**
     * Checks if the role graph contains the given player.

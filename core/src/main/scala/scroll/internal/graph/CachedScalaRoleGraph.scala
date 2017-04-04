@@ -17,7 +17,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
 
   private case class Key(obj: Any, opt: KeyOption)
 
-  private class Cache extends Memoised[Key, Set[Any]]
+  private class Cache extends Memoised[Key, Seq[Any]]
 
   private val cache = new Cache()
 
@@ -37,10 +37,10 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
       case Some(v) => v.nonEmpty
       case None =>
         if (super.containsPlayer(player)) {
-          cache.put(key, Set(player))
+          cache.put(key, Seq(player))
           true
         } else {
-          cache.put(key, Set.empty)
+          cache.put(key, Seq.empty)
           false
         }
     }
@@ -55,15 +55,15 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
   override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery): Seq[Any] = {
     val key = Key(player, Predecessors)
     cache.get(key) match {
-      case Some(v) => v.toSeq
+      case Some(v) => v
       case None =>
         val ps = super.getPredecessors(player)
-        cache.put(key, ps.toSet)
+        cache.put(key, ps)
         ps
     }
   }
 
-  override def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery): Set[Any] = {
+  override def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery): Seq[Any] = {
     val key = Key(player, Roles)
     cache.get(key) match {
       case Some(v) => v
