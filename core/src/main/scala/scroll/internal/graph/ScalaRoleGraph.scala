@@ -5,6 +5,7 @@ import scroll.internal.support.DispatchQuery
 
 import scala.reflect.ClassTag
 import collection.JavaConverters._
+import scala.collection.mutable
 
 /**
   * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
@@ -86,6 +87,16 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def allPlayers: Seq[Any] = root.nodes().asScala.toSeq
 
-  override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any] =
-    Graphs.reachableNodes(Graphs.transpose(root), player).asScala.tail.toSeq
+  override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any] = {
+    val returnSeq = new mutable.ListBuffer[Any]
+    val processing = new mutable.Queue[Any]
+    root.predecessors(player).forEach(n => processing.enqueue(n))
+    while (processing.nonEmpty) {
+      val next = processing.dequeue()
+      if (!returnSeq.contains(next))
+        returnSeq += next
+      root.predecessors(next).forEach(n => processing.enqueue(n))
+    }
+    returnSeq
+  }
 }
