@@ -435,4 +435,40 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       this.isPlaying[ARole] shouldBe true
     }
   }
+
+  scenario("Deep roles") {
+    Given("a player and some roles in a compartment")
+    val someCoreA = new CoreA()
+
+    new SomeCompartment() {
+      val someRoleA = new RoleA()
+      val someRoleB = new RoleB()
+      val someRoleC = new RoleC()
+      val someRoleD = new RoleD()
+      val someRoleE = new RoleE()
+      val expectedVal = 10
+      And("some play relationships")
+      When("using deep roles")
+      someCoreA play someRoleA
+      someRoleA play someRoleB
+      someRoleB play someRoleC
+      someRoleC play someRoleD
+      someRoleD play someRoleE
+      And("setting a value of some attached role")
+      (+someCoreA).valueInt = expectedVal
+      val actualVal1: Int = (+someCoreA).valueInt
+      val actualVal2: Int = (+someRoleB).valueInt
+      val actualVal3: Int = (+someRoleC).valueInt
+      val actualVal4: Int = (+someRoleD).valueInt
+      val actualVal5: Int = (+someRoleE).valueInt
+      val actualVal6: Int = someRoleE.valueInt
+      Then("the value should be set correctly")
+      actualVal1 shouldBe expectedVal
+      actualVal2 shouldBe expectedVal
+      actualVal3 shouldBe expectedVal
+      actualVal4 shouldBe expectedVal
+      actualVal5 shouldBe expectedVal
+      actualVal6 shouldBe expectedVal
+    }
+  }
 }

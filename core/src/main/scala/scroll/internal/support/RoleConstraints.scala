@@ -28,7 +28,7 @@ trait RoleConstraints {
       case Nil => //done, thanks
       case list =>
         val allImplicitRoles = list.flatMap(new DepthFirstIterator[String, DefaultEdge](roleImplications, _).asScala)
-        val allRoles = plays.getRoles(player).diff(Set(player))
+        val allRoles = plays.getRoles(player).diff(Seq(player))
         allImplicitRoles.foreach(r => if (!allRoles.exists(isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role implication constraint violation: '$player' should play role '$r', but it does not!")
         })
@@ -40,7 +40,7 @@ trait RoleConstraints {
       case Nil => //done, thanks
       case list =>
         val allEquivalentRoles = list.flatMap(new DepthFirstIterator[String, DefaultEdge](roleEquivalents, _).asScala)
-        val allRoles = plays.getRoles(player).diff(Set(player))
+        val allRoles = plays.getRoles(player).diff(Seq(player))
         allEquivalentRoles.foreach(r => if (!allRoles.exists(isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!")
         })
@@ -52,7 +52,7 @@ trait RoleConstraints {
       case Nil => //done, thanks
       case list =>
         val allProhibitedRoles = list.flatMap(new DepthFirstIterator[String, DefaultEdge](roleProhibitions, _).asScala).toSet
-        val allRoles = plays.getRoles(player).diff(Set(player))
+        val allRoles = plays.getRoles(player).diff(Seq(player))
         val rs = if (allProhibitedRoles.size == allRoles.size) {
           Set.empty[String]
         } else {
@@ -121,7 +121,7 @@ trait RoleConstraints {
     */
   def RoleConstraintsChecked(func: => Unit): Unit = {
     func
-    plays.allPlayers.foreach(p => plays.getRoles(p).diff(Set(p)).foreach(r => validateConstraints(p, r)))
+    plays.allPlayers.foreach(p => plays.getRoles(p).diff(Seq(p)).foreach(r => validateConstraints(p, r)))
   }
 
   /**
