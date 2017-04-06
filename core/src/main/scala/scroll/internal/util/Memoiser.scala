@@ -20,26 +20,21 @@ trait Memoiser {
     def memo: Cache[AnyRef, AnyRef]
 
     /**
-      * Duplicate an entry if possible. If `t1` has a memoised value associated
-      * with it, set the value associated with `t2` to the same value. If there
-      * is no value associated with `t1`, do nothing.
-      */
-    def dup(t1: T, t2: T): Unit = {
-      val u = memo.getIfPresent(t1).asInstanceOf[U]
-      if (u != null)
-        put(t2, u)
-    }
-
-    /**
       * Return the value stored at key `t` as an option.
       */
     def get(t: T): Option[U] = Option(memo.getIfPresent(t).asInstanceOf[U])
 
     /**
       * Return the value stored at key `t` if there is one, otherwise
-      * return `u`. `u` is only evaluated if necessary.
+      * return `u`. `u` is only evaluated if necessary and put into the cache.
       */
-    def getWithDefault(t: T, u: => U): U = get(t).getOrElse(u)
+    def getAndPutWithDefault(t: T, u: => U): U = get(t) match {
+      case Some(v) => v
+      case None =>
+        val newU = u
+        put(t, newU)
+        newU
+    }
 
     /**
       * Has the value at `t` already been computed or not? By default, does
@@ -52,15 +47,6 @@ trait Memoiser {
       */
     def put(t: T, u: U): Unit = {
       memo.put(t.asInstanceOf[AnyRef], u.asInstanceOf[AnyRef])
-    }
-
-    /**
-      * Store the value `u` under the key `t` if `t` does not already have an
-      * associated value. `u` is only evaluated if necessary.
-      */
-    def putIfNotPresent(t: T, u: => U): Unit = {
-      if (!hasBeenComputedAt(t))
-        put(t, u)
     }
 
     /**
