@@ -1,11 +1,11 @@
 package scroll.internal.support
 
-import org.jgrapht.graph.{DefaultDirectedGraph, DefaultEdge}
-import org.jgrapht.traverse.DepthFirstIterator
 import scroll.internal.Compartment
 import scroll.internal.util.ReflectiveHelper
 
 import scala.reflect.{ClassTag, classTag}
+import com.google.common.graph.{GraphBuilder, Graphs, MutableGraph}
+
 import scala.collection.JavaConverters._
 
 /**
@@ -14,20 +14,18 @@ import scala.collection.JavaConverters._
 trait RoleConstraints {
   self: Compartment =>
 
-  private lazy val roleImplications = newRoleConstraintGraph
-  private lazy val roleEquivalents = newRoleConstraintGraph
-  private lazy val roleProhibitions = newRoleConstraintGraph
+  protected val roleImplications: MutableGraph[String] = GraphBuilder.directed().build[String]()
+  protected val roleEquivalents: MutableGraph[String] = GraphBuilder.directed().build[String]()
+  protected val roleProhibitions: MutableGraph[String] = GraphBuilder.directed().build[String]()
 
   private def isInstanceOf(mani: String, that: Any) =
     ReflectiveHelper.simpleName(that.getClass.toString) == ReflectiveHelper.simpleName(mani)
 
-  private def newRoleConstraintGraph = new DefaultDirectedGraph[String, DefaultEdge](classOf[DefaultEdge])
-
   private def checkImplications(player: Any, role: Any): Unit = {
-    roleImplications.vertexSet().asScala.filter(isInstanceOf(_, role)).toList match {
+    roleImplications.nodes().asScala.filter(isInstanceOf(_, role)).toList match {
       case Nil => //done, thanks
       case list =>
-        val allImplicitRoles = list.flatMap(new DepthFirstIterator[String, DefaultEdge](roleImplications, _).asScala)
+        val allImplicitRoles = list.flatMap(Graphs.reachableNodes(roleImplications, _).asScala)
         val allRoles = plays.getRoles(player).diff(Seq(player))
         allImplicitRoles.foreach(r => if (!allRoles.exists(isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role implication constraint violation: '$player' should play role '$r', but it does not!")
@@ -36,10 +34,10 @@ trait RoleConstraints {
   }
 
   private def checkEquivalence(player: Any, role: Any): Unit = {
-    roleEquivalents.vertexSet().asScala.filter(isInstanceOf(_, role)).toList match {
+    roleEquivalents.nodes().asScala.filter(isInstanceOf(_, role)).toList match {
       case Nil => //done, thanks
       case list =>
-        val allEquivalentRoles = list.flatMap(new DepthFirstIterator[String, DefaultEdge](roleEquivalents, _).asScala)
+        val allEquivalentRoles = list.flatMap(Graphs.reachableNodes(roleEquivalents, _).asScala)
         val allRoles = plays.getRoles(player).diff(Seq(player))
         allEquivalentRoles.foreach(r => if (!allRoles.exists(isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!")
@@ -48,10 +46,10 @@ trait RoleConstraints {
   }
 
   private def checkProhibitions(player: Any, role: Any): Unit = {
-    roleProhibitions.vertexSet().asScala.filter(isInstanceOf(_, role)).toList match {
+    roleProhibitions.nodes().asScala.filter(isInstanceOf(_, role)).toList match {
       case Nil => //done, thanks
       case list =>
-        val allProhibitedRoles = list.flatMap(new DepthFirstIterator[String, DefaultEdge](roleProhibitions, _).asScala).toSet
+        val allProhibitedRoles = list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
         val allRoles = plays.getRoles(player).diff(Seq(player))
         val rs = if (allProhibitedRoles.size == allRoles.size) {
           Set.empty[String]
@@ -75,9 +73,7 @@ trait RoleConstraints {
   def RoleImplication[A: ClassTag, B: ClassTag](): Unit = {
     val rA = classTag[A].toString
     val rB = classTag[B].toString
-    roleImplications.addVertex(rA)
-    roleImplications.addVertex(rB)
-    val _ = roleImplications.addEdge(rA, rB)
+    val _ = roleImplications.putEdge(rA, rB)
   }
 
   /**
@@ -91,9 +87,7 @@ trait RoleConstraints {
   def RoleEquivalence[A: ClassTag, B: ClassTag](): Unit = {
     val rA = classTag[A].toString
     val rB = classTag[B].toString
-    roleEquivalents.addVertex(rA)
-    roleEquivalents.addVertex(rB)
-    val _ = (roleEquivalents.addEdge(rA, rB), roleEquivalents.addEdge(rB, rA))
+    val _ = (roleEquivalents.putEdge(rA, rB), roleEquivalents.putEdge(rB, rA))
   }
 
   /**
@@ -107,9 +101,7 @@ trait RoleConstraints {
   def RoleProhibition[A: ClassTag, B: ClassTag](): Unit = {
     val rA = classTag[A].toString
     val rB = classTag[B].toString
-    roleProhibitions.addVertex(rA)
-    roleProhibitions.addVertex(rB)
-    val _ = roleProhibitions.addEdge(rA, rB)
+    val _ = roleProhibitions.putEdge(rA, rB)
   }
 
   /**

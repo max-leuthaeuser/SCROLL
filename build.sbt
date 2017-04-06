@@ -6,7 +6,6 @@ val slf4jVersion = "1.7.21"
 val macrosVersion = "2.1.0"
 val scalaloggingVersion = "3.5.0"
 val guavaVersion = "20.0"
-val jgraphTVersion = "1.0.0"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.0",
@@ -17,7 +16,6 @@ lazy val commonSettings = Seq(
     "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
   ),
   libraryDependencies ++= Seq(
-    "org.jgrapht" % "jgrapht-core" % jgraphTVersion,
     "com.google.guava" % "guava" % guavaVersion,
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.chuusai" %% "shapeless" % shapelessVersion,

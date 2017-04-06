@@ -18,8 +18,14 @@ object ReflectiveHelper extends Memoiser {
 
   private class FieldCache extends Memoised[Any, Set[Field]]
 
+  private class SimpleTagNameCache extends Memoised[ClassTag[_], String]
+
+  private class SimpleClassNameCache extends Memoised[Class[_], String]
+
   private lazy val methodCache = new MethodCache()
   private lazy val fieldCache = new FieldCache()
+  private lazy val simpleClassNameCache = new SimpleClassNameCache()
+  private lazy val simpleTagNameCache = new SimpleTagNameCache()
 
   private def simpleClassName(s: String, on: String) = if (s.contains(on)) {
     s.substring(s.lastIndexOf(on) + 1)
@@ -264,7 +270,9 @@ object ReflectiveHelper extends Memoiser {
     * @tparam T the type to check
     * @return true if the wrapped object is of type T, false otherwise
     */
-  def is[T: ClassTag](on: Any): Boolean = ReflectiveHelper.simpleName(on.getClass.toString) == ReflectiveHelper.simpleName(classTag[T].toString)
+  def is[T: ClassTag](on: Any): Boolean =
+    simpleClassNameCache.getAndPutWithDefault(on.getClass, ReflectiveHelper.simpleName(on.getClass.toString)) ==
+      simpleTagNameCache.getAndPutWithDefault(classTag[T], ReflectiveHelper.simpleName(classTag[T].toString))
 }
 
 
