@@ -270,25 +270,9 @@ object ReflectiveHelper extends Memoiser {
     * @tparam T the type to check
     * @return true if the wrapped object is of type T, false otherwise
     */
-  def is[T: ClassTag](on: Any): Boolean = {
-    val className = simpleClassNameCache.get(on.getClass) match {
-      case Some(cn) => cn
-      case None =>
-        val cn = ReflectiveHelper.simpleName(on.getClass.toString)
-        simpleClassNameCache.put(on.getClass, cn)
-        cn
-    }
-
-    val classTagName = simpleTagNameCache.get(classTag[T]) match {
-      case Some(ct) => ct
-      case None =>
-        val ct = ReflectiveHelper.simpleName(classTag[T].toString)
-        simpleTagNameCache.put(classTag[T], ct)
-        ct
-    }
-
-    className == classTagName
-  }
+  def is[T: ClassTag](on: Any): Boolean =
+    simpleClassNameCache.getAndPutWithDefault(on.getClass, ReflectiveHelper.simpleName(on.getClass.toString)) ==
+      simpleTagNameCache.getAndPutWithDefault(classTag[T], ReflectiveHelper.simpleName(classTag[T].toString))
 }
 
 
