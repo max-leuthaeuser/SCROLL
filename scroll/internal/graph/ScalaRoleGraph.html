@@ -143,11 +143,11 @@ implementing an objectified collaboration with a limited number of participating
                           RoleGraph
                         </a>
                       </li><li class="current-entities indented3">
-                        <a class="object" href="ScalaRoleGraph$.html" title=""></a>
+                        <span class="separator"></span>
                         <a class="class" href="" title="Scala specific implementation of a scroll.internal.graph.RoleGraph using
-a simple ListBuffer as underlying data model."></a>
+a graph as underlying data model."></a>
                         <a href="" title="Scala specific implementation of a scroll.internal.graph.RoleGraph using
-a simple ListBuffer as underlying data model.">
+a graph as underlying data model.">
                           ScalaRoleGraph
                         </a>
                       </li>
@@ -157,16 +157,14 @@ a simple ListBuffer as underlying data model.">
           <div id="content">
             <body class="class type">
       <div id="definition">
-        <a href="ScalaRoleGraph$.html" title="See companion object"><div class="big-circle class-companion-object">c</div></a>
+        <div class="big-circle class">c</div>
         <p id="owner"><a href="../../index.html" class="extype" name="scroll">scroll</a>.<a href="../index.html" class="extype" name="scroll.internal">internal</a>.<a href="index.html" class="extype" name="scroll.internal.graph">graph</a></p>
-        <h1><a href="ScalaRoleGraph$.html" title="See companion object">ScalaRoleGraph</a><span class="permalink">
+        <h1>ScalaRoleGraph<span class="permalink">
       <a href="../../../scroll/internal/graph/ScalaRoleGraph.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
-        <h3><span class="morelinks"><div>
-            Companion <a href="ScalaRoleGraph$.html" title="See companion object">object ScalaRoleGraph</a>
-          </div></span></h3>
+        <h3><span class="morelinks"></span></h3>
       </div>
 
       <h4 id="signature" class="signature">
@@ -181,7 +179,7 @@ a simple ListBuffer as underlying data model.">
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Scala specific implementation of a <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">scroll.internal.graph.RoleGraph</a> using
-a simple ListBuffer as underlying data model.
+a graph as underlying data model.
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -507,9 +505,9 @@ a simple ListBuffer as underlying data model.
 of its cores (deep roles).
 </p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player instance to calculate the cores of</p></dd><dt class="param">dispatchQuery</dt><dd class="cmt"><p>the strategy used to get all predecessors while traversing the role-playing graph, standard is DFS</p></dd><dt>returns</dt><dd class="cmt"><p>a list of all predecessors of the given player</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a> → <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></dd></dl></div>
     </li><li name="scroll.internal.graph.ScalaRoleGraph#getRoles" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getRoles(player:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Set[Any]"></a><a id="getRoles(Any)(DispatchQuery):Set[Any]"></a>
+      <a id="getRoles(player:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Seq[Any]"></a><a id="getRoles(Any)(DispatchQuery):Seq[Any]"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/ScalaRoleGraph.html#getRoles(player:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Set[Any]" title="Permalink">
+      <a href="../../../scroll/internal/graph/ScalaRoleGraph.html#getRoles(player:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Seq[Any]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -518,11 +516,11 @@ of its cores (deep roles).
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getRoles</span><span class="params">(<span name="player">player: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="../support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.Set">Set</span>[<a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>
+        <span class="name">getRoles</span><span class="params">(<span name="player">player: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="../support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Returns a Set of all roles attached to the given player (core object).</p><div class="fullcomment"><div class="comment cmt"><p>Returns a Set of all roles attached to the given player (core object).
-</p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player instance to get the roles for</p></dd><dt class="param">dispatchQuery</dt><dd class="cmt"><p>the strategy used to get all roles while traversing the role-playing graph, standard is DFS</p></dd><dt>returns</dt><dd class="cmt"><p>a Set of all roles of core</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a> → <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></dd></dl></div>
+      <p class="shortcomment cmt">Returns a Seq of all roles attached to the given player (core object).</p><div class="fullcomment"><div class="comment cmt"><p>Returns a Seq of all roles attached to the given player (core object).
+</p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player instance to get the roles for</p></dd><dt class="param">dispatchQuery</dt><dd class="cmt"><p>the strategy used to get all roles while traversing the role-playing graph, standard is DFS</p></dd><dt>returns</dt><dd class="cmt"><p>a Seq of all roles of core</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.graph.ScalaRoleGraph">ScalaRoleGraph</a> → <a href="RoleGraph.html" class="extype" name="scroll.internal.graph.RoleGraph">RoleGraph</a></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
