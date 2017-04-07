@@ -200,7 +200,7 @@ trait Compartment
       case cur: Any if plays.containsPlayer(cur) => plays.getPredecessors(cur).toList match {
         case p :: Nil => getCoreFor(p)
         case Nil => Seq(cur)
-        case l: List[Any] => l
+        case l: Seq[Any] => l
       }
       case _ => Seq(role)
     }

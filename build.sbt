@@ -5,11 +5,11 @@ val chocoVersion = "4.0.0"
 val slf4jVersion = "1.7.21"
 val macrosVersion = "2.1.0"
 val scalaloggingVersion = "3.5.0"
-val guavaVersion = "20.0"
+val guavaVersion = "21.0"
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.0",
-  version := "1.3.0",
+  version := "1.3.1",
   mainClass := None,
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
