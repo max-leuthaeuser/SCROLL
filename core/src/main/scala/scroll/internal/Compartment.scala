@@ -197,11 +197,17 @@ trait Compartment
     require(null != role)
     role match {
       case cur: Player[_] => getCoreFor(cur.wrapped)
-      case cur: Any if plays.containsPlayer(cur) => plays.getPredecessors(cur).toList match {
-        case p :: Nil => getCoreFor(p)
-        case Nil => Seq(cur)
-        case l: Seq[Any] => l
-      }
+      case cur: Any if plays.containsPlayer(cur) =>
+        val r = plays.getPredecessors(cur)
+        if (r.isEmpty) {
+          Seq(cur)
+        } else {
+          if (r.size == 1) {
+            getCoreFor(r.head)
+          } else {
+            r
+          }
+        }
       case _ => Seq(role)
     }
   }
@@ -424,7 +430,7 @@ trait Compartment
 
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
+      val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core))
       anys.foreach(r => {
         ReflectiveHelper.findMethod(r, name, args.toSeq).foreach(fm => {
           args match {
@@ -442,7 +448,7 @@ trait Compartment
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
+      val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core))
       anys.find(ReflectiveHelper.hasMember(_, name)) match {
         case Some(r) => Right(ReflectiveHelper.propertyOf(r, name))
         case None => Left(RoleNotFound(core.toString, name, ""))
@@ -451,7 +457,7 @@ trait Compartment
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit = {
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core).toSeq)
+      val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core))
       anys.find(ReflectiveHelper.hasMember(_, name)) match {
         case Some(r) => ReflectiveHelper.setPropertyOf(r, name, value)
         case None => // do nothing
