@@ -19,7 +19,7 @@ You are able to define compartments, roles and play-relationships. Invoking Role
 
 **3. Edit and develop:**
   1. Clone this repo.
-  2. You may want to use SBT and run ```gen-idea```if you are using Intellij IDE (to config see [here][sbt-gen-idea]). This is not required anymore since Intellij 14. Just use the built-in import SBT project functionality.
+  2. Intellij IDE: use the built-in import SBT project functionality.
   3. You may want to use SBT and run ```eclipse``` if you are using the Eclipse Scala IDE (to config see [here][gen-eclipse]).
   4. ScalaDoc is available [here][scaladoc].
   
@@ -31,7 +31,6 @@ Just add the dependency to your SBT config:
 Or to always use the latest version:
 ```libraryDependencies ++= Seq("com.github.max-leuthaeuser" %% "scroll" % "latest.integration")```
 
-[sbt-gen-idea]: https://github.com/mpeltonen/sbt-idea
 [gen-eclipse]: https://github.com/typesafehub/sbteclipse
 [scala-dynamic]: http://www.scala-lang.org/api/current/#scala.Dynamic
 [BankExample]: https://github.com/max-leuthaeuser/SCROLL/blob/master/examples/src/main/scala/scroll/examples/BankExample.scala
