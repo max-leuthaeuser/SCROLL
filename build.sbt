@@ -1,6 +1,6 @@
 val akkaVersion = "2.4.12"
 val shapelessVersion = "2.3.2"
-val scalatestVersion = "3.0.0"
+val scalatestVersion = "3.0.1"
 val chocoVersion = "4.0.0"
 val slf4jVersion = "1.7.21"
 val macrosVersion = "2.1.0"
@@ -8,7 +8,7 @@ val scalaloggingVersion = "3.5.0"
 val guavaVersion = "21.0"
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.12.0",
+  scalaVersion := "2.12.3",
   version := "1.3.1",
   mainClass := None,
   resolvers ++= Seq(
