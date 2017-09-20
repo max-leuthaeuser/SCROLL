@@ -15,8 +15,11 @@ object UniversityExample extends App {
     }
 
     @Role class Professor {
-      def teach(student: Student): Unit = {
-        info("Teaching: " + (+student name))
+      def teach(student: Person): Unit = student match {
+        case s if (+s).isPlaying[Student] =>
+          val studentName: String = (+student).name
+          info("Teaching: " + studentName)
+        case _ => info("Nope! I am only teaching students!")
       }
 
       def talk(): Unit = {
@@ -50,6 +53,6 @@ object UniversityExample extends App {
     +uwe talk()
     info("Core equals core playing a role: " + (+uwe == uwe))
 
-    +uwe teach +hans
+    +uwe teach hans
   }
 }
