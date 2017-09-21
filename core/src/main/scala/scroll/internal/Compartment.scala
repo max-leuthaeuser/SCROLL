@@ -302,7 +302,7 @@ trait Compartment
       require(null != args)
       Try(ReflectiveHelper.resultOf[E](on, m, args.map(_.asInstanceOf[Object]))) match {
         case Success(s) => Right(s)
-        case Failure(_) => Left(IllegalRoleInvocationMultipleDispatch(on.toString, m.getName, args.toString()))
+        case Failure(_) => Left(IllegalRoleInvocationMultipleDispatch(on.toString, m.getName, args))
       }
     }
 
@@ -432,15 +432,15 @@ trait Compartment
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head
       val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core))
       anys.foreach(r => {
-        ReflectiveHelper.findMethod(r, name, args.toSeq).foreach(fm => {
+        ReflectiveHelper.findMethod(r, name, args).foreach(fm => {
           args match {
             case Nil => return dispatch(r, fm)
-            case _ => return dispatch(r, fm, args.toSeq)
+            case _ => return dispatch(r, fm, args)
           }
         })
       })
       // otherwise give up
-      Left(RoleNotFound(core.toString, name, args.toString()))
+      Left(RoleNotFound(core.toString, name, args))
     }
 
     override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
@@ -451,7 +451,7 @@ trait Compartment
       val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core))
       anys.find(ReflectiveHelper.hasMember(_, name)) match {
         case Some(r) => Right(ReflectiveHelper.propertyOf(r, name))
-        case None => Left(RoleNotFound(core.toString, name, ""))
+        case None => Left(RoleNotFound(core.toString, name, Seq.empty))
       }
     }
 

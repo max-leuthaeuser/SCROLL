@@ -11,16 +11,28 @@ object SCROLLErrors {
 
   sealed trait RolePlaying
 
-  case class RolePlayingImpossible(core: String, role: String) extends RolePlaying
+  case class TypeNotFound(name: String) extends TypeError {
+    override def toString: String = s"Type '$name' could not be found!"
+  }
 
-  case class TypeNotFound(name: String) extends TypeError
-
-  case class RoleNotFound(forCore: String, target: String, args: String) extends SCROLLError
+  case class RoleNotFound(forCore: String, target: String, args: Seq[Any]) extends SCROLLError {
+    override def toString: String = args match {
+      case l if l.nonEmpty => s"No role with behavior '$target' could be found for the player '$forCore' with the following parameters: " + args.map(e => s"'$e'").mkString("(", ", ", ")")
+      case _ => s"No role with behavior '$target' could be found for the player '$forCore'!"
+    }
+  }
 
   sealed trait InvocationError extends SCROLLError
 
-  case class IllegalRoleInvocationSingleDispatch(roleType: String, target: String) extends InvocationError
+  case class IllegalRoleInvocationSingleDispatch(roleType: String, target: String) extends InvocationError {
+    override def toString: String = s"Behavior '$target' could be executed for role type '$roleType'!"
+  }
 
-  case class IllegalRoleInvocationMultipleDispatch(roleType: String, target: String, args: String) extends InvocationError
+  case class IllegalRoleInvocationMultipleDispatch(roleType: String, target: String, args: Seq[Any]) extends InvocationError {
+    override def toString: String = args match {
+      case l if l.nonEmpty => s"Behavior '$target' could be executed for role type '$roleType' with the following parameters: " + args.map(e => s"'$e'").mkString("(", ", ", ")")
+      case _ => s"Behavior '$target' could be executed for role type '$roleType'!"
+    }
+  }
 
 }
