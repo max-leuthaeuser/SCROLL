@@ -119,8 +119,8 @@ class FormalCROMTest extends FeatureSpec with GivenWhenThen with Matchers {
     val rgxor = FormalRoleGroup(List("2", "3"), 1, 1)
 
     val testcm0 = FormalConstraintModel.empty[String, String, String, String]
-    val testcm1 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 3), rgxor))), Map("a" ->((1, 1), (1, 1))), List(("a", order)))
-    val testcm2 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 1), "2"))), Map("a" ->((1, 1), (1, 1))), List.empty)
+    val testcm1 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 3), rgxor))), Map("a" -> ((1, 1), (1, 1))), List(("a", order)))
+    val testcm2 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 1), "2"))), Map("a" -> ((1, 1), (1, 1))), List.empty)
     val testcm3 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 1), "2"))), Map.empty, List.empty)
     val testcm4 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 1), "5"))), Map.empty, List.empty)
     val testcm5 = FormalConstraintModel.forStrings(Map("5" -> List(((1, 1), "2"))), Map.empty, List.empty)
@@ -142,7 +142,7 @@ class FormalCROMTest extends FeatureSpec with GivenWhenThen with Matchers {
     val testcm0 = FormalConstraintModel.empty[String, String, String, String]
     val order = (r: List[(String, String)]) => FormalUtils.all(for ((x, y) <- r) yield x <= y)
     val rgxor = FormalRoleGroup(List("2", "3"), 1, 1)
-    val testcm1 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 3), rgxor))), Map("a" ->((1, 1), (1, 1))), List(("a", order)))
+    val testcm1 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 3), rgxor))), Map("a" -> ((1, 1), (1, 1))), List(("a", order)))
     val test8 = FormalCROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
     val test8b = FormalCROI.empty[String, String, String, String]
 

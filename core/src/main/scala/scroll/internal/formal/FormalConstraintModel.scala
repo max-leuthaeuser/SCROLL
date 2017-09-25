@@ -18,11 +18,11 @@ object FormalConstraintModel {
   * Class representation of the Constraint Model.
   *
   * @param rolec the role constraints
-  * @param card cardinality mappings
+  * @param card  cardinality mappings
   * @param intra intra-relationship constraints
-  * @tparam NT type of naturals
-  * @tparam RT type of roles
-  * @tparam CT type of compartments
+  * @tparam NT  type of naturals
+  * @tparam RT  type of roles
+  * @tparam CT  type of compartments
   * @tparam RST type of relationships
   */
 case class FormalConstraintModel[NT >: Null, RT >: Null, CT >: Null, RST >: Null](rolec: Map[CT, List[((Int, Int), Any)]],

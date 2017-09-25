@@ -25,16 +25,16 @@ object FormalCROM {
 /**
   * Class representation of the Compartment Role Object Model (CROM).
   *
-  * @param nt list of all natural types
-  * @param rt list of all role types
-  * @param ct list of all compartment types
-  * @param rst list of all relationship types
+  * @param nt    list of all natural types
+  * @param rt    list of all role types
+  * @param ct    list of all compartment types
+  * @param rst   list of all relationship types
   * @param fills fills-relation
   * @param parts parts-relation
-  * @param rel relationship mappings
-  * @tparam NT type of naturals
-  * @tparam RT type of roles
-  * @tparam CT type of compartments
+  * @param rel   relationship mappings
+  * @tparam NT  type of naturals
+  * @tparam RT  type of roles
+  * @tparam CT  type of compartments
   * @tparam RST type of relationships
   */
 case class FormalCROM[NT >: Null, RT >: Null, CT >: Null, RST >: Null](

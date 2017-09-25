@@ -36,10 +36,10 @@ class FormalCROMExampleTest extends FeatureSpec with GivenWhenThen with Matchers
 
     val c_bank = FormalConstraintModel.forStrings(Map("Bank" -> List(((1, inf), "Consultant"), ((0, inf), bankaccounts)),
       "Transaction" -> List(((2, 2), participants))),
-      Map("own_ca" ->((1, 1), (0, inf)),
-        "own_sa" ->((1, inf), (0, inf)),
-        "advises" ->((0, inf), (1, inf)),
-        "trans" ->((1, 1), (1, 1))),
+      Map("own_ca" -> ((1, 1), (0, inf)),
+        "own_sa" -> ((1, inf), (0, inf)),
+        "advises" -> ((0, inf), (1, inf)),
+        "trans" -> ((1, 1), (1, 1))),
       List(("advises", irreflexive))
     )
 
