@@ -31,7 +31,12 @@ Just add the dependency to your SBT config:
 Or to always use the latest version:
 ```libraryDependencies ++= Seq("com.github.max-leuthaeuser" %% "scroll" % "latest.integration")```
 
+**5. Publications:**
+
+[Dissertation][diss]
+
 [gen-eclipse]: https://github.com/typesafehub/sbteclipse
 [scala-dynamic]: http://www.scala-lang.org/api/current/#scala.Dynamic
 [BankExample]: https://github.com/max-leuthaeuser/SCROLL/blob/master/examples/src/main/scala/scroll/examples/BankExample.scala
 [scaladoc]: http://max-leuthaeuser.github.io/SCROLL
+[diss]: http://nbn-resolving.de/urn:nbn:de:bsz:14-qucosa-227624
