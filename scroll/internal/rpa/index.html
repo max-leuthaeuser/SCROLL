@@ -322,7 +322,7 @@ implementing an automaton specifying compartment specific role lifecycle.
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a>, <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></div>
         </div></div>
         
 
@@ -385,15 +385,15 @@ implementing an automaton specifying compartment specific role lifecycle.
         <a title="Use this trait to implement your own scroll.internal.Compartment specific
 role playing automaton." href="RolePlayingAutomaton.html">
               <span class="name">RolePlayingAutomaton</span>
-            </a><span class="result"> extends <a href="http://doc.akka.io/api/akka/2.4.12/index.html#akka.actor.Actor" class="extype" target="_top">Actor</a> with <a href="http://doc.akka.io/api/akka/2.4.12/index.html#akka.actor.LoggingFSM" class="extype" target="_top">LoggingFSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</span>
+            </a><span class="result"> extends <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/Actor.html#akka.actor.Actor" class="extype" name="akka.actor.Actor">Actor</a> with <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/LoggingFSM.html#akka.actor.LoggingFSM" class="extype" name="akka.actor.LoggingFSM">LoggingFSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Use this trait to implement your own <a href="../Compartment.html" class="extype" name="scroll.internal.Compartment">scroll.internal.Compartment</a> specific
 role playing automaton.</p><div class="fullcomment"><div class="comment cmt"><p>Use this trait to implement your own <a href="../Compartment.html" class="extype" name="scroll.internal.Compartment">scroll.internal.Compartment</a> specific
-role playing automaton. Please read the documentation for <a href="http://doc.akka.io/api/akka/2.4.12/index.html#akka.actor.FSM" class="extype" target="_top">akka.actor.FSM</a>
+role playing automaton. Please read the documentation for <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/FSM.html" class="extype" name="akka.actor.FSM">akka.actor.FSM</a>
 carefully, since the features from that are applicable for role playing automatons.</p><p>Remember to call <code>run()</code> when you want to start this automaton in your
 <a href="../Compartment.html" class="extype" name="scroll.internal.Compartment">scroll.internal.Compartment</a> instance.</p><p>This automaton will always start in state <a href="RolePlayingAutomaton$$Start$.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.Start">scroll.internal.rpa.RolePlayingAutomaton.Start</a>, so hook in there.</p><p>Final state is always <a href="RolePlayingAutomaton$$Stop$.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.Stop">scroll.internal.rpa.RolePlayingAutomaton.Stop</a>,
-that will terminate the actor system for this <a href="http://doc.akka.io/api/akka/2.4.12/index.html#akka.actor.FSM" class="extype" target="_top">akka.actor.FSM</a>.</p><p>Use the factory method <code>RolePlayingAutomaton.Use</code> to gain an instance of your specific FSM, e.g.:</p><pre><span class="kw">trait</span> MyCompartment <span class="kw">extends</span> Compartment {
+that will terminate the actor system for this <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/FSM.html" class="extype" name="akka.actor.FSM">akka.actor.FSM</a>.</p><p>Use the factory method <code>RolePlayingAutomaton.Use</code> to gain an instance of your specific FSM, e.g.:</p><pre><span class="kw">trait</span> MyCompartment <span class="kw">extends</span> Compartment {
 <span class="cmt">// ... some roles and interaction</span>
 
 <span class="cmt">// your specific RPA here</span>
@@ -457,9 +457,9 @@ predefined states and data objects for messaging.</p>
 
         <div id="inheritedMembers">
         <div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
+              <h3>Inherited from <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
+              <h3>Inherited from <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></h3>
             </div>
         
         </div>
