@@ -493,4 +493,24 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       actualVal6 shouldBe expectedVal
     }
   }
+
+  scenario("Handling null arguments for applyDynamic") {
+    Given("a player and a role in a compartment")
+    val someCoreA = new CoreA()
+
+    new SomeCompartment() {
+      val someRoleA = new RoleA()
+      var expected: String = "valueC"
+      And("a play relationship")
+      val p = someCoreA play someRoleA
+      var actual: String = p.valueC
+      actual shouldBe expected
+      When("passing null")
+      Then("no exception should be thrown")
+      p.update(null)
+      And("the field should be set correctly")
+      actual = p.valueC
+      actual shouldBe null
+    }
+  }
 }

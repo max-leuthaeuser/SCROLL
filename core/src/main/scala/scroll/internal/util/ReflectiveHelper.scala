@@ -127,7 +127,7 @@ object ReflectiveHelper extends Memoiser {
         case lang.Float.TYPE => arg.isInstanceOf[Float]
         case lang.Double.TYPE => arg.isInstanceOf[Double]
         case lang.Byte.TYPE => arg.isInstanceOf[Byte]
-        case _ => paramType.isAssignableFrom(arg.getClass)
+        case _ => arg == null || paramType.isAssignableFrom(arg.getClass)
       }
       case faultyArgs => throw new RuntimeException(s"Can not handle this arguments: '$faultyArgs'")
     }
