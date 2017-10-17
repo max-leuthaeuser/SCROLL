@@ -80,7 +80,12 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any] = {
     require(null != player)
-    Graphs.reachableNodes(root, player).asScala.toSeq
+    if (containsPlayer(player)) {
+      Graphs.reachableNodes(root, player).asScala.toSeq
+    }
+    else {
+      Seq.empty
+    }
   }
 
   override def containsPlayer(player: Any): Boolean = root.nodes().contains(player)

@@ -193,7 +193,7 @@ trait Compartment
   }
 
   @tailrec
-  private def getCoreFor(role: Any): Seq[Any] = {
+  protected final def getCoreFor(role: Any): Seq[Any] = {
     require(null != role)
     role match {
       case cur: Player[_] => getCoreFor(cur.wrapped)
@@ -418,9 +418,13 @@ trait Compartment
     }
 
     /**
-      * Checks of this Player is playing a role of the given type.
+      * Checks of this Player is playing a role of the given type R.
+      *
+      * @tparam R type of role
+      * @return true if this player is playing a role of type R, false otherwise. Returns false also, if
+      *         the player is not available in the role-playing graph.
       */
-    def isPlaying[E: ClassTag]: Boolean = plays.getRoles(wrapped).exists(ReflectiveHelper.is[E])
+    def isPlaying[R: ClassTag]: Boolean = plays.getRoles(wrapped).exists(ReflectiveHelper.is[R])
 
     /**
       * Checks of this Player has an extension of the given type.
