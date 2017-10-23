@@ -8,7 +8,7 @@ val scalaloggingVersion = "3.5.0"
 val guavaVersion = "21.0"
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.12.3",
+  scalaVersion := "2.12.4",
   version := "1.3.3",
   mainClass := None,
   resolvers ++= Seq(
