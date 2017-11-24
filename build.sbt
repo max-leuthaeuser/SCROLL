@@ -3,8 +3,6 @@ val shapelessVersion = "2.3.2"
 val scalatestVersion = "3.0.1"
 val chocoVersion = "4.0.0"
 val slf4jVersion = "1.7.21"
-val macrosVersion = "2.1.0"
-val scalaloggingVersion = "3.5.0"
 val guavaVersion = "21.0"
 
 lazy val commonSettings = Seq(
