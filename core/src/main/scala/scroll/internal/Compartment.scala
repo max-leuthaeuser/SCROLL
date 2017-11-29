@@ -1,14 +1,10 @@
 package scroll.internal
 
-import java.lang.reflect.Method
-
 import scroll.internal.errors.SCROLLErrors._
 import scroll.internal.support._
 import UnionTypes.RoleUnionTypes
 import scroll.internal.graph.CachedScalaRoleGraph
 import scroll.internal.util.ReflectiveHelper
-
-import scala.util.{Failure, Success, Try}
 import scala.annotation.tailrec
 import scala.reflect.{ClassTag, classTag}
 
@@ -187,6 +183,7 @@ trait Compartment
   def transferRole[F <: AnyRef : ClassTag, T <: AnyRef : ClassTag, R <: AnyRef : ClassTag](coreFrom: F, coreTo: T, role: R): Unit = {
     require(null != coreFrom)
     require(null != coreTo)
+    require(null != role)
     require(coreFrom != coreTo, "You can not transfer a role from itself.")
     removePlaysRelation(coreFrom, role)
     addPlaysRelation(coreTo, role)
@@ -213,109 +210,16 @@ trait Compartment
   }
 
   /**
-    * Generic Trait that enables dynamic invocation of role methods that are not natively available on the player object.
-    */
-  trait SCROLLDynamic extends Dynamic {
-    /**
-      * Allows to call a function with arguments.
-      *
-      * @param name          the function name
-      * @param args          the arguments handed over to the given function
-      * @param dispatchQuery the dispatch rules that should be applied
-      * @tparam E return type
-      * @tparam A argument type
-      * @return the result of the function call or an appropriate error
-      */
-    def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E]
-
-    /**
-      * Allows to call a function with named arguments.
-      *
-      * @param name          the function name
-      * @param args          tuple with the the name and argument handed over to the given function
-      * @param dispatchQuery the dispatch rules that should be applied
-      * @tparam E return type
-      * @return the result of the function call or an appropriate error
-      */
-    def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E]
-
-    /**
-      * Allows to read a field.
-      *
-      * @param name          of the field
-      * @param dispatchQuery the dispatch rules that should be applied
-      * @tparam E return type
-      * @return the result of the field access or an appropriate error
-      */
-    def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E]
-
-    /**
-      * Allows to write field updates.
-      *
-      * @param name          of the field
-      * @param value         the new value to write
-      * @param dispatchQuery the dispatch rules that should be applied
-      */
-    def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit
-  }
-
-  trait Dispatchable {
-    /**
-      * For empty argument list dispatch.
-      *
-      * @param on the instance to dispatch the given method m on
-      * @param m  the method to dispatch
-      * @tparam E the return type of method m
-      * @return the resulting return value of the method invocation or an appropriate error
-      */
-    def dispatch[E](on: Any, m: Method): Either[InvocationError, E]
-
-    /**
-      * For multi-argument dispatch.
-      *
-      * @param on   the instance to dispatch the given method m on
-      * @param m    the method to dispatch
-      * @param args the arguments to pass to method m
-      * @tparam E the return type of method m
-      * @tparam A the type of the argument values
-      * @return the resulting return value of the method invocation or an appropriate error
-      */
-    def dispatch[E, A](on: Any, m: Method, args: Seq[A]): Either[InvocationError, E]
-  }
-
-  /**
-    * Trait handling the actual dispatching of role methods.
-    */
-  trait SCROLLDispatch extends Dispatchable {
-    override def dispatch[E](on: Any, m: Method): Either[InvocationError, E] = {
-      require(null != on)
-      require(null != m)
-      Try(ReflectiveHelper.resultOf[E](on, m)) match {
-        case Success(s) => Right(s)
-        case Failure(_) => Left(IllegalRoleInvocationSingleDispatch(on.toString, m.getName))
-      }
-    }
-
-    override def dispatch[E, A](on: Any, m: Method, args: Seq[A]): Either[InvocationError, E] = {
-      require(null != on)
-      require(null != m)
-      require(null != args)
-      Try(ReflectiveHelper.resultOf[E](on, m, args.map(_.asInstanceOf[Object]))) match {
-        case Success(s) => Right(s)
-        case Failure(_) => Left(IllegalRoleInvocationMultipleDispatch(on.toString, m.getName, args))
-      }
-    }
-
-  }
-
-  /**
     * Explicit helper factory method for creating a new Player instance
     * without the need to relying on the implicit mechanics of Scala.
     *
     * @param obj the player or role that is wrapped into this dynamic player type
     * @return a new Player instance wrapping the given object
     */
-  def newPlayer(obj: Object): Player[Object] = new Player(obj)
+  def newPlayer(obj: Object): Player[Object] = {
+    require(null != obj)
+    new Player(obj)
+  }
 
   /**
     * Implicit wrapper class to add basic functionality to roles and its players as unified types.
@@ -323,7 +227,7 @@ trait Compartment
     * @param wrapped the player or role that is wrapped into this dynamic type
     * @tparam T type of wrapped object
     */
-  implicit class Player[T <: AnyRef : ClassTag](val wrapped: T) extends SCROLLDynamic with SCROLLDispatch {
+  implicit class Player[T <: AnyRef : ClassTag](val wrapped: T) extends SCROLLDynamic with SCROLLDispatchable {
     /**
       * Applies lifting to Player
       *
@@ -351,6 +255,7 @@ trait Compartment
       * @return this
       */
     def play[R <: AnyRef : ClassTag](role: R): Player[T] = {
+      require(null != role)
       wrapped match {
         case p: Player[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
         case p: Any => addPlaysRelation[T, R](p.asInstanceOf[T], role)

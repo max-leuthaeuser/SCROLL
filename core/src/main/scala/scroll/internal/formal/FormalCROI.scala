@@ -88,14 +88,16 @@ case class FormalCROI[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
 
   private def repsilon: List[RT] = r :+ null
 
-  def pred(rst: RST, c: CT, r: RT): List[RT] = links.contains((rst, c)) match {
-    case true => links((rst, c)).filter(_._2 == r).map(_._1)
-    case false => List.empty
+  def pred(rst: RST, c: CT, r: RT): List[RT] = if (links.contains((rst, c))) {
+    links((rst, c)).filter(_._2 == r).map(_._1)
+  } else {
+    List.empty
   }
 
-  def succ(rst: RST, c: CT, r: RT): List[RT] = links.contains((rst, c)) match {
-    case true => links((rst, c)).filter(_._1 == r).map(_._2)
-    case false => List.empty
+  def succ(rst: RST, c: CT, r: RT): List[RT] = if (links.contains((rst, c))) {
+    links((rst, c)).filter(_._1 == r).map(_._2)
+  } else {
+    List.empty
   }
 
   private def player(r: RT): NT = r match {

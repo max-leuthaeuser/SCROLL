@@ -13,25 +13,13 @@ import scala.reflect.ClassTag
   */
 trait MultiCompartment extends Compartment {
 
-  implicit class MultiPlayer[T <: AnyRef : ClassTag](val wrapped: T) extends Dynamic with SCROLLDispatch {
+  implicit class MultiPlayer[T <: AnyRef : ClassTag](val wrapped: T) extends Dynamic with SCROLLDispatchable {
     /**
       * Applies lifting to Player
       *
       * @return an lifted Player instance with the calling object as wrapped.
       */
     def unary_+ : MultiPlayer[T] = this
-
-    /**
-      * Returns the player of this player instance if this is a role, or this itself.
-      *
-      * @param dispatchQuery provide this to sort the resulting instances if a role instance is played by multiple core objects
-      * @return the player of this player instance if this is a role, or this itself or an appropriate error
-      */
-    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, Any] = dispatchQuery.filter(getCoreFor(this)) match {
-      case elem :: Nil => Right(elem)
-      case l: Seq[T] => Right(l.head)
-      case _ => Left(TypeNotFound(this.getClass.toString))
-    }
 
     /**
       * Adds a play relation between core and role.
@@ -41,6 +29,7 @@ trait MultiCompartment extends Compartment {
       * @return this
       */
     def play[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = {
+      require(null != role)
       wrapped match {
         case p: MultiPlayer[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
         case p: Any => addPlaysRelation[T, R](p.asInstanceOf[T], role)
@@ -57,24 +46,6 @@ trait MultiCompartment extends Compartment {
       * @return this
       */
     def <+>[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = play(role)
-
-    /**
-      * Adds a play relation between core and role but always returns the player instance.
-      *
-      * @tparam R type of role
-      * @param role the role that should played
-      * @return the player instance
-      */
-    def playing[R <: AnyRef : ClassTag](role: R): T = play(role).wrapped
-
-    /**
-      * Alias for [[Player.playing]].
-      *
-      * @tparam R type of role
-      * @param role the role that should played
-      * @return the player instance
-      */
-    def <=>[R <: AnyRef : ClassTag](role: R): T = playing(role)
 
     /**
       * Removes the play relation between core and role.
@@ -94,29 +65,6 @@ trait MultiCompartment extends Compartment {
       * @return this
       */
     def <->[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = drop(role)
-
-    /**
-      * Transfers a role to another player.
-      *
-      * @tparam R type of role
-      * @param role the role to transfer
-      */
-    def transfer[R <: AnyRef : ClassTag](role: R) = new {
-      def to[P <: AnyRef : ClassTag](player: P): Unit = {
-        transferRole[T, P, R](wrapped, player, role)
-      }
-    }
-
-    /**
-      * Checks of this Player is playing a role of the given type.
-      */
-    def isPlaying[E: ClassTag]: Boolean = plays.getRoles(wrapped).exists(ReflectiveHelper.is[E])
-
-    /**
-      * Checks of this Player has an extension of the given type.
-      * Alias for [[Player.isPlaying]].
-      */
-    def hasExtension[E: ClassTag]: Boolean = isPlaying[E]
 
     def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head

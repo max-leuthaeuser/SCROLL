@@ -1,7 +1,5 @@
 package scroll.internal.support
 
-import java.lang.reflect.Method
-
 import scroll.internal.util.ReflectiveHelper
 
 import scala.collection.mutable
@@ -22,12 +20,6 @@ trait RoleRestrictions {
       val _ = m += elem
     }
   }
-
-  private def isInstanceOf(mani: String, that: String): Boolean =
-    ReflectiveHelper.simpleName(that) == ReflectiveHelper.simpleName(mani)
-
-  private def isSameInterface(roleInterface: Array[Method], restrInterface: Array[Method]): Boolean =
-    restrInterface.forall(method => roleInterface.exists(method.equals))
 
   /**
     * Add a role restriction between the given player type A and role type B.
@@ -60,7 +52,7 @@ trait RoleRestrictions {
   protected def validate[R: ClassTag](player: Any, role: R): Unit = {
     val roleInterface = classTag[R].runtimeClass.getDeclaredMethods
     restrictions.find { case (pt, rts) =>
-      isInstanceOf(pt, player.getClass.toString) && !rts.exists(r => isSameInterface(roleInterface, r.getDeclaredMethods))
+      ReflectiveHelper.isInstanceOf(pt, player.getClass.toString) && !rts.exists(r => ReflectiveHelper.isSameInterface(roleInterface, r.getDeclaredMethods))
     } match {
       case Some((pt, rt)) => throw new RuntimeException(s"Role '$role' can not be played by '$player' due to the active role restrictions '$pt -> $rt'!")
       case None => // fine, thanks

@@ -68,6 +68,35 @@ object ReflectiveHelper extends Memoiser {
     */
   def hash(of: Any): String = of.hashCode().toString
 
+  /**
+    * Compares two class names.
+    *
+    * @param mani the first class name derived from a class manifest (e.g., from classTag) as String
+    * @param that the second class name already as instance of Any
+    * @return true iff both names are the same, false otherwise
+    */
+  def isInstanceOf(mani: String, that: Any): Boolean =
+    simpleName(that.getClass.toString) == simpleName(mani)
+
+  /**
+    * Compares two class names.
+    *
+    * @param mani the first class name derived from a class manifest (e.g., from classTag) as String
+    * @param that the second class name already as String
+    * @return true iff both names are the same, false otherwise
+    */
+  def isInstanceOf(mani: String, that: String): Boolean =
+    ReflectiveHelper.simpleName(that) == ReflectiveHelper.simpleName(mani)
+
+  /**
+    * Compares two interfaces given as Array of its Methods.
+    *
+    * @param roleInterface  Array of Methods from the first interface
+    * @param restrInterface Array of Methods from the second interface
+    * @return true iff all methods from the restrInterface can be found in roleInterface, false otherwise
+    */
+  def isSameInterface(roleInterface: Array[Method], restrInterface: Array[Method]): Boolean =
+    restrInterface.forall(method => roleInterface.exists(method.equals))
 
   private def safeString(s: String): Unit = {
     require(null != s)

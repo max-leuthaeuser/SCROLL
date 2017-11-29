@@ -18,35 +18,32 @@ trait RoleConstraints {
   protected val roleEquivalents: MutableGraph[String] = GraphBuilder.directed().build[String]()
   protected val roleProhibitions: MutableGraph[String] = GraphBuilder.directed().build[String]()
 
-  private def isInstanceOf(mani: String, that: Any) =
-    ReflectiveHelper.simpleName(that.getClass.toString) == ReflectiveHelper.simpleName(mani)
-
   private def checkImplications(player: Any, role: Any): Unit = {
-    roleImplications.nodes().asScala.filter(isInstanceOf(_, role)).toList match {
+    roleImplications.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
       case Nil => //done, thanks
       case list =>
         val allImplicitRoles = list.flatMap(Graphs.reachableNodes(roleImplications, _).asScala)
         val allRoles = plays.getRoles(player).diff(Seq(player))
-        allImplicitRoles.foreach(r => if (!allRoles.exists(isInstanceOf(r, _))) {
+        allImplicitRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role implication constraint violation: '$player' should play role '$r', but it does not!")
         })
     }
   }
 
   private def checkEquivalence(player: Any, role: Any): Unit = {
-    roleEquivalents.nodes().asScala.filter(isInstanceOf(_, role)).toList match {
+    roleEquivalents.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
       case Nil => //done, thanks
       case list =>
         val allEquivalentRoles = list.flatMap(Graphs.reachableNodes(roleEquivalents, _).asScala)
         val allRoles = plays.getRoles(player).diff(Seq(player))
-        allEquivalentRoles.foreach(r => if (!allRoles.exists(isInstanceOf(r, _))) {
+        allEquivalentRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!")
         })
     }
   }
 
   private def checkProhibitions(player: Any, role: Any): Unit = {
-    roleProhibitions.nodes().asScala.filter(isInstanceOf(_, role)).toList match {
+    roleProhibitions.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
       case Nil => //done, thanks
       case list =>
         val allProhibitedRoles = list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
@@ -54,9 +51,9 @@ trait RoleConstraints {
         val rs = if (allProhibitedRoles.size == allRoles.size) {
           Set.empty[String]
         } else {
-          allProhibitedRoles.filter(r => allRoles.exists(isInstanceOf(r, _)))
+          allProhibitedRoles.filter(r => allRoles.exists(ReflectiveHelper.isInstanceOf(r, _)))
         }
-        allProhibitedRoles.diff(rs).diff(list.toSet).foreach(r => if (allRoles.exists(isInstanceOf(r, _))) {
+        allProhibitedRoles.diff(rs).diff(list.toSet).foreach(r => if (allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role prohibition constraint violation: '$player' plays role '$r', but it is not allowed to do so!")
         })
     }

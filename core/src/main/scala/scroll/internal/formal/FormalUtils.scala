@@ -37,9 +37,10 @@ object FormalUtils {
   }
 
   def evaluate[NT >: Null, RT >: Null, CT >: Null, RST >: Null](a: Any, croi: FormalCROI[NT, RT, CT, RST], o: NT, c: CT): Int = a match {
-    case elem: String => any(croi.r.filter(croi.type1(_) == a).map(rr => croi.plays.contains((o, c, rr)))) match {
-      case true => 1
-      case false => 0
+    case _: String => if (any(croi.r.filter(croi.type1(_) == a).map(rr => croi.plays.contains((o, c, rr))))) {
+      1
+    } else {
+      0
     }
     case elem: FormalRoleGroup =>
       val sum = elem.rolegroups.map(evaluate(_, croi, o, c)).sum

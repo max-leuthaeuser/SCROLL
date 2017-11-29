@@ -36,7 +36,7 @@ case class FormalConstraintModel[NT >: Null, RT >: Null, CT >: Null, RST >: Null
   def compliant(crom: FormalCROM[NT, RT, CT, RST]): Boolean = crom.wellformed && axiom12(crom)
 
   def axiom12(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(for (ct1 <- crom.ct if rolec.contains(ct1); (crd, a) <- rolec(ct1)) yield
+    FormalUtils.all(for (ct1 <- crom.ct if rolec.contains(ct1); (_, a) <- rolec(ct1)) yield
       FormalUtils.atoms(a).toSet.subsetOf(crom.parts(ct1).toSet)
     )
 
@@ -57,7 +57,7 @@ case class FormalConstraintModel[NT >: Null, RT >: Null, CT >: Null, RST >: Null
 
   def axiom14(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
   // TODO: fix asInstanceOf
-    FormalUtils.all(for ((o, c, r) <- croi.plays if rolec.contains(croi.type1(c).asInstanceOf[CT]); (crd, a) <- rolec(croi.type1(c).asInstanceOf[CT]) if FormalUtils.atoms(a).contains(croi.type1(r))) yield
+    FormalUtils.all(for ((o, c, r) <- croi.plays if rolec.contains(croi.type1(c).asInstanceOf[CT]); (_, a) <- rolec(croi.type1(c).asInstanceOf[CT]) if FormalUtils.atoms(a).contains(croi.type1(r))) yield
       FormalUtils.evaluate(a, croi, o, c) == 1
     )
 
