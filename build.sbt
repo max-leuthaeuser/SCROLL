@@ -5,9 +5,12 @@ val chocoVersion = "4.0.0"
 val slf4jVersion = "1.7.21"
 val guavaVersion = "21.0"
 
+lazy val noPublishSettings =
+  Seq(publish := {}, publishLocal := {}, publishArtifact := false)
+
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.4",
-  version := "1.3.3",
+  version := "1.4",
   mainClass := None,
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
@@ -24,6 +27,7 @@ lazy val commonSettings = Seq(
     "org.eclipse.emf" % "org.eclipse.emf.ecore" % "2.11.1-v20150805-0538",
     "org.eclipse.uml2" % "org.eclipse.uml2.uml" % "3.1.0.v201006071150"
   ),
+  addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
   javacOptions in Compile ++= Seq("-source", "1.8", "-target", "1.8"),
   scalacOptions ++= Seq(
     "-deprecation",
@@ -38,7 +42,7 @@ lazy val commonSettings = Seq(
 
 lazy val root = (project in file(".")).settings(
   name := "SCROLLRoot"
-).aggregate(core, tests, examples)
+).settings(noPublishSettings: _*).aggregate(core, tests, examples)
 
 lazy val core = (project in file("core")).
   settings(commonSettings: _*).

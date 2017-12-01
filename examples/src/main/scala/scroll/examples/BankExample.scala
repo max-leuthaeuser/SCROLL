@@ -1,11 +1,10 @@
 package scroll.examples
 
-import scroll.internal.annotations.Role
 import scroll.examples.currency.Currency
-import scroll.internal.support.DispatchQuery
-import DispatchQuery._
+import scroll.internal.support.DispatchQuery.Bypassing
 import scroll.internal.util.Log.info
 import scroll.internal.Compartment
+import scroll.internal.support.DispatchQuery
 
 object BankExample extends App {
 
@@ -44,7 +43,7 @@ object BankExample extends App {
   // Contexts and Roles
   class Bank extends Compartment {
 
-    @Role class Customer() {
+    class Customer() {
       var accounts = List[Accountable]()
 
       def addAccount(acc: Accountable): Unit = {
@@ -56,39 +55,30 @@ object BankExample extends App {
       }
     }
 
-    @Role class CheckingsAccount() extends Decreasable {
+    class CheckingsAccount() extends Decreasable {
       def decrease(amount: Currency): Unit = {
-        dd = From(_.isInstanceOf[Account]).
-          To(_.isInstanceOf[CheckingsAccount]).
-          Through(anything).
-          // so we won't calling decrease() recursively on this
-          Bypassing(_.isInstanceOf[CheckingsAccount])
+        // so we won't calling decrease() recursively on this
+        dd = Bypassing(_.isInstanceOf[CheckingsAccount])
         val _ = +this decrease amount
       }
     }
 
-    @Role class SavingsAccount() extends Increasable {
+    class SavingsAccount() extends Increasable {
       private def transactionFee(amount: Currency): Currency = amount * 0.1
 
       def increase(amount: Currency): Unit = {
         info("Increasing with fee.")
-        dd = From(_.isInstanceOf[Account]).
-          To(_.isInstanceOf[SavingsAccount]).
-          Through(anything).
-          // so we won't calling increase() recursively on this
-          Bypassing(_.isInstanceOf[SavingsAccount])
+        // so we won't calling increase() recursively on this
+        dd = Bypassing(_.isInstanceOf[SavingsAccount])
         val _ = +this increase (amount - transactionFee(amount))
       }
     }
 
-    @Role class TransactionRole() {
+    class TransactionRole() {
       def execute(): Unit = {
         info("Executing from Role.")
-        dd = From(_.isInstanceOf[Transaction]).
-          To(_.isInstanceOf[TransactionRole]).
-          Through(anything).
-          // so we won't calling execute() recursively on this
-          Bypassing(_.isInstanceOf[TransactionRole])
+        // so we won't calling execute() recursively on this
+        dd = Bypassing(_.isInstanceOf[TransactionRole])
         val _ = +this execute()
       }
     }
@@ -103,13 +93,13 @@ object BankExample extends App {
       one[Target]().deposit(amount)
     }
 
-    @Role class Source() {
+    class Source() {
       def withDraw(m: Currency): Unit = {
         val _ = +this decrease m
       }
     }
 
-    @Role class Target() {
+    class Target() {
       def deposit(m: Currency): Unit = {
         val _ = +this increase m
       }

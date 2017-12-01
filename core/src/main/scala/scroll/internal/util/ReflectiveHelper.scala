@@ -14,9 +14,9 @@ object ReflectiveHelper extends Memoiser {
   import java.lang
   import java.lang.reflect.{Field, Method}
 
-  private class MethodCache extends Memoised[Any, Set[Method]]
+  private class MethodCache extends Memoised[Class[_], Set[Method]]
 
-  private class FieldCache extends Memoised[Any, Set[Field]]
+  private class FieldCache extends Memoised[Class[_], Set[Field]]
 
   private class SimpleTagNameCache extends Memoised[ClassTag[_], String]
 
@@ -26,6 +26,10 @@ object ReflectiveHelper extends Memoiser {
   private lazy val fieldCache = new FieldCache()
   private lazy val simpleClassNameCache = new SimpleClassNameCache()
   private lazy val simpleTagNameCache = new SimpleTagNameCache()
+
+  def addToMethodCache(c: Class[_]): Unit = methodCache.put(c, getAllMethods(c))
+
+  def addToFieldCache(c: Class[_]): Unit = fieldCache.put(c, getAllFields(c))
 
   private def simpleClassName(s: String, on: String) = if (s.contains(on)) {
     s.substring(s.lastIndexOf(on) + 1)
@@ -104,7 +108,7 @@ object ReflectiveHelper extends Memoiser {
   }
 
   @tailrec
-  private def safeFindField(of: Any, name: String): Field = fieldCache.get(of) match {
+  private def safeFindField(of: Class[_], name: String): Field = fieldCache.get(of) match {
     case Some(fields) => fields.find(_.getName == name) match {
       case Some(f) => f
       case None => throw new RuntimeException(s"Field '$name' not found on '$of'!")
@@ -116,7 +120,7 @@ object ReflectiveHelper extends Memoiser {
   }
 
   @tailrec
-  private def findMethods(of: Any, name: String): Set[Method] = methodCache.get(of) match {
+  private def findMethods(of: Class[_], name: String): Set[Method] = methodCache.get(of) match {
     case Some(l) =>
       l.filter(_.getName == name)
     case None =>
@@ -125,22 +129,22 @@ object ReflectiveHelper extends Memoiser {
       findMethods(of, name)
   }
 
-  private def getAllMethods(of: Any): Set[Method] = {
+  private def getAllMethods(of: Class[_]): Set[Method] = {
     def getAccessibleMethods(c: Class[_]): Set[Method] = c match {
       case null => Set.empty
       case _ => c.getDeclaredMethods.toSet ++ getAccessibleMethods(c.getSuperclass)
     }
 
-    getAccessibleMethods(of.getClass)
+    getAccessibleMethods(of)
   }
 
-  private def getAllFields(of: Any): Set[Field] = {
+  private def getAllFields(of: Class[_]): Set[Field] = {
     def getAccessibleFields(c: Class[_]): Set[Field] = c match {
       case null => Set.empty
       case _ => c.getDeclaredFields.toSet ++ getAccessibleFields(c.getSuperclass)
     }
 
-    getAccessibleFields(of.getClass)
+    getAccessibleFields(of)
   }
 
   private def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean = {
@@ -166,11 +170,11 @@ object ReflectiveHelper extends Memoiser {
   /**
     * @return all methods/functions of the wrapped object as Set
     */
-  def allMethods(of: Any): Set[Method] = methodCache.get(of) match {
+  def allMethods(of: Any): Set[Method] = methodCache.get(of.getClass) match {
     case Some(methods) => methods
     case None =>
-      val methods = getAllMethods(of)
-      methodCache.put(of, methods)
+      val methods = getAllMethods(of.getClass)
+      methodCache.put(of.getClass, methods)
       methods
   }
 
@@ -182,7 +186,7 @@ object ReflectiveHelper extends Memoiser {
     * @param args the args function/method of interest
     * @return Some(Method) if the wrapped object provides the function/method in question, None otherwise
     */
-  def findMethod(on: Any, name: String, args: Seq[Any]): Option[Method] = findMethods(on, name).find(matchMethod(_, name, args))
+  def findMethod(on: Any, name: String, args: Seq[Any]): Option[Method] = findMethods(on.getClass, name).find(matchMethod(_, name, args))
 
   /**
     * Checks if the wrapped object provides a member (field or function/method) with the given name.
@@ -194,19 +198,19 @@ object ReflectiveHelper extends Memoiser {
   def hasMember(on: Any, name: String): Boolean = {
     safeString(name)
 
-    val fields = fieldCache.get(on) match {
+    val fields = fieldCache.get(on.getClass) match {
       case Some(fs) => fs
       case None =>
-        val fs = getAllFields(on)
-        fieldCache.put(on, fs)
+        val fs = getAllFields(on.getClass)
+        fieldCache.put(on.getClass, fs)
         fs
     }
 
-    val methods = methodCache.get(on) match {
+    val methods = methodCache.get(on.getClass) match {
       case Some(ms) => ms
       case None =>
-        val ms = getAllMethods(on)
-        methodCache.put(on, ms)
+        val ms = getAllMethods(on.getClass)
+        methodCache.put(on.getClass, ms)
         ms
     }
 
@@ -223,7 +227,7 @@ object ReflectiveHelper extends Memoiser {
     */
   def propertyOf[T](on: Any, name: String): T = {
     safeString(name)
-    val field = safeFindField(on, name)
+    val field = safeFindField(on.getClass, name)
     field.setAccessible(true)
     field.get(on).asInstanceOf[T]
   }
@@ -237,7 +241,7 @@ object ReflectiveHelper extends Memoiser {
     */
   def setPropertyOf(on: Any, name: String, value: Any): Unit = {
     safeString(name)
-    val field = safeFindField(on, name)
+    val field = safeFindField(on.getClass, name)
     field.setAccessible(true)
     field.set(on, value)
   }
@@ -279,7 +283,7 @@ object ReflectiveHelper extends Memoiser {
     */
   def resultOf[T](on: Any, name: String): T = {
     safeString(name)
-    findMethods(on, name).toList match {
+    findMethods(on.getClass, name).toList match {
       case elem :: Nil =>
         elem.setAccessible(true)
         elem.invoke(on).asInstanceOf[T]

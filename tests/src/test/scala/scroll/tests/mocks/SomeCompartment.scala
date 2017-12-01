@@ -1,11 +1,10 @@
 package scroll.tests.mocks
 
-import scroll.internal.annotations.Role
 import scroll.internal.Compartment
 
 class SomeCompartment extends Compartment {
 
-  @Role class RoleA {
+  class RoleA {
     val valueA: String = "valueA"
     var valueB: Int = 1
 
@@ -22,20 +21,20 @@ class SomeCompartment extends Compartment {
     }
   }
 
-  @Role class RoleB {
+  class RoleB {
     def b(): String = {
       "b"
     }
   }
 
-  @Role class RoleC {
+  class RoleC {
     def unionTypedMethod[T: (Int or String)#λ](param: T): Int = param match {
       case i: Int => i
       case s: String => s.length
     }
   }
 
-  @Role class RoleD {
+  class RoleD {
     var valueA: String = "valueA"
     var valueB: Int = -1
 
@@ -45,7 +44,7 @@ class SomeCompartment extends Compartment {
     }
   }
 
-  @Role class RoleE {
+  class RoleE {
     var valueInt: Int = -1
 
     var valueDouble: Double = -1

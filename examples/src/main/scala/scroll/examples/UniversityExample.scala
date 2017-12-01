@@ -1,6 +1,5 @@
 package scroll.examples
 
-import scroll.internal.annotations.Role
 import scroll.internal.Compartment
 import scroll.internal.util.Log.info
 
@@ -8,13 +7,13 @@ object UniversityExample extends App {
 
   class University extends Compartment {
 
-    @Role class Student {
+    class Student {
       def talk(): Unit = {
         info("I am a student")
       }
     }
 
-    @Role class Professor {
+    class Professor {
       def teach(student: Person): Unit = student match {
         case s if (+s).isPlaying[Student] =>
           val studentName: String = (+student).name

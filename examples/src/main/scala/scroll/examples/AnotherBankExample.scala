@@ -1,9 +1,7 @@
 package scroll.examples
 
-import scroll.internal.annotations.Role
 import scroll.internal.Compartment
-import scroll.internal.support.DispatchQuery
-import DispatchQuery._
+import scroll.internal.support.DispatchQuery.Bypassing
 import scroll.internal.util.Log.info
 
 object AnotherBankExample extends App {
@@ -27,36 +25,30 @@ object AnotherBankExample extends App {
 
   class Bank extends Compartment {
 
-    @Role case class Consultant(phone: String)
+    case class Consultant(phone: String)
 
-    @Role case class Customer(id: String)
+    case class Customer(id: String)
 
-    @Role case class CheckingsAccount(limit: Money) {
+    case class CheckingsAccount(limit: Money) {
       def increase(amount: Money): Unit = {
         if (amount > limit) info("Limit reached in increase!")
-        implicit val dd = From(_.isInstanceOf[Account]).
-          To(_.isInstanceOf[CheckingsAccount]).
-          Through(anything).
-          // so we won't calling decrease() recursively on this
-          Bypassing(_.isInstanceOf[CheckingsAccount])
+        // so we won't calling decrease() recursively on this:
+        implicit val dd = Bypassing(_.isInstanceOf[CheckingsAccount])
         val _ = (+this).increase(Math.min(amount, limit))
 
       }
 
       def decrease(amount: Money): Unit = {
         if (amount > limit) info("Limit reached in decrease!")
-        implicit val dd = From(_.isInstanceOf[Account]).
-          To(_.isInstanceOf[CheckingsAccount]).
-          Through(anything).
-          // so we won't calling decrease() recursively on this
-          Bypassing(_.isInstanceOf[CheckingsAccount])
+        // so we won't calling decrease() recursively on this:
+        implicit val dd = Bypassing(_.isInstanceOf[CheckingsAccount])
         val _ = (+this).decrease(Math.min(amount, limit))
       }
     }
 
-    @Role case class Source()
+    case class Source()
 
-    @Role case class Target()
+    case class Target()
 
     case class Owns(left: Customer, right: Set[CheckingsAccount])
 

@@ -1,8 +1,7 @@
 package scroll.examples
 
 import scroll.internal.Compartment
-import scroll.internal.support.DispatchQuery
-import DispatchQuery._
+import scroll.internal.support.DispatchQuery.Bypassing
 import scroll.internal.util.Log.info
 
 object APICallsExample extends App {
@@ -31,10 +30,7 @@ object APICallsExample extends App {
 
         api.callB()
 
-        implicit val dd = From(_.isInstanceOf[API]).
-          To(_.isInstanceOf[FixedAPI]).
-          Through(anything).
-          Bypassing(_.isInstanceOf[FixedAPI])
+        implicit val dd = Bypassing(_.isInstanceOf[FixedAPI])
         val _ = api.callC()
       }
     }
