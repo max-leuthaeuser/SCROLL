@@ -30,7 +30,6 @@ lazy val commonSettings = Seq(
     "org.eclipse.emf" % "org.eclipse.emf.ecore" % emfecoreVersion,
     "org.eclipse.uml2" % "org.eclipse.uml2.uml" % umlVersion
   ),
-  addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
   javacOptions in Compile ++= Seq("-source", "1.8", "-target", "1.8"),
   scalacOptions ++= Seq(
     "-deprecation",
