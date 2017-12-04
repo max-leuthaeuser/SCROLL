@@ -81,7 +81,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
   override def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any] = {
     require(null != player)
     if (containsPlayer(player)) {
-      Graphs.reachableNodes(root, player).asScala.toSeq
+      Graphs.reachableNodes(root, player.asInstanceOf[Object]).asScala.toSeq
     }
     else {
       Seq.empty
@@ -93,9 +93,9 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
   override def allPlayers: Seq[Any] = root.nodes().asScala.toSeq
 
   override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any] = {
-    val returnSeq = new mutable.ListBuffer[Any]
-    val processing = new mutable.Queue[Any]
-    root.predecessors(player).forEach(n => processing.enqueue(n))
+    val returnSeq = new mutable.ListBuffer[Object]
+    val processing = new mutable.Queue[Object]
+    root.predecessors(player.asInstanceOf[Object]).forEach(n => processing.enqueue(n))
     while (processing.nonEmpty) {
       val next = processing.dequeue()
       if (!returnSeq.contains(next))

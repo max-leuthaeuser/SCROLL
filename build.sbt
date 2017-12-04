@@ -1,9 +1,12 @@
-val akkaVersion = "2.4.12"
+val akkaVersion = "2.5.7"
 val shapelessVersion = "2.3.2"
-val scalatestVersion = "3.0.1"
-val chocoVersion = "4.0.0"
-val slf4jVersion = "1.7.21"
-val guavaVersion = "21.0"
+val scalatestVersion = "3.0.4"
+val chocoVersion = "4.0.6"
+val slf4jVersion = "1.7.25"
+val guavaVersion = "23.5-jre"
+val emfcommonVersion = "2.12.0"
+val emfecoreVersion = "2.12.0"
+val umlVersion = "3.1.0.v201006071150"
 
 lazy val noPublishSettings =
   Seq(publish := {}, publishLocal := {}, publishArtifact := false)
@@ -23,9 +26,9 @@ lazy val commonSettings = Seq(
     "org.choco-solver" % "choco-solver" % chocoVersion,
     "org.slf4j" % "slf4j-simple" % slf4jVersion,
     "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-    "org.eclipse.emf" % "org.eclipse.emf.common" % "2.11.0-v20150805-0538",
-    "org.eclipse.emf" % "org.eclipse.emf.ecore" % "2.11.1-v20150805-0538",
-    "org.eclipse.uml2" % "org.eclipse.uml2.uml" % "3.1.0.v201006071150"
+    "org.eclipse.emf" % "org.eclipse.emf.common" % emfcommonVersion,
+    "org.eclipse.emf" % "org.eclipse.emf.ecore" % emfecoreVersion,
+    "org.eclipse.uml2" % "org.eclipse.uml2.uml" % umlVersion
   ),
   addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
   javacOptions in Compile ++= Seq("-source", "1.8", "-target", "1.8"),
