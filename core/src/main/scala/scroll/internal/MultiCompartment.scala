@@ -68,9 +68,8 @@ trait MultiCompartment extends Compartment {
 
     def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core))
-      val results: mutable.ListBuffer[Either[SCROLLError, E]] = mutable.ListBuffer.empty
-      anys.foreach(r => {
+      val results = mutable.ListBuffer.empty[Either[SCROLLError, E]]
+      dispatchQuery.filter(plays.getRoles(core)).foreach(r => {
         ReflectiveHelper.findMethod(r, name, args).foreach(fm => {
           args match {
             case Nil => results += dispatch(r, fm)
@@ -92,9 +91,8 @@ trait MultiCompartment extends Compartment {
 
     def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core))
-      val results: mutable.ListBuffer[Either[SCROLLError, E]] = mutable.ListBuffer.empty
-      anys.filter(ReflectiveHelper.hasMember(_, name)).foreach(r => {
+      val results = mutable.ListBuffer.empty[Either[SCROLLError, E]]
+      dispatchQuery.filter(plays.getRoles(core)).filter(ReflectiveHelper.hasMember(_, name)).foreach(r => {
         results += ReflectiveHelper.propertyOf(r, name)
       })
       if (results.isEmpty) {
@@ -108,8 +106,7 @@ trait MultiCompartment extends Compartment {
 
     def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit = {
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head
-      val anys = dispatchQuery.filter(Seq(core, wrapped) ++ plays.getRoles(core))
-      anys.filter(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
+      dispatchQuery.filter(plays.getRoles(core)).filter(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
     }
 
 

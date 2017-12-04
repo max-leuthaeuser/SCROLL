@@ -114,8 +114,7 @@ object DispatchQuery {
 }
 
 /**
-  * Composed dispatch query, i.e. applying the composition of all dispatch queries the given set of edges
-  * through the function [[DispatchQuery.filter]].
+  * Composed dispatch query, i.e., applying the composition of all dispatch queries the given set of edges.
   * All provided queries must be side-effect free!
   *
   * @param from      query selecting the starting element for the role dispatch query
@@ -144,11 +143,17 @@ class DispatchQuery(
     this
   }
 
+  /**
+    * Applies the composition filters and sorting function to the given set of objects.
+    *
+    * @param anys The Seq of objects to filter and sort
+    * @return the filtered and sorted Seq of objects
+    */
   def filter(anys: Seq[Any]): Seq[Any] = {
     val r = if (isEmpty) {
-      anys.distinct.reverse
+      anys.reverse
     } else {
-      from.andThen(to).andThen(through).andThen(bypassing)(anys.distinct).reverse
+      from.andThen(to).andThen(through).andThen(bypassing)(anys).reverse
     }
     _sortedWith match {
       case Some(f) => r.sortWith(f)
