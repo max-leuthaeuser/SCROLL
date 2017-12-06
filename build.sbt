@@ -102,3 +102,11 @@ lazy val tests = (project in file("tests")).
     parallelExecution in Test := false,
     libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % "test")
   ).dependsOn(core, examples)
+
+lazy val benchmark = (project in file("benchmark")).
+  settings(commonSettings: _*).
+  dependsOn(core).
+  enablePlugins(JmhPlugin).
+  settings(
+    mainClass in(Jmh, run) := Some("scroll.benchmarks.RunnerApp")
+  )
