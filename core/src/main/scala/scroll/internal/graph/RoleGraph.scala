@@ -53,7 +53,7 @@ trait RoleGraph {
     *
     * @return a Seq of all players
     */
-  def allPlayers: Seq[Any]
+  def allPlayers: Seq[AnyRef]
 
   /**
     * Returns a Seq of all roles attached to the given player (core object).
@@ -62,7 +62,7 @@ trait RoleGraph {
     * @param dispatchQuery the strategy used to get all roles while traversing the role-playing graph, standard is DFS
     * @return a Seq of all roles of core player. Returns an empty Seq if the given player is not in the role-playing graph.
     */
-  def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any]
+  def getRoles(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[AnyRef]
 
   /**
     * Checks if the role graph contains the given player.
@@ -70,7 +70,7 @@ trait RoleGraph {
     * @param player the player instance to check
     * @return true if the role graph contains the given player, false otherwise
     */
-  def containsPlayer(player: Any): Boolean
+  def containsPlayer(player: AnyRef): Boolean
 
   /**
     * Returns a list of all predecessors of the given player, i.e. a transitive closure
@@ -80,5 +80,5 @@ trait RoleGraph {
     * @param dispatchQuery the strategy used to get all predecessors while traversing the role-playing graph, standard is DFS
     * @return a list of all predecessors of the given player
     */
-  def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any]
+  def getPredecessors(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[AnyRef]
 }

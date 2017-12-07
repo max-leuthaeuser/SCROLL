@@ -21,29 +21,29 @@ object DispatchQuery {
   /**
     * Function to use in [[DispatchQuery.sortedWith]] to simply reverse the set of resulting edges.
     */
-  val reverse: PartialFunction[(Any, Any), Boolean] = {
+  val reverse: PartialFunction[(AnyRef, AnyRef), Boolean] = {
     case (_, _) => swap
   }
 
   /**
     * Function always returning true
     */
-  val anything: Any => Boolean = _ => true
+  val anything: AnyRef => Boolean = _ => true
   /**
     * Function always returning false
     */
-  val nothing: Any => Boolean = _ => false
+  val nothing: AnyRef => Boolean = _ => false
 
-  def From(f: Any => Boolean) = new {
-    def To(t: Any => Boolean) = new {
-      def Through(th: Any => Boolean) = new {
-        def Bypassing(b: Any => Boolean): DispatchQuery =
+  def From(f: AnyRef => Boolean) = new {
+    def To(t: AnyRef => Boolean) = new {
+      def Through(th: AnyRef => Boolean) = new {
+        def Bypassing(b: AnyRef => Boolean): DispatchQuery =
           new DispatchQuery(new From(f), new To(t), new Through(th), new Bypassing(b))
       }
     }
   }
 
-  def Bypassing(b: Any => Boolean): DispatchQuery =
+  def Bypassing(b: AnyRef => Boolean): DispatchQuery =
     new DispatchQuery(new From(anything, empty = true), new To(anything, empty = true), new Through(anything, empty = true), new Bypassing(b))
 
   def empty: DispatchQuery = new DispatchQuery(new From(anything), new To(anything), new Through(anything), new Bypassing(nothing), empty = true)
@@ -55,8 +55,8 @@ object DispatchQuery {
     * @param sel   the selection function to evaluate on each element of the path
     * @param empty if set to true, the path will be returned unmodified
     */
-  private class From(val sel: Any => Boolean, empty: Boolean = false) extends (Seq[Any] => Seq[Any]) {
-    override def apply(edges: Seq[Any]): Seq[Any] = if (empty) {
+  private class From(val sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
+    override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = if (empty) {
       edges
     } else {
       edges.slice(edges.indexWhere(sel), edges.size)
@@ -70,8 +70,8 @@ object DispatchQuery {
     * @param sel   the selection function to evaluate on each element of the path
     * @param empty if set to true, the path will be returned unmodified
     */
-  private class To(val sel: Any => Boolean, empty: Boolean = false) extends (Seq[Any] => Seq[Any]) {
-    override def apply(edges: Seq[Any]): Seq[Any] = if (empty) {
+  private class To(val sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
+    override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = if (empty) {
       edges
     } else {
       edges.lastIndexWhere(sel) match {
@@ -88,8 +88,8 @@ object DispatchQuery {
     * @param sel   the selection function to evaluate on each element of the path
     * @param empty if set to true, the path will be returned unmodified
     */
-  private class Through(sel: Any => Boolean, empty: Boolean = false) extends (Seq[Any] => Seq[Any]) {
-    override def apply(edges: Seq[Any]): Seq[Any] = if (empty) {
+  private class Through(sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
+    override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = if (empty) {
       edges
     } else {
       edges.filter(sel)
@@ -103,8 +103,8 @@ object DispatchQuery {
     * @param sel   the selection function to evaluate on each element of the path
     * @param empty if set to true, the path will be returned unmodified
     */
-  private class Bypassing(sel: Any => Boolean, empty: Boolean = false) extends (Seq[Any] => Seq[Any]) {
-    override def apply(edges: Seq[Any]): Seq[Any] = if (empty) {
+  private class Bypassing(sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
+    override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = if (empty) {
       edges
     } else {
       edges.filterNot(sel)
@@ -128,7 +128,7 @@ class DispatchQuery(
                      through: Through,
                      bypassing: Bypassing,
                      private val empty: Boolean = false,
-                     private var _sortedWith: Option[(Any, Any) => Boolean] = Option.empty
+                     private var _sortedWith: Option[(AnyRef, AnyRef) => Boolean] = Option.empty
                    ) {
   def isEmpty: Boolean = empty
 
@@ -138,8 +138,8 @@ class DispatchQuery(
     * @param f the sorting function
     * @return this
     */
-  def sortedWith(f: PartialFunction[(Any, Any), Boolean]): DispatchQuery = {
-    _sortedWith = Some({ case (a, b) => f.applyOrElse((a, b), (_: (Any, Any)) => identity) })
+  def sortedWith(f: PartialFunction[(AnyRef, AnyRef), Boolean]): DispatchQuery = {
+    _sortedWith = Some({ case (a, b) => f.applyOrElse((a, b), (_: (AnyRef, AnyRef)) => identity) })
     this
   }
 
@@ -149,7 +149,7 @@ class DispatchQuery(
     * @param anys The Seq of objects to filter and sort
     * @return the filtered and sorted Seq of objects
     */
-  def filter(anys: Seq[Any]): Seq[Any] = {
+  def filter(anys: Seq[AnyRef]): Seq[AnyRef] = {
     val r = if (isEmpty) {
       anys.reverse
     } else {

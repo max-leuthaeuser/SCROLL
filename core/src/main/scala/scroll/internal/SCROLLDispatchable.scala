@@ -11,7 +11,7 @@ import scala.util.{Failure, Success, Try}
   * Trait handling the actual dispatching of role methods.
   */
 trait SCROLLDispatchable extends Dispatchable {
-  override def dispatch[E](on: Any, m: Method): Either[InvocationError, E] = {
+  override def dispatch[E](on: AnyRef, m: Method): Either[InvocationError, E] = {
     require(null != on)
     require(null != m)
     Try(ReflectiveHelper.resultOf[E](on, m)) match {
@@ -20,7 +20,7 @@ trait SCROLLDispatchable extends Dispatchable {
     }
   }
 
-  override def dispatch[E, A](on: Any, m: Method, args: Seq[A]): Either[InvocationError, E] = {
+  override def dispatch[E, A](on: AnyRef, m: Method, args: Seq[A]): Either[InvocationError, E] = {
     require(null != on)
     require(null != m)
     require(null != args)

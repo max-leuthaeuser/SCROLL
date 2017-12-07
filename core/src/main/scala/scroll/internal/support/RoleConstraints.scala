@@ -18,7 +18,7 @@ trait RoleConstraints {
   protected val roleEquivalents: MutableGraph[String] = GraphBuilder.directed().build[String]()
   protected val roleProhibitions: MutableGraph[String] = GraphBuilder.directed().build[String]()
 
-  private def checkImplications(player: Any, role: Any): Unit = {
+  private def checkImplications(player: AnyRef, role: AnyRef): Unit = {
     roleImplications.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
       case Nil => //done, thanks
       case list =>
@@ -30,7 +30,7 @@ trait RoleConstraints {
     }
   }
 
-  private def checkEquivalence(player: Any, role: Any): Unit = {
+  private def checkEquivalence(player: AnyRef, role: AnyRef): Unit = {
     roleEquivalents.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
       case Nil => //done, thanks
       case list =>
@@ -42,7 +42,7 @@ trait RoleConstraints {
     }
   }
 
-  private def checkProhibitions(player: Any, role: Any): Unit = {
+  private def checkProhibitions(player: AnyRef, role: AnyRef): Unit = {
     roleProhibitions.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
       case Nil => //done, thanks
       case list =>
@@ -67,7 +67,7 @@ trait RoleConstraints {
     * @tparam A type of role A
     * @tparam B type of role B that should be played implicitly if A is played
     */
-  def RoleImplication[A: ClassTag, B: ClassTag](): Unit = {
+  def RoleImplication[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
     val rA = classTag[A].toString
     val rB = classTag[B].toString
     val _ = roleImplications.putEdge(rA, rB)
@@ -81,7 +81,7 @@ trait RoleConstraints {
     * @tparam A type of role A that should be played implicitly if B is played
     * @tparam B type of role B that should be played implicitly if A is played
     */
-  def RoleEquivalence[A: ClassTag, B: ClassTag](): Unit = {
+  def RoleEquivalence[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
     val rA = classTag[A].toString
     val rB = classTag[B].toString
     val _ = (roleEquivalents.putEdge(rA, rB), roleEquivalents.putEdge(rB, rA))
@@ -95,7 +95,7 @@ trait RoleConstraints {
     * @tparam A type of role A
     * @tparam B type of role B that is not allowed to be played if A is played already
     */
-  def RoleProhibition[A: ClassTag, B: ClassTag](): Unit = {
+  def RoleProhibition[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
     val rA = classTag[A].toString
     val rB = classTag[B].toString
     val _ = roleProhibitions.putEdge(rA, rB)
@@ -120,7 +120,7 @@ trait RoleConstraints {
     * @param player the player instance to check
     * @param role   the role instance to check
     */
-  private def validateConstraints(player: Any, role: Any): Unit = {
+  private def validateConstraints(player: AnyRef, role: AnyRef): Unit = {
     checkImplications(player, role)
     checkEquivalence(player, role)
     checkProhibitions(player, role)

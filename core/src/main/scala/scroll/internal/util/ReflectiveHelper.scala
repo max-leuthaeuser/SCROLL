@@ -70,7 +70,7 @@ object ReflectiveHelper extends Memoiser {
     * @param of the object to get the hash code as String
     * @return the hash code of 'of' as String.
     */
-  def hash(of: Any): String = of.hashCode().toString
+  def hash(of: AnyRef): String = of.hashCode().toString
 
   /**
     * Compares two class names.
@@ -79,7 +79,7 @@ object ReflectiveHelper extends Memoiser {
     * @param that the second class name already as instance of Any
     * @return true iff both names are the same, false otherwise
     */
-  def isInstanceOf(mani: String, that: Any): Boolean =
+  def isInstanceOf(mani: String, that: AnyRef): Boolean =
     simpleName(that.getClass.toString) == simpleName(mani)
 
   /**
@@ -170,7 +170,7 @@ object ReflectiveHelper extends Memoiser {
   /**
     * @return all methods/functions of the wrapped object as Set
     */
-  def allMethods(of: Any): Set[Method] = methodCache.get(of.getClass) match {
+  def allMethods(of: AnyRef): Set[Method] = methodCache.get(of.getClass) match {
     case Some(methods) => methods
     case None =>
       val methods = getAllMethods(of.getClass)
@@ -186,7 +186,7 @@ object ReflectiveHelper extends Memoiser {
     * @param args the args function/method of interest
     * @return Some(Method) if the wrapped object provides the function/method in question, None otherwise
     */
-  def findMethod(on: Any, name: String, args: Seq[Any]): Option[Method] = findMethods(on.getClass, name).find(matchMethod(_, name, args))
+  def findMethod(on: AnyRef, name: String, args: Seq[Any]): Option[Method] = findMethods(on.getClass, name).find(matchMethod(_, name, args))
 
   /**
     * Checks if the wrapped object provides a member (field or function/method) with the given name.
@@ -195,7 +195,7 @@ object ReflectiveHelper extends Memoiser {
     * @param name the name of the member (field or function/method)  of interest
     * @return true if the wrapped object provides the given member, false otherwise
     */
-  def hasMember(on: Any, name: String): Boolean = {
+  def hasMember(on: AnyRef, name: String): Boolean = {
     safeString(name)
 
     val fields = fieldCache.get(on.getClass) match {
@@ -225,7 +225,7 @@ object ReflectiveHelper extends Memoiser {
     * @tparam T the type of the field
     * @return the runtime content of type T of the field with the given name of the wrapped object
     */
-  def propertyOf[T](on: Any, name: String): T = {
+  def propertyOf[T](on: AnyRef, name: String): T = {
     safeString(name)
     val field = safeFindField(on.getClass, name)
     field.setAccessible(true)
@@ -239,7 +239,7 @@ object ReflectiveHelper extends Memoiser {
     * @param name  the name of the field of interest
     * @param value the value to set for this field
     */
-  def setPropertyOf(on: Any, name: String, value: Any): Unit = {
+  def setPropertyOf(on: AnyRef, name: String, value: Any): Unit = {
     safeString(name)
     val field = safeFindField(on.getClass, name)
     field.setAccessible(true)
@@ -254,7 +254,7 @@ object ReflectiveHelper extends Memoiser {
     * @tparam T the return type of the function
     * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
     */
-  def resultOf[T](on: Any, m: Method): T = {
+  def resultOf[T](on: AnyRef, m: Method): T = {
     m.setAccessible(true)
     m.invoke(on).asInstanceOf[T]
   }
@@ -268,7 +268,7 @@ object ReflectiveHelper extends Memoiser {
     * @tparam T the return type of the function
     * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
     */
-  def resultOf[T](on: Any, m: Method, args: Seq[Object]): T = {
+  def resultOf[T](on: AnyRef, m: Method, args: Seq[Object]): T = {
     m.setAccessible(true)
     m.invoke(on, args: _*).asInstanceOf[T]
   }
@@ -281,7 +281,7 @@ object ReflectiveHelper extends Memoiser {
     * @tparam T the return type of the function
     * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
     */
-  def resultOf[T](on: Any, name: String): T = {
+  def resultOf[T](on: AnyRef, name: String): T = {
     safeString(name)
     findMethods(on.getClass, name).toList match {
       case elem :: Nil =>
@@ -303,7 +303,7 @@ object ReflectiveHelper extends Memoiser {
     * @tparam T the type to check
     * @return true if the wrapped object is of type T, false otherwise
     */
-  def is[T: ClassTag](on: Any): Boolean =
+  def is[T <: AnyRef : ClassTag](on: AnyRef): Boolean =
     simpleClassNameCache.getAndPutWithDefault(on.getClass, ReflectiveHelper.simpleName(on.getClass.toString)) ==
       simpleTagNameCache.getAndPutWithDefault(classTag[T], ReflectiveHelper.simpleName(classTag[T].toString))
 }

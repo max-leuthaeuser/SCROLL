@@ -48,15 +48,15 @@ trait CROM extends ECoreImporter {
     case None => "-"
   }
 
-  private def constructNT[NT >: Null](elem: EObject): NT = getInstanceName(elem).asInstanceOf[NT]
+  private def constructNT[NT >: Null <: AnyRef](elem: EObject): NT = getInstanceName(elem).asInstanceOf[NT]
 
-  private def constructRT[RT >: Null](elem: EObject): RT = getInstanceName(elem).asInstanceOf[RT]
+  private def constructRT[RT >: Null <: AnyRef](elem: EObject): RT = getInstanceName(elem).asInstanceOf[RT]
 
-  private def constructCT[CT >: Null](elem: EObject): CT = getInstanceName(elem).asInstanceOf[CT]
+  private def constructCT[CT >: Null <: AnyRef](elem: EObject): CT = getInstanceName(elem).asInstanceOf[CT]
 
-  private def constructRST[RST >: Null](elem: EObject): RST = getInstanceName(elem).asInstanceOf[RST]
+  private def constructRST[RST >: Null <: AnyRef](elem: EObject): RST = getInstanceName(elem).asInstanceOf[RST]
 
-  private def constructFills[NT >: Null, RT >: Null](elem: EObject): List[(NT, RT)] = {
+  private def constructFills[NT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): List[(NT, RT)] = {
     val obj = elem.asInstanceOf[DynamicEObjectImpl]
     val filler = obj.dynamicGet(1).asInstanceOf[DynamicEObjectImpl].dynamicGet(0).asInstanceOf[NT]
     val filledObj = obj.dynamicGet(0).asInstanceOf[DynamicEObjectImpl]
@@ -75,13 +75,13 @@ trait CROM extends ECoreImporter {
     case _ => List()
   })
 
-  private def constructParts[CT >: Null, RT >: Null](elem: EObject): (CT, List[RT]) = {
+  private def constructParts[CT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (CT, List[RT]) = {
     val ct = getInstanceName(elem.eContainer()).asInstanceOf[CT]
     val roles = collectRoles(elem).map(r => getInstanceName(r).asInstanceOf[RT])
     (ct, roles)
   }
 
-  private def constructRel[RST >: Null, RT >: Null](elem: EObject): (RST, List[RT]) = {
+  private def constructRel[RST >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (RST, List[RT]) = {
     val rstName = getInstanceName(elem).asInstanceOf[RST]
     val roles = collectRoles(elem.eContainer())
     // TODO: make sure order of roles (incoming/outgoing) is correct for the given relationship
@@ -111,7 +111,7 @@ trait CROM extends ECoreImporter {
     }
   }
 
-  private def construct[NT >: Null, RT >: Null, CT >: Null, RST >: Null](): FormalCROM[NT, RT, CT, RST] = {
+  private def construct[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](): FormalCROM[NT, RT, CT, RST] = {
     val nt = ListBuffer[String]()
     val rt = ListBuffer[String]()
     val ct = ListBuffer[String]()

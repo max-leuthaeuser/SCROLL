@@ -40,8 +40,8 @@ trait Relationships {
     case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity) extends Multiplicity
 
     def apply(name: String) = new {
-      def from[L: ClassTag](leftMul: Multiplicity) = new {
-        def to[R: ClassTag](rightMul: Multiplicity): Relationship[L, R] = new Relationship(name, leftMul, rightMul)
+      def from[L <: AnyRef : ClassTag](leftMul: Multiplicity) = new {
+        def to[R <: AnyRef : ClassTag](rightMul: Multiplicity): Relationship[L, R] = new Relationship(name, leftMul, rightMul)
       }
     }
 
@@ -56,9 +56,9 @@ trait Relationships {
     * @tparam L type of the role of the left side of the relationship
     * @tparam R type of the role of the right side of the relationship
     */
-  class Relationship[L: ClassTag, R: ClassTag](name: String,
-                                               var leftMul: Multiplicity,
-                                               var rightMul: Multiplicity) {
+  class Relationship[L <: AnyRef : ClassTag, R <: AnyRef : ClassTag](name: String,
+                                                                     var leftMul: Multiplicity,
+                                                                     var rightMul: Multiplicity) {
 
     private def checkMul[T](m: Multiplicity, on: Seq[T]): Seq[T] = {
       m match {

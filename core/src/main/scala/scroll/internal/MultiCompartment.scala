@@ -32,8 +32,8 @@ trait MultiCompartment extends Compartment {
       require(null != role)
       wrapped match {
         case p: MultiPlayer[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
-        case p: Any => addPlaysRelation[T, R](p.asInstanceOf[T], role)
-        case _ => // do nothing
+        case p: AnyRef => addPlaysRelation[T, R](p.asInstanceOf[T], role)
+        case p => throw new RuntimeException(s"Only instances of 'Player' or 'AnyRef' are allowed to play roles! You tried it with '$p'.")
       }
       this
     }

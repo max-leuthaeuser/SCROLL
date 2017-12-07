@@ -9,7 +9,7 @@ import scroll.internal.util.ReflectiveHelper
 trait QueryStrategies {
 
   implicit class RoleQueryStrategy(name: String) {
-    def matches(on: Any): Boolean = true
+    def matches(on: AnyRef): Boolean = true
 
     /**
       * Returns the value the queried attribute.
@@ -33,11 +33,11 @@ trait QueryStrategies {
   case class MatchAny() extends RoleQueryStrategy("")
 
   case class WithProperty[T](name: String, value: T) extends RoleQueryStrategy(name) {
-    override def matches(on: Any): Boolean = ReflectiveHelper.propertyOf[T](on, name) == value
+    override def matches(on: AnyRef): Boolean = ReflectiveHelper.propertyOf[T](on, name) == value
   }
 
   case class WithResult[T](name: String, result: T) extends RoleQueryStrategy(name) {
-    override def matches(on: Any): Boolean = ReflectiveHelper.resultOf[T](on, name) == result
+    override def matches(on: AnyRef): Boolean = ReflectiveHelper.resultOf[T](on, name) == result
   }
 
 }

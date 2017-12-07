@@ -4,7 +4,7 @@ package scroll.internal.formal
   * Companion object for the formal representation of the Compartment Role Object Model (CROM).
   */
 object FormalCROM {
-  def empty[NT >: Null, RT >: Null, CT >: Null, RST >: Null]: FormalCROM[NT, RT, CT, RST] =
+  def empty[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef]: FormalCROM[NT, RT, CT, RST] =
     FormalCROM[NT, RT, CT, RST](List.empty, List.empty, List.empty, List.empty, List.empty, Map.empty, Map.empty)
 
   /**
@@ -37,15 +37,15 @@ object FormalCROM {
   * @tparam CT  type of compartments
   * @tparam RST type of relationships
   */
-case class FormalCROM[NT >: Null, RT >: Null, CT >: Null, RST >: Null](
-                                                                        nt: List[NT],
-                                                                        rt: List[RT],
-                                                                        ct: List[CT],
-                                                                        rst: List[RST],
-                                                                        fills: List[(NT, RT)],
-                                                                        parts: Map[CT, List[RT]],
-                                                                        rel: Map[RST, List[RT]]
-                                                                      ) {
+case class FormalCROM[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](
+                                                                                                                nt: List[NT],
+                                                                                                                rt: List[RT],
+                                                                                                                ct: List[CT],
+                                                                                                                rst: List[RST],
+                                                                                                                fills: List[(NT, RT)],
+                                                                                                                parts: Map[CT, List[RT]],
+                                                                                                                rel: Map[RST, List[RT]]
+                                                                                                              ) {
 
   assert(FormalUtils.mutualDisjoint(List(nt, rt, ct, rst)))
   assert(FormalUtils.totalFunction(ct, parts))

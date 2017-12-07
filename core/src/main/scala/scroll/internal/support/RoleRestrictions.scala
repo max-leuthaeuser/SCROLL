@@ -27,7 +27,7 @@ trait RoleRestrictions {
     * @tparam A the player type
     * @tparam B the role type
     */
-  def RoleRestriction[A: ClassTag, B: ClassTag](): Unit = {
+  def RoleRestriction[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
     addToMap(restrictions, (classTag[A].toString, List(classTag[B].runtimeClass)))
   }
 
@@ -38,7 +38,7 @@ trait RoleRestrictions {
     * @tparam A the player type
     * @tparam B the role type
     */
-  def ReplaceRoleRestriction[A: ClassTag, B: ClassTag](): Unit = {
+  def ReplaceRoleRestriction[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
     restrictions(classTag[A].toString) = List(classTag[B].runtimeClass)
   }
 
@@ -49,7 +49,7 @@ trait RoleRestrictions {
     * @param player the player instance to check
     * @param role   the role type to check
     */
-  protected def validate[R: ClassTag](player: Any, role: R): Unit = {
+  protected def validate[R <: AnyRef : ClassTag](player: AnyRef, role: R): Unit = {
     val roleInterface = classTag[R].runtimeClass.getDeclaredMethods
     restrictions.find { case (pt, rts) =>
       ReflectiveHelper.isInstanceOf(pt, player.getClass.toString) && !rts.exists(r => ReflectiveHelper.isSameInterface(roleInterface, r.getDeclaredMethods))

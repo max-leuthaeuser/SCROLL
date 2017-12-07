@@ -16,7 +16,7 @@ trait Dispatchable {
     * @tparam E the return type of method m
     * @return the resulting return value of the method invocation or an appropriate error
     */
-  def dispatch[E](on: Any, m: Method): Either[InvocationError, E]
+  def dispatch[E](on: AnyRef, m: Method): Either[InvocationError, E]
 
   /**
     * For multi-argument dispatch.
@@ -28,5 +28,5 @@ trait Dispatchable {
     * @tparam A the type of the argument values
     * @return the resulting return value of the method invocation or an appropriate error
     */
-  def dispatch[E, A](on: Any, m: Method, args: Seq[A]): Either[InvocationError, E]
+  def dispatch[E, A](on: AnyRef, m: Method, args: Seq[A]): Either[InvocationError, E]
 }

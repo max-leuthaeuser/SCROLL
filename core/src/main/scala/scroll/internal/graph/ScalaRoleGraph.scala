@@ -35,10 +35,14 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     if (!source.nodes().isEmpty && target.nodes().isEmpty) return
 
     if (source.nodes().size < target.nodes().size) {
-      source.edges().asScala.foreach(p => target.putEdge(p.source(), p.target()))
+      source.edges().forEach(p => {
+        val _ = target.putEdge(p.source(), p.target())
+      })
       root = target
     } else {
-      target.edges().asScala.foreach(p => root.putEdge(p.source(), p.target()))
+      target.edges().forEach(p => {
+        val _ = root.putEdge(p.source(), p.target())
+      })
     }
     checkCycles()
   }
@@ -47,7 +51,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     require(null != other)
     other.allPlayers.foreach(pl =>
       other.getRoles(pl).foreach(rl =>
-        removeBinding(pl.asInstanceOf[AnyRef], rl.asInstanceOf[AnyRef])))
+        removeBinding(pl, rl)))
   }
 
   private def checkCycles(): Unit = {
@@ -78,7 +82,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     val _ = root.removeNode(player)
   }
 
-  override def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any] = {
+  override def getRoles(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[AnyRef] = {
     require(null != player)
     if (containsPlayer(player)) {
       val returnSeq = new mutable.ListBuffer[Object]
@@ -98,11 +102,11 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     }
   }
 
-  override def containsPlayer(player: Any): Boolean = root.nodes().contains(player)
+  override def containsPlayer(player: AnyRef): Boolean = root.nodes().contains(player)
 
-  override def allPlayers: Seq[Any] = root.nodes().asScala.toSeq
+  override def allPlayers: Seq[AnyRef] = root.nodes().asScala.toSeq
 
-  override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Any] = {
+  override def getPredecessors(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[AnyRef] = {
     val returnSeq = new mutable.ListBuffer[Object]
     val processing = new mutable.Queue[Object]
     root.predecessors(player.asInstanceOf[Object]).forEach(n => processing.enqueue(n))

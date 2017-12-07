@@ -4,12 +4,12 @@ package scroll.internal.formal
   * Companion object for the formal representation of the constraint model.
   */
 object FormalConstraintModel {
-  def empty[NT >: Null, RT >: Null, CT >: Null, RST >: Null]: FormalConstraintModel[NT, RT, CT, RST] = FormalConstraintModel[NT, RT, CT, RST](Map.empty, Map.empty, List.empty)
+  def empty[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef]: FormalConstraintModel[NT, RT, CT, RST] = FormalConstraintModel[NT, RT, CT, RST](Map.empty, Map.empty, List.empty)
 
   /**
     * Little helper factory method for creating a constraint model with Strings only.
     */
-  def forStrings(rolec: Map[String, List[((Int, Int), Any)]],
+  def forStrings(rolec: Map[String, List[((Int, Int), AnyRef)]],
                  card: Map[String, ((Int, Int), (Int, Int))],
                  intra: List[(String, (List[(String, String)]) => Boolean)]): FormalConstraintModel[String, String, String, String] = FormalConstraintModel(rolec, card, intra)
 }
@@ -25,9 +25,9 @@ object FormalConstraintModel {
   * @tparam CT  type of compartments
   * @tparam RST type of relationships
   */
-case class FormalConstraintModel[NT >: Null, RT >: Null, CT >: Null, RST >: Null](rolec: Map[CT, List[((Int, Int), Any)]],
-                                                                                  card: Map[RST, ((Int, Int), (Int, Int))],
-                                                                                  intra: List[(RST, (List[(NT, NT)]) => Boolean)]) {
+case class FormalConstraintModel[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](rolec: Map[CT, List[((Int, Int), AnyRef)]],
+                                                                                                                          card: Map[RST, ((Int, Int), (Int, Int))],
+                                                                                                                          intra: List[(RST, (List[(NT, NT)]) => Boolean)]) {
 
   /**
     * @param crom the CROM instance to check against

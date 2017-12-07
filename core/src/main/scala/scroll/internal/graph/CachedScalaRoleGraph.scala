@@ -7,9 +7,9 @@ import scala.reflect.ClassTag
 
 class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGraph(checkForCycles) with Memoiser {
 
-  private class BooleanCache extends Memoised[Any, Boolean]
+  private class BooleanCache extends Memoised[AnyRef, Boolean]
 
-  private class SeqCache extends Memoised[Any, Seq[Any]]
+  private class SeqCache extends Memoised[AnyRef, Seq[AnyRef]]
 
   private val containsCache = new BooleanCache()
   private val predCache = new SeqCache()
@@ -27,13 +27,13 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     rolesCache.reset()
   }
 
-  private def reset(o: Any): Unit = {
+  private def reset(o: AnyRef): Unit = {
     containsCache.resetAt(o)
     predCache.resetAt(o)
     rolesCache.resetAt(o)
   }
 
-  override def containsPlayer(player: Any): Boolean =
+  override def containsPlayer(player: AnyRef): Boolean =
     containsCache.getAndPutWithDefault(player, super.containsPlayer(player))
 
   override def detach(other: RoleGraph): Unit = {
@@ -42,10 +42,10 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     resetAll()
   }
 
-  override def getPredecessors(player: Any)(implicit dispatchQuery: DispatchQuery): Seq[Any] =
+  override def getPredecessors(player: AnyRef)(implicit dispatchQuery: DispatchQuery): Seq[AnyRef] =
     predCache.getAndPutWithDefault(player, super.getPredecessors(player))
 
-  override def getRoles(player: Any)(implicit dispatchQuery: DispatchQuery): Seq[Any] =
+  override def getRoles(player: AnyRef)(implicit dispatchQuery: DispatchQuery): Seq[AnyRef] =
     rolesCache.getAndPutWithDefault(player, super.getRoles(player))
 
   override def merge(other: RoleGraph): Unit = {

@@ -81,7 +81,7 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return all player instances as Seq, that do conform to the given matcher
     */
-  def all[T: ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
+  def all[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
     plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
         case p :: Nil => matcher.matches(p)
@@ -98,12 +98,12 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return all player instances as Seq, that do conform to the given matcher
     */
-  def all[T: ClassTag](matcher: T => Boolean): Seq[T] =
+  def all[T <: AnyRef : ClassTag](matcher: T => Boolean): Seq[T] =
     plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(a => {
       getCoreFor(a) match {
         case p :: Nil => matcher(p.asInstanceOf[T])
         case Nil => false
-        case l: Seq[Any] => l.forall(i => matcher(i.asInstanceOf[T]))
+        case l: Seq[AnyRef] => l.forall(i => matcher(i.asInstanceOf[T]))
       }
     })
 
@@ -119,7 +119,7 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return the first player instance, that does conform to the given matcher or an appropriate error
     */
-  def one[T: ClassTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
+  def one[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
     l => {
       Left(l)
     }, r => {
@@ -134,7 +134,7 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return the first player instances, that do conform to the given matcher or an appropriate error
     */
-  def one[T: ClassTag](matcher: T => Boolean): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
+  def one[T <: AnyRef : ClassTag](matcher: T => Boolean): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
     l => {
       Left(l)
     }, r => {
@@ -190,11 +190,11 @@ trait Compartment
   }
 
   @tailrec
-  protected final def getCoreFor(role: Any): Seq[Any] = {
+  protected final def getCoreFor(role: AnyRef): Seq[AnyRef] = {
     require(null != role)
     role match {
       case cur: Player[_] => getCoreFor(cur.wrapped)
-      case cur: Any if plays.containsPlayer(cur) =>
+      case cur: AnyRef if plays.containsPlayer(cur) =>
         val r = plays.getPredecessors(cur)
         if (r.isEmpty) {
           Seq(cur)
@@ -241,7 +241,7 @@ trait Compartment
       * @param dispatchQuery provide this to sort the resulting instances if a role instance is played by multiple core objects
       * @return the player of this player instance if this is a role, or this itself or an appropriate error
       */
-    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, Any] = dispatchQuery.filter(getCoreFor(this)) match {
+    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, AnyRef] = dispatchQuery.filter(getCoreFor(this)) match {
       case elem :: Nil => Right(elem)
       case l: Seq[T] => Right(l.head)
       case _ => Left(TypeNotFound(this.getClass.toString))
@@ -258,8 +258,8 @@ trait Compartment
       require(null != role)
       wrapped match {
         case p: Player[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
-        case p: Any => addPlaysRelation[T, R](p.asInstanceOf[T], role)
-        case _ => // do nothing
+        case p: AnyRef => addPlaysRelation[T, R](p.asInstanceOf[T], role)
+        case p => throw new RuntimeException(s"Only instances of 'Player' or 'AnyRef' are allowed to play roles! You tried it with '$p'.")
       }
       this
     }
@@ -329,13 +329,13 @@ trait Compartment
       * @return true if this player is playing a role of type R, false otherwise. Returns false also, if
       *         the player is not available in the role-playing graph.
       */
-    def isPlaying[R: ClassTag]: Boolean = plays.getRoles(wrapped).exists(ReflectiveHelper.is[R])
+    def isPlaying[R <: AnyRef : ClassTag]: Boolean = plays.getRoles(wrapped).exists(ReflectiveHelper.is[R])
 
     /**
       * Checks of this Player has an extension of the given type.
       * Alias for [[Player.isPlaying]].
       */
-    def hasExtension[E: ClassTag]: Boolean = isPlaying[E]
+    def hasExtension[E <: AnyRef : ClassTag]: Boolean = isPlaying[E]
 
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head
