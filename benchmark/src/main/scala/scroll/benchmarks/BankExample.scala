@@ -11,16 +11,18 @@ import scala.util.Random
 
 class BankExample {
 
-  case class Person(title: String, firstName: String, lastName: String, address: String)
+  class Person(title: String, firstName: String, lastName: String, address: String)
 
-  case class Account(var balance: Money, id: Integer) {
+  class Account(id: Integer, var balance: Money) {
 
     def increase(amount: Money): Unit = {
       balance = balance + amount
+      println(s"Increased with $amount; balance now $balance.")
     }
 
     def decrease(amount: Money): Unit = {
       balance = balance - amount
+      println(s"Decreased with $amount; balance now $balance.")
     }
   }
 
@@ -30,19 +32,18 @@ class BankExample {
     var from: Source = _
     var to: Target = _
 
-    def execute(): Boolean = {
+    def execute(): Unit = {
       from.withdraw(amount)
       to.deposite(amount)
-      true
     }
 
-    case class Source() {
+    class Source() {
       def withdraw(amount: Money): Unit = {
         val _ = +this decrease amount
       }
     }
 
-    case class Target() {
+    class Target() {
       def deposite(amount: Money): Unit = {
         val _ = +this increase amount
       }
@@ -51,37 +52,39 @@ class BankExample {
   }
 
   trait Bank extends Compartment {
-    var moneyTransfers = mutable.ListBuffer.empty[MoneyTransfer]
+    var moneyTransfers = mutable.ArrayBuffer.empty[MoneyTransfer]
 
-    def executeTransactions(): Boolean = moneyTransfers.forall(_.execute())
+    def executeTransactions(): Boolean = {
+      moneyTransfers.foreach(_.execute())
+      true
+    }
 
-    case class Customer(name: String, id: Integer) {
+    class Customer(id: Integer, name: String) {
       var accounts = mutable.ArrayBuffer.empty[Account]
 
-      def addSavingsAccount(a: Account): Boolean = {
-        val sa = SavingsAccount(0.1)
+      def addSavingsAccount(a: Account): Unit = {
+        val sa = new SavingsAccount()
         accounts.append(a)
-        a play sa
-        true
+        val _ = a play sa
       }
 
-      def addCheckingsAccount(a: Account): Boolean = {
-        val ca = CheckingsAccount(Money(100, "USD"))
+      def addCheckingsAccount(a: Account): Unit = {
+        val ca = new CheckingsAccount()
         accounts.append(a)
-        a play ca
-        true
+        val _ = a play ca
       }
     }
 
-    case class MoneyTransfer() {
-      def execute(): Boolean = {
+    class MoneyTransfer() {
+      def execute(): Unit = {
         implicit val dd = Bypassing(_.isInstanceOf[MoneyTransfer])
-        +this execute()
-        true
+        val _ = +this execute()
       }
     }
 
-    case class CheckingsAccount(var limit: Money) {
+    class CheckingsAccount() {
+      private val limit: Money = Money(100, "USD")
+
       def decrease(amount: Money): Unit = amount match {
         case a if a <= limit =>
           implicit val dd = Bypassing(_.isInstanceOf[CheckingsAccount])
@@ -90,10 +93,11 @@ class BankExample {
       }
     }
 
-    case class SavingsAccount(var transactionFee: Double) {
+    class SavingsAccount() {
+      private val transactionFee: Double = 0.1
+
       def decrease(amount: Money): Unit = {
         implicit val dd = Bypassing(_.isInstanceOf[SavingsAccount])
-        //println("dec from SA")
         val _ = +this decrease (amount + amount * transactionFee)
       }
     }
@@ -103,15 +107,15 @@ class BankExample {
   var bank: Bank = _
 
   def build(numPlayer: Int, numRoles: Int, numTransactions: Int, checkCycles: Boolean = false): BankExample = {
-    val players = (0 until numPlayer).map(i => Person("Mr.", "Stan", "Mejer" + i, "Fake Street 1A"))
+    val players = (0 until numPlayer).map(i => new Person("Mr.", "Stan", "Mejer" + i, "Fake Street 1A"))
 
     bank = new Bank {
       override val plays = new CachedScalaRoleGraph(checkCycles)
 
       val accounts = players.zipWithIndex.map { case (p, i) =>
-        val a = Account(Money(100.0, "USD"), i)
-        (0 until numRoles).map(ii => {
-          val c = Customer("Customer" + i, ii)
+        val a = new Account(i, Money(100.0, "USD"))
+        (0 until numRoles).foreach(ii => {
+          val c = new Customer(ii, "Customer" + i)
           p play c
           c addSavingsAccount a
         })
@@ -122,12 +126,12 @@ class BankExample {
         val transaction = new Transaction {
           override val plays = new CachedScalaRoleGraph(checkCycles)
           amount = Money(10.0, "USD")
-          from = Source()
-          to = Target()
+          from = new Source()
+          to = new Target()
           accounts(Random.nextInt(accounts.size)) play from
           accounts(Random.nextInt(accounts.size)) play to
         }
-        val mt = MoneyTransfer()
+        val mt = new MoneyTransfer()
         transaction play mt
         moneyTransfers.append(mt)
         transaction partOf this
