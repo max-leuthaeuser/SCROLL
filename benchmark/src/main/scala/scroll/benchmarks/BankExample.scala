@@ -17,12 +17,10 @@ class BankExample {
 
     def increase(amount: Money): Unit = {
       balance = balance + amount
-      println(s"Increased with $amount; balance now $balance.")
     }
 
     def decrease(amount: Money): Unit = {
       balance = balance - amount
-      println(s"Decreased with $amount; balance now $balance.")
     }
   }
 
