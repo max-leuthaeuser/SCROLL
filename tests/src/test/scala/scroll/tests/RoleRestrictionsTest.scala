@@ -15,7 +15,7 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
         val roleA = new RoleA()
         val roleD = new RoleD()
         And("some role type specifications are given")
-        RoleRestriction[CoreA, RoleA]
+        AddRoleRestriction[CoreA, RoleA]
 
         Then("All role restriction should hold")
         player play roleA
@@ -37,8 +37,8 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
       new SomeCompartment() {
         val roleA = new RoleA()
         val roleD = new RoleD()
-        RoleRestriction[CoreA, RoleA]
-        RoleRestriction[CoreA, RoleD]
+        AddRoleRestriction[CoreA, RoleA]
+        AddRoleRestriction[CoreA, RoleD]
 
         Then("All role restriction should hold")
         player play roleA
@@ -49,6 +49,35 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
         a[RuntimeException] should be thrownBy {
           player play new RoleB()
         }
+      }
+    }
+
+    scenario("Validating role restrictions based on role types when removing restrictions") {
+      Given("A natural, some role instances")
+      val player = new CoreA()
+      When("A role restriction is specified")
+      new SomeCompartment() {
+        val roleA = new RoleA()
+        val roleD = new RoleD()
+        And("some role type specifications are given")
+        AddRoleRestriction[CoreA, RoleA]
+
+        Then("All role restriction should hold")
+        player play roleA
+
+        When("A role restiction is removed")
+        RemoveRoleRestriction[CoreA]
+        Then("Role playing should be fine")
+        player play roleD
+        player drop roleA drop roleD
+
+        And("Also in the case of multiple restriction that are removed later on")
+        AddRoleRestriction[CoreA, RoleA]
+        AddRoleRestriction[CoreA, RoleD]
+        player play roleA play roleD
+        player drop roleA drop roleD
+        RemoveRoleRestriction[CoreA]
+        player play roleA play roleD
       }
     }
   }

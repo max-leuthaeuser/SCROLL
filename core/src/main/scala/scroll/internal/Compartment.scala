@@ -199,7 +199,7 @@ trait Compartment
         if (r.isEmpty) {
           Seq(cur)
         } else {
-          if (r.size == 1) {
+          if (r.lengthCompare(1) == 0) {
             getCoreFor(r.head)
           } else {
             r
