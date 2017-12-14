@@ -17,7 +17,7 @@
  */
 package scroll.benchmarks
 
-import java.math.{BigDecimal => BigDec}
+import java.math.{RoundingMode, BigDecimal => BigDec}
 
 /** Represents an immutable, arbitrary-precision currency value with fixed point
   * arithmetic. <p>A <code>Currency</code> value consists of a numeric value,
@@ -30,7 +30,7 @@ import java.math.{BigDecimal => BigDec}
   * a large range of values. As an added benefit of using <code>java.math.BigDecimal</code>,
   * the <code>Currency</code> type gives users complete control over rounding behaviour.
   * The default rounding more is <code>ROUND_HALF_UP</code> which is commonly used in
-  * commercial applications. The <code>ROUND_HALF_EVEN</code> mode may be useful for statistical 
+  * commercial applications. The <code>ROUND_HALF_EVEN</code> mode may be useful for statistical
   * applications.<p>
   *
   * <p>Computations are carried out with a precision of <i>n</i> positions after the decimal
@@ -52,7 +52,7 @@ import java.math.{BigDecimal => BigDec}
   *
   */
 class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
-               val roundingMode: Currency.RoundingMode.Value) extends Ordered[Currency] {
+               val roundingMode: RoundingMode) extends Ordered[Currency] {
 
   if (decimals < 0)
     throw new IllegalArgumentException("Currency decimal places must not be negative.")
@@ -60,7 +60,7 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
   /** Contains the amount of the <code>Currency</code> value as
     * <code>java.math.BigDecimal</code>.
     */
-  val amount = value.setScale(decimals, roundingMode.id)
+  val amount = value.setScale(decimals, roundingMode)
 
   /** Returns a new <code>Currency</code> value with the specified number of decimals
     * after the decimal point whose value is equal to <code>this</code> value. If the
@@ -225,7 +225,7 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
     * @return the value of <code>this / that</code>.
     */
   def /(that: BigDec): Currency =
-    new Currency(this.amount.divide(that, roundingMode.id), currencyCode, decimals, roundingMode)
+    new Currency(this.amount.divide(that, roundingMode), currencyCode, decimals, roundingMode)
 
   /** Divides this <code>Currency</code> value by a <code>Double</code>
     * scalar value and returns a new <code>Currency</code> value.
@@ -341,7 +341,7 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
     if (currencyCode.isEmpty)
       ""
     else {
-      val symbol = Currency.getSymbolFor(this.currencyCode)
+      var symbol = Currency.getSymbolFor(this.currencyCode)
       if (symbol.isEmpty)
         currencyCode
       else
@@ -418,71 +418,12 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
   */
 class MismatchedCurrencyException extends Exception
 
-/** This exception is thrown if a currency with an unknown ISO ISO 4217 currency 
+/** This exception is thrown if a currency with an unknown ISO ISO 4217 currency
   * code is created or requested.
   */
 class UnknownCurrencyException extends Exception
 
 object Currency {
-
-  object RoundingMode extends Enumeration {
-    type RoundingMode = Value
-
-    /** Rounding mode to round away from zero. Always increments the digit prior to
-      * a nonzero discarded fraction. Note that this rounding mode never decreases
-      * the magnitude of the calculated value.
-      */
-    val ROUND_UP = Value
-
-    /** Rounding mode to round towards zero. Never increments the digit prior to a
-      * discarded fraction (i.e., truncates). Note that this rounding mode never
-      * increases the magnitude of the calculated value.
-      */
-    val ROUND_DOWN = Value
-
-    /** Rounding mode to round towards positive infinity. If the <code>Currency</code>
-      * value is positive, behaves as for ROUND_UP; if negative, behaves as for
-      * ROUND_DOWN. Note that this rounding mode never decreases the calculated value.
-      */
-    val ROUND_CEILING = Value
-
-    /** Rounding mode to round towards negative infinity. If the <code>Currency</code>
-      * value is positive, behave as for ROUND_DOWN; if negative, behave as for
-      * ROUND_UP. Note that this rounding mode never increases the calculated value.
-      */
-    val ROUND_FLOOR = Value
-
-    /** Rounding mode to round towards "nearest neighbor" unless both neighbors
-      * are equidistant, in which case round up. Behaves as for ROUND_UP if the
-      * discarded fraction is >= 0.5; otherwise, behaves as for ROUND_DOWN. Note
-      * that this is the rounding mode that most of us were taught in grade school.
-      * <p>Also known as common rounding.</p>
-      */
-    val ROUND_HALF_UP = Value
-
-    /** Rounding mode to round towards "nearest neighbor" unless both neighbors are
-      * equidistant, in which case round down. Behaves as for ROUND_UP if the discarded
-      * fraction is > 0.5; otherwise, behaves as for ROUND_DOWN.
-      */
-    val ROUND_HALF_DOWN = Value
-
-    /** Rounding mode to round towards the "nearest neighbor" unless both neighbors
-      * are equidistant, in which case, round towards the even neighbor. Behaves as
-      * for ROUND_HALF_UP if the digit to the left of the discarded fraction is odd;
-      * behaves as for ROUND_HALF_DOWN if it's even. Note that this is the rounding
-      * mode that minimizes cumulative error when applied repeatedly over a sequence
-      * of calculations. <p>Also known as Banker's Rounding.</p>
-      */
-    val ROUND_HALF_EVEN = Value
-
-    /** Rounding mode to assert that the requested operation has an exact result,
-      * hence no rounding is necessary. If this rounding mode is specified on an
-      * operation that yields an inexact result, an ArithmeticException is thrown.
-      */
-    val ROUND_UNNECESSARY = Value
-  }
-
-  import Currency.RoundingMode._
 
   /* ----- CURRENCY DATA ----- */
 
@@ -776,7 +717,7 @@ object Currency {
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
   def apply(amount: String, currencyCode: String, decimals: Int): Currency =
-    new Currency(new BigDec(amount), checkCurrencyCode(currencyCode), decimals, ROUND_HALF_UP)
+    new Currency(new BigDec(amount), checkCurrencyCode(currencyCode), decimals, RoundingMode.HALF_UP)
 
   /** Constructs a <code>Currency</code> value from a numeric <code>String</code> value
     * with default rounding mode (<code>ROUND_HALF_UP</code>) and default number of
@@ -788,14 +729,14 @@ object Currency {
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
   def apply(amount: String, currencyCode: String): Currency =
-    new Currency(new BigDec(amount), checkCurrencyCode(currencyCode), getDecimalsFor(currencyCode), ROUND_HALF_UP)
+    new Currency(new BigDec(amount), checkCurrencyCode(currencyCode), getDecimalsFor(currencyCode), RoundingMode.HALF_UP)
 
   /** Constructs a non-specific <code>Currency</code> value from a numeric <code>String</code> value.
     *
     * @param amount specified amount as <code>String</code> value.
     */
   def apply(amount: String): Currency =
-    new Currency(new BigDec(amount), "", getDecimalsFor(""), ROUND_HALF_UP)
+    new Currency(new BigDec(amount), "", getDecimalsFor(""), RoundingMode.HALF_UP)
 
   /** Constructs a non-specific <code>Currency</code> value from a numeric <code>String</code> value
     * with the given number of decimal places.
@@ -804,7 +745,7 @@ object Currency {
     * @param decimals number of decimal places.
     */
   def apply(amount: String, decimals: Int): Currency =
-    new Currency(new BigDec(amount), "", decimals, ROUND_HALF_UP)
+    new Currency(new BigDec(amount), "", decimals, RoundingMode.HALF_UP)
 
   /** Constructs a non-specific <code>Currency</code> value from a numeric <code>String</code> value
     * with the given rounding mode.
@@ -847,7 +788,7 @@ object Currency {
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
   def apply(amount: Double, currencyCode: String, decimals: Int): Currency =
-    new Currency(BigDec.valueOf(amount), checkCurrencyCode(currencyCode), decimals, ROUND_HALF_UP)
+    new Currency(BigDec.valueOf(amount), checkCurrencyCode(currencyCode), decimals, RoundingMode.HALF_UP)
 
   /** Constructs a <code>Currency</code> value from a <code>Double</code> value
     * with default rounding mode (<code>ROUND_HALF_UP</code>) and default number
@@ -859,14 +800,14 @@ object Currency {
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
   def apply(amount: Double, currencyCode: String): Currency =
-    new Currency(BigDec.valueOf(amount), checkCurrencyCode(currencyCode), getDecimalsFor(currencyCode), ROUND_HALF_UP)
+    new Currency(BigDec.valueOf(amount), checkCurrencyCode(currencyCode), getDecimalsFor(currencyCode), RoundingMode.HALF_UP)
 
   /** Constructs a non-specific <code>Currency</code> value from a <code>Double</code> value.
     *
     * @param amount specified amount as <code>Double</code> value.
     */
   def apply(amount: Double): Currency =
-    new Currency(BigDec.valueOf(amount), "", getDecimalsFor(""), ROUND_HALF_UP)
+    new Currency(BigDec.valueOf(amount), "", getDecimalsFor(""), RoundingMode.HALF_UP)
 
   /** Constructs a non-specific <code>Currency</code> value from a <code>Double</code> value
     * with the given number of decimal places.
@@ -875,7 +816,7 @@ object Currency {
     * @param decimals number of decimal places.
     */
   def apply(amount: Double, decimals: Int): Currency =
-    new Currency(BigDec.valueOf(amount), "", decimals, ROUND_HALF_UP)
+    new Currency(BigDec.valueOf(amount), "", decimals, RoundingMode.HALF_UP)
 
   /** Constructs a non-specific <code>Currency</code> value from a <code>Double</code> value
     * with the given rounding mode.
@@ -918,7 +859,7 @@ object Currency {
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
   def apply(amount: Long, currencyCode: String, decimals: Int): Currency =
-    new Currency(BigDec.valueOf(amount), checkCurrencyCode(currencyCode), decimals, ROUND_HALF_UP)
+    new Currency(BigDec.valueOf(amount), checkCurrencyCode(currencyCode), decimals, RoundingMode.HALF_UP)
 
   /** Constructs a <code>Currency</code> value from a <code>Long</code> value
     * with default rounding mode (<code>ROUND_HALF_UP</code>) and default number of
@@ -930,14 +871,14 @@ object Currency {
     * @throws UnknownCurrencyException if currency code is not recognised.
     */
   def apply(amount: Long, currencyCode: String): Currency =
-    new Currency(BigDec.valueOf(amount), checkCurrencyCode(currencyCode), getDecimalsFor(currencyCode), ROUND_HALF_UP)
+    new Currency(BigDec.valueOf(amount), checkCurrencyCode(currencyCode), getDecimalsFor(currencyCode), RoundingMode.HALF_UP)
 
   /** Constructs a non-specific <code>Currency</code> value from a <code>Long</code> value.
     *
     * @param amount specified amount as <code>Long</code> value.
     */
   def apply(amount: Long): Currency =
-    new Currency(BigDec.valueOf(amount), "", getDecimalsFor(""), ROUND_HALF_UP)
+    new Currency(BigDec.valueOf(amount), "", getDecimalsFor(""), RoundingMode.HALF_UP)
 
   /** Constructs a non-specific <code>Currency</code> value from a <code>Long</code> value
     * with the given number of decimal places.
@@ -946,7 +887,7 @@ object Currency {
     * @param decimals number of decimal places.
     */
   def apply(amount: Long, decimals: Int): Currency =
-    new Currency(BigDec.valueOf(amount), "", decimals, ROUND_HALF_UP)
+    new Currency(BigDec.valueOf(amount), "", decimals, RoundingMode.HALF_UP)
 
   /** Constructs a non-specific <code>Currency</code> value from a <code>Long</code> value
     * with the given rounding mode.
