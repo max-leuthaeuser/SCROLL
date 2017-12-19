@@ -1,6 +1,6 @@
 package scroll.internal.graph
 
-import com.google.common.graph.{ValueGraphBuilder, Graphs}
+import com.google.common.graph.{GraphBuilder, Graphs}
 import scroll.internal.support.DispatchQuery
 
 import scala.reflect.ClassTag
@@ -15,9 +15,7 @@ import scala.collection.mutable
   */
 class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
-  import scroll.internal.MetaType._
-
-  private var root = ValueGraphBuilder.directed().build[Object, MetaType]()
+  private var root = GraphBuilder.directed().build[Object]()
 
   override def merge(other: RoleGraph): Unit = {
     require(null != other)
@@ -38,12 +36,12 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
     if (source.nodes().size < target.nodes().size) {
       source.edges().forEach(p => {
-        val _ = target.putEdgeValue(p.source(), p.target(), source.edgeValueOrDefault(p.source(), p.target(), Role))
+        val _ = target.putEdge(p.source(), p.target())
       })
       root = target
     } else {
       target.edges().forEach(p => {
-        val _ = root.putEdgeValue(p.source(), p.target(), target.edgeValueOrDefault(p.source(), p.target(), Role))
+        val _ = root.putEdge(p.source(), p.target())
       })
     }
     checkCycles()
@@ -58,7 +56,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   private def checkCycles(): Unit = {
     if (checkForCycles) {
-      if (Graphs.hasCycle(root.asGraph())) {
+      if (Graphs.hasCycle(root)) {
         throw new RuntimeException(s"Cyclic role-playing relationship found!")
       }
     }
@@ -67,13 +65,8 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
   override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
-
-    role match {
-      case _: Enumeration#Value => root.putEdgeValue(player, role, Facet)
-      case _ => root.putEdgeValue(player, role, Role)
-    }
-
-    if (checkForCycles && Graphs.hasCycle(root.asGraph())) {
+    root.putEdge(player, role)
+    if (checkForCycles && Graphs.hasCycle(root)) {
       throw new RuntimeException(s"Cyclic role-playing relationship for player '$player' found!")
     }
   }

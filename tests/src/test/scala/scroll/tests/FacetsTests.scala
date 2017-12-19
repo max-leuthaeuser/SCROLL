@@ -23,7 +23,7 @@ class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
         When("a facet is attached to the player")
         val player = someCore <+> Red
         Then("the facet should be found")
-        player.hasFacet(Red) shouldBe true
+        player.hasFacets(Red) shouldBe true
       }
     }
 
@@ -36,7 +36,7 @@ class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
         And("is removed later on")
         player.drop(Red)
         Then("the facet should be not be found any longer")
-        player.hasFacet(Red) shouldBe false
+        player.hasFacets(Red) shouldBe false
       }
     }
 
@@ -51,9 +51,9 @@ class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
         val playerB = +someCoreB
         someCoreA transfer Red to someCoreB
         Then("the facet should be not be found any longer on the first player")
-        playerA.hasFacet(Red) shouldBe false
+        playerA.hasFacets(Red) shouldBe false
         And("the second player should have the facet now")
-        playerB.hasFacet(Red) shouldBe true
+        playerB.hasFacets(Red) shouldBe true
       }
     }
 
@@ -76,9 +76,15 @@ class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
         someCoreA6 <+> Blue
         And("we filter for a specific facet")
         Then("only those object having the correct facet should be returned")
-        all { c: CoreA => c.hasFacet(Red) } should contain only(someCoreA1, someCoreA2, someCoreA3)
-        all { c: CoreA => c.hasFacet(Blue) } should contain only(someCoreA4, someCoreA5, someCoreA6)
-        all { c: CoreA => c.hasFacet(Green) } shouldBe empty
+        all { c: CoreA => c.hasFacets(Red) } should contain only(someCoreA1, someCoreA2, someCoreA3)
+        all { c: CoreA => c.hasSomeFacet(Red) } should contain only(someCoreA1, someCoreA2, someCoreA3)
+        all { c: CoreA => c.hasFacets(Blue) } should contain only(someCoreA4, someCoreA5, someCoreA6)
+        all { c: CoreA => c.hasSomeFacet(Blue) } should contain only(someCoreA4, someCoreA5, someCoreA6)
+        all { c: CoreA => c.hasSomeFacet(Red, Blue) } should contain only(someCoreA1, someCoreA2, someCoreA3, someCoreA4, someCoreA5, someCoreA6)
+        all { c: CoreA => c.hasSomeFacet(Green) } shouldBe empty
+        all { c: CoreA => c.hasFacets(Green) } shouldBe empty
+        all { c: CoreA => c.hasFacets(Red, Blue) } shouldBe empty
+        all { c: CoreA => c.hasFacets(Red, Blue, Green) } shouldBe empty
       }
     }
   }
