@@ -332,6 +332,14 @@ trait Compartment
     def isPlaying[R <: AnyRef : ClassTag]: Boolean = plays.getRoles(wrapped).exists(ReflectiveHelper.is[R])
 
     /**
+      * Checks if this Player as the given facet attached.
+      *
+      * @param f the facet
+      * @return true if this player has the given facet attached, false otherwise.
+      */
+    def hasFacet(f: Enumeration#Value): Boolean = plays.getFacets(wrapped).contains(f)
+
+    /**
       * Checks of this Player has an extension of the given type.
       * Alias for [[Player.isPlaying]].
       */

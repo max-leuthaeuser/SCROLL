@@ -9,11 +9,12 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
 
   private class BooleanCache extends Memoised[AnyRef, Boolean]
 
-  private class SeqCache extends Memoised[AnyRef, Seq[AnyRef]]
+  private class SeqCache[E] extends Memoised[AnyRef, Seq[E]]
 
   private val containsCache = new BooleanCache()
-  private val predCache = new SeqCache()
-  private val rolesCache = new SeqCache()
+  private val predCache = new SeqCache[AnyRef]()
+  private val rolesCache = new SeqCache[AnyRef]()
+  private val facetsCache = new SeqCache[Enumeration#Value]()
 
   override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     super.addBinding(player, role)
@@ -31,6 +32,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     containsCache.resetAt(o)
     predCache.resetAt(o)
     rolesCache.resetAt(o)
+    facetsCache.resetAt(o)
   }
 
   override def containsPlayer(player: AnyRef): Boolean =
@@ -47,6 +49,9 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
 
   override def getRoles(player: AnyRef)(implicit dispatchQuery: DispatchQuery): Seq[AnyRef] =
     rolesCache.getAndPutWithDefault(player, super.getRoles(player))
+
+  override def getFacets(player: AnyRef)(implicit dispatchQuery: DispatchQuery): Seq[Enumeration#Value] =
+    facetsCache.getAndPutWithDefault(player, super.getFacets(player))
 
   override def merge(other: RoleGraph): Unit = {
     require(other.isInstanceOf[CachedScalaRoleGraph], "You can only merge RoleGraphs of the same type!")

@@ -1,6 +1,6 @@
 package scroll.internal.graph
 
-import com.google.common.graph.{GraphBuilder, Graphs}
+import com.google.common.graph.{ValueGraphBuilder, Graphs}
 import scroll.internal.support.DispatchQuery
 
 import scala.reflect.ClassTag
@@ -15,7 +15,9 @@ import scala.collection.mutable
   */
 class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
-  private var root = GraphBuilder.directed().build[Object]()
+  import scroll.internal.MetaType._
+
+  private var root = ValueGraphBuilder.directed().build[Object, MetaType]()
 
   override def merge(other: RoleGraph): Unit = {
     require(null != other)
@@ -36,12 +38,12 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
     if (source.nodes().size < target.nodes().size) {
       source.edges().forEach(p => {
-        val _ = target.putEdge(p.source(), p.target())
+        val _ = target.putEdgeValue(p.source(), p.target(), source.edgeValueOrDefault(p.source(), p.target(), Role))
       })
       root = target
     } else {
       target.edges().forEach(p => {
-        val _ = root.putEdge(p.source(), p.target())
+        val _ = root.putEdgeValue(p.source(), p.target(), target.edgeValueOrDefault(p.source(), p.target(), Role))
       })
     }
     checkCycles()
@@ -56,7 +58,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   private def checkCycles(): Unit = {
     if (checkForCycles) {
-      if (Graphs.hasCycle(root)) {
+      if (Graphs.hasCycle(root.asGraph())) {
         throw new RuntimeException(s"Cyclic role-playing relationship found!")
       }
     }
@@ -65,8 +67,13 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
   override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
-    root.putEdge(player, role)
-    if (checkForCycles && Graphs.hasCycle(root)) {
+
+    role match {
+      case _: Enumeration#Value => root.putEdgeValue(player, role, Facet)
+      case _ => root.putEdgeValue(player, role, Role)
+    }
+
+    if (checkForCycles && Graphs.hasCycle(root.asGraph())) {
       throw new RuntimeException(s"Cyclic role-playing relationship for player '$player' found!")
     }
   }
@@ -88,12 +95,27 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
       val returnSeq = new mutable.ListBuffer[Object]
       val processing = new mutable.Queue[Object]
       returnSeq += player.asInstanceOf[Object]
-      root.successors(player.asInstanceOf[Object]).forEach(n => processing.enqueue(n))
+      root.successors(player.asInstanceOf[Object]).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
       while (processing.nonEmpty) {
         val next = processing.dequeue()
         if (!returnSeq.contains(next))
           returnSeq += next
-        root.successors(next).forEach(n => processing.enqueue(n))
+        root.successors(next).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
+      }
+      returnSeq
+    }
+    else {
+      Seq.empty
+    }
+  }
+
+  override def getFacets(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Enumeration#Value] = {
+    require(null != player)
+    if (containsPlayer(player)) {
+      val returnSeq = new mutable.ListBuffer[Enumeration#Value]
+      root.successors(player.asInstanceOf[Object]).forEach {
+        case e: Enumeration#Value => returnSeq += e
+        case _ =>
       }
       returnSeq
     }
@@ -109,12 +131,12 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
   override def getPredecessors(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[AnyRef] = {
     val returnSeq = new mutable.ListBuffer[Object]
     val processing = new mutable.Queue[Object]
-    root.predecessors(player.asInstanceOf[Object]).forEach(n => processing.enqueue(n))
+    root.predecessors(player.asInstanceOf[Object]).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
     while (processing.nonEmpty) {
       val next = processing.dequeue()
       if (!returnSeq.contains(next))
         returnSeq += next
-      root.predecessors(next).forEach(n => processing.enqueue(n))
+      root.predecessors(next).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
     }
     returnSeq
   }

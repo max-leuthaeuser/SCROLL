@@ -65,6 +65,15 @@ trait RoleGraph {
   def getRoles(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[AnyRef]
 
   /**
+    * Returns a Seq of all facets attached to the given player (core object).
+    *
+    * @param player        the player instance to get the facets for
+    * @param dispatchQuery the strategy used to get all facets while traversing the role-playing graph, standard is DFS
+    * @return a Seq of all facets of core player. Returns an empty Seq if the given player is not in the role-playing graph.
+    */
+  def getFacets(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Enumeration#Value]
+
+  /**
     * Checks if the role graph contains the given player.
     *
     * @param player the player instance to check

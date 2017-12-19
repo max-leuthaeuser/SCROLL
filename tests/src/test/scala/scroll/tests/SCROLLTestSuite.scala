@@ -19,4 +19,5 @@ class SCROLLTestSuite
     new RolePlayingAutomatonTest,
     new RoleRestrictionsTest,
     new RoleGroupsTest,
-    new MultiRoleFeaturesTest)
+    new MultiRoleFeaturesTest,
+    new FacetsTests)
