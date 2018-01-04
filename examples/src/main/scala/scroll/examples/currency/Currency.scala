@@ -60,7 +60,7 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
   /** Contains the amount of the <code>Currency</code> value as
     * <code>java.math.BigDecimal</code>.
     */
-  val amount = value.setScale(decimals, roundingMode)
+  val amount: BigDec = value.setScale(decimals, roundingMode)
 
   /** Returns a new <code>Currency</code> value with the specified number of decimals
     * after the decimal point whose value is equal to <code>this</code> value. If the
@@ -262,7 +262,7 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
     * @param p the percentage.
     * @return the result of the applied percentage.
     */
-  def percent(p: Double) = (this * p) / 100
+  def percent(p: Double): Currency = (this * p) / 100
 
   /** Returns a <code>Currency</code> whose value is the integer part of this value.
     * Example: <code>Currency(2.50).integral</code> returns <code>Currency(2.00)</code>.
@@ -292,7 +292,7 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
     *
     * @return formatted String with <code>decimals</code> positions after decimal point.
     */
-  override def toString = {
+  override def toString: String = {
     amount.toString +
       (if (currencyCode.isEmpty) "" else " " + currencyCode)
   }
@@ -304,7 +304,7 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
     *
     * @return this <code>Currency</code> value converted to a <code>Double</code>.
     */
-  def toDouble = amount.doubleValue
+  def toDouble: Double = amount.doubleValue
 
   /** Returns the amount of the <code>Currency</code> value as <code>Float</code> value.
     * If this value has too great a magnitude represent as a <code>Float</code>, it will
@@ -313,7 +313,7 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
     *
     * @return this <code>Currency</code> value converted to a <code>Float</code>.
     */
-  def toFloat = amount.floatValue
+  def toFloat: Float = amount.floatValue
 
   /** Returns the amount of the <code>Currency</code> value as <code>Long</code> value.
     * Any fractional part will be discarded. If this value is too big to fit in a
@@ -321,7 +321,7 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
     *
     * @return this <code>Currency</code> value converted to a <code>Long</code>.
     */
-  def toLong = amount.longValue
+  def toLong: Long = amount.longValue
 
   /** Returns the amount of the <code>Currency</code> value as an <code>Int</code> value.
     * Any fractional part will be discarded. If this value is too big to fit in an
@@ -329,7 +329,7 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
     *
     * @return this <code>Currency</code> value converted to an <code>Int</code>.
     */
-  def toInt = amount.intValue
+  def toInt: Int = amount.intValue
 
   /** Returns the currency symbol for this <code>Currency</code>, or the empty
     * string if this is a non-specific <code>Currency</code> value.
@@ -337,11 +337,11 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
     * @return Unicode currency symbol.
     *
     */
-  def symbol = {
+  def symbol: String = {
     if (currencyCode.isEmpty)
       ""
     else {
-      var symbol = Currency.getSymbolFor(this.currencyCode)
+      val symbol = Currency.getSymbolFor(this.currencyCode)
       if (symbol.isEmpty)
         currencyCode
       else
@@ -354,7 +354,7 @@ class Currency(value: BigDec, val currencyCode: String, val decimals: Int,
     *
     * @return currency name.
     */
-  def name = Currency.getNameFor(this.currencyCode)
+  def name: String = Currency.getNameFor(this.currencyCode)
 
   /** Formats a currency value according to default locale.
     * See <code>java.util.Locale</code> and <code>java.text.NumberFormat</code> for details.
@@ -693,7 +693,7 @@ object Currency {
     *
     * @return all currency codes.
     */
-  def getAllCurrencies = currencies.keySet
+  def getAllCurrencies: Set[String] = currencies.keySet
 
   /* ----- FACTORY METHODS (String) ----- */
 

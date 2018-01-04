@@ -62,7 +62,7 @@ case class FormalCROM[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: 
   def axiom2: Boolean =
     FormalUtils.all(ct.map(c => parts(c).nonEmpty))
 
-  def axiom3: Boolean = FormalUtils.all(rt.map(r => (for (c <- ct if parts(c).contains(r)) yield true).size == 1))
+  def axiom3: Boolean = FormalUtils.all(rt.map(r => (for (c <- ct if parts(c).contains(r)) yield true).lengthCompare(1) == 0))
 
   def axiom4: Boolean =
     FormalUtils.all(rst.map(r => rel(r).head != rel(r).tail.head))

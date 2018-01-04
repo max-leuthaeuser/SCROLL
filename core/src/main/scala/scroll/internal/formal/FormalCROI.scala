@@ -65,7 +65,7 @@ case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: 
     FormalUtils.all(for ((o, c, r) <- plays; (o1, c1, r1) <- plays if o1 == o && c1 == c && r1 != r) yield type1(r1) != type1(r))
 
   def axiom8(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all((for (r1 <- r) yield for ((o, c, r2) <- plays if r2 == r1) yield (o, c)).map(_.size == 1))
+    FormalUtils.all((for (r1 <- r) yield for ((o, c, r2) <- plays if r2 == r1) yield (o, c)).map(_.lengthCompare(1) == 0))
 
   def axiom9(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
     FormalUtils.all(for (c1 <- c; r1 <- crom.rst if links.contains((r1, c1))) yield !links((r1, c1)).contains((null, null)))

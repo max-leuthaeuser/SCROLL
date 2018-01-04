@@ -64,7 +64,7 @@ object AnotherBankExample extends App {
   val brian = Person("Brian")
 
   val accForStan = Account(10.0)
-  val accForBrian = Account(0)
+  val accForBrian = Account()
 
   new Bank {
     val c1 = Customer("001")

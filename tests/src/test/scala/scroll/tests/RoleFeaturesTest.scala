@@ -450,7 +450,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
 
     And("an new instance of that compartment")
-    val c: ACompartment = new ACompartment {
+    new ACompartment {
       When("defining a play relationship")
       this play new ARole
       Then("That compartment should be able to play that role")
@@ -500,7 +500,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
 
     new SomeCompartment() {
       val someRoleA = new RoleA()
-      var expected: String = "valueC"
+      val expected: String = "valueC"
       And("a play relationship")
       val p = someCoreA play someRoleA
       var actual: String = p.valueC

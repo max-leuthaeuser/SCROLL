@@ -35,7 +35,7 @@ class UnionTypesTest extends FeatureSpec with GivenWhenThen with Matchers {
 
         val matcher = new {
           def m[T: (CoreA or RoleA)#λ](param: T) = param match {
-            case c: CoreA => -1
+            case _: CoreA => -1
             case a: RoleA => a.a()
           }
 

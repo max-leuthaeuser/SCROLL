@@ -12,7 +12,7 @@ object FormalUtils {
     */
   def mutualDisjoint[T](sets: List[List[T]]): Boolean = {
     val all = sets.flatMap(_.distinct)
-    all.size == all.distinct.size
+    all.lengthCompare(all.distinct.size) == 0
   }
 
   /**

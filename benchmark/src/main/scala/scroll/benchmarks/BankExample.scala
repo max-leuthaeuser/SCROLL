@@ -50,7 +50,7 @@ class BankExample {
   }
 
   trait Bank extends Compartment {
-    var moneyTransfers = mutable.ArrayBuffer.empty[MoneyTransfer]
+    val moneyTransfers = mutable.ArrayBuffer.empty[MoneyTransfer]
 
     def executeTransactions(): Boolean = {
       moneyTransfers.foreach(_.execute())
@@ -58,7 +58,7 @@ class BankExample {
     }
 
     class Customer(id: Integer, name: String) {
-      var accounts = mutable.ArrayBuffer.empty[Account]
+      val accounts = mutable.ArrayBuffer.empty[Account]
 
       def addSavingsAccount(a: Account): Unit = {
         val sa = new SavingsAccount()
