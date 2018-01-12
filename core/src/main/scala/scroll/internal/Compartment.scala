@@ -193,7 +193,7 @@ trait Compartment
   protected final def getCoreFor(role: AnyRef): Seq[AnyRef] = {
     require(null != role)
     role match {
-      case cur: Player[_] => getCoreFor(cur.wrapped)
+      case cur: IPlayer[_] => getCoreFor(cur.wrapped)
       case cur: AnyRef if plays.containsPlayer(cur) =>
         val r = plays.getPredecessors(cur)
         if (r.isEmpty) {
@@ -221,19 +221,9 @@ trait Compartment
     new Player(obj)
   }
 
-  /**
-    * Implicit wrapper class to add basic functionality to roles and its players as unified types.
-    *
-    * @param wrapped the player or role that is wrapped into this dynamic type
-    * @tparam T type of wrapped object
-    */
-  implicit class Player[T <: AnyRef : ClassTag](val wrapped: T) extends SCROLLDynamic with SCROLLDispatchable {
-    /**
-      * Applies lifting to Player
-      *
-      * @return an lifted Player instance with the calling object as wrapped.
-      */
-    def unary_+ : Player[T] = this
+  implicit class Player[T <: AnyRef : ClassTag](override val wrapped: T) extends IPlayer[T](wrapped) with SCROLLDynamic with SCROLLDispatchable {
+
+    override def unary_+ : Player[T] = this
 
     /**
       * Returns the player of this player instance if this is a role, or this itself.
@@ -247,31 +237,17 @@ trait Compartment
       case _ => Left(TypeNotFound(this.getClass.toString))
     }
 
-    /**
-      * Adds a play relation between core and role.
-      *
-      * @tparam R type of role
-      * @param role the role that should be played
-      * @return this
-      */
-    def play[R <: AnyRef : ClassTag](role: R): Player[T] = {
+    override def play[R <: AnyRef : ClassTag](role: R): Player[T] = {
       require(null != role)
       wrapped match {
         case p: Player[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
         case p: AnyRef => addPlaysRelation[T, R](p.asInstanceOf[T], role)
-        case p => throw new RuntimeException(s"Only instances of 'Player' or 'AnyRef' are allowed to play roles! You tried it with '$p'.")
+        case p => throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles! You tried it with '$p'.")
       }
       this
     }
 
-    /**
-      * Alias for [[Player.play]].
-      *
-      * @tparam R type of role
-      * @param role the role that should be played
-      * @return this
-      */
-    def <+>[R <: AnyRef : ClassTag](role: R): Player[T] = play(role)
+    override def <+>[R <: AnyRef : ClassTag](role: R): Player[T] = play(role)
 
     /**
       * Adds a play relation between core and role but always returns the player instance.
@@ -291,24 +267,12 @@ trait Compartment
       */
     def <=>[R <: AnyRef : ClassTag](role: R): T = playing(role)
 
-    /**
-      * Removes the play relation between core and role.
-      *
-      * @param role the role that should be removed
-      * @return this
-      */
-    def drop[R <: AnyRef : ClassTag](role: R): Player[T] = {
+    override def drop[R <: AnyRef : ClassTag](role: R): Player[T] = {
       removePlaysRelation[T, R](wrapped, role)
       this
     }
 
-    /**
-      * Alias for [[Player.drop]].
-      *
-      * @param role the role that should be removed
-      * @return this
-      */
-    def <->[R <: AnyRef : ClassTag](role: R): Player[T] = drop(role)
+    override def <->[R <: AnyRef : ClassTag](role: R): Player[T] = drop(role)
 
     /**
       * Transfers a role to another player.

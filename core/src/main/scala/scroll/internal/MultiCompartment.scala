@@ -13,58 +13,28 @@ import scala.reflect.ClassTag
   */
 trait MultiCompartment extends Compartment {
 
-  implicit class MultiPlayer[T <: AnyRef : ClassTag](val wrapped: T) extends Dynamic with SCROLLDispatchable {
-    /**
-      * Applies lifting to Player
-      *
-      * @return an lifted Player instance with the calling object as wrapped.
-      */
-    def unary_+ : MultiPlayer[T] = this
+  implicit class MultiPlayer[T <: AnyRef : ClassTag](override val wrapped: T) extends IPlayer[T](wrapped) with Dynamic with SCROLLDispatchable {
 
-    /**
-      * Adds a play relation between core and role.
-      *
-      * @tparam R type of role
-      * @param role the role that should be played
-      * @return this
-      */
-    def play[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = {
+    override def unary_+ : MultiPlayer[T] = this
+
+    override def play[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = {
       require(null != role)
       wrapped match {
         case p: MultiPlayer[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
         case p: AnyRef => addPlaysRelation[T, R](p.asInstanceOf[T], role)
-        case p => throw new RuntimeException(s"Only instances of 'Player' or 'AnyRef' are allowed to play roles! You tried it with '$p'.")
+        case p => throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles! You tried it with '$p'.")
       }
       this
     }
 
-    /**
-      * Alias for [[Player.play]].
-      *
-      * @tparam R type of role
-      * @param role the role that should be played
-      * @return this
-      */
-    def <+>[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = play(role)
+    override def <+>[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = play(role)
 
-    /**
-      * Removes the play relation between core and role.
-      *
-      * @param role the role that should be removed
-      * @return this
-      */
-    def drop[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = {
+    override def drop[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = {
       removePlaysRelation[T, R](wrapped, role)
       this
     }
 
-    /**
-      * Alias for [[Player.drop]].
-      *
-      * @param role the role that should be removed
-      * @return this
-      */
-    def <->[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = drop(role)
+    override def <->[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = drop(role)
 
     def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
       val core = dispatchQuery.filter(getCoreFor(wrapped)).head
