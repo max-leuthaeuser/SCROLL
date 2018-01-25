@@ -3,8 +3,9 @@ package scroll.internal
 import scroll.internal.errors.SCROLLErrors._
 import scroll.internal.support._
 import UnionTypes.RoleUnionTypes
-import scroll.internal.graph.CachedScalaRoleGraph
+import scroll.internal.graph.{CachedScalaRoleGraph, ScalaRoleGraph}
 import scroll.internal.util.ReflectiveHelper
+
 import scala.annotation.tailrec
 import scala.reflect.{ClassTag, classTag}
 
@@ -39,7 +40,7 @@ trait Compartment
     with QueryStrategies
     with RoleUnionTypes {
 
-  protected val plays = new CachedScalaRoleGraph()
+  protected val plays: ScalaRoleGraph = new CachedScalaRoleGraph()
 
   implicit def either2TorException[T](either: Either[_, T]): T = either.fold(
     l => {
