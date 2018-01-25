@@ -32,10 +32,33 @@ class CachingBenchmark extends AbstractBenchmark {
 
   import CachingBenchmark._
 
-  @Benchmark
-  def measureCached(local: Local): Int = local.cachingExample.cachedCompartment.run()
+  private def reps(reps: Int, c: CachingExample#SomeCompartment): Int = {
+    var result = 0
+    var index = 0
+    while (index < reps) {
+      result = c.run()
+      index += 1
+    }
+    result
+  }
 
   @Benchmark
-  def measureNonCached(local: Local): Int = local.cachingExample.noncachedCompartment.run()
+  def measureCached10(local: Local): Int = reps(10, local.cachingExample.cachedCompartment)
+
+  @Benchmark
+  def measureCached100(local: Local): Int = reps(100, local.cachingExample.cachedCompartment)
+
+  @Benchmark
+  def measureCached1000(local: Local): Int = reps(1000, local.cachingExample.cachedCompartment)
+
+  @Benchmark
+  def measureNonCached10(local: Local): Int = reps(10, local.cachingExample.noncachedCompartment)
+
+  @Benchmark
+  def measureNonCached100(local: Local): Int = reps(100, local.cachingExample.noncachedCompartment)
+
+  @Benchmark
+  def measureNonCached1000(local: Local): Int = reps(1000, local.cachingExample.noncachedCompartment)
+
 
 }
