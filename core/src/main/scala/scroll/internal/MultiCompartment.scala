@@ -37,7 +37,7 @@ trait MultiCompartment extends Compartment {
     override def <->[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = drop(role)
 
     def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
-      val core = dispatchQuery.filter(getCoreFor(wrapped)).head
+      val core = getCoreFor(wrapped).last
       val results = mutable.ListBuffer.empty[Either[SCROLLError, E]]
       dispatchQuery.filter(plays.getRoles(core)).foreach(r => {
         ReflectiveHelper.findMethod(r, name, args).foreach(fm => {
@@ -60,7 +60,7 @@ trait MultiCompartment extends Compartment {
       applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
 
     def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
-      val core = dispatchQuery.filter(getCoreFor(wrapped)).head
+      val core = getCoreFor(wrapped).last
       val results = mutable.ListBuffer.empty[Either[SCROLLError, E]]
       dispatchQuery.filter(plays.getRoles(core)).filter(ReflectiveHelper.hasMember(_, name)).foreach(r => {
         results += ReflectiveHelper.propertyOf(r, name)
@@ -75,7 +75,7 @@ trait MultiCompartment extends Compartment {
     }
 
     def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit = {
-      val core = dispatchQuery.filter(getCoreFor(wrapped)).head
+      val core = getCoreFor(wrapped).last
       dispatchQuery.filter(plays.getRoles(core)).filter(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
     }
 

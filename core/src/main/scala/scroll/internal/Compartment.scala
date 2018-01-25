@@ -318,7 +318,7 @@ trait Compartment
     def hasExtension[E <: AnyRef : ClassTag]: Boolean = isPlaying[E]
 
     override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
-      val core = dispatchQuery.filter(getCoreFor(wrapped)).head
+      val core = getCoreFor(wrapped).last
       dispatchQuery.filter(plays.getRoles(core)).foreach(r => {
         ReflectiveHelper.findMethod(r, name, args).foreach(fm => {
           args match {
@@ -335,7 +335,7 @@ trait Compartment
       applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
-      val core = dispatchQuery.filter(getCoreFor(wrapped)).head
+      val core = getCoreFor(wrapped).last
       dispatchQuery.filter(plays.getRoles(core)).find(ReflectiveHelper.hasMember(_, name)) match {
         case Some(r) => Right(ReflectiveHelper.propertyOf(r, name))
         case None => Left(RoleNotFound(core.toString, name, Seq.empty))
@@ -343,7 +343,7 @@ trait Compartment
     }
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit = {
-      val core = dispatchQuery.filter(getCoreFor(wrapped)).head
+      val core = getCoreFor(wrapped).last
       dispatchQuery.filter(plays.getRoles(core)).find(ReflectiveHelper.hasMember(_, name)) match {
         case Some(r) => ReflectiveHelper.setPropertyOf(r, name, value)
         case None => // do nothing

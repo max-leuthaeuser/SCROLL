@@ -26,6 +26,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     containsCache.reset()
     predCache.reset()
     rolesCache.reset()
+    facetsCache.reset()
   }
 
   private def reset(o: AnyRef): Unit = {
