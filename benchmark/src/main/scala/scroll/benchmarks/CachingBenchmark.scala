@@ -17,7 +17,7 @@ object CachingBenchmark {
 
     var cachingExample: CachingExample = _
 
-    @Param(Array("100", "1000", "10000"))
+    @Param(Array("10", "100", "1000"))
     var roles: Int = _
 
     @Setup
@@ -43,22 +43,21 @@ class CachingBenchmark extends AbstractBenchmark {
   }
 
   @Benchmark
+  def measureCached1(local: Local): Int = reps(1, local.cachingExample.cachedCompartment)
+
+  @Benchmark
   def measureCached10(local: Local): Int = reps(10, local.cachingExample.cachedCompartment)
 
   @Benchmark
   def measureCached100(local: Local): Int = reps(100, local.cachingExample.cachedCompartment)
 
   @Benchmark
-  def measureCached1000(local: Local): Int = reps(1000, local.cachingExample.cachedCompartment)
+  def measureNonCached1(local: Local): Int = reps(1, local.cachingExample.noncachedCompartment)
 
   @Benchmark
   def measureNonCached10(local: Local): Int = reps(10, local.cachingExample.noncachedCompartment)
 
   @Benchmark
   def measureNonCached100(local: Local): Int = reps(100, local.cachingExample.noncachedCompartment)
-
-  @Benchmark
-  def measureNonCached1000(local: Local): Int = reps(1000, local.cachingExample.noncachedCompartment)
-
-
+  
 }
