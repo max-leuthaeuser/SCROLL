@@ -5,8 +5,7 @@ import DispatchQuery._
 import scroll.internal.Compartment
 import scroll.benchmarks.{Currency => Money}
 import scroll.internal.graph.CachedScalaRoleGraph
-
-import scala.collection.mutable
+import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
 class BankExample {
@@ -50,7 +49,7 @@ class BankExample {
   }
 
   trait Bank extends Compartment {
-    val moneyTransfers = mutable.ArrayBuffer.empty[MoneyTransfer]
+    protected val moneyTransfers: ArrayBuffer[MoneyTransfer] = ArrayBuffer.empty[MoneyTransfer]
 
     def executeTransactions(): Boolean = {
       moneyTransfers.foreach(_.execute())
@@ -58,7 +57,7 @@ class BankExample {
     }
 
     class Customer(id: Integer, name: String) {
-      val accounts = mutable.ArrayBuffer.empty[Account]
+      private val accounts = ArrayBuffer.empty[Account]
 
       def addSavingsAccount(a: Account): Unit = {
         val sa = new SavingsAccount()
@@ -110,13 +109,15 @@ class BankExample {
     bank = new Bank {
       override val plays = new CachedScalaRoleGraph(checkCycles)
 
-      val accounts = players.zipWithIndex.map { case (p, i) =>
+      private val accounts = players.zipWithIndex.map { case (p, i) =>
         val a = new Account(i, Money(100.0, "USD"))
-        (0 until numRoles).foreach(ii => {
+        val roles = (0 until numRoles).map(ii => {
           val c = new Customer(ii, "Customer" + i)
-          p play c
           c addSavingsAccount a
+          c
         })
+        p play roles.head
+        roles.sliding(2).foreach(l => l(0) play l(1))
         a
       }
 
