@@ -239,9 +239,9 @@ implementing an objectified collaboration with a limited number of participating
       <p class="shortcomment cmt">Adds a plays relationship between core and role.</p><div class="fullcomment"><div class="comment cmt"><p>Adds a plays relationship between core and role.
 </p></div><dl class="paramcmts block"><dt class="tparam">P</dt><dd class="cmt"><p>type of the player</p></dd><dt class="tparam">R</dt><dd class="cmt"><p>type of the role</p></dd><dt class="param">player</dt><dd class="cmt"><p>the player instance to add the given role</p></dd><dt class="param">role</dt><dd class="cmt"><p>the role instance to add</p></dd></dl></div>
     </li><li name="scroll.internal.graph.RoleGraph#allPlayers" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="allPlayers:Seq[Any]"></a>
+      <a id="allPlayers:Seq[AnyRef]"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/RoleGraph.html#allPlayers:Seq[Any]" title="Permalink">
+      <a href="../../../scroll/internal/graph/RoleGraph.html#allPlayers:Seq[AnyRef]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -250,16 +250,16 @@ implementing an objectified collaboration with a limited number of participating
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">allPlayers</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a>]</span>
+        <span class="name">allPlayers</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Returns a Seq of all players
 </p><div class="fullcomment"><div class="comment cmt"><p>Returns a Seq of all players
 </p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>a Seq of all players</p></dd></dl></div>
     </li><li name="scroll.internal.graph.RoleGraph#containsPlayer" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="containsPlayer(player:Any):Boolean"></a><a id="containsPlayer(Any):Boolean"></a>
+      <a id="containsPlayer(player:AnyRef):Boolean"></a><a id="containsPlayer(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/RoleGraph.html#containsPlayer(player:Any):Boolean" title="Permalink">
+      <a href="../../../scroll/internal/graph/RoleGraph.html#containsPlayer(player:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -268,7 +268,7 @@ implementing an objectified collaboration with a limited number of participating
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">containsPlayer</span><span class="params">(<span name="player">player: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">containsPlayer</span><span class="params">(<span name="player">player: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <p class="shortcomment cmt">Checks if the role graph contains the given player.</p><div class="fullcomment"><div class="comment cmt"><p>Checks if the role graph contains the given player.
@@ -290,10 +290,10 @@ implementing an objectified collaboration with a limited number of participating
       
       <p class="shortcomment cmt">Removes all players and plays-relationships specified in other from this RoleGraph.</p><div class="fullcomment"><div class="comment cmt"><p>Removes all players and plays-relationships specified in other from this RoleGraph.
 </p></div><dl class="paramcmts block"><dt class="param">other</dt><dd class="cmt"><p>the RoleGraph all players and plays-relationships specified in should removed from this</p></dd></dl></div>
-    </li><li name="scroll.internal.graph.RoleGraph#getPredecessors" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getPredecessors(player:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Seq[Any]"></a><a id="getPredecessors(Any)(DispatchQuery):Seq[Any]"></a>
+    </li><li name="scroll.internal.graph.RoleGraph#getFacets" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getFacets(player:AnyRef)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Seq[Enumeration#Value]"></a><a id="getFacets(AnyRef)(DispatchQuery):Seq[Value]"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/RoleGraph.html#getPredecessors(player:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Seq[Any]" title="Permalink">
+      <a href="../../../scroll/internal/graph/RoleGraph.html#getFacets(player:AnyRef)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Seq[Enumeration#Value]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -302,16 +302,33 @@ implementing an objectified collaboration with a limited number of participating
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getPredecessors</span><span class="params">(<span name="player">player: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="../support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a>]</span>
+        <span class="name">getFacets</span><span class="params">(<span name="player">player: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="../support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Enumeration.Value">Value</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Returns a Seq of all facets attached to the given player (core object).</p><div class="fullcomment"><div class="comment cmt"><p>Returns a Seq of all facets attached to the given player (core object).
+</p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player instance to get the facets for</p></dd><dt class="param">dispatchQuery</dt><dd class="cmt"><p>the strategy used to get all facets while traversing the role-playing graph, standard is DFS</p></dd><dt>returns</dt><dd class="cmt"><p>a Seq of all facets of core player. Returns an empty Seq if the given player is not in the role-playing graph.</p></dd></dl></div>
+    </li><li name="scroll.internal.graph.RoleGraph#getPredecessors" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getPredecessors(player:AnyRef)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Seq[AnyRef]"></a><a id="getPredecessors(AnyRef)(DispatchQuery):Seq[AnyRef]"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/graph/RoleGraph.html#getPredecessors(player:AnyRef)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Seq[AnyRef]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getPredecessors</span><span class="params">(<span name="player">player: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="../support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Returns a list of all predecessors of the given player, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Returns a list of all predecessors of the given player, i.e. a transitive closure
 of its cores (deep roles).
 </p></div><dl class="paramcmts block"><dt class="param">player</dt><dd class="cmt"><p>the player instance to calculate the cores of</p></dd><dt class="param">dispatchQuery</dt><dd class="cmt"><p>the strategy used to get all predecessors while traversing the role-playing graph, standard is DFS</p></dd><dt>returns</dt><dd class="cmt"><p>a list of all predecessors of the given player</p></dd></dl></div>
     </li><li name="scroll.internal.graph.RoleGraph#getRoles" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="getRoles(player:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Seq[Any]"></a><a id="getRoles(Any)(DispatchQuery):Seq[Any]"></a>
+      <a id="getRoles(player:AnyRef)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Seq[AnyRef]"></a><a id="getRoles(AnyRef)(DispatchQuery):Seq[AnyRef]"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/graph/RoleGraph.html#getRoles(player:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Seq[Any]" title="Permalink">
+      <a href="../../../scroll/internal/graph/RoleGraph.html#getRoles(player:AnyRef)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Seq[AnyRef]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -320,7 +337,7 @@ of its cores (deep roles).
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getRoles</span><span class="params">(<span name="player">player: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="../support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a>]</span>
+        <span class="name">getRoles</span><span class="params">(<span name="player">player: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="../support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Returns a Seq of all roles attached to the given player (core object).</p><div class="fullcomment"><div class="comment cmt"><p>Returns a Seq of all roles attached to the given player (core object).
