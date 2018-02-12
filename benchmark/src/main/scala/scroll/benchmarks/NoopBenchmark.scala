@@ -1,0 +1,46 @@
+package scroll.benchmarks
+
+import java.util.concurrent.TimeUnit
+
+import org.openjdk.jmh.annotations._
+import scroll.internal.SCROLLDynamic
+
+import scala.util.Random
+
+object NoopBenchmark {
+  @State(Scope.Thread)
+  class Local {
+    var x, y: Int = _
+    var player: SCROLLDynamic = _
+
+    @Param(Array("true", "false"))
+    var cached: Boolean = _
+
+    @Setup(Level.Iteration)
+    def setup(): Unit = {
+      player = new NoopExample(cached).compartment.player
+      x = Random.nextInt()
+      y = Random.nextInt()
+    }
+  }
+}
+
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
+class NoopBenchmark extends AbstractBenchmark {
+  import NoopBenchmark.Local
+
+  @Benchmark
+  def basecall_noargs(local: Local): Any = {
+    local.player.noArgs()
+  }
+
+  @Benchmark
+  def basecall_withargs(local: Local): Any = {
+    local.player.referenceArgAndReturn(local.player)
+  }
+
+  @Benchmark
+  def basecall_primitiveargs(local: Local): Any = {
+    local.player.primitiveArgsAndReturn(local.x, local.y)
+  }
+}
