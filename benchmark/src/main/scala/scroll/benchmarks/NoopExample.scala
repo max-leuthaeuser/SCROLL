@@ -10,6 +10,8 @@ class NoopExample(cached: Boolean) {
 
     def referenceArgAndReturn(o: AnyRef): AnyRef = o
 
+    /** Primitive argument and return types probably provoke
+      * autoboxing when a role is bound. */
     def primitiveArgsAndReturn(x: Int, y: Int): Int = x + y
   }
 
@@ -20,6 +22,7 @@ class NoopExample(cached: Boolean) {
       new ScalaRoleGraph(checkForCycles = false)
     }
 
+    /** No-op role methods which just forward to the base */
     class NoopRole {
       implicit val dd = Bypassing(_.isInstanceOf[NoopRole])
 

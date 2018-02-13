@@ -8,6 +8,7 @@ import scroll.internal.SCROLLDynamic
 import scala.util.Random
 
 object NoopBenchmark {
+
   @State(Scope.Thread)
   class Local {
     var x, y: Int = _
@@ -23,10 +24,16 @@ object NoopBenchmark {
       y = Random.nextInt()
     }
   }
+
 }
 
+/** Measures role method dispatch overhead for a single role bound to
+  * a player, where each role method just forwards the method call to
+  * its base.
+  */
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 class NoopBenchmark extends AbstractBenchmark {
+
   import NoopBenchmark.Local
 
   @Benchmark
