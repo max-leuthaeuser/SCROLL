@@ -22,12 +22,6 @@ class ExamplesTest extends FeatureSpec with GivenWhenThen with Matchers {
       BankExample.main(null)
     }
 
-    scenario("Another Bank") {
-      When("Running the AnotherBank example")
-      Then("There should be no error or exception.")
-      AnotherBankExample.main(null)
-    }
-
     scenario("API Calls") {
       When("Running the APICalls example")
       Then("There should be no error or exception.")
