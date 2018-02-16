@@ -37,6 +37,10 @@ class NoopBenchmark extends AbstractBenchmark {
   import NoopBenchmark.Local
 
   @Benchmark
+  def baseline(): Unit = {
+  }
+
+  @Benchmark
   def basecall_noargs(local: Local): Any = {
     local.player.noArgs()
   }
