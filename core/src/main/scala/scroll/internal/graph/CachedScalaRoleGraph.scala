@@ -1,6 +1,5 @@
 package scroll.internal.graph
 
-import scroll.internal.support.DispatchQuery
 import scroll.internal.util.Memoiser
 
 import scala.reflect.ClassTag
@@ -45,13 +44,13 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     resetAll()
   }
 
-  override def getPredecessors(player: AnyRef)(implicit dispatchQuery: DispatchQuery): Seq[AnyRef] =
+  override def getPredecessors(player: AnyRef): Seq[AnyRef] =
     predCache.getAndPutWithDefault(player, super.getPredecessors(player))
 
-  override def getRoles(player: AnyRef)(implicit dispatchQuery: DispatchQuery): Seq[AnyRef] =
+  override def getRoles(player: AnyRef): Seq[AnyRef] =
     rolesCache.getAndPutWithDefault(player, super.getRoles(player))
 
-  override def getFacets(player: AnyRef)(implicit dispatchQuery: DispatchQuery): Seq[Enumeration#Value] =
+  override def getFacets(player: AnyRef): Seq[Enumeration#Value] =
     facetsCache.getAndPutWithDefault(player, super.getFacets(player))
 
   override def merge(other: RoleGraph): Unit = {

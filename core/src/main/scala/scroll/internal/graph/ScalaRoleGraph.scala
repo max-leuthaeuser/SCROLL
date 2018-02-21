@@ -1,7 +1,6 @@
 package scroll.internal.graph
 
 import com.google.common.graph.{GraphBuilder, Graphs}
-import scroll.internal.support.DispatchQuery
 
 import scala.reflect.ClassTag
 import collection.JavaConverters._
@@ -82,7 +81,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     val _ = root.removeNode(player)
   }
 
-  override def getRoles(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[AnyRef] = {
+  override def getRoles(player: AnyRef): Seq[AnyRef] = {
     require(null != player)
     if (containsPlayer(player)) {
       val returnSeq = new mutable.ListBuffer[Object]
@@ -102,7 +101,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     }
   }
 
-  override def getFacets(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Enumeration#Value] = {
+  override def getFacets(player: AnyRef): Seq[Enumeration#Value] = {
     require(null != player)
     if (containsPlayer(player)) {
       val returnSeq = new mutable.ListBuffer[Enumeration#Value]
@@ -121,7 +120,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def allPlayers: Seq[AnyRef] = root.nodes().asScala.toSeq
 
-  override def getPredecessors(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[AnyRef] = {
+  override def getPredecessors(player: AnyRef): Seq[AnyRef] = {
     val returnSeq = new mutable.ListBuffer[Object]
     val processing = new mutable.Queue[Object]
     root.predecessors(player.asInstanceOf[Object]).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))

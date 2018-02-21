@@ -1,7 +1,5 @@
 package scroll.internal.graph
 
-import scroll.internal.support.DispatchQuery
-
 import scala.reflect.ClassTag
 
 /**
@@ -58,20 +56,18 @@ trait RoleGraph {
   /**
     * Returns a Seq of all roles attached to the given player (core object).
     *
-    * @param player        the player instance to get the roles for
-    * @param dispatchQuery the strategy used to get all roles while traversing the role-playing graph, standard is DFS
-    * @return a Seq of all roles of core player. Returns an empty Seq if the given player is not in the role-playing graph.
+    * @param player the player instance to get the roles for
+    * @return a Seq of all roles of core player including the player object itself. Returns an empty Seq if the given player is not in the role-playing graph.
     */
-  def getRoles(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[AnyRef]
+  def getRoles(player: AnyRef): Seq[AnyRef]
 
   /**
     * Returns a Seq of all facets attached to the given player (core object).
     *
-    * @param player        the player instance to get the facets for
-    * @param dispatchQuery the strategy used to get all facets while traversing the role-playing graph, standard is DFS
-    * @return a Seq of all facets of core player. Returns an empty Seq if the given player is not in the role-playing graph.
+    * @param player the player instance to get the facets for
+    * @return a Seq of all facets of core player including the player object itself. Returns an empty Seq if the given player is not in the role-playing graph.
     */
-  def getFacets(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Enumeration#Value]
+  def getFacets(player: AnyRef): Seq[Enumeration#Value]
 
   /**
     * Checks if the role graph contains the given player.
@@ -85,9 +81,8 @@ trait RoleGraph {
     * Returns a list of all predecessors of the given player, i.e. a transitive closure
     * of its cores (deep roles).
     *
-    * @param player        the player instance to calculate the cores of
-    * @param dispatchQuery the strategy used to get all predecessors while traversing the role-playing graph, standard is DFS
+    * @param player the player instance to calculate the cores of
     * @return a list of all predecessors of the given player
     */
-  def getPredecessors(player: AnyRef)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[AnyRef]
+  def getPredecessors(player: AnyRef): Seq[AnyRef]
 }
