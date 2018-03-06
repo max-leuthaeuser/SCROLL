@@ -22,16 +22,16 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
     val source = root
     val target = other.asInstanceOf[ScalaRoleGraph].root
+    
+    //do nothing source is correct
+    if (target.nodes().isEmpty) return
 
-    if (source.nodes().isEmpty && target.nodes().isEmpty) return
-
-    if (source.nodes().isEmpty && !target.nodes().isEmpty) {
+    if (source.nodes().isEmpty) {
+      //take target because source is empty
       root = target
       checkCycles()
       return
     }
-
-    if (!source.nodes().isEmpty && target.nodes().isEmpty) return
 
     if (source.nodes().size < target.nodes().size) {
       source.edges().forEach(p => {
