@@ -59,5 +59,5 @@ class CachingBenchmark extends AbstractBenchmark {
 
   @Benchmark
   def measureNonCached100(local: Local): Int = reps(100, local.cachingExample.noncachedCompartment)
-  
+
 }

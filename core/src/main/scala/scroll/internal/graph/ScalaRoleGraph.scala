@@ -41,7 +41,6 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     require(null != other)
     require(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
 
-    //val source = root
     val target = other.asInstanceOf[ScalaRoleGraph].root
 
     //do nothing source is correct
@@ -158,8 +157,9 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
       root.successors(player.asInstanceOf[Object]).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
       while (processing.nonEmpty) {
         val next = processing.dequeue()
-        if (!returnSeq.contains(next))
+        if (!returnSeq.contains(next)) {
           returnSeq += next
+        }
         root.successors(next).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
       }
       returnSeq
@@ -192,8 +192,9 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     root.predecessors(player.asInstanceOf[Object]).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
     while (processing.nonEmpty) {
       val next = processing.dequeue()
-      if (!returnSeq.contains(next))
+      if (!returnSeq.contains(next)) {
         returnSeq += next
+      }
       root.predecessors(next).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
     }
     returnSeq
