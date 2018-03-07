@@ -1,6 +1,6 @@
 package scroll.internal.graph
 
-import com.google.common.graph.{GraphBuilder, Graphs}
+import com.google.common.graph.{GraphBuilder, Graphs, MutableGraph}
 
 import scala.reflect.ClassTag
 import collection.JavaConverters._
@@ -14,36 +14,33 @@ import scala.collection.mutable
   */
 class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
-  private var root = GraphBuilder.directed().build[Object]()
+  private var root: MutableGraph[Object] = GraphBuilder.directed().build[Object]()
+
+  private def checkAndMerge(source: MutableGraph[Object], target: MutableGraph[Object]): Unit =
+    (source.nodes().size, target.nodes().size) match {
+      case (_, t) if t == 0 => //do nothing; source is correct
+      case (s, _) if s == 0 =>
+        //take target because source is empty:
+        root = target
+        checkCycles()
+      case (s, t) if s < t =>
+        source.edges().forEach(p => {
+          val _ = target.putEdge(p.source(), p.target())
+        })
+        root = target
+        checkCycles()
+      case _ =>
+        // default case:
+        target.edges().forEach(p => {
+          val _ = root.putEdge(p.source(), p.target())
+        })
+        checkCycles()
+    }
 
   override def merge(other: RoleGraph): Unit = {
     require(null != other)
     require(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
-
-    val source = root
-    val target = other.asInstanceOf[ScalaRoleGraph].root
-    
-    //do nothing source is correct
-    if (target.nodes().isEmpty) return
-
-    if (source.nodes().isEmpty) {
-      //take target because source is empty
-      root = target
-      checkCycles()
-      return
-    }
-
-    if (source.nodes().size < target.nodes().size) {
-      source.edges().forEach(p => {
-        val _ = target.putEdge(p.source(), p.target())
-      })
-      root = target
-    } else {
-      target.edges().forEach(p => {
-        val _ = root.putEdge(p.source(), p.target())
-      })
-    }
-    checkCycles()
+    checkAndMerge(root, other.asInstanceOf[ScalaRoleGraph].root)
   }
 
   override def detach(other: RoleGraph): Unit = {
