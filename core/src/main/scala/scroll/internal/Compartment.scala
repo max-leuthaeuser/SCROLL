@@ -1,8 +1,7 @@
 package scroll.internal
 
-import scroll.internal.errors.SCROLLErrors._
+import scroll.internal.errors.SCROLLErrors.{RoleNotFound, SCROLLError, TypeError, TypeNotFound}
 import scroll.internal.support._
-import UnionTypes.RoleUnionTypes
 import scroll.internal.graph.{CachedScalaRoleGraph, ScalaRoleGraph}
 import scroll.internal.util.ReflectiveHelper
 
@@ -38,7 +37,7 @@ trait Compartment
     with RoleGroups
     with Relationships
     with QueryStrategies
-    with RoleUnionTypes {
+    with UnionTypes.RoleUnionTypes {
 
   protected val plays: ScalaRoleGraph = new CachedScalaRoleGraph()
 
@@ -318,18 +317,14 @@ trait Compartment
       */
     def hasExtension[E <: AnyRef : ClassTag]: Boolean = isPlaying[E]
 
-    override def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
+    override def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = getCoreFor(wrapped).last
-      dispatchQuery.filter(plays.getRoles(core)).foreach(r => {
-        ReflectiveHelper.findMethod(r, name, args).foreach(fm => {
-          args match {
-            case Nil => return dispatch(r, fm)
-            case _ => return dispatch(r, fm, args)
-          }
-        })
-      })
-      // otherwise give up
-      Left(RoleNotFound(core.toString, name, args))
+      dispatchQuery.filter(plays.getRoles(core)).collectFirst {
+        case r if ReflectiveHelper.findMethod(r, name, args).isDefined => (r, ReflectiveHelper.findMethod(r, name, args).get)
+      } match {
+        case Some((r, fm)) => dispatch(r, fm, args: _*)
+        case _ => Left(RoleNotFound(core.toString, name, args))
+      }
     }
 
     override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =

@@ -14,10 +14,9 @@ trait SCROLLDynamic extends Dynamic {
     * @param args          the arguments handed over to the given function
     * @param dispatchQuery the dispatch rules that should be applied
     * @tparam E return type
-    * @tparam A argument type
     * @return the result of the function call or an appropriate error
     */
-  def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E]
+  def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E]
 
   /**
     * Allows to call a function with named arguments.

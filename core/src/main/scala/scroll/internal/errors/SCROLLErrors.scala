@@ -22,11 +22,7 @@ object SCROLLErrors {
 
   sealed trait InvocationError extends SCROLLError
 
-  case class IllegalRoleInvocationSingleDispatch(roleType: String, target: String) extends InvocationError {
-    override def toString: String = s"'$target' could be not executed on role type '$roleType'!"
-  }
-
-  case class IllegalRoleInvocationMultipleDispatch(roleType: String, target: String, args: Seq[Any]) extends InvocationError {
+  case class IllegalRoleInvocationDispatch(roleType: String, target: String, args: Seq[Any]) extends InvocationError {
     override def toString: String = args match {
       case l if l.nonEmpty => s"'$target' could not be executed on role type '$roleType' with the following parameters: " + args.map(e => s"'$e'").mkString("(", ", ", ")")
       case _ => s"'$target' could not be executed on role type '$roleType'!"
