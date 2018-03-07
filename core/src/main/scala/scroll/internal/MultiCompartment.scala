@@ -3,8 +3,6 @@ package scroll.internal
 import scroll.internal.errors.SCROLLErrors._
 import scroll.internal.support._
 import scroll.internal.util.ReflectiveHelper
-
-import scala.collection.mutable
 import scala.reflect.ClassTag
 
 /**
@@ -36,23 +34,13 @@ trait MultiCompartment extends Compartment {
 
     override def <->[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = drop(role)
 
-    def applyDynamic[E, A](name: String)(args: A*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
+    def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
       val core = getCoreFor(wrapped).last
-      val results = mutable.ListBuffer.empty[Either[SCROLLError, E]]
-      dispatchQuery.filter(plays.getRoles(core)).foreach(r => {
-        ReflectiveHelper.findMethod(r, name, args).foreach(fm => {
-          args match {
-            case Nil => results += dispatch(r, fm)
-            case _ => results += dispatch(r, fm, args)
-          }
-        })
-      })
-      if (results.isEmpty) {
-        // give up
-        Left(RoleNotFound(core.toString, name, args))
-      }
-      else {
-        Right(results)
+      dispatchQuery.filter(plays.getRoles(core)).collect {
+        case r if ReflectiveHelper.findMethod(r, name, args).isDefined => (r, ReflectiveHelper.findMethod(r, name, args).get)
+      } map { case (r, fm) => dispatch(r, fm, args: _*) } match {
+        case Nil => Left(RoleNotFound(core.toString, name, args))
+        case l => Right(l)
       }
     }
 
@@ -61,24 +49,16 @@ trait MultiCompartment extends Compartment {
 
     def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
       val core = getCoreFor(wrapped).last
-      val results = mutable.ListBuffer.empty[Either[SCROLLError, E]]
-      dispatchQuery.filter(plays.getRoles(core)).filter(ReflectiveHelper.hasMember(_, name)).foreach(r => {
-        results += ReflectiveHelper.propertyOf(r, name)
-      })
-      if (results.isEmpty) {
-        // give up
-        Left(RoleNotFound(core.toString, name, Seq.empty))
-      }
-      else {
-        Right(results)
+      dispatchQuery.filter(plays.getRoles(core)).collect {
+        case r if ReflectiveHelper.hasMember(r, name) => r
+      } map (ReflectiveHelper.propertyOf(_, name)) match {
+        case Nil => Left(RoleNotFound(core.toString, name, Seq.empty))
+        case l => Right(l)
       }
     }
 
-    def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit = {
-      val core = getCoreFor(wrapped).last
-      dispatchQuery.filter(plays.getRoles(core)).filter(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
-    }
-
+    def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit =
+      dispatchQuery.filter(plays.getRoles(getCoreFor(wrapped).last)).filter(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
     override def equals(o: Any): Boolean = o match {
       case other: MultiPlayer[_] => getCoreFor(wrapped) == getCoreFor(other.wrapped)

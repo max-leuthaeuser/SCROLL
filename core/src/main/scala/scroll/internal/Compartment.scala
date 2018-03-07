@@ -338,13 +338,8 @@ trait Compartment
       }
     }
 
-    override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit = {
-      val core = getCoreFor(wrapped).last
-      dispatchQuery.filter(plays.getRoles(core)).find(ReflectiveHelper.hasMember(_, name)) match {
-        case Some(r) => ReflectiveHelper.setPropertyOf(r, name, value)
-        case None => // do nothing
-      }
-    }
+    override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit =
+      dispatchQuery.filter(plays.getRoles(getCoreFor(wrapped).last)).find(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
     override def equals(o: Any): Boolean = o match {
       case other: Player[_] => getCoreFor(wrapped) == getCoreFor(other.wrapped)
