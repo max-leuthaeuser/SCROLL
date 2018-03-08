@@ -15,6 +15,77 @@ import scala.collection.mutable
 class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   private var root = GraphBuilder.directed().build[Object]()
+  
+  override def combine(other: RoleGraph): Unit = {
+    require(null != other)
+    require(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+
+    //val source = root
+    val target = other.asInstanceOf[ScalaRoleGraph].root
+    
+    //do nothing source is correct
+    if (target.nodes().isEmpty) { 
+      other.asInstanceOf[ScalaRoleGraph].root = root
+      return
+    }
+
+    if (root.nodes().isEmpty) {
+      //take target because source is empty
+      root = target
+      checkCycles()
+      return
+    }
+
+    if (root.nodes().size < target.nodes().size) {
+      root.edges().forEach(p => {
+        val _ = target.putEdge(p.source(), p.target())
+      })
+      root = target
+    } else {
+      target.edges().forEach(p => {
+        val _ = root.putEdge(p.source(), p.target())
+      })
+      other.asInstanceOf[ScalaRoleGraph].root = root
+    }
+    checkCycles()
+  }
+  
+  override def addPart(other: RoleGraph): Unit = {
+    require(null != other)
+    require(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+
+    val source = root
+    val target = other.asInstanceOf[ScalaRoleGraph].root
+    
+    //do nothing source is correct
+    if (target.nodes().isEmpty) return
+
+    if (source.nodes().isEmpty) {
+      //take target because source is empty
+      root = target
+      checkCycles()
+      return
+    }
+
+    target.edges().forEach(p => {
+      val _ = root.putEdge(p.source(), p.target())
+    })
+    checkCycles()
+  }
+  
+  override def addPartAndCombine(other: RoleGraph): Unit = {
+    require(null != other)
+    require(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+
+    val target = other.asInstanceOf[ScalaRoleGraph].root
+    
+    if (target.nodes().isEmpty) return
+    
+    target.edges().forEach(p => {
+      val _ = root.putEdge(p.source(), p.target())
+    })
+    checkCycles()
+  }
 
   override def merge(other: RoleGraph): Unit = {
     require(null != other)
