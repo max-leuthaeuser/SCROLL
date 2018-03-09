@@ -86,7 +86,7 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
         }
       }
     }
-    debugCompleteRoleGraphOutput()
+    //debugCompleteRoleGraphOutput()
     destructionCompartment = destruct
     this combine destructionCompartment
   }
@@ -268,7 +268,7 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
         //println("'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''" + construct + " Value: " + value)
       }
 
-      println("~~~~~~~~~~~~~~~~~~~~~~All Players: " + plays.allPlayers)
+      //println("~~~~~~~~~~~~~~~~~~~~~~All Players: " + plays.allPlayers)
 
       /*if (value.isInstanceOf[Person]) {
         var constructor = new ConstructionCompartment.PersonConstruct
