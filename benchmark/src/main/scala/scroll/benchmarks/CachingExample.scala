@@ -15,10 +15,10 @@ class CachingExample {
 
   class SomeCompartment(val cached: Boolean) extends Compartment {
 
-    override val plays: ScalaRoleGraph = if (cached) {
-      new CachedScalaRoleGraph(checkForCycles = false)
+    if (cached) {
+      plays = new CachedScalaRoleGraph(checkForCycles = false)
     } else {
-      new ScalaRoleGraph(checkForCycles = false)
+      plays = new ScalaRoleGraph(checkForCycles = false)
     }
 
     def run(): Int = +core doSomething()

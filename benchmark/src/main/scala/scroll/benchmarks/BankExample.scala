@@ -107,7 +107,7 @@ class BankExample {
     val players = (0 until numPlayer).map(i => new Person("Mr.", "Stan", "Mejer" + i, "Fake Street 1A"))
 
     bank = new Bank {
-      override val plays = new CachedScalaRoleGraph(checkCycles)
+      plays = new CachedScalaRoleGraph(checkCycles)
 
       private val accounts = players.zipWithIndex.map { case (p, i) =>
         val a = new Account(i, Money(100.0, "USD"))
@@ -123,7 +123,7 @@ class BankExample {
 
       (0 until numTransactions).foreach { _ =>
         val transaction = new Transaction {
-          override val plays = new CachedScalaRoleGraph(checkCycles)
+          plays = new CachedScalaRoleGraph(checkCycles)
           amount = Money(10.0, "USD")
           from = new Source()
           to = new Target()
