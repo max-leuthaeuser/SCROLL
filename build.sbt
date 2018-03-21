@@ -12,7 +12,7 @@ lazy val noPublishSettings =
   Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.12.4",
+  scalaVersion := "2.12.5",
   version := "1.5",
   mainClass := None,
   resolvers ++= Seq(
