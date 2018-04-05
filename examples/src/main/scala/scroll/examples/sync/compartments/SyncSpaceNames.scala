@@ -4,15 +4,34 @@ import scroll.internal.util.Log.info
 import scroll.examples.sync.ISyncCompartment
 import scroll.examples.sync.roles.ISyncRole
 import scroll.examples.sync.models.modelB.Family
+import scroll.examples.sync.models.modelB.Member
+import scroll.examples.sync.models.modelC.SimplePerson
+import scroll.examples.sync.models.modelA.Person
 
 class SyncSpaceNames() extends ISyncCompartment {
+  
+  def getNextRole(classname: Object): ISyncRole = {
+    if (classname.isInstanceOf[Family] || classname.isInstanceOf[Member] || classname.isInstanceOf[Person] || classname.isInstanceOf[SimplePerson])
+      return new Sync()
+    return null
+  }
+  
+  def getFirstRole(classname: Object): ISyncRole = {
+    if (classname.isInstanceOf[Member] || classname.isInstanceOf[Person] || classname.isInstanceOf[SimplePerson])
+      return new Sync()
+    return null
+  }
 
-  def getRole(classname: Object): ISyncRole = new Sync
+  def isIntegration(classname: Object): Boolean = {
+    if (classname.isInstanceOf[Family] || classname.isInstanceOf[Member] || classname.isInstanceOf[Person] || classname.isInstanceOf[SimplePerson])
+      return true
+    return false
+  }
   
   def isFirstIntegration(classname: Object): Boolean = {
-    if (classname.isInstanceOf[Family])
-      return false
-    return true
+    if (classname.isInstanceOf[Member] || classname.isInstanceOf[Person] || classname.isInstanceOf[SimplePerson])
+      return true
+    return false
   }
 
   def getNewInstance(): ISyncCompartment = new SyncSpaceNames

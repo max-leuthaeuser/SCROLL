@@ -36,13 +36,13 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       println("Start Family Construct");
 
       new SyncKnownList() {
-        man play this.getSyncRole(man)
+        man play this.getNextIntegrationRole(man)
         SynchronizationCompartment combine this
       }
 
       println("Fill Test Lists");
       
-      ModelElementLists.addFamily(comp.asInstanceOf[Family])
+      ModelElementLists.addElement(comp)
       
       println("Finish Person/Register for Member");
       SynchronizationCompartment.underConstruction = false;
@@ -129,13 +129,13 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
 
       //println("Step 6");//Step 6: Create the Synchronization mechanisms for the name
       new SyncSpaceNames() {
-        man play this.getSyncRole(man)
-        rmMA play this.getSyncRole(rmMA)
-        rmMC play this.getSyncRole(rmMC)
+        man play this.getNextIntegrationRole(man)
+        rmMA play this.getNextIntegrationRole(rmMA)
+        rmMC play this.getNextIntegrationRole(rmMC)
         if (family != null) {
           if (rmFamily != null)
           {            
-            rmFamily play this.getSyncRole(rmFamily)
+            rmFamily play this.getNextIntegrationRole(rmFamily)
           }
           //addSyncer(family)
         }
@@ -163,11 +163,11 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
 
       //println("Fill Test Lists");      
       if (family != null) {
-        ModelElementLists.addFamily(family)
+        ModelElementLists.addElement(family)
       }
-      ModelElementLists.addMember(comp.asInstanceOf[Member])
-      ModelElementLists.addPersons(person)
-      ModelElementLists.addRegister(register)
+      ModelElementLists.addElement(comp)
+      ModelElementLists.addElement(person)
+      ModelElementLists.addElement(register)
       
       println("Finish Person/Register for Member");
       SynchronizationCompartment.underConstruction = false;
@@ -239,10 +239,10 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
 
       //Step 6: Create the Synchronization mechanisms for the name
       new SyncSpaceNames() {
-        man play this.getSyncRole(man)
-        rmMA play this.getSyncRole(rmMA)
-        rmMB play this.getSyncRole(rmMB)
-        rmFamily play this.getSyncRole(rmFamily)
+        man play this.getNextIntegrationRole(man)
+        rmMA play this.getNextIntegrationRole(rmMA)
+        rmMB play this.getNextIntegrationRole(rmMB)
+        rmFamily play this.getNextIntegrationRole(rmFamily)
 
         //addSyncer(comp)
         //addSyncer(person)
@@ -252,7 +252,7 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       }
 
       new SyncKnownList() {
-        rmFamily play this.getSyncRole(rmFamily)
+        rmFamily play this.getNextIntegrationRole(rmFamily)
         SynchronizationCompartment combine this
       }
       //rmFamily play new SyncFamily
@@ -265,10 +265,10 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       
       println("Fill Test Lists");
       
-      ModelElementLists.addFamily(family)
-      ModelElementLists.addMember(member)
-      ModelElementLists.addPersons(person)
-      ModelElementLists.addRegister(comp.asInstanceOf[SimplePerson])
+      ModelElementLists.addElement(family)
+      ModelElementLists.addElement(member)
+      ModelElementLists.addElement(person)
+      ModelElementLists.addElement(comp)
 
       SynchronizationCompartment.underConstruction = false;
     }
@@ -337,10 +337,10 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
 
       //Step 6: Create the Synchronization mechanisms for the name
       new SyncSpaceNames() {
-        man play this.getSyncRole(man)
-        rmMB play this.getSyncRole(rmMB)
-        rmMC play this.getSyncRole(rmMC)
-        rmFamily play this.getSyncRole(rmFamily)
+        man play this.getNextIntegrationRole(man)
+        rmMB play this.getNextIntegrationRole(rmMB)
+        rmMC play this.getNextIntegrationRole(rmMC)
+        rmFamily play this.getNextIntegrationRole(rmFamily)
 
         //addSyncer(comp)
         //addSyncer(register)
@@ -350,7 +350,7 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       }
 
       new SyncKnownList() {
-        rmFamily play this.getSyncRole(rmFamily)
+        rmFamily play this.getNextIntegrationRole(rmFamily)
         SynchronizationCompartment combine this
       }
       //rmFamily play new SyncFamily
@@ -363,10 +363,10 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       
       println("Fill Test Lists");
       
-      ModelElementLists.addFamily(family)
-      ModelElementLists.addMember(member)
-      ModelElementLists.addPersons(comp.asInstanceOf[Person])
-      ModelElementLists.addRegister(register)
+      ModelElementLists.addElement(family)
+      ModelElementLists.addElement(member)
+      ModelElementLists.addElement(comp)
+      ModelElementLists.addElement(register)
 
       SynchronizationCompartment.underConstruction = false;
     }

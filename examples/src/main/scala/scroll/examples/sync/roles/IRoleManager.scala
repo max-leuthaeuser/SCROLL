@@ -7,6 +7,8 @@ trait IRoleManager {
   var relatedManager = ListBuffer[IRoleManager]()
 
   def addRelatedManager(related: IRoleManager): Unit = {
+    if (related == null || related.equals(this))
+      return
     relatedManager = relatedManager :+ related
   }
 
@@ -15,7 +17,8 @@ trait IRoleManager {
   }
     
   def removeRelatedManager(related: IRoleManager): Unit = {
-    relatedManager -= related 
+    if (related != null)
+      relatedManager -= related 
   }
   
   def removeThisManager(): Unit = {

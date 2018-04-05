@@ -71,7 +71,7 @@ object ModelCIntegrationCompartment extends IIntegrationCompartment {
         if (r.isInstanceOf[ISyncRole]) {
           var syncRole: ISyncRole = r.asInstanceOf[ISyncRole]
           var syncComp: ISyncCompartment = syncRole.getOuterCompartment()
-          var newRole = syncComp.getSyncRole(register)
+          var newRole = syncComp.getNextIntegrationRole(register)
           if (newRole != null) {
             rmMC play newRole
             SynchronizationCompartment combine syncComp
@@ -80,7 +80,7 @@ object ModelCIntegrationCompartment extends IIntegrationCompartment {
       }
       
       //Step 7: Fill Test Lists
-      ModelElementLists.addRegister(register)
+      ModelElementLists.addElement(register)
       
       println("Finish Register Integration");
       

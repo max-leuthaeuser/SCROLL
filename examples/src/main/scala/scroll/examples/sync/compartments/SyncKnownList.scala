@@ -6,16 +6,37 @@ import scroll.examples.sync.ISyncCompartment
 import scroll.examples.sync.roles.ISyncRole
 import scroll.examples.sync.PlayerSync
 import scroll.examples.sync.SynchronizationCompartment
+import scroll.examples.sync.models.modelB.Family
 
 class SyncKnownList extends ISyncCompartment {
   
-  def getRole(classname: Object) : ISyncRole = new SyncFamily
+  def getNextRole(classname: Object): ISyncRole = {
+    if (classname.isInstanceOf[Family])
+      return new SyncFamily()
+    return null
+  }
   
+  def getFirstRole(classname: Object): ISyncRole = {
+    if (classname.isInstanceOf[Family])
+      return new SyncFamily()
+    return null
+  }
+
+  def isIntegration(classname: Object): Boolean = {
+    if (classname.isInstanceOf[Family])
+      return true
+    return false
+  }
+  
+  def isFirstIntegration(classname: Object): Boolean = {
+    if (classname.isInstanceOf[Family])
+      return true
+    return false
+  }
+    
   def getNewInstance() : ISyncCompartment = new SyncKnownList
   
   def getRuleName() : String = "SyncKnownListRule"
-  
-  def isFirstIntegration(classname: Object): Boolean = true
   
   class SyncFamily() extends ISyncRole {
 

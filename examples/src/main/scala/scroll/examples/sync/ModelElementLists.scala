@@ -12,22 +12,35 @@ object ModelElementLists {
   var persons = List[Person]()
   var registers = List[SimplePerson]() 
   
-  def addFamily(f: Family): Unit = {
+  def addElement(obj: Object) {
+    if (obj == null)
+      return
+    if (obj.isInstanceOf[Family])
+      this.addFamily(obj.asInstanceOf[Family])
+    if (obj.isInstanceOf[Member])
+      this.addMember(obj.asInstanceOf[Member])
+    if (obj.isInstanceOf[Person])
+      this.addPersons(obj.asInstanceOf[Person])
+    if (obj.isInstanceOf[SimplePerson])
+      this.addRegister(obj.asInstanceOf[SimplePerson])
+  }
+  
+  private def addFamily(f: Family): Unit = {
     if (!families.contains(f))
       families = families :+ f
   }
   
-  def addMember(m: Member): Unit = {
+  private def addMember(m: Member): Unit = {
     if (!members.contains(m))
       members = members :+ m
   }
   
-  def addPersons(p: Person): Unit = {
+  private def addPersons(p: Person): Unit = {
     if (!persons.contains(p))
        persons = persons :+ p
   }
   
-  def addRegister(r: SimplePerson): Unit = {
+  private def addRegister(r: SimplePerson): Unit = {
     if (!registers.contains(r))
       registers = registers :+ r
   }

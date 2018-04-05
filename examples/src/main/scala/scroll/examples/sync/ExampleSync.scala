@@ -11,6 +11,7 @@ import scroll.examples.sync.compartments.SyncCommaNames
 import scroll.examples.sync.compartments.GeneralDestructor
 import scroll.examples.sync.models.modelA.Male
 import scroll.examples.sync.compartments.SyncSpaceNames
+import scroll.examples.sync.compartments.SyncKnownList
 
 object ExampleSync extends App {
 
@@ -18,6 +19,8 @@ object ExampleSync extends App {
     
     SynchronizationCompartment.changeConstructionRule(ModelBCConstructionCompartment)
     SynchronizationCompartment.changeDestructionRule(ModelABCDestructionCompartment)
+    SynchronizationCompartment.addSynchronizationRule(new SyncKnownList())
+    SynchronizationCompartment.addSynchronizationRule(new SyncSpaceNames())
     
     val johnson = new Family("Johnson")
     val dad = new Member("Dad", johnson, true, false, false, false)

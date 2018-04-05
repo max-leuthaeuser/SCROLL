@@ -4,20 +4,39 @@ import scroll.internal.util.Log.info
 import scroll.examples.sync.ISyncCompartment
 import scroll.examples.sync.roles.ISyncRole
 import scroll.examples.sync.models.modelB.Family
+import scroll.examples.sync.models.modelC.SimplePerson
+import scroll.examples.sync.models.modelA.Person
+import scroll.examples.sync.models.modelB.Member
 
 class SyncCommaNames extends ISyncCompartment {
 
-  def getRole(classname: Object): ISyncRole = new Sync()
-
+  def getNextRole(classname: Object): ISyncRole = {
+    if (classname.isInstanceOf[Family] || classname.isInstanceOf[Member] || classname.isInstanceOf[Person] || classname.isInstanceOf[SimplePerson])
+      return new Sync()
+    return null
+  }
+  
+  def getFirstRole(classname: Object): ISyncRole = {
+    if (classname.isInstanceOf[Member] || classname.isInstanceOf[Person] || classname.isInstanceOf[SimplePerson])
+      return new Sync()
+    return null
+  }  
+  
+  def isIntegration(classname: Object): Boolean = {
+    if (classname.isInstanceOf[Family] || classname.isInstanceOf[Member] || classname.isInstanceOf[Person] || classname.isInstanceOf[SimplePerson])
+      return true
+    return false
+  }
+  
+  def isFirstIntegration(classname: Object): Boolean = {
+    if (classname.isInstanceOf[Member] || classname.isInstanceOf[Person] || classname.isInstanceOf[SimplePerson])
+      return true
+    return false
+  }
+  
   def getNewInstance(): ISyncCompartment = new SyncCommaNames()
 
   def getRuleName(): String = "SyncNameRule2"
-  
-  def isFirstIntegration(classname: Object): Boolean = {
-    if (classname.isInstanceOf[Family])
-      return false
-    return true
-  }
 
   class Sync() extends ISyncRole {
 

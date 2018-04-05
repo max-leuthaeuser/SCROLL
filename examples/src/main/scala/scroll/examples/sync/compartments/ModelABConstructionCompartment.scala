@@ -36,12 +36,12 @@ object ModelABConstructionCompartment extends IConstructionCompartment  {
 
       //Step 6: Create the Synchronization mechanisms for the name
       new SyncKnownList() {
-        man play this.getSyncRole(comp)
+        man play this.getNextIntegrationRole(comp)
         SynchronizationCompartment combine this
       }
 
       //Step 7: Fill Test Lists      
-      ModelElementLists.addFamily(comp.asInstanceOf[Family])
+      ModelElementLists.addElement(comp)
       
       println("Finish Family Construct");
       SynchronizationCompartment.underConstruction = false;
@@ -113,20 +113,20 @@ object ModelABConstructionCompartment extends IConstructionCompartment  {
 
       //println("Step 6");//Step 6: Create the Synchronization mechanisms for the name
       new SyncSpaceNames() {
-        man play this.getSyncRole(man)
-        rmMA play this.getSyncRole(rmMA)
+        man play this.getNextIntegrationRole(man)
+        rmMA play this.getNextIntegrationRole(rmMA)
         if (family != null) {
           if (rmFamily != null)
           {            
-            rmFamily play this.getSyncRole(rmFamily)
+            rmFamily play this.getNextIntegrationRole(rmFamily)
           }
         }
         SynchronizationCompartment combine this
       }
 
       //println("Step 7");//Step 7: Fill Test Lists
-      ModelElementLists.addMember(comp.asInstanceOf[Member])
-      ModelElementLists.addPersons(person)
+      ModelElementLists.addElement(comp)
+      ModelElementLists.addElement(person)
       
       println("Finish Member Construct");
       SynchronizationCompartment.underConstruction = false;
@@ -181,21 +181,21 @@ object ModelABConstructionCompartment extends IConstructionCompartment  {
 
       //Step 6: Create the Synchronization mechanisms for the name
       new SyncSpaceNames() {
-        man play this.getSyncRole(comp)
-        rmMB play this.getSyncRole(member)
-        rmFamily play this.getSyncRole(family)
+        man play this.getNextIntegrationRole(comp)
+        rmMB play this.getNextIntegrationRole(member)
+        rmFamily play this.getNextIntegrationRole(family)
         SynchronizationCompartment combine this
       }
 
       new SyncKnownList() {
-        rmFamily play this.getSyncRole(family)
+        rmFamily play this.getNextIntegrationRole(family)
         SynchronizationCompartment combine this
       }
       
       //Step 7: Fill Test Lists
-      ModelElementLists.addFamily(family)
-      ModelElementLists.addMember(member)
-      ModelElementLists.addPersons(comp.asInstanceOf[Person])
+      ModelElementLists.addElement(family)
+      ModelElementLists.addElement(member)
+      ModelElementLists.addElement(comp)
       
       println("Finish Person Construct");
 
