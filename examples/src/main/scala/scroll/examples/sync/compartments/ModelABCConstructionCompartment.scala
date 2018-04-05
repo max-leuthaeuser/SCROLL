@@ -12,6 +12,7 @@ import scroll.examples.sync.models.modelB.Family
 import scroll.examples.sync.models.modelC.SimplePerson
 import scroll.examples.sync.models.modelA.Male
 import scroll.examples.sync.models.modelA.Female
+import scroll.examples.sync.ConstructionContainer
 
 object ModelABCConstructionCompartment extends IConstructionCompartment  {
   def getConstructorForClassName(classname: Object) : IConstructor = {
@@ -30,21 +31,13 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
       SynchronizationCompartment.underConstruction = true;
-
       println("Start Family Construct");
-
-      //Step 3: Add RoleManager roles and Delete roles
-      var familyDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(comp)      
-      man play familyDelete
-
-      //Step 6: Create the Synchronization mechanisms for the name
-      new SyncKnownList() {
-        man play this.getNextIntegrationRole(comp)
-        SynchronizationCompartment combine this
-      }
-
-      //Step 7: Fill Test Lists      
-      ModelElementLists.addElement(comp)
+      
+      //Step 3: Create Containers 
+      createContainerElement(true, true, comp, man)
+            
+      //Step 4: Finish Creation
+      ModelABCConstructionCompartment.this.makeCompleteConstructionProcess(containers)
       
       println("Finish Family Construct");
       SynchronizationCompartment.underConstruction = false;
@@ -94,56 +87,15 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
         person = new Male(firstName + " " + lastName)
       else
         person = new Female(firstName + " " + lastName)
-
-      //println("Step 3");//Step 3: Add RoleManager roles and Delete roles
-      var rmMA = SynchronizationCompartment.createRoleManager();
-      var rmMC = SynchronizationCompartment.createRoleManager();
-      person play rmMA
-      register play rmMC
-
-      var registerDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(register)
-      var personDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(person)
-      var memberDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(comp)
-      man play memberDelete
-      rmMA play personDelete
-      rmMC play registerDelete
-
-      //println("Step 4");//Step 4: Add the related Role Manager
-      man.addRelatedManager(rmMA)
-      man.addRelatedManager(rmMC)
-      man.addRelatedManager(rmFamily)
-      rmMA.addRelatedManager(man)
-      rmMA.addRelatedManager(rmMC)
-      rmMA.addRelatedManager(rmFamily)
-      rmMC.addRelatedManager(rmMA)
-      rmMC.addRelatedManager(man)
-      rmMC.addRelatedManager(rmFamily)
-      rmFamily.addRelatedManager(man)
-      rmFamily.addRelatedManager(rmMC)
-      rmFamily.addRelatedManager(rmMA)
-
-      //println("Step 5");//Step 5: Synchronize the Compartments
-      SynchronizationCompartment combine register //union synchonisiert die rollen graphen
-      SynchronizationCompartment combine person //union synchonisiert die rollen graphen
-
-      //println("Step 6");//Step 6: Create the Synchronization mechanisms for the name
-      new SyncSpaceNames() {
-        man play this.getNextIntegrationRole(comp)
-        rmMA play this.getNextIntegrationRole(person)
-        rmMC play this.getNextIntegrationRole(register)
-        if (family != null) {
-          if (rmFamily != null)
-          {            
-            rmFamily play this.getNextIntegrationRole(family)
-          }
-        }
-        SynchronizationCompartment combine this
-      }
-
-      //println("Step 7");//Step 7: Fill Test Lists
-      ModelElementLists.addElement(comp)
-      ModelElementLists.addElement(person)
-      ModelElementLists.addElement(register)
+      
+      //Step 3: Create Containers 
+      createContainerElement(true, true, comp, man)      
+      createContainerElement(false, false, family, rmFamily)
+      createContainerElement(false, true, register, SynchronizationCompartment.createRoleManager())      
+      createContainerElement(false, true, person, SynchronizationCompartment.createRoleManager())
+            
+      //Step 4: Finish Creation
+      ModelABCConstructionCompartment.this.makeCompleteConstructionProcess(containers)
       
       println("Finish Member Construct");
       SynchronizationCompartment.underConstruction = false;
@@ -154,7 +106,6 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
       SynchronizationCompartment.underConstruction = true;
-
       println("Start Register Construct");
 
       //Step 1: Get construction values
@@ -176,64 +127,16 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
         member = new Member(firstName, family, false, false, false, true);
       }
       
-      //Step 3: Add RoleManager roles and Delete roles      
-      var rmFamily = SynchronizationCompartment.createRoleManager();
-      var rmMA = SynchronizationCompartment.createRoleManager();
-      var rmMB = SynchronizationCompartment.createRoleManager();      
-      family play rmFamily
-      person play rmMA
-      member play rmMB
-
-      var registerDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(comp)
-      var personDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(person)
-      var memberDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(member)
-      var familyDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(family)      
-      rmFamily play familyDelete
-      man play registerDelete
-      rmMA play personDelete
-      rmMB play memberDelete
-
-      //Step 4: Add the related Role Manager
-      man.addRelatedManager(rmMA)
-      man.addRelatedManager(rmMB)
-      man.addRelatedManager(rmFamily)
-      rmMA.addRelatedManager(man)
-      rmMA.addRelatedManager(rmMB)
-      rmMA.addRelatedManager(rmFamily)
-      rmMB.addRelatedManager(rmMA)
-      rmMB.addRelatedManager(man)
-      rmMB.addRelatedManager(rmFamily)
-      rmFamily.addRelatedManager(man)
-      rmFamily.addRelatedManager(rmMB)
-      rmFamily.addRelatedManager(rmMA)
-
-      //Step 5: Synchronize the Compartments
-      SynchronizationCompartment combine family
-      SynchronizationCompartment combine person
-      SynchronizationCompartment combine member
-
-      //Step 6: Create the Synchronization mechanisms for the name
-      new SyncSpaceNames() {
-        man play this.getNextIntegrationRole(comp)
-        rmMA play this.getNextIntegrationRole(person)
-        rmMB play this.getNextIntegrationRole(member)
-        rmFamily play this.getNextIntegrationRole(family)
-        SynchronizationCompartment combine this
-      }
-
-      new SyncKnownList() {
-        rmFamily play this.getNextIntegrationRole(family)
-        SynchronizationCompartment combine this
-      }
-      
-      //Step 7: Fill Test Lists
-      ModelElementLists.addElement(family)
-      ModelElementLists.addElement(member)
-      ModelElementLists.addElement(person)
-      ModelElementLists.addElement(comp)
+      //Step 3: Create Containers 
+      createContainerElement(true, true, comp, man)
+      createContainerElement(false, true, family, SynchronizationCompartment.createRoleManager())
+      createContainerElement(false, true, member, SynchronizationCompartment.createRoleManager())
+      createContainerElement(false, true, person, SynchronizationCompartment.createRoleManager())
+            
+      //Step 4: Finish Creation
+      ModelABCConstructionCompartment.this.makeCompleteConstructionProcess(containers)      
       
       println("Finish Register Construct");
-
       SynchronizationCompartment.underConstruction = false;
     }
   }
@@ -242,8 +145,8 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
       SynchronizationCompartment.underConstruction = true;
-
       println("Start Person Construct");
+      
       //Step 1: Get construction values
       var fullName: String = +this getFullName ();
       var result: Array[java.lang.String] = fullName.split(" ");
@@ -261,65 +164,17 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
         register = new SimplePerson(firstName + " " + lastName, false)
         member = new Member(firstName, family, false, false, false, true);
       }
-
-      //Step 3: Add RoleManager roles and Delete roles        
-      var rmMB = SynchronizationCompartment.createRoleManager();
-      var rmMC = SynchronizationCompartment.createRoleManager();
-      var rmFamily = SynchronizationCompartment.createRoleManager();
-      family play rmFamily
-      register play rmMC
-      member play rmMB
-
-      var registerDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(register)
-      var personDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(comp)
-      var memberDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(member)
-      var familyDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(family)      
-      rmFamily play familyDelete
-      man play personDelete
-      rmMC play registerDelete
-      rmMB play memberDelete
-
-      //Step 4: Add the related Role Manager
-      man.addRelatedManager(rmMB)
-      man.addRelatedManager(rmMC)
-      man.addRelatedManager(rmFamily)
-      rmMB.addRelatedManager(man)
-      rmMB.addRelatedManager(rmMC)
-      rmMB.addRelatedManager(rmFamily)
-      rmMC.addRelatedManager(rmMB)
-      rmMC.addRelatedManager(man)
-      rmMC.addRelatedManager(rmFamily)      
-      rmFamily.addRelatedManager(man)
-      rmFamily.addRelatedManager(rmMB)
-      rmFamily.addRelatedManager(rmMC)
-
-      //Step 5: Synchronize the Compartments
-      SynchronizationCompartment combine register
-      SynchronizationCompartment combine family
-      SynchronizationCompartment combine member //union synchonisiert die rollen graphen
-
-      //Step 6: Create the Synchronization mechanisms for the name
-      new SyncSpaceNames() {
-        man play this.getNextIntegrationRole(comp)
-        rmMB play this.getNextIntegrationRole(member)
-        rmMC play this.getNextIntegrationRole(register)
-        rmFamily play this.getNextIntegrationRole(family)
-        SynchronizationCompartment combine this
-      }
-
-      new SyncKnownList() {
-        rmFamily play this.getNextIntegrationRole(family)
-        SynchronizationCompartment combine this
-      }
       
-      //Step 7: Fill Test Lists
-      ModelElementLists.addElement(family)
-      ModelElementLists.addElement(member)
-      ModelElementLists.addElement(comp)
-      ModelElementLists.addElement(register)
+      //Step 3: Create Containers 
+      createContainerElement(true, true, comp, man)
+      createContainerElement(false, true, family, SynchronizationCompartment.createRoleManager())
+      createContainerElement(false, true, member, SynchronizationCompartment.createRoleManager())
+      createContainerElement(false, true, register, SynchronizationCompartment.createRoleManager())
+            
+      //Step 4: Finish Creation
+      ModelABCConstructionCompartment.this.makeCompleteConstructionProcess(containers)
       
       println("Finish Person Construct");
-
       SynchronizationCompartment.underConstruction = false;
     }
   }

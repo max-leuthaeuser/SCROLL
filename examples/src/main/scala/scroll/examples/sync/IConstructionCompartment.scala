@@ -7,14 +7,25 @@ import scala.collection.mutable.ListBuffer
 trait IConstructionCompartment extends Compartment {
 
   def getConstructorForClassName(classname: Object): IConstructor
+  
+  /**
+   * 
+   */
+  protected def addManagerRoles(containers: ListBuffer[ConstructionContainer]): Unit = {
+    containers.foreach { cc =>
+      if (cc.isConstructed() && !cc.isStartElement()) {
+        cc.getPlayerInstance() play cc.getManagerInstance()
+      }
+    }
+  }
 
   /**
    * Add the delete roles for the elements in the ConstructionContainers.
    */
   protected def addDeleteRoles(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
-      if (cc.constructed) {
-        cc.managerInstance play SynchronizationCompartment.destructionCompartment.getDestructorForClassName(cc.playerInstance)
+      if (cc.isConstructed()) {
+        cc.getManagerInstance() play SynchronizationCompartment.destructionCompartment.getDestructorForClassName(cc.getPlayerInstance())
       }
     }
   }
@@ -25,7 +36,7 @@ trait IConstructionCompartment extends Compartment {
   protected def addRelatedRoleManager(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
       containers.foreach { inner =>
-        cc.managerInstance.addRelatedManager(inner.managerInstance)
+        cc.getManagerInstance().addRelatedManager(inner.getManagerInstance())
       }
       //println("++++++++++++++++++++++++From: " + cc.managerInstance + " Rolemanagers: " + cc.managerInstance.relatedManager);
     }
@@ -36,7 +47,7 @@ trait IConstructionCompartment extends Compartment {
    */
   protected def synchronizeCompartments(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
-      SynchronizationCompartment combine cc.playerInstance
+      SynchronizationCompartment combine cc.getPlayerInstance()
     }
   }
 
@@ -48,12 +59,12 @@ trait IConstructionCompartment extends Compartment {
       var sync: ISyncCompartment = null
       //Proof all container for integration
       containers.foreach { cc =>
-        if (s.isIntegration(cc.playerInstance)) {
-          if (cc.constructed && sync == null) {
+        if (s.isIntegration(cc.getPlayerInstance())) {
+          if (cc.isConstructed() && sync == null) {
             sync = s.getNewInstance()
           }
           if (sync != null) {
-            cc.managerInstance play sync.getNextIntegrationRole(cc.playerInstance)
+            cc.getManagerInstance() play sync.getNextIntegrationRole(cc.getPlayerInstance())
           }
         }
       }
@@ -67,11 +78,12 @@ trait IConstructionCompartment extends Compartment {
    */
   protected def fillTestLists(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
-      ModelElementLists.addElement(cc.playerInstance)
+      ModelElementLists.addElement(cc.getPlayerInstance())
     }
   }
   
   protected def makeCompleteConstructionProcess(containers: ListBuffer[ConstructionContainer]): Unit = {
+    this.addManagerRoles(containers)
     this.addDeleteRoles(containers)
     this.addRelatedRoleManager(containers)
     this.synchronizeCompartments(containers)

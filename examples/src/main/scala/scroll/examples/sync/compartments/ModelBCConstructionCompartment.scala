@@ -31,9 +31,7 @@ object ModelBCConstructionCompartment extends IConstructionCompartment  {
       println("Start Family Construct");
       
       //Step 3: Create Containers 
-      var cc = new ConstructionContainer()
-      cc.fillContainer(true, comp, man)
-      containers = containers :+ cc
+      createContainerElement(true, true, comp, man)
 
       //Step 4: Finish Creation
       ModelBCConstructionCompartment.this.makeCompleteConstructionProcess(containers)     
@@ -82,20 +80,9 @@ object ModelBCConstructionCompartment extends IConstructionCompartment  {
       var register: SimplePerson = new SimplePerson(firstName + " " + lastName, male)
       
       //Step 3: Create Containers 
-      var cc = new ConstructionContainer()
-      cc.fillContainer(true, comp, man)
-      containers = containers :+ cc
-      
-      if (family != null) {
-        cc = new ConstructionContainer()
-        cc.fillContainer(false, family, rmFamily)
-        containers = containers :+ cc
-      }
-      
-      cc = new ConstructionContainer()
-      cc.fillContainer(true, register, SynchronizationCompartment.createRoleManager())
-      containers = containers :+ cc
-      cc.playerInstance play cc.managerInstance
+      createContainerElement(true, true, comp, man)
+      createContainerElement(false, false, family, rmFamily)
+      createContainerElement(false, true, register, SynchronizationCompartment.createRoleManager())
             
       //Step 4: Finish Creation
       ModelBCConstructionCompartment.this.makeCompleteConstructionProcess(containers)
@@ -178,19 +165,9 @@ object ModelBCConstructionCompartment extends IConstructionCompartment  {
       }
       
       //Step 3: Add RoleManager roles and Delete roles 
-      var cc = new ConstructionContainer()
-      cc.fillContainer(true, comp, man)
-      containers = containers :+ cc
-      
-      cc = new ConstructionContainer()
-      cc.fillContainer(true, family, SynchronizationCompartment.createRoleManager())
-      containers = containers :+ cc
-      cc.playerInstance play cc.managerInstance
-      
-      cc = new ConstructionContainer()
-      cc.fillContainer(true, member, SynchronizationCompartment.createRoleManager())
-      containers = containers :+ cc
-      cc.playerInstance play cc.managerInstance
+      createContainerElement(true, true, comp, man)
+      createContainerElement(false, true, family, SynchronizationCompartment.createRoleManager())
+      createContainerElement(false, true, member, SynchronizationCompartment.createRoleManager())
       
       //Step 4: Finish Creation
       ModelBCConstructionCompartment.this.makeCompleteConstructionProcess(containers)
