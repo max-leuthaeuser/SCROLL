@@ -58,19 +58,19 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     super.combine(other)
     resetAll()
   }
-  
+
   override def addPart(other: RoleGraph): Unit = {
     require(other.isInstanceOf[CachedScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
     super.addPart(other)
     resetAll()
   }
-  
+
   override def addPartAndCombine(other: RoleGraph): Unit = {
     require(other.isInstanceOf[CachedScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
     super.addPartAndCombine(other)
     resetAll()
   }
-  
+
   override def merge(other: RoleGraph): Unit = {
     require(other.isInstanceOf[CachedScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
     super.merge(other)

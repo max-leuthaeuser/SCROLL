@@ -45,9 +45,9 @@ class RecursiveBaseCallsWithCaseClassesTest extends FeatureSpec with GivenWhenTh
     scenario("Adding roles and doing a normal base call") {
       Given("a player and a role in a compartment")
       new MultiRole() {
-        val p = CoreType("p")
+        val c = CoreType("p")
         val r = RoleTypeA("r")
-        val player = p play r
+        val player = c play r
         val output = new java.io.ByteArrayOutputStream()
         When("calling base")
         Console.withOut(output) {
@@ -56,7 +56,7 @@ class RecursiveBaseCallsWithCaseClassesTest extends FeatureSpec with GivenWhenTh
         val actual = streamToSeq(output)
         val expected = Seq(
           s"RoleTypeA($r)::someMethod()",
-          s"CoreType($p)::someMethod()"
+          s"CoreType($c)::someMethod()"
         )
         Then("the calls should be in the correct order")
         actual should contain theSameElementsInOrderAs expected
@@ -68,21 +68,23 @@ class RecursiveBaseCallsWithCaseClassesTest extends FeatureSpec with GivenWhenTh
     scenario("Adding roles and chaining base calls recursively") {
       Given("a player and two roles in a compartment")
       new MultiRole() {
-        val p1 = CoreType("p1")
-        val p2 = CoreType("p2") play RoleTypeA("r2")
-        val rA = RoleTypeA("rA")
+        val c1 = CoreType("c1")
+        val c2 = CoreType("c2")
+        val rA1 = RoleTypeA("rA1")
+        val rA2 = RoleTypeA("rA2")
         val rB = RoleTypeB("rB")
-        val player = p1 play rA play rB
+        val player1 = c1 play rA1 play rB
+        val player2 = c2 play rA2
         val output = new java.io.ByteArrayOutputStream()
         When("calling base")
         Console.withOut(output) {
-          player.someMethod()
+          player1.someMethod()
         }
         val actual = streamToSeq(output)
         val expected = Seq(
           s"RoleTypeB($rB)::someMethod()",
-          s"RoleTypeA($rA)::someMethod()",
-          s"CoreType($p1)::someMethod()"
+          s"RoleTypeA($rA1)::someMethod()",
+          s"CoreType($c1)::someMethod()"
         )
         Then("the calls should be in the correct order")
         actual should contain theSameElementsInOrderAs expected
