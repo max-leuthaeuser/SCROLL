@@ -20,4 +20,5 @@ class SCROLLTestSuite
     new RoleRestrictionsTest,
     new RoleGroupsTest,
     new MultiRoleFeaturesTest,
-    new FacetsTests)
+    new FacetsTests,
+    new RecursiveBaseCallsTest)
