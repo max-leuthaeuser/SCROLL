@@ -354,10 +354,10 @@ trait Compartment
       dispatchQuery.filter(plays.getRoles(getCoreFor(wrapped).last)).find(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
     override def equals(o: Any): Boolean = o match {
-      case other: Player[_] => getCoreFor(wrapped) == getCoreFor(other.wrapped)
+      case other: Player[_] => getCoreFor(wrapped) equals getCoreFor(other.wrapped)
       case other: Any => getCoreFor(wrapped) match {
         case Nil => false
-        case p :: Nil => p == other
+        case p :: Nil => p equals other
         case _ => false
       }
       case _ => false // default case

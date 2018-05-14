@@ -4,9 +4,9 @@ import org.scalatest._
 import scroll.internal.Compartment
 import scroll.internal.support.DispatchQuery._
 
-class RecursiveBaseCallsTest extends FeatureSpec with GivenWhenThen with Matchers {
+class RecursiveBaseCallsWithCaseClassesTest extends FeatureSpec with GivenWhenThen with Matchers {
 
-  class CoreType {
+  case class CoreType(id: String) {
     def someMethod(): Unit = {
       println(s"CoreType($this)::someMethod()")
     }
@@ -14,8 +14,10 @@ class RecursiveBaseCallsTest extends FeatureSpec with GivenWhenThen with Matcher
 
   class MultiRole extends Compartment {
 
-    case class RoleTypeA(id: String = "RoleTypeA") {
-      implicit val dd = Bypassing(_.equals(this))
+    case class RoleTypeA(id: String) {
+      implicit val dd = Bypassing((o: AnyRef) => {
+        o == this || !o.isInstanceOf[CoreType]
+      })
 
       def someMethod(): Unit = {
         println(s"RoleTypeA($this)::someMethod()")
@@ -23,10 +25,8 @@ class RecursiveBaseCallsTest extends FeatureSpec with GivenWhenThen with Matcher
       }
     }
 
-    case class RoleTypeB(id: String = "RoleTypeB") {
-      implicit val dd = Bypassing((o: AnyRef) => {
-        o.equals(this) || !o.isInstanceOf[CoreType]
-      })
+    case class RoleTypeB(id: String) {
+      implicit val dd = Bypassing(_ == this)
 
       def someMethod(): Unit = {
         println(s"RoleTypeB($this)::someMethod()")
@@ -45,8 +45,8 @@ class RecursiveBaseCallsTest extends FeatureSpec with GivenWhenThen with Matcher
     scenario("Adding roles and doing a normal base call") {
       Given("a player and a role in a compartment")
       new MultiRole() {
-        val p = new CoreType
-        val r = RoleTypeA()
+        val p = CoreType("p")
+        val r = RoleTypeA("r")
         val player = p play r
         val output = new java.io.ByteArrayOutputStream()
         When("calling base")
@@ -68,10 +68,11 @@ class RecursiveBaseCallsTest extends FeatureSpec with GivenWhenThen with Matcher
     scenario("Adding roles and chaining base calls recursively") {
       Given("a player and two roles in a compartment")
       new MultiRole() {
-        val p = new CoreType
-        val rA = RoleTypeA()
-        val rB = RoleTypeB()
-        val player = p play rA play rB
+        val p1 = CoreType("p1")
+        val p2 = CoreType("p2") play RoleTypeA("r2")
+        val rA = RoleTypeA("rA")
+        val rB = RoleTypeB("rB")
+        val player = p1 play rA play rB
         val output = new java.io.ByteArrayOutputStream()
         When("calling base")
         Console.withOut(output) {
@@ -79,9 +80,9 @@ class RecursiveBaseCallsTest extends FeatureSpec with GivenWhenThen with Matcher
         }
         val actual = streamToSeq(output)
         val expected = Seq(
-          s"RoleTypeA($rA)::someMethod()",
           s"RoleTypeB($rB)::someMethod()",
-          s"CoreType($p)::someMethod()"
+          s"RoleTypeA($rA)::someMethod()",
+          s"CoreType($p1)::someMethod()"
         )
         Then("the calls should be in the correct order")
         actual should contain theSameElementsInOrderAs expected

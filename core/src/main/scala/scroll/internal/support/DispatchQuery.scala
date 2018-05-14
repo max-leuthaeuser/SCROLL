@@ -155,9 +155,6 @@ class DispatchQuery(
     } else {
       from.andThen(to).andThen(through).andThen(bypassing)(anys).reverse
     }
-    _sortedWith match {
-      case Some(f) => r.sortWith(f)
-      case None => r
-    }
+    _sortedWith.fold(r) { s => r.sortWith(s) }
   }
 }
