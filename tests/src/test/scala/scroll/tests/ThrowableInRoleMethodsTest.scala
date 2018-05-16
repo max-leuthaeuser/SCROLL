@@ -7,7 +7,7 @@ import scroll.internal.Compartment
 
 class ThrowableInRoleMethodsTest extends FeatureSpec with GivenWhenThen with Matchers {
 
-  info("Test spec for recursive base calls.")
+  info("Test spec for handling a Throwable in role methods.")
 
   class CoreType
 
@@ -29,36 +29,36 @@ class ThrowableInRoleMethodsTest extends FeatureSpec with GivenWhenThen with Mat
 
   }
 
-  feature("Handling throwable in role methods") {
-    scenario("Handling thrown error") {
+  feature("Handling Throwable in role methods") {
+    scenario("Handling thrown Error") {
       Given("a player and a role in a compartment")
       new ExceptionShowcase() {
         val core = new CoreType()
         core play new Exceptional()
         When("calling the role method")
-        Then("the error should be thrown")
+        Then("the Error should be thrown")
         an[Error] should be thrownBy (+core).roleMethodWithError()
       }
     }
 
-    scenario("Handling thrown unchecked exception") {
+    scenario("Handling thrown unchecked Exception") {
       Given("a player and a role in a compartment")
       new ExceptionShowcase() {
         val core = new CoreType()
         core play new Exceptional()
         When("calling the role method")
-        Then("the unchecked exception should be thrown")
+        Then("the unchecked Exception should be thrown")
         an[RuntimeException] should be thrownBy (+core).roleMethodWithUncheckedException()
       }
     }
 
-    scenario("Handling thrown checked exception") {
+    scenario("Handling thrown checked Exception") {
       Given("a player and a role in a compartment")
       new ExceptionShowcase() {
         val core = new CoreType()
         core play new Exceptional()
         When("calling the role method")
-        Then("the checked exception should be thrown")
+        Then("the checked Exception should be thrown")
         an[IOException] should be thrownBy (+core).roleMethodWithCheckedException()
       }
     }
