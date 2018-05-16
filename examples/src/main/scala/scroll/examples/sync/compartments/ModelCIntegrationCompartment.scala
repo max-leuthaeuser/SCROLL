@@ -45,47 +45,8 @@ object ModelCIntegrationCompartment extends IIntegrationCompartment {
       createContainerElement(register, SynchronizationCompartment.createRoleManager(), comp, manager)
 
       //Step 4: Finish Creation
-      ModelCIntegrationCompartment.this.makeCompleteIntegrationProcess(containers)      
+      ModelCIntegrationCompartment.this.makeCompleteIntegrationProcess(containers)
       
-      /*//Step 3: Add RoleManager roles and Delete roles        
-      var rmMC = SynchronizationCompartment.createRoleManager();
-      register play rmMC
-
-      var registerDelete = SynchronizationCompartment.getDestructionRule().getDestructorForClassName(register)
-      rmMC play registerDelete
-
-      //Step 4: Add the related Role Manager
-      var manager = (+comp).getManager()
-      if (manager.isRight) {
-        var realManager: IRoleManager = manager.right.get
-        var related = realManager.getRelatedManager()
-        realManager.addRelatedManager(rmMC)
-        rmMC.addRelatedManager(realManager)
-        related.foreach { r =>
-          r.addRelatedManager(rmMC)
-          rmMC.addRelatedManager(r)
-        }
-      }
-
-      //Step 5: Synchronize the Compartments
-      SynchronizationCompartment combine register
-
-      //Step 6: Integrate in Synchronization Rules
-      var player = ModelCIntegrationCompartment.this.plays.roles(comp)
-      player.foreach { r =>
-        if (r.isInstanceOf[ISyncRole]) {
-          var syncRole: ISyncRole = r.asInstanceOf[ISyncRole]
-          var syncComp: ISyncCompartment = syncRole.getOuterCompartment()
-          var newRole = syncComp.getNextIntegrationRole(register)
-          if (newRole != null) {
-            rmMC play newRole
-            SynchronizationCompartment combine syncComp
-          }
-        }
-      }
-
-      //Step 7: Fill Test Lists
-      ModelElementLists.addElement(register)*/
       println("Finish Register Integration");
     }
   }

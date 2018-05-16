@@ -44,7 +44,6 @@ trait IConstructionCompartment extends Compartment {
       containers.foreach { inner =>
         cc.getManagerInstance().addRelatedManager(inner.getManagerInstance())
       }
-      //println("++++++++++++++++++++++++From: " + cc.managerInstance + " Rolemanagers: " + cc.managerInstance.relatedManager);
     }
   }
 
