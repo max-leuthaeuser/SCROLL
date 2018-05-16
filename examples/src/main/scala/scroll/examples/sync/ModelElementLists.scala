@@ -1,5 +1,6 @@
 package scroll.examples.sync
 
+import scala.collection.immutable.Set
 import scroll.examples.sync.models.modelB.Family
 import scroll.examples.sync.models.modelB.Member
 import scroll.examples.sync.models.modelA.Person
@@ -10,10 +11,10 @@ import scroll.examples.sync.models.modelC.SimplePerson
  */
 object ModelElementLists {
   
-  private var families = List[Family]()
-  private var members = List[Member]()
-  private var persons = List[Person]()
-  private var registers = List[SimplePerson]() 
+  private var families = Set.empty[Family]
+  private var members = Set.empty[Member]
+  private var persons = Set.empty[Person]
+  private var registers = Set.empty[SimplePerson]
   
   /**
    * Add a new element to the lists.
@@ -32,23 +33,19 @@ object ModelElementLists {
   }
   
   private def addFamily(f: Family): Unit = {
-    if (!families.contains(f))
-      families = families :+ f
+    families += f
   }
   
   private def addMember(m: Member): Unit = {
-    if (!members.contains(m))
-      members = members :+ m
+    members += m
   }
   
   private def addPersons(p: Person): Unit = {
-    if (!persons.contains(p))
-       persons = persons :+ p
+    persons += p
   }
   
   private def addRegister(r: SimplePerson): Unit = {
-    if (!registers.contains(r))
-      registers = registers :+ r
+    registers += r
   }
   
   def setAllFamilyNames(s: String): Unit = {

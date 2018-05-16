@@ -1,7 +1,7 @@
 package scroll.examples.sync
 
 import scroll.internal.Compartment
-import scala.collection.mutable.ListBuffer
+import scala.collection.immutable.Set
 import scroll.examples.sync.roles.ISyncRole
 
 /**
@@ -16,7 +16,7 @@ trait ISyncCompartment extends Compartment {
   /**
    * All sync roles of this synchronization rule.
    */
-  protected var syncer = ListBuffer[ISyncRole]()
+  protected var syncer = Set.empty[ISyncRole]
     
   /**
    * Get roles for integration classes. Should give less roles than getNextRole. 
@@ -29,13 +29,13 @@ trait ISyncCompartment extends Compartment {
   protected def getNextRole(classname: Object) : ISyncRole
 
   private def addSyncer(sync: ISyncRole): Unit = {
-    syncer = syncer :+ sync
+    syncer += sync
   }
 
   /**
    * Get the list of all sync roles.
    */
-  def getSyncer(): ListBuffer[ISyncRole] = {
+  def getSyncer(): Set[ISyncRole] = {
     return syncer
   }
     
@@ -43,7 +43,7 @@ trait ISyncCompartment extends Compartment {
    * Clear the list of all sync roles.
    */
   def clearSyncer(): Unit = {
-    syncer.clear()
+    syncer = Set.empty[ISyncRole]
   }
   
   /**

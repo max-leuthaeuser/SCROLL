@@ -46,7 +46,7 @@ object ModelAIntegrationCompartment extends IIntegrationCompartment {
       var rmMA = SynchronizationCompartment.createRoleManager();
       person play rmMA
 
-      var personDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(person)
+      var personDelete = SynchronizationCompartment.getDestructionRule().getDestructorForClassName(person)
       rmMA play personDelete
 
       //Step 4: Add the related Role Manager

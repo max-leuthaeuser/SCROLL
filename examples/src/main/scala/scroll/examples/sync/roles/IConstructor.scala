@@ -18,11 +18,10 @@ trait IConstructor {
    * Create a container element with the incoming configuration.
    */
   protected def createContainerElement(start: Boolean, con: Boolean, play: PlayerSync, man: IRoleManager): Unit = {
-    if (play == null)
+    if (play == null || man == null)
       return
-    var cc = new ConstructionContainer()
-    cc.fillContainer(start, con, play, man)
-    containers = containers :+ cc
+    var cc = new ConstructionContainer(start, con, play, man)
+    containers += cc
   }
 
   /**

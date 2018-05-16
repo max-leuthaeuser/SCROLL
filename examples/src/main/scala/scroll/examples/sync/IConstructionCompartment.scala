@@ -31,7 +31,7 @@ trait IConstructionCompartment extends Compartment {
   private def addDeleteRoles(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
       if (cc.isConstructed()) {
-        cc.getManagerInstance() play SynchronizationCompartment.destructionCompartment.getDestructorForClassName(cc.getPlayerInstance())
+        cc.getManagerInstance() play SynchronizationCompartment.getDestructionRule().getDestructorForClassName(cc.getPlayerInstance())
       }
     }
   }
@@ -61,7 +61,7 @@ trait IConstructionCompartment extends Compartment {
    * Create the Synchronization mechanisms for the elements in the ConstructionContainers.
    */
   private def bindSynchronizationRules(containers: ListBuffer[ConstructionContainer]): Unit = {
-    SynchronizationCompartment.syncCompartmentInfoList.foreach { s =>
+    SynchronizationCompartment.getSyncRules().foreach { s =>
       var sync: ISyncCompartment = null
       //Proof all container for integration
       containers.foreach { cc =>

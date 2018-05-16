@@ -96,9 +96,9 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       person play rmMA
       register play rmMC
 
-      var registerDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(register)
-      var personDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(person)
-      var memberDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(comp)
+      var registerDelete = SynchronizationCompartment.getDestructionRule().getDestructorForClassName(register)
+      var personDelete = SynchronizationCompartment.getDestructionRule().getDestructorForClassName(person)
+      var memberDelete = SynchronizationCompartment.getDestructionRule().getDestructorForClassName(comp)
       man play memberDelete
       rmMA play personDelete
       rmMC play registerDelete
@@ -202,9 +202,9 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       person play rmMA
       member play rmMB
 
-      var registerDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(comp)
-      var personDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(person)
-      var memberDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(member)
+      var registerDelete = SynchronizationCompartment.getDestructionRule().getDestructorForClassName(comp)
+      var personDelete = SynchronizationCompartment.getDestructionRule().getDestructorForClassName(person)
+      var memberDelete = SynchronizationCompartment.getDestructionRule().getDestructorForClassName(member)
       man play registerDelete
       rmMA play personDelete
       rmMB play memberDelete
@@ -295,9 +295,9 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       register play rmMC
       member play rmMB
 
-      var registerDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(register)
-      var personDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(comp)
-      var memberDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(member)
+      var registerDelete = SynchronizationCompartment.getDestructionRule().getDestructorForClassName(register)
+      var personDelete = SynchronizationCompartment.getDestructionRule().getDestructorForClassName(comp)
+      var memberDelete = SynchronizationCompartment.getDestructionRule().getDestructorForClassName(member)
       man play personDelete
       rmMC play registerDelete
       rmMB play memberDelete

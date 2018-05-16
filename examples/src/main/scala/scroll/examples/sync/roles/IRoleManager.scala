@@ -1,13 +1,13 @@
 package scroll.examples.sync.roles
 
-import scala.collection.mutable.ListBuffer
+import scala.collection.immutable.Set
 import scroll.examples.sync.PlayerSync
 
 /**
  * Interface for the manager roles.
  */
 trait IRoleManager {
-  private var relatedManager = ListBuffer[IRoleManager]()
+  private var relatedManager = Set.empty[IRoleManager] //ListBuffer[IRoleManager]()
 
   /**
    * Add a related manager to the list.
@@ -15,13 +15,13 @@ trait IRoleManager {
   def addRelatedManager(related: IRoleManager): Unit = {
     if (related == null || related.equals(this))
       return
-    relatedManager = relatedManager :+ related
+    relatedManager += related
   }
 
   /**
    * Get the list of related managers.
    */
-  def getRelatedManager(): ListBuffer[IRoleManager] = {
+  def getRelatedManager(): Set[IRoleManager] = {
     return relatedManager
   }
     
@@ -40,7 +40,6 @@ trait IRoleManager {
     relatedManager.foreach { m =>
       m.removeRelatedManager(this)
     }
-    //println("## Remove This Manger " + relatedManager.size);
   }
   
   /**
@@ -56,8 +55,7 @@ trait IRoleManager {
    * Clear the list of this role manager.
    */
   def clearRelatedManager(): Unit = {
-    relatedManager.clear()
-    //println("## Clear Related Manger " + relatedManager.size);
+    relatedManager = Set.empty[IRoleManager]
   }
 
   /**

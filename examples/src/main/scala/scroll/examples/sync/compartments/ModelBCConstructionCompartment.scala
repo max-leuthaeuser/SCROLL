@@ -48,7 +48,7 @@ object ModelBCConstructionCompartment extends IConstructionCompartment {
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
       println("Start Member Construct");
 
-      //println("Step 1");//Step 1: Get construction values
+      //Step 1: Get construction values
       var firstName: String = +this firstName;
       var lastName: String = +this getLastName ();
       var family: Family = null
@@ -77,7 +77,7 @@ object ModelBCConstructionCompartment extends IConstructionCompartment {
           rmFamily = manager.right.get //manager.right.get.asInstanceOf[IRoleManager]
       }
 
-      //println("Step 2");//Step 2: Create the object in the other models
+      //Step 2: Create the object in the other models
       var register: SimplePerson = new SimplePerson(firstName + " " + lastName, male)
 
       //Step 3: Create Containers 

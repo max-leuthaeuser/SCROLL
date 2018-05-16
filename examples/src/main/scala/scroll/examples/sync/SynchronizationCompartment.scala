@@ -1,13 +1,12 @@
 package scroll.examples.sync
 
 import util.control.Breaks._
-import scala.collection.Seq
 import scroll.examples.sync.roles.IRoleManager
 import scroll.examples.sync.compartments.ModelABConstructionCompartment
 import scroll.examples.sync.roles.IDestructor
 import scroll.examples.sync.roles.ISyncRole
 import scroll.examples.sync.compartments.GeneralDestructor
-import scala.collection.mutable.ListBuffer
+import scala.collection.immutable.Set
 
 /**
  * Management object for the whole synchronization process.
@@ -17,8 +16,14 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
   def createRoleManager(): IRoleManager = new RoleManager()
 
   private var constructionCompartment: IConstructionCompartment = null// ModelABConstructionCompartment
-  var destructionCompartment: IDestructionCompartment = null// GeneralDestructor
-  var syncCompartmentInfoList = ListBuffer[ISyncCompartment]()
+  private var destructionCompartment: IDestructionCompartment = null// GeneralDestructor
+  private var syncCompartmentInfoList = Set.empty[ISyncCompartment]
+  
+  def getConstructionRule(): IConstructionCompartment = constructionCompartment
+  
+  def getDestructionRule(): IDestructionCompartment = destructionCompartment
+  
+  def getSyncRules(): Set[ISyncCompartment] = syncCompartmentInfoList
   
   /**
    * Method for Debug Output.
@@ -149,7 +154,7 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
       if (s.getRuleName().equals(newRule.getRuleName()))
         return
     }
-    syncCompartmentInfoList = syncCompartmentInfoList :+ newRule
+    syncCompartmentInfoList += newRule
     var running = true;
     var nodes = Seq[AnyRef]()
     //debugSyncRoleGraphOutput()

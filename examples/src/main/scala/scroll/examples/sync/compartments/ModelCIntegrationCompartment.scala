@@ -43,7 +43,7 @@ object ModelCIntegrationCompartment extends IIntegrationCompartment {
       var rmMC = SynchronizationCompartment.createRoleManager();
       register play rmMC
 
-      var registerDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(register)
+      var registerDelete = SynchronizationCompartment.getDestructionRule().getDestructorForClassName(register)
       rmMC play registerDelete
 
       //Step 4: Add the related Role Manager

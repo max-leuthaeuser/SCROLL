@@ -1,6 +1,6 @@
 package scroll.examples.sync.compartments
 
-import scala.collection.mutable.ListBuffer
+import scala.collection.immutable.Set
 import scroll.examples.sync.PlayerSync
 import scroll.examples.sync.IDestructionCompartment
 import scroll.examples.sync.roles.IDestructor
@@ -29,7 +29,7 @@ object ModelABCDestructionCompartment extends IDestructionCompartment {
       if (relatedManager.isRight)
       {
         //println("In IF STATEMENT" + relatedManager.right.get);
-        var list: ListBuffer[IRoleManager] = relatedManager.right.get
+        var list: Set[IRoleManager] = relatedManager.right.get
         list.foreach { m =>
           //println("Manager: " + m);
           (+m).deleteObjectFromSynchro()
@@ -62,7 +62,7 @@ object ModelABCDestructionCompartment extends IDestructionCompartment {
       if (relatedManager.isRight)
       {
         //println("In IF STATEMENT" + relatedManager.right.get);
-        var list: ListBuffer[IRoleManager] = relatedManager.right.get
+        var list: Set[IRoleManager] = relatedManager.right.get
         list.foreach { m =>
           //proof player for Family
           var player = m.player

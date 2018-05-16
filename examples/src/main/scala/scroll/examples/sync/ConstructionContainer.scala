@@ -5,39 +5,24 @@ import scroll.examples.sync.roles.IRoleManager
 /**
  * Helper class for all construction processes to manage standard work loads.
  */
-class ConstructionContainer {
-  private var startElement: Boolean = false
-  private var constructed: Boolean = false;
-  private var playerInstance: PlayerSync = null;
-  private var managerInstance: IRoleManager = null;
-  
+class ConstructionContainer(_startElement: Boolean, _constructed: Boolean, _player: PlayerSync, _manager: IRoleManager) {
   /**
    * Returns true if it is the start construction element.
    */
-  def isStartElement(): Boolean = startElement
+  def isStartElement(): Boolean = _startElement
   
   /**
    * Return true if it is new constructed.
    */
-  def isConstructed(): Boolean = constructed
+  def isConstructed(): Boolean = _constructed
   
   /**
    * Get the PlayerSync instance of this element.
    */
-  def getPlayerInstance(): PlayerSync = playerInstance
+  def getPlayerInstance(): PlayerSync = _player
   
   /**
    * Get the RoleManager instance of this element
    */
-  def getManagerInstance(): IRoleManager = managerInstance
-  
-  /**
-   * Fills all elements at the beginning.
-   */
-  def fillContainer(start: Boolean, con: Boolean, play: PlayerSync, man: IRoleManager): Unit = {
-    startElement = start
-    constructed = con
-    playerInstance = play
-    managerInstance = man
-  }
+  def getManagerInstance(): IRoleManager = _manager  
 }
