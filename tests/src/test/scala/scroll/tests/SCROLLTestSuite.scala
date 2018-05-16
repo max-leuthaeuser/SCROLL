@@ -22,4 +22,5 @@ class SCROLLTestSuite
     new MultiRoleFeaturesTest,
     new FacetsTests,
     new RecursiveBaseCallsWithClassesTest,
-    new RecursiveBaseCallsWithCaseClassesTest)
+    new RecursiveBaseCallsWithCaseClassesTest,
+    new ThrowableInRoleMethodsTest)

@@ -72,9 +72,7 @@ trait Compartment
   def combine(other: Compartment): Compartment = {
     require(null != other)
     plays.addPartAndCombine(other.plays)
-    //println("*******************************************************************************************************Combine0: G1: " + this.plays + " G2: " + other.plays + " O1: " + this + " O2: " + other)
     other.plays = this.plays
-    //println("*******************************************************************************************************Combine1: G1: " + this.plays + " G2: " + other.plays + " O1: " + this + " O2: " + other)
     this
   }
 
