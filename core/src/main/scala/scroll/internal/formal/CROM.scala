@@ -13,15 +13,15 @@ import scala.collection.mutable.ListBuffer
   * Representation of a Compartment Role Object Model (CROM).
   */
 trait CROM extends ECoreImporter {
-  private val NATURALTYPE = "NaturalType"
-  private val ROLETYPE = "RoleType"
-  private val COMPARTMENTTYPE = "CompartmentType"
-  private val ROLEGROUP = "RoleGroup"
-  private val RELATIONSHIP = "Relationship"
-  private val FULFILLMENT = "Fulfillment"
-  private val PART = "Part"
+  private[this] val NATURALTYPE = "NaturalType"
+  private[this] val ROLETYPE = "RoleType"
+  private[this] val COMPARTMENTTYPE = "CompartmentType"
+  private[this] val ROLEGROUP = "RoleGroup"
+  private[this] val RELATIONSHIP = "Relationship"
+  private[this] val FULFILLMENT = "Fulfillment"
+  private[this] val PART = "Part"
 
-  private val validTypes = Set(NATURALTYPE, ROLEGROUP, ROLETYPE, COMPARTMENTTYPE, RELATIONSHIP, FULFILLMENT, PART)
+  private[this] val validTypes = Set(NATURALTYPE, ROLEGROUP, ROLETYPE, COMPARTMENTTYPE, RELATIONSHIP, FULFILLMENT, PART)
 
   protected var crom = Option.empty[FormalCROM[String, String, String, String]]
 
@@ -43,20 +43,20 @@ trait CROM extends ECoreImporter {
     */
   def wellformed: Boolean = crom.isDefined && crom.forall(_.wellformed)
 
-  private def instanceName(of: EObject): String = of.eClass().getEAllAttributes.asScala.find(_.getName == "name") match {
+  private[this] def instanceName(of: EObject): String = of.eClass().getEAllAttributes.asScala.find(_.getName == "name") match {
     case Some(a) => of.eGet(a).toString
     case None => "-"
   }
 
-  private def constructNT[NT >: Null <: AnyRef](elem: EObject): NT = instanceName(elem).asInstanceOf[NT]
+  private[this] def constructNT[NT >: Null <: AnyRef](elem: EObject): NT = instanceName(elem).asInstanceOf[NT]
 
-  private def constructRT[RT >: Null <: AnyRef](elem: EObject): RT = instanceName(elem).asInstanceOf[RT]
+  private[this] def constructRT[RT >: Null <: AnyRef](elem: EObject): RT = instanceName(elem).asInstanceOf[RT]
 
-  private def constructCT[CT >: Null <: AnyRef](elem: EObject): CT = instanceName(elem).asInstanceOf[CT]
+  private[this] def constructCT[CT >: Null <: AnyRef](elem: EObject): CT = instanceName(elem).asInstanceOf[CT]
 
-  private def constructRST[RST >: Null <: AnyRef](elem: EObject): RST = instanceName(elem).asInstanceOf[RST]
+  private[this] def constructRST[RST >: Null <: AnyRef](elem: EObject): RST = instanceName(elem).asInstanceOf[RST]
 
-  private def constructFills[NT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): List[(NT, RT)] = {
+  private[this] def constructFills[NT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): List[(NT, RT)] = {
     val obj = elem.asInstanceOf[DynamicEObjectImpl]
     val filler = obj.dynamicGet(1).asInstanceOf[DynamicEObjectImpl].dynamicGet(0).asInstanceOf[NT]
     val filledObj = obj.dynamicGet(0).asInstanceOf[DynamicEObjectImpl]
@@ -68,20 +68,20 @@ trait CROM extends ECoreImporter {
     }
   }
 
-  private def collectRoles(of: EObject): List[EObject] = of.eContents().asScala.toList.flatMap(e => e.eClass().getName match {
+  private[this] def collectRoles(of: EObject): List[EObject] = of.eContents().asScala.toList.flatMap(e => e.eClass().getName match {
     case ROLEGROUP => collectRoles(e)
     case ROLETYPE => List(e)
     case PART => collectRoles(e)
     case _ => List()
   })
 
-  private def constructParts[CT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (CT, List[RT]) = {
+  private[this] def constructParts[CT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (CT, List[RT]) = {
     val ct = instanceName(elem.eContainer()).asInstanceOf[CT]
     val roles = collectRoles(elem).map(r => instanceName(r).asInstanceOf[RT])
     (ct, roles)
   }
 
-  private def constructRel[RST >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (RST, List[RT]) = {
+  private[this] def constructRel[RST >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (RST, List[RT]) = {
     val rstName = instanceName(elem).asInstanceOf[RST]
     val roles = collectRoles(elem.eContainer())
     // TODO: make sure order of roles (incoming/outgoing) is correct for the given relationship
@@ -101,7 +101,7 @@ trait CROM extends ECoreImporter {
     (rstName, rsts)
   }
 
-  private def addToMap(m: mutable.Map[String, List[String]], elem: (String, List[String])): Unit = {
+  private[this] def addToMap(m: mutable.Map[String, List[String]], elem: (String, List[String])): Unit = {
     val key = elem._1
     val value = elem._2
     if (m.contains(key)) {
@@ -111,7 +111,7 @@ trait CROM extends ECoreImporter {
     }
   }
 
-  private def construct[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](): FormalCROM[NT, RT, CT, RST] = {
+  private[this] def construct[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](): FormalCROM[NT, RT, CT, RST] = {
     val nt = ListBuffer[String]()
     val rt = ListBuffer[String]()
     val ct = ListBuffer[String]()

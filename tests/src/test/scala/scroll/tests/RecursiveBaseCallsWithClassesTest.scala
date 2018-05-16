@@ -36,7 +36,7 @@ class RecursiveBaseCallsWithClassesTest extends FeatureSpec with GivenWhenThen w
 
   }
 
-  private def streamToSeq(in: java.io.ByteArrayOutputStream, splitAt: String = "\n"): Seq[String] =
+  private def streamToSeq(in: java.io.ByteArrayOutputStream, splitAt: String = System.lineSeparator()): Seq[String] =
     in.toString.split(splitAt).toSeq
 
   info("Test spec for recursive base calls.")

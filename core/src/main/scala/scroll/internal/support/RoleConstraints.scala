@@ -1,12 +1,14 @@
 package scroll.internal.support
 
+import com.google.common.graph.GraphBuilder
+import com.google.common.graph.Graphs
+import com.google.common.graph.MutableGraph
 import scroll.internal.Compartment
 import scroll.internal.util.ReflectiveHelper
 
-import scala.reflect.{ClassTag, classTag}
-import com.google.common.graph.{GraphBuilder, Graphs, MutableGraph}
-
 import scala.collection.JavaConverters._
+import scala.reflect.ClassTag
+import scala.reflect.classTag
 
 /**
   * Allows to add and check role constraints (Riehle constraints) to a compartment instance.
@@ -18,7 +20,7 @@ trait RoleConstraints {
   protected val roleEquivalents: MutableGraph[String] = GraphBuilder.directed().build[String]()
   protected val roleProhibitions: MutableGraph[String] = GraphBuilder.directed().build[String]()
 
-  private def checkImplications(player: AnyRef, role: AnyRef): Unit = {
+  private[this] def checkImplications(player: AnyRef, role: AnyRef): Unit = {
     roleImplications.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
       case Nil => //done, thanks
       case list =>
@@ -30,7 +32,7 @@ trait RoleConstraints {
     }
   }
 
-  private def checkEquivalence(player: AnyRef, role: AnyRef): Unit = {
+  private[this] def checkEquivalence(player: AnyRef, role: AnyRef): Unit = {
     roleEquivalents.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
       case Nil => //done, thanks
       case list =>
@@ -42,7 +44,7 @@ trait RoleConstraints {
     }
   }
 
-  private def checkProhibitions(player: AnyRef, role: AnyRef): Unit = {
+  private[this] def checkProhibitions(player: AnyRef, role: AnyRef): Unit = {
     roleProhibitions.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
       case Nil => //done, thanks
       case list =>
@@ -120,7 +122,7 @@ trait RoleConstraints {
     * @param player the player instance to check
     * @param role   the role instance to check
     */
-  private def validateConstraints(player: AnyRef, role: AnyRef): Unit = {
+  private[this] def validateConstraints(player: AnyRef, role: AnyRef): Unit = {
     checkImplications(player, role)
     checkEquivalence(player, role)
     checkProhibitions(player, role)

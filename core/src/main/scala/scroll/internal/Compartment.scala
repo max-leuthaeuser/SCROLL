@@ -1,12 +1,23 @@
 package scroll.internal
 
-import scroll.internal.errors.SCROLLErrors.{RoleNotFound, SCROLLError, TypeError, TypeNotFound}
-import scroll.internal.support._
-import scroll.internal.graph.{CachedScalaRoleGraph, ScalaRoleGraph}
+import scroll.internal.errors.SCROLLErrors.RoleNotFound
+import scroll.internal.errors.SCROLLErrors.SCROLLError
+import scroll.internal.errors.SCROLLErrors.TypeError
+import scroll.internal.errors.SCROLLErrors.TypeNotFound
+import scroll.internal.graph.CachedScalaRoleGraph
+import scroll.internal.graph.ScalaRoleGraph
+import scroll.internal.support.DispatchQuery
+import scroll.internal.support.QueryStrategies
+import scroll.internal.support.Relationships
+import scroll.internal.support.RoleConstraints
+import scroll.internal.support.RoleGroups
+import scroll.internal.support.RoleRestrictions
+import scroll.internal.support.UnionTypes.RoleUnionTypes
 import scroll.internal.util.ReflectiveHelper
 
 import scala.annotation.tailrec
-import scala.reflect.{ClassTag, classTag}
+import scala.reflect.ClassTag
+import scala.reflect.classTag
 
 /**
   * This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
@@ -37,7 +48,7 @@ trait Compartment
     with RoleGroups
     with Relationships
     with QueryStrategies
-    with UnionTypes.RoleUnionTypes {
+    with RoleUnionTypes {
 
   protected var plays: ScalaRoleGraph = new CachedScalaRoleGraph()
 
@@ -49,14 +60,6 @@ trait Compartment
     })
 
   /**
-    * Declaring a is-part-of relation between compartments.
-    */
-  def partOf(other: Compartment): Unit = {
-    require(null != other)
-    plays.merge(other.plays)
-  }
-
-  /**
     * Declaring a bidirectional is-part-of relation between compartment.
     */
   def union(other: Compartment): Compartment = {
@@ -64,6 +67,14 @@ trait Compartment
     other.partOf(this)
     this.partOf(other)
     this
+  }
+
+  /**
+    * Declaring a is-part-of relation between compartments.
+    */
+  def partOf(other: Compartment): Unit = {
+    require(null != other)
+    plays.merge(other.plays)
   }
 
   /**
@@ -117,11 +128,6 @@ trait Compartment
       }
     })
 
-  private def safeReturn[T](seq: Seq[T], typeName: String): Either[TypeError, Seq[T]] = seq match {
-    case Nil => Left(TypeNotFound(typeName))
-    case s => Right(s)
-  }
-
   /**
     * Query the role playing graph for all player instances that do conform to the given matcher and return the first found.
     *
@@ -136,7 +142,6 @@ trait Compartment
       Right(r.head)
     })
 
-
   /**
     * Query the role playing graph for all player instances that do conform to the given function and return the first found.
     *
@@ -150,6 +155,25 @@ trait Compartment
     }, r => {
       Right(r.head)
     })
+
+  /**
+    * Transfers a role from one core to another.
+    *
+    * @tparam F type of core the given role should be removed from
+    * @tparam T type of core the given role should be attached to
+    * @tparam R type of role
+    * @param coreFrom the core the given role should be removed from
+    * @param coreTo   the core the given role should be attached to
+    * @param role     the role that should be transferred
+    */
+  def transferRole[F <: AnyRef : ClassTag, T <: AnyRef : ClassTag, R <: AnyRef : ClassTag](coreFrom: F, coreTo: T, role: R): Unit = {
+    require(null != coreFrom)
+    require(null != coreTo)
+    require(null != role)
+    require(coreFrom != coreTo, "You can not transfer a role from itself.")
+    removePlaysRelation(coreFrom, role)
+    addPlaysRelation(coreTo, role)
+  }
 
   /**
     * Adds a play relation between core and role.
@@ -181,22 +205,15 @@ trait Compartment
   }
 
   /**
-    * Transfers a role from one core to another.
+    * Explicit helper factory method for creating a new Player instance
+    * without the need to relying on the implicit mechanics of Scala.
     *
-    * @tparam F type of core the given role should be removed from
-    * @tparam T type of core the given role should be attached to
-    * @tparam R type of role
-    * @param coreFrom the core the given role should be removed from
-    * @param coreTo   the core the given role should be attached to
-    * @param role     the role that should be transferred
+    * @param obj the player or role that is wrapped into this dynamic player type
+    * @return a new Player instance wrapping the given object
     */
-  def transferRole[F <: AnyRef : ClassTag, T <: AnyRef : ClassTag, R <: AnyRef : ClassTag](coreFrom: F, coreTo: T, role: R): Unit = {
-    require(null != coreFrom)
-    require(null != coreTo)
-    require(null != role)
-    require(coreFrom != coreTo, "You can not transfer a role from itself.")
-    removePlaysRelation(coreFrom, role)
-    addPlaysRelation(coreTo, role)
+  def newPlayer(obj: Object): Player[Object] = {
+    require(null != obj)
+    new Player(obj)
   }
 
   @tailrec
@@ -219,16 +236,9 @@ trait Compartment
     }
   }
 
-  /**
-    * Explicit helper factory method for creating a new Player instance
-    * without the need to relying on the implicit mechanics of Scala.
-    *
-    * @param obj the player or role that is wrapped into this dynamic player type
-    * @return a new Player instance wrapping the given object
-    */
-  def newPlayer(obj: Object): Player[Object] = {
-    require(null != obj)
-    new Player(obj)
+  private[this] def safeReturn[T](seq: Seq[T], typeName: String): Either[TypeError, Seq[T]] = seq match {
+    case Nil => Left(TypeNotFound(typeName))
+    case s => Right(s)
   }
 
   implicit class Player[T <: AnyRef : ClassTag](override val wrapped: T) extends IPlayer[T](wrapped) with SCROLLDynamic with SCROLLDispatchable {
@@ -247,6 +257,8 @@ trait Compartment
       case _ => Left(TypeNotFound(this.getClass.toString))
     }
 
+    override def <+>[R <: AnyRef : ClassTag](role: R): Player[T] = play(role)
+
     override def play[R <: AnyRef : ClassTag](role: R): Player[T] = {
       require(null != role)
       wrapped match {
@@ -257,7 +269,14 @@ trait Compartment
       this
     }
 
-    override def <+>[R <: AnyRef : ClassTag](role: R): Player[T] = play(role)
+    /**
+      * Alias for [[Player.playing]].
+      *
+      * @tparam R type of role
+      * @param role the role that should played
+      * @return the player instance
+      */
+    def <=>[R <: AnyRef : ClassTag](role: R): T = playing(role)
 
     /**
       * Adds a play relation between core and role but always returns the player instance.
@@ -268,21 +287,12 @@ trait Compartment
       */
     def playing[R <: AnyRef : ClassTag](role: R): T = play(role).wrapped
 
-    /**
-      * Alias for [[Player.playing]].
-      *
-      * @tparam R type of role
-      * @param role the role that should played
-      * @return the player instance
-      */
-    def <=>[R <: AnyRef : ClassTag](role: R): T = playing(role)
+    override def <->[R <: AnyRef : ClassTag](role: R): Player[T] = drop(role)
 
     override def drop[R <: AnyRef : ClassTag](role: R): Player[T] = {
       removePlaysRelation[T, R](wrapped, role)
       this
     }
-
-    override def <->[R <: AnyRef : ClassTag](role: R): Player[T] = drop(role)
 
     /**
       * Transfers a role to another player.
@@ -295,15 +305,6 @@ trait Compartment
         transferRole[T, P, R](wrapped, player, role)
       }
     }
-
-    /**
-      * Checks of this Player is playing a role of the given type R.
-      *
-      * @tparam R type of role
-      * @return true if this player is playing a role of type R, false otherwise. Returns false also, if
-      *         the player is not available in the role-playing graph.
-      */
-    def isPlaying[R <: AnyRef : ClassTag]: Boolean = plays.roles(wrapped).exists(ReflectiveHelper.is[R])
 
     /**
       * Checks if this Player has all of the given facet(s) attached.
@@ -327,6 +328,18 @@ trait Compartment
       */
     def hasExtension[E <: AnyRef : ClassTag]: Boolean = isPlaying[E]
 
+    /**
+      * Checks of this Player is playing a role of the given type R.
+      *
+      * @tparam R type of role
+      * @return true if this player is playing a role of type R, false otherwise. Returns false also, if
+      *         the player is not available in the role-playing graph.
+      */
+    def isPlaying[R <: AnyRef : ClassTag]: Boolean = plays.roles(wrapped).exists(ReflectiveHelper.is[R])
+
+    override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
+      applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
+
     override def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = coreFor(wrapped).last
       dispatchQuery.filter(plays.roles(core)).collectFirst {
@@ -336,9 +349,6 @@ trait Compartment
         case _ => Left(RoleNotFound(core.toString, name, args))
       }
     }
-
-    override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
-      applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = coreFor(wrapped).last

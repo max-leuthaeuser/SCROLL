@@ -1,27 +1,29 @@
 package scroll.internal.support
 
-import org.chocosolver.solver.{Model, Solution}
+import org.chocosolver.solver.Model
+import org.chocosolver.solver.Solution
 import org.chocosolver.solver.variables.IntVar
 import scroll.internal.Compartment
 import scroll.internal.util.ReflectiveHelper
 
-import scala.reflect.{ClassTag, classTag}
 import scala.collection.mutable
+import scala.reflect.ClassTag
+import scala.reflect.classTag
 
 trait RoleGroups {
   self: Compartment =>
 
-  private lazy val roleGroups = mutable.HashMap.empty[String, RoleGroup]
+  private[this] lazy val roleGroups = mutable.HashMap.empty[String, RoleGroup]
 
-  private sealed trait Constraint
+  private[this] sealed trait Constraint
 
-  private object AND extends Constraint
+  private[this] object AND extends Constraint
 
-  private object OR extends Constraint
+  private[this] object OR extends Constraint
 
-  private object XOR extends Constraint
+  private[this] object XOR extends Constraint
 
-  private object NOT extends Constraint
+  private[this] object NOT extends Constraint
 
   /**
     * Wrapping function that checks all available role group constraints for
@@ -35,7 +37,7 @@ trait RoleGroups {
     validate()
   }
 
-  private def validateOccurrenceCardinality(): Unit = {
+  private[this] def validateOccurrenceCardinality(): Unit = {
     roleGroups.foreach { case (name, rg) =>
       val min = rg.occ._1
       val max = rg.occ._2
@@ -48,7 +50,7 @@ trait RoleGroups {
     }
   }
 
-  private def eval(rg: RoleGroup): Seq[String] = {
+  private[this] def eval(rg: RoleGroup): Seq[String] = {
     val model = new Model("MODEL$" + rg.hashCode())
     val types = rg.types
     val numOfTypes = types.size
@@ -88,13 +90,15 @@ trait RoleGroups {
       case Some(OR) => ts -> model.intVar("NUM$" + ts, 0, numOfTypes)
       case Some(XOR) => ts -> model.intVar("NUM$" + ts, 0, 1)
       case Some(NOT) => ts -> model.intVar("NUM$" + ts, 0)
-      case None => throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
+      case None =>
+        throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
     }).toMap
 
     sum match {
       case Some(s) =>
         model.post(model.sum(constrMap.values.toArray, "=", s))
-      case None => throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
+      case None =>
+        throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
     }
 
     val solver = model.getSolver
@@ -131,7 +135,7 @@ trait RoleGroups {
     throw new RuntimeException(s"Constraint set for inner cardinality of role group '${rg.name}' violated!")
   }
 
-  private def validateInnerCardinality(): Unit = {
+  private[this] def validateInnerCardinality(): Unit = {
     try {
       roleGroups.values.filter(!_.evaluated).foreach(eval)
     } finally {
@@ -143,12 +147,12 @@ trait RoleGroups {
     * Checks all role groups.
     * Will throw a RuntimeException if a role group constraint is violated!
     */
-  private def validate(): Unit = {
+  private[this] def validate(): Unit = {
     validateOccurrenceCardinality()
     validateInnerCardinality()
   }
 
-  private def addRoleGroup(rg: RoleGroup): RoleGroup = {
+  private[this] def addRoleGroup(rg: RoleGroup): RoleGroup = {
     if (roleGroups.exists { case (n, _) => n == rg.name }) {
       throw new RuntimeException(s"The RoleGroup ${rg.name} was already added!")
     } else {
@@ -157,7 +161,7 @@ trait RoleGroups {
     }
   }
 
-  private type CInt = Ordered[Int]
+  private[this] type CInt = Ordered[Int]
 
   trait Entry {
     def types: Seq[String]
@@ -183,7 +187,7 @@ trait RoleGroups {
   }
 
   object RoleGroup {
-    private implicit def classTagToString(m: ClassTag[_]): String = ReflectiveHelper.simpleName(m.toString)
+    private[this] implicit def classTagToString(m: ClassTag[_]): String = ReflectiveHelper.simpleName(m.toString)
 
     def apply(name: String) = new {
 

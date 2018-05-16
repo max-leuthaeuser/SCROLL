@@ -6,7 +6,8 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData
 import org.eclipse.emf.ecore.xmi.XMLResource
-import org.eclipse.emf.ecore.xmi.impl.{EcoreResourceFactoryImpl, XMIResourceFactoryImpl}
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 
 /**
   * Trait providing functionality for importing ecore models.
@@ -15,9 +16,9 @@ import org.eclipse.emf.ecore.xmi.impl.{EcoreResourceFactoryImpl, XMIResourceFact
 trait ECoreImporter {
   var path: String = _
 
-  private val META_MODEL_PATH = getClass.getResource("/crom_l1_composed.ecore").getPath
+  private[this] val META_MODEL_PATH = getClass.getResource("/crom_l1_composed.ecore").getPath
 
-  private def registerMetaModel(rs: ResourceSetImpl): Unit = {
+  private[this] def registerMetaModel(rs: ResourceSetImpl): Unit = {
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap.put(
       "ecore", new EcoreResourceFactoryImpl())
 

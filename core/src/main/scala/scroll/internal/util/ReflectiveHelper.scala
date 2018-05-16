@@ -1,7 +1,8 @@
 package scroll.internal.util
 
 import scala.annotation.tailrec
-import scala.reflect.{ClassTag, classTag}
+import scala.reflect.ClassTag
+import scala.reflect.classTag
 
 /**
   * Contains useful functions for translating class and type names to Strings
@@ -11,27 +12,27 @@ import scala.reflect.{ClassTag, classTag}
   */
 object ReflectiveHelper extends Memoiser {
 
-  import java.lang
-  import java.lang.reflect.{Field, Method}
+  import java.lang.reflect.Field
+  import java.lang.reflect.Method
 
-  private class MethodCache extends Memoised[Class[_], Set[Method]]
+  private[this] class MethodCache extends Memoised[Class[_], Set[Method]]
 
-  private class FieldCache extends Memoised[Class[_], Set[Field]]
+  private[this] class FieldCache extends Memoised[Class[_], Set[Field]]
 
-  private class SimpleTagNameCache extends Memoised[ClassTag[_], String]
+  private[this] class SimpleTagNameCache extends Memoised[ClassTag[_], String]
 
-  private class SimpleClassNameCache extends Memoised[Class[_], String]
+  private[this] class SimpleClassNameCache extends Memoised[Class[_], String]
 
-  private lazy val methodCache = new MethodCache()
-  private lazy val fieldCache = new FieldCache()
-  private lazy val simpleClassNameCache = new SimpleClassNameCache()
-  private lazy val simpleTagNameCache = new SimpleTagNameCache()
+  private[this] lazy val methodCache = new MethodCache()
+  private[this] lazy val fieldCache = new FieldCache()
+  private[this] lazy val simpleClassNameCache = new SimpleClassNameCache()
+  private[this] lazy val simpleTagNameCache = new SimpleTagNameCache()
 
   def addToMethodCache(c: Class[_]): Unit = methodCache.put(c, allMethods(c))
 
   def addToFieldCache(c: Class[_]): Unit = fieldCache.put(c, allFields(c))
 
-  private def simpleClassName(s: String, on: String) = if (s.contains(on)) {
+  private[this] def simpleClassName(s: String, on: String) = if (s.contains(on)) {
     s.substring(s.lastIndexOf(on) + 1)
   } else {
     s
@@ -102,13 +103,13 @@ object ReflectiveHelper extends Memoiser {
   def isSameInterface(roleInterface: Array[Method], restrInterface: Array[Method]): Boolean =
     restrInterface.forall(method => roleInterface.exists(method.equals))
 
-  private def safeString(s: String): Unit = {
+  private[this] def safeString(s: String): Unit = {
     require(null != s)
     require(!s.isEmpty)
   }
 
   @tailrec
-  private def safeFindField(of: Class[_], name: String): Field = fieldCache.get(of) match {
+  private[this] def safeFindField(of: Class[_], name: String): Field = fieldCache.get(of) match {
     case Some(fields) => fields.find(_.getName == name) match {
       case Some(f) => f
       case None => throw new RuntimeException(s"Field '$name' not found on '$of'!")
@@ -120,7 +121,7 @@ object ReflectiveHelper extends Memoiser {
   }
 
   @tailrec
-  private def findMethods(of: Class[_], name: String): Set[Method] = methodCache.get(of) match {
+  private[this] def findMethods(of: Class[_], name: String): Set[Method] = methodCache.get(of) match {
     case Some(l) =>
       l.filter(_.getName == name)
     case None =>
@@ -129,7 +130,7 @@ object ReflectiveHelper extends Memoiser {
       findMethods(of, name)
   }
 
-  private def allMethods(of: Class[_]): Set[Method] = {
+  private[this] def allMethods(of: Class[_]): Set[Method] = {
     def getAccessibleMethods(c: Class[_]): Set[Method] = c match {
       case null => Set.empty
       case _ => c.getDeclaredMethods.toSet ++ getAccessibleMethods(c.getSuperclass)
@@ -138,7 +139,7 @@ object ReflectiveHelper extends Memoiser {
     getAccessibleMethods(of)
   }
 
-  private def allFields(of: Class[_]): Set[Field] = {
+  private[this] def allFields(of: Class[_]): Set[Field] = {
     def accessibleFields(c: Class[_]): Set[Field] = c match {
       case null => Set.empty
       case _ => c.getDeclaredFields.toSet ++ accessibleFields(c.getSuperclass)
@@ -147,26 +148,26 @@ object ReflectiveHelper extends Memoiser {
     accessibleFields(of)
   }
 
-  private def isSameMethodName(m: Method, name: String): Boolean = m.getName == name
+  private[this] def isSameMethodName(m: Method, name: String): Boolean = m.getName == name
 
-  private def isSameNumberOfParameters(m: Method, size: Int): Boolean = m.getParameterCount == size
+  private[this] def isSameNumberOfParameters(m: Method, size: Int): Boolean = m.getParameterCount == size
 
-  private def isSameArgumentTypes[A](m: Method, args: Seq[A]): Boolean = args.zip(m.getParameterTypes).forall {
+  private[this] def isSameArgumentTypes[A](m: Method, args: Seq[A]): Boolean = args.zip(m.getParameterTypes).forall {
     case (arg, paramType: Class[_]) => paramType match {
-      case lang.Boolean.TYPE => arg.isInstanceOf[Boolean]
-      case lang.Character.TYPE => arg.isInstanceOf[Char]
-      case lang.Short.TYPE => arg.isInstanceOf[Short]
-      case lang.Integer.TYPE => arg.isInstanceOf[Integer]
-      case lang.Long.TYPE => arg.isInstanceOf[Long]
-      case lang.Float.TYPE => arg.isInstanceOf[Float]
-      case lang.Double.TYPE => arg.isInstanceOf[Double]
-      case lang.Byte.TYPE => arg.isInstanceOf[Byte]
+      case java.lang.Boolean.TYPE => arg.isInstanceOf[Boolean]
+      case java.lang.Character.TYPE => arg.isInstanceOf[Char]
+      case java.lang.Short.TYPE => arg.isInstanceOf[Short]
+      case java.lang.Integer.TYPE => arg.isInstanceOf[Integer]
+      case java.lang.Long.TYPE => arg.isInstanceOf[Long]
+      case java.lang.Float.TYPE => arg.isInstanceOf[Float]
+      case java.lang.Double.TYPE => arg.isInstanceOf[Double]
+      case java.lang.Byte.TYPE => arg.isInstanceOf[Byte]
       case _ => arg == null || paramType.isAssignableFrom(arg.getClass)
     }
     case faultyArgs => throw new IllegalArgumentException(s"Can not handle these arguments: '$faultyArgs'")
   }
 
-  private def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean =
+  private[this] def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean =
     isSameMethodName(m, name) && isSameNumberOfParameters(m, args.size) && isSameArgumentTypes(m, args)
 
   /**

@@ -1,6 +1,7 @@
 package scroll.internal.util
 
-import com.google.common.cache.{Cache, CacheBuilder}
+import com.google.common.cache.Cache
+import com.google.common.cache.CacheBuilder
 
 /**
   * Support for memoization, encapsulating common behaviour of memoised

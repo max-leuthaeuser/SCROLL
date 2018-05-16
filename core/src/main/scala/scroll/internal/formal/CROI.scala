@@ -3,7 +3,8 @@ package scroll.internal.formal
 import scroll.internal.Compartment
 import scroll.internal.util.ReflectiveHelper
 
-import scala.reflect.{ClassTag, classTag}
+import scala.reflect.ClassTag
+import scala.reflect.classTag
 
 /**
   * Representation of a Compartment Role Object Instance (CROI).
@@ -13,7 +14,7 @@ trait CROI extends CROM {
 
   def compliant: Boolean = crom.isDefined && croi.compliant(this.crom.get)
 
-  private def addType1(of: AnyRef): Unit = {
+  private[this] def addType1(of: AnyRef): Unit = {
     val className = of.getClass.toString
     val typeName = ReflectiveHelper.typeSimpleClassName(className)
     croi.type1 += (ReflectiveHelper.hash(of) -> typeName)

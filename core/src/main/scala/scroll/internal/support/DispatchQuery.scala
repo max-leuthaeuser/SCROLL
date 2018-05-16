@@ -127,8 +127,8 @@ class DispatchQuery(
                      to: To,
                      through: Through,
                      bypassing: Bypassing,
-                     private val empty: Boolean = false,
-                     private var _sortedWith: Option[(AnyRef, AnyRef) => Boolean] = Option.empty
+                     private[this] val empty: Boolean = false,
+                     private[this] var _sortedWith: Option[(AnyRef, AnyRef) => Boolean] = Option.empty
                    ) {
   def isEmpty: Boolean = empty
 

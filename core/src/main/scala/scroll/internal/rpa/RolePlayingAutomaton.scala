@@ -2,7 +2,11 @@ package scroll.internal.rpa
 
 import akka.actor._
 import scroll.internal.Compartment
-import scroll.internal.rpa.RolePlayingAutomaton.{RPAData, RPAState, Start, Stop, Uninitialized}
+import scroll.internal.rpa.RolePlayingAutomaton.RPAData
+import scroll.internal.rpa.RolePlayingAutomaton.RPAState
+import scroll.internal.rpa.RolePlayingAutomaton.Start
+import scroll.internal.rpa.RolePlayingAutomaton.Stop
+import scroll.internal.rpa.RolePlayingAutomaton.Uninitialized
 
 import scala.reflect.ClassTag
 

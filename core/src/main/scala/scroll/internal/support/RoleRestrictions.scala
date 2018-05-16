@@ -3,15 +3,16 @@ package scroll.internal.support
 import scroll.internal.util.ReflectiveHelper
 
 import scala.collection.mutable
-import scala.reflect.{ClassTag, classTag}
+import scala.reflect.ClassTag
+import scala.reflect.classTag
 
 /**
   * Allows to add and check role restrictions (in the sense of structural typing) to a compartment instance.
   */
 trait RoleRestrictions {
-  private lazy val restrictions = mutable.HashMap.empty[String, mutable.ArrayBuffer[Class[_]]]
+  private[this] lazy val restrictions = mutable.HashMap.empty[String, mutable.ArrayBuffer[Class[_]]]
 
-  private def addToMap(m: mutable.Map[String, mutable.ArrayBuffer[Class[_]]], elem: (String, Class[_])): Unit = {
+  private[this] def addToMap(m: mutable.Map[String, mutable.ArrayBuffer[Class[_]]], elem: (String, Class[_])): Unit = {
     val key = elem._1
     val value = elem._2
     if (m.contains(key)) {

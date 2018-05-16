@@ -6,14 +6,14 @@ import scala.reflect.ClassTag
 
 class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGraph(checkForCycles) with Memoiser {
 
-  private class BooleanCache extends Memoised[AnyRef, Boolean]
+  private[this] class BooleanCache extends Memoised[AnyRef, Boolean]
 
-  private class SeqCache[E] extends Memoised[AnyRef, Seq[E]]
+  private[this] class SeqCache[E] extends Memoised[AnyRef, Seq[E]]
 
-  private val containsCache = new BooleanCache()
-  private val predCache = new SeqCache[AnyRef]()
-  private val rolesCache = new SeqCache[AnyRef]()
-  private val facetsCache = new SeqCache[Enumeration#Value]()
+  private[this] val containsCache = new BooleanCache()
+  private[this] val predCache = new SeqCache[AnyRef]()
+  private[this] val rolesCache = new SeqCache[AnyRef]()
+  private[this] val facetsCache = new SeqCache[Enumeration#Value]()
 
   override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     super.addBinding(player, role)
@@ -21,14 +21,14 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     reset(role)
   }
 
-  private def resetAll(): Unit = {
+  private[this] def resetAll(): Unit = {
     containsCache.reset()
     predCache.reset()
     rolesCache.reset()
     facetsCache.reset()
   }
 
-  private def reset(o: AnyRef): Unit = {
+  private[this] def reset(o: AnyRef): Unit = {
     containsCache.resetAt(o)
     predCache.resetAt(o)
     rolesCache.resetAt(o)
@@ -39,7 +39,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     containsCache.getAndPutWithDefault(player, super.containsPlayer(player))
 
   override def detach(other: RoleGraph): Unit = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], "You can only detach RoleGraphs of the same type!")
+    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
     super.detach(other)
     resetAll()
   }
@@ -54,25 +54,25 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     facetsCache.getAndPutWithDefault(player, super.facets(player))
 
   override def combine(other: RoleGraph): Unit = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
     super.combine(other)
     resetAll()
   }
 
   override def addPart(other: RoleGraph): Unit = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
     super.addPart(other)
     resetAll()
   }
 
   override def addPartAndCombine(other: RoleGraph): Unit = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
     super.addPartAndCombine(other)
     resetAll()
   }
 
   override def merge(other: RoleGraph): Unit = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
     super.merge(other)
     resetAll()
   }

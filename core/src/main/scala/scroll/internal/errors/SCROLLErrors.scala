@@ -15,7 +15,9 @@ object SCROLLErrors {
 
   case class RoleNotFound(forCore: String, target: String, args: Seq[Any]) extends SCROLLError {
     override def toString: String = args match {
-      case l if l.nonEmpty => s"No role with '$target' could not be found for the player '$forCore' with the following parameters: " + args.map(e => s"'$e'").mkString("(", ", ", ")")
+      case l if l.nonEmpty =>
+        s"No role with '$target' could not be found for the player '$forCore' with the following parameters: " +
+          args.map(e => s"'$e'").mkString("(", ", ", ")")
       case _ => s"No role with '$target' could not be found for the player '$forCore'!"
     }
   }
@@ -24,7 +26,9 @@ object SCROLLErrors {
 
   case class IllegalRoleInvocationDispatch(roleType: String, target: String, args: Seq[Any]) extends InvocationError {
     override def toString: String = args match {
-      case l if l.nonEmpty => s"'$target' could not be executed on role type '$roleType' with the following parameters: " + args.map(e => s"'$e'").mkString("(", ", ", ")")
+      case l if l.nonEmpty =>
+        s"'$target' could not be executed on role type '$roleType' with the following parameters: " +
+          args.map(e => s"'$e'").mkString("(", ", ", ")")
       case _ => s"'$target' could not be executed on role type '$roleType'!"
     }
   }

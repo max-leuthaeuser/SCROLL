@@ -1,10 +1,12 @@
 package scroll.internal.graph
 
-import com.google.common.graph.{GraphBuilder, Graphs, MutableGraph}
+import com.google.common.graph.GraphBuilder
+import com.google.common.graph.Graphs
+import com.google.common.graph.MutableGraph
 
-import scala.reflect.ClassTag
-import collection.JavaConverters._
+import scala.collection.JavaConverters._
 import scala.collection.mutable
+import scala.reflect.ClassTag
 
 /**
   * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
@@ -14,11 +16,11 @@ import scala.collection.mutable
   */
 class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
-  private val MERGE_MESSAGE: String = "You can only merge RoleGraphs of the same type!"
+  protected val MERGE_MESSAGE: String = "You can only merge RoleGraphs of the same type!"
 
   private var root: MutableGraph[Object] = GraphBuilder.directed().build[Object]()
 
-  private def checkAndMerge(source: MutableGraph[Object], target: MutableGraph[Object]): Unit =
+  private[this] def checkAndMerge(source: MutableGraph[Object], target: MutableGraph[Object]): Unit =
     (source.nodes().size, target.nodes().size) match {
       case (_, t) if t == 0 => //do nothing; source is correct
       case (s, _) if s == 0 =>
@@ -123,7 +125,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
         removeBinding(pl, rl)))
   }
 
-  private def checkCycles(): Unit = {
+  private[this] def checkCycles(): Unit = {
     if (checkForCycles) {
       if (Graphs.hasCycle(root)) {
         throw new RuntimeException(s"Cyclic role-playing relationship found!")

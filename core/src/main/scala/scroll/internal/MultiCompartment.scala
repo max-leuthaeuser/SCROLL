@@ -3,6 +3,7 @@ package scroll.internal
 import scroll.internal.errors.SCROLLErrors._
 import scroll.internal.support._
 import scroll.internal.util.ReflectiveHelper
+
 import scala.reflect.ClassTag
 
 /**
