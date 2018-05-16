@@ -1,5 +1,8 @@
 package scroll.internal.util
 
+import java.lang.reflect.Field
+import java.lang.reflect.Method
+
 import scala.annotation.tailrec
 import scala.reflect.ClassTag
 import scala.reflect.classTag
@@ -11,9 +14,6 @@ import scala.reflect.classTag
   * Querying methods and fields is cached using [[scroll.internal.util.Memoiser]].
   */
 object ReflectiveHelper extends Memoiser {
-
-  import java.lang.reflect.Field
-  import java.lang.reflect.Method
 
   private[this] class MethodCache extends Memoised[Class[_], Set[Method]]
 
