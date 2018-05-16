@@ -14,6 +14,9 @@ import scroll.examples.sync.ModelElementLists
 import scroll.examples.sync.models.modelA.Male
 import scroll.examples.sync.models.modelA.Female
 
+/**
+ * Old construction Process for Model A, B, and C.
+ */
 object OldComplexConstructionCompartment extends IConstructionCompartment {
   
   def getConstructorForClassName(classname: Object) : IConstructor = {
@@ -31,29 +34,22 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
   class FamilyConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
-
       println("Start Family Construct");
 
       new SyncKnownList() {
         man play this.getNextIntegrationRole(man)
         SynchronizationCompartment combine this
       }
-
-      println("Fill Test Lists");
       
       ModelElementLists.addElement(comp)
       
       println("Finish Person/Register for Member");
-      SynchronizationCompartment.underConstruction = false;
     }
   }
   
   class MemberConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
-
       println("Start Person/Register for Member");
 
       //println("Step 1");//Step 1: Get construction values
@@ -170,15 +166,12 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       ModelElementLists.addElement(register)
       
       println("Finish Person/Register for Member");
-      SynchronizationCompartment.underConstruction = false;
     }
   }
 
   class RegisterConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
-
       println("Create Person/Member for RegisterEntry");
 
       //Step 1: Get construction values
@@ -263,23 +256,18 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       ComplexSynchronization.this combine person
       ComplexSynchronization.this combine comp*/
       
-      println("Fill Test Lists");
-      
       ModelElementLists.addElement(family)
       ModelElementLists.addElement(member)
       ModelElementLists.addElement(person)
       ModelElementLists.addElement(comp)
-
-      SynchronizationCompartment.underConstruction = false;
     }
   }
 
   class PersonConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
-
       println("Create Member/Register for Person");
+      
       //Step 1: Get construction values
       var fullName: String = +this getFullName ();
       var result: Array[java.lang.String] = fullName.split(" ");
@@ -367,8 +355,6 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       ModelElementLists.addElement(member)
       ModelElementLists.addElement(comp)
       ModelElementLists.addElement(register)
-
-      SynchronizationCompartment.underConstruction = false;
     }
   }
 }

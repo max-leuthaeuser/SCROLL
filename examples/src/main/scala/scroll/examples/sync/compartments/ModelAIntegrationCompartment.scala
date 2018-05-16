@@ -24,11 +24,9 @@ object ModelAIntegrationCompartment extends IIntegrationCompartment {
   
   class SimplePersonConstruct() extends IIntegrator {
 
-    def integrate(comp: PlayerSync): Unit = {
-      
-      SynchronizationCompartment.underConstruction = true;
-      
+    def integrate(comp: PlayerSync): Unit = {      
       println("Start Person Integration "  + comp);
+      
       //Step 1: Get construction values
       var fullName: String = +this getCompleteName ();
       var result: Array[java.lang.String] = fullName.split(" ");
@@ -86,8 +84,6 @@ object ModelAIntegrationCompartment extends IIntegrationCompartment {
       ModelElementLists.addElement(person)
       
       println("Finish Register Integration");
-      
-      SynchronizationCompartment.underConstruction = false;
     }
   }
 }

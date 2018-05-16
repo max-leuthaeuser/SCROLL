@@ -8,6 +8,9 @@ import scroll.examples.sync.models.modelB.Member
 import scroll.examples.sync.models.modelC.SimplePerson
 import scroll.examples.sync.models.modelA.Person
 
+/**
+ * Synchronization compartment for full name split with space.
+ */
 class SyncSpaceNames() extends ISyncCompartment {
   
   def getNextRole(classname: Object): ISyncRole = {
@@ -22,7 +25,7 @@ class SyncSpaceNames() extends ISyncCompartment {
     return null
   }
 
-  def isIntegration(classname: Object): Boolean = {
+  def isNextIntegration(classname: Object): Boolean = {
     if (classname.isInstanceOf[Family] || classname.isInstanceOf[Member] || classname.isInstanceOf[Person] || classname.isInstanceOf[SimplePerson])
       return true
     return false

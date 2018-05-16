@@ -12,7 +12,11 @@ import scroll.examples.sync.models.modelB.Family
 import scroll.examples.sync.models.modelA.Male
 import scroll.examples.sync.models.modelA.Female
 
+/**
+ * Construction Process for Model A, and B.
+ */
 object ModelABConstructionCompartment extends IConstructionCompartment  {
+  
   def getConstructorForClassName(classname: Object) : IConstructor = {
     if (classname.isInstanceOf[Family])
       return new FamilyConstruct()
@@ -26,7 +30,6 @@ object ModelABConstructionCompartment extends IConstructionCompartment  {
   class FamilyConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
       println("Start Family Construct");
       
       //Step 3: Create Containers 
@@ -36,14 +39,12 @@ object ModelABConstructionCompartment extends IConstructionCompartment  {
       ModelABConstructionCompartment.this.makeCompleteConstructionProcess(containers)  
             
       println("Finish Family Construct");
-      SynchronizationCompartment.underConstruction = false;
     }
   }
   
   class MemberConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
       println("Start Member Construct");
 
       //Step 1: Get construction values
@@ -91,14 +92,12 @@ object ModelABConstructionCompartment extends IConstructionCompartment  {
       ModelABConstructionCompartment.this.makeCompleteConstructionProcess(containers) 
       
       println("Finish Member Construct");
-      SynchronizationCompartment.underConstruction = false;
     }
   }
 
   class PersonConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
       println("Start Person Construct");
       
       //Step 1: Get construction values
@@ -125,7 +124,6 @@ object ModelABConstructionCompartment extends IConstructionCompartment  {
       ModelABConstructionCompartment.this.makeCompleteConstructionProcess(containers) 
             
       println("Finish Person Construct");
-      SynchronizationCompartment.underConstruction = false;
     }
   }
 }

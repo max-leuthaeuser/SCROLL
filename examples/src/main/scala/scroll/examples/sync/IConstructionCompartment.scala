@@ -4,14 +4,20 @@ import scroll.internal.Compartment
 import scroll.examples.sync.roles.IConstructor
 import scala.collection.mutable.ListBuffer
 
+/**
+ * Interface for each construction rule.
+ */
 trait IConstructionCompartment extends Compartment {
 
-  def getConstructorForClassName(classname: Object): IConstructor
-  
   /**
-   * 
+   * Return a role instance that handles the construction process for the object.
    */
-  protected def addManagerRoles(containers: ListBuffer[ConstructionContainer]): Unit = {
+  def getConstructorForClassName(classname: Object): IConstructor
+
+  /**
+   * Add Manager roles to all constructed elements.
+   */
+  private def addManagerRoles(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
       if (cc.isConstructed() && !cc.isStartElement()) {
         cc.getPlayerInstance() play cc.getManagerInstance()
@@ -22,7 +28,7 @@ trait IConstructionCompartment extends Compartment {
   /**
    * Add the delete roles for the elements in the ConstructionContainers.
    */
-  protected def addDeleteRoles(containers: ListBuffer[ConstructionContainer]): Unit = {
+  private def addDeleteRoles(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
       if (cc.isConstructed()) {
         cc.getManagerInstance() play SynchronizationCompartment.destructionCompartment.getDestructorForClassName(cc.getPlayerInstance())
@@ -33,7 +39,7 @@ trait IConstructionCompartment extends Compartment {
   /**
    * Add the related RoleManagers for the elements in the ConstructionContainers.
    */
-  protected def addRelatedRoleManager(containers: ListBuffer[ConstructionContainer]): Unit = {
+  private def addRelatedRoleManager(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
       containers.foreach { inner =>
         cc.getManagerInstance().addRelatedManager(inner.getManagerInstance())
@@ -45,7 +51,7 @@ trait IConstructionCompartment extends Compartment {
   /**
    * Combine the SynchronizationCompartment with all Players from the ConstructionContainers.
    */
-  protected def synchronizeCompartments(containers: ListBuffer[ConstructionContainer]): Unit = {
+  private def synchronizeCompartments(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
       SynchronizationCompartment combine cc.getPlayerInstance()
     }
@@ -54,12 +60,12 @@ trait IConstructionCompartment extends Compartment {
   /**
    * Create the Synchronization mechanisms for the elements in the ConstructionContainers.
    */
-  protected def bindSynchronizationRules(containers: ListBuffer[ConstructionContainer]): Unit = {
+  private def bindSynchronizationRules(containers: ListBuffer[ConstructionContainer]): Unit = {
     SynchronizationCompartment.syncCompartmentInfoList.foreach { s =>
       var sync: ISyncCompartment = null
       //Proof all container for integration
       containers.foreach { cc =>
-        if (s.isIntegration(cc.getPlayerInstance())) {
+        if (s.isNextIntegration(cc.getPlayerInstance())) {
           if (cc.isConstructed() && sync == null) {
             sync = s.getNewInstance()
           }
@@ -76,18 +82,21 @@ trait IConstructionCompartment extends Compartment {
   /**
    * Fill the test lists with all Players from the ConstructionContainers.
    */
-  protected def fillTestLists(containers: ListBuffer[ConstructionContainer]): Unit = {
+  private def fillTestLists(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
       ModelElementLists.addElement(cc.getPlayerInstance())
     }
   }
-  
+
+  /**
+   * Do the construction process automatically.
+   */
   protected def makeCompleteConstructionProcess(containers: ListBuffer[ConstructionContainer]): Unit = {
     this.addManagerRoles(containers)
     this.addDeleteRoles(containers)
     this.addRelatedRoleManager(containers)
     this.synchronizeCompartments(containers)
     this.bindSynchronizationRules(containers)
-    this.fillTestLists(containers)    
+    this.fillTestLists(containers)
   }
 }

@@ -5,13 +5,19 @@ import scroll.examples.sync.models.modelB.Member
 import scroll.examples.sync.models.modelA.Person
 import scroll.examples.sync.models.modelC.SimplePerson
 
+/**
+ * Helper object to hold instances of all model elements.
+ */
 object ModelElementLists {
   
-  var families = List[Family]()
-  var members = List[Member]()
-  var persons = List[Person]()
-  var registers = List[SimplePerson]() 
+  private var families = List[Family]()
+  private var members = List[Member]()
+  private var persons = List[Person]()
+  private var registers = List[SimplePerson]() 
   
+  /**
+   * Add a new element to the lists.
+   */
   def addElement(obj: Object) {
     if (obj == null)
       return
@@ -69,7 +75,11 @@ object ModelElementLists {
     }
   }
   
+  /**
+   * Print all elements from all lists.
+   */
   def printALL(): Unit = {
+    println("************************************************")
     println("Members: ");
     members.foreach {
       m => println("**Member: " + m);
@@ -86,5 +96,6 @@ object ModelElementLists {
     registers.foreach {
       m => println("**Register: " + m);
     }
+    println("************************************************")
   }
 }

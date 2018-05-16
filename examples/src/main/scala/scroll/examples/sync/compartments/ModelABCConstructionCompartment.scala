@@ -14,8 +14,12 @@ import scroll.examples.sync.models.modelA.Male
 import scroll.examples.sync.models.modelA.Female
 import scroll.examples.sync.ConstructionContainer
 
-object ModelABCConstructionCompartment extends IConstructionCompartment  {
-  def getConstructorForClassName(classname: Object) : IConstructor = {
+/**
+ * Construction Process for Model A, B, and C.
+ */
+object ModelABCConstructionCompartment extends IConstructionCompartment {
+
+  def getConstructorForClassName(classname: Object): IConstructor = {
     if (classname.isInstanceOf[Family])
       return new FamilyConstruct()
     else if (classname.isInstanceOf[Member])
@@ -26,29 +30,25 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
       return new RegisterConstruct()
     return null
   }
-  
+
   class FamilyConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
       println("Start Family Construct");
-      
+
       //Step 3: Create Containers 
       createContainerElement(true, true, comp, man)
-            
+
       //Step 4: Finish Creation
       ModelABCConstructionCompartment.this.makeCompleteConstructionProcess(containers)
-      
+
       println("Finish Family Construct");
-      SynchronizationCompartment.underConstruction = false;
     }
   }
-  
+
   class MemberConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
-
       println("Start Member Construct");
 
       //println("Step 1");//Step 1: Get construction values
@@ -56,7 +56,7 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
       var lastName: String = +this getLastName ();
       var family: Family = null
       var male: Boolean = true
-      
+
       var father: Family = (+this).getFamilyFather()
       var son: Family = (+this).getFamilySon()
       var mother: Family = (+this).getFamilyMother()
@@ -72,13 +72,13 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
         family = daughter
         male = false
       }
-      
-      var rmFamily: IRoleManager = null      
+
+      var rmFamily: IRoleManager = null
       if (family != null) {
         var manager = (+family).getManager()
         if (manager.isRight)
           rmFamily = manager.right.get //manager.right.get.asInstanceOf[IRoleManager]
-      }    
+      }
 
       //println("Step 2");//Step 2: Create the object in the other models
       var person: Person = null
@@ -87,25 +87,23 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
         person = new Male(firstName + " " + lastName)
       else
         person = new Female(firstName + " " + lastName)
-      
+
       //Step 3: Create Containers 
-      createContainerElement(true, true, comp, man)      
+      createContainerElement(true, true, comp, man)
       createContainerElement(false, false, family, rmFamily)
-      createContainerElement(false, true, register, SynchronizationCompartment.createRoleManager())      
+      createContainerElement(false, true, register, SynchronizationCompartment.createRoleManager())
       createContainerElement(false, true, person, SynchronizationCompartment.createRoleManager())
-            
+
       //Step 4: Finish Creation
       ModelABCConstructionCompartment.this.makeCompleteConstructionProcess(containers)
-      
+
       println("Finish Member Construct");
-      SynchronizationCompartment.underConstruction = false;
     }
   }
 
   class RegisterConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
       println("Start Register Construct");
 
       //Step 1: Get construction values
@@ -118,7 +116,7 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
       //Step 2: Create the object in the other models
       var family = new Family(lastName);
       var member: Member = null;
-      var person: Person = null;      
+      var person: Person = null;
       if (male) {
         person = new Male(firstName + " " + lastName)
         member = new Member(firstName, family, false, false, true, false);
@@ -126,27 +124,25 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
         person = new Female(firstName + " " + lastName)
         member = new Member(firstName, family, false, false, false, true);
       }
-      
+
       //Step 3: Create Containers 
       createContainerElement(true, true, comp, man)
       createContainerElement(false, true, family, SynchronizationCompartment.createRoleManager())
       createContainerElement(false, true, member, SynchronizationCompartment.createRoleManager())
       createContainerElement(false, true, person, SynchronizationCompartment.createRoleManager())
-            
+
       //Step 4: Finish Creation
-      ModelABCConstructionCompartment.this.makeCompleteConstructionProcess(containers)      
-      
+      ModelABCConstructionCompartment.this.makeCompleteConstructionProcess(containers)
+
       println("Finish Register Construct");
-      SynchronizationCompartment.underConstruction = false;
     }
   }
 
   class PersonConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
       println("Start Person Construct");
-      
+
       //Step 1: Get construction values
       var fullName: String = +this getFullName ();
       var result: Array[java.lang.String] = fullName.split(" ");
@@ -164,18 +160,17 @@ object ModelABCConstructionCompartment extends IConstructionCompartment  {
         register = new SimplePerson(firstName + " " + lastName, false)
         member = new Member(firstName, family, false, false, false, true);
       }
-      
+
       //Step 3: Create Containers 
       createContainerElement(true, true, comp, man)
       createContainerElement(false, true, family, SynchronizationCompartment.createRoleManager())
       createContainerElement(false, true, member, SynchronizationCompartment.createRoleManager())
       createContainerElement(false, true, register, SynchronizationCompartment.createRoleManager())
-            
+
       //Step 4: Finish Creation
       ModelABCConstructionCompartment.this.makeCompleteConstructionProcess(containers)
-      
+
       println("Finish Person Construct");
-      SynchronizationCompartment.underConstruction = false;
     }
   }
 }

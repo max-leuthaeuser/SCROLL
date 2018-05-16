@@ -17,33 +17,40 @@ object ExampleSync extends App {
 
   new Compartment {
     
+    //Add construction and deletion rules
     SynchronizationCompartment.changeConstructionRule(ModelBCConstructionCompartment)
     SynchronizationCompartment.changeDestructionRule(ModelABCDestructionCompartment)
+    //Add synchronization rules
     SynchronizationCompartment.addSynchronizationRule(new SyncKnownList())
     SynchronizationCompartment.addSynchronizationRule(new SyncSpaceNames())
     
+    //Create some instances of classes
     val johnson = new Family("Johnson")
     val dad = new Member("Dad", johnson, true, false, false, false)
     val mom = new Member("Mom", johnson, false, true, false, false)  
     
+    //Show related Elements
     mom.listen()
     dad.listen()
     
-    ModelElementLists.printALL()
-    
+    //Change last Name to Smith
     johnson.setLastName("Smith")
+    
     mom.listen()
     dad.listen()
     
+    //Change first Name to Mami
     mom.setFirstName("Mami")
+    
     mom.listen()
     
+    //Change first Name to Dadi
     dad.setFirstName("Dadi")
+    
     dad.listen()
     
-    //ModelElementLists.setAllRegisterNames("First1 Last1")
-    ModelElementLists.printALL()   
-    println("")
+    //Help printing
+    ModelElementLists.printALL()
     
     //Test 1: Model integration
     SynchronizationCompartment.changeConstructionRule(ModelABCConstructionCompartment)
@@ -52,14 +59,12 @@ object ExampleSync extends App {
     SynchronizationCompartment.integrateNewModel(ModelAIntegrationCompartment)
     
     println("Model A was integrated")
-    ModelElementLists.printALL()  
-    println("")
+    ModelElementLists.printALL()
     
+    //Change last name to Johnson
     johnson.setLastName("Johnson")
     
-    println("Lastname to Johnson")
-    ModelElementLists.printALL()  
-    println("")
+    ModelElementLists.printALL()
     
     //Test 2: Rule Delete and new Add
     SynchronizationCompartment.deleteRule("SyncNameRule1")
@@ -70,21 +75,18 @@ object ExampleSync extends App {
     ModelElementLists.changeRegisterNames()
     
     println("Changed Names")
-    ModelElementLists.printALL()  
-    println("")
+    ModelElementLists.printALL()
     
     mom.setFirstName("Mom")    
     dad.setFirstName("Dad") 
     
     println("Firstname change")
     ModelElementLists.printALL()  
-    println("")
     
     johnson.setLastName("Smith")
     
     println("Lastname to Smith")
-    ModelElementLists.printALL()  
-    println("")
+    ModelElementLists.printALL()
         
     //Test 3: Rule change
     SynchronizationCompartment.changeRuleFromTo("SyncNameRule2", new SyncSpaceNames)
@@ -94,44 +96,23 @@ object ExampleSync extends App {
     mom.setFirstName("Mami")    
     dad.setFirstName("Dadi")
     
-    println("")
-    ModelElementLists.printALL()  
-    println("")
+    ModelElementLists.printALL() 
     
     johnson.setLastName("Johnson")
     
     println("Lastname to Johnson")
-    ModelElementLists.printALL()  
-    println("")
+    ModelElementLists.printALL() 
     
     mom.deleteObjectFromSynchro();
     
-    println("")
     ModelElementLists.printALL()  
-    println("")
-    
-    //TODO Proof this two steps
     
     //Test 4: Destructor change
     SynchronizationCompartment.changeDestructionRule(GeneralDestructor)
       
     dad.deleteObjectFromSynchro();
     
-    println("")
-    ModelElementLists.printALL()  
-    println("")
-    
-    val per = new Male("Heinz Gunter")    
-    per.listen()
-        
-    per.setFullName("Heinz Munter")
-    per.listen()
-    
-    per.setFullName("Gunter Munter")
-    per.listen()
-    
-    per.deleteObjectFromSynchro()
-    per.listen()
+    ModelElementLists.printALL()
   }
   
 }

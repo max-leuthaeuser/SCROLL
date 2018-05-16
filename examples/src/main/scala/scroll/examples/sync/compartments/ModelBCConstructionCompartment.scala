@@ -13,8 +13,12 @@ import scroll.examples.sync.ISyncCompartment
 import scala.collection.mutable.ListBuffer
 import scroll.examples.sync.ConstructionContainer
 
-object ModelBCConstructionCompartment extends IConstructionCompartment  {
-  def getConstructorForClassName(classname: Object) : IConstructor = {
+/**
+ * Construction Process for Model B, and C.
+ */
+object ModelBCConstructionCompartment extends IConstructionCompartment {
+
+  def getConstructorForClassName(classname: Object): IConstructor = {
     if (classname.isInstanceOf[Family])
       return new FamilyConstruct()
     else if (classname.isInstanceOf[Member])
@@ -23,36 +27,33 @@ object ModelBCConstructionCompartment extends IConstructionCompartment  {
       return new RegisterConstruct()
     return null
   }
-  
+
   class FamilyConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
       println("Start Family Construct");
-      
+
       //Step 3: Create Containers 
       createContainerElement(true, true, comp, man)
 
       //Step 4: Finish Creation
-      ModelBCConstructionCompartment.this.makeCompleteConstructionProcess(containers)     
-      
+      ModelBCConstructionCompartment.this.makeCompleteConstructionProcess(containers)
+
       println("Finish Family Construct");
-      SynchronizationCompartment.underConstruction = false;
     }
   }
-  
+
   class MemberConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
       println("Start Member Construct");
-      
+
       //println("Step 1");//Step 1: Get construction values
       var firstName: String = +this firstName;
       var lastName: String = +this getLastName ();
       var family: Family = null
       var male: Boolean = true
-      
+
       var father: Family = (+this).getFamilyFather()
       var son: Family = (+this).getFamilySon()
       var mother: Family = (+this).getFamilyMother()
@@ -68,84 +69,32 @@ object ModelBCConstructionCompartment extends IConstructionCompartment  {
         family = daughter
         male = false
       }
-      
-      var rmFamily: IRoleManager = null      
+
+      var rmFamily: IRoleManager = null
       if (family != null) {
         var manager = (+family).getManager()
         if (manager.isRight)
           rmFamily = manager.right.get //manager.right.get.asInstanceOf[IRoleManager]
-      }    
+      }
 
       //println("Step 2");//Step 2: Create the object in the other models
       var register: SimplePerson = new SimplePerson(firstName + " " + lastName, male)
-      
+
       //Step 3: Create Containers 
       createContainerElement(true, true, comp, man)
       createContainerElement(false, false, family, rmFamily)
       createContainerElement(false, true, register, SynchronizationCompartment.createRoleManager())
-            
+
       //Step 4: Finish Creation
       ModelBCConstructionCompartment.this.makeCompleteConstructionProcess(containers)
-      
-      /*//println("Step 3");//Step 3: Add RoleManager roles and Delete roles
-      var rmMC = SynchronizationCompartment.createRoleManager();
-      register play rmMC
 
-      var registerDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(register)
-      var memberDelete = SynchronizationCompartment.destructionCompartment.getDestructorForClassName(comp)
-      man play memberDelete
-      rmMC play registerDelete
-
-      //println("Step 4");//Step 4: Add the related Role Manager
-      man.addRelatedManager(rmMC)
-      man.addRelatedManager(rmFamily)
-      rmMC.addRelatedManager(man)
-      rmMC.addRelatedManager(rmFamily)
-      rmFamily.addRelatedManager(man)
-      rmFamily.addRelatedManager(rmMC)
-
-      //println("Step 5");//Step 5: Synchronize the Compartments
-      SynchronizationCompartment combine register //union synchonisiert die rollen graphen
-
-      //println("Step 6");//Step 6: Create the Synchronization mechanisms for the name
-      SynchronizationCompartment.syncCompartmentInfoList.foreach { s =>
-        //if it should be for first integration than add
-        if (s.isFirstIntegration(comp)) {
-          var sync : ISyncCompartment = s.getNewInstance()
-          man play sync.getNextIntegrationRole(comp)
-          if (sync.isIntegration(register))
-            rmMC play sync.getNextIntegrationRole(register)
-          if (family != null && rmFamily != null && sync.isIntegration(family))
-            rmFamily play sync.getNextIntegrationRole(family)
-          SynchronizationCompartment combine sync
-        }
-      }
-      
-      /*new SyncSpaceNames() {
-        man play this.getNextIntegrationRole(comp)
-        rmMC play this.getNextIntegrationRole(register)
-        if (family != null) {
-          if (rmFamily != null)
-          {            
-            rmFamily play this.getNextIntegrationRole(family)
-          }
-        }
-        SynchronizationCompartment combine this
-      }*/
-
-      //println("Step 7");//Step 7: Fill Test Lists
-      ModelElementLists.addElement(comp)
-      ModelElementLists.addElement(register)*/
-      
       println("Finish Member Construct");
-      SynchronizationCompartment.underConstruction = false;
     }
   }
 
   class RegisterConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
-      SynchronizationCompartment.underConstruction = true;
       println("Start Register Construct");
 
       //Step 1: Get construction values
@@ -163,15 +112,15 @@ object ModelBCConstructionCompartment extends IConstructionCompartment  {
       } else {
         member = new Member(firstName, family, false, false, false, true);
       }
-      
+
       //Step 3: Add RoleManager roles and Delete roles 
       createContainerElement(true, true, comp, man)
       createContainerElement(false, true, family, SynchronizationCompartment.createRoleManager())
       createContainerElement(false, true, member, SynchronizationCompartment.createRoleManager())
-      
+
       //Step 4: Finish Creation
       ModelBCConstructionCompartment.this.makeCompleteConstructionProcess(containers)
-      
+
       /*//Step 3: Add RoleManager roles and Delete roles      
       var rmFamily = SynchronizationCompartment.createRoleManager();
       var rmMB = SynchronizationCompartment.createRoleManager();      
@@ -239,9 +188,8 @@ object ModelBCConstructionCompartment extends IConstructionCompartment  {
       ModelElementLists.addElement(family)
       ModelElementLists.addElement(member)
       ModelElementLists.addElement(comp)*/
-      
+
       println("Finish Register Construct");
-      SynchronizationCompartment.underConstruction = false;
     }
   }
 }

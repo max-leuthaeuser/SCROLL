@@ -8,6 +8,9 @@ import scroll.examples.sync.PlayerSync
 import scroll.examples.sync.SynchronizationCompartment
 import scroll.examples.sync.models.modelB.Family
 
+/**
+ * Synchronization compartment for the known lists in person register.
+ */
 class SyncKnownList extends ISyncCompartment {
   
   def getNextRole(classname: Object): ISyncRole = {
@@ -22,7 +25,7 @@ class SyncKnownList extends ISyncCompartment {
     return null
   }
 
-  def isIntegration(classname: Object): Boolean = {
+  def isNextIntegration(classname: Object): Boolean = {
     if (classname.isInstanceOf[Family])
       return true
     return false

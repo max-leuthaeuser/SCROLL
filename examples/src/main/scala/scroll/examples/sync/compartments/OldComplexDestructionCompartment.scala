@@ -31,12 +31,6 @@ object OldComplexDestructionCompartment extends IDestructionCompartment {
   
   class PersonDelete() extends IDestructor {
 
-    /*var syncer = List[PlayerSync]()
-
-    def addDeletionObject(comp: PlayerSync) {
-      syncer = syncer :+ comp
-    }*/
-
     def deleteRoleFunction(): Unit = {
       println("##Delete element Player: " + this.player);
       var relatedManager = (+this).getRelatedManager()

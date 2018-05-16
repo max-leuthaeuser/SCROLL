@@ -9,11 +9,14 @@ import scroll.examples.sync.roles.ISyncRole
 import scroll.examples.sync.compartments.GeneralDestructor
 import scala.collection.mutable.ListBuffer
 
+/**
+ * Management object for the whole synchronization process.
+ */
 object SynchronizationCompartment extends ISynchronizationCompartment {
 
   def createRoleManager(): IRoleManager = new RoleManager()
 
-  var constructionCompartment: IConstructionCompartment = null// ModelABConstructionCompartment
+  private var constructionCompartment: IConstructionCompartment = null// ModelABConstructionCompartment
   var destructionCompartment: IDestructionCompartment = null// GeneralDestructor
   var syncCompartmentInfoList = ListBuffer[ISyncCompartment]()
   
@@ -125,7 +128,9 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
         if (role != null) {
           player play role
           this combine integrationRule
+          underConstruction = true;
           (+player).integrate(player)
+          underConstruction = false;
           plays.removePlayer(role)
         }
       }
@@ -207,7 +212,6 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
 
   /**
    * Delete all rules with this name.
-   * TODO: Remove from sync list.
    */
   def deleteRule(ruleName: String): Unit = {
     var nodes = plays.allPlayers; //get all nodes
@@ -227,7 +231,6 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
 
   /**
    * Change rule with this name to new rule.
-   * TODO: manipulate sync list
    */
   def changeRuleFromTo(from: String, to: ISyncCompartment): Unit = {    
     var running = true;
@@ -258,8 +261,7 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
                   }
                 }
               }
-              //rograph combination
-              //ComplexSynchronization.this combine newComp
+              //role graph combination
               this combine newComp
               //delete compartment
               compart.clearSyncer()
@@ -298,7 +300,6 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
   class RoleManager() extends IRoleManager {
 
     def manage(value: PlayerSync): Unit = {
-      //println("Player: " + this.player.toSeq + " || " + (+this).getClass + " || " + value.isInstanceOf[Person]);
       println("****Create Related Roles from the object " + this.player + " " + (+this));
       SynchronizationCompartment.this combine constructionCompartment
       SynchronizationCompartment.this combine destructionCompartment
@@ -306,40 +307,11 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
       var construct = constructionCompartment.getConstructorForClassName(value)
       if (construct != null) {
         this play construct
+        underConstruction = true;
         +this construct (value, this)
+        underConstruction = false;
         plays.removePlayer(construct)
-        //println("'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''" + construct + " Value: " + value)
       }
-
-      //println("~~~~~~~~~~~~~~~~~~~~~~All Players: " + plays.allPlayers)
-
-      /*if (value.isInstanceOf[Person]) {
-        var constructor = new ConstructionCompartment.PersonConstruct
-        this play constructor
-        //ComplexSynchronization.this combine value
-        +this construct (value, this)
-        //this drop constructor
-        plays.removePlayer(constructor)
-        //println("~~~~~~~~~~~~~~~~~~~~~~All Players: " + plays.allPlayers)
-      } else if (value.isInstanceOf[Member]) {
-        var constructor = new ConstructionCompartment.MemberConstruct
-        this play constructor
-        //ComplexSynchronization.this combine value
-        +this construct (value, this)
-        plays.removePlayer(constructor)   
-      } else if (value.isInstanceOf[PersonForRegister]) {
-        var constructor = new ConstructionCompartment.RegisterConstruct
-        this play constructor
-        //ComplexSynchronization.this combine value
-        +this construct (value, this)
-        plays.removePlayer(constructor)
-      } else if (value.isInstanceOf[Family]) {
-        var constructor = new ConstructionCompartment.FamilyConstruct
-        this play constructor
-        //ComplexSynchronization.this combine value
-        +this construct (value, this)
-        plays.removePlayer(constructor)       
-      }*/
     }
   }
 }
