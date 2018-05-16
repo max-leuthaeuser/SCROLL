@@ -5,18 +5,18 @@ import scroll.examples.sync.roles.IConstructor
 import scala.collection.mutable.ListBuffer
 
 /**
- * Interface for each construction rule.
- */
+  * Interface for each construction rule.
+  */
 trait IConstructionCompartment extends Compartment {
 
   /**
-   * Return a role instance that handles the construction process for the object.
-   */
+    * Return a role instance that handles the construction process for the object.
+    */
   def getConstructorForClassName(classname: Object): IConstructor
 
   /**
-   * Add Manager roles to all constructed elements.
-   */
+    * Add Manager roles to all constructed elements.
+    */
   private def addManagerRoles(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
       if (cc.isConstructed() && !cc.isStartElement()) {
@@ -26,8 +26,8 @@ trait IConstructionCompartment extends Compartment {
   }
 
   /**
-   * Add the delete roles for the elements in the ConstructionContainers.
-   */
+    * Add the delete roles for the elements in the ConstructionContainers.
+    */
   private def addDeleteRoles(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
       if (cc.isConstructed()) {
@@ -37,8 +37,8 @@ trait IConstructionCompartment extends Compartment {
   }
 
   /**
-   * Add the related RoleManagers for the elements in the ConstructionContainers.
-   */
+    * Add the related RoleManagers for the elements in the ConstructionContainers.
+    */
   private def addRelatedRoleManager(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
       containers.foreach { inner =>
@@ -49,8 +49,8 @@ trait IConstructionCompartment extends Compartment {
   }
 
   /**
-   * Combine the SynchronizationCompartment with all Players from the ConstructionContainers.
-   */
+    * Combine the SynchronizationCompartment with all Players from the ConstructionContainers.
+    */
   private def synchronizeCompartments(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
       SynchronizationCompartment combine cc.getPlayerInstance()
@@ -58,8 +58,8 @@ trait IConstructionCompartment extends Compartment {
   }
 
   /**
-   * Create the Synchronization mechanisms for the elements in the ConstructionContainers.
-   */
+    * Create the Synchronization mechanisms for the elements in the ConstructionContainers.
+    */
   private def bindSynchronizationRules(containers: ListBuffer[ConstructionContainer]): Unit = {
     SynchronizationCompartment.getSyncRules().foreach { s =>
       var sync: ISyncCompartment = null
@@ -80,8 +80,8 @@ trait IConstructionCompartment extends Compartment {
   }
 
   /**
-   * Fill the test lists with all Players from the ConstructionContainers.
-   */
+    * Fill the test lists with all Players from the ConstructionContainers.
+    */
   private def fillTestLists(containers: ListBuffer[ConstructionContainer]): Unit = {
     containers.foreach { cc =>
       ModelElementLists.addElement(cc.getPlayerInstance())
@@ -89,8 +89,8 @@ trait IConstructionCompartment extends Compartment {
   }
 
   /**
-   * Do the construction process automatically.
-   */
+    * Do the construction process automatically.
+    */
   protected def makeCompleteConstructionProcess(containers: ListBuffer[ConstructionContainer]): Unit = {
     this.addManagerRoles(containers)
     this.addDeleteRoles(containers)

@@ -15,27 +15,27 @@ import scroll.examples.sync.models.modelC.SimplePerson
 import scroll.examples.sync.models.modelA.Female
 
 object ModelAIntegrationCompartment extends IIntegrationCompartment {
-  
-  def getIntegratorForClassName(classname: Object) : IIntegrator = {
+
+  def getIntegratorForClassName(classname: Object): IIntegrator = {
     if (classname.isInstanceOf[SimplePerson])
       return new SimplePersonConstruct()
     return null
   }
-  
+
   class SimplePersonConstruct() extends IIntegrator {
 
-    def integrate(comp: PlayerSync): Unit = {      
-      println("Start Person Integration "  + comp);
-      
+    def integrate(comp: PlayerSync): Unit = {
+      println("Start Person Integration " + comp);
+
       //Step 1: Get construction values
-      var fullName: String = +this getCompleteName ();
+      var fullName: String = +this getCompleteName();
       var result: Array[java.lang.String] = fullName.split(" ");
       var firstName: String = result.head;
       var lastName: String = result.last;
-      var male: Boolean = +this getMale ();
+      var male: Boolean = +this getMale();
 
       //Step 2: Create the object in the other models
-      var person: Person = null;      
+      var person: Person = null;
       if (male) {
         person = new Male(firstName + " " + lastName)
       } else {
@@ -51,8 +51,7 @@ object ModelAIntegrationCompartment extends IIntegrationCompartment {
 
       //Step 4: Add the related Role Manager
       var manager = (+comp).getManager()
-      if (manager.isRight)
-      {
+      if (manager.isRight) {
         var realManager: IRoleManager = manager.right.get
         var related = realManager.getRelatedManager()
         realManager.addRelatedManager(rmMA)
@@ -60,14 +59,14 @@ object ModelAIntegrationCompartment extends IIntegrationCompartment {
         related.foreach { r =>
           r.addRelatedManager(rmMA)
           rmMA.addRelatedManager(r)
-        }        
+        }
       }
 
       //Step 5: Synchronize the Compartments
       SynchronizationCompartment combine person
-      
+
       //Step 6: Integrate in Synchronization Rules
-      var player = ModelAIntegrationCompartment.this.plays.getRoles(comp)      
+      var player = ModelAIntegrationCompartment.this.plays.roles(comp)
       player.foreach { r =>
         if (r.isInstanceOf[ISyncRole]) {
           var syncRole: ISyncRole = r.asInstanceOf[ISyncRole]
@@ -79,11 +78,12 @@ object ModelAIntegrationCompartment extends IIntegrationCompartment {
           }
         }
       }
-      
+
       //Step 7: Fill Test Lists
       ModelElementLists.addElement(person)
-      
+
       println("Finish Register Integration");
     }
   }
+
 }

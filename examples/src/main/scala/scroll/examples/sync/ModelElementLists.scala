@@ -7,18 +7,18 @@ import scroll.examples.sync.models.modelA.Person
 import scroll.examples.sync.models.modelC.SimplePerson
 
 /**
- * Helper object to hold instances of all model elements.
- */
+  * Helper object to hold instances of all model elements.
+  */
 object ModelElementLists {
-  
+
   private var families = Set.empty[Family]
   private var members = Set.empty[Member]
   private var persons = Set.empty[Person]
   private var registers = Set.empty[SimplePerson]
-  
+
   /**
-   * Add a new element to the lists.
-   */
+    * Add a new element to the lists.
+    */
   def addElement(obj: Object) {
     if (obj == null)
       return
@@ -31,50 +31,50 @@ object ModelElementLists {
     if (obj.isInstanceOf[SimplePerson])
       this.addRegister(obj.asInstanceOf[SimplePerson])
   }
-  
+
   private def addFamily(f: Family): Unit = {
     families += f
   }
-  
+
   private def addMember(m: Member): Unit = {
     members += m
   }
-  
+
   private def addPersons(p: Person): Unit = {
     persons += p
   }
-  
+
   private def addRegister(r: SimplePerson): Unit = {
     registers += r
   }
-  
+
   def setAllFamilyNames(s: String): Unit = {
     families.foreach {
-      m => m.setLastName(s)//.setCompleteName(s)
+      m => m.setLastName(s) //.setCompleteName(s)
     }
   }
-  
+
   def setAllPersonNames(s: String): Unit = {
     persons.foreach {
       m => m.setFullName(s)
     }
   }
-  
+
   def changeRegisterNames(): Unit = {
     registers.foreach {
       m => m.changeFirstAndLastName()
     }
   }
-  
+
   def setAllRegisterNames(s: String): Unit = {
     registers.foreach {
       m => m.setCompleteName(s)
     }
   }
-  
+
   /**
-   * Print all elements from all lists.
-   */
+    * Print all elements from all lists.
+    */
   def printALL(): Unit = {
     println("************************************************")
     println("Members: ");

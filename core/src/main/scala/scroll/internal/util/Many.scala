@@ -1,7 +1,7 @@
 package scroll.internal.util
 
 object Many {
-  def * = Many()
+  def * : Many = Many()
 }
 
 case class Many() extends Ordered[Int] {

@@ -12,21 +12,21 @@ trait RoleGraph {
     * @param other the RoleGraph to merge with.
     */
   def merge(other: RoleGraph): Unit
-  
+
   /**
     * Combines this with another RoleGraph given as other.
     *
     * @param other the RoleGraph to combine with.
     */
   def combine(other: RoleGraph): Unit
-  
+
   /**
     * RoleGraph given as other would get part of this.
     *
     * @param other the RoleGraph for integration in this one.
     */
   def addPart(other: RoleGraph): Unit
-  
+
   /**
     * RoleGraph given as other would get part of this and set both to this.
     *
@@ -80,7 +80,7 @@ trait RoleGraph {
     * @param player the player instance to get the roles for
     * @return a Seq of all roles of core player including the player object itself. Returns an empty Seq if the given player is not in the role-playing graph.
     */
-  def getRoles(player: AnyRef): Seq[AnyRef]
+  def roles(player: AnyRef): Seq[AnyRef]
 
   /**
     * Returns a Seq of all facets attached to the given player (core object).
@@ -88,7 +88,7 @@ trait RoleGraph {
     * @param player the player instance to get the facets for
     * @return a Seq of all facets of core player including the player object itself. Returns an empty Seq if the given player is not in the role-playing graph.
     */
-  def getFacets(player: AnyRef): Seq[Enumeration#Value]
+  def facets(player: AnyRef): Seq[Enumeration#Value]
 
   /**
     * Checks if the role graph contains the given player.
@@ -105,5 +105,5 @@ trait RoleGraph {
     * @param player the player instance to calculate the cores of
     * @return a list of all predecessors of the given player
     */
-  def getPredecessors(player: AnyRef): Seq[AnyRef]
+  def predecessors(player: AnyRef): Seq[AnyRef]
 }

@@ -3,8 +3,8 @@ package scroll.examples.sync.models.modelC
 import scroll.examples.sync.PlayerSync
 
 /**
- * SimplePerson from model C.
- */
+  * SimplePerson from model C.
+  */
 class SimplePerson(ccompleteName: String, cmale: Boolean) extends PlayerSync {
 
   var completeName: String = ccompleteName
@@ -36,7 +36,7 @@ class SimplePerson(ccompleteName: String, cmale: Boolean) extends PlayerSync {
   def setCompleteName(n: String): Unit = {
     completeName = n
     println("++++++++++Reg Change+++++++++++++++");
-    +this changeCompleteName ()
+    +this changeCompleteName()
     println("----------Reg Change---------------");
   }
 

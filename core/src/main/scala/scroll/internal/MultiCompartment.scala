@@ -35,8 +35,8 @@ trait MultiCompartment extends Compartment {
     override def <->[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = drop(role)
 
     def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
-      val core = getCoreFor(wrapped).last
-      dispatchQuery.filter(plays.getRoles(core)).collect {
+      val core = coreFor(wrapped).last
+      dispatchQuery.filter(plays.roles(core)).collect {
         case r if ReflectiveHelper.findMethod(r, name, args).isDefined => (r, ReflectiveHelper.findMethod(r, name, args).get)
       } map { case (r, fm) => dispatch(r, fm, args: _*) } match {
         case Nil => Left(RoleNotFound(core.toString, name, args))
@@ -48,8 +48,8 @@ trait MultiCompartment extends Compartment {
       applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
 
     def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
-      val core = getCoreFor(wrapped).last
-      dispatchQuery.filter(plays.getRoles(core)).collect {
+      val core = coreFor(wrapped).last
+      dispatchQuery.filter(plays.roles(core)).collect {
         case r if ReflectiveHelper.hasMember(r, name) => r
       } map (ReflectiveHelper.propertyOf(_, name)) match {
         case Nil => Left(RoleNotFound(core.toString, name, Seq.empty))
@@ -58,11 +58,11 @@ trait MultiCompartment extends Compartment {
     }
 
     def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit =
-      dispatchQuery.filter(plays.getRoles(getCoreFor(wrapped).last)).filter(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
+      dispatchQuery.filter(plays.roles(coreFor(wrapped).last)).filter(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
     override def equals(o: Any): Boolean = o match {
-      case other: MultiPlayer[_] => getCoreFor(wrapped) equals getCoreFor(other.wrapped)
-      case other: Any => getCoreFor(wrapped) match {
+      case other: MultiPlayer[_] => coreFor(wrapped) equals coreFor(other.wrapped)
+      case other: Any => coreFor(wrapped) match {
         case Nil => false
         case p :: Nil => p equals other
         case _ => false

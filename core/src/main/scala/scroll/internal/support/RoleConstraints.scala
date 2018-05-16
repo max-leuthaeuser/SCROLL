@@ -23,7 +23,7 @@ trait RoleConstraints {
       case Nil => //done, thanks
       case list =>
         val allImplicitRoles = list.flatMap(Graphs.reachableNodes(roleImplications, _).asScala)
-        val allRoles = plays.getRoles(player).diff(Seq(player))
+        val allRoles = plays.roles(player).diff(Seq(player))
         allImplicitRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role implication constraint violation: '$player' should play role '$r', but it does not!")
         })
@@ -35,7 +35,7 @@ trait RoleConstraints {
       case Nil => //done, thanks
       case list =>
         val allEquivalentRoles = list.flatMap(Graphs.reachableNodes(roleEquivalents, _).asScala)
-        val allRoles = plays.getRoles(player).diff(Seq(player))
+        val allRoles = plays.roles(player).diff(Seq(player))
         allEquivalentRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
           throw new RuntimeException(s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!")
         })
@@ -47,7 +47,7 @@ trait RoleConstraints {
       case Nil => //done, thanks
       case list =>
         val allProhibitedRoles = list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
-        val allRoles = plays.getRoles(player).diff(Seq(player))
+        val allRoles = plays.roles(player).diff(Seq(player))
         val rs = if (allProhibitedRoles.size == allRoles.size) {
           Set.empty[String]
         } else {
@@ -110,7 +110,7 @@ trait RoleConstraints {
     */
   def RoleConstraintsChecked(func: => Unit): Unit = {
     func
-    plays.allPlayers.foreach(p => plays.getRoles(p).diff(Seq(p)).foreach(r => validateConstraints(p, r)))
+    plays.allPlayers.foreach(p => plays.roles(p).diff(Seq(p)).foreach(r => validateConstraints(p, r)))
   }
 
   /**

@@ -15,11 +15,11 @@ import scroll.examples.sync.models.modelA.Male
 import scroll.examples.sync.models.modelA.Female
 
 /**
- * Old construction Process for Model A, B, and C.
- */
+  * Old construction Process for Model A, B, and C.
+  */
 object OldComplexConstructionCompartment extends IConstructionCompartment {
-  
-  def getConstructorForClassName(classname: Object) : IConstructor = {
+
+  def getConstructorForClassName(classname: Object): IConstructor = {
     if (classname.isInstanceOf[Family])
       return new FamilyConstruct()
     else if (classname.isInstanceOf[Member])
@@ -30,7 +30,7 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       return new RegisterConstruct()
     return null
   }
-  
+
   class FamilyConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
@@ -40,13 +40,13 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
         man play this.getNextIntegrationRole(man)
         SynchronizationCompartment combine this
       }
-      
+
       ModelElementLists.addElement(comp)
-      
+
       println("Finish Person/Register for Member");
     }
   }
-  
+
   class MemberConstruct() extends IConstructor {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
@@ -54,10 +54,10 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
 
       //println("Step 1");//Step 1: Get construction values
       var firstName: String = +this firstName;
-      var lastName: String = +this getLastName ();
+      var lastName: String = +this getLastName();
       var family: Family = null
       var male: Boolean = true
-      
+
       var father: Family = (+this).getFamilyFather()
       var son: Family = (+this).getFamilySon()
       var mother: Family = (+this).getFamilyMother()
@@ -73,14 +73,14 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
         family = daughter
         male = false
       }
-      
+
       var rmFamily: IRoleManager = null
-      
+
       if (family != null) {
         var manager = (+family).getManager()
         if (manager.isRight)
           rmFamily = manager.right.get //manager.right.get.asInstanceOf[IRoleManager]
-      }    
+      }
 
       //println("Step 2");//Step 2: Create the object in the other models
       var person: Person = null
@@ -129,8 +129,7 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
         rmMA play this.getNextIntegrationRole(rmMA)
         rmMC play this.getNextIntegrationRole(rmMC)
         if (family != null) {
-          if (rmFamily != null)
-          {            
+          if (rmFamily != null) {
             rmFamily play this.getNextIntegrationRole(rmFamily)
           }
           //addSyncer(family)
@@ -164,7 +163,7 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       ModelElementLists.addElement(comp)
       ModelElementLists.addElement(person)
       ModelElementLists.addElement(register)
-      
+
       println("Finish Person/Register for Member");
     }
   }
@@ -175,16 +174,16 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       println("Create Person/Member for RegisterEntry");
 
       //Step 1: Get construction values
-      var fullName: String = +this getCompleteName ();
+      var fullName: String = +this getCompleteName();
       var result: Array[java.lang.String] = fullName.split(" ");
       var firstName: String = result.head;
       var lastName: String = result.last;
-      var male: Boolean = +this getMale ();
+      var male: Boolean = +this getMale();
 
       //Step 2: Create the object in the other models
       var family = new Family(lastName);
       var member: Member = null;
-      var person: Person = null;      
+      var person: Person = null;
       if (male) {
         person = new Male(firstName + " " + lastName)
         member = new Member(firstName, family, false, false, true, false);
@@ -192,7 +191,7 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
         person = new Female(firstName + " " + lastName)
         member = new Member(firstName, family, false, false, false, true);
       }
-      
+
       //Step 3: Add RoleManager roles and Delete roles      
       var rmFamily = SynchronizationCompartment.createRoleManager();
       var rmMA = SynchronizationCompartment.createRoleManager();
@@ -255,7 +254,7 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       ComplexSynchronization.this combine member
       ComplexSynchronization.this combine person
       ComplexSynchronization.this combine comp*/
-      
+
       ModelElementLists.addElement(family)
       ModelElementLists.addElement(member)
       ModelElementLists.addElement(person)
@@ -267,9 +266,9 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
 
     def construct(comp: PlayerSync, man: IRoleManager): Unit = {
       println("Create Member/Register for Person");
-      
+
       //Step 1: Get construction values
-      var fullName: String = +this getFullName ();
+      var fullName: String = +this getFullName();
       var result: Array[java.lang.String] = fullName.split(" ");
       var firstName: String = result.head;
       var lastName: String = result.last;
@@ -348,13 +347,14 @@ object OldComplexConstructionCompartment extends IConstructionCompartment {
       ComplexSynchronization.this combine family
       ComplexSynchronization.this combine member
       ComplexSynchronization.this combine comp*/
-      
+
       println("Fill Test Lists");
-      
+
       ModelElementLists.addElement(family)
       ModelElementLists.addElement(member)
       ModelElementLists.addElement(comp)
       ModelElementLists.addElement(register)
     }
   }
+
 }

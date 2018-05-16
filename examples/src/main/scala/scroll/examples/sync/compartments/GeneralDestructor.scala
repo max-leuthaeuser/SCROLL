@@ -7,12 +7,12 @@ import scroll.examples.sync.roles.IDestructor
 import scroll.examples.sync.roles.IRoleManager
 
 /**
- * Calls the destruction method from all related RoleManagers and then deletes all roles from this player.
- */
+  * Calls the destruction method from all related RoleManagers and then deletes all roles from this player.
+  */
 object GeneralDestructor extends IDestructionCompartment {
-  
-  def getDestructorForClassName(classname: Object) : IDestructor = new DeleteRole
-  
+
+  def getDestructorForClassName(classname: Object): IDestructor = new DeleteRole
+
   class DeleteRole() extends IDestructor {
 
     def deleteRoleFunction(): Unit = {
@@ -20,8 +20,7 @@ object GeneralDestructor extends IDestructionCompartment {
       var relatedManager = (+this).getRelatedManager()
       (+this).clearListsOfRelatedManager()
       //call delete method in all related role managers
-      if (relatedManager.isRight)
-      {
+      if (relatedManager.isRight) {
         //println("In IF STATEMENT" + relatedManager.right.get);
         var list: Set[IRoleManager] = relatedManager.right.get
         list.foreach { m =>
@@ -33,11 +32,10 @@ object GeneralDestructor extends IDestructionCompartment {
       (+this).clearRelatedManager()
       //delete all roles this element has      
       var player = this.player;
-      if (player.isRight)
-      {
+      if (player.isRight) {
         //println("In IF STATEMENT" + player.right.get);
         var test: PlayerSync = player.right.get.asInstanceOf[PlayerSync]
-        var roles = plays.getRoles(test)
+        var roles = plays.roles(test)
         roles.foreach { r =>
           plays.removePlayer(r)
         }
@@ -45,4 +43,5 @@ object GeneralDestructor extends IDestructionCompartment {
       }
     }
   }
+
 }

@@ -53,4 +53,5 @@ class FamilyCompartment(cAdress: String) extends Compartment {
       father = p
     }
   }
+
 }

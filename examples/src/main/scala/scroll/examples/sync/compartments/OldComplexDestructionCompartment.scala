@@ -12,12 +12,12 @@ import scroll.examples.sync.models.modelB.Family
 import scroll.examples.sync.roles.IRoleManager
 
 /**
- * Does the same as the GeneralDestructor
- * Calls the destruction method from all related RoleManagers and then deletes all roles from this player.
- */
+  * Does the same as the GeneralDestructor
+  * Calls the destruction method from all related RoleManagers and then deletes all roles from this player.
+  */
 object OldComplexDestructionCompartment extends IDestructionCompartment {
-  
-  def getDestructorForClassName(classname: Object) : IDestructor = {
+
+  def getDestructorForClassName(classname: Object): IDestructor = {
     if (classname.isInstanceOf[Family])
       return null
     else if (classname.isInstanceOf[Member])
@@ -28,7 +28,7 @@ object OldComplexDestructionCompartment extends IDestructionCompartment {
       return new RegisterDelete()
     return null
   }
-  
+
   class PersonDelete() extends IDestructor {
 
     def deleteRoleFunction(): Unit = {
@@ -36,8 +36,7 @@ object OldComplexDestructionCompartment extends IDestructionCompartment {
       var relatedManager = (+this).getRelatedManager()
       (+this).clearListsOfRelatedManager()
       //call delete method in all related role managers
-      if (relatedManager.isRight)
-      {
+      if (relatedManager.isRight) {
         //println("In IF STATEMENT" + relatedManager.right.get);
         var list: ListBuffer[IRoleManager] = relatedManager.right.get
         list.foreach { m =>
@@ -49,16 +48,15 @@ object OldComplexDestructionCompartment extends IDestructionCompartment {
       (+this).clearRelatedManager()
       //delete all roles this element has      
       var player = this.player;
-      if (player.isRight)
-      {
+      if (player.isRight) {
         //println("In IF STATEMENT" + player.right.get);
         var test: PlayerSync = player.right.get.asInstanceOf[PlayerSync]
-        var roles = plays.getRoles(test)
+        var roles = plays.roles(test)
         println("--Roles Player: " + roles)
         roles.foreach { r =>
           plays.removePlayer(test)
         }
-        println("--Roles Player: " + plays.getRoles(test))        
+        println("--Roles Player: " + plays.roles(test))
       }
       /*var manager = (+this).getManager()
       if (manager.isRight)
@@ -79,8 +77,7 @@ object OldComplexDestructionCompartment extends IDestructionCompartment {
       var relatedManager = (+this).getRelatedManager()
       (+this).clearListsOfRelatedManager()
       //call delete method in all related role managers
-      if (relatedManager.isRight)
-      {
+      if (relatedManager.isRight) {
         //println("In IF STATEMENT" + relatedManager.right.get);
         var list: ListBuffer[IRoleManager] = relatedManager.right.get
         list.foreach { m =>
@@ -92,16 +89,15 @@ object OldComplexDestructionCompartment extends IDestructionCompartment {
       (+this).clearRelatedManager()
       //delete all roles this element has      
       var player = this.player;
-      if (player.isRight)
-      {
+      if (player.isRight) {
         //println("In IF STATEMENT" + player.right.get);
         var test: PlayerSync = player.right.get.asInstanceOf[PlayerSync]
-        var roles = plays.getRoles(test)
+        var roles = plays.roles(test)
         println("--Roles Player: " + roles)
         roles.foreach { r =>
           plays.removePlayer(test)
         }
-        println("--Roles Player: " + plays.getRoles(test))        
+        println("--Roles Player: " + plays.roles(test))
       }
     }
   }
@@ -113,8 +109,7 @@ object OldComplexDestructionCompartment extends IDestructionCompartment {
       var relatedManager = (+this).getRelatedManager()
       (+this).clearListsOfRelatedManager()
       //call delete method in all related role managers
-      if (relatedManager.isRight)
-      {
+      if (relatedManager.isRight) {
         //println("In IF STATEMENT" + relatedManager.right.get);
         var list: ListBuffer[IRoleManager] = relatedManager.right.get
         list.foreach { m =>
@@ -126,18 +121,17 @@ object OldComplexDestructionCompartment extends IDestructionCompartment {
       (+this).clearRelatedManager()
       //delete all roles this element has      
       var player = this.player;
-      if (player.isRight)
-      {
+      if (player.isRight) {
         //println("In IF STATEMENT" + player.right.get);
         var test: PlayerSync = player.right.get.asInstanceOf[PlayerSync]
-        var roles = plays.getRoles(test)
+        var roles = plays.roles(test)
         println("--Roles Player: " + roles)
         roles.foreach { r =>
           plays.removePlayer(test)
         }
-        println("--Roles Player: " + plays.getRoles(test))        
+        println("--Roles Player: " + plays.roles(test))
       }
     }
   }
-  
+
 }

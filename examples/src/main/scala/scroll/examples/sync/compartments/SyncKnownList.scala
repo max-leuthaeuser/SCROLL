@@ -9,16 +9,16 @@ import scroll.examples.sync.SynchronizationCompartment
 import scroll.examples.sync.models.modelB.Family
 
 /**
- * Synchronization compartment for the known lists in person register.
- */
+  * Synchronization compartment for the known lists in person register.
+  */
 class SyncKnownList extends ISyncCompartment {
-  
+
   def getNextRole(classname: Object): ISyncRole = {
     if (classname.isInstanceOf[Family])
       return new SyncFamily()
     return null
   }
-  
+
   def getFirstRole(classname: Object): ISyncRole = {
     if (classname.isInstanceOf[Family])
       return new SyncFamily()
@@ -30,21 +30,21 @@ class SyncKnownList extends ISyncCompartment {
       return true
     return false
   }
-  
+
   def isFirstIntegration(classname: Object): Boolean = {
     if (classname.isInstanceOf[Family])
       return true
     return false
   }
-    
-  def getNewInstance() : ISyncCompartment = new SyncKnownList
-  
-  def getRuleName() : String = "SyncKnownListRule"
-  
+
+  def getNewInstance(): ISyncCompartment = new SyncKnownList
+
+  def getRuleName(): String = "SyncKnownListRule"
+
   class SyncFamily() extends ISyncRole {
 
     var familySync = false;
-    
+
     def getOuterCompartment(): ISyncCompartment = SyncKnownList.this
 
     def changeFamily(): Unit = {
@@ -54,11 +54,11 @@ class SyncKnownList extends ISyncCompartment {
         println("Change Family");
 
         var source = this.player;
-        var daughters: List[PlayerSync] = +this getDaughters ();
-        var father: PlayerSync = +this getFather ();
-        var mother: PlayerSync = +this getMother ();
-        var sons: List[PlayerSync] = +this getSons ();
-        
+        var daughters: List[PlayerSync] = +this getDaughters();
+        var father: PlayerSync = +this getFather();
+        var mother: PlayerSync = +this getMother();
+        var sons: List[PlayerSync] = +this getSons();
+
         var allMembers = List[PlayerSync]()
         if (father != null)
           allMembers = allMembers :+ father;
@@ -80,7 +80,7 @@ class SyncKnownList extends ISyncCompartment {
             regardedManager.foreach {
               r =>
                 r.player.foreach {
-                  s => 
+                  s =>
                     //println("Player Elements: " + s);
                     var completeName = (+s).getCompleteName();
                     if (completeName.isRight) {
@@ -120,7 +120,7 @@ class SyncKnownList extends ISyncCompartment {
       changeFamily()
     }
   }
-  
+
   /*class SyncFamily() {
 
     var familySync = false;

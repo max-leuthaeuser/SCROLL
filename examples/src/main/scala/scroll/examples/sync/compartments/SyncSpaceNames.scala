@@ -9,16 +9,16 @@ import scroll.examples.sync.models.modelC.SimplePerson
 import scroll.examples.sync.models.modelA.Person
 
 /**
- * Synchronization compartment for full name split with space.
- */
+  * Synchronization compartment for full name split with space.
+  */
 class SyncSpaceNames() extends ISyncCompartment {
-  
+
   def getNextRole(classname: Object): ISyncRole = {
     if (classname.isInstanceOf[Family] || classname.isInstanceOf[Member] || classname.isInstanceOf[Person] || classname.isInstanceOf[SimplePerson])
       return new Sync()
     return null
   }
-  
+
   def getFirstRole(classname: Object): ISyncRole = {
     if (classname.isInstanceOf[Member] || classname.isInstanceOf[Person] || classname.isInstanceOf[SimplePerson])
       return new Sync()
@@ -30,7 +30,7 @@ class SyncSpaceNames() extends ISyncCompartment {
       return true
     return false
   }
-  
+
   def isFirstIntegration(classname: Object): Boolean = {
     if (classname.isInstanceOf[Member] || classname.isInstanceOf[Person] || classname.isInstanceOf[SimplePerson])
       return true
@@ -53,8 +53,8 @@ class SyncSpaceNames() extends ISyncCompartment {
     def changeFullName(): Unit = {
       if (!doSync) {
         doSync = true;
-        println("Change FullName To: " + (+this getFullName ()) + " Player: " + this.player);
-        var fullName: String = +this getFullName ();
+        println("Change FullName To: " + (+this getFullName()) + " Player: " + this.player);
+        var fullName: String = +this getFullName();
         var result: Array[java.lang.String] = fullName.split(" ");
         var firstName: String = result.head;
         var lastName: String = result.last;
@@ -73,8 +73,8 @@ class SyncSpaceNames() extends ISyncCompartment {
     def changeCompleteName(): Unit = {
       if (!doSync) {
         doSync = true;
-        println("Change CompleteName To: " + (+this getCompleteName ()) + " Player: " + this.player);
-        var completeName: String = +this getCompleteName ();
+        println("Change CompleteName To: " + (+this getCompleteName()) + " Player: " + this.player);
+        var completeName: String = +this getCompleteName();
         var result: Array[java.lang.String] = completeName.split(" ");
         var firstName: String = result.head;
         var lastName: String = result.last;
@@ -93,8 +93,8 @@ class SyncSpaceNames() extends ISyncCompartment {
     def changeLastName(): Unit = {
       if (!doSync) {
         doSync = true;
-        println("Change LastName To: " + (+this getLastName ()) + " Player: " + this.player);
-        var lastName: String = +this getLastName ();
+        println("Change LastName To: " + (+this getLastName()) + " Player: " + this.player);
+        var lastName: String = +this getLastName();
         syncer.foreach { a =>
           if (!a.equals(this)) {
             var fullName = (+a).getFullName();
@@ -121,9 +121,9 @@ class SyncSpaceNames() extends ISyncCompartment {
     def changeFirstName(): Unit = {
       if (!doSync) {
         doSync = true;
-        println("Change FirstName To: " + (+this getFirstName ()) + " Player: " + this.player);
-        var firstName: String = +this getFirstName ();
-        syncer.foreach { a =>          
+        println("Change FirstName To: " + (+this getFirstName()) + " Player: " + this.player);
+        var firstName: String = +this getFirstName();
+        syncer.foreach { a =>
           if (!a.equals(this)) {
             var fullName = (+a).getFullName();
             if (fullName.isRight) {
@@ -131,7 +131,7 @@ class SyncSpaceNames() extends ISyncCompartment {
               var result: Array[java.lang.String] = test.split(" ");
               var lastName: String = result.last;
               (+a).setFullName(firstName + " " + lastName);
-            }            
+            }
             var completeName = (+a).getCompleteName();
             if (completeName.isRight) {
               var test: String = completeName
@@ -146,4 +146,5 @@ class SyncSpaceNames() extends ISyncCompartment {
       }
     }
   }
+
 }

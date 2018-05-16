@@ -14,8 +14,8 @@ import scala.collection.mutable.ListBuffer
 import scroll.examples.sync.ConstructionContainer
 
 /**
- * Construction Process for Model B, and C.
- */
+  * Construction Process for Model B, and C.
+  */
 object ModelBCConstructionCompartment extends IConstructionCompartment {
 
   def getConstructorForClassName(classname: Object): IConstructor = {
@@ -50,7 +50,7 @@ object ModelBCConstructionCompartment extends IConstructionCompartment {
 
       //Step 1: Get construction values
       var firstName: String = +this firstName;
-      var lastName: String = +this getLastName ();
+      var lastName: String = +this getLastName();
       var family: Family = null
       var male: Boolean = true
 
@@ -98,11 +98,11 @@ object ModelBCConstructionCompartment extends IConstructionCompartment {
       println("Start Register Construct");
 
       //Step 1: Get construction values
-      var fullName: String = +this getCompleteName ();
+      var fullName: String = +this getCompleteName();
       var result: Array[java.lang.String] = fullName.split(" ");
       var firstName: String = result.head;
       var lastName: String = result.last;
-      var male: Boolean = +this getMale ();
+      var male: Boolean = +this getMale();
 
       //Step 2: Create the object in the other models
       var family = new Family(lastName);
@@ -192,4 +192,5 @@ object ModelBCConstructionCompartment extends IConstructionCompartment {
       println("Finish Register Construct");
     }
   }
+
 }

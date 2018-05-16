@@ -3,8 +3,8 @@ package scroll.examples.sync.models.modelB
 import scroll.examples.sync.PlayerSync
 
 /**
- * Member from model B.
- */
+  * Member from model B.
+  */
 class Member(cfirstName: String, cfamily: Family, cf: Boolean, cm: Boolean, cs: Boolean, cd: Boolean) extends PlayerSync {
 
   var firstName: String = cfirstName
@@ -30,7 +30,7 @@ class Member(cfirstName: String, cfamily: Family, cf: Boolean, cm: Boolean, cs: 
   def setFirstName(n: String): Unit = {
     firstName = n
     println("++++++++++Member Change+++++++++++++++");
-    +this changeFirstName ()
+    +this changeFirstName()
     println("----------Member Change---------------");
   }
 
@@ -97,7 +97,7 @@ class Member(cfirstName: String, cfamily: Family, cf: Boolean, cm: Boolean, cs: 
 
   def listen(): Unit = {
     println("++++++++++Member+++++++++++++++");
-    +this listNames ()
+    +this listNames()
     println("----------Member---------------");
   }
 

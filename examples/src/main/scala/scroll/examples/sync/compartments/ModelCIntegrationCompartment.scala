@@ -14,20 +14,20 @@ import scroll.examples.sync.ModelElementLists
 import scroll.examples.sync.models.modelC.SimplePerson
 
 object ModelCIntegrationCompartment extends IIntegrationCompartment {
-  
-  def getIntegratorForClassName(classname: Object) : IIntegrator = {
+
+  def getIntegratorForClassName(classname: Object): IIntegrator = {
     if (classname.isInstanceOf[Person])
       return new PersonConstruct()
     return null
   }
-  
+
   class PersonConstruct() extends IIntegrator {
 
     def integrate(comp: PlayerSync): Unit = {
-      println("Start Register Integration "  + comp);
-      
+      println("Start Register Integration " + comp);
+
       //Step 1: Get construction values
-      var fullName: String = +this getFullName ();
+      var fullName: String = +this getFullName();
       var result: Array[java.lang.String] = fullName.split(" ");
       var firstName: String = result.head;
       var lastName: String = result.last;
@@ -48,8 +48,7 @@ object ModelCIntegrationCompartment extends IIntegrationCompartment {
 
       //Step 4: Add the related Role Manager
       var manager = (+comp).getManager()
-      if (manager.isRight)
-      {
+      if (manager.isRight) {
         var realManager: IRoleManager = manager.right.get
         var related = realManager.getRelatedManager()
         realManager.addRelatedManager(rmMC)
@@ -57,14 +56,14 @@ object ModelCIntegrationCompartment extends IIntegrationCompartment {
         related.foreach { r =>
           r.addRelatedManager(rmMC)
           rmMC.addRelatedManager(r)
-        }        
+        }
       }
 
       //Step 5: Synchronize the Compartments
       SynchronizationCompartment combine register
-      
+
       //Step 6: Integrate in Synchronization Rules
-      var player = ModelCIntegrationCompartment.this.plays.getRoles(comp)      
+      var player = ModelCIntegrationCompartment.this.plays.roles(comp)
       player.foreach { r =>
         if (r.isInstanceOf[ISyncRole]) {
           var syncRole: ISyncRole = r.asInstanceOf[ISyncRole]
@@ -76,11 +75,12 @@ object ModelCIntegrationCompartment extends IIntegrationCompartment {
           }
         }
       }
-      
+
       //Step 7: Fill Test Lists
       ModelElementLists.addElement(register)
-      
+
       println("Finish Register Integration");
     }
   }
+
 }

@@ -39,7 +39,7 @@ trait RoleGroups {
     roleGroups.foreach { case (name, rg) =>
       val min = rg.occ._1
       val max = rg.occ._2
-      val types = rg.getTypes
+      val types = rg.types
       val actual = types.map(ts => plays.allPlayers.count(r => ts == ReflectiveHelper.classSimpleClassName(r.getClass.toString))).sum
       if (actual < min || max < actual) {
         throw new RuntimeException(s"Occurrence cardinality in role group '$name' violated! " +
@@ -50,7 +50,7 @@ trait RoleGroups {
 
   private def eval(rg: RoleGroup): Seq[String] = {
     val model = new Model("MODEL$" + rg.hashCode())
-    val types = rg.getTypes
+    val types = rg.types
     val numOfTypes = types.size
     val min = rg.limit._1
     val max = rg.limit._2
@@ -112,7 +112,7 @@ trait RoleGroups {
       if (allPlayers.forall(p => {
         solutions.exists(s => {
           types.forall(t => {
-            val numRole = plays.getRoles(p).count(r => t == ReflectiveHelper.classSimpleClassName(r.getClass.toString))
+            val numRole = plays.roles(p).count(r => t == ReflectiveHelper.classSimpleClassName(r.getClass.toString))
             if (numRole == s.getIntVal(constrMap(t))) {
               resultRoleTypeSet.add(t)
               true
@@ -160,7 +160,7 @@ trait RoleGroups {
   private type CInt = Ordered[Int]
 
   trait Entry {
-    def getTypes: Seq[String]
+    def types: Seq[String]
   }
 
   object Types {
@@ -168,15 +168,15 @@ trait RoleGroups {
   }
 
   class Types(ts: Seq[String]) extends Entry {
-    def getTypes: Seq[String] = ts
+    def types: Seq[String] = ts
   }
 
   case class RoleGroup(name: String, entries: Seq[Entry], limit: (Int, CInt), occ: (Int, CInt), var evaluated: Boolean = false) extends Entry {
     assert(0 <= occ._1 && occ._2 >= occ._1)
     assert(0 <= limit._1 && limit._2 >= limit._1)
 
-    def getTypes: Seq[String] = entries.flatMap {
-      case ts: Types => ts.getTypes
+    def types: Seq[String] = entries.flatMap {
+      case ts: Types => ts.types
       case rg: RoleGroup => eval(rg)
       case _ => throw new RuntimeException("Role groups can only contain a list of types or role groups itself!")
     }

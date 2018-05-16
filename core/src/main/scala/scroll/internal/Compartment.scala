@@ -65,7 +65,7 @@ trait Compartment
     this.partOf(other)
     this
   }
-  
+
   /**
     * Merge role graphs to this and set other role graph to this one.
     */
@@ -93,7 +93,7 @@ trait Compartment
     */
   def all[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
     plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(a => {
-      getCoreFor(a) match {
+      coreFor(a) match {
         case p :: Nil => matcher.matches(p)
         case Nil => false
         case l => l.forall(matcher.matches)
@@ -110,7 +110,7 @@ trait Compartment
     */
   def all[T <: AnyRef : ClassTag](matcher: T => Boolean): Seq[T] =
     plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(a => {
-      getCoreFor(a) match {
+      coreFor(a) match {
         case p :: Nil => matcher(p.asInstanceOf[T])
         case Nil => false
         case l: Seq[AnyRef] => l.forall(i => matcher(i.asInstanceOf[T]))
@@ -200,17 +200,17 @@ trait Compartment
   }
 
   @tailrec
-  protected final def getCoreFor(role: AnyRef): Seq[AnyRef] = {
+  protected final def coreFor(role: AnyRef): Seq[AnyRef] = {
     require(null != role)
     role match {
-      case cur: IPlayer[_] => getCoreFor(cur.wrapped)
+      case cur: IPlayer[_] => coreFor(cur.wrapped)
       case cur: AnyRef if plays.containsPlayer(cur) =>
-        val r = plays.getPredecessors(cur)
+        val r = plays.predecessors(cur)
         if (r.isEmpty) {
           Seq(cur)
         } else {
           if (r.lengthCompare(1) == 0) {
-            getCoreFor(r.head)
+            coreFor(r.head)
           } else {
             r
           }
@@ -241,7 +241,7 @@ trait Compartment
       * @param dispatchQuery provide this to sort the resulting instances if a role instance is played by multiple core objects
       * @return the player of this player instance if this is a role, or this itself or an appropriate error
       */
-    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, AnyRef] = dispatchQuery.filter(getCoreFor(this)) match {
+    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, AnyRef] = dispatchQuery.filter(coreFor(this)) match {
       case elem :: Nil => Right(elem)
       case l: Seq[T] => Right(l.head)
       case _ => Left(TypeNotFound(this.getClass.toString))
@@ -303,7 +303,7 @@ trait Compartment
       * @return true if this player is playing a role of type R, false otherwise. Returns false also, if
       *         the player is not available in the role-playing graph.
       */
-    def isPlaying[R <: AnyRef : ClassTag]: Boolean = plays.getRoles(wrapped).exists(ReflectiveHelper.is[R])
+    def isPlaying[R <: AnyRef : ClassTag]: Boolean = plays.roles(wrapped).exists(ReflectiveHelper.is[R])
 
     /**
       * Checks if this Player has all of the given facet(s) attached.
@@ -311,7 +311,7 @@ trait Compartment
       * @param f the facet(s)
       * @return true if this player has all of the given facets attached, false otherwise.
       */
-    def hasFacets(f: Enumeration#Value*): Boolean = f.forall(plays.getFacets(wrapped).contains)
+    def hasFacets(f: Enumeration#Value*): Boolean = f.forall(plays.facets(wrapped).contains)
 
     /**
       * Checks if this Player has at least one of the given facets attached.
@@ -319,7 +319,7 @@ trait Compartment
       * @param f the facets
       * @return true if this player has at least one of the given facets attached, false otherwise.
       */
-    def hasSomeFacet(f: Enumeration#Value*): Boolean = f.exists(plays.getFacets(wrapped).contains)
+    def hasSomeFacet(f: Enumeration#Value*): Boolean = f.exists(plays.facets(wrapped).contains)
 
     /**
       * Checks of this Player has an extension of the given type.
@@ -328,8 +328,8 @@ trait Compartment
     def hasExtension[E <: AnyRef : ClassTag]: Boolean = isPlaying[E]
 
     override def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
-      val core = getCoreFor(wrapped).last
-      dispatchQuery.filter(plays.getRoles(core)).collectFirst {
+      val core = coreFor(wrapped).last
+      dispatchQuery.filter(plays.roles(core)).collectFirst {
         case r if ReflectiveHelper.findMethod(r, name, args).isDefined => (r, ReflectiveHelper.findMethod(r, name, args).get)
       } match {
         case Some((r, fm)) => dispatch(r, fm, args: _*)
@@ -341,19 +341,19 @@ trait Compartment
       applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
-      val core = getCoreFor(wrapped).last
-      dispatchQuery.filter(plays.getRoles(core)).find(ReflectiveHelper.hasMember(_, name)) match {
+      val core = coreFor(wrapped).last
+      dispatchQuery.filter(plays.roles(core)).find(ReflectiveHelper.hasMember(_, name)) match {
         case Some(r) => Right(ReflectiveHelper.propertyOf(r, name))
         case None => Left(RoleNotFound(core.toString, name, Seq.empty))
       }
     }
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit =
-      dispatchQuery.filter(plays.getRoles(getCoreFor(wrapped).last)).find(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
+      dispatchQuery.filter(plays.roles(coreFor(wrapped).last)).find(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
     override def equals(o: Any): Boolean = o match {
-      case other: Player[_] => getCoreFor(wrapped) equals getCoreFor(other.wrapped)
-      case other: Any => getCoreFor(wrapped) match {
+      case other: Player[_] => coreFor(wrapped) equals coreFor(other.wrapped)
+      case other: Any => coreFor(wrapped) match {
         case Nil => false
         case p :: Nil => p equals other
         case _ => false

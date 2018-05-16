@@ -44,14 +44,14 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     resetAll()
   }
 
-  override def getPredecessors(player: AnyRef): Seq[AnyRef] =
-    predCache.getAndPutWithDefault(player, super.getPredecessors(player))
+  override def predecessors(player: AnyRef): Seq[AnyRef] =
+    predCache.getAndPutWithDefault(player, super.predecessors(player))
 
-  override def getRoles(player: AnyRef): Seq[AnyRef] =
-    rolesCache.getAndPutWithDefault(player, super.getRoles(player))
+  override def roles(player: AnyRef): Seq[AnyRef] =
+    rolesCache.getAndPutWithDefault(player, super.roles(player))
 
-  override def getFacets(player: AnyRef): Seq[Enumeration#Value] =
-    facetsCache.getAndPutWithDefault(player, super.getFacets(player))
+  override def facets(player: AnyRef): Seq[Enumeration#Value] =
+    facetsCache.getAndPutWithDefault(player, super.facets(player))
 
   override def combine(other: RoleGraph): Unit = {
     require(other.isInstanceOf[CachedScalaRoleGraph], "You can only merge RoleGraphs of the same type!")

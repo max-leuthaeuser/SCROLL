@@ -21,7 +21,7 @@ class PlayerSync extends MultiCompartment {
 
   def deleteObjectFromSynchro(): Unit = {
     println("Delete Object");
-    +this deleteRoleFunction ()
+    +this deleteRoleFunction()
     deleted = true;
   }
 }

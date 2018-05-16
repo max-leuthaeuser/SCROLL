@@ -9,25 +9,27 @@ import scroll.examples.sync.compartments.GeneralDestructor
 import scala.collection.immutable.Set
 
 /**
- * Management object for the whole synchronization process.
- */
+  * Management object for the whole synchronization process.
+  */
 object SynchronizationCompartment extends ISynchronizationCompartment {
 
   def createRoleManager(): IRoleManager = new RoleManager()
 
-  private var constructionCompartment: IConstructionCompartment = null// ModelABConstructionCompartment
-  private var destructionCompartment: IDestructionCompartment = null// GeneralDestructor
+  private var constructionCompartment: IConstructionCompartment = null
+  // ModelABConstructionCompartment
+  private var destructionCompartment: IDestructionCompartment = null
+  // GeneralDestructor
   private var syncCompartmentInfoList = Set.empty[ISyncCompartment]
-  
+
   def getConstructionRule(): IConstructionCompartment = constructionCompartment
-  
+
   def getDestructionRule(): IDestructionCompartment = destructionCompartment
-  
+
   def getSyncRules(): Set[ISyncCompartment] = syncCompartmentInfoList
-  
+
   /**
-   * Method for Debug Output.
-   */
+    * Method for Debug Output.
+    */
   private def debugCompleteRoleGraphOutput(): Unit = {
     println("")
     println("Plays: " + plays)
@@ -37,10 +39,10 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
     }
     println("")
   }
-  
+
   /**
-   * Method for Debug Output.
-   */
+    * Method for Debug Output.
+    */
   private def debugSyncRoleGraphOutput(): Unit = {
     println("")
     println("Plays: " + plays)
@@ -54,10 +56,10 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
     }
     println("")
   }
-  
+
   /**
-   * Method for Debug Output.
-   */
+    * Method for Debug Output.
+    */
   private def debugPlayerRolesOutput(): Unit = {
     println("")
     println("Plays: " + plays)
@@ -65,15 +67,15 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
     nodes.foreach { n =>
       if (n.isInstanceOf[PlayerSync]) {
         var player: PlayerSync = n.asInstanceOf[PlayerSync]
-        println("Output N: " + plays.getRoles(player))
+        println("Output N: " + plays.roles(player))
       }
     }
     println("")
   }
 
   /**
-   * Change the actual construction role.
-   */
+    * Change the actual construction role.
+    */
   def changeConstructionRule(construct: IConstructionCompartment): Unit = {
     if (construct == null) {
       return
@@ -82,9 +84,9 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
   }
 
   /**
-   * Change the destruction role. 
-   * Set the new one and remove old roles and add new ones.
-   */
+    * Change the destruction role.
+    * Set the new one and remove old roles and add new ones.
+    */
   def changeDestructionRule(destruct: IDestructionCompartment): Unit = {
     if (destruct == null) {
       return
@@ -120,8 +122,8 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
   }
 
   /**
-   * Integration of a new Model with an integration compartment.
-   */
+    * Integration of a new Model with an integration compartment.
+    */
   def integrateNewModel(integrationRule: IIntegrationCompartment): Unit = {
     this combine integrationRule
     var nodes = plays.allPlayers;
@@ -143,8 +145,8 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
   }
 
   /**
-   * Add a new synchronization rule to the synchronization process.
-   */
+    * Add a new synchronization rule to the synchronization process.
+    */
   def addSynchronizationRule(newRule: ISyncCompartment): Unit = {
     if (newRule == null) {
       return
@@ -170,7 +172,7 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
             var player = realManager.player
             if (player.isRight) {
               var realPlayer = player.right.get
-              var relatedRoles = plays.getRoles(n)
+              var relatedRoles = plays.roles(n)
               relatedRoles.foreach { r =>
                 if (r.isInstanceOf[ISyncRole]) {
                   var syncRole: ISyncRole = r.asInstanceOf[ISyncRole]
@@ -192,7 +194,7 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
 
                 if (proof) {
                   //add roles to related role manager because on is added to this one
-                  var related = realManager.getRelatedManager()                  
+                  var related = realManager.getRelatedManager()
                   related.foreach { r =>
                     var player = r.player
                     if (player.isRight) {
@@ -213,11 +215,11 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
     }
     //debugPlayerRolesOutput()
     //debugSyncRoleGraphOutput()
-  }  
+  }
 
   /**
-   * Delete all rules with this name.
-   */
+    * Delete all rules with this name.
+    */
   def deleteRule(ruleName: String): Unit = {
     var nodes = plays.allPlayers; //get all nodes
     nodes.foreach { n =>
@@ -235,12 +237,12 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
   }
 
   /**
-   * Change rule with this name to new rule.
-   */
-  def changeRuleFromTo(from: String, to: ISyncCompartment): Unit = {    
+    * Change rule with this name to new rule.
+    */
+  def changeRuleFromTo(from: String, to: ISyncCompartment): Unit = {
     var running = true;
     //debugSyncRoleGraphOutput()
-    var nodes = Seq[AnyRef]()    
+    var nodes = Seq[AnyRef]()
     while (running) {
       breakable {
         running = false;
@@ -313,10 +315,11 @@ object SynchronizationCompartment extends ISynchronizationCompartment {
       if (construct != null) {
         this play construct
         underConstruction = true;
-        +this construct (value, this)
+        +this construct(value, this)
         underConstruction = false;
         plays.removePlayer(construct)
       }
     }
   }
+
 }

@@ -5,18 +5,18 @@ import scala.collection.mutable.ListBuffer
 import scroll.examples.sync.ConstructionContainer
 
 /**
- * Interface for the constructor roles.
- */
+  * Interface for the constructor roles.
+  */
 trait IConstructor {
 
   /**
-   * Container list for the construction process.
-   */
+    * Container list for the construction process.
+    */
   protected var containers = ListBuffer[ConstructionContainer]()
 
   /**
-   * Create a container element with the incoming configuration.
-   */
+    * Create a container element with the incoming configuration.
+    */
   protected def createContainerElement(start: Boolean, con: Boolean, play: PlayerSync, man: IRoleManager): Unit = {
     if (play == null || man == null)
       return
@@ -25,7 +25,7 @@ trait IConstructor {
   }
 
   /**
-   * General construction function for external call.
-   */
+    * General construction function for external call.
+    */
   def construct(comp: PlayerSync, man: IRoleManager): Unit
 }

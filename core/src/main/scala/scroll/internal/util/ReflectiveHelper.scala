@@ -27,9 +27,9 @@ object ReflectiveHelper extends Memoiser {
   private lazy val simpleClassNameCache = new SimpleClassNameCache()
   private lazy val simpleTagNameCache = new SimpleTagNameCache()
 
-  def addToMethodCache(c: Class[_]): Unit = methodCache.put(c, getAllMethods(c))
+  def addToMethodCache(c: Class[_]): Unit = methodCache.put(c, allMethods(c))
 
-  def addToFieldCache(c: Class[_]): Unit = fieldCache.put(c, getAllFields(c))
+  def addToFieldCache(c: Class[_]): Unit = fieldCache.put(c, allFields(c))
 
   private def simpleClassName(s: String, on: String) = if (s.contains(on)) {
     s.substring(s.lastIndexOf(on) + 1)
@@ -114,7 +114,7 @@ object ReflectiveHelper extends Memoiser {
       case None => throw new RuntimeException(s"Field '$name' not found on '$of'!")
     }
     case None =>
-      val fields = getAllFields(of)
+      val fields = allFields(of)
       fieldCache.put(of, fields)
       safeFindField(of, name)
   }
@@ -124,12 +124,12 @@ object ReflectiveHelper extends Memoiser {
     case Some(l) =>
       l.filter(_.getName == name)
     case None =>
-      val methods = getAllMethods(of)
+      val methods = allMethods(of)
       methodCache.put(of, methods)
       findMethods(of, name)
   }
 
-  private def getAllMethods(of: Class[_]): Set[Method] = {
+  private def allMethods(of: Class[_]): Set[Method] = {
     def getAccessibleMethods(c: Class[_]): Set[Method] = c match {
       case null => Set.empty
       case _ => c.getDeclaredMethods.toSet ++ getAccessibleMethods(c.getSuperclass)
@@ -138,34 +138,36 @@ object ReflectiveHelper extends Memoiser {
     getAccessibleMethods(of)
   }
 
-  private def getAllFields(of: Class[_]): Set[Field] = {
-    def getAccessibleFields(c: Class[_]): Set[Field] = c match {
+  private def allFields(of: Class[_]): Set[Field] = {
+    def accessibleFields(c: Class[_]): Set[Field] = c match {
       case null => Set.empty
-      case _ => c.getDeclaredFields.toSet ++ getAccessibleFields(c.getSuperclass)
+      case _ => c.getDeclaredFields.toSet ++ accessibleFields(c.getSuperclass)
     }
 
-    getAccessibleFields(of)
+    accessibleFields(of)
   }
 
-  private def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean = {
-    lazy val matchName = m.getName == name
-    lazy val matchParamCount = m.getParameterTypes.length == args.size
-    lazy val matchArgTypes = args.zip(m.getParameterTypes).forall {
-      case (arg, paramType: Class[_]) => paramType match {
-        case lang.Boolean.TYPE => arg.isInstanceOf[Boolean]
-        case lang.Character.TYPE => arg.isInstanceOf[Char]
-        case lang.Short.TYPE => arg.isInstanceOf[Short]
-        case lang.Integer.TYPE => arg.isInstanceOf[Integer]
-        case lang.Long.TYPE => arg.isInstanceOf[Long]
-        case lang.Float.TYPE => arg.isInstanceOf[Float]
-        case lang.Double.TYPE => arg.isInstanceOf[Double]
-        case lang.Byte.TYPE => arg.isInstanceOf[Byte]
-        case _ => arg == null || paramType.isAssignableFrom(arg.getClass)
-      }
-      case faultyArgs => throw new RuntimeException(s"Can not handle this arguments: '$faultyArgs'")
+  private def isSameMethodName(m: Method, name: String): Boolean = m.getName == name
+
+  private def isSameNumberOfParameters(m: Method, size: Int): Boolean = m.getParameterCount == size
+
+  private def isSameArgumentTypes[A](m: Method, args: Seq[A]): Boolean = args.zip(m.getParameterTypes).forall {
+    case (arg, paramType: Class[_]) => paramType match {
+      case lang.Boolean.TYPE => arg.isInstanceOf[Boolean]
+      case lang.Character.TYPE => arg.isInstanceOf[Char]
+      case lang.Short.TYPE => arg.isInstanceOf[Short]
+      case lang.Integer.TYPE => arg.isInstanceOf[Integer]
+      case lang.Long.TYPE => arg.isInstanceOf[Long]
+      case lang.Float.TYPE => arg.isInstanceOf[Float]
+      case lang.Double.TYPE => arg.isInstanceOf[Double]
+      case lang.Byte.TYPE => arg.isInstanceOf[Byte]
+      case _ => arg == null || paramType.isAssignableFrom(arg.getClass)
     }
-    matchName && matchParamCount && matchArgTypes
+    case faultyArgs => throw new IllegalArgumentException(s"Can not handle these arguments: '$faultyArgs'")
   }
+
+  private def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean =
+    isSameMethodName(m, name) && isSameNumberOfParameters(m, args.size) && isSameArgumentTypes(m, args)
 
   /**
     * @return all methods/functions of the wrapped object as Set
@@ -173,7 +175,7 @@ object ReflectiveHelper extends Memoiser {
   def allMethods(of: AnyRef): Set[Method] = methodCache.get(of.getClass) match {
     case Some(methods) => methods
     case None =>
-      val methods = getAllMethods(of.getClass)
+      val methods = allMethods(of.getClass)
       methodCache.put(of.getClass, methods)
       methods
   }
@@ -201,7 +203,7 @@ object ReflectiveHelper extends Memoiser {
     val fields = fieldCache.get(on.getClass) match {
       case Some(fs) => fs
       case None =>
-        val fs = getAllFields(on.getClass)
+        val fs = allFields(on.getClass)
         fieldCache.put(on.getClass, fs)
         fs
     }
@@ -209,7 +211,7 @@ object ReflectiveHelper extends Memoiser {
     val methods = methodCache.get(on.getClass) match {
       case Some(ms) => ms
       case None =>
-        val ms = getAllMethods(on.getClass)
+        val ms = allMethods(on.getClass)
         methodCache.put(on.getClass, ms)
         ms
     }

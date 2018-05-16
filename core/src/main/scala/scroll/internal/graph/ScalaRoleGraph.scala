@@ -7,12 +7,14 @@ import collection.JavaConverters._
 import scala.collection.mutable
 
 /**
- * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
- * a graph as underlying data model.
- *
- * @param checkForCycles set to true to forbid cyclic role playing relationships
- */
+  * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
+  * a graph as underlying data model.
+  *
+  * @param checkForCycles set to true to forbid cyclic role playing relationships
+  */
 class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
+
+  private val MERGE_MESSAGE: String = "You can only merge RoleGraphs of the same type!"
 
   private var root: MutableGraph[Object] = GraphBuilder.directed().build[Object]()
 
@@ -37,9 +39,10 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
         checkCycles()
     }
 
+
   override def combine(other: RoleGraph): Unit = {
     require(null != other)
-    require(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+    require(other.isInstanceOf[ScalaRoleGraph], MERGE_MESSAGE)
 
     val target = other.asInstanceOf[ScalaRoleGraph].root
 
@@ -72,7 +75,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def addPart(other: RoleGraph): Unit = {
     require(null != other)
-    require(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+    require(other.isInstanceOf[ScalaRoleGraph], MERGE_MESSAGE)
 
     val source = root
     val target = other.asInstanceOf[ScalaRoleGraph].root
@@ -95,7 +98,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def addPartAndCombine(other: RoleGraph): Unit = {
     require(null != other)
-    require(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+    require(other.isInstanceOf[ScalaRoleGraph], MERGE_MESSAGE)
 
     val target = other.asInstanceOf[ScalaRoleGraph].root
 
@@ -109,14 +112,14 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def merge(other: RoleGraph): Unit = {
     require(null != other)
-    require(other.isInstanceOf[ScalaRoleGraph], "You can only merge RoleGraphs of the same type!")
+    require(other.isInstanceOf[ScalaRoleGraph], MERGE_MESSAGE)
     checkAndMerge(root, other.asInstanceOf[ScalaRoleGraph].root)
   }
 
   override def detach(other: RoleGraph): Unit = {
     require(null != other)
     other.allPlayers.foreach(pl =>
-      other.getRoles(pl).foreach(rl =>
+      other.roles(pl).foreach(rl =>
         removeBinding(pl, rl)))
   }
 
@@ -128,7 +131,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     }
   }
 
-  override def addBinding[P <: AnyRef: ClassTag, R <: AnyRef: ClassTag](player: P, role: R): Unit = {
+  override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
     root.putEdge(player, role)
@@ -137,18 +140,18 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     }
   }
 
-  override def removeBinding[P <: AnyRef: ClassTag, R <: AnyRef: ClassTag](player: P, role: R): Unit = {
+  override def removeBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
     val _ = root.removeEdge(player, role)
   }
 
-  override def removePlayer[P <: AnyRef: ClassTag](player: P): Unit = {
+  override def removePlayer[P <: AnyRef : ClassTag](player: P): Unit = {
     require(null != player)
     val _ = root.removeNode(player)
   }
 
-  override def getRoles(player: AnyRef): Seq[AnyRef] = {
+  override def roles(player: AnyRef): Seq[AnyRef] = {
     require(null != player)
     if (containsPlayer(player)) {
       val returnSeq = new mutable.ListBuffer[Object]
@@ -168,13 +171,13 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     }
   }
 
-  override def getFacets(player: AnyRef): Seq[Enumeration#Value] = {
+  override def facets(player: AnyRef): Seq[Enumeration#Value] = {
     require(null != player)
     if (containsPlayer(player)) {
       val returnSeq = new mutable.ListBuffer[Enumeration#Value]
       root.successors(player.asInstanceOf[Object]).forEach {
         case e: Enumeration#Value => returnSeq += e
-        case _                    =>
+        case _ =>
       }
       returnSeq
     } else {
@@ -186,7 +189,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def allPlayers: Seq[AnyRef] = root.nodes().asScala.toSeq
 
-  override def getPredecessors(player: AnyRef): Seq[AnyRef] = {
+  override def predecessors(player: AnyRef): Seq[AnyRef] = {
     val returnSeq = new mutable.ListBuffer[Object]
     val processing = new mutable.Queue[Object]
     root.predecessors(player.asInstanceOf[Object]).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
