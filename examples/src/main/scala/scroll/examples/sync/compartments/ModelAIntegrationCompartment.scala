@@ -41,8 +41,16 @@ object ModelAIntegrationCompartment extends IIntegrationCompartment {
       } else {
         person = new Female(firstName + " " + lastName)
       }
+      
+      var manager = +comp getManager()
+      
+      //Step 3: Create Containers
+      createContainerElement(person, SynchronizationCompartment.createRoleManager(), comp, manager)
 
-      //Step 3: Add RoleManager roles and Delete roles        
+      //Step 4: Finish Creation
+      ModelAIntegrationCompartment.this.makeCompleteIntegrationProcess(containers)
+
+      /*//Step 3: Add RoleManager roles and Delete roles        
       var rmMA = SynchronizationCompartment.createRoleManager();
       person play rmMA
 
@@ -74,14 +82,13 @@ object ModelAIntegrationCompartment extends IIntegrationCompartment {
           var newRole = syncComp.getNextIntegrationRole(person)
           if (newRole != null) {
             rmMA play newRole
-            SynchronizationCompartment combine syncComp
           }
         }
       }
 
       //Step 7: Fill Test Lists
-      ModelElementLists.addElement(person)
-
+      ModelElementLists.addElement(person)*/
+      
       println("Finish Register Integration");
     }
   }

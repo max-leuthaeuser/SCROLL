@@ -35,11 +35,19 @@ object ModelCIntegrationCompartment extends IIntegrationCompartment {
       //Step 2: Create the object in the other models
       var register: SimplePerson = null;
       if (comp.isInstanceOf[Male])
-        register = new SimplePerson(firstName + " " + lastName, true);
+        register = new SimplePerson(firstName + " " + lastName, true)
       else
         register = new SimplePerson(firstName + " " + lastName, false)
+      
+      var manager = +comp getManager()
+      
+      //Step 3: Create Containers
+      createContainerElement(register, SynchronizationCompartment.createRoleManager(), comp, manager)
 
-      //Step 3: Add RoleManager roles and Delete roles        
+      //Step 4: Finish Creation
+      ModelCIntegrationCompartment.this.makeCompleteIntegrationProcess(containers)      
+      
+      /*//Step 3: Add RoleManager roles and Delete roles        
       var rmMC = SynchronizationCompartment.createRoleManager();
       register play rmMC
 
@@ -77,8 +85,7 @@ object ModelCIntegrationCompartment extends IIntegrationCompartment {
       }
 
       //Step 7: Fill Test Lists
-      ModelElementLists.addElement(register)
-
+      ModelElementLists.addElement(register)*/
       println("Finish Register Integration");
     }
   }

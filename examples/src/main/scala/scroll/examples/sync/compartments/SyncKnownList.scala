@@ -1,7 +1,7 @@
 package scroll.examples.sync.compartments
 
 import scroll.internal.Compartment
-import scala.collection.mutable.ListBuffer
+import scala.collection.immutable.Set
 import scroll.examples.sync.ISyncCompartment
 import scroll.examples.sync.roles.ISyncRole
 import scroll.examples.sync.PlayerSync
@@ -75,7 +75,7 @@ class SyncKnownList extends ISyncCompartment {
         var changingRegister = List[PlayerSync]()
         allMembers.foreach {
           m =>
-            var regardedManager: ListBuffer[SynchronizationCompartment.RoleManager] = (+m).getRelatedManager()
+            var regardedManager: Set[SynchronizationCompartment.RoleManager] = (+m).getRelatedManager()
             //println("RegardedManager: " + regardedManager);
             regardedManager.foreach {
               r =>
