@@ -250,19 +250,6 @@ object ReflectiveHelper extends Memoiser {
   }
 
   /**
-    * Returns the runtime result of type T of the given function by executing this function of the wrapped object.
-    *
-    * @param on the instance to search on
-    * @param m  the function of interest
-    * @tparam T the return type of the function
-    * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
-    */
-  def resultOf[T](on: AnyRef, m: Method): T = {
-    m.setAccessible(true)
-    m.invoke(on).asInstanceOf[T]
-  }
-
-  /**
     * Returns the runtime result of type T of the given function and arguments by executing this function of the wrapped object.
     *
     * @param on   the instance to search on

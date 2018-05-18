@@ -1,7 +1,7 @@
 package scroll.internal
 
-import scroll.internal.errors.SCROLLErrors.SCROLLError
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
+import scroll.internal.errors.SCROLLErrors.SCROLLError
 import scroll.internal.support.DispatchQuery
 import scroll.internal.util.ReflectiveHelper
 

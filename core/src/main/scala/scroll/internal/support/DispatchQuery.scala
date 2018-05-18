@@ -1,6 +1,10 @@
 package scroll.internal.support
 
-import scroll.internal.support.DispatchQuery._
+import scroll.internal.support.DispatchQuery.Bypassing
+import scroll.internal.support.DispatchQuery.From
+import scroll.internal.support.DispatchQuery.Through
+import scroll.internal.support.DispatchQuery.To
+import scroll.internal.support.DispatchQuery.identity
 
 /**
   * Companion object for [[scroll.internal.support.DispatchQuery]] providing
@@ -34,14 +38,20 @@ object DispatchQuery {
     */
   val nothing: AnyRef => Boolean = _ => false
 
-  def From(f: AnyRef => Boolean) = new {
-    def To(t: AnyRef => Boolean) = new {
-      def Through(th: AnyRef => Boolean) = new {
-        def Bypassing(b: AnyRef => Boolean): DispatchQuery =
-          new DispatchQuery(new From(f), new To(t), new Through(th), new Bypassing(b))
-      }
-    }
+  protected class ToBuilder(f: AnyRef => Boolean) {
+    def To(t: AnyRef => Boolean): ThroughBuilder = new ThroughBuilder(f, t)
   }
+
+  protected class ThroughBuilder(f: AnyRef => Boolean, t: AnyRef => Boolean) {
+    def Through(th: AnyRef => Boolean): BypassingBuilder = new BypassingBuilder(f, t, th)
+  }
+
+  protected class BypassingBuilder(f: AnyRef => Boolean, t: AnyRef => Boolean, th: AnyRef => Boolean) {
+    def Bypassing(b: AnyRef => Boolean): DispatchQuery =
+      new DispatchQuery(new From(f), new To(t), new Through(th), new Bypassing(b))
+  }
+
+  def From(f: AnyRef => Boolean): ToBuilder = new ToBuilder(f)
 
   def Bypassing(b: AnyRef => Boolean): DispatchQuery =
     new DispatchQuery(new From(anything, empty = true), new To(anything, empty = true), new Through(anything, empty = true), new Bypassing(b))

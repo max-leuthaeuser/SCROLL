@@ -179,49 +179,58 @@ trait RoleGroups {
     assert(0 <= occ._1 && occ._2 >= occ._1)
     assert(0 <= limit._1 && limit._2 >= limit._1)
 
+    private[this] implicit def classTagToString(m: ClassTag[_]): String = ReflectiveHelper.simpleName(m.toString)
+
     def types: Seq[String] = entries.flatMap {
       case ts: Types => ts.types
       case rg: RoleGroup => eval(rg)
       case _ => throw new RuntimeException("Role groups can only contain a list of types or role groups itself!")
     }
+
+    def containing(rg: RoleGroup*)
+                  (limitLower: Int, limitUpper: CInt)
+                  (occLower: Int, occUpper: CInt): RoleGroup =
+      addRoleGroup(new RoleGroup(name, rg, (limitLower, limitUpper), (occLower, occUpper)))
+
+    def containing[T1 <: AnyRef : ClassTag](limitLower: Int, limitUpper: CInt)
+                                           (occLower: Int, occUpper: CInt): RoleGroup = {
+      val entry = Types(classTag[T1])
+      addRoleGroup(new RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
+    }
+
+
+    def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag]
+    (limitLower: Int, limitUpper: CInt)
+    (occLower: Int, occUpper: CInt): RoleGroup = {
+      val entry = Types(classTag[T1], classTag[T2])
+      addRoleGroup(new RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
+    }
+
+    def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag]
+    (limitLower: Int, limitUpper: CInt)
+    (occLower: Int, occUpper: CInt): RoleGroup = {
+      val entry = Types(classTag[T1], classTag[T2], classTag[T3])
+      addRoleGroup(new RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
+    }
+
+    def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag, T4 <: AnyRef : ClassTag]
+    (limitLower: Int, limitUpper: CInt)
+    (occLower: Int, occUpper: CInt): RoleGroup = {
+      val entry = Types(classTag[T1], classTag[T2], classTag[T3], classTag[T4])
+      addRoleGroup(new RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
+    }
+
+
+    def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag, T4 <: AnyRef : ClassTag, T5 <: AnyRef : ClassTag]
+    (limitLower: Int, limitUpper: CInt)
+    (occLower: Int, occUpper: CInt): RoleGroup = {
+      val entry = Types(classTag[T1], classTag[T2], classTag[T3], classTag[T4], classTag[T5])
+      addRoleGroup(new RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
+    }
   }
 
   object RoleGroup {
-    private[this] implicit def classTagToString(m: ClassTag[_]): String = ReflectiveHelper.simpleName(m.toString)
-
-    def apply(name: String) = new {
-
-      def containing(rg: RoleGroup*)(limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup =
-        addRoleGroup(new RoleGroup(name, rg, (limit_l, limit_u), (occ_l, occ_u)))
-
-      def containing[T1 <: AnyRef : ClassTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(classTag[T1])
-        addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
-      }
-
-
-      def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(classTag[T1], classTag[T2])
-        addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
-      }
-
-      def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(classTag[T1], classTag[T2], classTag[T3])
-        addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
-      }
-
-      def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag, T4 <: AnyRef : ClassTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(classTag[T1], classTag[T2], classTag[T3], classTag[T4])
-        addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
-      }
-
-
-      def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag, T4 <: AnyRef : ClassTag, T5 <: AnyRef : ClassTag](limit_l: Int, limit_u: CInt)(occ_l: Int, occ_u: CInt): RoleGroup = {
-        val entry = Types(classTag[T1], classTag[T2], classTag[T3], classTag[T4], classTag[T5])
-        addRoleGroup(new RoleGroup(name, Seq(entry), (limit_l, limit_u), (occ_l, occ_u)))
-      }
-
-    }
+    def apply(name: String): RoleGroup = new RoleGroup(name, Seq.empty, (0, 0), (0, 0))
   }
 
 }

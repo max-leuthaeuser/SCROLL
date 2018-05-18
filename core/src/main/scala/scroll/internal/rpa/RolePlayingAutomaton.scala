@@ -1,6 +1,11 @@
 package scroll.internal.rpa
 
-import akka.actor._
+import akka.actor.Actor
+import akka.actor.ActorRef
+import akka.actor.ActorSystem
+import akka.actor.FSM
+import akka.actor.LoggingFSM
+import akka.actor.Props
 import scroll.internal.Compartment
 import scroll.internal.rpa.RolePlayingAutomaton.RPAData
 import scroll.internal.rpa.RolePlayingAutomaton.RPAState
@@ -9,6 +14,7 @@ import scroll.internal.rpa.RolePlayingAutomaton.Stop
 import scroll.internal.rpa.RolePlayingAutomaton.Uninitialized
 
 import scala.reflect.ClassTag
+import scala.reflect.classTag
 
 /**
   * Companion object for the [[scroll.internal.rpa.RolePlayingAutomaton]] containing
@@ -38,9 +44,11 @@ object RolePlayingAutomaton {
 
   case object Terminate extends RPAData
 
-  def Use[T](implicit ct: ClassTag[T]) = new {
-    def For(comp: Compartment): ActorRef = ActorSystem().actorOf(Props(ct.runtimeClass, comp), "rpa_" + comp.hashCode())
+  protected class RPABuilder[T <: AnyRef : ClassTag]() {
+    def For(comp: Compartment): ActorRef = ActorSystem().actorOf(Props(classTag[T].runtimeClass, comp), "rpa_" + comp.hashCode())
   }
+
+  def Use[T <: AnyRef : ClassTag]: RPABuilder[T] = new RPABuilder[T]()
 }
 
 /**

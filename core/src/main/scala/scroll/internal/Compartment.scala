@@ -294,17 +294,20 @@ trait Compartment
       this
     }
 
+    protected class TransferToBuilder[R <: AnyRef : ClassTag](role: R) {
+      def to[P <: AnyRef : ClassTag](player: P): Unit = {
+        transferRole[T, P, R](wrapped, player, role)
+      }
+    }
+
     /**
       * Transfers a role to another player.
       *
       * @tparam R type of role
       * @param role the role to transfer
       */
-    def transfer[R <: AnyRef : ClassTag](role: R) = new {
-      def to[P <: AnyRef : ClassTag](player: P): Unit = {
-        transferRole[T, P, R](wrapped, player, role)
-      }
-    }
+    def transfer[R <: AnyRef : ClassTag](role: R): TransferToBuilder[R] =
+      new TransferToBuilder[R](role)
 
     /**
       * Checks if this Player has all of the given facet(s) attached.

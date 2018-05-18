@@ -40,12 +40,16 @@ trait Relationships {
 
     case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity) extends Multiplicity
 
-    def apply(name: String) = new {
-      def from[L <: AnyRef : ClassTag](leftMul: Multiplicity) = new {
-        def to[R <: AnyRef : ClassTag](rightMul: Multiplicity): Relationship[L, R] =
-          new Relationship(name, leftMul, rightMul)
-      }
+    protected class ToBuilder[L <: AnyRef : ClassTag](name: String, leftMul: Multiplicity) {
+      def to[R <: AnyRef : ClassTag](rightMul: Multiplicity): Relationship[L, R] =
+        new Relationship[L, R](name, leftMul, rightMul)
     }
+
+    protected class FromBuilder(name: String) {
+      def from[L <: AnyRef : ClassTag](leftMul: Multiplicity): ToBuilder[L] = new ToBuilder[L](name, leftMul)
+    }
+
+    def apply(name: String): FromBuilder = new FromBuilder(name)
 
   }
 
