@@ -239,7 +239,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
 
       When("updating role attributes")
 
-      implicit val dd = From(_.isInstanceOf[CoreA]).
+      implicit val dd: DispatchQuery = From(_.isInstanceOf[CoreA]).
         To(_.isInstanceOf[RoleA]).
         Through(anything).
         Bypassing({
@@ -377,7 +377,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     val someCoreB = new CoreB()
 
     new SomeCompartment() {
-      implicit var dd = DispatchQuery.empty
+      implicit var dd: DispatchQuery = DispatchQuery.empty
 
       val someRole = new RoleA()
       And("a play relationship")

@@ -2,6 +2,7 @@ package scroll.tests
 
 import org.scalatest._
 import scroll.internal.Compartment
+import scroll.internal.support.DispatchQuery
 import scroll.internal.support.DispatchQuery._
 
 class RecursiveBaseCallsWithCaseClassesTest extends FeatureSpec with GivenWhenThen with Matchers {
@@ -15,7 +16,7 @@ class RecursiveBaseCallsWithCaseClassesTest extends FeatureSpec with GivenWhenTh
   class MultiRole extends Compartment {
 
     case class RoleTypeA(id: String) {
-      implicit val dd = Bypassing((o: AnyRef) => {
+      implicit val dd: DispatchQuery = Bypassing((o: AnyRef) => {
         o == this || !o.isInstanceOf[CoreType]
       })
 
@@ -26,7 +27,7 @@ class RecursiveBaseCallsWithCaseClassesTest extends FeatureSpec with GivenWhenTh
     }
 
     case class RoleTypeB(id: String) {
-      implicit val dd = Bypassing(_ == this)
+      implicit val dd: DispatchQuery = Bypassing(_ == this)
 
       def someMethod(): Unit = {
         println(s"RoleTypeB($this)::someMethod()")

@@ -41,7 +41,7 @@ class RoleSortingTest extends FeatureSpec with GivenWhenThen with Matchers {
         r1 shouldBe "C"
 
         When("dispatching with sorting")
-        implicit var dd = DispatchQuery.empty.sortedWith(reverse)
+        implicit var dd: DispatchQuery = DispatchQuery.empty.sortedWith(reverse)
         val r2: String = +someCore method()
         Then("the sorting should reorder them")
         r2 shouldBe "A"

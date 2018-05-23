@@ -23,7 +23,7 @@ class MultiRoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers
       case class RoleC(id: String = "RoleC")
 
       new MultiCompartment() {
-        implicit var dd = DispatchQuery.empty.sortedWith {
+        implicit var dd: DispatchQuery = DispatchQuery.empty.sortedWith {
           case (_: RoleC, _: RoleA) => swap
           case (_: RoleB, _: RoleA) => swap
           case (_: RoleC, _: RoleB) => swap

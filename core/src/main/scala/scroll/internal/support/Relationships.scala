@@ -11,8 +11,6 @@ import scala.reflect.ClassTag
 trait Relationships {
   self: Compartment =>
 
-  import Relationship._
-
   /**
     * Companion object for [[scroll.internal.support.Relationships.Relationship]] providing
     * some predefined multiplicities and a fluent relationship creation API.

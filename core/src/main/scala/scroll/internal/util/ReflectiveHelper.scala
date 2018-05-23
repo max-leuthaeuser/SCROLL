@@ -164,7 +164,7 @@ object ReflectiveHelper extends Memoiser {
       case java.lang.Byte.TYPE => arg.isInstanceOf[Byte]
       case _ => arg == null || paramType.isAssignableFrom(arg.getClass)
     }
-    case faultyArgs => throw new IllegalArgumentException(s"Can not handle these arguments: '$faultyArgs'")
+    case null => throw new IllegalArgumentException(s"Can not handle these arguments: '$args'")
   }
 
   private[this] def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean =

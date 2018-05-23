@@ -1,6 +1,5 @@
 package scroll.internal
 
-import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.SCROLLError
 import scroll.internal.errors.SCROLLErrors.TypeError
 import scroll.internal.errors.SCROLLErrors.TypeNotFound
@@ -12,7 +11,6 @@ import scroll.internal.support.Relationships
 import scroll.internal.support.RoleConstraints
 import scroll.internal.support.RoleGroups
 import scroll.internal.support.RoleRestrictions
-import scroll.internal.support.UnionTypes.RoleUnionTypes
 import scroll.internal.util.ReflectiveHelper
 
 import scala.annotation.tailrec
@@ -47,8 +45,7 @@ trait Compartment
     with RoleRestrictions
     with RoleGroups
     with Relationships
-    with QueryStrategies
-    with RoleUnionTypes {
+    with QueryStrategies {
 
   protected var plays: ScalaRoleGraph = new CachedScalaRoleGraph()
 
@@ -253,7 +250,7 @@ trait Compartment
       */
     def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, AnyRef] = dispatchQuery.filter(coreFor(this)) match {
       case elem :: Nil => Right(elem)
-      case l: Seq[T] => Right(l.head)
+      case l: Seq[_] => Right(l.head.asInstanceOf[Object])
       case _ => Left(TypeNotFound(this.getClass.toString))
     }
 
@@ -264,7 +261,7 @@ trait Compartment
       wrapped match {
         case p: Player[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
         case p: AnyRef => addPlaysRelation[T, R](p.asInstanceOf[T], role)
-        case p => throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles! You tried it with '$p'.")
+        case null => throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles!")
       }
       this
     }

@@ -1,6 +1,5 @@
 package scroll.internal
 
-import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.SCROLLError
 import scroll.internal.support.DispatchQuery
 import scroll.internal.util.ReflectiveHelper
@@ -22,7 +21,7 @@ trait MultiCompartment extends Compartment {
       wrapped match {
         case p: MultiPlayer[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
         case p: AnyRef => addPlaysRelation[T, R](p.asInstanceOf[T], role)
-        case p => throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles! You tried it with '$p'.")
+        case null => throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles!")
       }
       this
     }

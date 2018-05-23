@@ -15,14 +15,14 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
         val roleA = new RoleA()
         val roleD = new RoleD()
         And("some role type specifications are given")
-        AddRoleRestriction[CoreA, RoleA]
+        AddRoleRestriction[CoreA, RoleA]()
 
         Then("All role restriction should hold")
         player play roleA
 
         player drop roleA
         When("A role restriction is specified that could not be hold")
-        ReplaceRoleRestriction[CoreA, RoleD]
+        ReplaceRoleRestriction[CoreA, RoleD]()
         Then("A runtime exception is expected")
         a[RuntimeException] should be thrownBy {
           player play roleA
@@ -37,8 +37,8 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
       new SomeCompartment() {
         val roleA = new RoleA()
         val roleD = new RoleD()
-        AddRoleRestriction[CoreA, RoleA]
-        AddRoleRestriction[CoreA, RoleD]
+        AddRoleRestriction[CoreA, RoleA]()
+        AddRoleRestriction[CoreA, RoleD]()
 
         Then("All role restriction should hold")
         player play roleA
@@ -60,23 +60,23 @@ class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers 
         val roleA = new RoleA()
         val roleD = new RoleD()
         And("some role type specifications are given")
-        AddRoleRestriction[CoreA, RoleA]
+        AddRoleRestriction[CoreA, RoleA]()
 
         Then("All role restriction should hold")
         player play roleA
 
-        When("A role restiction is removed")
-        RemoveRoleRestriction[CoreA]
+        When("A role restriction is removed")
+        RemoveRoleRestriction[CoreA]()
         Then("Role playing should be fine")
         player play roleD
         player drop roleA drop roleD
 
         And("Also in the case of multiple restriction that are removed later on")
-        AddRoleRestriction[CoreA, RoleA]
-        AddRoleRestriction[CoreA, RoleD]
+        AddRoleRestriction[CoreA, RoleA]()
+        AddRoleRestriction[CoreA, RoleD]()
         player play roleA play roleD
         player drop roleA drop roleD
-        RemoveRoleRestriction[CoreA]
+        RemoveRoleRestriction[CoreA]()
         player play roleA play roleD
       }
     }
