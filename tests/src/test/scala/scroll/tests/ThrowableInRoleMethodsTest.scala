@@ -29,8 +29,8 @@ class ThrowableInRoleMethodsTest extends FeatureSpec with GivenWhenThen with Mat
 
   }
 
-  feature("Handling Throwable in role methods") {
-    scenario("Handling thrown Error") {
+  Feature("Handling Throwable in role methods") {
+    Scenario("Handling thrown Error") {
       Given("a player and a role in a compartment")
       new ExceptionShowcase() {
         val core = new CoreType()
@@ -41,7 +41,7 @@ class ThrowableInRoleMethodsTest extends FeatureSpec with GivenWhenThen with Mat
       }
     }
 
-    scenario("Handling thrown unchecked Exception") {
+    Scenario("Handling thrown unchecked Exception") {
       Given("a player and a role in a compartment")
       new ExceptionShowcase() {
         val core = new CoreType()
@@ -52,7 +52,7 @@ class ThrowableInRoleMethodsTest extends FeatureSpec with GivenWhenThen with Mat
       }
     }
 
-    scenario("Handling thrown checked Exception") {
+    Scenario("Handling thrown checked Exception") {
       Given("a player and a role in a compartment")
       new ExceptionShowcase() {
         val core = new CoreType()

@@ -10,8 +10,8 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for an excerpt of the role concept.")
   info("Things like role playing and method invocation are tested.")
 
-  feature("Role playing") {
-    scenario("Dropping role and invoking methods") {
+  Feature("Role playing") {
+    Scenario("Dropping role and invoking methods") {
       Given("some player and role in a compartment")
       val someCore = new CoreA()
       new SomeCompartment() {
@@ -38,7 +38,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       }
     }
 
-    scenario("Transferring a role") {
+    Scenario("Transferring a role") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
@@ -60,7 +60,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       }
     }
 
-    scenario("Role playing and testing isPlaying") {
+    Scenario("Role playing and testing isPlaying") {
       Given("some players and roles in a compartment")
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
@@ -82,7 +82,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       }
     }
 
-    scenario("Handling applyDynamic") {
+    Scenario("Handling applyDynamic") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
 
@@ -106,7 +106,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       }
     }
 
-    scenario("Handling applyDynamicNamed") {
+    Scenario("Handling applyDynamicNamed") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
 
@@ -124,7 +124,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       }
     }
 
-    scenario("Handling selectDynamic") {
+    Scenario("Handling selectDynamic") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
 
@@ -151,7 +151,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       }
     }
 
-    scenario("Handling updateDynamic") {
+    Scenario("Handling updateDynamic") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
 
@@ -176,7 +176,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  scenario("Playing a role multiple times (same instance)") {
+  Scenario("Playing a role multiple times (same instance)") {
     Given("some players and role in a compartment")
     val someCoreA = new CoreA()
 
@@ -199,7 +199,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  scenario("Playing a role multiple times (different instances) from one player") {
+  Scenario("Playing a role multiple times (different instances) from one player") {
     Given("some players and 2 role instance of the same type in a compartment")
     val someCoreA = new CoreA()
 
@@ -224,7 +224,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  scenario("Playing a role multiple times (different instances, but using dispatch to select one)") {
+  Scenario("Playing a role multiple times (different instances, but using dispatch to select one)") {
     Given("some players and 2 role instance of the same type in a compartment")
     val someCoreA = new CoreA()
 
@@ -260,7 +260,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  scenario("Calling multi-argument method in roles") {
+  Scenario("Calling multi-argument method in roles") {
     Given("a player and a role instance in a compartment")
     val someCoreA = new CoreA()
 
@@ -301,7 +301,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     * Char
     * boolean
     */
-  scenario("Calling method on a role with different primitive types") {
+  Scenario("Calling method on a role with different primitive types") {
     Given("a player and a role instance in a compartment")
     val someCoreA = new CoreA()
 
@@ -371,7 +371,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  scenario("Playing a role multiple times (same instance) from different players") {
+  Scenario("Playing a role multiple times (same instance) from different players") {
     Given("some players and role in a compartment")
     val someCoreA = new CoreA()
     val someCoreB = new CoreB()
@@ -420,7 +420,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  scenario("Cyclic role-playing relationship") {
+  Scenario("Cyclic role-playing relationship") {
     Given("a player and some roles in a compartment")
     val someCoreA = new CoreA()
 
@@ -440,7 +440,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  scenario("Compartment plays a role that is part of themselves") {
+  Scenario("Compartment plays a role that is part of themselves") {
     Given("a compartment and a role in it")
 
     class ACompartment extends SomeCompartment {
@@ -458,7 +458,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  scenario("Deep roles") {
+  Scenario("Deep roles") {
     Given("a player and some roles in a compartment")
     val someCoreA = new CoreA()
 
@@ -494,7 +494,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  scenario("Handling null arguments for applyDynamic") {
+  Scenario("Handling null arguments for applyDynamic") {
     Given("a player and a role in a compartment")
     val someCoreA = new CoreA()
 

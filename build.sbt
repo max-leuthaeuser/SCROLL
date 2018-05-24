@@ -1,10 +1,10 @@
-val scalatestVersion = "3.0.5"
+val scalatestVersion = "3.2.0-SNAP10"
 val chocoVersion = "4.0.6"
 val slf4jVersion = "1.7.25"
 val guavaVersion = "25.0-jre"
 
 lazy val commonSettings = Seq(
-  scalaVersion := "0.8.0-RC1", //dottyLatestNightlyBuild.get,
+  scalaVersion := dottyLatestNightlyBuild.get, // "0.8.0-RC1"
   version := "1.5",
   mainClass := None,
   libraryDependencies ++= Seq(

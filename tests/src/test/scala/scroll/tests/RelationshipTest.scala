@@ -6,8 +6,8 @@ import org.scalatest._
 class RelationshipTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for the relationship concept.")
 
-  feature("Relationship specification and querying") {
-    scenario("Specifying a relationship") {
+  Feature("Relationship specification and querying") {
+    Scenario("Specifying a relationship") {
       Given("A compartment, a player and attached roles")
 
       val p = new CoreA

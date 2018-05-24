@@ -9,32 +9,32 @@ class ExamplesTest extends FeatureSpec with GivenWhenThen with Matchers {
 
   info("Test spec for scroll.examples.")
 
-  feature("Running scroll.examples") {
-    scenario("University") {
+  Feature("Running scroll.examples") {
+    Scenario("University") {
       When("Running the University example")
       Then("There should be no error or exception.")
       UniversityExample.main(null)
     }
 
-    scenario("Bank") {
+    Scenario("Bank") {
       When("Running the Bank example")
       Then("There should be no error or exception.")
       BankExample.main(null)
     }
 
-    scenario("API Calls") {
+    Scenario("API Calls") {
       When("Running the APICalls example")
       Then("There should be no error or exception.")
       APICallsExample.main(null)
     }
 
-    scenario("Robot") {
+    Scenario("Robot") {
       When("Running the Robot example")
       Then("There should be no error or exception.")
       RobotExample.main(null)
     }
 
-    scenario("Expression Problem") {
+    Scenario("Expression Problem") {
       When("Running the Expression Problem example")
       Then("There should be no error or exception.")
       ExpressionProblemExample.main(null)

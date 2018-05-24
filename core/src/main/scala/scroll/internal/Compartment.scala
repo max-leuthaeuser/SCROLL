@@ -3,6 +3,7 @@ package scroll.internal
 import scroll.internal.errors.SCROLLErrors.SCROLLError
 import scroll.internal.errors.SCROLLErrors.TypeError
 import scroll.internal.errors.SCROLLErrors.TypeNotFound
+import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.graph.CachedScalaRoleGraph
 import scroll.internal.graph.ScalaRoleGraph
 import scroll.internal.support.DispatchQuery

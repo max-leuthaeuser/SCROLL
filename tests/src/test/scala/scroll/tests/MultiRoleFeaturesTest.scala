@@ -11,8 +11,8 @@ class MultiRoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers
   info("Test spec for an excerpt of the role concept for multi roles.")
   info("Things like role playing and method invocation are tested.")
 
-  feature("Role playing") {
-    scenario("Playing roles and invoking all methods") {
+  Feature("Role playing") {
+    Scenario("Playing roles and invoking all methods") {
       Given("some player and roles in a compartment")
       val someCore = new CoreA()
 

@@ -8,8 +8,8 @@ class DynamicExtensionsTest extends FeatureSpec with GivenWhenThen with Matchers
   info("Test spec for an excerpt of the dynamic extension concept.")
   info("Things like adding dynamic extensions and method invocation are tested.")
 
-  feature("Adding dynamic extensions") {
-    scenario("Removing dynamic extsions and invoking methods") {
+  Feature("Adding dynamic extensions") {
+    Scenario("Removing dynamic extsions and invoking methods") {
       Given("some player and a dynamic extension in a compartment")
       val someCore = new CoreA()
       new SomeCompartment() {

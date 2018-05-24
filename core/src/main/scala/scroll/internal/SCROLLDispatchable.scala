@@ -4,10 +4,12 @@ import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
 import scroll.internal.errors.SCROLLErrors.InvocationError
+import scroll.internal.errors.SCROLLErrors.IllegalRoleInvocationDispatch
 import scroll.internal.util.ReflectiveHelper
 
 import scala.util.Failure
 import scala.util.Success
+import scala.util.Try
 
 /**
   * Trait handling the actual dispatching of role methods.

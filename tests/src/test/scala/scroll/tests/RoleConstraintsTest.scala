@@ -6,8 +6,8 @@ import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for role constraints.")
 
-  feature("Role implication") {
-    scenario("Role implication constraint") {
+  Feature("Role implication") {
+    Scenario("Role implication constraint") {
       new SomeCompartment() {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
@@ -56,8 +56,8 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  feature("Role prohibition") {
-    scenario("Role prohibition constraint") {
+  Feature("Role prohibition") {
+    Scenario("Role prohibition constraint") {
       new SomeCompartment() {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
@@ -104,8 +104,8 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  feature("Role equivalence") {
-    scenario("Role equivalence constraint") {
+  Feature("Role equivalence") {
+    Scenario("Role equivalence constraint") {
       new SomeCompartment() {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
@@ -152,8 +152,8 @@ class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
     }
   }
 
-  feature("Mixed constraints") {
-    scenario("Role implication and prohibition constraint") {
+  Feature("Mixed constraints") {
+    Scenario("Role implication and prohibition constraint") {
       new SomeCompartment() {
         Given("A compartment, a player and some roles")
         val player = new CoreA()

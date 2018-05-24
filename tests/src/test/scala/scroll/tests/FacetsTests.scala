@@ -15,8 +15,8 @@ class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
   info("Test spec for facets.")
   info("Things like filtering for specific facets are tested.")
 
-  feature("Facets spec and attachment") {
-    scenario("Adding facets") {
+  Feature("Facets spec and attachment") {
+    Scenario("Adding facets") {
       Given("some player and a facet in a compartment")
       val someCore = new CoreA()
       new SomeCompartment() {
@@ -27,7 +27,7 @@ class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
       }
     }
 
-    scenario("Removing facets") {
+    Scenario("Removing facets") {
       Given("some player and a facet in a compartment")
       val someCore = new CoreA()
       new SomeCompartment() {
@@ -40,7 +40,7 @@ class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
       }
     }
 
-    scenario("Transferring facets") {
+    Scenario("Transferring facets") {
       Given("some player and a facet in a compartment")
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
@@ -57,7 +57,7 @@ class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
       }
     }
 
-    scenario("Filtering for facets") {
+    Scenario("Filtering for facets") {
       Given("some player and facets in a compartment")
       val someCoreA1 = new CoreA()
       val someCoreA2 = new CoreA()

@@ -9,8 +9,8 @@ class RoleSortingTest extends FeatureSpec with GivenWhenThen with Matchers {
 
   info("Test spec for sorting dynamic extensions.")
 
-  feature("Role sorting") {
-    scenario("Adding roles and sorting them") {
+  Feature("Role sorting") {
+    Scenario("Adding roles and sorting them") {
       Given("some player and roles in a compartment")
       val someCore = new CoreA()
       new SomeCompartment() {
@@ -64,7 +64,7 @@ class RoleSortingTest extends FeatureSpec with GivenWhenThen with Matchers {
       }
     }
 
-    scenario("Adding roles with cyclic calls and sorting them") {
+    Scenario("Adding roles with cyclic calls and sorting them") {
       Given("some player and roles in a compartment")
       class SomeCore {
         def method(): String = "Core"
