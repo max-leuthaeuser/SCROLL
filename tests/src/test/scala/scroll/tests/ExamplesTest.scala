@@ -1,5 +1,6 @@
 package scroll.tests
 
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import scroll.examples._
@@ -10,6 +11,11 @@ class ExamplesTest {
   def initialize(): Unit = {
     // do not want info or debug logging at all here
     System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "error")
+  }
+
+  @After
+  def shudown(): Unit = {
+    System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "info")
   }
 
   @Test
