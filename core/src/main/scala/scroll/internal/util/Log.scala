@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory
   * Very simple logging utility using slf4j.
   */
 object Log {
-  private[this] lazy val logger = LoggerFactory.getLogger("SCROLL")
+  private[this] val logger = LoggerFactory.getLogger("SCROLL")
 
   // set a system property such that Simple Logger will include timestamp
   System.setProperty("org.slf4j.simpleLogger.showDateTime", "true")

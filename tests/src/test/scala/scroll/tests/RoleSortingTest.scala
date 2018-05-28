@@ -1,104 +1,93 @@
 package scroll.tests
 
-import org.scalatest._
+import org.junit.Test
+import org.junit.Assert.assertEquals
+
 import scroll.internal.support.DispatchQuery
 import scroll.internal.support.DispatchQuery._
 import scroll.tests.mocks.{CoreA, SomeCompartment}
 
-class RoleSortingTest extends FeatureSpec with GivenWhenThen with Matchers {
+class RoleSortingTest {
 
-  info("Test spec for sorting dynamic extensions.")
+  @Test
+  def testRoleSorting(): Unit = {
+    implicit var dd: DispatchQuery = DispatchQuery.empty
 
-  Feature("Role sorting") {
-    Scenario("Adding roles and sorting them") {
-      Given("some player and roles in a compartment")
-      val someCore = new CoreA()
-      new SomeCompartment() {
+    val someCore = new CoreA()
+    new SomeCompartment() {
 
-        case class SomeRoleA() {
-          def method(): String = "A"
-        }
-
-        case class SomeRoleB() {
-          def method(): String = "B"
-        }
-
-        case class SomeRoleC() {
-          def method(): String = "C"
-        }
-
-        val roleA = SomeRoleA()
-        val roleB = SomeRoleB()
-        val roleC = SomeRoleC()
-        And("some play relationships")
-        someCore play roleA
-        someCore play roleB
-        someCore play roleC
-
-        When("dispatching without sorting")
-        val r1: String = +someCore method()
-        Then("the sorting should do nothing and keep the roles sorted as specified through their binding sequence")
-        r1 shouldBe "C"
-
-        When("dispatching with sorting")
-        implicit var dd: DispatchQuery = DispatchQuery.empty.sortedWith(reverse)
-        val r2: String = +someCore method()
-        Then("the sorting should reorder them")
-        r2 shouldBe "A"
-
-        When("dispatching with type based sorting")
-        dd = DispatchQuery.empty.sortedWith {
-          case (_: SomeRoleB, _: SomeRoleC) => swap
-        }
-        val r3: String = +someCore method()
-        Then("the sorting should reorder them")
-        r3 shouldBe "B"
-
-        When("dispatching with filtering and type based sorting")
-        dd = Bypassing(_.isInstanceOf[SomeRoleA]).sortedWith {
-          case (_: SomeRoleB, _: SomeRoleC) => swap
-        }
-        val r4: String = +someCore method()
-        Then("the sorting should reorder them")
-        r4 shouldBe "B"
+      class SomeRoleA() {
+        def method(): String = "A"
       }
+
+      class SomeRoleB() {
+        def method(): String = "B"
+      }
+
+      class SomeRoleC() {
+        def method(): String = "C"
+      }
+
+      val roleA = new SomeRoleA()
+      val roleB = new SomeRoleB()
+      val roleC = new SomeRoleC()
+      someCore play roleA
+      roleA play roleB
+      roleB play roleC
+
+      val r1: String = +someCore method()
+      assertEquals("C", r1)
+
+      dd = DispatchQuery.empty.sortedWith(reverse)
+      val r2: String = +someCore method()
+      assertEquals("A", r2)
+
+      dd = DispatchQuery.empty.sortedWith {
+        case (_: SomeRoleB, _: SomeRoleC) => swap
+      }
+      val r3: String = +someCore method()
+      assertEquals("B", r3)
+
+      dd = Bypassing(_.isInstanceOf[SomeRoleA]).sortedWith {
+        case (_: SomeRoleB, _: SomeRoleC) => swap
+      }
+      val r4: String = +someCore method()
+      assertEquals("B", r4)
+    }
+  }
+
+  @Test
+  def testRoleSortingWithCycles(): Unit = {
+    implicit var dd: DispatchQuery = DispatchQuery.empty
+
+    class SomeCore {
+      def method(): String = "Core"
     }
 
-    Scenario("Adding roles with cyclic calls and sorting them") {
-      Given("some player and roles in a compartment")
-      class SomeCore {
-        def method(): String = "Core"
+    val someCore = new SomeCore()
+    new SomeCompartment() {
+
+      class SomeRoleA() {
+        def method(): String = {
+          dd = Bypassing(_.isInstanceOf[SomeRoleA])
+          +this method()
+        }
       }
 
-      val someCore = new SomeCore()
-      new SomeCompartment() {
-
-        case class SomeRoleA() {
-          def method(): String = {
-            implicit val dd = Bypassing(_.isInstanceOf[SomeRoleA])
-            +this method()
-          }
+      class SomeRoleB() {
+        def method(): String = {
+          dd = DispatchQuery.empty.sortedWith(reverse)
+          +this method()
         }
-
-        case class SomeRoleB() {
-          def method(): String = {
-            implicit val dd = DispatchQuery.empty.sortedWith(reverse)
-            +this method()
-          }
-        }
-
-        val roleA = SomeRoleA()
-        val roleB = SomeRoleB()
-        And("some play relationships")
-        someCore play roleA
-        someCore play roleB
-
-        When("dispatching")
-        val r1: String = +someCore method()
-        Then("the sorting should prevent cyclic dispatching")
-        And("return the result of the execution of the core method")
-        r1 shouldBe "Core"
       }
+
+      val roleA = new SomeRoleA()
+      val roleB = new SomeRoleB()
+      someCore play roleA
+      roleA play roleB
+
+      val r1: String = +someCore method()
+      assertEquals("Core", r1)
     }
   }
 }

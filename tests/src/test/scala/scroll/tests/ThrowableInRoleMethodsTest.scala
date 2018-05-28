@@ -2,12 +2,11 @@ package scroll.tests
 
 import java.io.IOException
 
-import org.scalatest._
+import org.junit.Assert.fail
+import org.junit.Test
 import scroll.internal.Compartment
 
-class ThrowableInRoleMethodsTest extends FeatureSpec with GivenWhenThen with Matchers {
-
-  info("Test spec for handling a Throwable in role methods.")
+class ThrowableInRoleMethodsTest {
 
   class CoreType
 
@@ -29,37 +28,44 @@ class ThrowableInRoleMethodsTest extends FeatureSpec with GivenWhenThen with Mat
 
   }
 
-  Feature("Handling Throwable in role methods") {
-    Scenario("Handling thrown Error") {
-      Given("a player and a role in a compartment")
-      new ExceptionShowcase() {
-        val core = new CoreType()
-        core play new Exceptional()
-        When("calling the role method")
-        Then("the Error should be thrown")
-        an[Error] should be thrownBy (+core).roleMethodWithError()
+  @Test
+  def testErrorInRoleMethod(): Unit = {
+    new ExceptionShowcase() {
+      val core = new CoreType()
+      core play new Exceptional()
+      try {
+        (+core).roleMethodWithError()
+        fail("Should throw an Error")
+      } catch {
+        case _: Error => // all good
       }
     }
+  }
 
-    Scenario("Handling thrown unchecked Exception") {
-      Given("a player and a role in a compartment")
-      new ExceptionShowcase() {
-        val core = new CoreType()
-        core play new Exceptional()
-        When("calling the role method")
-        Then("the unchecked Exception should be thrown")
-        an[RuntimeException] should be thrownBy (+core).roleMethodWithUncheckedException()
+  @Test
+  def testUncheckedExceptionInRoleMethod(): Unit = {
+    new ExceptionShowcase() {
+      val core = new CoreType()
+      core play new Exceptional()
+      try {
+        (+core).roleMethodWithUncheckedException()
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
       }
     }
+  }
 
-    Scenario("Handling thrown checked Exception") {
-      Given("a player and a role in a compartment")
-      new ExceptionShowcase() {
-        val core = new CoreType()
-        core play new Exceptional()
-        When("calling the role method")
-        Then("the checked Exception should be thrown")
-        an[IOException] should be thrownBy (+core).roleMethodWithCheckedException()
+  @Test
+  def testCheckedExceptionInRoleMethod(): Unit = {
+    new ExceptionShowcase() {
+      val core = new CoreType()
+      core play new Exceptional()
+      try {
+        (+core).roleMethodWithCheckedException()
+        fail("Should throw an IOException")
+      } catch {
+        case _: IOException => // all good
       }
     }
   }

@@ -1,176 +1,185 @@
 package scroll.tests
 
+import org.junit.Test
+import org.junit.Assert.fail
+
 import mocks.{CoreA, SomeCompartment}
-import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 
-class RoleConstraintsTest extends FeatureSpec with GivenWhenThen with Matchers {
-  info("Test spec for role constraints.")
+class RoleConstraintsTest {
 
-  Feature("Role implication") {
-    Scenario("Role implication constraint") {
-      new SomeCompartment() {
-        Given("A compartment, a player and some roles")
-        val player = new CoreA()
-        val roleA = new RoleA()
-        val roleB = new RoleB()
-        val roleC = new RoleC()
-        And("an role implication constraint")
-        RoleImplication[RoleA, RoleB]()
-        When("checking the constraints")
-        Then("they should hold")
+  @Test
+  def testRoleImplication(): Unit = {
+    new SomeCompartment() {
+      val player = new CoreA()
+      val roleA = new RoleA()
+      val roleB = new RoleB()
+      val roleC = new RoleC()
+      RoleImplication[RoleA, RoleB]()
+      RoleConstraintsChecked {
+        player play roleA play roleB
+      }
+
+      try {
         RoleConstraintsChecked {
-          player play roleA play roleB
+          player drop roleB
         }
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
+      }
 
-        a[RuntimeException] should be thrownBy {
-          RoleConstraintsChecked {
-            player drop roleB
-          }
-        }
+      RoleConstraintsChecked {
+        player play roleB
+      }
 
+      RoleImplication[RoleB, RoleC]()
+      RoleConstraintsChecked {
+        player play roleC
+      }
+
+      try {
         RoleConstraintsChecked {
-          player play roleB
+          player drop roleB
         }
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
+      }
 
-        RoleImplication[RoleB, RoleC]()
+      try {
         RoleConstraintsChecked {
-          player play roleC
+          player drop roleC
         }
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
+      }
 
-        a[RuntimeException] should be thrownBy {
-          RoleConstraintsChecked {
-            player drop roleB
-          }
-        }
-
-        a[RuntimeException] should be thrownBy {
-          RoleConstraintsChecked {
-            player drop roleC
-          }
-        }
-
-        RoleConstraintsChecked {
-          player play roleC play roleB
-        }
+      RoleConstraintsChecked {
+        player play roleC play roleB
       }
     }
   }
 
-  Feature("Role prohibition") {
-    Scenario("Role prohibition constraint") {
-      new SomeCompartment() {
-        Given("A compartment, a player and some roles")
-        val player = new CoreA()
-        val roleA = new RoleA()
-        val roleB = new RoleB()
-        val roleC = new RoleC()
-        And("an role prohibition constraint")
-        RoleProhibition[RoleA, RoleB]()
-        When("checking the constraints")
-        Then("they should hold")
+  @Test
+  def testRoleProhibition(): Unit = {
+    new SomeCompartment() {
+      val player = new CoreA()
+      val roleA = new RoleA()
+      val roleB = new RoleB()
+      val roleC = new RoleC()
+      RoleProhibition[RoleA, RoleB]()
+      RoleConstraintsChecked {
+        player play roleA
+      }
+
+      RoleConstraintsChecked {
+        player drop roleA
+        player play roleB
+      }
+
+      try {
         RoleConstraintsChecked {
           player play roleA
         }
-
-        RoleConstraintsChecked {
-          player drop roleA
-          player play roleB
-        }
-
-        a[RuntimeException] should be thrownBy {
-          RoleConstraintsChecked {
-            player play roleA
-          }
-        }
-
-        RoleProhibition[RoleB, RoleC]()
-        RoleConstraintsChecked {
-          player drop roleA
-          player drop roleB
-        }
-
-        a[RuntimeException] should be thrownBy {
-          RoleConstraintsChecked {
-            player play roleA
-            player play roleB
-            player play roleC
-          }
-        }
-
-        RoleConstraintsChecked {
-          player drop roleB
-        }
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
       }
-    }
-  }
 
-  Feature("Role equivalence") {
-    Scenario("Role equivalence constraint") {
-      new SomeCompartment() {
-        Given("A compartment, a player and some roles")
-        val player = new CoreA()
-        val roleA = new RoleA()
-        val roleB = new RoleB()
-        val roleC = new RoleC()
-        And("an role equivalence constraint")
-        RoleEquivalence[RoleA, RoleB]()
-        When("checking the constraints")
-        Then("they should hold")
-        a[RuntimeException] should be thrownBy {
-          RoleConstraintsChecked {
-            player play roleA
-          }
-        }
+      RoleProhibition[RoleB, RoleC]()
+      RoleConstraintsChecked {
+        player drop roleA
+        player drop roleB
+      }
 
-        RoleConstraintsChecked {
-          player play roleB
-        }
-
-        a[RuntimeException] should be thrownBy {
-          RoleConstraintsChecked {
-            player drop roleA
-          }
-        }
-
-        RoleConstraintsChecked {
-          player drop roleB
-        }
-
-        RoleEquivalence[RoleB, RoleC]()
+      try {
         RoleConstraintsChecked {
           player play roleA
           player play roleB
           player play roleC
         }
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
+      }
 
-        a[RuntimeException] should be thrownBy {
-          RoleConstraintsChecked {
-            player drop roleB
-          }
-        }
+      RoleConstraintsChecked {
+        player drop roleB
       }
     }
   }
 
-  Feature("Mixed constraints") {
-    Scenario("Role implication and prohibition constraint") {
-      new SomeCompartment() {
-        Given("A compartment, a player and some roles")
-        val player = new CoreA()
-        val roleA = new RoleA()
-        val roleB = new RoleB()
-        And("an implication and prohibition constraint")
-        RoleImplication[RoleA, RoleB]()
-        RoleProhibition[RoleA, RoleB]()
+  @Test
+  def testRoleEquivalence(): Unit = {
+    new SomeCompartment() {
+      val player = new CoreA()
+      val roleA = new RoleA()
+      val roleB = new RoleB()
+      val roleC = new RoleC()
+      RoleEquivalence[RoleA, RoleB]()
 
-        When("checking the constraints")
-        Then("they should hold")
-        a[RuntimeException] should be thrownBy {
-          RoleConstraintsChecked {
-            player play roleA
-            player play roleB
-          }
+      try {
+        RoleConstraintsChecked {
+          player play roleA
         }
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
+      }
+
+      RoleConstraintsChecked {
+        player play roleB
+      }
+
+      try {
+        RoleConstraintsChecked {
+          player drop roleA
+        }
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
+      }
+
+      RoleConstraintsChecked {
+        player drop roleB
+      }
+
+      RoleEquivalence[RoleB, RoleC]()
+      RoleConstraintsChecked {
+        player play roleA
+        player play roleB
+        player play roleC
+      }
+
+      try {
+        RoleConstraintsChecked {
+          player drop roleB
+        }
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
+      }
+    }
+  }
+
+  @Test
+  def testMixedRoleConstraints(): Unit = {
+    new SomeCompartment() {
+      val player = new CoreA()
+      val roleA = new RoleA()
+      val roleB = new RoleB()
+      RoleImplication[RoleA, RoleB]()
+      RoleProhibition[RoleA, RoleB]()
+
+      try {
+        RoleConstraintsChecked {
+          player play roleA
+          player play roleB
+        }
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
       }
     }
   }

@@ -1,91 +1,65 @@
 package scroll.tests
 
 import mocks.{CoreA, SomeCompartment}
-import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
+import org.junit.Test
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 
-class EqualityRoleTest extends FeatureSpec with GivenWhenThen with Matchers {
-  info("Test spec for role equality.")
+class EqualityRoleTest {
 
-  Feature("Role playing equality") {
-    Scenario("Player and Role equality (flat roles)") {
-      Given("some player and a role in a compartment")
+  @Test
+  def testRoleEquality(): Unit = {
+    val someCore = new CoreA()
+    new SomeCompartment() {
+      val someRole = new RoleA()
+      val player = someCore play someRole
 
-      val someCore = new CoreA()
-      new SomeCompartment() {
-        val someRole = new RoleA()
-        And("a play relationship")
-        val player = someCore play someRole
+      assertEquals(player, player)
+      assertEquals(someCore, someCore)
+      assertEquals(player, someCore)
 
-        When("comparing identity between core and player")
-        Then("player and core should have the same identity")
-        player shouldBe player
-        someCore shouldBe someCore
-        player shouldBe someCore
 
-        When("comparing core and core playing a role")
-        Then("They should have the same identity")
-        (+player) shouldBe player
-        player shouldBe (+player)
+      assertEquals(+player, player)
+      assertEquals(player, +player)
 
-        When("comparing a role to itself")
-        Then("it should have the same identity")
-        someRole shouldBe someRole
+      assertEquals(someRole, someRole)
 
-        When("comparing a role core to the player")
-        Then("it should have the same identity")
-        (+someRole) shouldBe player
-        player shouldBe (+someRole)
+      assertEquals(+someRole, player)
+      assertEquals(player, +someRole)
 
-        When("comparing a role core to the core")
-        Then("it should have the same identity")
-        (+someRole) shouldBe someCore
-      }
+      assertEquals(+someRole, someCore)
     }
+  }
 
-    Scenario("Player and Role equality (deep roles)") {
-      Given("some player and roles in a compartment")
+  @Test
+  def testRoleEqualityDeepRoles(): Unit = {
+    val someCore = new CoreA()
+    new SomeCompartment() {
+      val someRole = new RoleA()
+      val someOtherRole = new RoleB()
+      val player = (someCore play someRole) play someOtherRole
 
-      val someCore = new CoreA()
-      new SomeCompartment() {
-        val someRole = new RoleA()
-        val someOtherRole = new RoleB()
-        And("some play relationships")
-        val player = (someCore play someRole) play someOtherRole
+      assertEquals(player, player)
+      assertEquals(someCore, someCore)
+      assertEquals(player, someCore)
 
-        When("comparing identity between core and player")
-        Then("player and core should have the same identity")
-        player shouldBe player
-        someCore shouldBe someCore
-        player shouldBe someCore
+      assertEquals(+player, player)
+      assertEquals(player, +player)
 
-        When("comparing core and core playing a role")
-        Then("They should have the same identity")
-        (+player) shouldBe player
-        player shouldBe (+player)
+      assertEquals(someRole, someRole)
+      assertEquals(someOtherRole, someOtherRole)
 
-        When("comparing a role to itself")
-        Then("it should have the same identity")
-        someRole shouldBe someRole
-        someOtherRole shouldBe someOtherRole
+      assertNotEquals(someRole.hashCode(), someOtherRole.hashCode())
 
-        When("comparing different roles")
-        Then("they should not equal")
-        someRole.hashCode() should not be someOtherRole.hashCode()
+      val a = +someRole
+      val b = +someOtherRole
+      assertEquals(a, player)
+      assertEquals(player, a)
+      assertEquals(b, player)
+      assertEquals(player, b)
 
-        When("comparing a role core to the player")
-        Then("it should have the same identity")
-        val a = +someRole
-        val b = +someOtherRole
-        a shouldBe player
-        player shouldBe a
-        b shouldBe player
-        player shouldBe b
-
-        When("comparing a role core to the core")
-        Then("it should have the same identity")
-        (+someRole) shouldBe someCore
-        (+someOtherRole) shouldBe someCore
-      }
+      assertEquals(+someRole, someCore)
+      assertEquals(+someOtherRole, someCore)
     }
   }
 }

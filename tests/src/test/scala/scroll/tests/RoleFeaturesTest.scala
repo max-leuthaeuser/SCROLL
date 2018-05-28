@@ -1,244 +1,185 @@
 package scroll.tests
 
+import org.junit.Test
+import org.junit.Assert.assertTrue
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
+
 import mocks.{CoreA, CoreB, SomeCompartment}
-import org.scalatest._
 import scroll.internal.support.DispatchQuery
 import DispatchQuery._
+import scroll.internal.errors.SCROLLErrors
 
-class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
+class RoleFeaturesTest {
 
-  info("Test spec for an excerpt of the role concept.")
-  info("Things like role playing and method invocation are tested.")
-
-  Feature("Role playing") {
-    Scenario("Dropping role and invoking methods") {
-      Given("some player and role in a compartment")
-      val someCore = new CoreA()
-      new SomeCompartment() {
-        val someRole = new RoleA()
-        And("a play relationship")
-        someCore play someRole
-        someCore play new RoleB()
-
-        When("dropping the role")
-        someCore drop someRole
-
-        Then("the call must be invoked on the core object")
-        someCore a()
-        +someCore a()
-
-        And("a role should be dropped correctly")
-        (+someCore).isPlaying[RoleA] shouldBe false
-        And("binding to RoleB is left untouched of course")
-        (+someCore).isPlaying[RoleB] shouldBe true
-
-        And("role method invocation should work.")
-        val resB: String = +someCore b()
-        resB shouldBe "b"
-      }
+  @Test
+  def testDroppingRoleAndInvokingMethods(): Unit = {
+    val someCore = new CoreA()
+    new SomeCompartment() {
+      val someRole = new RoleA()
+      someCore play someRole
+      someCore play new RoleB()
+      someCore drop someRole
+      someCore a()
+      +someCore a()
+      assertFalse((+someCore).isPlaying[RoleA])
+      assertTrue((+someCore).isPlaying[RoleB])
+      val resB: String = +someCore b()
+      assertEquals(resB, "b")
     }
+  }
 
-    Scenario("Transferring a role") {
-      Given("some players and role in a compartment")
-      val someCoreA = new CoreA()
-      val someCoreB = new CoreB()
-
-      new SomeCompartment() {
-        val someRole = new RoleA()
-        And("a play relationship")
-        someCoreA play someRole
-
-        When("transferring the role")
-        someCoreA transfer someRole to someCoreB
-
-        Then("the result of the call to the role of player someCoreB should be correct")
-        val res: Int = +someCoreB a()
-        res shouldBe 0
-        And("the role should be transferred correctly.")
-        (+someCoreA).isPlaying[RoleA] shouldBe false
-        (+someCoreB).isPlaying[RoleA] shouldBe true
-      }
+  @Test
+  def testTransferringARole(): Unit = {
+    val someCoreA = new CoreA()
+    val someCoreB = new CoreB()
+    new SomeCompartment() {
+      val someRole = new RoleA()
+      someCoreA play someRole
+      someCoreA transfer someRole to someCoreB
+      val res: Int = +someCoreB a()
+      assertEquals(res, 0)
+      assertFalse((+someCoreA).isPlaying[RoleA])
+      assertTrue((+someCoreB).isPlaying[RoleA])
     }
+  }
 
-    Scenario("Role playing and testing isPlaying") {
-      Given("some players and roles in a compartment")
-      val someCoreA = new CoreA()
-      val someCoreB = new CoreB()
-
-      new SomeCompartment() {
-        val someRoleA = new RoleA()
-        val someRoleB = new RoleB()
-        And("a play relationship")
-        someCoreA play someRoleA
-
-        When("calling is Playing")
-        Then("it should return false if the role is not played")
-        someCoreA.isPlaying[RoleB] shouldBe false
-        And("it should return false is the player is not in the role playing graph yet")
-        someCoreB.isPlaying[RoleA] shouldBe false
-        someCoreB.isPlaying[RoleB] shouldBe false
-        And("it should return true if the role is actually played")
-        someCoreA.isPlaying[RoleA] shouldBe true
-      }
+  @Test
+  def testRolePlayingAndTestingIsPlaying(): Unit = {
+    val someCoreA = new CoreA()
+    val someCoreB = new CoreB()
+    new SomeCompartment() {
+      val someRoleA = new RoleA()
+      val someRoleB = new RoleB()
+      someCoreA play someRoleA
+      assertFalse(someCoreA.isPlaying[RoleB])
+      assertFalse(someCoreB.isPlaying[RoleA])
+      assertFalse(someCoreB.isPlaying[RoleB])
+      assertTrue(someCoreA.isPlaying[RoleA])
     }
+  }
 
-    Scenario("Handling applyDynamic") {
-      Given("some players and role in a compartment")
-      val someCoreA = new CoreA()
+  @Test
+  def testHandlingApplyDynamic(): Unit = {
+    val someCoreA = new CoreA()
+    new SomeCompartment() {
+      val someRole = new RoleA()
+      someCoreA play someRole
+      val expected = 0
+      val actual: Int = +someCoreA a()
 
-      new SomeCompartment() {
-        val someRole = new RoleA()
-        And("a play relationship")
-        someCoreA play someRole
+      assertEquals(expected, actual)
 
-        When("calling a dynamic method")
-        val expected = 0
-        val actual: Int = +someCoreA a()
-
-        Then("the result of the call to the role of player someCoreA should be correct")
-        expected shouldBe actual
-        And("a call to the role with a method that does not exist should fail")
-        val r = +someCoreA c()
-        r match {
-          case Left(_) => // correct
-          case Right(_) => fail("A call to the role with a method that does not exist should fail")
-        }
-      }
-    }
-
-    Scenario("Handling applyDynamicNamed") {
-      Given("some players and role in a compartment")
-      val someCoreA = new CoreA()
-
-      new SomeCompartment() {
-        val someRole = new RoleA()
-        And("a play relationship")
-        someCoreA play someRole
-
-        When("calling a dynamic method with named params")
-        val expected = someRole.b("some", param = "out")
-        val actual: String = +someCoreA b("some", param = "out")
-
-        Then("the result of the call to the role of player someCoreA should be correct")
-        expected shouldBe actual
-      }
-    }
-
-    Scenario("Handling selectDynamic") {
-      Given("some players and role in a compartment")
-      val someCoreA = new CoreA()
-
-      new SomeCompartment() {
-        val someRole = new RoleA()
-        And("a play relationship")
-        someCoreA play someRole
-
-        When("using selectDynamic to get the value of a role attribute")
-        val expectedA = someRole.valueA
-        val actualA: String = (+someCoreA).valueA
-        val expectedB = someRole.valueB
-        val actualB: Int = (+someCoreA).valueB
-
-        Then("the result of the call to the role of player someCoreA should be correct")
-        expectedA shouldBe actualA
-        expectedB shouldBe actualB
-        And("a call to the role with a value that does not exist should fail")
-        val r = (+someCoreA).valueD
-        r match {
-          case Left(_) => // correct
-          case Right(_) => fail("A call to the role with a method that does not exist should fail")
-        }
-      }
-    }
-
-    Scenario("Handling updateDynamic") {
-      Given("some players and role in a compartment")
-      val someCoreA = new CoreA()
-
-      new SomeCompartment() {
-        val someRole = new RoleA()
-        And("a play relationship")
-        someCoreA play someRole
-
-        When("using updateDynamic to get the value of a role attribute")
-        val expectedA = "newValue"
-        (+someCoreA).valueA = expectedA
-        val actualA: String = (+someCoreA).valueA
-
-        val expectedB = -1
-        (+someCoreA).valueB = expectedB
-        val actualB: Int = (+someCoreA).valueB
-
-        Then("the result of the call to the role of player someCoreA should be correct")
-        expectedA shouldBe actualA
-        expectedB shouldBe actualB
+      val r: Either[SCROLLErrors.SCROLLError, Nothing] = +someCoreA c()
+      r match {
+        case Left(_) => // correct
+        case Right(_) => fail("A call to the role with a method that does not exist should fail")
       }
     }
   }
 
-  Scenario("Playing a role multiple times (same instance)") {
-    Given("some players and role in a compartment")
+  @Test
+  def testHandlingApplyDynamicNamed(): Unit = {
     val someCoreA = new CoreA()
-
     new SomeCompartment() {
       val someRole = new RoleA()
-      And("a play relationship")
       someCoreA play someRole
+      val expected: String = someRole.b("some", param = "out")
+      val actual: String = +someCoreA b("some", param = "out")
+
+      assertEquals(expected, actual)
+    }
+  }
+
+  @Test
+  def testHandlingSelectDynamic(): Unit = {
+    val someCoreA = new CoreA()
+    new SomeCompartment() {
+      val someRole = new RoleA()
       someCoreA play someRole
 
-      When("updating role attributes")
+      val expectedA: String = someRole.valueA
+      val actualA: String = (+someCoreA).valueA
+      val expectedB: Int = someRole.valueB
+      val actualB: Int = (+someCoreA).valueB
+
+      assertEquals(expectedA, actualA)
+      assertEquals(expectedB, actualB)
+
+      val r: Either[SCROLLErrors.SCROLLError, Nothing] = (+someCoreA).valueD
+      r match {
+        case Left(_) => // correct
+        case Right(_) => fail("A call to the role with a method that does not exist should fail")
+      }
+    }
+  }
+
+  @Test
+  def testHandlingUpdateDynamic(): Unit = {
+    val someCoreA = new CoreA()
+    new SomeCompartment() {
+      val someRole = new RoleA()
+      someCoreA play someRole
+      val expectedA = "newValue"
+      (+someCoreA).valueA = expectedA
+      val actualA: String = (+someCoreA).valueA
+      val expectedB: Int = -1
+      (+someCoreA).valueB = expectedB
+      val actualB: Int = (+someCoreA).valueB
+
+      assertEquals(expectedA, actualA)
+      assertEquals(expectedB, actualB)
+    }
+  }
+
+  @Test
+  def testPlayingARoleMultipleTimesSameInstance(): Unit = {
+    val someCoreA = new CoreA()
+    new SomeCompartment() {
+      val someRole = new RoleA()
+      someCoreA play someRole
+      someCoreA play someRole
       val expected = "updated"
       (+someCoreA).update(expected)
-
       val actual1: String = someRole.valueC
       val actual2: String = (+someCoreA).valueC
 
-      Then("the role and player instance should be updated correctly.")
-      expected shouldBe actual1
-      expected shouldBe actual2
+      assertEquals(expected, actual1)
+      assertEquals(expected, actual2)
     }
   }
 
-  Scenario("Playing a role multiple times (different instances) from one player") {
-    Given("some players and 2 role instance of the same type in a compartment")
+  @Test
+  def testPlayingARoleMultipleTimesDifferentInstance(): Unit = {
     val someCoreA = new CoreA()
-
     new SomeCompartment() {
       val someRole1 = new RoleA()
       val someRole2 = new RoleA()
-      And("a play relationship")
       someCoreA play someRole1
       someCoreA play someRole2
-
-      When("updating role attributes")
       val expected = "updated"
       (+someCoreA).update(expected)
-
       val actual1a: String = someRole1.valueC
       val actual1b: String = someRole2.valueC
       val actual2: String = (+someCoreA).valueC
 
-      Then("one role and the player instance should be updated correctly.")
-      (expected == actual1a || expected == actual1b) shouldBe true
-      expected shouldBe actual2
+      assertTrue(expected == actual1a || expected == actual1b)
+      assertEquals(expected, actual2)
     }
   }
 
-  Scenario("Playing a role multiple times (different instances, but using dispatch to select one)") {
-    Given("some players and 2 role instance of the same type in a compartment")
+  @Test
+  def testPlayingARoleMultipleTimesDifferentInstanceWithDispatch(): Unit = {
     val someCoreA = new CoreA()
-
     new SomeCompartment() {
       val someRole1 = new RoleA()
       val someRole2 = new RoleA()
       someRole1.valueB = 1
       someRole2.valueB = 2
-      And("a play relationship")
       someCoreA play someRole1
       someCoreA play someRole2
-
-      When("updating role attributes")
-
       implicit val dd: DispatchQuery = From(_.isInstanceOf[CoreA]).
         To(_.isInstanceOf[RoleA]).
         Through(anything).
@@ -246,73 +187,44 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
           case r: RoleA => 1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
           case _ => false
         })
-
       (+someCoreA).update("updated")
-
       val actual1: String = someRole1.valueC
       val actual2: String = someRole2.valueC
       val actual3: String = (+someCoreA).valueC
 
-      Then("one role and the player instance should be updated correctly.")
-      "valueC" shouldBe actual1
-      "updated" shouldBe actual2
-      "updated" shouldBe actual3
+      assertEquals("valueC", actual1)
+      assertEquals("updated", actual2)
+      assertEquals("updated", actual3)
     }
   }
 
-  Scenario("Calling multi-argument method in roles") {
-    Given("a player and a role instance in a compartment")
+  @Test
+  def testCallingMultiArgumentMethodInRoles(): Unit = {
     val someCoreA = new CoreA()
-
     new SomeCompartment() {
       val someRole = new RoleD()
-
-      And("a play relationship")
       someCoreA play someRole
-
-      When("updating role attributes")
-
       val expected1 = "updated"
       val expected2 = 1
-
       (+someCoreA).update(expected1, expected2)
-
-      val actual1 = someRole.valueA
-      val actual2 = someRole.valueB
+      val actual1: String = someRole.valueA
+      val actual2: Int = someRole.valueB
       val actual3: String = (+someCoreA).valueA
       val actual4: Int = (+someCoreA).valueB
 
-      Then("the role and the player instance should be updated correctly.")
-      expected1 shouldBe actual1
-      expected2 shouldBe actual2
-      expected1 shouldBe actual3
-      expected2 shouldBe actual4
+      assertEquals(expected1, actual1)
+      assertEquals(expected2, actual2)
+      assertEquals(expected1, actual3)
+      assertEquals(expected2, actual4)
     }
   }
 
-  /**
-    * test case for primitive types:
-    * Int
-    * Double
-    * Float
-    * Long
-    * Short
-    * Byte
-    * Char
-    * boolean
-    */
-  Scenario("Calling method on a role with different primitive types") {
-    Given("a player and a role instance in a compartment")
+  @Test
+  def testCallingMethodOnARoleWithDifferentPrimitiveTypes(): Unit = {
     val someCoreA = new CoreA()
-
     new SomeCompartment() {
       val someRole = new RoleE()
-
-      And("a play relationship")
       someCoreA play someRole
-
-      When("updating role attributes")
-
       val expectedInt: Int = 0
       val expectedDouble: Double = 0
       val expectedFloat: Float = 0
@@ -331,24 +243,23 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       (+someCoreA).updateChar(expectedChar)
       (+someCoreA).updateBoolean(expectedBoolean)
 
-      val actualIntR = someRole.valueInt
-      val actualDoubleR = someRole.valueDouble
-      val actualFloatR = someRole.valueFloat
-      val actualLongR = someRole.valueLong
-      val actualShortR = someRole.valueShort
-      val actualByteR = someRole.valueByte
-      val actualCharR = someRole.valueChar
-      val actualBooleanR = someRole.valueBoolean
+      val actualIntR: Int = someRole.valueInt
+      val actualDoubleR: Double = someRole.valueDouble
+      val actualFloatR: Float = someRole.valueFloat
+      val actualLongR: Long = someRole.valueLong
+      val actualShortR: Short = someRole.valueShort
+      val actualByteR: Byte = someRole.valueByte
+      val actualCharR: Char = someRole.valueChar
+      val actualBooleanR: Boolean = someRole.valueBoolean
 
-      Then("the role instance should be updated correctly.")
-      actualIntR shouldBe expectedInt
-      actualDoubleR shouldBe expectedDouble
-      actualFloatR shouldBe expectedFloat
-      actualLongR shouldBe expectedLong
-      actualShortR shouldBe expectedShort
-      actualByteR shouldBe expectedByte
-      actualCharR shouldBe expectedChar
-      actualBooleanR shouldBe expectedBoolean
+      assertEquals(actualIntR, expectedInt)
+      assertEquals(actualDoubleR, expectedDouble, 0)
+      assertEquals(actualFloatR, expectedFloat)
+      assertEquals(actualLongR, expectedLong)
+      assertEquals(actualShortR, expectedShort)
+      assertEquals(actualByteR, expectedByte)
+      assertEquals(actualCharR, expectedChar)
+      assertEquals(actualBooleanR, expectedBoolean)
 
       val actualIntP: Int = (+someCoreA).valueInt
       val actualDoubleP: Double = (+someCoreA).valueDouble
@@ -359,109 +270,93 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       val actualCharP: Char = (+someCoreA).valueChar
       val actualBooleanP: Boolean = (+someCoreA).valueBoolean
 
-      And("the player instance should be updated correctly.")
-      actualIntP shouldBe expectedInt
-      actualDoubleP shouldBe expectedDouble
-      actualFloatP shouldBe expectedFloat
-      actualLongP shouldBe expectedLong
-      actualShortP shouldBe expectedShort
-      actualByteP shouldBe expectedByte
-      actualCharP shouldBe expectedChar
-      actualBooleanP shouldBe expectedBoolean
+      assertEquals(actualIntP, expectedInt)
+      assertEquals(actualDoubleP, expectedDouble, 0)
+      assertEquals(actualFloatP, expectedFloat)
+      assertEquals(actualLongP, expectedLong)
+      assertEquals(actualShortP, expectedShort)
+      assertEquals(actualByteP, expectedByte)
+      assertEquals(actualCharP, expectedChar)
+      assertEquals(actualBooleanP, expectedBoolean)
     }
   }
 
-  Scenario("Playing a role multiple times (same instance) from different players") {
-    Given("some players and role in a compartment")
+  @Test
+  def testPlayingARoleMultipleTimes(): Unit = {
     val someCoreA = new CoreA()
     val someCoreB = new CoreB()
-
     new SomeCompartment() {
       implicit var dd: DispatchQuery = DispatchQuery.empty
-
       val someRole = new RoleA()
-      And("a play relationship")
       someCoreA play someRole
       someCoreB play someRole
-
-      When("updating role attributes")
       val expected = "updated"
       (+someCoreA).update(expected)
       (+someCoreB).update(expected)
-
       val actual1: String = someRole.valueC
       val actual2: String = (+someCoreA).valueC
       val actual3: String = (+someCoreB).valueC
 
-      Then("the role and player instance should be updated correctly.")
-      expected shouldBe actual1
-      expected shouldBe actual2
-      expected shouldBe actual3
+      assertEquals(expected, actual1)
+      assertEquals(expected, actual2)
+      assertEquals(expected, actual3)
 
-      When("getting the player of RoleA without an explicit dispatch description")
-      val player = someRole.player match {
-        case Left(_) => fail("Player should be defined here!")
+      val player: AnyRef = someRole.player match {
+        case Left(_) => fail("Player should be defined here!"); null
         case Right(p) => p
       }
-      Then("it should be one of the player this role actually plays.")
-      (player == someCoreA || player == someCoreB) shouldBe true
 
-      When("getting the player of RoleA with an explicit dispatch description")
+      assertTrue(player == someCoreA || player == someCoreB)
+
       dd = From(anything).
         To(c => c.isInstanceOf[CoreA] || c.isInstanceOf[CoreB]).
         Through(anything).
         Bypassing(_.isInstanceOf[CoreB])
-      val player2 = someRole.player match {
-        case Left(_) => fail("Player should be defined here!")
+      val player2: AnyRef = someRole.player match {
+        case Left(_) => fail("Player should be defined here!"); null
         case Right(p) => p
       }
-      Then("it should be the correct player.")
-      player2 shouldBe someCoreA
+
+      assertEquals(player2, someCoreA)
     }
   }
 
-  Scenario("Cyclic role-playing relationship") {
-    Given("a player and some roles in a compartment")
+  @Test
+  def testCyclicRolePlaying(): Unit = {
     val someCoreA = new CoreA()
-
     new SomeCompartment() {
       val someRoleA = new RoleA()
       val someRoleB = new RoleB()
       val someRoleC = new RoleC()
-      And("some play relationships")
-      When("creating a cycle")
       someCoreA play someRoleA
       someRoleA play someRoleB
       someRoleB play someRoleC
-      Then("a runtime exception should be thrown")
-      a[RuntimeException] should be thrownBy {
+
+      try {
         someRoleC play someRoleA
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
       }
     }
   }
 
-  Scenario("Compartment plays a role that is part of themselves") {
-    Given("a compartment and a role in it")
-
+  @Test
+  def testCompartmentPlaysARoleThatIsPartOfItself(): Unit = {
     class ACompartment extends SomeCompartment {
 
       class ARole
 
     }
-
-    And("an new instance of that compartment")
     new ACompartment {
-      When("defining a play relationship")
       this play new ARole
-      Then("That compartment should be able to play that role")
-      this.isPlaying[ARole] shouldBe true
+      assertTrue(this.isPlaying[ARole])
     }
   }
 
-  Scenario("Deep roles") {
-    Given("a player and some roles in a compartment")
+  @Test
+  def testDeepRoles(): Unit = {
     val someCoreA = new CoreA()
-
     new SomeCompartment() {
       val someRoleA = new RoleA()
       val someRoleB = new RoleB()
@@ -469,14 +364,13 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       val someRoleD = new RoleD()
       val someRoleE = new RoleE()
       val expectedVal = 10
-      And("some play relationships")
-      When("using deep roles")
+
       someCoreA play someRoleA
       someRoleA play someRoleB
       someRoleB play someRoleC
       someRoleC play someRoleD
       someRoleD play someRoleE
-      And("setting a value of some attached role")
+
       (+someCoreA).valueInt = expectedVal
       val actualVal1: Int = (+someCoreA).valueInt
       val actualVal2: Int = (+someRoleB).valueInt
@@ -484,33 +378,31 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       val actualVal4: Int = (+someRoleD).valueInt
       val actualVal5: Int = (+someRoleE).valueInt
       val actualVal6: Int = someRoleE.valueInt
-      Then("the value should be set correctly")
-      actualVal1 shouldBe expectedVal
-      actualVal2 shouldBe expectedVal
-      actualVal3 shouldBe expectedVal
-      actualVal4 shouldBe expectedVal
-      actualVal5 shouldBe expectedVal
-      actualVal6 shouldBe expectedVal
+
+      assertEquals(actualVal1, expectedVal)
+      assertEquals(actualVal2, expectedVal)
+      assertEquals(actualVal3, expectedVal)
+      assertEquals(actualVal4, expectedVal)
+      assertEquals(actualVal5, expectedVal)
+      assertEquals(actualVal6, expectedVal)
     }
   }
 
-  Scenario("Handling null arguments for applyDynamic") {
-    Given("a player and a role in a compartment")
+  @Test
+  def testHandlingNullArguments(): Unit = {
     val someCoreA = new CoreA()
-
     new SomeCompartment() {
       val someRoleA = new RoleA()
       val expected: String = "valueC"
-      And("a play relationship")
       val p = someCoreA play someRoleA
       var actual: String = p.valueC
-      actual shouldBe expected
-      When("passing null")
-      Then("no exception should be thrown")
+
+      assertEquals(actual, expected)
+
       p.update(null)
-      And("the field should be set correctly")
       actual = p.valueC
-      actual shouldBe null
+
+      assertNull(actual)
     }
   }
 }

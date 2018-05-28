@@ -1,10 +1,9 @@
-val scalatestVersion = "3.2.0-SNAP10"
 val chocoVersion = "4.0.6"
 val slf4jVersion = "1.7.25"
 val guavaVersion = "25.0-jre"
 
 lazy val commonSettings = Seq(
-  scalaVersion := dottyLatestNightlyBuild.get, // "0.8.0-RC1"
+  scalaVersion := dottyLatestNightlyBuild.get,
   version := "1.5",
   mainClass := None,
   libraryDependencies ++= Seq(
@@ -35,6 +34,5 @@ lazy val examples = (project in file("examples")).
 lazy val tests = (project in file("tests")).
   settings(commonSettings: _*).
   settings(
-    testOptions in Test := Seq(Tests.Filter(s => s.endsWith("Suite"))),
-    libraryDependencies += ("org.scalatest" %% "scalatest" % scalatestVersion % "test").withDottyCompat(scalaVersion.value)
+    libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
   ).dependsOn(core, examples)

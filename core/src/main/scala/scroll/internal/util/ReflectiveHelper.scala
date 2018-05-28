@@ -23,10 +23,10 @@ object ReflectiveHelper extends Memoiser {
 
   private[this] class SimpleClassNameCache extends Memoised[Class[_], String]
 
-  private[this] lazy val methodCache = new MethodCache()
-  private[this] lazy val fieldCache = new FieldCache()
-  private[this] lazy val simpleClassNameCache = new SimpleClassNameCache()
-  private[this] lazy val simpleTagNameCache = new SimpleTagNameCache()
+  private[this] val methodCache = new MethodCache()
+  private[this] val fieldCache = new FieldCache()
+  private[this] val simpleClassNameCache = new SimpleClassNameCache()
+  private[this] val simpleTagNameCache = new SimpleTagNameCache()
 
   def addToMethodCache(c: Class[_]): Unit = methodCache.put(c, allMethods(c))
 

@@ -1,84 +1,66 @@
 package scroll.tests
 
+import org.junit.Test
 import mocks.{CoreA, SomeCompartment}
-import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
+import org.junit.Assert.fail
 
-class RoleRestrictionsTest extends FeatureSpec with GivenWhenThen with Matchers {
-  info("Test spec for role restrictions.")
+class RoleRestrictionsTest {
 
-  Feature("Specifying role restrictions") {
-    Scenario("Validating role restrictions based on role types") {
-      Given("A natural, some role instances")
-      val player = new CoreA()
-      When("A role restriction is specified")
-      new SomeCompartment() {
-        val roleA = new RoleA()
-        val roleD = new RoleD()
-        And("some role type specifications are given")
-        AddRoleRestriction[CoreA, RoleA]()
-
-        Then("All role restriction should hold")
+  @Test
+  def testRoleRestrictionValidation(): Unit = {
+    val player = new CoreA()
+    new SomeCompartment() {
+      val roleA = new RoleA()
+      val roleD = new RoleD()
+      AddRoleRestriction[CoreA, RoleA]()
+      player play roleA
+      player drop roleA
+      ReplaceRoleRestriction[CoreA, RoleD]()
+      try {
         player play roleA
-
-        player drop roleA
-        When("A role restriction is specified that could not be hold")
-        ReplaceRoleRestriction[CoreA, RoleD]()
-        Then("A runtime exception is expected")
-        a[RuntimeException] should be thrownBy {
-          player play roleA
-        }
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
       }
     }
+  }
 
-    Scenario("Validating role restrictions based on multiple role types") {
-      Given("A natural, some role instances")
-      val player = new CoreA()
-      When("Multiple role restrictions are specified")
-      new SomeCompartment() {
-        val roleA = new RoleA()
-        val roleD = new RoleD()
-        AddRoleRestriction[CoreA, RoleA]()
-        AddRoleRestriction[CoreA, RoleD]()
-
-        Then("All role restriction should hold")
-        player play roleA
-        player play roleD
-
-        When("A role restriction is specified that could not be hold")
-        Then("A runtime exception is expected")
-        a[RuntimeException] should be thrownBy {
-          player play new RoleB()
-        }
+  @Test
+  def testRoleRestrictionValidationOnMultipleTypes(): Unit = {
+    val player = new CoreA()
+    new SomeCompartment() {
+      val roleA = new RoleA()
+      val roleD = new RoleD()
+      AddRoleRestriction[CoreA, RoleA]()
+      AddRoleRestriction[CoreA, RoleD]()
+      player play roleA
+      player play roleD
+      try {
+        player play new RoleB()
+        fail("Should throw an RuntimeException")
+      } catch {
+        case _: RuntimeException => // all good
       }
     }
+  }
 
-    Scenario("Validating role restrictions based on role types when removing restrictions") {
-      Given("A natural, some role instances")
-      val player = new CoreA()
-      When("A role restriction is specified")
-      new SomeCompartment() {
-        val roleA = new RoleA()
-        val roleD = new RoleD()
-        And("some role type specifications are given")
-        AddRoleRestriction[CoreA, RoleA]()
-
-        Then("All role restriction should hold")
-        player play roleA
-
-        When("A role restriction is removed")
-        RemoveRoleRestriction[CoreA]()
-        Then("Role playing should be fine")
-        player play roleD
-        player drop roleA drop roleD
-
-        And("Also in the case of multiple restriction that are removed later on")
-        AddRoleRestriction[CoreA, RoleA]()
-        AddRoleRestriction[CoreA, RoleD]()
-        player play roleA play roleD
-        player drop roleA drop roleD
-        RemoveRoleRestriction[CoreA]()
-        player play roleA play roleD
-      }
+  @Test
+  def testRoleRestrictionValidationAfterRemoval(): Unit = {
+    val player = new CoreA()
+    new SomeCompartment() {
+      val roleA = new RoleA()
+      val roleD = new RoleD()
+      AddRoleRestriction[CoreA, RoleA]()
+      player play roleA
+      RemoveRoleRestriction[CoreA]()
+      player play roleD
+      player drop roleA drop roleD
+      AddRoleRestriction[CoreA, RoleA]()
+      AddRoleRestriction[CoreA, RoleD]()
+      player play roleA play roleD
+      player drop roleA drop roleD
+      RemoveRoleRestriction[CoreA]()
+      player play roleA play roleD
     }
   }
 }
