@@ -11,3 +11,5 @@ source_gen*
 .project
 .settings/
 /bin/
+.dotty-ide-artifact
+.dotty-ide.json
