@@ -4,9 +4,6 @@ import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.examples._
 
 class ExamplesTest extends FeatureSpec with GivenWhenThen with Matchers {
-  // do not want info or debug logging at all here
-  System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "error")
-
   info("Test spec for scroll.examples.")
 
   feature("Running scroll.examples") {
