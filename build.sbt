@@ -1,9 +1,9 @@
 val chocoVersion = "4.0.6"
 val slf4jVersion = "1.7.25"
-val guavaVersion = "25.0-jre"
+val guavaVersion = "25.1-jre"
 
 lazy val commonSettings = Seq(
-  scalaVersion := dottyLatestNightlyBuild.get,
+  scalaVersion := "0.8.0-RC1", //dottyLatestNightlyBuild.get,
   version := "1.5",
   mainClass := None,
   libraryDependencies ++= Seq(
