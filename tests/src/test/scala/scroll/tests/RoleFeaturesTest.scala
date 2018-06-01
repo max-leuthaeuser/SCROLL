@@ -27,7 +27,7 @@ class RoleFeaturesTest {
       assertFalse((+someCore).isPlaying[RoleA])
       assertTrue((+someCore).isPlaying[RoleB])
       val resB: String = +someCore b()
-      assertEquals(resB, "b")
+      assertEquals("b", resB)
     }
   }
 
@@ -40,7 +40,7 @@ class RoleFeaturesTest {
       someCoreA play someRole
       someCoreA transfer someRole to someCoreB
       val res: Int = +someCoreB a()
-      assertEquals(res, 0)
+      assertEquals(0, res)
       assertFalse((+someCoreA).isPlaying[RoleA])
       assertTrue((+someCoreB).isPlaying[RoleA])
     }
@@ -252,14 +252,14 @@ class RoleFeaturesTest {
       val actualCharR: Char = someRole.valueChar
       val actualBooleanR: Boolean = someRole.valueBoolean
 
-      assertEquals(actualIntR, expectedInt)
-      assertEquals(actualDoubleR, expectedDouble, 0)
-      assertEquals(actualFloatR, expectedFloat)
-      assertEquals(actualLongR, expectedLong)
-      assertEquals(actualShortR, expectedShort)
-      assertEquals(actualByteR, expectedByte)
-      assertEquals(actualCharR, expectedChar)
-      assertEquals(actualBooleanR, expectedBoolean)
+      assertEquals(expectedInt, actualIntR)
+      assertEquals(expectedDouble, actualDoubleR, 0)
+      assertEquals(expectedFloat, actualFloatR)
+      assertEquals(expectedLong, actualLongR)
+      assertEquals(expectedShort, actualShortR)
+      assertEquals(expectedByte, actualByteR)
+      assertEquals(expectedChar, actualCharR)
+      assertEquals(expectedBoolean, actualBooleanR)
 
       val actualIntP: Int = (+someCoreA).valueInt
       val actualDoubleP: Double = (+someCoreA).valueDouble
@@ -270,14 +270,14 @@ class RoleFeaturesTest {
       val actualCharP: Char = (+someCoreA).valueChar
       val actualBooleanP: Boolean = (+someCoreA).valueBoolean
 
-      assertEquals(actualIntP, expectedInt)
-      assertEquals(actualDoubleP, expectedDouble, 0)
-      assertEquals(actualFloatP, expectedFloat)
-      assertEquals(actualLongP, expectedLong)
-      assertEquals(actualShortP, expectedShort)
-      assertEquals(actualByteP, expectedByte)
-      assertEquals(actualCharP, expectedChar)
-      assertEquals(actualBooleanP, expectedBoolean)
+      assertEquals(expectedInt, actualIntP)
+      assertEquals(expectedDouble, actualDoubleP, 0)
+      assertEquals(expectedFloat, actualFloatP)
+      assertEquals(expectedLong, actualLongP)
+      assertEquals(expectedShort, actualShortP)
+      assertEquals(expectedByte, actualByteP)
+      assertEquals(expectedChar, actualCharP)
+      assertEquals(expectedBoolean, actualBooleanP)
     }
   }
 
@@ -379,12 +379,12 @@ class RoleFeaturesTest {
       val actualVal5: Int = (+someRoleE).valueInt
       val actualVal6: Int = someRoleE.valueInt
 
-      assertEquals(actualVal1, expectedVal)
-      assertEquals(actualVal2, expectedVal)
-      assertEquals(actualVal3, expectedVal)
-      assertEquals(actualVal4, expectedVal)
-      assertEquals(actualVal5, expectedVal)
-      assertEquals(actualVal6, expectedVal)
+      assertEquals(expectedVal, actualVal1)
+      assertEquals(expectedVal, actualVal2)
+      assertEquals(expectedVal, actualVal3)
+      assertEquals(expectedVal, actualVal4)
+      assertEquals(expectedVal, actualVal5)
+      assertEquals(expectedVal, actualVal6)
     }
   }
 
@@ -397,7 +397,7 @@ class RoleFeaturesTest {
       val p = someCoreA play someRoleA
       var actual: String = p.valueC
 
-      assertEquals(actual, expected)
+      assertEquals(expected, actual)
 
       p.update(null)
       actual = p.valueC

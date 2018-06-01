@@ -59,7 +59,7 @@ class RecursiveBaseCallsWithCaseClassesTest {
         s"RoleTypeA($r)::someMethod()",
         s"CoreType($c)::someMethod()"
       )
-      assertArrayEquals(actual.asJava.toArray, expected.asJava.toArray)
+      assertArrayEquals(expected.asJava.toArray, actual.asJava.toArray)
     }
   }
 
@@ -85,7 +85,7 @@ class RecursiveBaseCallsWithCaseClassesTest {
         s"RoleTypeA($rA1)::someMethod()",
         s"CoreType($c1)::someMethod()"
       )
-      assertArrayEquals(actual.asJava.toArray, expected.asJava.toArray)
+      assertArrayEquals(expected.asJava.toArray, actual.asJava.toArray)
     }
   }
 }

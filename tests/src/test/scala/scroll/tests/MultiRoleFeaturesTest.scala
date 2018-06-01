@@ -36,7 +36,7 @@ class MultiRoleFeaturesTest {
 
       val expected = Seq(Right("RoleC"), Right("RoleB"), Right("RoleA"))
       +someCore id() match {
-        case Right(actual) => assertArrayEquals(actual.asJava.toArray, expected.asJava.toArray)
+        case Right(actual) => assertArrayEquals(expected.asJava.toArray, actual.asJava.toArray)
         case Left(error) => fail(error.toString)
       }
 
@@ -45,18 +45,18 @@ class MultiRoleFeaturesTest {
         case (_: RoleA, _: RoleB) => swap
         case (_: RoleB, _: RoleC) => swap
       }
+
       +someCore id() match {
-        case Right(actual) => assertArrayEquals(actual.asJava.toArray, expected.reverse.asJava.toArray)
+        case Right(actual) => assertArrayEquals(expected.reverse.asJava.toArray, actual.asJava.toArray)
         case Left(error) => fail(error.toString)
       }
-
 
       val expected2 = Seq(Right("RoleC"), Right("RoleB"))
       dd = Bypassing(_.isInstanceOf[RoleA]).sortedWith {
         case (_: RoleC, _: RoleB) => swap
       }
       +someCore id() match {
-        case Right(actual) => assertArrayEquals(actual.asJava.toArray, expected2.asJava.toArray)
+        case Right(actual) => assertArrayEquals(expected2.asJava.toArray, actual.asJava.toArray)
         case Left(error) => fail(error.toString)
       }
 
@@ -64,7 +64,7 @@ class MultiRoleFeaturesTest {
         case (_: RoleB, _: RoleC) => swap
       }
       +someCore id() match {
-        case Right(actual) => assertArrayEquals(actual.asJava.toArray, expected2.reverse.asJava.toArray)
+        case Right(actual) => assertArrayEquals(expected2.reverse.asJava.toArray, actual.asJava.toArray)
         case Left(error) => fail(error.toString)
       }
     }

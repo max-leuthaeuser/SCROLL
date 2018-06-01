@@ -25,7 +25,7 @@ class DynamicExtensionsTest {
       assertTrue((+someCore).hasExtension[RoleB])
 
       val resB: String = +someCore b()
-      assertEquals(resB, "b")
+      assertEquals("b", resB)
     }
   }
 

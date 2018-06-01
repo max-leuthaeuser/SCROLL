@@ -68,12 +68,12 @@ class FacetsTests {
       someCoreA5 <+> Blue
       someCoreA6 <+> Blue
 
-      assertArrayEquals(all { c: CoreA => c.hasFacets(Red) }.asJava.toArray, Seq(someCoreA1, someCoreA2, someCoreA3).asJava.toArray)
+      assertArrayEquals(Seq(someCoreA1, someCoreA2, someCoreA3).asJava.toArray, all { c: CoreA => c.hasFacets(Red) }.asJava.toArray)
 
-      assertArrayEquals(all { c: CoreA => c.hasSomeFacet(Red) }.asJava.toArray, Seq(someCoreA1, someCoreA2, someCoreA3).asJava.toArray)
-      assertArrayEquals(all { c: CoreA => c.hasFacets(Blue) }.asJava.toArray, Seq(someCoreA4, someCoreA5, someCoreA6).asJava.toArray)
-      assertArrayEquals(all { c: CoreA => c.hasSomeFacet(Blue) }.asJava.toArray, Seq(someCoreA4, someCoreA5, someCoreA6).asJava.toArray)
-      assertArrayEquals(all { c: CoreA => c.hasSomeFacet(Red, Blue) }.asJava.toArray, Seq(someCoreA1, someCoreA2, someCoreA3, someCoreA4, someCoreA5, someCoreA6).asJava.toArray)
+      assertArrayEquals(Seq(someCoreA1, someCoreA2, someCoreA3).asJava.toArray, all { c: CoreA => c.hasSomeFacet(Red) }.asJava.toArray)
+      assertArrayEquals(Seq(someCoreA4, someCoreA5, someCoreA6).asJava.toArray, all { c: CoreA => c.hasFacets(Blue) }.asJava.toArray)
+      assertArrayEquals(Seq(someCoreA4, someCoreA5, someCoreA6).asJava.toArray, all { c: CoreA => c.hasSomeFacet(Blue) }.asJava.toArray)
+      assertArrayEquals(Seq(someCoreA1, someCoreA2, someCoreA3, someCoreA4, someCoreA5, someCoreA6).asJava.toArray, all { c: CoreA => c.hasSomeFacet(Red, Blue) }.asJava.toArray)
       assertTrue(all { c: CoreA => c.hasSomeFacet(Green) }.isEmpty)
       assertTrue(all { c: CoreA => c.hasFacets(Green) }.isEmpty)
       assertTrue(all { c: CoreA => c.hasFacets(Red, Blue) }.isEmpty)

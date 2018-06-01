@@ -1,10 +1,12 @@
+val dottyNightly = dottyLatestNightlyBuild.get
+val dottyRelease = "0.8.0-RC1"
 val chocoVersion = "4.0.6"
 val slf4jVersion = "1.7.25"
 val guavaVersion = "25.1-jre"
 
 lazy val commonSettings = Seq(
-  scalaVersion := "0.8.0-RC1", //dottyLatestNightlyBuild.get,
-  version := "1.5",
+  crossScalaVersions := Seq(dottyRelease, dottyNightly),
+  version := "1.6",
   mainClass := None,
   libraryDependencies ++= Seq(
     "com.google.guava" % "guava" % guavaVersion,
