@@ -133,4 +133,5 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     }
     returnSeq
   }
+
 }

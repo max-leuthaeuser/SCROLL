@@ -21,5 +21,4 @@ object Log {
   def info(message: String): Unit = {
     logger.info(message)
   }
-
 }

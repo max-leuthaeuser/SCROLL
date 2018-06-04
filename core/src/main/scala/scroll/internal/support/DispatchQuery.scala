@@ -167,4 +167,5 @@ class DispatchQuery(
     }
     _sortedWith.fold(r) { s => r.sortWith(s) }
   }
+
 }

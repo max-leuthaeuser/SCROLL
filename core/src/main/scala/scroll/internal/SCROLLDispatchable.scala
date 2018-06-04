@@ -25,5 +25,4 @@ trait SCROLLDispatchable extends Dispatchable {
       case Failure(_) => Left(IllegalRoleInvocationDispatch(on.toString, m.getName, args))
     }
   }
-
 }

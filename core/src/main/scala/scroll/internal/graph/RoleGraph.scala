@@ -85,4 +85,5 @@ trait RoleGraph {
     * @return a list of all predecessors of the given player
     */
   def predecessors(player: AnyRef): Seq[AnyRef]
+
 }
