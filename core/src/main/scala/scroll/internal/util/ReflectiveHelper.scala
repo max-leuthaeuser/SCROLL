@@ -91,7 +91,7 @@ object ReflectiveHelper extends Memoiser {
     * @return true iff both names are the same, false otherwise
     */
   def isInstanceOf(mani: String, that: String): Boolean =
-    ReflectiveHelper.simpleName(that) == ReflectiveHelper.simpleName(mani)
+    simpleName(that) == simpleName(mani)
 
   /**
     * Compares two interfaces given as Array of its Methods.

@@ -67,7 +67,7 @@ trait RoleRestrictions {
     if (restrictions.nonEmpty) {
       val roleInterface = classTag[R].runtimeClass.getDeclaredMethods
       restrictions.find { case (pt, rts) =>
-        ReflectiveHelper.isInstanceOf(pt, player.getClass.toString) && !rts.exists(r => ReflectiveHelper.isSameInterface(roleInterface, r.getDeclaredMethods))
+        ReflectiveHelper.isInstanceOf(pt, player) && !rts.exists(r => ReflectiveHelper.isSameInterface(roleInterface, r.getDeclaredMethods))
       } match {
         case Some((pt, rt)) => throw new RuntimeException(s"Role '$role' can not be played by '$player' due to the active role restrictions '$pt -> $rt'!")
         case None => // fine, thanks
