@@ -1,8 +1,8 @@
 val dottyNightly = dottyLatestNightlyBuild.get
 val dottyRelease = "0.8.0-RC1"
-val chocoVersion = "4.0.6"
+val chocoVersion = "4.0.8"
 val slf4jVersion = "1.7.25"
-val guavaVersion = "25.1-jre"
+val guavaVersion = "26.0-jre"
 
 lazy val commonSettings = Seq(
   crossScalaVersions := Seq(dottyRelease, dottyNightly),
