@@ -229,7 +229,7 @@ trait Compartment
           if (r.lengthCompare(1) == 0) {
             coreFor(r.head)
           } else {
-            r
+            Seq(r.last)
           }
         }
       case _ => Seq(role)
