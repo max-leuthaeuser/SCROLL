@@ -10,7 +10,7 @@ import scala.reflect.classTag
   * Allows to add and check role restrictions (in the sense of structural typing) to a compartment instance.
   */
 trait RoleRestrictions {
-  private[this] lazy val restrictions = mutable.HashMap.empty[String, mutable.ArrayBuffer[Class[_]]]
+  private[this] val restrictions = mutable.HashMap.empty[String, mutable.ArrayBuffer[Class[_]]]
 
   private[this] def addToMap(m: mutable.Map[String, mutable.ArrayBuffer[Class[_]]], elem: (String, Class[_])): Unit = {
     val key = elem._1
@@ -67,11 +67,12 @@ trait RoleRestrictions {
     if (restrictions.nonEmpty) {
       val roleInterface = classTag[R].runtimeClass.getDeclaredMethods
       restrictions.find { case (pt, rts) =>
-        ReflectiveHelper.isInstanceOf(pt, player.getClass.toString) && !rts.exists(r => ReflectiveHelper.isSameInterface(roleInterface, r.getDeclaredMethods))
+        ReflectiveHelper.isInstanceOf(pt, player) && !rts.exists(r => ReflectiveHelper.isSameInterface(roleInterface, r.getDeclaredMethods))
       } match {
         case Some((pt, rt)) => throw new RuntimeException(s"Role '$role' can not be played by '$player' due to the active role restrictions '$pt -> $rt'!")
         case None => // fine, thanks
       }
     }
   }
+
 }

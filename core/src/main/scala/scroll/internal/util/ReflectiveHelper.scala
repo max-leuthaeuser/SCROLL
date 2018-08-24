@@ -23,10 +23,10 @@ object ReflectiveHelper extends Memoiser {
 
   private[this] class SimpleClassNameCache extends Memoised[Class[_], String]
 
-  private[this] lazy val methodCache = new MethodCache()
-  private[this] lazy val fieldCache = new FieldCache()
-  private[this] lazy val simpleClassNameCache = new SimpleClassNameCache()
-  private[this] lazy val simpleTagNameCache = new SimpleTagNameCache()
+  private[this] val methodCache = new MethodCache()
+  private[this] val fieldCache = new FieldCache()
+  private[this] val simpleClassNameCache = new SimpleClassNameCache()
+  private[this] val simpleTagNameCache = new SimpleTagNameCache()
 
   def addToMethodCache(c: Class[_]): Unit = methodCache.put(c, allMethods(c))
 
@@ -91,7 +91,7 @@ object ReflectiveHelper extends Memoiser {
     * @return true iff both names are the same, false otherwise
     */
   def isInstanceOf(mani: String, that: String): Boolean =
-    ReflectiveHelper.simpleName(that) == ReflectiveHelper.simpleName(mani)
+    simpleName(that) == simpleName(mani)
 
   /**
     * Compares two interfaces given as Array of its Methods.
@@ -164,7 +164,7 @@ object ReflectiveHelper extends Memoiser {
       case java.lang.Byte.TYPE => arg.isInstanceOf[Byte]
       case _ => arg == null || paramType.isAssignableFrom(arg.getClass)
     }
-    case faultyArgs => throw new IllegalArgumentException(s"Can not handle these arguments: '$faultyArgs'")
+    case null => throw new IllegalArgumentException(s"Can not handle these arguments: '$args'")
   }
 
   private[this] def matchMethod[A](m: Method, name: String, args: Seq[A]): Boolean =

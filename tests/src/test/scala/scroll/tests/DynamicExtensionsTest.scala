@@ -1,39 +1,32 @@
 package scroll.tests
 
 import scroll.tests.mocks.{CoreA, SomeCompartment}
-import org.scalatest._
+import org.junit.Test
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 
-class DynamicExtensionsTest extends FeatureSpec with GivenWhenThen with Matchers {
+class DynamicExtensionsTest {
 
-  info("Test spec for an excerpt of the dynamic extension concept.")
-  info("Things like adding dynamic extensions and method invocation are tested.")
+  @Test
+  def testAddingDynamicExtensions(): Unit = {
+    val someCore = new CoreA()
+    new SomeCompartment() {
+      val someRole = new RoleA()
+      someCore <+> someRole
+      someCore <+> new RoleB()
 
-  feature("Adding dynamic extensions") {
-    scenario("Removing dynamic extsions and invoking methods") {
-      Given("some player and a dynamic extension in a compartment")
-      val someCore = new CoreA()
-      new SomeCompartment() {
-        val someRole = new RoleA()
-        And("adding a dynamic extension")
-        someCore <+> someRole
-        someCore <+> new RoleB()
+      someCore <-> someRole
 
-        When("dropping the dynamic extension")
-        someCore <-> someRole
+      someCore a()
+      +someCore a()
 
-        Then("the call must be invoked on the core object")
-        someCore a()
-        +someCore a()
+      assertFalse((+someCore).hasExtension[RoleA])
+      assertTrue((+someCore).hasExtension[RoleB])
 
-        And("a dynamic extension should be dropped correctly")
-        (+someCore).hasExtension[RoleA] shouldBe false
-        And("binding to RoleB is left untouched of course")
-        (+someCore).hasExtension[RoleB] shouldBe true
-
-        And("method invocation should work.")
-        val resB: String = +someCore b()
-        resB shouldBe "b"
-      }
+      val resB: String = +someCore b()
+      assertEquals("b", resB)
     }
   }
+
 }

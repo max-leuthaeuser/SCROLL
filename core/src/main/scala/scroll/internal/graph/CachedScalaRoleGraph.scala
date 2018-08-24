@@ -53,24 +53,6 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
   override def facets(player: AnyRef): Seq[Enumeration#Value] =
     facetsCache.getAndPutWithDefault(player, super.facets(player))
 
-  override def combine(other: RoleGraph): Unit = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
-    super.combine(other)
-    resetAll()
-  }
-
-  override def addPart(other: RoleGraph): Unit = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
-    super.addPart(other)
-    resetAll()
-  }
-
-  override def addPartAndCombine(other: RoleGraph): Unit = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
-    super.addPartAndCombine(other)
-    resetAll()
-  }
-
   override def merge(other: RoleGraph): Unit = {
     require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
     super.merge(other)

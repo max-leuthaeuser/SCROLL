@@ -13,7 +13,7 @@ import scala.reflect.classTag
 trait RoleGroups {
   self: Compartment =>
 
-  private[this] lazy val roleGroups = mutable.HashMap.empty[String, RoleGroup]
+  private[this] val roleGroups = mutable.HashMap.empty[String, RoleGroup]
 
   private[this] sealed trait Constraint
 

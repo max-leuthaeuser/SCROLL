@@ -14,27 +14,6 @@ trait RoleGraph {
   def merge(other: RoleGraph): Unit
 
   /**
-    * Combines this with another RoleGraph given as other.
-    *
-    * @param other the RoleGraph to combine with.
-    */
-  def combine(other: RoleGraph): Unit
-
-  /**
-    * RoleGraph given as other would get part of this.
-    *
-    * @param other the RoleGraph for integration in this one.
-    */
-  def addPart(other: RoleGraph): Unit
-
-  /**
-    * RoleGraph given as other would get part of this and set both to this.
-    *
-    * @param other the RoleGraph for integration in this one and set as this.
-    */
-  def addPartAndCombine(other: RoleGraph): Unit
-
-  /**
     * Removes all players and plays-relationships specified in other from this RoleGraph.
     *
     * @param other the RoleGraph all players and plays-relationships specified in should removed from this
@@ -106,4 +85,5 @@ trait RoleGraph {
     * @return a list of all predecessors of the given player
     */
   def predecessors(player: AnyRef): Seq[AnyRef]
+
 }

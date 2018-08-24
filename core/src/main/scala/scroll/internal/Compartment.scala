@@ -1,9 +1,9 @@
 package scroll.internal
 
-import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.SCROLLError
 import scroll.internal.errors.SCROLLErrors.TypeError
 import scroll.internal.errors.SCROLLErrors.TypeNotFound
+import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.graph.CachedScalaRoleGraph
 import scroll.internal.graph.ScalaRoleGraph
 import scroll.internal.support.DispatchQuery
@@ -12,7 +12,6 @@ import scroll.internal.support.Relationships
 import scroll.internal.support.RoleConstraints
 import scroll.internal.support.RoleGroups
 import scroll.internal.support.RoleRestrictions
-import scroll.internal.support.UnionTypes.RoleUnionTypes
 import scroll.internal.util.ReflectiveHelper
 
 import scala.annotation.tailrec
@@ -47,8 +46,7 @@ trait Compartment
     with RoleRestrictions
     with RoleGroups
     with Relationships
-    with QueryStrategies
-    with RoleUnionTypes {
+    with QueryStrategies {
 
   protected var plays: ScalaRoleGraph = new CachedScalaRoleGraph()
 
@@ -75,16 +73,6 @@ trait Compartment
   def partOf(other: Compartment): Unit = {
     require(null != other)
     plays.merge(other.plays)
-  }
-
-  /**
-    * Merge role graphs to this and set other role graph to this one.
-    */
-  def combine(other: Compartment): Compartment = {
-    require(null != other)
-    plays.addPartAndCombine(other.plays)
-    other.plays = this.plays
-    this
   }
 
   /**
@@ -253,7 +241,7 @@ trait Compartment
       */
     def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, AnyRef] = dispatchQuery.filter(coreFor(this)) match {
       case elem :: Nil => Right(elem)
-      case l: Seq[T] => Right(l.head)
+      case l: Seq[_] => Right(l.head.asInstanceOf[Object])
       case _ => Left(TypeNotFound(this.getClass.toString))
     }
 
@@ -264,7 +252,7 @@ trait Compartment
       wrapped match {
         case p: Player[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
         case p: AnyRef => addPlaysRelation[T, R](p.asInstanceOf[T], role)
-        case p => throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles! You tried it with '$p'.")
+        case null => throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles!")
       }
       this
     }
@@ -345,7 +333,9 @@ trait Compartment
 
     override def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = coreFor(wrapped).last
-      dispatchQuery.filter(plays.roles(core)).collectFirst {
+      val roles = plays.roles(core)
+      val filtered = dispatchQuery.filter(roles)
+      filtered.collectFirst {
         case r if ReflectiveHelper.findMethod(r, name, args).isDefined => (r, ReflectiveHelper.findMethod(r, name, args).get)
       } match {
         case Some((r, fm)) => dispatch(r, fm, args: _*)
@@ -355,14 +345,20 @@ trait Compartment
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = coreFor(wrapped).last
-      dispatchQuery.filter(plays.roles(core)).find(ReflectiveHelper.hasMember(_, name)) match {
+      val roles = plays.roles(core)
+      val filtered = dispatchQuery.filter(roles)
+      filtered.find(ReflectiveHelper.hasMember(_, name)) match {
         case Some(r) => Right(ReflectiveHelper.propertyOf(r, name))
         case None => Left(RoleNotFound(core.toString, name, Seq.empty))
       }
     }
 
-    override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit =
-      dispatchQuery.filter(plays.roles(coreFor(wrapped).last)).find(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
+    override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit = {
+      val core = coreFor(wrapped).last
+      val roles = plays.roles(core)
+      val filtered = dispatchQuery.filter(roles)
+      filtered.find(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
+    }
 
     override def equals(o: Any): Boolean = o match {
       case other: Player[_] => coreFor(wrapped) equals coreFor(other.wrapped)

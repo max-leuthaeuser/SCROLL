@@ -1,10 +1,15 @@
 package scroll.tests
 
-import org.scalatest._
+import org.junit.Test
+import org.junit.Assert.assertArrayEquals
+
 import scroll.internal.Compartment
+import scroll.internal.support.DispatchQuery
 import scroll.internal.support.DispatchQuery._
 
-class RecursiveBaseCallsWithClassesTest extends FeatureSpec with GivenWhenThen with Matchers {
+class RecursiveBaseCallsWithClassesTest {
+
+  import scala.collection.JavaConverters._
 
   class CoreType {
     def someMethod(): Unit = {
@@ -15,7 +20,7 @@ class RecursiveBaseCallsWithClassesTest extends FeatureSpec with GivenWhenThen w
   class MultiRole extends Compartment {
 
     class RoleTypeA {
-      implicit val dd = Bypassing((o: AnyRef) => {
+      implicit val dd: DispatchQuery = Bypassing((o: AnyRef) => {
         o == this || !o.isInstanceOf[CoreType]
       })
 
@@ -26,7 +31,7 @@ class RecursiveBaseCallsWithClassesTest extends FeatureSpec with GivenWhenThen w
     }
 
     class RoleTypeB {
-      implicit val dd = Bypassing(_ == this)
+      implicit val dd: DispatchQuery = Bypassing(_ == this)
 
       def someMethod(): Unit = {
         println(s"RoleTypeB($this)::someMethod()")
@@ -39,57 +44,47 @@ class RecursiveBaseCallsWithClassesTest extends FeatureSpec with GivenWhenThen w
   private def streamToSeq(in: java.io.ByteArrayOutputStream, splitAt: String = System.lineSeparator()): Seq[String] =
     in.toString.split(splitAt).toSeq
 
-  info("Test spec for recursive base calls.")
-
-  feature("Dispatching of base calls") {
-    scenario("Adding roles and doing a normal base call") {
-      Given("a player and a role in a compartment")
-      new MultiRole() {
-        val c = new CoreType()
-        val r = new RoleTypeA()
-        val player = c play r
-        val output = new java.io.ByteArrayOutputStream()
-        When("calling base")
-        Console.withOut(output) {
-          player.someMethod()
-        }
-        val actual = streamToSeq(output)
-        val expected = Seq(
-          s"RoleTypeA($r)::someMethod()",
-          s"CoreType($c)::someMethod()"
-        )
-        Then("the calls should be in the correct order")
-        actual should contain theSameElementsInOrderAs expected
+  @Test
+  def testDispatchingNormalCalls(): Unit = {
+    new MultiRole() {
+      val c = new CoreType()
+      val r = new RoleTypeA()
+      val player = c play r
+      val output = new java.io.ByteArrayOutputStream()
+      Console.withOut(output) {
+        player.someMethod()
       }
+      val actual = streamToSeq(output)
+      val expected = Seq(
+        s"RoleTypeA($r)::someMethod()",
+        s"CoreType($c)::someMethod()"
+      )
+      assertArrayEquals(expected.asJava.toArray, actual.asJava.toArray)
     }
   }
 
-  feature("Dispatching of recursive base calls") {
-    scenario("Adding roles and chaining base calls recursively") {
-      Given("a player and two roles in a compartment")
-      new MultiRole() {
-        val c1 = new CoreType()
-        val c2 = new CoreType()
-        val rA1 = new RoleTypeA()
-        val rA2 = new RoleTypeA()
-        val rB = new RoleTypeB()
-        val player1 = c1 play rA1
-        rA1 play rB
-        val player2 = c2 play rA2
-        val output = new java.io.ByteArrayOutputStream()
-        When("calling base")
-        Console.withOut(output) {
-          player1.someMethod()
-        }
-        val actual = streamToSeq(output)
-        val expected = Seq(
-          s"RoleTypeB($rB)::someMethod()",
-          s"RoleTypeA($rA1)::someMethod()",
-          s"CoreType($c1)::someMethod()"
-        )
-        Then("the calls should be in the correct order")
-        actual should contain theSameElementsInOrderAs expected
+  @Test
+  def testDispatchingRecursiveCalls(): Unit = {
+    new MultiRole() {
+      val c1 = new CoreType()
+      val c2 = new CoreType()
+      val rA1 = new RoleTypeA()
+      val rA2 = new RoleTypeA()
+      val rB = new RoleTypeB()
+      val player1 = c1 play rA1
+      rA1 play rB
+      val player2 = c2 play rA2
+      val output = new java.io.ByteArrayOutputStream()
+      Console.withOut(output) {
+        player1.someMethod()
       }
+      val actual = streamToSeq(output)
+      val expected = Seq(
+        s"RoleTypeB($rB)::someMethod()",
+        s"RoleTypeA($rA1)::someMethod()",
+        s"CoreType($c1)::someMethod()"
+      )
+      assertArrayEquals(expected.asJava.toArray, actual.asJava.toArray)
     }
   }
 }
