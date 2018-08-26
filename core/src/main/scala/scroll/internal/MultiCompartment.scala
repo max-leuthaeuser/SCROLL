@@ -67,11 +67,11 @@ trait MultiCompartment extends Compartment {
         val cl1 = coreFor(wrapped)
         val cl2 = coreFor(other.wrapped)
         (cl1 equals cl2) ||
-          (cl2.lengthCompare(1) == 0 && (Seq(cl2.head) equals cl1.tail)) ||
-          (cl1.lengthCompare(1) == 0 && (Seq(cl1.head) equals cl2.tail))
+          (cl2.lengthCompare(1) == 0 && (cl2.head == cl1.last)) ||
+          (cl1.lengthCompare(1) == 0 && (cl1.head == cl2.last))
       case other: Any => coreFor(wrapped) match {
-        case l if l.lengthCompare(1) == 0 => l.head equals other
-        case l => l.last equals other
+        case l if l.lengthCompare(1) == 0 => l.head == other
+        case l => l.last == other
       }
       case _ => false // default case
     }
