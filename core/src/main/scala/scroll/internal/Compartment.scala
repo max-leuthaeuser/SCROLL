@@ -365,11 +365,15 @@ trait Compartment
       dispatchQuery.filter(plays.roles(coreFor(wrapped).last)).find(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
     override def equals(o: Any): Boolean = o match {
-      case other: Player[_] => coreFor(wrapped) equals coreFor(other.wrapped)
+      case other: Player[_] =>
+        val cl1 = coreFor(wrapped)
+        val cl2 = coreFor(other.wrapped)
+        (cl1 equals cl2) ||
+          (cl2.lengthCompare(1) == 0 && (Seq(cl2.head) equals cl1.tail)) ||
+          (cl1.lengthCompare(1) == 0 && (Seq(cl1.head) equals cl2.tail))
       case other: Any => coreFor(wrapped) match {
-        case Nil => false
-        case p :: Nil => p equals other
-        case _ => false
+        case l if l.lengthCompare(1) == 0 => l.head equals other
+        case l => l.last equals other
       }
       case _ => false // default case
     }
