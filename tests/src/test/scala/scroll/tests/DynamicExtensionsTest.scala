@@ -1,9 +1,8 @@
 package scroll.tests
 
-import scroll.tests.mocks.{CoreA, SomeCompartment}
-import org.scalatest._
+import scroll.tests.mocks.CoreA
 
-class DynamicExtensionsTest extends FeatureSpec with GivenWhenThen with Matchers {
+class DynamicExtensionsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
   info("Test spec for an excerpt of the dynamic extension concept.")
   info("Things like adding dynamic extensions and method invocation are tested.")
@@ -12,7 +11,7 @@ class DynamicExtensionsTest extends FeatureSpec with GivenWhenThen with Matchers
     scenario("Removing dynamic extsions and invoking methods") {
       Given("some player and a dynamic extension in a compartment")
       val someCore = new CoreA()
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         val someRole = new RoleA()
         And("adding a dynamic extension")
         someCore <+> someRole

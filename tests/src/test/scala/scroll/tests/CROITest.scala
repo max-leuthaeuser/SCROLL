@@ -1,18 +1,17 @@
 package scroll.tests
 
-import scroll.tests.mocks.{SomeCompartment, CoreA}
-import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
+import scroll.tests.mocks.CoreA
 import scroll.internal.formal.CROI
 import scroll.internal.util.Log
 
-class CROITest extends FeatureSpec with GivenWhenThen with Matchers {
+class CROITest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for CROIs.")
 
   feature("Specifying a CROI manually") {
     scenario("CROI is filled manually") {
       val p = getClass.getResource("/Bank.crom").getPath
 
-      new SomeCompartment() with CROI {
+      new CompartmentUnderTest() with CROI {
         Given("A natural, a role and a compartment instance")
         val n = new CoreA()
         val r = new RoleA()

@@ -1,16 +1,15 @@
 package scroll.tests
 
-import mocks.{CoreA, SomeCompartment}
-import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
+import mocks.CoreA
 
-class UnionTypesTest extends FeatureSpec with GivenWhenThen with Matchers {
+class UnionTypesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for union types in the context of roles.")
 
   feature("Simple method invocation") {
     scenario("Calling some role method directly") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         val someRoleC = new RoleC()
 
         And("a play relationship")
@@ -30,7 +29,7 @@ class UnionTypesTest extends FeatureSpec with GivenWhenThen with Matchers {
     scenario("Matching players and roles with Scala match") {
       Given("some players and role in a compartment")
       val someCore = new CoreA()
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         val roleA = new RoleA
 
         val matcher = new {

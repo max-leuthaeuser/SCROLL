@@ -1,12 +1,11 @@
 package scroll.tests
 
-import org.scalatest._
 import scroll.internal.MultiCompartment
 import scroll.internal.support.DispatchQuery
 import scroll.internal.support.DispatchQuery._
 import scroll.tests.mocks.CoreA
 
-class MultiRoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
+class MultiRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
   info("Test spec for an excerpt of the role concept for multi roles.")
   info("Things like role playing and method invocation are tested.")

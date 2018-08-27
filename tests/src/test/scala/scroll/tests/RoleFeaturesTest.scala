@@ -1,11 +1,10 @@
 package scroll.tests
 
-import mocks.{CoreA, CoreB, SomeCompartment}
-import org.scalatest._
+import mocks.{CoreA, CoreB}
 import scroll.internal.support.DispatchQuery
 import DispatchQuery._
 
-class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
+class RoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
   info("Test spec for an excerpt of the role concept.")
   info("Things like role playing and method invocation are tested.")
@@ -14,7 +13,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     scenario("Dropping role and invoking methods") {
       Given("some player and role in a compartment")
       val someCore = new CoreA()
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         val someRole = new RoleA()
         And("a play relationship")
         someCore play someRole
@@ -43,7 +42,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
 
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         val someRole = new RoleA()
         And("a play relationship")
         someCoreA play someRole
@@ -65,7 +64,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
 
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         val someRoleA = new RoleA()
         val someRoleB = new RoleB()
         And("a play relationship")
@@ -86,7 +85,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
 
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         val someRole = new RoleA()
         And("a play relationship")
         someCoreA play someRole
@@ -110,7 +109,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
 
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         val someRole = new RoleA()
         And("a play relationship")
         someCoreA play someRole
@@ -128,7 +127,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
 
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         val someRole = new RoleA()
         And("a play relationship")
         someCoreA play someRole
@@ -155,7 +154,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
 
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         val someRole = new RoleA()
         And("a play relationship")
         someCoreA play someRole
@@ -180,7 +179,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     Given("some players and role in a compartment")
     val someCoreA = new CoreA()
 
-    new SomeCompartment() {
+    new CompartmentUnderTest() {
       val someRole = new RoleA()
       And("a play relationship")
       someCoreA play someRole
@@ -203,7 +202,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     Given("some players and 2 role instance of the same type in a compartment")
     val someCoreA = new CoreA()
 
-    new SomeCompartment() {
+    new CompartmentUnderTest() {
       val someRole1 = new RoleA()
       val someRole2 = new RoleA()
       And("a play relationship")
@@ -228,7 +227,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     Given("some players and 2 role instance of the same type in a compartment")
     val someCoreA = new CoreA()
 
-    new SomeCompartment() {
+    new CompartmentUnderTest() {
       val someRole1 = new RoleA()
       val someRole2 = new RoleA()
       someRole1.valueB = 1
@@ -264,7 +263,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     Given("a player and a role instance in a compartment")
     val someCoreA = new CoreA()
 
-    new SomeCompartment() {
+    new CompartmentUnderTest() {
       val someRole = new RoleD()
 
       And("a play relationship")
@@ -305,7 +304,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     Given("a player and a role instance in a compartment")
     val someCoreA = new CoreA()
 
-    new SomeCompartment() {
+    new CompartmentUnderTest() {
       val someRole = new RoleE()
 
       And("a play relationship")
@@ -376,7 +375,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     val someCoreA = new CoreA()
     val someCoreB = new CoreB()
 
-    new SomeCompartment() {
+    new CompartmentUnderTest() {
       implicit var dd = DispatchQuery.empty
 
       val someRole = new RoleA()
@@ -424,7 +423,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     Given("a player and some roles in a compartment")
     val someCoreA = new CoreA()
 
-    new SomeCompartment() {
+    new CompartmentUnderTest() {
       val someRoleA = new RoleA()
       val someRoleB = new RoleB()
       val someRoleC = new RoleC()
@@ -443,7 +442,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
   scenario("Compartment plays a role that is part of themselves") {
     Given("a compartment and a role in it")
 
-    class ACompartment extends SomeCompartment {
+    class ACompartment extends CompartmentUnderTest {
 
       class ARole
 
@@ -462,7 +461,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     Given("a player and some roles in a compartment")
     val someCoreA = new CoreA()
 
-    new SomeCompartment() {
+    new CompartmentUnderTest() {
       val someRoleA = new RoleA()
       val someRoleB = new RoleB()
       val someRoleC = new RoleC()
@@ -498,7 +497,7 @@ class RoleFeaturesTest extends FeatureSpec with GivenWhenThen with Matchers {
     Given("a player and a role in a compartment")
     val someCoreA = new CoreA()
 
-    new SomeCompartment() {
+    new CompartmentUnderTest() {
       val someRoleA = new RoleA()
       val expected: String = "valueC"
       And("a play relationship")

@@ -1,10 +1,8 @@
 package scroll.tests
 
-import org.scalatest._
-import scroll.internal.Compartment
 import scroll.internal.support.DispatchQuery._
 
-class RecursiveBaseCallsWithCaseClassesTest extends FeatureSpec with GivenWhenThen with Matchers {
+class RecursiveBaseCallsWithCaseClassesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
   case class CoreType(id: String) {
     def someMethod(): Unit = {
@@ -12,7 +10,7 @@ class RecursiveBaseCallsWithCaseClassesTest extends FeatureSpec with GivenWhenTh
     }
   }
 
-  class MultiRole extends Compartment {
+  class MultiRole extends CompartmentUnderTest {
 
     case class RoleTypeA(id: String) {
       implicit val dd = Bypassing((o: AnyRef) => {

@@ -1,9 +1,8 @@
 package scroll.tests
 
-import mocks.{CoreA, SomeCompartment}
-import org.scalatest._
+import mocks.CoreA
 
-class RelationshipTest extends FeatureSpec with GivenWhenThen with Matchers {
+class RelationshipTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for the relationship concept.")
 
   feature("Relationship specification and querying") {
@@ -11,7 +10,7 @@ class RelationshipTest extends FeatureSpec with GivenWhenThen with Matchers {
       Given("A compartment, a player and attached roles")
 
       val p = new CoreA
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         val rA = new RoleA
         val rB = new RoleB
         val rC = new RoleC

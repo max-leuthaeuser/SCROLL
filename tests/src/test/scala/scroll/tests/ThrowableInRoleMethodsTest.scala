@@ -2,16 +2,13 @@ package scroll.tests
 
 import java.io.IOException
 
-import org.scalatest._
-import scroll.internal.Compartment
-
-class ThrowableInRoleMethodsTest extends FeatureSpec with GivenWhenThen with Matchers {
+class ThrowableInRoleMethodsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
   info("Test spec for handling a Throwable in role methods.")
 
   class CoreType
 
-  class ExceptionShowcase extends Compartment {
+  class ExceptionShowcase extends CompartmentUnderTest {
 
     class Exceptional {
       def roleMethodWithError(): Unit = {

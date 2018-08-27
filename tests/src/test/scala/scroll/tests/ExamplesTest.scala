@@ -1,9 +1,8 @@
 package scroll.tests
 
-import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.examples._
 
-class ExamplesTest extends FeatureSpec with GivenWhenThen with Matchers {
+class ExamplesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for scroll.examples.")
 
   feature("Running scroll.examples") {

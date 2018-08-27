@@ -2,25 +2,30 @@ package scroll.tests
 
 import org.scalatest.Suites
 
-class SCROLLTestSuite
-  extends Suites(
-    new RoleFeaturesTest,
-    new RoleSortingTest,
-    new DynamicExtensionsTest,
-    new EqualityRoleTest,
-    new ExamplesTest,
-    new RelationshipTest,
-    new UnionTypesTest,
-    new FormalCROMTest,
-    new FormalCROMExampleTest,
-    new ECoreInstanceTest,
-    new CROITest,
-    new RoleConstraintsTest,
-    new RolePlayingAutomatonTest,
-    new RoleRestrictionsTest,
-    new RoleGroupsTest,
-    new MultiRoleFeaturesTest,
-    new FacetsTests,
-    new RecursiveBaseCallsWithClassesTest,
-    new RecursiveBaseCallsWithCaseClassesTest,
-    new ThrowableInRoleMethodsTest)
+object SCROLLTestSuite {
+  val suites: Seq[AbstractSCROLLTest] = Seq(true, false).flatMap(c => {
+    Seq(
+      new RoleFeaturesTest(cached = c),
+      new RoleSortingTest(cached = c),
+      new DynamicExtensionsTest(cached = c),
+      new EqualityRoleTest(cached = c),
+      new ExamplesTest(cached = c),
+      new RelationshipTest(cached = c),
+      new UnionTypesTest(cached = c),
+      new FormalCROMTest(cached = c),
+      new FormalCROMExampleTest(cached = c),
+      new ECoreInstanceTest(cached = c),
+      new CROITest(cached = c),
+      new RoleConstraintsTest(cached = c),
+      new RolePlayingAutomatonTest(cached = c),
+      new RoleRestrictionsTest(cached = c),
+      new RoleGroupsTest(cached = c),
+      new MultiRoleFeaturesTest(cached = c),
+      new FacetsTest(cached = c),
+      new RecursiveBaseCallsWithClassesTest(cached = c),
+      new RecursiveBaseCallsWithCaseClassesTest(cached = c),
+      new ThrowableInRoleMethodsTest(cached = c))
+  })
+}
+
+class SCROLLTestSuite extends Suites(SCROLLTestSuite.suites: _*)

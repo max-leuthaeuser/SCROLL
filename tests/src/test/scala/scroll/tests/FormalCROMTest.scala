@@ -1,9 +1,8 @@
 package scroll.tests
 
-import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 import scroll.internal.formal.{FormalCROI, FormalCROM, FormalConstraintModel, FormalUtils, FormalRoleGroup}
 
-class FormalCROMTest extends FeatureSpec with GivenWhenThen with Matchers {
+class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for ScalaFormalCROM.")
 
   feature("Testing util functions") {

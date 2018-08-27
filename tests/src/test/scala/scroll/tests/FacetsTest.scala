@@ -1,9 +1,8 @@
 package scroll.tests
 
-import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
-import scroll.tests.mocks.{CoreA, CoreB, SomeCompartment}
+import scroll.tests.mocks.{CoreA, CoreB}
 
-class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
+class FacetsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
   object TestFacet extends Enumeration {
     type Color = Value
@@ -19,7 +18,7 @@ class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
     scenario("Adding facets") {
       Given("some player and a facet in a compartment")
       val someCore = new CoreA()
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         When("a facet is attached to the player")
         val player = someCore <+> Red
         Then("the facet should be found")
@@ -30,7 +29,7 @@ class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
     scenario("Removing facets") {
       Given("some player and a facet in a compartment")
       val someCore = new CoreA()
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         When("a facet is attached to the player")
         val player = someCore <+> Red
         And("is removed later on")
@@ -44,7 +43,7 @@ class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
       Given("some player and a facet in a compartment")
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         When("a facet is attached to a player")
         val playerA = someCoreA <+> Red
         And("is transferred later on")
@@ -66,7 +65,7 @@ class FacetsTests extends FeatureSpec with GivenWhenThen with Matchers {
       val someCoreA5 = new CoreA()
       val someCoreA6 = new CoreA()
 
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         When("some facets are attached")
         someCoreA1 <+> Red
         someCoreA2 <+> Red

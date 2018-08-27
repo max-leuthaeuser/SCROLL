@@ -1,16 +1,15 @@
 package scroll.tests
 
-import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
-import scroll.tests.mocks.{CoreA, SomeCompartment}
+import scroll.tests.mocks.CoreA
 
-class RoleGroupsTest extends FeatureSpec with GivenWhenThen with Matchers {
+class RoleGroupsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for role groups.")
 
   feature("Role groups") {
     scenario("Validating role group cardinality") {
       val acc1 = new CoreA()
       val acc2 = new CoreA()
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
         Given("A compartment and a role group")
 
         class Source

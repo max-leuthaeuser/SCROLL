@@ -1,11 +1,10 @@
 package scroll.tests
 
-import org.scalatest._
 import scroll.internal.support.DispatchQuery
 import scroll.internal.support.DispatchQuery._
-import scroll.tests.mocks.{CoreA, SomeCompartment}
+import scroll.tests.mocks.CoreA
 
-class RoleSortingTest extends FeatureSpec with GivenWhenThen with Matchers {
+class RoleSortingTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
   info("Test spec for sorting dynamic extensions.")
 
@@ -13,7 +12,7 @@ class RoleSortingTest extends FeatureSpec with GivenWhenThen with Matchers {
     scenario("Adding roles and sorting them") {
       Given("some player and roles in a compartment")
       val someCore = new CoreA()
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
 
         case class SomeRoleA() {
           def method(): String = "A"
@@ -71,7 +70,7 @@ class RoleSortingTest extends FeatureSpec with GivenWhenThen with Matchers {
       }
 
       val someCore = new SomeCore()
-      new SomeCompartment() {
+      new CompartmentUnderTest() {
 
         case class SomeRoleA() {
           def method(): String = {
