@@ -535,13 +535,25 @@ class RoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
     new CompartmentUnderTest() {
       someCore play roleWithB
+      
+      var actual: String = (+someCore).a()
+      actual shouldBe "a"      
+      actual = (+roleWithB).a()
+      actual shouldBe "a"
+      
+      
+      actual = (+someCore).b()
+      actual shouldBe "b"
+      actual = (+roleWithB).b()
+      actual shouldBe "b"
+      
       roleWithB play roleWithC
 
-      var actual: String = (+someCore).a()
+      actual = (+someCore).a()
       actual shouldBe "a"
       actual = (+roleWithB).a()
       actual shouldBe "a"
-      actual = (+roleWithC).a()
+      actual = (+roleWithC).a()      
       actual shouldBe "a"
 
       actual = (+someCore).b()

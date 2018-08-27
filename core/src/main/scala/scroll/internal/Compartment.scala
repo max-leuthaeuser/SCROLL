@@ -20,30 +20,30 @@ import scala.reflect.ClassTag
 import scala.reflect.classTag
 
 /**
-  * This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
-  *
-  * ==Overview==
-  * Roles are dependent on some sort of context. We call them compartments. A typical example of a compartment is a university,
-  * which contains the roles Student and Teacher collaborating in Courses. Everything in SCROLL happens inside of Compartments
-  * but roles (implemented as standard Scala classes) can be defined or imported from everywhere. Just mix in this Trait
-  * into your own specific compartment class or create an anonymous instance.
-  *
-  * ==Example==
-  * {{{
-  * val player = new Player()
-  * new Compartment {
-  *   class RoleA
-  *   class RoleB
-  *
-  *   player play new RoleA()
-  *   player play new RoleB()
-  *
-  *   // call some behaviour
-  * }
-  * }}}
-  */
+ * This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
+ *
+ * ==Overview==
+ * Roles are dependent on some sort of context. We call them compartments. A typical example of a compartment is a university,
+ * which contains the roles Student and Teacher collaborating in Courses. Everything in SCROLL happens inside of Compartments
+ * but roles (implemented as standard Scala classes) can be defined or imported from everywhere. Just mix in this Trait
+ * into your own specific compartment class or create an anonymous instance.
+ *
+ * ==Example==
+ * {{{
+ * val player = new Player()
+ * new Compartment {
+ *   class RoleA
+ *   class RoleB
+ *
+ *   player play new RoleA()
+ *   player play new RoleB()
+ *
+ *   // call some behaviour
+ * }
+ * }}}
+ */
 trait Compartment
-  extends RoleConstraints
+    extends RoleConstraints
     with RoleRestrictions
     with RoleGroups
     with Relationships
@@ -60,8 +60,8 @@ trait Compartment
     })
 
   /**
-    * Declaring a bidirectional is-part-of relation between compartment.
-    */
+   * Declaring a bidirectional is-part-of relation between compartment.
+   */
   def union(other: Compartment): Compartment = {
     require(null != other)
     other.partOf(this)
@@ -70,72 +70,75 @@ trait Compartment
   }
 
   /**
-    * Declaring a is-part-of relation between compartments.
-    */
+   * Declaring a is-part-of relation between compartments.
+   */
   def partOf(other: Compartment): Unit = {
     require(null != other)
-    plays.merge(other.plays)
+    plays.addPart(other.plays)
+    return
   }
 
   /**
-    * Merge role graphs to this and set other role graph to this one.
-    */
+   * Merge role graphs to this and set other role graph to this one.
+   */
   def combine(other: Compartment): Compartment = {
     require(null != other)
-    plays.addPartAndCombine(other.plays)
-    other.plays = this.plays
+    if (other.plays != this.plays) {
+      plays.addPart(other.plays)
+      other.plays = this.plays
+    }
     this
   }
 
   /**
-    * Removing is-part-of relation between compartments.
-    */
+   * Removing is-part-of relation between compartments.
+   */
   def notPartOf(other: Compartment): Unit = {
     require(null != other)
     plays.detach(other.plays)
   }
 
   /**
-    * Query the role playing graph for all player instances that do conform to the given matcher.
-    *
-    * @param matcher the matcher that should match the queried player instance in the role playing graph
-    * @tparam T the type of the player instance to query for
-    * @return all player instances as Seq, that do conform to the given matcher
-    */
-  def all[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
+   * Query the role playing graph for all player instances that do conform to the given matcher.
+   *
+   * @param matcher the matcher that should match the queried player instance in the role playing graph
+   * @tparam T the type of the player instance to query for
+   * @return all player instances as Seq, that do conform to the given matcher
+   */
+  def all[T <: AnyRef: ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
     plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(a => {
       coreFor(a) match {
         case p :: Nil => matcher.matches(p)
-        case Nil => false
-        case l => l.forall(matcher.matches)
+        case Nil      => false
+        case l        => l.forall(matcher.matches)
       }
     })
   }
 
   /**
-    * Query the role playing graph for all player instances that do conform to the given function.
-    *
-    * @param matcher the matching function that should match the queried player instance in the role playing graph
-    * @tparam T the type of the player instance to query for
-    * @return all player instances as Seq, that do conform to the given matcher
-    */
-  def all[T <: AnyRef : ClassTag](matcher: T => Boolean): Seq[T] =
+   * Query the role playing graph for all player instances that do conform to the given function.
+   *
+   * @param matcher the matching function that should match the queried player instance in the role playing graph
+   * @tparam T the type of the player instance to query for
+   * @return all player instances as Seq, that do conform to the given matcher
+   */
+  def all[T <: AnyRef: ClassTag](matcher: T => Boolean): Seq[T] =
     plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(a => {
       coreFor(a) match {
-        case p :: Nil => matcher(p.asInstanceOf[T])
-        case Nil => false
+        case p :: Nil       => matcher(p.asInstanceOf[T])
+        case Nil            => false
         case l: Seq[AnyRef] => l.forall(i => matcher(i.asInstanceOf[T]))
       }
     })
 
   /**
-    * Query the role playing graph for all player instances that do conform to the given matcher and return the first found.
-    *
-    * @param matcher the matcher that should match the queried player instance in the role playing graph
-    * @tparam T the type of the player instance to query for
-    * @return the first player instance, that does conform to the given matcher or an appropriate error
-    */
-  def one[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
+   * Query the role playing graph for all player instances that do conform to the given matcher and return the first found.
+   *
+   * @param matcher the matcher that should match the queried player instance in the role playing graph
+   * @tparam T the type of the player instance to query for
+   * @return the first player instance, that does conform to the given matcher or an appropriate error
+   */
+  def one[T <: AnyRef: ClassTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
     l => {
       Left(l)
     }, r => {
@@ -143,13 +146,13 @@ trait Compartment
     })
 
   /**
-    * Query the role playing graph for all player instances that do conform to the given function and return the first found.
-    *
-    * @param matcher the matching function that should match the queried player instance in the role playing graph
-    * @tparam T the type of the player instance to query for
-    * @return the first player instances, that do conform to the given matcher or an appropriate error
-    */
-  def one[T <: AnyRef : ClassTag](matcher: T => Boolean): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
+   * Query the role playing graph for all player instances that do conform to the given function and return the first found.
+   *
+   * @param matcher the matching function that should match the queried player instance in the role playing graph
+   * @tparam T the type of the player instance to query for
+   * @return the first player instances, that do conform to the given matcher or an appropriate error
+   */
+  def one[T <: AnyRef: ClassTag](matcher: T => Boolean): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
     l => {
       Left(l)
     }, r => {
@@ -157,16 +160,16 @@ trait Compartment
     })
 
   /**
-    * Transfers a role from one core to another.
-    *
-    * @tparam F type of core the given role should be removed from
-    * @tparam T type of core the given role should be attached to
-    * @tparam R type of role
-    * @param coreFrom the core the given role should be removed from
-    * @param coreTo   the core the given role should be attached to
-    * @param role     the role that should be transferred
-    */
-  def transferRole[F <: AnyRef : ClassTag, T <: AnyRef : ClassTag, R <: AnyRef : ClassTag](coreFrom: F, coreTo: T, role: R): Unit = {
+   * Transfers a role from one core to another.
+   *
+   * @tparam F type of core the given role should be removed from
+   * @tparam T type of core the given role should be attached to
+   * @tparam R type of role
+   * @param coreFrom the core the given role should be removed from
+   * @param coreTo   the core the given role should be attached to
+   * @param role     the role that should be transferred
+   */
+  def transferRole[F <: AnyRef: ClassTag, T <: AnyRef: ClassTag, R <: AnyRef: ClassTag](coreFrom: F, coreTo: T, role: R): Unit = {
     require(null != coreFrom)
     require(null != coreTo)
     require(null != role)
@@ -176,14 +179,14 @@ trait Compartment
   }
 
   /**
-    * Adds a play relation between core and role.
-    *
-    * @tparam C type of core
-    * @tparam R type of role
-    * @param core the core to add the given role at
-    * @param role the role that should added to the given core
-    */
-  def addPlaysRelation[C <: AnyRef : ClassTag, R <: AnyRef : ClassTag](core: C, role: R): Unit = {
+   * Adds a play relation between core and role.
+   *
+   * @tparam C type of core
+   * @tparam R type of role
+   * @param core the core to add the given role at
+   * @param role the role that should added to the given core
+   */
+  def addPlaysRelation[C <: AnyRef: ClassTag, R <: AnyRef: ClassTag](core: C, role: R): Unit = {
     require(null != core)
     require(null != role)
     validate(core, role)
@@ -191,26 +194,26 @@ trait Compartment
   }
 
   /**
-    * Removes the play relation between core and role.
-    *
-    * @tparam C type of core
-    * @tparam R type of role
-    * @param core the core the given role should removed from
-    * @param role the role that should removed from the given core
-    */
-  def removePlaysRelation[C <: AnyRef : ClassTag, R <: AnyRef : ClassTag](core: C, role: R): Unit = {
+   * Removes the play relation between core and role.
+   *
+   * @tparam C type of core
+   * @tparam R type of role
+   * @param core the core the given role should removed from
+   * @param role the role that should removed from the given core
+   */
+  def removePlaysRelation[C <: AnyRef: ClassTag, R <: AnyRef: ClassTag](core: C, role: R): Unit = {
     require(null != core)
     require(null != role)
     plays.removeBinding(core, role)
   }
 
   /**
-    * Explicit helper factory method for creating a new Player instance
-    * without the need to relying on the implicit mechanics of Scala.
-    *
-    * @param obj the player or role that is wrapped into this dynamic player type
-    * @return a new Player instance wrapping the given object
-    */
+   * Explicit helper factory method for creating a new Player instance
+   * without the need to relying on the implicit mechanics of Scala.
+   *
+   * @param obj the player or role that is wrapped into this dynamic player type
+   * @return a new Player instance wrapping the given object
+   */
   def newPlayer(obj: Object): Player[Object] = {
     require(null != obj)
     new Player(obj)
@@ -238,107 +241,107 @@ trait Compartment
 
   private[this] def safeReturn[T](seq: Seq[T], typeName: String): Either[TypeError, Seq[T]] = seq match {
     case Nil => Left(TypeNotFound(typeName))
-    case s => Right(s)
+    case s   => Right(s)
   }
 
-  implicit class Player[T <: AnyRef : ClassTag](override val wrapped: T) extends IPlayer[T](wrapped) with SCROLLDynamic with SCROLLDispatchable {
+  implicit class Player[T <: AnyRef: ClassTag](override val wrapped: T) extends IPlayer[T](wrapped) with SCROLLDynamic with SCROLLDispatchable {
 
     override def unary_+ : Player[T] = this
 
     /**
-      * Returns the player of this player instance if this is a role, or this itself.
-      *
-      * @param dispatchQuery provide this to sort the resulting instances if a role instance is played by multiple core objects
-      * @return the player of this player instance if this is a role, or this itself or an appropriate error
-      */
+     * Returns the player of this player instance if this is a role, or this itself.
+     *
+     * @param dispatchQuery provide this to sort the resulting instances if a role instance is played by multiple core objects
+     * @return the player of this player instance if this is a role, or this itself or an appropriate error
+     */
     def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, AnyRef] = dispatchQuery.filter(coreFor(this)) match {
       case elem :: Nil => Right(elem)
-      case l: Seq[T] => Right(l.head)
-      case _ => Left(TypeNotFound(this.getClass.toString))
+      case l: Seq[T]   => Right(l.head)
+      case _           => Left(TypeNotFound(this.getClass.toString))
     }
 
-    override def <+>[R <: AnyRef : ClassTag](role: R): Player[T] = play(role)
+    override def <+>[R <: AnyRef: ClassTag](role: R): Player[T] = play(role)
 
-    override def play[R <: AnyRef : ClassTag](role: R): Player[T] = {
+    override def play[R <: AnyRef: ClassTag](role: R): Player[T] = {
       require(null != role)
       wrapped match {
         case p: Player[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
-        case p: AnyRef => addPlaysRelation[T, R](p.asInstanceOf[T], role)
-        case p => throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles! You tried it with '$p'.")
+        case p: AnyRef    => addPlaysRelation[T, R](p.asInstanceOf[T], role)
+        case p            => throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles! You tried it with '$p'.")
       }
       this
     }
 
     /**
-      * Alias for [[Player.playing]].
-      *
-      * @tparam R type of role
-      * @param role the role that should played
-      * @return the player instance
-      */
-    def <=>[R <: AnyRef : ClassTag](role: R): T = playing(role)
+     * Alias for [[Player.playing]].
+     *
+     * @tparam R type of role
+     * @param role the role that should played
+     * @return the player instance
+     */
+    def <=>[R <: AnyRef: ClassTag](role: R): T = playing(role)
 
     /**
-      * Adds a play relation between core and role but always returns the player instance.
-      *
-      * @tparam R type of role
-      * @param role the role that should played
-      * @return the player instance
-      */
-    def playing[R <: AnyRef : ClassTag](role: R): T = play(role).wrapped
+     * Adds a play relation between core and role but always returns the player instance.
+     *
+     * @tparam R type of role
+     * @param role the role that should played
+     * @return the player instance
+     */
+    def playing[R <: AnyRef: ClassTag](role: R): T = play(role).wrapped
 
-    override def <->[R <: AnyRef : ClassTag](role: R): Player[T] = drop(role)
+    override def <->[R <: AnyRef: ClassTag](role: R): Player[T] = drop(role)
 
-    override def drop[R <: AnyRef : ClassTag](role: R): Player[T] = {
+    override def drop[R <: AnyRef: ClassTag](role: R): Player[T] = {
       removePlaysRelation[T, R](wrapped, role)
       this
     }
 
-    protected class TransferToBuilder[R <: AnyRef : ClassTag](role: R) {
-      def to[P <: AnyRef : ClassTag](player: P): Unit = {
+    protected class TransferToBuilder[R <: AnyRef: ClassTag](role: R) {
+      def to[P <: AnyRef: ClassTag](player: P): Unit = {
         transferRole[T, P, R](wrapped, player, role)
       }
     }
 
     /**
-      * Transfers a role to another player.
-      *
-      * @tparam R type of role
-      * @param role the role to transfer
-      */
-    def transfer[R <: AnyRef : ClassTag](role: R): TransferToBuilder[R] =
+     * Transfers a role to another player.
+     *
+     * @tparam R type of role
+     * @param role the role to transfer
+     */
+    def transfer[R <: AnyRef: ClassTag](role: R): TransferToBuilder[R] =
       new TransferToBuilder[R](role)
 
     /**
-      * Checks if this Player has all of the given facet(s) attached.
-      *
-      * @param f the facet(s)
-      * @return true if this player has all of the given facets attached, false otherwise.
-      */
+     * Checks if this Player has all of the given facet(s) attached.
+     *
+     * @param f the facet(s)
+     * @return true if this player has all of the given facets attached, false otherwise.
+     */
     def hasFacets(f: Enumeration#Value*): Boolean = f.forall(plays.facets(wrapped).contains)
 
     /**
-      * Checks if this Player has at least one of the given facets attached.
-      *
-      * @param f the facets
-      * @return true if this player has at least one of the given facets attached, false otherwise.
-      */
+     * Checks if this Player has at least one of the given facets attached.
+     *
+     * @param f the facets
+     * @return true if this player has at least one of the given facets attached, false otherwise.
+     */
     def hasSomeFacet(f: Enumeration#Value*): Boolean = f.exists(plays.facets(wrapped).contains)
 
     /**
-      * Checks of this Player has an extension of the given type.
-      * Alias for [[Player.isPlaying]].
-      */
-    def hasExtension[E <: AnyRef : ClassTag]: Boolean = isPlaying[E]
+     * Checks of this Player has an extension of the given type.
+     * Alias for [[Player.isPlaying]].
+     */
+    def hasExtension[E <: AnyRef: ClassTag]: Boolean = isPlaying[E]
 
     /**
-      * Checks of this Player is playing a role of the given type R.
-      *
-      * @tparam R type of role
-      * @return true if this player is playing a role of type R, false otherwise. Returns false also, if
-      *         the player is not available in the role-playing graph.
-      */
-    def isPlaying[R <: AnyRef : ClassTag]: Boolean = plays.roles(wrapped).exists(ReflectiveHelper.is[R])
+     * Checks of this Player is playing a role of the given type R.
+     *
+     * @tparam R type of role
+     * @return true if this player is playing a role of type R, false otherwise. Returns false also, if
+     *         the player is not available in the role-playing graph.
+     */
+    def isPlaying[R <: AnyRef: ClassTag]: Boolean = plays.roles(wrapped).exists(ReflectiveHelper.is[R])
 
     override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
       applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
@@ -349,7 +352,7 @@ trait Compartment
         case r if ReflectiveHelper.findMethod(r, name, args).isDefined => (r, ReflectiveHelper.findMethod(r, name, args).get)
       } match {
         case Some((r, fm)) => dispatch(r, fm, args: _*)
-        case _ => Left(RoleNotFound(core.toString, name, args))
+        case _             => Left(RoleNotFound(core.toString, name, args))
       }
     }
 
@@ -357,7 +360,7 @@ trait Compartment
       val core = coreFor(wrapped).last
       dispatchQuery.filter(plays.roles(core)).find(ReflectiveHelper.hasMember(_, name)) match {
         case Some(r) => Right(ReflectiveHelper.propertyOf(r, name))
-        case None => Left(RoleNotFound(core.toString, name, Seq.empty))
+        case None    => Left(RoleNotFound(core.toString, name, Seq.empty))
       }
     }
 
@@ -373,7 +376,7 @@ trait Compartment
           (cl1.lengthCompare(1) == 0 && (cl1.head == cl2.last))
       case other: Any => coreFor(wrapped) match {
         case l if l.lengthCompare(1) == 0 => l.head == other
-        case l => l.last == other
+        case l                            => l.last == other
       }
       case _ => false // default case
     }
