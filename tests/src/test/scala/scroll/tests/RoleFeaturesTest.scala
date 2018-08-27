@@ -3,6 +3,7 @@ package scroll.tests
 import mocks.{CoreA, CoreB}
 import scroll.internal.support.DispatchQuery
 import DispatchQuery._
+import scroll.internal.errors.SCROLLErrors.RoleNotFound
 
 class RoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
@@ -510,6 +511,88 @@ class RoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       And("the field should be set correctly")
       actual = p.valueC
       actual shouldBe null
+    }
+  }
+
+  scenario("Dropping roles when using deep roles") {
+
+    class Core() {
+      def a(): String = "a"
+    }
+
+    class RoleWithB() {
+      def b(): String = "b"
+    }
+
+    class RoleWithC() {
+      def c(): String = "c"
+    }
+
+    Given("a player and some roles in a compartment")
+    val someCore = new Core()
+    val roleWithB = new RoleWithB
+    val roleWithC = new RoleWithC
+
+    new CompartmentUnderTest() {
+      someCore play roleWithB
+      roleWithB play roleWithC
+
+      var actual: String = (+someCore).a()
+      actual shouldBe "a"
+      actual = (+roleWithB).a()
+      actual shouldBe "a"
+      actual = (+roleWithC).a()
+      actual shouldBe "a"
+
+      actual = (+someCore).b()
+      actual shouldBe "b"
+      actual = (+roleWithB).b()
+      actual shouldBe "b"
+      actual = (+roleWithC).b()
+      actual shouldBe "b"
+
+      actual = (+someCore).c()
+      actual shouldBe "c"
+      actual = (+roleWithB).c()
+      actual shouldBe "c"
+      actual = (+roleWithC).c()
+      actual shouldBe "c"
+
+      someCore.drop(roleWithB)
+
+      actual = (+someCore).a()
+      actual shouldBe "a"
+
+      (+roleWithB).a() match {
+        case Right(_) => fail("Player should have no access anymore!")
+        case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
+      }
+
+      (+roleWithC).a() match {
+        case Right(_) => fail("Player should have no access anymore!")
+        case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
+      }
+
+      (+someCore).b() match {
+        case Right(_) => fail("Player should have no access anymore!")
+        case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
+      }
+
+      actual = (+roleWithB).b()
+      actual shouldBe "b"
+
+      actual = (+roleWithC).b()
+      actual shouldBe "b"
+
+      (+someCore).c() match {
+        case Right(_) => fail("Player should have no access anymore!")
+        case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
+      }
+
+      actual = (+roleWithB).c()
+      actual shouldBe "c"
+      actual = (+roleWithC).c()
+      actual shouldBe "c"
     }
   }
 }
