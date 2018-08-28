@@ -15,12 +15,11 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
   private[this] val rolesCache = new SeqCache[AnyRef]()
   private[this] val facetsCache = new SeqCache[Enumeration#Value]()
 
-  override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
-    super.addBinding(player, role)
-    super.roles(player).foreach(reset)
-    super.roles(role).foreach(reset)
-    super.predecessors(player).foreach(reset)
-    super.predecessors(role).foreach(reset)
+  override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {    
+    super.addBinding(player, role)    
+    predecessors(player).foreach(reset)
+    roles(role).foreach(reset)
+    reset(player)
   }
 
   private[this] def resetAll(): Unit = {
@@ -66,15 +65,15 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
 
   override def removeBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     super.removeBinding(player, role)
-    super.roles(player).foreach(reset)
-    super.roles(role).foreach(reset)
-    super.predecessors(player).foreach(reset)
-    super.predecessors(role).foreach(reset)
+    predecessors(player).foreach(reset)
+    roles(role).foreach(reset)
+    reset(player)
   }
 
   override def removePlayer[P <: AnyRef : ClassTag](player: P): Unit = {
-    super.removePlayer(player)
-    super.roles(player).foreach(reset)
-    super.predecessors(player).foreach(reset)
+    roles(player).foreach(reset)
+    predecessors(player).foreach(reset)
+    super.removePlayer(player)    
+    reset(player)
   }
 }
