@@ -5,7 +5,7 @@ import scroll.internal.graph.ScalaRoleGraphBuilder
 
 class SomeCompartment(cached: Boolean) extends Compartment {
 
-  ScalaRoleGraphBuilder.configure(cached)
+  ScalaRoleGraphBuilder.cached(cached)
 
   class RoleA {
     val valueA: String = "valueA"
