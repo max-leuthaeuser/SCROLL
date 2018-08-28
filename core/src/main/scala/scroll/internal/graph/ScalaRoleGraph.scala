@@ -9,11 +9,11 @@ import scala.collection.mutable
 import scala.reflect.ClassTag
 
 /**
- * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
- * a graph as underlying data model.
- *
- * @param checkForCycles set to true to forbid cyclic role playing relationships
- */
+  * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
+  * a graph as underlying data model.
+  *
+  * @param checkForCycles set to true to forbid cyclic role playing relationships
+  */
 class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   protected val MERGE_MESSAGE: String = "You can only merge RoleGraphs of the same type!"
@@ -26,13 +26,15 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
     val target = other.asInstanceOf[ScalaRoleGraph].root
 
-    if (target.nodes().isEmpty) return false
+    if (target.nodes().isEmpty) {
+      return false
+    }
 
     target.edges().forEach(p => {
       val _ = root.putEdge(p.source(), p.target())
     })
     checkCycles()
-    return true
+    true
   }
 
   override def detach(other: RoleGraph): Unit = {
@@ -51,7 +53,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     }
   }
 
-  override def addBinding[P <: AnyRef: ClassTag, R <: AnyRef: ClassTag](player: P, role: R): Unit = {
+  override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
     root.putEdge(player, role)
@@ -60,13 +62,13 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     }
   }
 
-  override def removeBinding[P <: AnyRef: ClassTag, R <: AnyRef: ClassTag](player: P, role: R): Unit = {
+  override def removeBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
     val _ = root.removeEdge(player, role)
   }
 
-  override def removePlayer[P <: AnyRef: ClassTag](player: P): Unit = {
+  override def removePlayer[P <: AnyRef : ClassTag](player: P): Unit = {
     require(null != player)
     val _ = root.removeNode(player)
   }
@@ -97,7 +99,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
       val returnSeq = new mutable.ListBuffer[Enumeration#Value]
       root.successors(player.asInstanceOf[Object]).forEach {
         case e: Enumeration#Value => returnSeq += e
-        case _                    =>
+        case _ =>
       }
       returnSeq
     } else {
