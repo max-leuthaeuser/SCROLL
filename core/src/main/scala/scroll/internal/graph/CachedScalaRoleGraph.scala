@@ -15,8 +15,8 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
   private[this] val rolesCache = new SeqCache[AnyRef]()
   private[this] val facetsCache = new SeqCache[Enumeration#Value]()
 
-  override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {    
-    super.addBinding(player, role)    
+  override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
+    super.addBinding(player, role)
     predecessors(player).foreach(reset)
     roles(role).foreach(reset)
     reset(player)
@@ -59,8 +59,9 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     if (super.addPart(other)) {
       resetAll()
       true
+    } else {
+      false
     }
-    false
   }
 
   override def removeBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
@@ -73,7 +74,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
   override def removePlayer[P <: AnyRef : ClassTag](player: P): Unit = {
     roles(player).foreach(reset)
     predecessors(player).foreach(reset)
-    super.removePlayer(player)    
+    super.removePlayer(player)
     reset(player)
   }
 }
