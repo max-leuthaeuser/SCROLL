@@ -535,13 +535,25 @@ class RoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
     new CompartmentUnderTest() {
       someCore play roleWithB
+      
+      var actual: String = (+someCore).a()
+      actual shouldBe "a"      
+      actual = (+roleWithB).a()
+      actual shouldBe "a"
+      
+      
+      actual = (+someCore).b()
+      actual shouldBe "b"
+      actual = (+roleWithB).b()
+      actual shouldBe "b"
+      
       roleWithB play roleWithC
 
-      var actual: String = (+someCore).a()
+      actual = (+someCore).a()
       actual shouldBe "a"
       actual = (+roleWithB).a()
       actual shouldBe "a"
-      actual = (+roleWithC).a()
+      actual = (+roleWithC).a()      
       actual shouldBe "a"
 
       actual = (+someCore).b()
@@ -593,6 +605,70 @@ class RoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       actual shouldBe "c"
       actual = (+roleWithC).c()
       actual shouldBe "c"
+      
+      someCore.play(roleWithB)
+      
+      actual = (+someCore).a()
+      actual shouldBe "a"
+      actual = (+roleWithB).a()
+      actual shouldBe "a"
+      actual = (+roleWithC).a()      
+      actual shouldBe "a"
+
+      actual = (+someCore).b()
+      actual shouldBe "b"
+      actual = (+roleWithB).b()
+      actual shouldBe "b"
+      actual = (+roleWithC).b()
+      actual shouldBe "b"
+
+      actual = (+someCore).c()
+      actual shouldBe "c"
+      actual = (+roleWithB).c()
+      actual shouldBe "c"
+      actual = (+roleWithC).c()
+      actual shouldBe "c"
+      
+      roleWithB.remove()
+      
+      actual = (+someCore).a()
+      actual shouldBe "a"
+      
+      (+roleWithB).a() match {
+        case Right(_) => fail("Player should have no access anymore!")
+        case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
+      }
+
+      (+roleWithC).a() match {
+        case Right(_) => fail("Player should have no access anymore!")
+        case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
+      }
+
+      (+someCore).b() match {
+        case Right(_) => fail("Player should have no access anymore!")
+        case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
+      }
+
+      actual = roleWithB.b()
+      actual shouldBe "b"
+      
+      (+roleWithC).b() match {
+        case Right(_) => fail("Player should have no access anymore!")
+        case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
+      }
+
+      (+someCore).c() match {
+        case Right(_) => fail("Player should have no access anymore!")
+        case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
+      }
+
+      (+roleWithB).c() match {
+        case Right(_) => fail("Player should have no access anymore!")
+        case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
+      }      
+      
+      actual = (+roleWithC).c()
+      actual shouldBe "c"      
     }
   }
 }

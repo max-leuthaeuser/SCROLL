@@ -1,12 +1,11 @@
 package scroll.tests.mocks
 
 import scroll.internal.Compartment
-import scroll.internal.graph.CachedScalaRoleGraph
-import scroll.internal.graph.ScalaRoleGraph
+import scroll.internal.graph.ScalaRoleGraphBuilder
 
 class SomeCompartment(cached: Boolean) extends Compartment {
 
-  plays = if (cached) new CachedScalaRoleGraph() else new ScalaRoleGraph()
+  ScalaRoleGraphBuilder.cached(cached)
 
   class RoleA {
     val valueA: String = "valueA"

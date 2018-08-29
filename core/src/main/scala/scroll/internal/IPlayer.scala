@@ -50,6 +50,33 @@ abstract class IPlayer[T <: AnyRef : ClassTag](val wrapped: T) {
     */
   def <->[R <: AnyRef : ClassTag](role: R): IPlayer[T]
 
+  /**
+    * Removes this player from the graph.
+    */
+  def remove(): Unit
+
+  /**
+    * Returns a Seq of all roles attached to this player.
+    *
+    * @return a Seq of all roles of this player including the player object itself. Returns an empty Seq if this player is not in the role-playing graph.
+    */
+  def roles(): Seq[AnyRef]
+
+  /**
+    * Returns a Seq of all facets attached to this player.
+    *
+    * @return a Seq of all facets of this player including the player object itself. Returns an empty Seq if this player is not in the role-playing graph.
+    */
+  def facets(): Seq[Enumeration#Value]
+
+  /**
+    * Returns a list of all predecessors of this player, i.e. a transitive closure
+    * of its cores (deep roles).
+    *
+    * @return a list of all predecessors of this player
+    */
+  def predecessors(): Seq[AnyRef]
+
   override def equals(o: Any): Boolean
 
   override def hashCode(): Int

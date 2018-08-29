@@ -4,8 +4,8 @@ import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.SCROLLError
 import scroll.internal.errors.SCROLLErrors.TypeError
 import scroll.internal.errors.SCROLLErrors.TypeNotFound
-import scroll.internal.graph.CachedScalaRoleGraph
 import scroll.internal.graph.ScalaRoleGraph
+import scroll.internal.graph.ScalaRoleGraphBuilder
 import scroll.internal.support.DispatchQuery
 import scroll.internal.support.QueryStrategies
 import scroll.internal.support.Relationships
@@ -50,7 +50,7 @@ trait Compartment
     with QueryStrategies
     with RoleUnionTypes {
 
-  protected var plays: ScalaRoleGraph = new CachedScalaRoleGraph()
+  private[internal] var plays: ScalaRoleGraph = ScalaRoleGraphBuilder.build
 
   implicit def either2TorException[T](either: Either[_, T]): T = either.fold(
     l => {
@@ -74,7 +74,7 @@ trait Compartment
     */
   def partOf(other: Compartment): Unit = {
     require(null != other)
-    plays.merge(other.plays)
+    val _ = plays.addPart(other.plays)
   }
 
   /**
@@ -82,8 +82,10 @@ trait Compartment
     */
   def combine(other: Compartment): Compartment = {
     require(null != other)
-    plays.addPartAndCombine(other.plays)
-    other.plays = this.plays
+    if (other.plays != this.plays) {
+      plays.addPart(other.plays)
+      other.plays = this.plays
+    }
     this
   }
 
@@ -216,6 +218,21 @@ trait Compartment
     new Player(obj)
   }
 
+  /**
+    * Removes the given player from the graph.
+    * This should remove its binding too!
+    *
+    * @param player the player to remove
+    */
+  def removePlayer[P <: AnyRef : ClassTag](player: P): Unit = plays.removePlayer(player)
+
+  /**
+    * Returns a Seq of all players
+    *
+    * @return a Seq of all players
+    */
+  def allPlayers: Seq[AnyRef] = plays.allPlayers
+
   @tailrec
   protected final def coreFor(role: AnyRef): Seq[AnyRef] = {
     require(null != role)
@@ -340,6 +357,14 @@ trait Compartment
       */
     def isPlaying[R <: AnyRef : ClassTag]: Boolean = plays.roles(wrapped).exists(ReflectiveHelper.is[R])
 
+    override def remove(): Unit = plays.removePlayer(this.wrapped)
+
+    override def roles(): Seq[AnyRef] = plays.roles(this.wrapped)
+
+    override def facets(): Seq[Enumeration#Value] = plays.facets(this.wrapped)
+
+    override def predecessors(): Seq[AnyRef] = plays.predecessors(this.wrapped)
+
     override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
       applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
 
@@ -379,6 +404,7 @@ trait Compartment
     }
 
     override def hashCode(): Int = wrapped.hashCode()
+
   }
 
 }

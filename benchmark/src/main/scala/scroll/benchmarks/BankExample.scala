@@ -5,6 +5,8 @@ import DispatchQuery._
 import scroll.internal.Compartment
 import scroll.benchmarks.{Currency => Money}
 import scroll.internal.graph.CachedScalaRoleGraph
+import scroll.internal.graph.ScalaRoleGraphBuilder
+
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
@@ -107,7 +109,7 @@ class BankExample {
     val players = (0 until numPlayer).map(i => new Person("Mr.", "Stan", "Mejer" + i, "Fake Street 1A"))
 
     bank = new Bank {
-      plays = new CachedScalaRoleGraph(checkCycles)
+      ScalaRoleGraphBuilder.cached(cached = true).checkForCycles(checkCycles)
 
       private val accounts = players.zipWithIndex.map { case (p, i) =>
         val a = new Account(i, Money(100.0, "USD"))
@@ -123,7 +125,7 @@ class BankExample {
 
       (0 until numTransactions).foreach { _ =>
         val transaction = new Transaction {
-          plays = new CachedScalaRoleGraph(checkCycles)
+          ScalaRoleGraphBuilder.cached(cached = true).checkForCycles(checkCycles)
           amount = Money(10.0, "USD")
           from = new Source()
           to = new Target()

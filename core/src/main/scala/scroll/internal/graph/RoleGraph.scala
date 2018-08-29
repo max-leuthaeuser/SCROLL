@@ -7,32 +7,11 @@ import scala.reflect.ClassTag
   */
 trait RoleGraph {
   /**
-    * Merges this with another RoleGraph given as other.
-    *
-    * @param other the RoleGraph to merge with.
-    */
-  def merge(other: RoleGraph): Unit
-
-  /**
-    * Combines this with another RoleGraph given as other.
-    *
-    * @param other the RoleGraph to combine with.
-    */
-  def combine(other: RoleGraph): Unit
-
-  /**
     * RoleGraph given as other would get part of this.
     *
     * @param other the RoleGraph for integration in this one.
     */
-  def addPart(other: RoleGraph): Unit
-
-  /**
-    * RoleGraph given as other would get part of this and set both to this.
-    *
-    * @param other the RoleGraph for integration in this one and set as this.
-    */
-  def addPartAndCombine(other: RoleGraph): Unit
+  def addPart(other: RoleGraph): Boolean
 
   /**
     * Removes all players and plays-relationships specified in other from this RoleGraph.

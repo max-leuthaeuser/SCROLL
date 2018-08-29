@@ -17,8 +17,9 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
 
   override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     super.addBinding(player, role)
+    predecessors(player).foreach(reset)
+    roles(role).foreach(reset)
     reset(player)
-    reset(role)
   }
 
   private[this] def resetAll(): Unit = {
@@ -53,39 +54,26 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
   override def facets(player: AnyRef): Seq[Enumeration#Value] =
     facetsCache.getAndPutWithDefault(player, super.facets(player))
 
-  override def combine(other: RoleGraph): Unit = {
+  override def addPart(other: RoleGraph): Boolean = {
     require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
-    super.combine(other)
-    resetAll()
-  }
-
-  override def addPart(other: RoleGraph): Unit = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
-    super.addPart(other)
-    resetAll()
-  }
-
-  override def addPartAndCombine(other: RoleGraph): Unit = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
-    super.addPartAndCombine(other)
-    resetAll()
-  }
-
-  override def merge(other: RoleGraph): Unit = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
-    super.merge(other)
-    resetAll()
+    if (super.addPart(other)) {
+      resetAll()
+      true
+    } else {
+      false
+    }
   }
 
   override def removeBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     super.removeBinding(player, role)
-    super.roles(player).foreach(reset)
-    super.roles(role).foreach(reset)
-    super.predecessors(player).foreach(reset)
-    super.predecessors(role).foreach(reset)
+    predecessors(player).foreach(reset)
+    roles(role).foreach(reset)
+    reset(player)
   }
 
   override def removePlayer[P <: AnyRef : ClassTag](player: P): Unit = {
+    roles(player).foreach(reset)
+    predecessors(player).foreach(reset)
     super.removePlayer(player)
     reset(player)
   }

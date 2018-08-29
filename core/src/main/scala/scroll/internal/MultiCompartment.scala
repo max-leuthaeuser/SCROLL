@@ -36,6 +36,14 @@ trait MultiCompartment extends Compartment {
 
     override def <->[R <: AnyRef : ClassTag](role: R): MultiPlayer[T] = drop(role)
 
+    override def remove(): Unit = plays.removePlayer(this.wrapped)
+
+    override def roles(): Seq[AnyRef] = plays.roles(this.wrapped)
+
+    override def facets(): Seq[Enumeration#Value] = plays.facets(this.wrapped)
+
+    override def predecessors(): Seq[AnyRef] = plays.predecessors(this.wrapped)
+
     def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
       val core = coreFor(wrapped).last
       dispatchQuery.filter(plays.roles(core)).collect {
