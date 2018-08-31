@@ -1,8 +1,8 @@
 package scroll.internal.graph
 
 object ScalaRoleGraphBuilder {
-  private var _cached: Boolean = true
-  private var _checkForCycles: Boolean = true
+  private[this] var _cached: Boolean = true
+  private[this] var _checkForCycles: Boolean = true
 
   def cached(cached: Boolean): ScalaRoleGraphBuilder.type = {
     _cached = cached

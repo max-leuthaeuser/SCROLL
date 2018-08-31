@@ -66,6 +66,8 @@ trait Relationships {
                                                                      var leftMul: Multiplicity,
                                                                      var rightMul: Multiplicity) {
 
+    protected val MULT_NOT_ALLOWED: String = "This multiplicity is not allowed!"
+
     private[this] def checkMul[T](m: Multiplicity, on: Seq[T]): Seq[T] = {
       m match {
         case MMany() =>
@@ -78,9 +80,9 @@ trait Relationships {
           case (ConcreteValue(v), MMany()) =>
             assert(v <= on.size, s"With a multiplicity for '$name' from '$v' to '*', the resulting role set size should be in between!")
           case _ =>
-            throw new RuntimeException("This multiplicity is not allowed!") // default case
+            throw new RuntimeException(MULT_NOT_ALLOWED) // default case
         }
-        case _ => throw new RuntimeException("This multiplicity is not allowed!") // default case
+        case _ => throw new RuntimeException(MULT_NOT_ALLOWED) // default case
       }
       on
     }
