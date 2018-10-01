@@ -1,18 +1,18 @@
-val akkaVersion = "2.5.15"
+val akkaVersion = "2.5.17"
 val shapelessVersion = "2.3.3"
 val scalatestVersion = "3.0.5"
 val chocoVersion = "4.0.8"
 val slf4jVersion = "1.7.25"
 val guavaVersion = "26.0-jre"
-val emfcommonVersion = "2.12.0"
-val emfecoreVersion = "2.12.0"
+val emfcommonVersion = "2.15.0"
+val emfecoreVersion = "2.15.0"
 val umlVersion = "3.1.0.v201006071150"
 
 lazy val noPublishSettings =
   Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.12.6",
+  scalaVersion := "2.12.7",
   version := "1.6",
   mainClass := None,
   resolvers ++= Seq(
