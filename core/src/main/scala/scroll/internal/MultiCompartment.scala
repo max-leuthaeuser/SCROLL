@@ -72,14 +72,15 @@ trait MultiCompartment extends Compartment {
 
     override def equals(o: Any): Boolean = o match {
       case other: MultiPlayer[_] =>
-        val cl1 = coreFor(wrapped)
-        val cl2 = coreFor(other.wrapped)
-        (cl1 equals cl2) ||
-          (cl2.lengthCompare(1) == 0 && (cl2.head == cl1.last)) ||
-          (cl1.lengthCompare(1) == 0 && (cl1.head == cl2.last))
+        (coreFor(wrapped), coreFor(other.wrapped)) match {
+          case (cl1, cl2) if cl1 equals cl2 => true
+          case (_ :+ last, head +: Nil) if head == last => true
+          case (head +: Nil, _ :+ last) if head == last => true
+          case _ => false
+        }
       case other: Any => coreFor(wrapped) match {
-        case l if l.lengthCompare(1) == 0 => l.head == other
-        case l => l.last == other
+        case head +: Nil => head == other
+        case _ :+ last => last == other
       }
       case _ => false // default case
     }

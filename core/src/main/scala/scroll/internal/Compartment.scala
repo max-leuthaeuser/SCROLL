@@ -107,7 +107,7 @@ trait Compartment
   def all[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
     plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(a => {
       coreFor(a) match {
-        case p :: Nil => matcher.matches(p)
+        case p +: Nil => matcher.matches(p)
         case Nil => false
         case l => l.forall(matcher.matches)
       }
@@ -124,9 +124,9 @@ trait Compartment
   def all[T <: AnyRef : ClassTag](matcher: T => Boolean): Seq[T] =
     plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(a => {
       coreFor(a) match {
-        case p :: Nil => matcher(p.asInstanceOf[T])
+        case p +: Nil => matcher(p.asInstanceOf[T])
         case Nil => false
-        case l: Seq[AnyRef] => l.forall(i => matcher(i.asInstanceOf[T]))
+        case l => l.forall(i => matcher(i.asInstanceOf[T]))
       }
     })
 
@@ -140,8 +140,8 @@ trait Compartment
   def one[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
     l => {
       Left(l)
-    }, r => {
-      Right(r.head)
+    }, { case head +: _ =>
+      Right(head)
     })
 
   /**
@@ -154,8 +154,8 @@ trait Compartment
   def one[T <: AnyRef : ClassTag](matcher: T => Boolean): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
     l => {
       Left(l)
-    }, r => {
-      Right(r.head)
+    }, { case head +: _ =>
+      Right(head)
     })
 
   /**
@@ -239,15 +239,10 @@ trait Compartment
     role match {
       case cur: IPlayer[_] => coreFor(cur.wrapped)
       case cur: AnyRef if plays.containsPlayer(cur) =>
-        val r = plays.predecessors(cur)
-        if (r.isEmpty) {
-          Seq(cur)
-        } else {
-          if (r.lengthCompare(1) == 0) {
-            coreFor(r.head)
-          } else {
-            r
-          }
+        plays.predecessors(cur) match {
+          case Nil => Seq(cur)
+          case head +: Nil => coreFor(head)
+          case r => r
         }
       case _ => Seq(role)
     }
@@ -269,8 +264,7 @@ trait Compartment
       * @return the player of this player instance if this is a role, or this itself or an appropriate error
       */
     def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, AnyRef] = dispatchQuery.filter(coreFor(this)) match {
-      case elem :: Nil => Right(elem)
-      case l: Seq[T] => Right(l.head)
+      case elem +: _ => Right(elem)
       case _ => Left(TypeNotFound(this.getClass.toString))
     }
 
@@ -391,14 +385,15 @@ trait Compartment
 
     override def equals(o: Any): Boolean = o match {
       case other: Player[_] =>
-        val cl1 = coreFor(wrapped)
-        val cl2 = coreFor(other.wrapped)
-        (cl1 equals cl2) ||
-          (cl2.lengthCompare(1) == 0 && (cl2.head == cl1.last)) ||
-          (cl1.lengthCompare(1) == 0 && (cl1.head == cl2.last))
+        (coreFor(wrapped), coreFor(other.wrapped)) match {
+          case (cl1, cl2) if cl1 equals cl2 => true
+          case (_ :+ last, head +: Nil) if head == last => true
+          case (head +: Nil, _ :+ last) if head == last => true
+          case _ => false
+        }
       case other: Any => coreFor(wrapped) match {
-        case l if l.lengthCompare(1) == 0 => l.head == other
-        case l => l.last == other
+        case head +: Nil => head == other
+        case _ :+ last => last == other
       }
       case _ => false // default case
     }

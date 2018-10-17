@@ -274,11 +274,7 @@ object ReflectiveHelper extends Memoiser {
   def resultOf[T](on: AnyRef, name: String): T = {
     safeString(name)
     findMethods(on.getClass, name).toList match {
-      case elem :: Nil =>
-        elem.setAccessible(true)
-        elem.invoke(on).asInstanceOf[T]
-      case list if list.nonEmpty =>
-        val elem = list.head
+      case elem :: _ =>
         elem.setAccessible(true)
         elem.invoke(on).asInstanceOf[T]
       case Nil =>
