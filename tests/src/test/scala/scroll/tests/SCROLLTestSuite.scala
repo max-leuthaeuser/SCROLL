@@ -24,7 +24,8 @@ object SCROLLTestSuite {
       new FacetsTest(cached = c),
       new RecursiveBaseCallsWithClassesTest(cached = c),
       new RecursiveBaseCallsWithCaseClassesTest(cached = c),
-      new ThrowableInRoleMethodsTest(cached = c))
+      new ThrowableInRoleMethodsTest(cached = c),
+      new MultiCompartmentTest(cached = c))
   })
 }
 
