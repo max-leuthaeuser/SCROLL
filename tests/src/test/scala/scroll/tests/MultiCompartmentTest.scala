@@ -1,5 +1,6 @@
 package scroll.tests
 
+import scroll.internal.errors.SCROLLErrors.{IllegalRoleInvocationDispatch, RoleNotFound}
 import scroll.tests.mocks.CoreB
 
 class MultiCompartmentTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
@@ -11,24 +12,41 @@ class MultiCompartmentTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
       val p = new CoreB
       new MultiCompartmentUnderTest() {
-        val rA = new RoleA
-        val rB = new RoleB
-        val rC = new RoleC
+        When("Calling a non-existing base method only")
+        Then("The expected error should occur")
+        +p i() match {
+          case Right(_) => fail("There should be no Right here")
+          case Left(f@IllegalRoleInvocationDispatch(_, _, _)) => fail(f.toString)
+          case Left(RoleNotFound(c, _, _)) => c shouldBe p.toString
+        }
 
-        When("specifying a role that plays another role")
+        val rA = new RoleA
+
+        When("Specifying a role-playing relationship")
         p play rA
+
+        And("Calling a single role method")
+        Then("The called method should return the correct value")
+        +rA i() match {
+          case Right(returnValue) => returnValue shouldBe Seq(Right(1))
+          case Left(error) => fail(error.toString)
+        }
+
+        val rB = new RoleB
+        When("specifying a role that plays another role")
         rA play rB
 
-        Then("The called method should return the correct values")
+        Then("All the called method should return the correct values")
         var actual: Seq[Int] = +p i()
         actual.size shouldBe 2
         var expected = Seq(2, 1)
         actual shouldBe expected
 
-        When("adding another role")
+        val rC = new RoleC
+        When("Adding another role")
         rB play rC
 
-        Then("The called method should return the correct values")
+        Then("All the called methods should return the correct values")
         actual = +p i()
         actual.size shouldBe 3
         expected = Seq(3, 2, 1)
