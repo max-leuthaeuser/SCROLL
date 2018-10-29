@@ -5,9 +5,8 @@ import scroll.examples.RobotExample.BehavioralView.ServiceRole
 import scroll.examples.RobotExample.NavigationView.NavigationRole
 import scroll.examples.RobotExample.SensorView.ObservingEnvironmentRole
 import scroll.internal.Compartment
-import scroll.internal.util.Log.info
 
-object RobotExample extends App {
+object RobotExample {
 
   case class Robot(name: String)
 
@@ -20,7 +19,7 @@ object RobotExample extends App {
         val sensorValue: Int = +this readSensor()
         val actor: String = +this getActor()
 
-        info(s"I am $name and moving to the $target with my $actor w.r.t. sensor value of $sensorValue.")
+        println(s"I am $name and moving to the $target with my $actor w.r.t. sensor value of $sensorValue.")
       }
     }
 
@@ -50,11 +49,13 @@ object RobotExample extends App {
 
   }
 
-  new Compartment {
-    val myRobot = Robot("Pete") play ServiceRole() play NavigationRole() play ObservingEnvironmentRole() play DriveableRole()
+  def main(args: Array[String]): Unit = {
+    val _ = new Compartment {
+      val myRobot = Robot("Pete") play ServiceRole() play NavigationRole() play ObservingEnvironmentRole() play DriveableRole()
 
-    BehavioralView partOf this
+      BehavioralView partOf this
 
-    myRobot move()
+      myRobot move()
+    }
   }
 }

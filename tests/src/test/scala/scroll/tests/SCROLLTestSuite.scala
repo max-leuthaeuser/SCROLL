@@ -9,7 +9,6 @@ object SCROLLTestSuite {
       new RoleSortingTest(cached = c),
       new DynamicExtensionsTest(cached = c),
       new EqualityRoleTest(cached = c),
-      new ExamplesTest(cached = c),
       new RelationshipTest(cached = c),
       new UnionTypesTest(cached = c),
       new FormalCROMTest(cached = c),
@@ -26,7 +25,7 @@ object SCROLLTestSuite {
       new RecursiveBaseCallsWithCaseClassesTest(cached = c),
       new ThrowableInRoleMethodsTest(cached = c),
       new MultiCompartmentTest(cached = c))
-  })
+  }) :+ new ExamplesTest()
 }
 
 class SCROLLTestSuite extends Suites(SCROLLTestSuite.suites: _*)

@@ -2,23 +2,22 @@ package scroll.examples
 
 import scroll.internal.Compartment
 import scroll.internal.support.DispatchQuery.Bypassing
-import scroll.internal.util.Log.info
 
-object APICallsExample extends App {
+object APICallsExample {
 
   class APICalls extends Compartment {
 
     case class API() {
       def callA(): Unit = {
-        info("Call A is correct.")
+        println("Call A is correct.")
       }
 
       def callB(): Unit = {
-        info("Call B is a mess somehow.")
+        println("Call B is a mess somehow.")
       }
 
       def callC(): Unit = {
-        info("Call C is correct.")
+        println("Call C is correct.")
       }
     }
 
@@ -37,17 +36,19 @@ object APICallsExample extends App {
 
     case class FixedAPI() {
       def callB(): Unit = {
-        info("Call B is fixed now. :-)")
+        println("Call B is fixed now. :-)")
       }
 
       def callC(): Unit = {
-        info("Call C is changed too. :-(")
+        println("Call C is changed too. :-(")
       }
     }
 
   }
 
-  new APICalls {
-    MyApp().run()
+  def main(args: Array[String]): Unit = {
+    new APICalls {
+      MyApp().run()
+    }
   }
 }

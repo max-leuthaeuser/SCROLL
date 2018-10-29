@@ -34,9 +34,6 @@ class RecursiveBaseCallsWithCaseClassesTest(cached: Boolean) extends AbstractSCR
 
   }
 
-  private def streamToSeq(in: java.io.ByteArrayOutputStream, splitAt: String = System.lineSeparator()): Seq[String] =
-    in.toString.split(splitAt).toSeq
-
   info("Test spec for recursive base calls.")
 
   feature("Dispatching of base calls") {
