@@ -41,6 +41,11 @@ class MultiCompartmentTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         actual.size shouldBe 2
         var expected = Seq(2, 1)
         actual shouldBe expected
+        
+        var actualLists: Seq[Seq[Int]] = +p is()
+        actual.size shouldBe 2
+        var expectedLists = Seq(Seq(2, 2),Seq(1, 1))
+        actualLists shouldBe expectedLists
 
         val rC = new RoleC
         When("Adding another role")
@@ -51,6 +56,11 @@ class MultiCompartmentTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         actual.size shouldBe 3
         expected = Seq(3, 2, 1)
         actual shouldBe expected
+        
+        actualLists = +p is()
+        actual.size shouldBe 3
+        expectedLists = Seq(Seq(3, 3),Seq(2, 2),Seq(1, 1))
+        actualLists shouldBe expectedLists
       }
     }
   }
