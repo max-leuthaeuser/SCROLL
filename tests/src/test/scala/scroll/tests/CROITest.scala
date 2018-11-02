@@ -2,7 +2,6 @@ package scroll.tests
 
 import scroll.tests.mocks.CoreA
 import scroll.internal.formal.CROI
-import scroll.internal.util.Log
 
 class CROITest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for CROIs.")
@@ -26,7 +25,6 @@ class CROITest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         addRole(r)
         addCompartment(this)
         addPlays(n, this, r)
-        Log.info(croi.toString)
       }
     }
 

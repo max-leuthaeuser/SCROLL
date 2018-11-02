@@ -2,14 +2,13 @@ package scroll.examples
 
 import scroll.examples.currency.{Currency => Money}
 import scroll.internal.support.DispatchQuery.Bypassing
-import scroll.internal.util.Log.info
 import scroll.internal.Compartment
 import scroll.internal.support.DispatchQuery
 import scroll.internal.util.Many._
 
 import scala.collection.mutable
 
-object BankExample extends App {
+object BankExample {
 
   case class Person(name: String)
 
@@ -37,8 +36,8 @@ object BankExample extends App {
       def addSavingsAccount(acc: SavingsAccount): Unit = savingsAccounts += acc
 
       def listBalances(): Unit = {
-        checkingsAccounts.foreach(a => info("CheckingsAccount: " + a + " -> " + (+a).balance))
-        savingsAccounts.foreach(a => info("SavingsAccount: " + a + " -> " + (+a).balance))
+        checkingsAccounts.foreach(a => println("CheckingsAccount: " + a + " -> " + (+a).balance))
+        savingsAccounts.foreach(a => println("SavingsAccount: " + a + " -> " + (+a).balance))
       }
     }
 
@@ -56,7 +55,7 @@ object BankExample extends App {
       private def calcTransactionFee(amount: Money): Money = amount * transactionFee
 
       def increase(amount: Money): Unit = {
-        info("Increasing with fee.")
+        println("Increasing with fee.")
         dd = Bypassing(_.isInstanceOf[SavingsAccount])
         val _ = +this increase (amount - calcTransactionFee(amount))
       }
@@ -64,7 +63,7 @@ object BankExample extends App {
 
     class TransactionRole() {
       def execute(): Unit = {
-        info("Executing from Role.")
+        println("Executing from Role.")
         dd = Bypassing(_.isInstanceOf[TransactionRole])
         val _ = +this execute()
       }
@@ -79,12 +78,12 @@ object BankExample extends App {
     private val transferRel = Relationship("transfer").from[Source](1).to[Target](1)
 
     def execute(): Unit = {
-      info("Executing from Player.")
+      println("Executing from Player.")
       one[Source]().withDraw(amount)
       one[Target]().deposit(amount)
       val from = transferRel.left().head
       val to = transferRel.right().head
-      info(s"Transferred '$amount' from '$from' to '$to'.")
+      println(s"Transferred '$amount' from '$from' to '$to'.")
     }
 
     class Source() {
@@ -101,49 +100,51 @@ object BankExample extends App {
 
   }
 
-  val stan = Person("Stan")
-  val brian = Person("Brian")
-
-  val accForStan = new Account(Money(10.0, "USD"))
-  val accForBrian = new Account(Money(0, "USD"))
-
   implicit var dd: DispatchQuery = DispatchQuery.empty
 
-  new Bank {
-    val ca = new CheckingsAccount
-    val sa = new SavingsAccount
+  def main(args: Array[String]): Unit = {
+    val stan = Person("Stan")
+    val brian = Person("Brian")
 
-    RoleGroupsChecked {
-      accForStan play ca
-      accForBrian play sa
-    }
-    stan play new Customer
-    brian play new Customer
+    val accForStan = new Account(Money(10.0, "USD"))
+    val accForBrian = new Account(Money(0, "USD"))
 
-    +stan addCheckingsAccount ca
-    +brian addSavingsAccount sa
+    new Bank {
+      val ca = new CheckingsAccount
+      val sa = new SavingsAccount
 
-    info("### Before transaction ###")
-    info("Balance for Stan:")
-    +stan listBalances()
-    info("Balance for Brian:")
-    +brian listBalances()
-
-    private val transaction = new Transaction(Money(10.0, "USD")) {
       RoleGroupsChecked {
-        accForStan play new Source
-        accForBrian play new Target
+        accForStan play ca
+        accForBrian play sa
       }
+      stan play new Customer
+      brian play new Customer
+
+      +stan addCheckingsAccount ca
+      +brian addSavingsAccount sa
+
+      println("### Before transaction ###")
+      println("Balance for Stan:")
+      +stan listBalances()
+      println("Balance for Brian:")
+      +brian listBalances()
+
+      private val transaction = new Transaction(Money(10.0, "USD")) {
+        RoleGroupsChecked {
+          accForStan play new Source
+          accForBrian play new Target
+        }
+      }
+
+      transaction partOf this
+
+      transaction play new TransactionRole execute()
+
+      println("### After transaction ###")
+      println("Balance for Stan:")
+      +stan listBalances()
+      println("Balance for Brian:")
+      +brian listBalances()
     }
-
-    transaction partOf this
-
-    transaction play new TransactionRole execute()
-
-    info("### After transaction ###")
-    info("Balance for Stan:")
-    +stan listBalances()
-    info("Balance for Brian:")
-    +brian listBalances()
   }
 }

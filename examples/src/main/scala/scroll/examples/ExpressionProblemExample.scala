@@ -1,9 +1,8 @@
 package scroll.examples
 
 import scroll.internal.Compartment
-import scroll.internal.util.Log.info
 
-object ExpressionProblemExample extends App {
+object ExpressionProblemExample {
 
   // M1
   trait M1 extends Compartment {
@@ -63,16 +62,17 @@ object ExpressionProblemExample extends App {
 
   }
 
-  new M4 {
-    val e = Add(
-      Neg(
-        Num(2) playing new NumShowable
-      ) playing new NegShowable,
-      Num(11) playing new NumShowable
-    ) play new AddShowable
+  def main(args: Array[String]): Unit = {
+    new M4 {
+      val e = Add(
+        Neg(
+          Num(2) playing new NumShowable
+        ) playing new NegShowable,
+        Num(11) playing new NumShowable
+      ) play new AddShowable
 
-    info("Eval: " + e.eval())
-    info("Show: " + e.show())
+      println("Eval: " + e.eval())
+      println("Show: " + e.show())
+    }
   }
-
 }
