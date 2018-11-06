@@ -4,7 +4,6 @@ import scroll.internal.support.DispatchQuery
 import DispatchQuery._
 import scroll.internal.Compartment
 import scroll.benchmarks.{Currency => Money}
-import scroll.internal.graph.CachedScalaRoleGraph
 import scroll.internal.graph.ScalaRoleGraphBuilder
 
 import scala.collection.mutable.ArrayBuffer

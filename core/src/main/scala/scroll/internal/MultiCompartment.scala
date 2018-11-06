@@ -76,17 +76,8 @@ trait MultiCompartment extends Compartment {
       dispatchQuery.filter(plays.roles(coreFor(wrapped).last)).filter(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
     override def equals(o: Any): Boolean = o match {
-      case other: MultiPlayer[_] =>
-        (coreFor(wrapped), coreFor(other.wrapped)) match {
-          case (cl1, cl2) if cl1 equals cl2 => true
-          case (_ :+ last, head +: Nil) if head == last => true
-          case (head +: Nil, _ :+ last) if head == last => true
-          case _ => false
-        }
-      case other: Any => coreFor(wrapped) match {
-        case head +: Nil => head == other
-        case _ :+ last => last == other
-      }
+      case other: MultiPlayer[_] => PlayerEquality.equalsPlayer(this, other)
+      case other: Any => PlayerEquality.equalsAny(this, other)
       case _ => false // default case
     }
 

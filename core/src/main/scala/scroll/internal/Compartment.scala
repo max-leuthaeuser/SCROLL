@@ -50,7 +50,7 @@ trait Compartment
     with QueryStrategies
     with RoleUnionTypes {
 
-  private[internal] var plays: ScalaRoleGraph = ScalaRoleGraphBuilder.build
+  private[internal] val plays: ScalaRoleGraph = ScalaRoleGraphBuilder.build
 
   implicit def either2TorException[T](either: Either[_, T]): T = either.fold(
     l => {
@@ -84,7 +84,7 @@ trait Compartment
     require(null != other)
     if (other.plays != this.plays) {
       plays.addPart(other.plays)
-      other.plays = this.plays
+      other.plays.addPart(this.plays)
     }
     this
   }
@@ -253,6 +253,20 @@ trait Compartment
     case s => Right(s)
   }
 
+  protected object PlayerEquality {
+    def equalsPlayer[T <: AnyRef : ClassTag](a: IPlayer[T], b: IPlayer[T]): Boolean = (coreFor(a.wrapped), coreFor(b.wrapped)) match {
+      case (cl1, cl2) if cl1 equals cl2 => true
+      case (_ :+ last, head +: Nil) if head == last => true
+      case (head +: Nil, _ :+ last) if head == last => true
+      case _ => false
+    }
+
+    def equalsAny[T <: AnyRef : ClassTag](a: IPlayer[T], b: Any): Boolean = coreFor(a.wrapped) match {
+      case head +: Nil => head == b
+      case _ :+ last => last == b
+    }
+  }
+
   implicit class Player[T <: AnyRef : ClassTag](override val wrapped: T) extends IPlayer[T](wrapped) with SCROLLDynamic with SCROLLDispatchable {
 
     override def unary_+ : Player[T] = this
@@ -384,17 +398,8 @@ trait Compartment
       dispatchQuery.filter(plays.roles(coreFor(wrapped).last)).find(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
     override def equals(o: Any): Boolean = o match {
-      case other: Player[_] =>
-        (coreFor(wrapped), coreFor(other.wrapped)) match {
-          case (cl1, cl2) if cl1 equals cl2 => true
-          case (_ :+ last, head +: Nil) if head == last => true
-          case (head +: Nil, _ :+ last) if head == last => true
-          case _ => false
-        }
-      case other: Any => coreFor(wrapped) match {
-        case head +: Nil => head == other
-        case _ :+ last => last == other
-      }
+      case other: Player[_] => PlayerEquality.equalsPlayer(this, other)
+      case other: Any => PlayerEquality.equalsAny(this, other)
       case _ => false // default case
     }
 

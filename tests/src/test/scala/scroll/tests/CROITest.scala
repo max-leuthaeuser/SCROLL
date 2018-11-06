@@ -16,9 +16,8 @@ class CROITest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         val r = new RoleA()
 
         When("A specific valid CROM instance is given")
-        withModel(p)
         Then("it should be wellformed")
-        wellformed shouldBe true
+        wellformed(p) shouldBe true
         And("specifying a CROI")
 
         addNatural(n)

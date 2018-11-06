@@ -31,17 +31,14 @@ object FormalUtils {
   def any(on: List[Boolean]): Boolean = on.contains(true)
 
   def atoms[T >: Null <: AnyRef](a: AnyRef): List[T] = a match {
-    // TODO: fix asInstanceOf
     case elem: String => List(elem).asInstanceOf[List[T]]
     case elem: FormalRoleGroup => elem.rolegroups.flatMap(atoms).distinct
+    case _ => throw new IllegalArgumentException(s"Can't handle: '$a'")
   }
 
   def evaluate[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](a: AnyRef, croi: FormalCROI[NT, RT, CT, RST], o: NT, c: CT): Int = a match {
-    case _: String => if (any(croi.r.filter(croi.type1(_) == a).map(rr => croi.plays.contains((o, c, rr))))) {
-      1
-    } else {
-      0
-    }
+    case _: String if any(croi.r.filter(croi.type1(_) == a).map(rr => croi.plays.contains((o, c, rr)))) => 1
+    case _: String => 0
     case elem: FormalRoleGroup =>
       val sum = elem.rolegroups.map(evaluate(_, croi, o, c)).sum
       if (elem.lower <= sum && sum <= elem.upper) 1 else 0

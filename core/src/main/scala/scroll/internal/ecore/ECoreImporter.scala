@@ -11,11 +11,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 
 /**
   * Trait providing functionality for importing ecore models.
-  * Remember to set the <code>path</code> variable!
   */
 trait ECoreImporter {
-  var path: String = _
-
   private[this] val META_MODEL_PATH = getClass.getResource("/crom_l1_composed.ecore").getPath
 
   private[this] def registerMetaModel(rs: ResourceSetImpl): Unit = {
@@ -37,9 +34,10 @@ trait ECoreImporter {
     * Load and imports an ecore model.
     * Remember to set the <code>path</code> variable!
     *
+    * @param path the path to load the ecore model from
     * @return the imported model as Resource
     */
-  protected def loadModel(): Resource = {
+  protected def loadModel(path: String): Resource = {
     require(null != path && path.nonEmpty)
 
     val resourceSet = new ResourceSetImpl()

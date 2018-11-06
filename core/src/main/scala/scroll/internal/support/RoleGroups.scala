@@ -50,6 +50,50 @@ trait RoleGroups {
     }
   }
 
+  private[this] def buildConstraintsMap(types: Seq[String], op: Option[Constraint], model: Model, numOfTypes: Int, min: Int, max: CInt, rg: RoleGroup): Map[String, IntVar] = types.map(ts => op match {
+    case Some(AND) => ts -> model.intVar("NUM$" + ts, 1)
+    case Some(OR) => ts -> model.intVar("NUM$" + ts, 0, numOfTypes)
+    case Some(XOR) => ts -> model.intVar("NUM$" + ts, 0, 1)
+    case Some(NOT) => ts -> model.intVar("NUM$" + ts, 0)
+    case None =>
+      throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
+  }).toMap
+
+  private[this] def solve(model: Model, types: Seq[String], constraintsMap: Map[String, IntVar], rg: RoleGroup): Seq[String] = {
+    val solver = model.getSolver
+    if (solver.solve()) {
+      val resultRoleTypeSet = mutable.Set.empty[String]
+
+      val solutions = mutable.ListBuffer.empty[Solution]
+      do {
+        val sol = new Solution(model)
+        sol.record()
+        solutions += sol
+      } while (solver.solve())
+
+      val allPlayers = plays.allPlayers.filter(p => !types.contains(ReflectiveHelper.classSimpleClassName(p.getClass.toString)))
+      if (allPlayers.forall(p => {
+        solutions.exists(s => {
+          types.forall(t => {
+            val numRole = plays.roles(p).count(r => t == ReflectiveHelper.classSimpleClassName(r.getClass.toString))
+            if (numRole == s.getIntVal(constraintsMap(t))) {
+              resultRoleTypeSet.add(t)
+              true
+            } else false
+          })
+        })
+      })) {
+        rg.evaluated = true
+        return resultRoleTypeSet.toSeq
+      }
+
+    } else {
+      throw new RuntimeException(s"Constraint set of role group '${rg.name}' unsolvable!")
+    }
+    // give up
+    throw new RuntimeException(s"Constraint set for inner cardinality of role group '${rg.name}' violated!")
+  }
+
   private[this] def eval(rg: RoleGroup): Seq[String] = {
     val model = new Model("MODEL$" + rg.hashCode())
     val types = rg.types
@@ -85,54 +129,16 @@ trait RoleGroups {
       op = Some(NOT)
     }
 
-    val constrMap = types.map(ts => op match {
-      case Some(AND) => ts -> model.intVar("NUM$" + ts, 1)
-      case Some(OR) => ts -> model.intVar("NUM$" + ts, 0, numOfTypes)
-      case Some(XOR) => ts -> model.intVar("NUM$" + ts, 0, 1)
-      case Some(NOT) => ts -> model.intVar("NUM$" + ts, 0)
-      case None =>
-        throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
-    }).toMap
+    val constraintsMap = buildConstraintsMap(types, op, model, numOfTypes, min, max, rg)
 
     sum match {
       case Some(s) =>
-        model.post(model.sum(constrMap.values.toArray, "=", s))
+        model.post(model.sum(constraintsMap.values.toArray, "=", s))
       case None =>
         throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
     }
 
-    val solver = model.getSolver
-    if (solver.solve()) {
-      val resultRoleTypeSet = mutable.Set.empty[String]
-
-      val solutions = mutable.ListBuffer.empty[Solution]
-      do {
-        val sol = new Solution(model)
-        sol.record()
-        solutions += sol
-      } while (solver.solve())
-
-      val allPlayers = plays.allPlayers.filter(p => !types.contains(ReflectiveHelper.classSimpleClassName(p.getClass.toString)))
-      if (allPlayers.forall(p => {
-        solutions.exists(s => {
-          types.forall(t => {
-            val numRole = plays.roles(p).count(r => t == ReflectiveHelper.classSimpleClassName(r.getClass.toString))
-            if (numRole == s.getIntVal(constrMap(t))) {
-              resultRoleTypeSet.add(t)
-              true
-            } else false
-          })
-        })
-      })) {
-        rg.evaluated = true
-        return resultRoleTypeSet.toSeq
-      }
-
-    } else {
-      throw new RuntimeException(s"Constraint set of role group '${rg.name}' unsolvable!")
-    }
-    // give up
-    throw new RuntimeException(s"Constraint set for inner cardinality of role group '${rg.name}' violated!")
+    solve(model, types, constraintsMap, rg)
   }
 
   private[this] def validateInnerCardinality(): Unit = {

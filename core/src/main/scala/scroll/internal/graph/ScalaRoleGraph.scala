@@ -41,7 +41,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     require(null != other)
     val target = other.asInstanceOf[ScalaRoleGraph].root
     target.edges().forEach(p => {
-      val _ = removeBinding(p.source(), p.target())
+      removeBinding(p.source(), p.target())
     })
   }
 

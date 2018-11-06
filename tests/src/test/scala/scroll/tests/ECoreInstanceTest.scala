@@ -10,7 +10,8 @@ class ECoreInstanceTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       new CompartmentUnderTest() with CROM {
         When("No model is available")
         Then("it can not be wellformed")
-        wellformed shouldBe false
+        an[IllegalArgumentException] should be thrownBy wellformed("")
+        an[IllegalArgumentException] should be thrownBy wellformed(null)
       }
     }
 
@@ -19,9 +20,8 @@ class ECoreInstanceTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
       new CompartmentUnderTest() with CROM {
         When("A specific valid CROM instance is given")
-        withModel(p)
         Then("it should be wellformed")
-        wellformed shouldBe true
+        wellformed(p) shouldBe true
       }
     }
   }

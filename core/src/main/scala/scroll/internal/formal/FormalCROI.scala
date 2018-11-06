@@ -62,23 +62,39 @@ case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: 
     })
 
   def axiom7(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(for ((o, c, r) <- plays; (o1, c1, r1) <- plays if o1 == o && c1 == c && r1 != r) yield type1(r1) != type1(r))
+    FormalUtils.all(for {
+      (o, c, r) <- plays
+      (o1, c1, r1) <- plays if o1 == o && c1 == c && r1 != r
+    } yield type1(r1) != type1(r))
 
   def axiom8(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
     FormalUtils.all((for (r1 <- r) yield for ((o, c, r2) <- plays if r2 == r1) yield (o, c)).map(_.lengthCompare(1) == 0))
 
   def axiom9(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(for (c1 <- c; r1 <- crom.rst if links.contains((r1, c1))) yield !links((r1, c1)).contains((null, null)))
+    FormalUtils.all(for {
+      c1 <- c
+      r1 <- crom.rst if links.contains((r1, c1))
+    } yield !links((r1, c1)).contains((null, null)))
 
   def axiom10(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(for (rst1 <- crom.rst; c1 <- c if links.contains((rst1, c1)); r1 <- r; o1 <- o) yield
+    FormalUtils.all(for {
+      rst1 <- crom.rst
+      c1 <- c if links.contains((rst1, c1))
+      r1 <- r
+      o1 <- o
+    } yield
       FormalUtils.any(for (r_1 <- repsilon) yield
-        ((plays.contains((o1, c1, r1)) && (type1(r1) == crom.rel(rst1).head)) == links((rst1, c1)).contains((r1, r_1))) && ((plays.contains((o1, c1, r1)) && (type1(r1) == crom.rel(rst1).tail.head)) == links((rst1, c1)).contains((r_1, r1)))
+        ((plays.contains((o1, c1, r1)) && (type1(r1) == crom.rel(rst1).head)) == links((rst1, c1)).contains((r1, r_1))) &&
+          ((plays.contains((o1, c1, r1)) && (type1(r1) == crom.rel(rst1).tail.head)) == links((rst1, c1)).contains((r_1, r1)))
       )
     )
 
   def axiom11(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(for (rst1 <- crom.rst; c1 <- c if links.contains((rst1, c1)); (r_1, r_2) <- links((rst1, c1)) if r_1 != null && r_2 != null) yield
+    FormalUtils.all(for {
+      rst1 <- crom.rst
+      c1 <- c if links.contains((rst1, c1))
+      (r_1, r_2) <- links((rst1, c1)) if r_1 != null && r_2 != null
+    } yield
       !links((rst1, c1)).contains((r_1, null)) && !links((rst1, c1)).contains((null, r_2))
     )
 

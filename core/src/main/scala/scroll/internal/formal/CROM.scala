@@ -7,7 +7,6 @@ import scroll.internal.ecore.ECoreImporter
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
 
 /**
   * Representation of a Compartment Role Object Model (CROM).
@@ -23,25 +22,13 @@ trait CROM extends ECoreImporter {
 
   private[this] val validTypes = Set(NATURALTYPE, ROLEGROUP, ROLETYPE, COMPARTMENTTYPE, RELATIONSHIP, FULFILLMENT, PART)
 
-  protected var crom = Option.empty[FormalCROM[String, String, String, String]]
-
-  /**
-    * Load and replace the current model instance.
-    *
-    * @param path the file path to load a CROM from
-    */
-  def withModel(path: String): Unit = {
-    require(null != path && path.nonEmpty)
-    this.path = path
-    crom = Option(construct())
-  }
-
   /**
     * Checks if the loaded CROM is wellformed.
     *
+    * @param path the file path to load a CROM from
     * @return true if a model was loaded using `withModel()` and it is wellformed, false otherwise
     */
-  def wellformed: Boolean = crom.isDefined && crom.forall(_.wellformed)
+  def wellformed(path: String): Boolean = construct(path).wellformed
 
   private[this] def instanceName(of: EObject): String = of.eClass().getEAllAttributes.asScala.find(_.getName == "name") match {
     case Some(a) => of.eGet(a).toString
@@ -111,16 +98,16 @@ trait CROM extends ECoreImporter {
     }
   }
 
-  private[this] def construct[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](): FormalCROM[NT, RT, CT, RST] = {
-    val nt = ListBuffer[String]()
-    val rt = ListBuffer[String]()
-    val ct = ListBuffer[String]()
-    val rst = ListBuffer[String]()
-    val fills = ListBuffer[(String, String)]()
+  protected[this] def construct[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](path: String): FormalCROM[NT, RT, CT, RST] = {
+    val nt = mutable.ListBuffer[String]()
+    val rt = mutable.ListBuffer[String]()
+    val ct = mutable.ListBuffer[String]()
+    val rst = mutable.ListBuffer[String]()
+    val fills = mutable.ListBuffer[(String, String)]()
     val parts = mutable.Map[String, List[String]]()
     val rel = mutable.Map[String, List[String]]()
 
-    loadModel().getAllContents.asScala.filter(e => validTypes.contains(e.eClass().getName)).foreach(curr => {
+    loadModel(path).getAllContents.asScala.filter(e => validTypes.contains(e.eClass().getName)).foreach(curr => {
       curr.eClass().getName match {
         case NATURALTYPE => nt += constructNT(curr)
         case ROLETYPE => rt += constructRT(curr)

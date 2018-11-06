@@ -12,7 +12,7 @@ import scala.reflect.classTag
 trait CROI extends CROM {
   protected val croi: FormalCROI[String, String, String, String] = FormalCROI.empty[String, String, String, String]
 
-  def compliant: Boolean = crom.isDefined && croi.compliant(this.crom.get)
+  def compliant(path: String): Boolean = croi.compliant(construct(path))
 
   private[this] def addType1(of: AnyRef): Unit = {
     val className = of.getClass.toString
