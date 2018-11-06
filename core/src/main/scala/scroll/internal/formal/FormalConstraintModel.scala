@@ -64,28 +64,30 @@ case class FormalConstraintModel[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT 
     )
 
   def axiom14(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
-  // TODO: fix asInstanceOf
-    FormalUtils.all(for {
-      (o, c, r) <- croi.plays if rolec.contains(croi.type1(c).asInstanceOf[CT])
-      (_, a) <- rolec(croi.type1(c).asInstanceOf[CT]) if FormalUtils.atoms(a).contains(croi.type1(r))
-    } yield FormalUtils.evaluate(a, croi, o, c) == 1
+    FormalUtils.all(
+      for {
+        (o, c, r) <- croi.plays if rolec.contains(croi.type1(c).asInstanceOf[CT])
+        (_, a) <- rolec(croi.type1(c).asInstanceOf[CT]) if FormalUtils.atoms(a).contains(croi.type1(r))
+      } yield FormalUtils.evaluate(a, croi, o, c) == 1
     )
 
   def axiom15(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(for {
-      rst <- crom.rst if card.contains(rst)
-      c <- croi.c if croi.links.contains((rst, c))
-      (r_1, r_2) <- croi.links((rst, c))
-    } yield {
-      val l1 = croi.pred(rst, c, r_2).size
-      val l2 = croi.succ(rst, c, r_1).size
-      card(rst)._1._1 <= l1 && l1 <= card(rst)._1._2 && card(rst)._2._1 <= l2 && l2 <= card(rst)._2._2
-    }
+    FormalUtils.all(
+      for {
+        rst <- crom.rst if card.contains(rst)
+        c <- croi.c if croi.links.contains((rst, c))
+        (r_1, r_2) <- croi.links((rst, c))
+      } yield {
+        val l1 = croi.pred(rst, c, r_2).size
+        val l2 = croi.succ(rst, c, r_1).size
+        card(rst)._1._1 <= l1 && l1 <= card(rst)._1._2 && card(rst)._2._1 <= l2 && l2 <= card(rst)._2._2
+      }
     )
 
   def axiom16(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(for {
-      c <- croi.c
-      (rst, f) <- intra if croi.links.contains((rst, c))
-    } yield f(croi.overline_links(rst, c)))
+    FormalUtils.all(
+      for {
+        c <- croi.c
+        (rst, f) <- intra if croi.links.contains((rst, c))
+      } yield f(croi.overline_links(rst, c)))
 }

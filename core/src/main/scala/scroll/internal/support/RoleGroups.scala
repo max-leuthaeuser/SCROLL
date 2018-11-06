@@ -50,12 +50,12 @@ trait RoleGroups {
     }
   }
 
-  private[this] def buildConstraintsMap(types: Seq[String], op: Option[Constraint], model: Model, numOfTypes: Int, min: Int, max: CInt, rg: RoleGroup): Map[String, IntVar] = types.map(ts => op match {
-    case Some(AND) => ts -> model.intVar("NUM$" + ts, 1)
-    case Some(OR) => ts -> model.intVar("NUM$" + ts, 0, numOfTypes)
-    case Some(XOR) => ts -> model.intVar("NUM$" + ts, 0, 1)
-    case Some(NOT) => ts -> model.intVar("NUM$" + ts, 0)
-    case None =>
+  private[this] def buildConstraintsMap(types: Seq[String], op: Constraint, model: Model, numOfTypes: Int, min: Int, max: CInt, rg: RoleGroup): Map[String, IntVar] = types.map(ts => op match {
+    case AND => ts -> model.intVar("NUM$" + ts, 1)
+    case OR => ts -> model.intVar("NUM$" + ts, 0, numOfTypes)
+    case XOR => ts -> model.intVar("NUM$" + ts, 0, 1)
+    case NOT => ts -> model.intVar("NUM$" + ts, 0)
+    case _ =>
       throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
   }).toMap
 
@@ -79,7 +79,9 @@ trait RoleGroups {
             if (numRole == s.getIntVal(constraintsMap(t))) {
               resultRoleTypeSet.add(t)
               true
-            } else false
+            } else {
+              false
+            }
           })
         })
       })) {
@@ -98,46 +100,20 @@ trait RoleGroups {
     val model = new Model("MODEL$" + rg.hashCode())
     val types = rg.types
     val numOfTypes = types.size
-    val min = rg.limit._1
-    val max = rg.limit._2
-
     val sumName = "SUM$" + rg.name
-    var sum = Option.empty[IntVar]
-    var op = Option.empty[Constraint]
 
-    // AND
-    if (max.compare(min) == 0 && min == numOfTypes) {
-      sum = Some(model.intVar(sumName, numOfTypes))
-      op = Some(AND)
-    }
+    val (min, max) = (rg.limit._1, rg.limit._2)
 
-    // OR
-    if (min == 1 && max.compare(numOfTypes) == 0) {
-      sum = Some(model.intVar(sumName, 1, numOfTypes))
-      op = Some(OR)
-    }
-
-    // XOR
-    if (min == 1 && max.compare(1) == 0) {
-      sum = Some(model.intVar(sumName, 1))
-      op = Some(XOR)
-    }
-
-    // NOT
-    if (min == 0 && max.compare(0) == 0) {
-      sum = Some(model.intVar(sumName, 0))
-      op = Some(NOT)
+    val (sum, op) = (min, max) match {
+      case _ if max.compare(min) == 0 && min == numOfTypes => (model.intVar(sumName, numOfTypes), AND)
+      case _ if min == 1 && max.compare(numOfTypes) == 0 => (model.intVar(sumName, 1, numOfTypes), OR)
+      case _ if min == 1 && max.compare(1) == 0 => (model.intVar(sumName, 1), XOR)
+      case _ if min == 0 && max.compare(0) == 0 => (model.intVar(sumName, 0), NOT)
+      case _ => throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
     }
 
     val constraintsMap = buildConstraintsMap(types, op, model, numOfTypes, min, max, rg)
-
-    sum match {
-      case Some(s) =>
-        model.post(model.sum(constraintsMap.values.toArray, "=", s))
-      case None =>
-        throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
-    }
-
+    model.post(model.sum(constraintsMap.values.toArray, "=", sum))
     solve(model, types, constraintsMap, rg)
   }
 

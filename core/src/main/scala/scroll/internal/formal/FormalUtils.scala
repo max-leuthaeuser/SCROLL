@@ -42,5 +42,6 @@ object FormalUtils {
     case elem: FormalRoleGroup =>
       val sum = elem.rolegroups.map(evaluate(_, croi, o, c)).sum
       if (elem.lower <= sum && sum <= elem.upper) 1 else 0
+    case _ => throw new IllegalArgumentException(s"Can't handle: '$a'")
   }
 }
