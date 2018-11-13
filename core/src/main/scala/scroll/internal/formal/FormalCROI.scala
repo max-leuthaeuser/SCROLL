@@ -52,7 +52,7 @@ case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: 
     * @return true iff the CROI is compliant to the given CROM
     */
   def compliant(crom: FormalCROM[NT, RT, CT, RST]): Boolean = crom.wellformed &&
-    axiom6(crom) && axiom7(crom) && axiom8(crom) &&
+    axiom6(crom) && axiom7() && axiom8() &&
     axiom9(crom) && axiom10(crom) && axiom11(crom)
 
   def axiom6(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
@@ -61,13 +61,13 @@ case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: 
       crom.fills.contains((type1(o), type1(r1))) && crom.parts(type1(c1).asInstanceOf[CT]).contains(type1(r1))
     })
 
-  def axiom7(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
+  def axiom7(): Boolean =
     FormalUtils.all(for {
       (o, c, r) <- plays
       (o1, c1, r1) <- plays if o1 == o && c1 == c && r1 != r
     } yield type1(r1) != type1(r))
 
-  def axiom8(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
+  def axiom8(): Boolean =
     FormalUtils.all(
       (for {
         r1 <- r

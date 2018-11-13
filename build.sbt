@@ -55,6 +55,10 @@ lazy val core = (project in file("core")).
       "-Xlint",
       "-Xlint:-missing-interpolator",
       "-Yno-adapted-args",
+      "-Ywarn-dead-code",
+      "-Ywarn-inaccessible",
+      "-Ywarn-unused",
+      "-Ywarn-unused-import",
       "-Ywarn-numeric-widen",
       "-Ywarn-value-discard",
       "-Xfuture"),
@@ -98,7 +102,7 @@ lazy val examples = (project in file("examples")).
 lazy val tests = (project in file("tests")).
   settings(commonSettings: _*).
   settings(
-    commands += Command.command("testUntilFailed") { state =>"test" :: "testUntilFailed" :: state },
+    commands += Command.command("testUntilFailed") { state => "test" :: "testUntilFailed" :: state },
     testOptions in Test := Seq(Tests.Filter(s => s.endsWith("Suite"))),
     libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % "test")
   ).dependsOn(core, examples)

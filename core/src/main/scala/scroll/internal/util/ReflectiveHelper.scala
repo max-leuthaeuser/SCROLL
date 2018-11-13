@@ -171,17 +171,6 @@ object ReflectiveHelper extends Memoiser {
     isSameMethodName(m, name) && isSameNumberOfParameters(m, args.size) && isSameArgumentTypes(m, args)
 
   /**
-    * @return all methods/functions of the wrapped object as Set
-    */
-  def allMethods(of: AnyRef): Set[Method] = methodCache.get(of.getClass) match {
-    case Some(methods) => methods
-    case None =>
-      val methods = allMethods(of.getClass)
-      methodCache.put(of.getClass, methods)
-      methods
-  }
-
-  /**
     * Find a method of the wrapped object by its name and argument list given.
     *
     * @param on   the instance to search on

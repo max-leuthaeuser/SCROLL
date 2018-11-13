@@ -68,8 +68,8 @@ class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
     scenario("Testing axioms 6 - 11 of the banking example 1") {
       bank1.compliant(bank) shouldBe true
       bank1.axiom6(bank) shouldBe true
-      bank1.axiom7(bank) shouldBe true
-      bank1.axiom8(bank) shouldBe true
+      bank1.axiom7() shouldBe true
+      bank1.axiom8() shouldBe true
       bank1.axiom9(bank) shouldBe true
       bank1.axiom10(bank) shouldBe true
       bank1.axiom11(bank) shouldBe true
@@ -97,8 +97,8 @@ class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
     scenario("Testing axioms 6 - 11 of the banking example 2") {
       bank2.compliant(bank) shouldBe true
       bank2.axiom6(bank) shouldBe true
-      bank2.axiom7(bank) shouldBe true
-      bank2.axiom8(bank) shouldBe true
+      bank2.axiom7() shouldBe true
+      bank2.axiom8() shouldBe true
       bank2.axiom9(bank) shouldBe true
       bank2.axiom10(bank) shouldBe true
       bank2.axiom11(bank) shouldBe true
@@ -107,17 +107,17 @@ class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
     scenario("Testing validity of the banking example 1") {
       c_bank.validity(bank, bank1) shouldBe false
       c_bank.axiom13(bank, bank1) shouldBe false
-      c_bank.axiom14(bank, bank1) shouldBe false
+      c_bank.axiom14(bank1) shouldBe false
       c_bank.axiom15(bank, bank1) shouldBe false
-      c_bank.axiom16(bank, bank1) shouldBe true
+      c_bank.axiom16(bank1) shouldBe true
     }
 
     scenario("Testing validity of the banking example 2") {
       c_bank.validity(bank, bank2) shouldBe true
       c_bank.axiom13(bank, bank2) shouldBe true
-      c_bank.axiom14(bank, bank2) shouldBe true
+      c_bank.axiom14(bank2) shouldBe true
       c_bank.axiom15(bank, bank2) shouldBe true
-      c_bank.axiom16(bank, bank2) shouldBe true
+      c_bank.axiom16(bank2) shouldBe true
     }
   }
 }

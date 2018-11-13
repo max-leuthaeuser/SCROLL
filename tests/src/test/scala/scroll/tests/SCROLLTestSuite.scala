@@ -25,7 +25,7 @@ object SCROLLTestSuite {
       new RecursiveBaseCallsWithCaseClassesTest(cached = c),
       new ThrowableInRoleMethodsTest(cached = c),
       new MultiCompartmentTest(cached = c))
-  }) :+ new ExamplesTest()
+  }) :+ new ExamplesTest() :+ new SCROLLErrorsTest()
 }
 
 class SCROLLTestSuite extends Suites(SCROLLTestSuite.suites: _*)

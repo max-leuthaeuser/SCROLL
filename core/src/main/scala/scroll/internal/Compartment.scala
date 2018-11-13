@@ -389,7 +389,7 @@ trait Compartment
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] = {
       val core = coreFor(wrapped).last
       dispatchQuery.filter(plays.roles(core)).find(ReflectiveHelper.hasMember(_, name)) match {
-        case Some(r) => Right(ReflectiveHelper.propertyOf(r, name))
+        case Some(r) => Right(ReflectiveHelper.propertyOf[E](r, name))
         case None => Left(RoleNotFound(core.toString, name, Seq.empty))
       }
     }

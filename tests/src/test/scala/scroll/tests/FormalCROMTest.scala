@@ -79,8 +79,8 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
     for ((t, a6, a7, a8, a9, a10, a11) <- croitests) {
       t.axiom6(test1) shouldBe a6
-      t.axiom7(test1) shouldBe a7
-      t.axiom8(test1) shouldBe a8
+      t.axiom7() shouldBe a7
+      t.axiom8() shouldBe a8
       t.axiom9(test1) shouldBe a9
       t.axiom10(test1) shouldBe a10
       t.axiom11(test1) shouldBe a11
@@ -170,9 +170,9 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
     for ((m, c, i, co, a13, a14, a15, a16) <- valtests) {
       i.compliant(m) shouldBe co
       c.axiom13(m, i) shouldBe a13
-      c.axiom14(m, i) shouldBe a14
+      c.axiom14(i) shouldBe a14
       c.axiom15(m, i) shouldBe a15
-      c.axiom16(m, i) shouldBe a16
+      c.axiom16(i) shouldBe a16
       c.validity(m, i) shouldBe (co && a13 && a14 && a15 && a16)
     }
   }

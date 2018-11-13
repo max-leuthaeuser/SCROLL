@@ -8,8 +8,8 @@ import scroll.internal.util.ReflectiveHelper
   */
 trait QueryStrategies {
 
-  implicit class RoleQueryStrategy(name: String) {
-    def matches(on: AnyRef): Boolean = true
+  abstract class RoleQueryStrategy(name: String) {
+    def matches(on: AnyRef): Boolean
 
     /**
       * Returns the value the queried attribute.
@@ -30,7 +30,9 @@ trait QueryStrategies {
     def ==>[T](value: T): WithResult[T] = WithResult(name, value)
   }
 
-  case class MatchAny() extends RoleQueryStrategy("")
+  case class MatchAny() extends RoleQueryStrategy("") {
+    override def matches(on: AnyRef): Boolean = true
+  }
 
   case class WithProperty[T](name: String, value: T) extends RoleQueryStrategy(name) {
     override def matches(on: AnyRef): Boolean = ReflectiveHelper.propertyOf[T](on, name) == value

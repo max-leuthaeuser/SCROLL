@@ -50,7 +50,7 @@ case class FormalConstraintModel[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT 
     * @return true iff the constraint model is compliant to the given CROM and the given CROI is valid wrt. the constraint model
     */
   def validity(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
-    compliant(crom) && croi.compliant(crom) && axiom13(crom, croi) && axiom14(crom, croi) && axiom15(crom, croi) && axiom16(crom, croi)
+    compliant(crom) && croi.compliant(crom) && axiom13(crom, croi) && axiom14(croi) && axiom15(crom, croi) && axiom16(croi)
 
   def axiom13(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
     FormalUtils.all(for {
@@ -63,7 +63,7 @@ case class FormalConstraintModel[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT 
     }
     )
 
-  def axiom14(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
+  def axiom14(croi: FormalCROI[NT, RT, CT, RST]): Boolean =
     FormalUtils.all(
       for {
         (o, c, r) <- croi.plays if rolec.contains(croi.type1(c).asInstanceOf[CT])
@@ -84,7 +84,7 @@ case class FormalConstraintModel[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT 
       }
     )
 
-  def axiom16(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
+  def axiom16(croi: FormalCROI[NT, RT, CT, RST]): Boolean =
     FormalUtils.all(
       for {
         c <- croi.c
