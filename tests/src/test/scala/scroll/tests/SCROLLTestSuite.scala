@@ -24,7 +24,8 @@ object SCROLLTestSuite {
       new RecursiveBaseCallsWithClassesTest(cached = c),
       new RecursiveBaseCallsWithCaseClassesTest(cached = c),
       new ThrowableInRoleMethodsTest(cached = c),
-      new MultiCompartmentTest(cached = c))
+      new MultiCompartmentTest(cached = c),
+      new CompartmentMergeTest(cached = c))
   }) :+ new ExamplesTest() :+ new SCROLLErrorsTest()
 }
 

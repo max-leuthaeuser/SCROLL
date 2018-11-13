@@ -78,18 +78,6 @@ trait Compartment
   }
 
   /**
-    * Merge role graphs to this and set other role graph to this one.
-    */
-  def combine(other: Compartment): Compartment = {
-    require(null != other)
-    if (other.plays != this.plays) {
-      plays.addPart(other.plays)
-      other.plays.addPart(this.plays)
-    }
-    this
-  }
-
-  /**
     * Removing is-part-of relation between compartments.
     */
   def notPartOf(other: Compartment): Unit = {
