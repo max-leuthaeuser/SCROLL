@@ -39,7 +39,8 @@ lazy val commonSettings = Seq(
     "-language:postfixOps",
     "-language:implicitConversions",
     "-unchecked",
-    "-target:jvm-1.8")
+    "-target:jvm-1.8"),
+  coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*;scroll\\.examples\\.currency"
 )
 
 lazy val core = project.
