@@ -42,13 +42,9 @@ lazy val commonSettings = Seq(
     "-target:jvm-1.8")
 )
 
-lazy val root = (project in file(".")).settings(
-  name := "SCROLLRoot"
-).settings(noPublishSettings: _*).aggregate(core, tests, examples)
-
-lazy val core = (project in file("core")).
-  settings(commonSettings: _*).
+lazy val core = project.
   settings(
+  	commonSettings,
     name := "SCROLL",
     scalacOptions ++= Seq(
       "-Xfatal-warnings",
@@ -96,21 +92,26 @@ lazy val core = (project in file("core")).
         </developers>
   )
 
-lazy val examples = (project in file("examples")).
-  settings(commonSettings: _*).dependsOn(core)
-
-lazy val tests = (project in file("tests")).
-  settings(commonSettings: _*).
+lazy val examples = project.
   settings(
-    commands += Command.command("testUntilFailed") { state => "test" :: "testUntilFailed" :: state },
+  	noPublishSettings,
+  	commonSettings).
+  dependsOn(core)
+
+lazy val tests = project.
+  settings(
+  	noPublishSettings,
+  	commonSettings,
     testOptions in Test := Seq(Tests.Filter(s => s.endsWith("Suite"))),
     libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % "test")
-  ).dependsOn(core, examples)
+  ).
+  dependsOn(core, examples)
 
-lazy val benchmark = (project in file("benchmark")).
-  settings(commonSettings: _*).
-  dependsOn(core).
-  enablePlugins(JmhPlugin).
+lazy val benchmark = project.
   settings(
-    mainClass in(Jmh, run) := Some("scroll.benchmarks.RunnerApp")
-  )
+  	noPublishSettings,
+  	commonSettings,
+  	mainClass in(Jmh, run) := Some("scroll.benchmarks.RunnerApp")
+  ).
+  enablePlugins(JmhPlugin).
+  dependsOn(core)
