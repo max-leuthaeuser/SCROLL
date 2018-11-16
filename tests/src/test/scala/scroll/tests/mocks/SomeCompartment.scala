@@ -7,6 +7,10 @@ class SomeCompartment(cached: Boolean) extends Compartment {
 
   ScalaRoleGraphBuilder.cached(cached)
 
+  def playRoleC (p: Object): Unit = {
+    p play new RoleC()
+  }
+  
   class RoleA {
     val valueA: String = "valueA"
     var valueB: Int = 1

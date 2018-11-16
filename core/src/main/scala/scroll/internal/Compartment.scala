@@ -50,7 +50,7 @@ trait Compartment
     with QueryStrategies
     with RoleUnionTypes {
 
-  private[internal] val plays: ScalaRoleGraph = ScalaRoleGraphBuilder.build
+  private[internal] var plays: ScalaRoleGraph = ScalaRoleGraphBuilder.build
 
   implicit def either2TorException[T](either: Either[_, T]): T = either.fold(
     l => {
@@ -66,6 +66,18 @@ trait Compartment
     require(null != other)
     other.partOf(this)
     this.partOf(other)
+    this
+  }
+  
+  /**
+    * Merge role graphs to this and set other role graph to this one.
+    */
+  def combine(other: Compartment): Compartment = {
+    require(null != other)
+    if (other.plays != this.plays) {
+      plays.addPart(other.plays)
+      other.plays = this.plays
+    }
     this
   }
 
