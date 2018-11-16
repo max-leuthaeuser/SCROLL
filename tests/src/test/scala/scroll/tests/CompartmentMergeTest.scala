@@ -14,7 +14,7 @@ class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
       val compB = new CompartmentUnderTest {
         core play new RoleB()
-      }      
+      }
       When("Calling union on those Compartments")
       compA.union(compB)
       Then("Core should play all roles")
@@ -22,13 +22,12 @@ class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       compA.newPlayer(core).isPlaying[SomeCompartment#RoleB] shouldBe true
       compB.newPlayer(core).isPlaying[SomeCompartment#RoleA] shouldBe true
       compB.newPlayer(core).isPlaying[SomeCompartment#RoleB] shouldBe true
-      
-      compB.playRoleC(core)
+      compB.newPlayer(core).play(new compB.RoleC())
       Then("Core should play all roles but only in one compartment")
       compA.newPlayer(core).isPlaying[SomeCompartment#RoleC] shouldBe false
-      compB.newPlayer(core).isPlaying[SomeCompartment#RoleC] shouldBe true      
+      compB.newPlayer(core).isPlaying[SomeCompartment#RoleC] shouldBe true
     }
-    
+
     scenario("Testing combine") {
       Given("Two Compartments and some cores/roles")
       val core = new CoreA()
@@ -37,7 +36,7 @@ class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
       val compB = new CompartmentUnderTest {
         core play new RoleB()
-      }      
+      }
       When("Calling combine on those Compartments")
       compA.combine(compB)
       Then("Core should play all roles")
@@ -45,11 +44,10 @@ class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       compA.newPlayer(core).isPlaying[SomeCompartment#RoleB] shouldBe true
       compB.newPlayer(core).isPlaying[SomeCompartment#RoleA] shouldBe true
       compB.newPlayer(core).isPlaying[SomeCompartment#RoleB] shouldBe true
-      
-      compB.playRoleC(core)
+      compB.newPlayer(core).play(new compB.RoleC())
       Then("Core should play all roles")
       compA.newPlayer(core).isPlaying[SomeCompartment#RoleC] shouldBe true
-      compB.newPlayer(core).isPlaying[SomeCompartment#RoleC] shouldBe true      
+      compB.newPlayer(core).isPlaying[SomeCompartment#RoleC] shouldBe true
     }
 
     scenario("Testing partOf") {
