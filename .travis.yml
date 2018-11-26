@@ -4,14 +4,19 @@ jdk:
 language: scala
 
 scala:
-    - 2.12.7
+  - 2.12.7
 
 install:
-    - true
+  - true
 
 branches:
   only:
     - master
     
 script:
-    - sbt tests/test
+  - sbt clean coverage test
+
+after_success:
+  - sbt coverageReport
+  - sbt coverageAggregate
+  - sbt codacyCoverage
