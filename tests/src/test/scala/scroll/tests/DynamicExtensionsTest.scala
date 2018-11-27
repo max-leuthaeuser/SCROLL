@@ -1,6 +1,6 @@
 package scroll.tests
 
-import scroll.tests.mocks.CoreA
+import mocks._
 
 class DynamicExtensionsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 

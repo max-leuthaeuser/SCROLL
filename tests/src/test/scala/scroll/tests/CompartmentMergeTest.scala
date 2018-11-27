@@ -1,6 +1,6 @@
 package scroll.tests
 
-import scroll.tests.mocks.{CoreA, SomeCompartment}
+import mocks._
 
 class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for merging/splitting Compartments.")
@@ -18,14 +18,14 @@ class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       When("Calling union on those Compartments")
       compA.union(compB)
       Then("Core should play all roles")
-      compA.newPlayer(core).isPlaying[SomeCompartment#RoleA] shouldBe true
-      compA.newPlayer(core).isPlaying[SomeCompartment#RoleB] shouldBe true
-      compB.newPlayer(core).isPlaying[SomeCompartment#RoleA] shouldBe true
-      compB.newPlayer(core).isPlaying[SomeCompartment#RoleB] shouldBe true
-      compB.newPlayer(core).play(new compB.RoleC())
+      compA.newPlayer(core).isPlaying[RoleA] shouldBe true
+      compA.newPlayer(core).isPlaying[RoleB] shouldBe true
+      compB.newPlayer(core).isPlaying[RoleA] shouldBe true
+      compB.newPlayer(core).isPlaying[RoleB] shouldBe true
+      compB.newPlayer(core).play(new RoleC())
       Then("Core should play all roles but only in one compartment")
-      compA.newPlayer(core).isPlaying[SomeCompartment#RoleC] shouldBe false
-      compB.newPlayer(core).isPlaying[SomeCompartment#RoleC] shouldBe true
+      compA.newPlayer(core).isPlaying[RoleC] shouldBe false
+      compB.newPlayer(core).isPlaying[RoleC] shouldBe true
     }
 
     scenario("Testing combine") {
@@ -40,14 +40,14 @@ class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       When("Calling combine on those Compartments")
       compA.combine(compB)
       Then("Core should play all roles")
-      compA.newPlayer(core).isPlaying[SomeCompartment#RoleA] shouldBe true
-      compA.newPlayer(core).isPlaying[SomeCompartment#RoleB] shouldBe true
-      compB.newPlayer(core).isPlaying[SomeCompartment#RoleA] shouldBe true
-      compB.newPlayer(core).isPlaying[SomeCompartment#RoleB] shouldBe true
-      compB.newPlayer(core).play(new compB.RoleC())
+      compA.newPlayer(core).isPlaying[RoleA] shouldBe true
+      compA.newPlayer(core).isPlaying[RoleB] shouldBe true
+      compB.newPlayer(core).isPlaying[RoleA] shouldBe true
+      compB.newPlayer(core).isPlaying[RoleB] shouldBe true
+      compB.newPlayer(core).play(new RoleC())
       Then("Core should play all roles")
-      compA.newPlayer(core).isPlaying[SomeCompartment#RoleC] shouldBe true
-      compB.newPlayer(core).isPlaying[SomeCompartment#RoleC] shouldBe true
+      compA.newPlayer(core).isPlaying[RoleC] shouldBe true
+      compB.newPlayer(core).isPlaying[RoleC] shouldBe true
     }
 
     scenario("Testing partOf") {
@@ -62,10 +62,10 @@ class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       When("Calling partOf on those Compartments")
       compA.partOf(compB)
       Then("Core should play the correct roles")
-      compA.newPlayer(core).isPlaying[SomeCompartment#RoleA] shouldBe true
-      compA.newPlayer(core).isPlaying[SomeCompartment#RoleB] shouldBe true
-      compB.newPlayer(core).isPlaying[SomeCompartment#RoleA] shouldBe false
-      compB.newPlayer(core).isPlaying[SomeCompartment#RoleB] shouldBe true
+      compA.newPlayer(core).isPlaying[RoleA] shouldBe true
+      compA.newPlayer(core).isPlaying[RoleB] shouldBe true
+      compB.newPlayer(core).isPlaying[RoleA] shouldBe false
+      compB.newPlayer(core).isPlaying[RoleB] shouldBe true
     }
 
     scenario("Testing notPartOf") {

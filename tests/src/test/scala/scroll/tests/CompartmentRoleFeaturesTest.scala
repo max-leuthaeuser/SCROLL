@@ -1,11 +1,11 @@
 package scroll.tests
 
-import mocks.{CoreA, CoreB}
+import mocks._
 import scroll.internal.support.DispatchQuery
 import DispatchQuery._
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
 
-class RoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
+class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
   info("Test spec for an excerpt of the role concept.")
   info("Things like role playing and method invocation are tested.")

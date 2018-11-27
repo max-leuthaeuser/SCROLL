@@ -3,7 +3,7 @@ package scroll.tests
 import scroll.internal.MultiCompartment
 import scroll.internal.support.DispatchQuery
 import scroll.internal.support.DispatchQuery._
-import scroll.tests.mocks.CoreA
+import mocks.CoreA
 
 class MultiRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 

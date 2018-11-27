@@ -1,6 +1,6 @@
 package scroll.tests
 
-import scroll.tests.mocks.CoreA
+import mocks._
 
 class RoleGroupsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for role groups.")

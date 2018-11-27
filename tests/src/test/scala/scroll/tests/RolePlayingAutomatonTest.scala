@@ -1,6 +1,6 @@
 package scroll.tests
 
-import mocks.CoreA
+import mocks._
 import org.scalatest.concurrent.Waiters._
 import org.scalatest.time.SpanSugar._
 import scroll.internal.rpa.RolePlayingAutomaton

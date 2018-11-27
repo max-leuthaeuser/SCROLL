@@ -1,6 +1,6 @@
 package scroll.tests
 
-import scroll.tests.mocks.CoreA
+import mocks._
 import scroll.internal.formal.CROI
 
 class CROITest(cached: Boolean) extends AbstractSCROLLTest(cached) {

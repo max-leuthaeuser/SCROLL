@@ -5,7 +5,8 @@ import org.scalatest.Suites
 object SCROLLTestSuite {
   val suites: Seq[AbstractSCROLLTest] = Seq(true, false).flatMap(c => {
     Seq(
-      new RoleFeaturesTest(cached = c),
+      new CompartmentRoleFeaturesTest(cached = c),
+      new MultiCompartmentRoleFeaturesTest(cached = c),
       new RoleSortingTest(cached = c),
       new DynamicExtensionsTest(cached = c),
       new EqualityRoleTest(cached = c),
@@ -25,7 +26,8 @@ object SCROLLTestSuite {
       new RecursiveBaseCallsWithCaseClassesTest(cached = c),
       new ThrowableInRoleMethodsTest(cached = c),
       new MultiCompartmentTest(cached = c),
-      new CompartmentMergeTest(cached = c))
+      new CompartmentMergeTest(cached = c),
+      new QueryStrategiesTest(cached = c))
   }) :+ new ExamplesTest() :+ new SCROLLErrorsTest()
 }
 

@@ -1,6 +1,6 @@
 package scroll.tests
 
-import mocks.CoreA
+import mocks._
 
 class RelationshipTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for the relationship concept.")

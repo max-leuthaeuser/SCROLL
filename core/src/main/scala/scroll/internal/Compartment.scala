@@ -68,7 +68,7 @@ trait Compartment
     this.partOf(other)
     this
   }
-  
+
   /**
     * Merge role graphs to this and set other role graph to this one.
     */
@@ -104,15 +104,8 @@ trait Compartment
     * @tparam T the type of the player instance to query for
     * @return all player instances as Seq, that do conform to the given matcher
     */
-  def all[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = {
-    plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(a => {
-      coreFor(a) match {
-        case p +: Nil => matcher.matches(p)
-        case Nil => false
-        case l => l.forall(matcher.matches)
-      }
-    })
-  }
+  def all[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] = 
+    plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(matcher.matches)
 
   /**
     * Query the role playing graph for all player instances that do conform to the given function.
@@ -122,13 +115,7 @@ trait Compartment
     * @return all player instances as Seq, that do conform to the given matcher
     */
   def all[T <: AnyRef : ClassTag](matcher: T => Boolean): Seq[T] =
-    plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(a => {
-      coreFor(a) match {
-        case p +: Nil => matcher(p.asInstanceOf[T])
-        case Nil => false
-        case l => l.forall(i => matcher(i.asInstanceOf[T]))
-      }
-    })
+    plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(matcher)
 
   /**
     * Query the role playing graph for all player instances that do conform to the given matcher and return the first found.
@@ -381,7 +368,7 @@ trait Compartment
       dispatchQuery.filter(plays.roles(core)).collectFirst {
         case r if ReflectiveHelper.findMethod(r, name, args).isDefined => (r, ReflectiveHelper.findMethod(r, name, args).get)
       } match {
-        case Some((r, fm)) => dispatch(r, fm, args: _*)
+        case Some((r, fm)) => dispatch[E](r, fm, args: _*)
         case _ => Left(RoleNotFound(core.toString, name, args))
       }
     }

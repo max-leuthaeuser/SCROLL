@@ -53,7 +53,7 @@ trait MultiCompartment extends Compartment {
       val core = coreFor(wrapped).last
       dispatchQuery.filter(plays.roles(core)).collect {
         case r if ReflectiveHelper.findMethod(r, name, args).isDefined => (r, ReflectiveHelper.findMethod(r, name, args).get)
-      } map { case (r, fm) => dispatch(r, fm, args: _*) } match {
+      } map { case (r, fm) => dispatch[E](r, fm, args: _*) } match {
         case Nil => Left(RoleNotFound(core.toString, name, args))
         case l => Right(l)
       }
@@ -66,9 +66,9 @@ trait MultiCompartment extends Compartment {
       val core = coreFor(wrapped).last
       dispatchQuery.filter(plays.roles(core)).collect {
         case r if ReflectiveHelper.hasMember(r, name) => r
-      } map (ReflectiveHelper.propertyOf(_, name)) match {
+      } map (ReflectiveHelper.propertyOf[E](_, name)) match {
         case Nil => Left(RoleNotFound(core.toString, name, Seq.empty))
-        case l => Right(l)
+        case l => Right(l.map(Right(_)))
       }
     }
 

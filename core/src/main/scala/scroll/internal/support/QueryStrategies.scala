@@ -8,37 +8,33 @@ import scroll.internal.util.ReflectiveHelper
   */
 trait QueryStrategies {
 
-  abstract class RoleQueryStrategy(name: String) {
+  abstract class RoleQueryStrategy {
     def matches(on: AnyRef): Boolean
-
-    /**
-      * Returns the value the queried attribute.
-      *
-      * @param value the name of the attribute that is queried
-      * @tparam T its type
-      * @return the value of the queried attribute
-      */
-    def ==#[T](value: T): WithProperty[T] = WithProperty(name, value)
-
-    /**
-      * Returns the return value the queried function.
-      *
-      * @param value the name of the function that is queried
-      * @tparam T its return type
-      * @return the return value of the queried function
-      */
-    def ==>[T](value: T): WithResult[T] = WithResult(name, value)
   }
 
-  case class MatchAny() extends RoleQueryStrategy("") {
+  case class MatchAny() extends RoleQueryStrategy {
     override def matches(on: AnyRef): Boolean = true
   }
 
-  case class WithProperty[T](name: String, value: T) extends RoleQueryStrategy(name) {
+  /**
+    * Query strategy using the value the queried attribute.
+    *
+    * @param name  the name of the attribute that is queried
+    * @param value the value of the attribute that is queried
+    * @tparam T its type
+    */
+  case class WithProperty[T](name: String, value: T) extends RoleQueryStrategy {
     override def matches(on: AnyRef): Boolean = ReflectiveHelper.propertyOf[T](on, name) == value
   }
 
-  case class WithResult[T](name: String, result: T) extends RoleQueryStrategy(name) {
+  /**
+    * Query strategy using the return value the queried function.
+    *
+    * @param name   the name of the function that is queried
+    * @param result the return value of the function that is queried
+    * @tparam T its type
+    */
+  case class WithResult[T](name: String, result: T) extends RoleQueryStrategy {
     override def matches(on: AnyRef): Boolean = ReflectiveHelper.resultOf[T](on, name) == result
   }
 

@@ -1,6 +1,6 @@
 package scroll.tests
 
-import mocks.CoreA
+import mocks._
 
 class UnionTypesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for union types in the context of roles.")
