@@ -13,7 +13,7 @@ lazy val noPublishSettings =
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.7",
-  version := "1.61",
+  version := "1.7",
   mainClass := None,
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
