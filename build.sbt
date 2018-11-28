@@ -2,7 +2,6 @@ val akkaVersion = "2.5.18"
 val shapelessVersion = "2.3.3"
 val scalatestVersion = "3.0.5"
 val chocoVersion = "4.0.9"
-val slf4jVersion = "1.7.25"
 val guavaVersion = "27.0-jre"
 val emfcommonVersion = "2.15.0"
 val emfecoreVersion = "2.15.0"
@@ -10,6 +9,13 @@ val umlVersion = "3.1.0.v201006071150"
 
 lazy val noPublishSettings =
   Seq(publish := {}, publishLocal := {}, publishArtifact := false)
+
+lazy val root = (project in file(".")).
+  settings(
+    name := "SCROLLRoot",
+    noPublishSettings
+  ).
+  aggregate(core, tests, examples)
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.12.7",
@@ -24,7 +30,6 @@ lazy val commonSettings = Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.chuusai" %% "shapeless" % shapelessVersion,
     "org.choco-solver" % "choco-solver" % chocoVersion,
-    "org.slf4j" % "slf4j-simple" % slf4jVersion,
     "org.scala-lang" % "scala-reflect" % scalaVersion.value,
     "org.eclipse.emf" % "org.eclipse.emf.common" % emfcommonVersion,
     "org.eclipse.emf" % "org.eclipse.emf.ecore" % emfecoreVersion,
@@ -45,7 +50,7 @@ lazy val commonSettings = Seq(
 
 lazy val core = project.
   settings(
-  	commonSettings,
+    commonSettings,
     name := "SCROLL",
     scalacOptions ++= Seq(
       "-Xfatal-warnings",
@@ -94,15 +99,12 @@ lazy val core = project.
   )
 
 lazy val examples = project.
-  settings(
-  	noPublishSettings,
-  	commonSettings).
+  settings(commonSettings).
   dependsOn(core)
 
 lazy val tests = project.
   settings(
-  	noPublishSettings,
-  	commonSettings,
+    commonSettings,
     testOptions in Test := Seq(Tests.Filter(s => s.endsWith("Suite"))),
     libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % "test")
   ).
@@ -110,9 +112,8 @@ lazy val tests = project.
 
 lazy val benchmark = project.
   settings(
-  	noPublishSettings,
-  	commonSettings,
-  	mainClass in(Jmh, run) := Some("scroll.benchmarks.RunnerApp")
+    commonSettings,
+    mainClass in(Jmh, run) := Some("scroll.benchmarks.RunnerApp")
   ).
   enablePlugins(JmhPlugin).
   dependsOn(core)
