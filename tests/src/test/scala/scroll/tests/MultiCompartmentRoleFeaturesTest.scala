@@ -168,9 +168,10 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
       val someCoreA = new CoreA()
 
       new MultiCompartmentUnderTest() {
-        val someRole = new RoleA()
+        val someRoleA = new RoleA()
+        val someRoleD = new RoleD()
         And("a play relationship")
-        someCoreA play someRole
+        someCoreA play someRoleA play someRoleD
 
         When("using updateDynamic to get the value of a role attribute")
         Then("the result of the call to the role of player someCoreA should be correct")
@@ -178,14 +179,30 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
         val expectedA = "newValue"
         (+someCoreA).valueA = expectedA
         (+someCoreA).valueA[String] match {
-          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedA))
+          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedA), Right(expectedA))
+          case Left(error) => fail(error.toString)
+        }
+        (+someRoleA).valueA[String] match {
+          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedA), Right(expectedA))
+          case Left(error) => fail(error.toString)
+        }
+        (+someRoleD).valueA[String] match {
+          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedA), Right(expectedA))
           case Left(error) => fail(error.toString)
         }
 
         val expectedB = -1
         (+someCoreA).valueB = expectedB
         (+someCoreA).valueB[Int] match {
-          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedB))
+          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedB), Right(expectedB))
+          case Left(error) => fail(error.toString)
+        }
+        (+someRoleA).valueB[Int] match {
+          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedB), Right(expectedB))
+          case Left(error) => fail(error.toString)
+        }
+        (+someRoleD).valueB[Int] match {
+          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedB), Right(expectedB))
           case Left(error) => fail(error.toString)
         }
       }

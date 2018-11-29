@@ -49,31 +49,31 @@ trait MultiCompartment extends Compartment {
 
     override def predecessors(): Seq[AnyRef] = plays.predecessors(this.wrapped)
 
-    def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
-      val core = coreFor(wrapped).last
-      dispatchQuery.filter(plays.roles(core)).collect {
-        case r if ReflectiveHelper.findMethod(r, name, args).isDefined => (r, ReflectiveHelper.findMethod(r, name, args).get)
-      } map { case (r, fm) => dispatch[E](r, fm, args: _*) } match {
-        case Nil => Left(RoleNotFound(core.toString, name, args))
+    def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
+      applyDispatchQuery(dispatchQuery, wrapped).map { r =>
+        (r, ReflectiveHelper.findMethod(r, name, args))
+      }.collect {
+        case (r, Some(m)) => dispatch[E](r, m, args: _*)
+      } match {
+        case Nil => Left(RoleNotFound(wrapped.toString, name, args))
         case l => Right(l)
       }
-    }
 
     def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
       applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
 
-    def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] = {
-      val core = coreFor(wrapped).last
-      dispatchQuery.filter(plays.roles(core)).collect {
-        case r if ReflectiveHelper.hasMember(r, name) => r
-      } map (ReflectiveHelper.propertyOf[E](_, name)) match {
-        case Nil => Left(RoleNotFound(core.toString, name, Seq.empty))
+    def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
+      applyDispatchQuery(dispatchQuery, wrapped).collect {
+        case r if ReflectiveHelper.hasMember(r, name) => ReflectiveHelper.propertyOf[E](r, name)
+      } match {
+        case Nil => Left(RoleNotFound(wrapped.toString, name, Seq.empty))
         case l => Right(l.map(Right(_)))
       }
-    }
 
     def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit =
-      dispatchQuery.filter(plays.roles(coreFor(wrapped).last)).filter(ReflectiveHelper.hasMember(_, name)).foreach(ReflectiveHelper.setPropertyOf(_, name, value))
+      applyDispatchQuery(dispatchQuery, wrapped).view.
+        filter(ReflectiveHelper.hasMember(_, name)).
+        foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
     override def equals(o: Any): Boolean = o match {
       case other: MultiPlayer[_] => PlayerEquality.equalsPlayer(this, other)
