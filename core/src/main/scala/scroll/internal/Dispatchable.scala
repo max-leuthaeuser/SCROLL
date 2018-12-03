@@ -18,4 +18,5 @@ trait Dispatchable {
     * @return the resulting return value of the method invocation or an appropriate error
     */
   def dispatch[E](on: AnyRef, m: Method, args: Any*): Either[InvocationError, E]
+
 }

@@ -3,7 +3,7 @@ package scroll.benchmarks
 import java.util.concurrent.TimeUnit
 
 import org.openjdk.jmh.annotations._
-import scroll.internal.SCROLLDynamic
+import scroll.internal.Compartment
 
 import scala.util.Random
 
@@ -12,7 +12,7 @@ object NoopBenchmark {
   @State(Scope.Thread)
   class Local {
     var x, y: Int = _
-    var player: SCROLLDynamic = _
+    var player: Compartment#Player[_ <: AnyRef] = _
 
     @Param(Array("true", "false"))
     var cached: Boolean = _

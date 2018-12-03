@@ -3,7 +3,7 @@ package scroll.internal.support
 import org.chocosolver.solver.Model
 import org.chocosolver.solver.Solution
 import org.chocosolver.solver.variables.IntVar
-import scroll.internal.Compartment
+import scroll.internal.ICompartment
 import scroll.internal.util.ReflectiveHelper
 
 import scala.collection.mutable
@@ -11,7 +11,7 @@ import scala.reflect.ClassTag
 import scala.reflect.classTag
 
 trait RoleGroups {
-  self: Compartment =>
+  self: ICompartment =>
 
   private[this] lazy val roleGroups = mutable.HashMap.empty[String, RoleGroup]
 

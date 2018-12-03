@@ -7,6 +7,7 @@ import scroll.internal.support.DispatchQuery
   * This Trait enables dynamic invocation of role methods that are not natively available on the player object.
   */
 trait SCROLLDynamic extends Dynamic {
+
   /**
     * Allows to call a function with arguments.
     *
@@ -47,4 +48,5 @@ trait SCROLLDynamic extends Dynamic {
     * @param dispatchQuery the dispatch rules that should be applied
     */
   def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit
+
 }

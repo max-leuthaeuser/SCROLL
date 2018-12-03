@@ -1,6 +1,6 @@
 package scroll.internal.support
 
-import scroll.internal.Compartment
+import scroll.internal.ICompartment
 import scroll.internal.util.Many
 
 import scala.reflect.ClassTag
@@ -9,7 +9,7 @@ import scala.reflect.ClassTag
   * Allows to add and check role relationships to a compartment instance.
   */
 trait Relationships {
-  self: Compartment =>
+  self: ICompartment =>
 
   import Relationship._
 

@@ -3,7 +3,6 @@ package scroll.benchmarks
 import scroll.internal.support.DispatchQuery._
 import scroll.internal.Compartment
 import scroll.internal.graph.ScalaRoleGraphBuilder
-import scroll.internal.graph.{CachedScalaRoleGraph, ScalaRoleGraph}
 import scroll.internal.support.DispatchQuery
 
 class NoopExample(cached: Boolean) {
@@ -44,6 +43,6 @@ class NoopExample(cached: Boolean) {
   }
 
   val compartment = new NoopCompartment {
-    val player = new BaseType() play new NoopRole()
+    val player = +(new BaseType() playing new NoopRole)
   }
 }
