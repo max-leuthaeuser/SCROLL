@@ -43,6 +43,6 @@ class NoopExample(cached: Boolean) {
   }
 
   val compartment = new NoopCompartment {
-    val player = +(new BaseType() playing new NoopRole)
+    val player = new BaseType() play new NoopRole()
   }
 }

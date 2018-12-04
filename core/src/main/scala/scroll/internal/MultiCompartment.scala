@@ -18,14 +18,12 @@ trait MultiCompartment extends ICompartment {
     right => right.map(either2TorException)
   )
 
-  override def newPlayer(obj: Object): MultiPlayer[Object] = {
+  override def newPlayer[W <: AnyRef : ClassTag](obj: W): MultiPlayer[W] = {
     require(null != obj)
     new MultiPlayer(obj)
   }
 
-  implicit class MultiPlayer[T <: AnyRef : ClassTag](override val wrapped: T) extends IPlayer[T](wrapped) {
-
-    override def unary_+ : MultiPlayer[T] = this
+  implicit class MultiPlayer[W <: AnyRef : ClassTag](override val wrapped: W) extends IPlayer[W, MultiPlayer[W]](wrapped) {
 
     def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
       applyDispatchQuery(dispatchQuery, wrapped).map { r =>

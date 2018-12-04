@@ -32,14 +32,12 @@ import scala.reflect.ClassTag
   */
 trait Compartment extends ICompartment {
 
-  override def newPlayer(obj: Object): Player[Object] = {
+  override def newPlayer[W <: AnyRef : ClassTag](obj: W): Player[W] = {
     require(null != obj)
     new Player(obj)
   }
 
-  implicit class Player[T <: AnyRef : ClassTag](override val wrapped: T) extends IPlayer[T](wrapped) with SCROLLDynamic {
-
-    override def unary_+ : Player[T] = this
+  implicit class Player[W <: AnyRef : ClassTag](override val wrapped: W) extends IPlayer[W, Player[W]](wrapped) with SCROLLDynamic {
 
     override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
       applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)

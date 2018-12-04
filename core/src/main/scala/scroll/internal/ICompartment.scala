@@ -40,7 +40,7 @@ trait ICompartment extends RoleConstraints
   protected final def coreFor(role: AnyRef): Seq[AnyRef] = {
     require(null != role)
     role match {
-      case cur: IPlayer[_] => coreFor(cur.wrapped)
+      case cur: IPlayer[_, _] => coreFor(cur.wrapped)
       case cur: AnyRef if plays.containsPlayer(cur) =>
         plays.predecessors(cur) match {
           case Nil => Seq(cur)
@@ -112,7 +112,7 @@ trait ICompartment extends RoleConstraints
     * @param obj the player or role that is wrapped into this dynamic player type
     * @return a new Player instance wrapping the given object
     */
-  def newPlayer(obj: Object): IPlayer[Object]
+  def newPlayer[W <: AnyRef : ClassTag](obj: W): IPlayer[W, _]
 
   /**
     * Removes the given player from the graph.
@@ -133,16 +133,18 @@ trait ICompartment extends RoleConstraints
     * Wrapper class to add basic functionality to roles and its players as unified types.
     *
     * @param wrapped the player or role that is wrapped into this dynamic type
-    * @tparam T type of wrapped object
+    * @tparam W type of wrapped object
     */
-  abstract class IPlayer[+T <: AnyRef : ClassTag](val wrapped: T) extends SCROLLDispatchable with Dynamic {
+  abstract class IPlayer[+W <: AnyRef : ClassTag, +T <: IPlayer[W, T]](val wrapped: W) extends SCROLLDispatchable with Dynamic {
+
+    self: T =>
 
     /**
       * Applies lifting to IPlayer
       *
       * @return an lifted IPlayer instance with the calling object as wrapped.
       */
-    def unary_+ : IPlayer[T]
+    def unary_+ : T = this
 
     /**
       * Returns the player of this player instance if this is a role, or this itself.
@@ -162,11 +164,11 @@ trait ICompartment extends RoleConstraints
       * @param role the role that should be played
       * @return this
       */
-    def play[R <: AnyRef : ClassTag](role: R): IPlayer[T] = {
+    def play[R <: AnyRef : ClassTag](role: R): T = {
       require(null != role)
       wrapped match {
-        case p: IPlayer[_] => addPlaysRelation[T, R](p.wrapped.asInstanceOf[T], role)
-        case p: AnyRef => addPlaysRelation[T, R](p.asInstanceOf[T], role)
+        case p: IPlayer[_, _] => addPlaysRelation[W, R](p.wrapped.asInstanceOf[W], role)
+        case p: AnyRef => addPlaysRelation[W, R](p.asInstanceOf[W], role)
         case p => throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles! You tried it with '$p'.")
       }
       this
@@ -179,7 +181,7 @@ trait ICompartment extends RoleConstraints
       * @param role the role that should played
       * @return the player instance
       */
-    def <=>[R <: AnyRef : ClassTag](role: R): T = playing(role)
+    def <=>[R <: AnyRef : ClassTag](role: R): W = playing(role)
 
     /**
       * Adds a play relation between core and role but always returns the player instance.
@@ -188,7 +190,7 @@ trait ICompartment extends RoleConstraints
       * @param role the role that should played
       * @return the player instance
       */
-    def playing[R <: AnyRef : ClassTag](role: R): T = play(role).wrapped
+    def playing[R <: AnyRef : ClassTag](role: R): W = play(role).wrapped
 
     /**
       * Alias for [[IPlayer.drop]].
@@ -196,7 +198,7 @@ trait ICompartment extends RoleConstraints
       * @param role the role that should be removed
       * @return this
       */
-    def <->[R <: AnyRef : ClassTag](role: R): IPlayer[T] = drop(role)
+    def <->[R <: AnyRef : ClassTag](role: R): T = drop(role)
 
     /**
       * Removes the play relation between core and role.
@@ -204,14 +206,14 @@ trait ICompartment extends RoleConstraints
       * @param role the role that should be removed
       * @return this
       */
-    def drop[R <: AnyRef : ClassTag](role: R): IPlayer[T] = {
-      removePlaysRelation[T, R](wrapped, role)
+    def drop[R <: AnyRef : ClassTag](role: R): T = {
+      removePlaysRelation[W, R](wrapped, role)
       this
     }
 
     protected class TransferToBuilder[R <: AnyRef : ClassTag](role: R) {
       def to[P <: AnyRef : ClassTag](player: P): Unit = {
-        transferRole[T, P, R](wrapped, player, role)
+        transferRole[W, P, R](wrapped, player, role)
       }
     }
 
@@ -262,7 +264,7 @@ trait ICompartment extends RoleConstraints
       * @param role the role that should be played
       * @return this
       */
-    def <+>[R <: AnyRef : ClassTag](role: R): IPlayer[T] = play(role)
+    def <+>[R <: AnyRef : ClassTag](role: R): T = play(role)
 
     /**
       * Removes this player from the graph.
@@ -292,7 +294,7 @@ trait ICompartment extends RoleConstraints
     def predecessors(): Seq[AnyRef] = plays.predecessors(this.wrapped)
 
     override def equals(o: Any): Boolean = o match {
-      case other: IPlayer[_] => equalsPlayer(this, other)
+      case other: IPlayer[_, _] => equalsPlayer(this, other)
       case other: Any => equalsAny(this, other)
       case _ => false // default case
     }
