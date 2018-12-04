@@ -109,7 +109,7 @@ object BankExample {
     val accForStan = new Account(Money(10.0, "USD"))
     val accForBrian = new Account(Money(0, "USD"))
 
-    new Bank {
+    val _ = new Bank {
       val ca = new CheckingsAccount
       val sa = new SavingsAccount
 

@@ -38,6 +38,72 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
       }
     }
 
+    scenario("Dropping role and invoking methods with alias methods") {
+      Given("some player and role in a compartment")
+      val someCore = new CoreA()
+      new CompartmentUnderTest() {
+        val someRole = new RoleA()
+        And("a play relationship")
+        someCore <+> someRole
+        someCore <+> new RoleB()
+
+        When("dropping the role")
+        someCore <-> someRole
+
+        Then("the call must be invoked on the core object")
+        someCore a()
+        +someCore a()
+
+        And("a role should be dropped correctly")
+        (+someCore).isPlaying[RoleA] shouldBe false
+        And("binding to RoleB is left untouched of course")
+        (+someCore).isPlaying[RoleB] shouldBe true
+
+        And("role method invocation should work.")
+        val resB: String = +someCore b()
+        resB shouldBe "b"
+      }
+    }
+
+    scenario("Removing a player using the compartment") {
+      Given("some player and role in a compartment")
+      val someCore = new CoreA()
+      new CompartmentUnderTest() {
+        val someRole = new RoleA()
+        And("a play relationship")
+        someCore play someRole
+
+        When("removing the player")
+        this.removePlayer(someCore)
+
+        And("a role should be dropped correctly")
+        (+someCore).isPlaying[RoleA] shouldBe false
+
+        And("role method invocation should not work any longer.")
+        +someCore a() match {
+          case Right(_) => fail("Player should have no access anymore!")
+          case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
+        }
+
+      }
+    }
+
+    scenario("Calling allPlayers using the compartment") {
+      Given("some player and role in a compartment")
+      val someCore = new CoreA()
+      new CompartmentUnderTest() {
+        val roleA = new RoleA()
+        val roleB = new RoleB()
+        And("a play relationship")
+        someCore play roleA
+        someCore play roleB
+
+        Then("allPlayers should deliver all role playing objects")
+        val expected = Seq(someCore, roleA, roleB)
+        this.allPlayers shouldBe expected
+      }
+    }
+
     scenario("Transferring a role") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
@@ -491,6 +557,79 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
       actualVal4 shouldBe expectedVal
       actualVal5 shouldBe expectedVal
       actualVal6 shouldBe expectedVal
+      And("The transitive closure of its cores should be correct.")
+      val expected = Seq(someRoleD, someRoleC, someRoleB, someRoleA, someCoreA)
+      someRoleE.predecessors() shouldBe expected
+    }
+  }
+
+  scenario("Deep roles (chained directly)") {
+    Given("a player and some roles in a compartment")
+    val someCoreA = new CoreA()
+
+    new CompartmentUnderTest() {
+      val someRoleA = new RoleA()
+      val someRoleB = new RoleB()
+      val someRoleC = new RoleC()
+      val someRoleD = new RoleD()
+      val someRoleE = new RoleE()
+      val expectedVal = 10
+      And("some play relationships")
+      When("using deep roles")
+      someCoreA playing someRoleA playing someRoleB playing someRoleC playing someRoleD playing someRoleE
+      And("setting a value of some attached role")
+      (+someCoreA).valueInt = expectedVal
+      val actualVal1: Int = (+someCoreA).valueInt
+      val actualVal2: Int = (+someRoleB).valueInt
+      val actualVal3: Int = (+someRoleC).valueInt
+      val actualVal4: Int = (+someRoleD).valueInt
+      val actualVal5: Int = (+someRoleE).valueInt
+      val actualVal6: Int = someRoleE.valueInt
+      Then("the value should be set correctly")
+      actualVal1 shouldBe expectedVal
+      actualVal2 shouldBe expectedVal
+      actualVal3 shouldBe expectedVal
+      actualVal4 shouldBe expectedVal
+      actualVal5 shouldBe expectedVal
+      actualVal6 shouldBe expectedVal
+      And("The transitive closure of its cores should be correct.")
+      val expected = Seq(someCoreA)
+      someRoleE.predecessors() shouldBe expected
+    }
+  }
+
+  scenario("Deep roles (chained directly with alias method)") {
+    Given("a player and some roles in a compartment")
+    val someCoreA = new CoreA()
+
+    new CompartmentUnderTest() {
+      val someRoleA = new RoleA()
+      val someRoleB = new RoleB()
+      val someRoleC = new RoleC()
+      val someRoleD = new RoleD()
+      val someRoleE = new RoleE()
+      val expectedVal = 10
+      And("some play relationships")
+      When("using deep roles")
+      someCoreA <=> someRoleA <=> someRoleB <=> someRoleC <=> someRoleD <=> someRoleE
+      And("setting a value of some attached role")
+      (+someCoreA).valueInt = expectedVal
+      val actualVal1: Int = (+someCoreA).valueInt
+      val actualVal2: Int = (+someRoleB).valueInt
+      val actualVal3: Int = (+someRoleC).valueInt
+      val actualVal4: Int = (+someRoleD).valueInt
+      val actualVal5: Int = (+someRoleE).valueInt
+      val actualVal6: Int = someRoleE.valueInt
+      Then("the value should be set correctly")
+      actualVal1 shouldBe expectedVal
+      actualVal2 shouldBe expectedVal
+      actualVal3 shouldBe expectedVal
+      actualVal4 shouldBe expectedVal
+      actualVal5 shouldBe expectedVal
+      actualVal6 shouldBe expectedVal
+      And("The transitive closure of its cores should be correct.")
+      val expected = Seq(someCoreA)
+      someRoleE.predecessors() shouldBe expected
     }
   }
 

@@ -3,7 +3,7 @@ package scroll.internal.support
 import com.google.common.graph.GraphBuilder
 import com.google.common.graph.Graphs
 import com.google.common.graph.MutableGraph
-import scroll.internal.Compartment
+import scroll.internal.ICompartment
 import scroll.internal.util.ReflectiveHelper
 
 import scala.collection.JavaConverters._
@@ -14,7 +14,7 @@ import scala.reflect.classTag
   * Allows to add and check role constraints (Riehle constraints) to a compartment instance.
   */
 trait RoleConstraints {
-  self: Compartment =>
+  self: ICompartment =>
 
   protected val roleImplications: MutableGraph[String] = GraphBuilder.directed().build[String]()
   protected val roleEquivalents: MutableGraph[String] = GraphBuilder.directed().build[String]()

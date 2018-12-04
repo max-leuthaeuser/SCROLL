@@ -12,7 +12,7 @@ object FormalConstraintModel {
     */
   def forStrings(rolec: Map[String, List[((Int, Int), AnyRef)]],
                  card: Map[String, ((Int, Int), (Int, Int))],
-                 intra: List[(String, (List[(String, String)]) => Boolean)]): FormalConstraintModel[String, String, String, String] =
+                 intra: List[(String, List[(String, String)] => Boolean)]): FormalConstraintModel[String, String, String, String] =
     FormalConstraintModel(rolec, card, intra)
 }
 
@@ -29,7 +29,7 @@ object FormalConstraintModel {
   */
 case class FormalConstraintModel[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](rolec: Map[CT, List[((Int, Int), AnyRef)]],
                                                                                                                           card: Map[RST, ((Int, Int), (Int, Int))],
-                                                                                                                          intra: List[(RST, (List[(NT, NT)]) => Boolean)]) {
+                                                                                                                          intra: List[(RST, List[(NT, NT)] => Boolean)]) {
 
   /**
     * @param crom the CROM instance to check against

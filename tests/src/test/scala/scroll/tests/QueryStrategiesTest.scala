@@ -54,6 +54,42 @@ class QueryStrategiesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
     }
 
+    scenario("Testing one with custom matcher") {
+      Given("A compartment")
+      new CompartmentUnderTest() {
+        val role1 = new RoleA()
+        val role2 = new RoleA()
+        role2.valueC = "yes"
+
+        new CoreA play role1 play role2
+
+        When("using this query strategy")
+        val matcher = (r: RoleA) => r match {
+          case r: RoleA => r.valueC == "yes"
+          case _ => false
+        }
+        val actual: RoleA = one[RoleA](matcher)
+        Then("the result should be correct")
+        actual shouldBe role2
+      }
+    }
+
+    scenario("Testing one with MatchAny") {
+      Given("A compartment")
+      new CompartmentUnderTest() {
+        val role1 = new RoleA()
+        val role2 = new RoleA()
+        role2.valueC = "yes"
+
+        new CoreA play role1 play role2
+
+        When("using this query strategy")
+        val actual: RoleA = one[RoleA]()
+        Then("the result should be correct")
+        actual shouldBe role1
+      }
+    }
+
   }
 
 }

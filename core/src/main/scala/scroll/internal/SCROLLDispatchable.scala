@@ -15,6 +15,7 @@ import scala.util.Try
   * Trait handling the actual dispatching of role methods.
   */
 trait SCROLLDispatchable extends Dispatchable {
+
   override def dispatch[E](on: AnyRef, m: Method, args: Any*): Either[InvocationError, E] = {
     require(null != on)
     require(null != m)

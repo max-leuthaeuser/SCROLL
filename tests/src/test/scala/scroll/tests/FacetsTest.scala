@@ -23,6 +23,7 @@ class FacetsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         val player = someCore <+> Red
         Then("the facet should be found")
         player.hasFacets(Red) shouldBe true
+        player.facets() shouldBe Seq(Red)
       }
     }
 
@@ -36,6 +37,7 @@ class FacetsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         player.drop(Red)
         Then("the facet should be not be found any longer")
         player.hasFacets(Red) shouldBe false
+        player.facets() shouldBe empty
       }
     }
 
