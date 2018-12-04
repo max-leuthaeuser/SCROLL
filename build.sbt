@@ -2,7 +2,7 @@ val akkaVersion = "2.5.18"
 val shapelessVersion = "2.3.3"
 val scalatestVersion = "3.0.5"
 val chocoVersion = "4.0.9"
-val guavaVersion = "27.0-jre"
+val guavaVersion = "27.0.1-jre"
 val emfcommonVersion = "2.15.0"
 val emfecoreVersion = "2.15.0"
 val umlVersion = "3.1.0.v201006071150"
@@ -18,7 +18,7 @@ lazy val root = (project in file(".")).
   aggregate(core, tests, examples)
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.12.7",
+  scalaVersion := "2.12.8",
   version := "1.7",
   mainClass := None,
   resolvers ++= Seq(
