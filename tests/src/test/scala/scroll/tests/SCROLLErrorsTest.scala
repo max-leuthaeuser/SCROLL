@@ -1,6 +1,8 @@
 package scroll.tests
 
-import scroll.internal.errors.SCROLLErrors.{IllegalRoleInvocationDispatch, RoleNotFound, TypeNotFound}
+import scroll.internal.errors.SCROLLErrors.IllegalRoleInvocationDispatch
+import scroll.internal.errors.SCROLLErrors.RoleNotFound
+import scroll.internal.errors.SCROLLErrors.TypeNotFound
 
 class SCROLLErrorsTest extends AbstractSCROLLTest(cached = true) {
 

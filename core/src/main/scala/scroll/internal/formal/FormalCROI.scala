@@ -35,14 +35,14 @@ object FormalCROI {
   * @tparam CT  type of compartments
   * @tparam RST type of relationships
   */
-case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](
-                                                                                                                var n: List[NT],
-                                                                                                                var r: List[RT],
-                                                                                                                var c: List[CT],
-                                                                                                                var type1: Map[AnyRef, AnyRef],
-                                                                                                                var plays: List[(NT, CT, RT)],
-                                                                                                                var links: Map[(RST, CT), List[(RT, RT)]]
-                                                                                                              ) {
+final case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](
+                                                                                                                      var n: List[NT],
+                                                                                                                      var r: List[RT],
+                                                                                                                      var c: List[CT],
+                                                                                                                      var type1: Map[AnyRef, AnyRef],
+                                                                                                                      var plays: List[(NT, CT, RT)],
+                                                                                                                      var links: Map[(RST, CT), List[(RT, RT)]]
+                                                                                                                    ) {
 
   assert(FormalUtils.mutualDisjoint(List(n, r, c, List(null))))
   assert(FormalUtils.totalFunction(n.union(r).union(c), type1.map { case (k, v) => (k, List(v)) }))
@@ -56,9 +56,8 @@ case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: 
     axiom9(crom) && axiom10(crom) && axiom11(crom)
 
   def axiom6(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(plays.map { case (o, c1, r1) =>
-      // TODO: fix asInstanceOf
-      crom.fills.contains((type1(o), type1(r1))) && crom.parts(type1(c1).asInstanceOf[CT]).contains(type1(r1))
+    FormalUtils.all(plays.map {
+      case (o, c1, r1) => crom.fills.contains((type1(o), type1(r1))) && crom.parts(type1(c1).asInstanceOf[CT]).contains(type1(r1))
     })
 
   def axiom7(): Boolean =

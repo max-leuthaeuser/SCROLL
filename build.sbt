@@ -1,11 +1,7 @@
-val akkaVersion = "2.5.18"
-val shapelessVersion = "2.3.3"
-val scalatestVersion = "3.0.5"
-val chocoVersion = "4.0.9"
-val guavaVersion = "27.0.1-jre"
-val emfcommonVersion = "2.15.0"
-val emfecoreVersion = "2.15.0"
-val umlVersion = "3.1.0.v201006071150"
+val lib = Dependencies
+val linting = Linting
+
+val utf8 = java.nio.charset.StandardCharsets.UTF_8.toString
 
 lazy val noPublishSettings =
   Seq(publish := {}, publishLocal := {}, publishArtifact := false)
@@ -18,25 +14,17 @@ lazy val root = (project in file(".")).
   aggregate(core, tests, examples)
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.12.8",
+  scalaVersion := lib.v.scalaVersion,
   version := "1.7",
   mainClass := None,
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
     "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
   ),
-  libraryDependencies ++= Seq(
-    "com.google.guava" % "guava" % guavaVersion,
-    "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-    "com.chuusai" %% "shapeless" % shapelessVersion,
-    "org.choco-solver" % "choco-solver" % chocoVersion,
-    "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-    "org.eclipse.emf" % "org.eclipse.emf.common" % emfcommonVersion,
-    "org.eclipse.emf" % "org.eclipse.emf.ecore" % emfecoreVersion,
-    "org.eclipse.uml2" % "org.eclipse.uml2.uml" % umlVersion
-  ),
+  libraryDependencies ++= lib.coreDependencies,
   javacOptions in Compile ++= Seq("-source", "1.8", "-target", "1.8"),
   scalacOptions ++= Seq(
+    "-encoding", utf8,
     "-deprecation",
     "-feature",
     "-language:dynamics",
@@ -44,13 +32,29 @@ lazy val commonSettings = Seq(
     "-language:postfixOps",
     "-language:implicitConversions",
     "-unchecked",
-    "-target:jvm-1.8"),
-  coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*;scroll\\.examples\\.currency"
+    "-target:jvm-" + lib.v.jvm),
+  coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*;scroll\\.examples\\.currency",
+  updateOptions := updateOptions.value.withCachedResolution(true),
+  historyPath := Option(target.in(LocalRootProject).value / ".history"),
+  cleanKeepFiles := cleanKeepFiles.value filterNot { file =>
+    file.getPath.endsWith(".history")
+  },
+  cancelable in Global := true,
+  logLevel in Global := {
+    if (insideCI.value) Level.Error else Level.Info
+  },
+  showSuccess := true,
+  showTiming := true,
+  initialize ~= { _ =>
+    val ansi = System.getProperty("sbt.log.noformat", "false") != "true"
+    if (ansi) System.setProperty("scala.color", "true")
+  }
 )
 
 lazy val core = project.
   settings(
     commonSettings,
+    linting.staticAnalysis,
     name := "SCROLL",
     scalacOptions ++= Seq(
       "-Xfatal-warnings",
@@ -67,10 +71,12 @@ lazy val core = project.
     organization := "com.github.max-leuthaeuser",
     publishTo := {
       val nexus = "https://oss.sonatype.org/"
-      if (isSnapshot.value)
-        Some("snapshots" at nexus + "content/repositories/snapshots")
-      else
-        Some("releases" at nexus + "service/local/staging/deploy/maven2")
+      if (isSnapshot.value) {
+        Option("snapshots" at nexus + "content/repositories/snapshots")
+      }
+      else {
+        Option("releases" at nexus + "service/local/staging/deploy/maven2")
+      }
     },
     publishMavenStyle := true,
     publishArtifact in Test := false,
@@ -105,15 +111,29 @@ lazy val examples = project.
 lazy val tests = project.
   settings(
     commonSettings,
-    testOptions in Test := Seq(Tests.Filter(s => s.endsWith("Suite"))),
-    libraryDependencies ++= Seq("org.scalatest" %% "scalatest" % scalatestVersion % "test")
+    testOptions in Test := Seq(
+      Tests.Filter(s => s.endsWith("Suite")),
+      Tests.Argument(TestFrameworks.ScalaTest
+        // F: show full stack traces
+        // S: show short stack traces
+        // D: show duration for each test
+        // I: print "reminders" of failed and canceled tests at the end of the summary,
+        //    eliminating the need to scroll and search to find failed or canceled tests.
+        //    replace with G (or T) to show reminders with full (or short) stack traces
+        // K: exclude canceled tests from reminder
+        , "-oDI"
+        // Periodic notification of slowpokes (tests that have been running longer than 30s)
+        , "-W", "30", "30"
+      )
+    ),
+    libraryDependencies ++= lib.testDependencies
   ).
   dependsOn(core, examples)
 
 lazy val benchmark = project.
   settings(
     commonSettings,
-    mainClass in(Jmh, run) := Some("scroll.benchmarks.RunnerApp")
+    mainClass in(Jmh, run) := Option("scroll.benchmarks.RunnerApp")
   ).
   enablePlugins(JmhPlugin).
   dependsOn(core)

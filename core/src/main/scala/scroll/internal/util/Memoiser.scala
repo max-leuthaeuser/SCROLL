@@ -29,13 +29,11 @@ trait Memoiser {
       * Return the value stored at key `t` if there is one, otherwise
       * return `u`. `u` is only evaluated if necessary and put into the cache.
       */
-    def getAndPutWithDefault(t: T, u: => U): U = get(t) match {
-      case Some(v) => v
-      case None =>
-        val newU = u
-        put(t, newU)
-        newU
-    }
+    def getAndPutWithDefault(t: T, u: => U): U = get(t).getOrElse({
+      val newU = u
+      put(t, newU)
+      newU
+    })
 
     /**
       * Has the value at `t` already been computed or not? By default, does

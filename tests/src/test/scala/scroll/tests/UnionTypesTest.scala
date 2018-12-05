@@ -33,7 +33,7 @@ class UnionTypesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         val roleA = new RoleA
 
         val matcher = new {
-          def m[T: (CoreA or RoleA)#λ](param: T) = param match {
+          def m[T: (CoreA or RoleA)#λ](param: T) = param match { // scalastyle:ignore
             case _: CoreA => -1
             case a: RoleA => a.a()
           }

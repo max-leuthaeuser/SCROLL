@@ -9,11 +9,11 @@ object SCROLLErrors {
 
   sealed trait TypeError
 
-  case class TypeNotFound(name: String) extends TypeError {
+  final case class TypeNotFound(name: String) extends TypeError {
     override def toString: String = s"Type '$name' could not be found!"
   }
 
-  case class RoleNotFound(forCore: String, target: String, args: Seq[Any]) extends SCROLLError {
+  final case class RoleNotFound(forCore: String, target: String, args: Seq[Any]) extends SCROLLError {
     override def toString: String = args match {
       case l if l.nonEmpty =>
         s"No role with '$target' could not be found for the player '$forCore' with the following parameters: " +
@@ -24,7 +24,7 @@ object SCROLLErrors {
 
   sealed trait InvocationError extends SCROLLError
 
-  case class IllegalRoleInvocationDispatch(roleType: String, target: String, args: Seq[Any]) extends InvocationError {
+  final case class IllegalRoleInvocationDispatch(roleType: String, target: String, args: Seq[Any]) extends InvocationError {
     override def toString: String = args match {
       case l if l.nonEmpty =>
         s"'$target' could not be executed on role type '$roleType' with the following parameters: " +

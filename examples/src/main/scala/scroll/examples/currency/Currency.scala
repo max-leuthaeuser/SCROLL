@@ -1,3 +1,4 @@
+// scalastyle:off
 /*
  * Copyright (c) 2009 Thomas Knierim
  * http://www.thomasknierim.com
@@ -30,7 +31,7 @@ import java.math.{RoundingMode, BigDecimal => BigDec}
   * a large range of values. As an added benefit of using <code>java.math.BigDecimal</code>,
   * the <code>Currency</code> type gives users complete control over rounding behaviour.
   * The default rounding more is <code>ROUND_HALF_UP</code> which is commonly used in
-  * commercial applications. The <code>ROUND_HALF_EVEN</code> mode may be useful for statistical 
+  * commercial applications. The <code>ROUND_HALF_EVEN</code> mode may be useful for statistical
   * applications.<p>
   *
   * <p>Computations are carried out with a precision of <i>n</i> positions after the decimal
@@ -909,3 +910,4 @@ object Currency {
     new Currency(BigDec.valueOf(amount), "", decimals, roundingMode)
 
 }
+// scalastyle:on

@@ -43,7 +43,7 @@ trait RoleRestrictions {
     */
   def ReplaceRoleRestriction[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
     val app = mutable.ArrayBuffer.empty[Class[_]]
-    app += classTag[B].runtimeClass
+    val _ = app += classTag[B].runtimeClass
     restrictions(classTag[A].toString) = app
   }
 

@@ -1,3 +1,4 @@
+// scalastyle:off
 /*
  * Copyright (c) 2009 Thomas Knierim
  * http://www.thomasknierim.com
@@ -909,3 +910,4 @@ object Currency {
     new Currency(BigDec.valueOf(amount), "", decimals, roundingMode)
 
 }
+// scalastyle:on

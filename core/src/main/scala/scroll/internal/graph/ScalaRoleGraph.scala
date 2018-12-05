@@ -26,15 +26,15 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
     val target = other.asInstanceOf[ScalaRoleGraph].root
 
-    if (target.nodes().isEmpty) {
-      return false
+    if (!target.nodes().isEmpty) {
+      target.edges().forEach(p => {
+        val _ = root.putEdge(p.source(), p.target())
+      })
+      checkCycles()
+      true
+    } else {
+      false
     }
-
-    target.edges().forEach(p => {
-      val _ = root.putEdge(p.source(), p.target())
-    })
-    checkCycles()
-    true
   }
 
   override def detach(other: RoleGraph): Unit = {
@@ -46,17 +46,15 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
   }
 
   private[this] def checkCycles(): Unit = {
-    if (checkForCycles) {
-      if (Graphs.hasCycle(root)) {
-        throw new RuntimeException(s"Cyclic role-playing relationship found!")
-      }
+    if (checkForCycles && Graphs.hasCycle(root)) {
+      throw new RuntimeException("Cyclic role-playing relationship found!")
     }
   }
 
   override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     require(null != player)
     require(null != role)
-    root.putEdge(player, role)
+    val _ = root.putEdge(player, role)
     if (checkForCycles && Graphs.hasCycle(root)) {
       throw new RuntimeException(s"Cyclic role-playing relationship for player '$player' found!")
     }
@@ -78,12 +76,12 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     if (containsPlayer(player)) {
       val returnSeq = new mutable.ListBuffer[Object]
       val processing = new mutable.Queue[Object]
-      returnSeq += player.asInstanceOf[Object]
+      val _ = returnSeq += player.asInstanceOf[Object]
       root.successors(player.asInstanceOf[Object]).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
       while (processing.nonEmpty) {
         val next = processing.dequeue()
         if (!returnSeq.contains(next)) {
-          returnSeq += next
+          val _ = returnSeq += next
         }
         root.successors(next).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
       }
@@ -98,7 +96,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     if (containsPlayer(player)) {
       val returnSeq = new mutable.ListBuffer[Enumeration#Value]
       root.successors(player.asInstanceOf[Object]).forEach {
-        case e: Enumeration#Value => returnSeq += e
+        case e: Enumeration#Value => val _ = returnSeq += e
         case _ =>
       }
       returnSeq
@@ -120,7 +118,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
       while (processing.nonEmpty) {
         val next = processing.dequeue()
         if (!returnSeq.contains(next)) {
-          returnSeq += next
+          val _ = returnSeq += next
         }
         root.predecessors(next).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
       }

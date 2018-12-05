@@ -4,7 +4,7 @@ import mocks._
 import org.scalatest.concurrent.Waiters._
 import org.scalatest.time.SpanSugar._
 import scroll.internal.rpa.RolePlayingAutomaton
-import scroll.internal.rpa.RolePlayingAutomaton.{BindRole, RPAState, Start, Stop, Terminate, Use}
+import scroll.internal.rpa.RolePlayingAutomaton._
 
 class RolePlayingAutomatonTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for role playing automaton.")

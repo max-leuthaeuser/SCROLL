@@ -47,17 +47,14 @@ trait Compartment extends ICompartment {
         (r, ReflectiveHelper.findMethod(r, name, args))
       }.collectFirst {
         case (r, Some(m)) => (r, m)
-      } match {
-        case Some((r, fm)) => dispatch[E](r, fm, args: _*)
-        case _ => Left(RoleNotFound(wrapped.toString, name, args))
-      }
-
+      }.map(e => dispatch[E](e._1, e._2, args: _*)).
+        getOrElse(Left(RoleNotFound(wrapped.toString, name, args)))
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
-      applyDispatchQuery(dispatchQuery, wrapped).view.find(ReflectiveHelper.hasMember(_, name)) match {
-        case Some(r) => Right(ReflectiveHelper.propertyOf[E](r, name))
-        case None => Left(RoleNotFound(wrapped.toString, name, Seq.empty))
-      }
+      applyDispatchQuery(dispatchQuery, wrapped).view.
+        find(ReflectiveHelper.hasMember(_, name)).
+        map(r => Right(ReflectiveHelper.propertyOf[E](r, name))).
+        getOrElse(Left(RoleNotFound(wrapped.toString, name, Seq.empty)))
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit =
       applyDispatchQuery(dispatchQuery, wrapped).view.

@@ -27,9 +27,9 @@ object FormalConstraintModel {
   * @tparam CT  type of compartments
   * @tparam RST type of relationships
   */
-case class FormalConstraintModel[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](rolec: Map[CT, List[((Int, Int), AnyRef)]],
-                                                                                                                          card: Map[RST, ((Int, Int), (Int, Int))],
-                                                                                                                          intra: List[(RST, List[(NT, NT)] => Boolean)]) {
+final case class FormalConstraintModel[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](rolec: Map[CT, List[((Int, Int), AnyRef)]],
+                                                                                                                                card: Map[RST, ((Int, Int), (Int, Int))],
+                                                                                                                                intra: List[(RST, (List[(NT, NT)]) => Boolean)]) {
 
   /**
     * @param crom the CROM instance to check against

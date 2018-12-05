@@ -22,7 +22,7 @@ trait RoleConstraints {
 
   private[this] def checkImplications(player: AnyRef, role: AnyRef): Unit = {
     roleImplications.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
-      case Nil => //done, thanks
+      case Nil => // done, thanks
       case list =>
         val allImplicitRoles = list.flatMap(Graphs.reachableNodes(roleImplications, _).asScala)
         val allRoles = plays.roles(player).diff(Seq(player))
@@ -34,7 +34,7 @@ trait RoleConstraints {
 
   private[this] def checkEquivalence(player: AnyRef, role: AnyRef): Unit = {
     roleEquivalents.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
-      case Nil => //done, thanks
+      case Nil => // done, thanks
       case list =>
         val allEquivalentRoles = list.flatMap(Graphs.reachableNodes(roleEquivalents, _).asScala)
         val allRoles = plays.roles(player).diff(Seq(player))
@@ -46,7 +46,7 @@ trait RoleConstraints {
 
   private[this] def checkProhibitions(player: AnyRef, role: AnyRef): Unit = {
     roleProhibitions.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
-      case Nil => //done, thanks
+      case Nil => // done, thanks
       case list =>
         val allProhibitedRoles = list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
         val allRoles = plays.roles(player).diff(Seq(player))

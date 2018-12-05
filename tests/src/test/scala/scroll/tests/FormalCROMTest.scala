@@ -1,6 +1,10 @@
 package scroll.tests
 
-import scroll.internal.formal.{FormalCROI, FormalCROM, FormalConstraintModel, FormalUtils, FormalRoleGroup}
+import scroll.internal.formal.FormalCROI
+import scroll.internal.formal.FormalCROM
+import scroll.internal.formal.FormalConstraintModel
+import scroll.internal.formal.FormalUtils
+import scroll.internal.formal.FormalRoleGroup
 
 class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for ScalaFormalCROM.")
@@ -39,7 +43,7 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       (test5, true, true, true, false, true), (test6, true, true, true, true, false),
       (test7, false, false, false, false, false))
 
-    for ((t, a1, a2, a3, a4, a5) <- cromtests) {
+    for {(t, a1, a2, a3, a4, a5) <- cromtests} {
       t.axiom1 shouldBe a1
       t.axiom2 shouldBe a2
       t.axiom3 shouldBe a3
@@ -77,7 +81,7 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       (test14b, true, true, true, true, true, false),
       (test15, false, false, false, false, false, false))
 
-    for ((t, a6, a7, a8, a9, a10, a11) <- croitests) {
+    for {(t, a6, a7, a8, a9, a10, a11) <- croitests} {
       t.axiom6(test1) shouldBe a6
       t.axiom7() shouldBe a7
       t.axiom8() shouldBe a8
@@ -104,7 +108,7 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       (testrg5, List.empty, 0), (testrg6, List("2"), 0),
       (testrg7, List("5"), 1))
 
-    for ((t, s, e) <- rgtests) {
+    for {(t, s, e) <- rgtests} {
       FormalUtils.atoms(t) shouldBe s
       FormalUtils.evaluate(t, test8, "1", "4") shouldBe e
     }
@@ -114,7 +118,7 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
     val test0 = FormalCROM.empty[String, String, String, String]
     val test1 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
 
-    val order = (r: List[(String, String)]) => FormalUtils.all(for ((x, y) <- r) yield x <= y)
+    val order = (r: List[(String, String)]) => FormalUtils.all(for {(x, y) <- r} yield x <= y)
     val rgxor = FormalRoleGroup(List("2", "3"), 1, 1)
 
     val testcm0 = FormalConstraintModel.empty[String, String, String, String]
@@ -127,7 +131,7 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
     val cmtests = Seq((testcm0, true), (testcm1, true), (testcm2, true),
       (testcm3, true), (testcm4, false), (testcm5, true))
 
-    for ((t, a12) <- cmtests) {
+    for {(t, a12) <- cmtests} {
       t.axiom12(test1) shouldBe a12
       t.compliant(test1) shouldBe a12
     }
@@ -139,7 +143,7 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
     val test0 = FormalCROM.empty[String, String, String, String]
     val test1 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
     val testcm0 = FormalConstraintModel.empty[String, String, String, String]
-    val order = (r: List[(String, String)]) => FormalUtils.all(for ((x, y) <- r) yield x <= y)
+    val order = (r: List[(String, String)]) => FormalUtils.all(for {(x, y) <- r} yield x <= y)
     val rgxor = FormalRoleGroup(List("2", "3"), 1, 1)
     val testcm1 = FormalConstraintModel.forStrings(Map("4" -> List(((1, 3), rgxor))), Map("a" -> ((1, 1), (1, 1))), List(("a", order)))
     val test8 = FormalCROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
@@ -167,7 +171,7 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       (test1, testcm1, test19, true, true, false, true, true),
       (test1, testcm1, test20, true, false, true, true, true))
 
-    for ((m, c, i, co, a13, a14, a15, a16) <- valtests) {
+    for {(m, c, i, co, a13, a14, a15, a16) <- valtests} {
       i.compliant(m) shouldBe co
       c.axiom13(m, i) shouldBe a13
       c.axiom14(i) shouldBe a14

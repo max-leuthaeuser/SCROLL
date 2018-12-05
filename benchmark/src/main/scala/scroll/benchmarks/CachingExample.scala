@@ -2,7 +2,6 @@ package scroll.benchmarks
 
 import scroll.internal.Compartment
 import scroll.internal.graph.ScalaRoleGraphBuilder
-import scroll.internal.graph.{CachedScalaRoleGraph, ScalaRoleGraph}
 
 class CachingExample {
 

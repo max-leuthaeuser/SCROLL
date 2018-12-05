@@ -37,15 +37,15 @@ object FormalCROM {
   * @tparam CT  type of compartments
   * @tparam RST type of relationships
   */
-case class FormalCROM[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](
-                                                                                                                nt: List[NT],
-                                                                                                                rt: List[RT],
-                                                                                                                ct: List[CT],
-                                                                                                                rst: List[RST],
-                                                                                                                fills: List[(NT, RT)],
-                                                                                                                parts: Map[CT, List[RT]],
-                                                                                                                rel: Map[RST, List[RT]]
-                                                                                                              ) {
+final case class FormalCROM[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](
+                                                                                                                      nt: List[NT],
+                                                                                                                      rt: List[RT],
+                                                                                                                      ct: List[CT],
+                                                                                                                      rst: List[RST],
+                                                                                                                      fills: List[(NT, RT)],
+                                                                                                                      parts: Map[CT, List[RT]],
+                                                                                                                      rel: Map[RST, List[RT]]
+                                                                                                                    ) {
 
   assert(FormalUtils.mutualDisjoint(List(nt, rt, ct, rst)))
   assert(FormalUtils.totalFunction(ct, parts))

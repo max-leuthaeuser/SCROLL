@@ -30,10 +30,7 @@ trait CROM extends ECoreImporter {
     */
   def wellformed(path: String): Boolean = construct(path).wellformed
 
-  private[this] def instanceName(of: EObject): String = of.eClass().getEAllAttributes.asScala.find(_.getName == "name") match {
-    case Some(a) => of.eGet(a).toString
-    case None => "-"
-  }
+  private[this] def instanceName(of: EObject): String = of.eClass().getEAllAttributes.asScala.find(_.getName == "name").map(of.eGet(_).toString).getOrElse("-")
 
   private[this] def constructNT[NT >: Null <: AnyRef](elem: EObject): NT = instanceName(elem).asInstanceOf[NT]
 
@@ -69,9 +66,8 @@ trait CROM extends ECoreImporter {
   }
 
   private[this] def constructRel[RST >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (RST, List[RT]) = {
-    val rstName = instanceName(elem).asInstanceOf[RST]
+    val rstName = instanceName(elem)
     val roles = collectRoles(elem.eContainer())
-    // TODO: make sure order of roles (incoming/outgoing) is correct for the given relationship
     val rsts = roles.filter(role => {
       val incoming = role.asInstanceOf[DynamicEObjectImpl].dynamicGet(1).asInstanceOf[EcoreEList[DynamicEObjectImpl]].asScala
       val inCond = incoming match {
@@ -85,7 +81,7 @@ trait CROM extends ECoreImporter {
       }
       inCond || outCond
     }).map(instanceName(_).asInstanceOf[RT])
-    (rstName, rsts)
+    (rstName.asInstanceOf[RST], rsts)
   }
 
   private[this] def addToMap(m: mutable.Map[String, List[String]], elem: (String, List[String])): Unit = {
@@ -113,7 +109,7 @@ trait CROM extends ECoreImporter {
         case ROLETYPE => rt += constructRT(curr)
         case COMPARTMENTTYPE => ct += constructCT(curr)
         case RELATIONSHIP =>
-          rst += constructRST[String](curr)
+          val _ = rst += constructRST[String](curr)
           addToMap(rel, constructRel[String, String](curr))
         case FULFILLMENT => fills ++= constructFills(curr)
         case PART => addToMap(parts, constructParts[String, String](curr))

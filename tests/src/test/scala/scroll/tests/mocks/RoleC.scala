@@ -10,7 +10,7 @@ class RoleC extends RoleUnionTypes {
 
   def s(): String = "c"
 
-  def unionTypedMethod[T: (Int or String)#λ](param: T): Int = param match {
+  def unionTypedMethod[T: (Int or String)#λ](param: T): Int = param match { // scalastyle:ignore
     case i: Int => i
     case s: String => s.length
   }

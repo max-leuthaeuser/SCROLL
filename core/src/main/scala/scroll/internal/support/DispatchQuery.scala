@@ -149,7 +149,7 @@ class DispatchQuery(
     * @return this
     */
   def sortedWith(f: PartialFunction[(AnyRef, AnyRef), Boolean]): DispatchQuery = {
-    _sortedWith = Some({ case (a, b) => f.applyOrElse((a, b), (_: (AnyRef, AnyRef)) => identity) })
+    _sortedWith = Option({ case (a, b) => f.applyOrElse((a, b), (_: (AnyRef, AnyRef)) => identity) })
     this
   }
 

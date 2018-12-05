@@ -4,7 +4,8 @@ import scroll.internal.ICompartment
 import scroll.internal.errors.SCROLLErrors.TypeError
 import scroll.internal.util.ReflectiveHelper
 
-import scala.reflect.{ClassTag, classTag}
+import scala.reflect.ClassTag
+import scala.reflect.classTag
 
 trait RoleQueries {
   self: ICompartment =>

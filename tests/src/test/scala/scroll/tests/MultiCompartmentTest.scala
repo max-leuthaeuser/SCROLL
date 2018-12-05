@@ -1,6 +1,7 @@
 package scroll.tests
 
-import scroll.internal.errors.SCROLLErrors.{IllegalRoleInvocationDispatch, RoleNotFound}
+import scroll.internal.errors.SCROLLErrors.IllegalRoleInvocationDispatch
+import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import mocks._
 
 class MultiCompartmentTest(cached: Boolean) extends AbstractSCROLLTest(cached) {

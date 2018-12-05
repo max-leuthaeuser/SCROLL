@@ -1,7 +1,9 @@
 package scroll.internal
 
-import scroll.internal.errors.SCROLLErrors.{TypeError, TypeNotFound}
-import scroll.internal.graph.{ScalaRoleGraph, ScalaRoleGraphBuilder}
+import scroll.internal.errors.SCROLLErrors.TypeError
+import scroll.internal.errors.SCROLLErrors.TypeNotFound
+import scroll.internal.graph.ScalaRoleGraph
+import scroll.internal.graph.ScalaRoleGraphBuilder
 import scroll.internal.support._
 import scroll.internal.support.UnionTypes.RoleUnionTypes
 import scroll.internal.util.ReflectiveHelper

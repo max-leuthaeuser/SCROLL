@@ -3,7 +3,8 @@ package scroll.benchmarks
 import java.text.SimpleDateFormat
 import java.util.Date
 
-import org.openjdk.jmh.results.format.{ResultFormatFactory, ResultFormatType}
+import org.openjdk.jmh.results.format.ResultFormatFactory
+import org.openjdk.jmh.results.format.ResultFormatType
 import org.openjdk.jmh.runner.Runner
 import org.openjdk.jmh.runner.options.CommandLineOptions
 

@@ -4,7 +4,7 @@ object Many {
   def * : Many = Many()
 }
 
-case class Many() extends Ordered[Int] {
+final case class Many() extends Ordered[Int] {
   override def compare(that: Int): Int = 1 // Many is larger as any Int
 
   override def toString: String = "*"

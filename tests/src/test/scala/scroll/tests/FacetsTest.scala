@@ -1,6 +1,7 @@
 package scroll.tests
 
-import scroll.tests.mocks.{CoreA, CoreB}
+import scroll.tests.mocks.CoreA
+import scroll.tests.mocks.CoreB
 
 class FacetsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 

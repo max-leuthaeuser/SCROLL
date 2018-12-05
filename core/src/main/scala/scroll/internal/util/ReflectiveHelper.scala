@@ -3,7 +3,6 @@ package scroll.internal.util
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 
-import scala.annotation.tailrec
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 
@@ -108,26 +107,20 @@ object ReflectiveHelper extends Memoiser {
     require(!s.isEmpty)
   }
 
-  @tailrec
-  private[this] def safeFindField(of: Class[_], name: String): Field = fieldCache.get(of) match {
-    case Some(fields) => fields.find(_.getName == name) match {
-      case Some(f) => f
-      case None => throw new RuntimeException(s"Field '$name' not found on '$of'!")
-    }
-    case None =>
-      val fields = allFields(of)
-      fieldCache.put(of, fields)
-      safeFindField(of, name)
+  private[this] def safeFindField(of: Class[_], name: String): Field = fieldCache.get(of).map(fields =>
+    fields.find(_.getName == name).getOrElse({
+      throw new RuntimeException(s"Field '$name' not found on '$of'!")
+    })).getOrElse {
+    val fields = allFields(of)
+    fieldCache.put(of, fields)
+    safeFindField(of, name)
   }
 
-  @tailrec
-  private[this] def findMethods(of: Class[_], name: String): Set[Method] = methodCache.get(of) match {
-    case Some(l) =>
-      l.filter(_.getName == name)
-    case None =>
-      val methods = allMethods(of)
-      methodCache.put(of, methods)
-      findMethods(of, name)
+  private[this] def findMethods(of: Class[_], name: String): Set[Method] = methodCache.get(of).map(l =>
+    l.filter(_.getName == name)).getOrElse {
+    val methods = allMethods(of)
+    methodCache.put(of, methods)
+    findMethods(of, name)
   }
 
   private[this] def allMethods(of: Class[_]): Set[Method] = {
@@ -190,21 +183,17 @@ object ReflectiveHelper extends Memoiser {
   def hasMember(on: AnyRef, name: String): Boolean = {
     safeString(name)
 
-    val fields = fieldCache.get(on.getClass) match {
-      case Some(fs) => fs
-      case None =>
-        val fs = allFields(on.getClass)
-        fieldCache.put(on.getClass, fs)
-        fs
-    }
+    val fields = fieldCache.get(on.getClass).getOrElse({
+      val fs = allFields(on.getClass)
+      fieldCache.put(on.getClass, fs)
+      fs
+    })
 
-    val methods = methodCache.get(on.getClass) match {
-      case Some(ms) => ms
-      case None =>
-        val ms = allMethods(on.getClass)
-        methodCache.put(on.getClass, ms)
-        ms
-    }
+    val methods = methodCache.get(on.getClass).getOrElse({
+      val ms = allMethods(on.getClass)
+      methodCache.put(on.getClass, ms)
+      ms
+    })
 
     fields.exists(_.getName == name) || methods.exists(_.getName == name)
   }

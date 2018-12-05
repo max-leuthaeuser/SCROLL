@@ -67,7 +67,7 @@ trait RoleGroups {
       val solutions = mutable.ListBuffer.empty[Solution]
       do {
         val sol = new Solution(model)
-        sol.record()
+        val _ = sol.record()
         solutions += sol
       } while (solver.solve())
 
@@ -86,7 +86,7 @@ trait RoleGroups {
         })
       })) {
         rg.evaluated = true
-        return resultRoleTypeSet.toSeq
+        return resultRoleTypeSet.toSeq // scalastyle:ignore
       }
 
     } else {
@@ -154,16 +154,16 @@ trait RoleGroups {
   }
 
   class Types(ts: Seq[String]) extends Entry {
-    def types: Seq[String] = ts
+    override def types: Seq[String] = ts
   }
 
   case class RoleGroup(name: String, entries: Seq[Entry], limit: (Int, CInt), occ: (Int, CInt), var evaluated: Boolean = false) extends Entry {
-    assert(0 <= occ._1 && occ._2 >= occ._1)
-    assert(0 <= limit._1 && limit._2 >= limit._1)
+    assert(occ._1 >= 0 && occ._2 >= occ._1)
+    assert(limit._1 >= 0 && limit._2 >= limit._1)
 
     private[this] implicit def classTagToString(m: ClassTag[_]): String = ReflectiveHelper.simpleName(m.toString)
 
-    def types: Seq[String] = entries.flatMap {
+    override def types: Seq[String] = entries.flatMap {
       case ts: Types => ts.types
       case rg: RoleGroup => eval(rg)
       case _ => throw new RuntimeException("Role groups can only contain a list of types or role groups itself!")

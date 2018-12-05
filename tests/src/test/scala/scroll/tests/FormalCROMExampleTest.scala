@@ -1,6 +1,10 @@
 package scroll.tests
 
-import scroll.internal.formal.{FormalCROI, FormalCROM, FormalConstraintModel, FormalUtils, FormalRoleGroup}
+import scroll.internal.formal.FormalCROI
+import scroll.internal.formal.FormalCROM
+import scroll.internal.formal.FormalConstraintModel
+import scroll.internal.formal.FormalUtils
+import scroll.internal.formal.FormalRoleGroup
 
 class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for ScalaFormalCROMExamples.")
@@ -28,9 +32,8 @@ class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
     val bankaccounts = FormalRoleGroup(List("CA", "SA"), 1, 1)
     val participants = FormalRoleGroup(List("Source", "Target"), 1, 1)
 
-    val irreflexive = (r: List[(String, String)]) => !FormalUtils.any(for ((x, y) <- r) yield x == y)
+    val irreflexive = (r: List[(String, String)]) => !FormalUtils.any(for {(x, y) <- r} yield x == y)
 
-    // TODO: how to represent * as multiplicity?
     val inf = Integer.MAX_VALUE
 
     val c_bank = FormalConstraintModel.forStrings(Map("Bank" -> List(((1, inf), "Consultant"), ((0, inf), bankaccounts)),

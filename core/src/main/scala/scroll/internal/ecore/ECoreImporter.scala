@@ -42,7 +42,7 @@ trait ECoreImporter {
 
     val resourceSet = new ResourceSetImpl()
     registerMetaModel(resourceSet)
-    resourceSet.getResourceFactoryRegistry.getExtensionToFactoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl())
+    val _ = resourceSet.getResourceFactoryRegistry.getExtensionToFactoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl())
     val r = resourceSet.getResource(URI.createFileURI(path), true)
 
     require(null != r)

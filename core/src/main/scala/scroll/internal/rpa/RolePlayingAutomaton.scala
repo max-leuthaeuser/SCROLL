@@ -112,7 +112,7 @@ trait RolePlayingAutomaton extends Actor with LoggingFSM[RPAState, RPAData] {
     * actor system for this [[akka.actor.FSM]].
     */
   def halt(): State = {
-    context.system.terminate()
+    val _ = context.system.terminate()
     stop()
   }
 
