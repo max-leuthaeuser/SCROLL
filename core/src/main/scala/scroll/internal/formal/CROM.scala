@@ -87,11 +87,7 @@ trait CROM extends ECoreImporter {
   private[this] def addToMap(m: mutable.Map[String, List[String]], elem: (String, List[String])): Unit = {
     val key = elem._1
     val value = elem._2
-    if (m.contains(key)) {
-      m(key) = m(key) ++ value
-    } else {
-      val _ = m += elem
-    }
+    m.update(key, m.getOrElseUpdate(key, value) ++ value)
   }
 
   protected[this] def construct[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](path: String): FormalCROM[NT, RT, CT, RST] = {

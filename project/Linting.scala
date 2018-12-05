@@ -62,8 +62,8 @@ trait Linting {
   val extraWarts = Seq(
     ExtraWart.EnumerationPartial,
     ExtraWart.FutureObject,
-    // ExtraWart.GenMapLikePartial,
-    // ExtraWart.GenTraversableLikeOps,
+    ExtraWart.GenMapLikePartial,
+    ExtraWart.GenTraversableLikeOps,
     ExtraWart.GenTraversableOnceOps,
     ExtraWart.ScalaGlobalExecutionContext,
     ExtraWart.StringOpsPartial,
@@ -72,6 +72,7 @@ trait Linting {
   )
 
   val wartremoverConfiguration = Seq(
+    wartremoverExcluded += baseDirectory.value / "src" / "main" / "scala" / "scroll" / "internal" / "formal",
     wartremoverErrors ++= stdWarts ++ contribWarts ++ extraWarts
   )
 

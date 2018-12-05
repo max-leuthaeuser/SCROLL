@@ -76,7 +76,7 @@ trait RoleGroups {
         solutions.exists(s => {
           types.forall(t => {
             val numRole = plays.roles(p).count(r => t == ReflectiveHelper.classSimpleClassName(r.getClass.toString))
-            if (numRole == s.getIntVal(constraintsMap(t))) {
+            if (numRole == s.getIntVal(constraintsMap.getOrElse(t, throw new RuntimeException(s"Constraints for role group '${rg.name}' do not contain '$t'!")))) {
               resultRoleTypeSet.add(t)
               true
             } else {

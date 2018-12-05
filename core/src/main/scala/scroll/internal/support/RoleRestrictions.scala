@@ -10,18 +10,12 @@ import scala.reflect.classTag
   * Allows to add and check role restrictions (in the sense of structural typing) to a compartment instance.
   */
 trait RoleRestrictions {
-  private[this] lazy val restrictions = mutable.HashMap.empty[String, mutable.ArrayBuffer[Class[_]]]
+  private[this] lazy val restrictions = mutable.HashMap.empty[String, List[Class[_]]]
 
-  private[this] def addToMap(m: mutable.Map[String, mutable.ArrayBuffer[Class[_]]], elem: (String, Class[_])): Unit = {
+  private[this] def addToMap(m: mutable.Map[String, List[Class[_]]], elem: (String, Class[_])): Unit = {
     val key = elem._1
     val value = elem._2
-    if (m.contains(key)) {
-      val _ = m(key) += value
-    } else {
-      val app = mutable.ArrayBuffer.empty[Class[_]]
-      app += value
-      val _ = m(key) = app
-    }
+    m.update(key, m.getOrElseUpdate(key, List(value)) :+ value)
   }
 
   /**
@@ -42,9 +36,7 @@ trait RoleRestrictions {
     * @tparam B the role type
     */
   def ReplaceRoleRestriction[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
-    val app = mutable.ArrayBuffer.empty[Class[_]]
-    val _ = app += classTag[B].runtimeClass
-    restrictions(classTag[A].toString) = app
+    restrictions(classTag[A].toString) = List(classTag[B].runtimeClass)
   }
 
   /**
