@@ -6,39 +6,46 @@ import scroll.internal.util.Many
 import scala.reflect.ClassTag
 
 /**
+  * Provides some predefined multiplicities.
+  */
+object Multiplicities {
+
+  sealed trait Multiplicity
+
+  sealed trait ExpMultiplicity extends Multiplicity
+
+  final case class MMany() extends ExpMultiplicity
+
+  final case class ConcreteValue(v: Ordered[Int]) extends ExpMultiplicity {
+    require(v >= 0)
+
+    def To(t: ExpMultiplicity): Multiplicity = RangeMultiplicity(v, t)
+  }
+
+  implicit def orderedToConcreteValue(v: Ordered[Int]): ExpMultiplicity = v match {
+    case Many() => MMany()
+    case _ => ConcreteValue(v)
+  }
+
+  implicit def intToConcreteValue(v: Int): ConcreteValue = ConcreteValue(v)
+
+  final case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity) extends Multiplicity
+
+}
+
+/**
   * Allows to add and check role relationships to a compartment instance.
   */
 trait Relationships {
   self: ICompartment =>
 
-  import Relationship._
+  import Multiplicities._
 
   /**
-    * Companion object for [[scroll.internal.support.Relationships.Relationship]] providing
-    * some predefined multiplicities and a fluent relationship creation API.
+    * Companion object for [[scroll.internal.support.Relationships.Relationship]]
+    * providing a fluent relationship creation API.
     */
   object Relationship {
-
-    sealed trait Multiplicity
-
-    trait ExpMultiplicity extends Multiplicity
-
-    case class MMany() extends ExpMultiplicity
-
-    case class ConcreteValue(v: Ordered[Int]) extends ExpMultiplicity {
-      require(v >= 0)
-
-      def To(t: ExpMultiplicity): Multiplicity = RangeMultiplicity(v, t)
-    }
-
-    implicit def orderedToConcreteValue(v: Ordered[Int]): ExpMultiplicity = v match {
-      case Many() => MMany()
-      case _ => ConcreteValue(v)
-    }
-
-    implicit def intToConcreteValue(v: Int): ConcreteValue = ConcreteValue(v)
-
-    case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity) extends Multiplicity
 
     protected class ToBuilder[L <: AnyRef : ClassTag](name: String, leftMul: Multiplicity) {
       def to[R <: AnyRef : ClassTag](rightMul: Multiplicity): Relationship[L, R] =

@@ -26,11 +26,9 @@ trait Linting {
     Wart.AsInstanceOf,
     Wart.DefaultArguments,
     Wart.Equals,
-    Wart.FinalCaseClass,
     Wart.ImplicitConversion,
     Wart.ImplicitParameter,
     Wart.IsInstanceOf,
-    Wart.LeakingSealed,
     Wart.MutableDataStructures,
     Wart.NonUnitStatements,
     Wart.Nothing,
@@ -38,25 +36,22 @@ trait Linting {
     Wart.Overloading,
     Wart.Recursion,
     Wart.Return,
-    Wart.StringPlusAny,
     Wart.Throw,
     Wart.ToString,
-    Wart.TraversableOps,
     Wart.Var,
     Wart.While
   )
 
   val contribWarts = Seq(
-    // ContribWart.Apply,
+    ContribWart.Apply,
     // ContribWart.ExposedTuples,
+    ContribWart.NoNeedForMonad,
     ContribWart.MissingOverride,
     ContribWart.OldTime,
     ContribWart.RefinedClasstag,
-    // ContribWart.SealedCaseClass,
+    ContribWart.SealedCaseClass,
     ContribWart.SomeApply,
-    // ContribWart.SymbolicName,
     ContribWart.UnintendedLaziness
-    // ContribWart.UnsafeInheritance
   )
 
   val extraWarts = Seq(
@@ -77,129 +72,7 @@ trait Linting {
   )
 
   val linterConfiguration = Seq(
-    addCompilerPlugin(lib.linter),
-    scalacOptions += "-P:linter:enable-only:" +
-      "AssigningOptionToNull+" +
-      "AvoidOptionCollectionSize+" +
-      "AvoidOptionMethod+" +
-      "AvoidOptionStringSize+" +
-      "BigDecimalNumberFormat+" +
-      "BigDecimalPrecisionLoss+" +
-      "CloseSourceFile+" +
-      // "ContainsTypeMismatch+" +
-      "DecomposingEmptyCollection+" +
-      "DivideByOne+" +
-      "DivideByZero+" +
-      "DuplicateIfBranches+" +
-      "DuplicateKeyInMap+" +
-      "EmptyStringInterpolator+" +
-      "FilterFirstThenSort+" +
-      "FloatingPointNumericRange+" +
-      "FuncFirstThenMap+" +
-      "IdenticalCaseBodies+" +
-      "IdenticalCaseConditions+" +
-      "IdenticalIfCondition+" +
-      "IdenticalIfElseCondition+" +
-      "IdenticalStatements+" +
-      "IfDoWhile+" +
-      "IndexingWithNegativeNumber+" +
-      "InefficientUseOfListSize+" +
-      "IntDivisionAssignedToFloat+" +
-      "InvalidParamToRandomNextInt+" +
-      "InvalidStringConversion+" +
-      "InvalidStringFormat+" +
-      "InvariantCondition+" +
-      "InvariantExtrema+" +
-      "InvariantReturn+" +
-      "JavaConverters+" +
-      "LikelyIndexOutOfBounds+" +
-      "MalformedSwap+" +
-      // "MergeMaps+" +
-      "MergeNestedIfs+" +
-      "ModuloByOne+" +
-      // "NumberInstanceOf+" +
-      "OnceEvaluatedStatementsInBlockReturningFunction+" +
-      "OperationAlwaysProducesZero+" +
-      "OptionOfOption+" +
-      "PassPartialFunctionDirectly+" +
-      "PatternMatchConstant+" +
-      "PossibleLossOfPrecision+" +
-      "PreferIfToBooleanMatch+" +
-      "ProducesEmptyCollection+" +
-      "ReflexiveAssignment+" +
-      "ReflexiveComparison+" +
-      "RegexWarning+" +
-      "StringMultiplicationByNonPositive+" +
-      "SuspiciousMatches+" +
-      "SuspiciousPow+" +
-      "TransformNotMap+" +
-      "TypeToType+" +
-      "UndesirableTypeInference+" +
-      "UnextendedSealedTrait+" +
-      "UnitImplicitOrdering+" +
-      "UnlikelyEquality+" +
-      "UnlikelyToString+" +
-      "UnnecessaryMethodCall+" +
-      "UnnecessaryReturn+" +
-      "UnnecessaryStringIsEmpty+" +
-      "UnnecessaryStringNonEmpty+" +
-      "UnsafeAbs+" +
-      "UnthrownException+" +
-      "UnusedForLoopIteratorValue+" +
-      "UnusedParameter+" +
-      "UseAbsNotSqrtSquare+" +
-      "UseCbrt+" +
-      "UseConditionDirectly+" +
-      "UseContainsNotExistsEquals+" +
-      "UseCountNotFilterLength+" +
-      "UseExistsNotCountCompare+" +
-      "UseExistsNotFilterIsEmpty+" +
-      "UseExistsNotFindIsDefined+" +
-      "UseExp+" +
-      "UseExpm1+" +
-      "UseFilterNotFlatMap+" +
-      "UseFindNotFilterHead+" +
-      "UseFlattenNotFilterOption+" +
-      "UseFuncNotFold+" +
-      "UseFuncNotReduce+" +
-      "UseFuncNotReverse+" +
-      "UseGetOrElseNotPatMatch+" +
-      "UseGetOrElseOnOption+" +
-      "UseHeadNotApply+" +
-      "UseHeadOptionNotIf+" +
-      "UseHypot+" +
-      "UseIfExpression+" +
-      "UseInitNotReverseTailReverse+" +
-      "UseIsNanNotNanComparison+" +
-      "UseIsNanNotSelfComparison+" +
-      "UseLastNotApply+" +
-      "UseLastNotReverseHead+" +
-      "UseLastOptionNotIf+" +
-      "UseLog10+" +
-      "UseLog1p+" +
-      "UseMapNotFlatMap+" +
-      "UseMinOrMaxNotSort+" +
-      "UseOptionExistsNotPatMatch+" +
-      "UseOptionFlatMapNotPatMatch+" +
-      "UseOptionFlattenNotPatMatch+" +
-      "UseOptionForallNotPatMatch+" +
-      "UseOptionForeachNotPatMatch+" +
-      "UseOptionGetOrElse+" +
-      "UseOptionIsDefinedNotPatMatch+" +
-      "UseOptionIsEmptyNotPatMatch+" +
-      "UseOptionMapNotPatMatch+" +
-      "UseOptionOrNull+" +
-      "UseOrElseNotPatMatch+" +
-      "UseQuantifierFuncNotFold+" +
-      "UseSignum+" +
-      "UseSqrt+" +
-      "UseTakeRightNotReverseTakeReverse+" +
-      "UseUntilNotToMinusOne+" +
-      "UseZipWithIndexNotZipIndices+" +
-      "VariableAssignedUnusedValue+" +
-      "WrapNullWithOption+" +
-      "YodaConditions+" +
-      "ZeroDivideBy"
+    addCompilerPlugin(lib.linter)
   )
 
   val staticAnalysis =

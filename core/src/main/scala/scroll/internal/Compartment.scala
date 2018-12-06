@@ -1,5 +1,7 @@
 package scroll.internal
 
+import java.lang.reflect.Method
+
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.SCROLLError
 import scroll.internal.support.DispatchQuery
@@ -40,21 +42,21 @@ trait Compartment extends ICompartment {
   implicit class Player[W <: AnyRef : ClassTag](override val wrapped: W) extends IPlayer[W, Player[W]](wrapped) with SCROLLDynamic {
 
     override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
-      applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
+      applyDynamic[E](name)(args.map(_._2): _*)(dispatchQuery)
 
     override def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
-      applyDispatchQuery(dispatchQuery, wrapped).view.map { r =>
+      applyDispatchQuery(dispatchQuery, wrapped).view.map { r: AnyRef =>
         (r, ReflectiveHelper.findMethod(r, name, args))
       }.collectFirst {
-        case (r, Some(m)) => (r, m)
-      }.map(e => dispatch[E](e._1, e._2, args: _*)).
+        case (r: AnyRef, Some(m: Method)) => (r, m)
+      }.map { case (r: AnyRef, m: Method) => dispatch[E](r, m, args: _*) }.
         getOrElse(Left(RoleNotFound(wrapped.toString, name, args)))
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
       applyDispatchQuery(dispatchQuery, wrapped).view.
         find(ReflectiveHelper.hasMember(_, name)).
-        map(r => Right(ReflectiveHelper.propertyOf[E](r, name))).
-        getOrElse(Left(RoleNotFound(wrapped.toString, name, Seq.empty)))
+        map { r: AnyRef => Right(ReflectiveHelper.propertyOf[E](r, name)) }.
+        getOrElse(Left(RoleNotFound(wrapped.toString, name, Seq.empty[Any])))
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit =
       applyDispatchQuery(dispatchQuery, wrapped).view.

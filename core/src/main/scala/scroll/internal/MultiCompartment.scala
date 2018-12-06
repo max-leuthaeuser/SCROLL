@@ -1,5 +1,7 @@
 package scroll.internal
 
+import java.lang.reflect.Method
+
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.SCROLLError
 import scroll.internal.support.DispatchQuery
@@ -26,23 +28,23 @@ trait MultiCompartment extends ICompartment {
   implicit class MultiPlayer[W <: AnyRef : ClassTag](override val wrapped: W) extends IPlayer[W, MultiPlayer[W]](wrapped) {
 
     def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
-      applyDispatchQuery(dispatchQuery, wrapped).map { r =>
+      applyDispatchQuery(dispatchQuery, wrapped).map { r: AnyRef =>
         (r, ReflectiveHelper.findMethod(r, name, args))
       }.collect {
-        case (r, Some(m)) => dispatch[E](r, m, args: _*)
+        case (r: AnyRef, Some(m: Method)) => dispatch[E](r, m, args: _*)
       } match {
         case Nil => Left(RoleNotFound(wrapped.toString, name, args))
         case l => Right(l)
       }
 
     def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
-      applyDynamic(name)(args.map(_._2): _*)(dispatchQuery)
+      applyDynamic[E](name)(args.map(_._2): _*)(dispatchQuery)
 
     def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
       applyDispatchQuery(dispatchQuery, wrapped).collect {
-        case r if ReflectiveHelper.hasMember(r, name) => ReflectiveHelper.propertyOf[E](r, name)
+        case r: AnyRef if ReflectiveHelper.hasMember(r, name) => ReflectiveHelper.propertyOf[E](r, name)
       } match {
-        case Nil => Left(RoleNotFound(wrapped.toString, name, Seq.empty))
+        case Nil => Left(RoleNotFound(wrapped.toString, name, Seq.empty[Any]))
         case l => Right(l.map(Right(_)))
       }
 

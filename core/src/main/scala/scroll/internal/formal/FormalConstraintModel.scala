@@ -67,7 +67,7 @@ final case class FormalConstraintModel[NT >: Null <: AnyRef, RT >: Null <: AnyRe
     FormalUtils.all(
       for {
         (o, c, r) <- croi.plays if rolec.contains(croi.type1(c).asInstanceOf[CT])
-        (_, a) <- rolec(croi.type1(c).asInstanceOf[CT]) if FormalUtils.atoms(a).contains(croi.type1(r))
+        (_, a) <- rolec(croi.type1(c).asInstanceOf[CT]) if FormalUtils.atoms(a).contains(croi.type1(r)) // linter:ignore ContainsTypeMismatch
       } yield FormalUtils.evaluate(a, croi, o, c) == 1
     )
 

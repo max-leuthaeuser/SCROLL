@@ -57,7 +57,7 @@ final case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Nu
 
   def axiom6(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
     FormalUtils.all(plays.map {
-      case (o, c1, r1) => crom.fills.contains((type1(o), type1(r1))) && crom.parts(type1(c1).asInstanceOf[CT]).contains(type1(r1))
+      case (o, c1, r1) => crom.fills.contains((type1(o), type1(r1))) && crom.parts(type1(c1).asInstanceOf[CT]).contains(type1(r1)) // linter:ignore ContainsTypeMismatch
     })
 
   def axiom7(): Boolean =
@@ -68,11 +68,8 @@ final case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Nu
 
   def axiom8(): Boolean =
     FormalUtils.all(
-      (for {
-        r1 <- r
-      } yield for {
-        (o, c, r2) <- plays if r2 == r1
-      } yield (o, c)).map(_.lengthCompare(1) == 0))
+      r.map(r1 => plays.collect { case (o, cc, r2) if r2 == r1 => (o, cc) }.lengthCompare(1) == 0)
+    )
 
   def axiom9(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
     FormalUtils.all(for {
@@ -91,8 +88,8 @@ final case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Nu
         for {
           r_1 <- repsilon
         } yield
-          ((plays.contains((o1, c1, r1)) && (type1(r1) == crom.rel(rst1).head)) == links((rst1, c1)).contains((r1, r_1))) &&
-            ((plays.contains((o1, c1, r1)) && (type1(r1) == crom.rel(rst1).tail.head)) == links((rst1, c1)).contains((r_1, r1)))
+          ((plays.contains((o1, c1, r1)) && (type1(r1) == crom.rel(rst1).head)) == links((rst1, c1)).contains((r1, r_1))) && // linter:ignore ContainsTypeMismatch
+            ((plays.contains((o1, c1, r1)) && (type1(r1) == crom.rel(rst1).tail.head)) == links((rst1, c1)).contains((r_1, r1))) // linter:ignore ContainsTypeMismatch
       )
     )
 

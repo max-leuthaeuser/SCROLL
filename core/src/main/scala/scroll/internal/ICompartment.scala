@@ -56,7 +56,7 @@ trait ICompartment extends RoleConstraints
   protected def applyDispatchQuery(dispatchQuery: DispatchQuery, on: AnyRef): Seq[AnyRef] =
     coreFor(on).lastOption match {
       case Some(core) => dispatchQuery.filter(plays.roles(core))
-      case _ => Seq.empty
+      case _ => Seq.empty[AnyRef]
     }
 
   /**

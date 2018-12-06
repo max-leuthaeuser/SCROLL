@@ -87,7 +87,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
       }
       returnSeq
     } else {
-      Seq.empty
+      Seq.empty[AnyRef]
     }
   }
 
@@ -101,7 +101,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
       }
       returnSeq
     } else {
-      Seq.empty
+      Seq.empty[Enumeration#Value]
     }
   }
 
@@ -124,7 +124,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
       }
       returnSeq
     } else {
-      Seq.empty
+      Seq.empty[AnyRef]
     }
   }
 }

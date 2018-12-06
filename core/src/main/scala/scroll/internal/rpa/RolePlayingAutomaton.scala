@@ -45,7 +45,7 @@ object RolePlayingAutomaton {
   case object Terminate extends RPAData
 
   protected class RPABuilder[T <: AnyRef : ClassTag]() {
-    def For(comp: Compartment): ActorRef = ActorSystem().actorOf(Props(classTag[T].runtimeClass, comp), "rpa_" + comp.hashCode())
+    def For(comp: Compartment): ActorRef = ActorSystem().actorOf(Props(classTag[T].runtimeClass, comp), s"rpa_${comp.hashCode()}")
   }
 
   def Use[T <: AnyRef : ClassTag]: RPABuilder[T] = new RPABuilder[T]()

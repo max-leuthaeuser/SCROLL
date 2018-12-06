@@ -97,7 +97,7 @@ trait RoleGroups {
   }
 
   private[this] def eval(rg: RoleGroup): Seq[String] = {
-    val model = new Model("MODEL$" + rg.hashCode())
+    val model = new Model(s"MODEL$$${rg.hashCode()}")
     val types = rg.types
     val numOfTypes = types.size
     val sumName = "SUM$" + rg.name
