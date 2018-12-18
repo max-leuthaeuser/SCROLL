@@ -10,22 +10,30 @@ import scala.reflect.classTag
   * Contains useful functions for translating class and type names to Strings
   * and provides helper functions to access common tasks for working with reflections.
   *
-  * Querying methods and fields is cached using [[scroll.internal.util.Memoiser]].
+  * Querying methods and fields is cached using [[com.google.common.cache.CacheBuilder]].
   */
 object ReflectiveHelper extends Memoiser {
 
-  private[this] class MethodCache extends Memoised[Class[_], Set[Method]]
+  private[this] lazy val methodCache =
+    buildCache[Class[_], Seq[Method]](allMethods)
 
-  private[this] class FieldCache extends Memoised[Class[_], Set[Field]]
+  private[this] lazy val methodsByNameCache =
+    buildCache[(Class[_], String), Seq[Method]]((t: (Class[_], String)) => cachedFindMethods(t._1, t._2))
 
-  private[this] class SimpleTagNameCache extends Memoised[ClassTag[_], String]
+  private[this] lazy val methodMatchCache =
+    buildCache[(Class[_], String, Seq[Any]), Option[Method]]((t: (Class[_], String, Seq[Any])) => cachedFindMethod(t._1, t._2, t._3))
 
-  private[this] class SimpleClassNameCache extends Memoised[Class[_], String]
+  private[this] lazy val fieldCache =
+    buildCache[Class[_], Seq[Field]]((c: Class[_]) => allFields(c))
 
-  private[this] lazy val methodCache = new MethodCache()
-  private[this] lazy val fieldCache = new FieldCache()
-  private[this] lazy val simpleClassNameCache = new SimpleClassNameCache()
-  private[this] lazy val simpleTagNameCache = new SimpleTagNameCache()
+  private[this] lazy val fieldByNameCache =
+    buildCache[(Class[_], String), Field]((t: (Class[_], String)) => cachedFindField(t._1, t._2))
+
+  private[this] lazy val classNameCache =
+    buildCache[String, String](cachedSimpleName)
+
+  private[this] lazy val hasMemberCache =
+    buildCache[(Class[_], String), java.lang.Boolean]((t: (Class[_], String)) => cachedHasMember(t._1, t._2))
 
   def addToMethodCache(c: Class[_]): Unit = methodCache.put(c, allMethods(c))
 
@@ -37,23 +45,7 @@ object ReflectiveHelper extends Memoiser {
     s
   }
 
-  /**
-    * Translates a Type name to a String, i.e. removing anything before the last
-    * occurrence of "<code>.</code>".
-    *
-    * @param t the Type name as String
-    * @return anything after the last occurrence of "<code>.</code>"
-    */
-  def typeSimpleClassName(t: String): String = simpleClassName(t, ".")
-
-  /**
-    * Translates a Class name to a String, i.e. removing anything before the last
-    * occurrence of "<code>$</code>".
-    *
-    * @param t the Class name as String
-    * @return anything after the last occurrence of "<code>$</code>"
-    */
-  def classSimpleClassName(t: String): String = simpleClassName(t, "$")
+  private[this] def cachedSimpleName(t: String): String = simpleClassName(simpleClassName(t, "."), "$")
 
   /**
     * Translates a Class or Type name to a String, i.e. removing anything before the last
@@ -62,15 +54,7 @@ object ReflectiveHelper extends Memoiser {
     * @param t the Class or Type name as String
     * @return anything after the last occurrence of "<code>$</code>" or "<code>.</code>"
     */
-  def simpleName(t: String): String = typeSimpleClassName(classSimpleClassName(t))
-
-  /**
-    * Returns the hash code of any object as String.
-    *
-    * @param of the object to get the hash code as String
-    * @return the hash code of 'of' as String.
-    */
-  def hash(of: AnyRef): String = of.hashCode().toString
+  def simpleName(t: String): String = classNameCache.get(t)
 
   /**
     * Compares two class names.
@@ -90,7 +74,7 @@ object ReflectiveHelper extends Memoiser {
     * @return true iff both names are the same, false otherwise
     */
   def isInstanceOf(mani: String, that: String): Boolean =
-    ReflectiveHelper.simpleName(that) == ReflectiveHelper.simpleName(mani)
+    simpleName(that) == simpleName(mani)
 
   /**
     * Compares two interfaces given as Array of its Methods.
@@ -102,27 +86,33 @@ object ReflectiveHelper extends Memoiser {
   def isSameInterface(roleInterface: Array[Method], restrInterface: Array[Method]): Boolean =
     restrInterface.forall(method => roleInterface.exists(method.equals))
 
-  private[this] def findField(of: Class[_], name: String): Field =
-    fieldCache.getAndPutWithDefault(of, allFields(of)).find(_.getName == name).getOrElse({
+  private[this] def cachedFindField(of: Class[_], name: String): Field =
+    fieldCache.get(of).find(_.getName == name).getOrElse({
       throw new RuntimeException(s"Field '$name' not found on '$of'!")
     })
 
-  private[this] def findMethods(of: Class[_], name: String): Set[Method] =
-    methodCache.getAndPutWithDefault(of, allMethods(of)).filter(_.getName == name)
+  private[this] def findField(of: Class[_], name: String): Field =
+    fieldByNameCache.get((of, name))
 
-  private[this] def allMethods(of: Class[_]): Set[Method] = {
-    def getAccessibleMethods(c: Class[_]): Set[Method] = c match {
-      case null => Set.empty
-      case _ => c.getDeclaredMethods.toSet ++ getAccessibleMethods(c.getSuperclass)
+  private[this] def cachedFindMethods(of: Class[_], name: String): Seq[Method] =
+    methodCache.get(of).filter(_.getName == name)
+
+  private[this] def findMethods(of: Class[_], name: String): Seq[Method] =
+    methodsByNameCache.get((of, name))
+
+  private[this] def allMethods(of: Class[_]): Seq[Method] = {
+    def getAccessibleMethods(c: Class[_]): Seq[Method] = c match {
+      case null => Seq.empty
+      case _ => c.getDeclaredMethods ++ getAccessibleMethods(c.getSuperclass)
     }
 
     getAccessibleMethods(of).map { m => m.setAccessible(true); m }
   }
 
-  private[this] def allFields(of: Class[_]): Set[Field] = {
-    def accessibleFields(c: Class[_]): Set[Field] = c match {
-      case null => Set.empty
-      case _ => c.getDeclaredFields.toSet ++ accessibleFields(c.getSuperclass)
+  private[this] def allFields(of: Class[_]): Seq[Field] = {
+    def accessibleFields(c: Class[_]): Seq[Field] = c match {
+      case null => Seq.empty
+      case _ => c.getDeclaredFields ++ accessibleFields(c.getSuperclass)
     }
 
     accessibleFields(of).map { f => f.setAccessible(true); f }
@@ -148,6 +138,9 @@ object ReflectiveHelper extends Memoiser {
   private[this] def matchMethod[A](m: Method, args: Seq[A]): Boolean =
     isSameNumberOfParameters(m, args.size) && isSameArgumentTypes(m, args)
 
+  private[this] def cachedFindMethod(on: Class[_], name: String, args: Seq[Any]): Option[Method] =
+    findMethods(on, name).find(matchMethod(_, args))
+
   /**
     * Find a method of the wrapped object by its name and argument list given.
     *
@@ -157,7 +150,13 @@ object ReflectiveHelper extends Memoiser {
     * @return Some(Method) if the wrapped object provides the function/method in question, None otherwise
     */
   def findMethod(on: AnyRef, name: String, args: Seq[Any]): Option[Method] =
-    findMethods(on.getClass, name).find(matchMethod(_, args))
+    methodMatchCache.get((on.getClass, name, args))
+
+  private[this] def cachedHasMember(on: Class[_], name: String): java.lang.Boolean = {
+    val fields = fieldCache.get(on)
+    val methods = methodCache.get(on)
+    fields.exists(_.getName == name) || methods.exists(_.getName == name)
+  }
 
   /**
     * Checks if the wrapped object provides a member (field or function/method) with the given name.
@@ -166,11 +165,7 @@ object ReflectiveHelper extends Memoiser {
     * @param name the name of the member (field or function/method)  of interest
     * @return true if the wrapped object provides the given member, false otherwise
     */
-  def hasMember(on: AnyRef, name: String): Boolean = {
-    val fields = fieldCache.getAndPutWithDefault(on.getClass, allFields(on.getClass))
-    val methods = methodCache.getAndPutWithDefault(on.getClass, allMethods(on.getClass))
-    fields.exists(_.getName == name) || methods.exists(_.getName == name)
-  }
+  def hasMember(on: AnyRef, name: String): Boolean = hasMemberCache.get((on.getClass, name))
 
   /**
     * Returns the runtime content of type T of the field with the given name of the wrapped object.
@@ -214,8 +209,8 @@ object ReflectiveHelper extends Memoiser {
     * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
     */
   def resultOf[T](on: AnyRef, name: String): T =
-    findMethods(on.getClass, name).toList match {
-      case elem :: _ =>
+    findMethods(on.getClass, name) match {
+      case elem +: _ =>
         elem.invoke(on).asInstanceOf[T]
       case Nil =>
         throw new RuntimeException(s"Function with name '$name' not found on '$on'!")
@@ -229,8 +224,7 @@ object ReflectiveHelper extends Memoiser {
     * @return true if the wrapped object is of type T, false otherwise
     */
   def is[T <: AnyRef : ClassTag](on: AnyRef): Boolean =
-    simpleClassNameCache.getAndPutWithDefault(on.getClass, ReflectiveHelper.simpleName(on.getClass.toString)) ==
-      simpleTagNameCache.getAndPutWithDefault(classTag[T], ReflectiveHelper.simpleName(classTag[T].toString))
+    simpleName(on.getClass.toString) == simpleName(classTag[T].toString)
 }
 
 

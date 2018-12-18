@@ -6,14 +6,10 @@ import scala.reflect.ClassTag
 
 class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGraph(checkForCycles) with Memoiser {
 
-  private[this] class BooleanCache extends Memoised[AnyRef, Boolean]
-
-  private[this] class SeqCache[E] extends Memoised[AnyRef, Seq[E]]
-
-  private[this] val containsCache = new BooleanCache()
-  private[this] val predCache = new SeqCache[AnyRef]()
-  private[this] val rolesCache = new SeqCache[AnyRef]()
-  private[this] val facetsCache = new SeqCache[Enumeration#Value]()
+  private[this] val containsCache = buildCache[AnyRef, java.lang.Boolean](super.containsPlayer)
+  private[this] val predCache = buildCache[AnyRef, Seq[AnyRef]](super.predecessors)
+  private[this] val rolesCache = buildCache[AnyRef, Seq[AnyRef]](super.roles)
+  private[this] val facetsCache = buildCache[AnyRef, Seq[Enumeration#Value]](super.facets)
 
   override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
     super.addBinding(player, role)
@@ -23,21 +19,20 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
   }
 
   private[this] def resetAll(): Unit = {
-    containsCache.reset()
-    predCache.reset()
-    rolesCache.reset()
-    facetsCache.reset()
+    containsCache.invalidateAll()
+    predCache.invalidateAll()
+    rolesCache.invalidateAll()
+    facetsCache.invalidateAll()
   }
 
   private[this] def reset(o: AnyRef): Unit = {
-    containsCache.resetAt(o)
-    predCache.resetAt(o)
-    rolesCache.resetAt(o)
-    facetsCache.resetAt(o)
+    containsCache.invalidate(o)
+    predCache.invalidate(o)
+    rolesCache.invalidate(o)
+    facetsCache.invalidate(o)
   }
 
-  override def containsPlayer(player: AnyRef): Boolean =
-    containsCache.getAndPutWithDefault(player, super.containsPlayer(player))
+  override def containsPlayer(player: AnyRef): Boolean = containsCache.get(player)
 
   override def detach(other: RoleGraph): Unit = {
     require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
@@ -45,14 +40,11 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     resetAll()
   }
 
-  override def predecessors(player: AnyRef): Seq[AnyRef] =
-    predCache.getAndPutWithDefault(player, super.predecessors(player))
+  override def predecessors(player: AnyRef): Seq[AnyRef] = predCache.get(player)
 
-  override def roles(player: AnyRef): Seq[AnyRef] =
-    rolesCache.getAndPutWithDefault(player, super.roles(player))
+  override def roles(player: AnyRef): Seq[AnyRef] = rolesCache.get(player)
 
-  override def facets(player: AnyRef): Seq[Enumeration#Value] =
-    facetsCache.getAndPutWithDefault(player, super.facets(player))
+  override def facets(player: AnyRef): Seq[Enumeration#Value] = facetsCache.get(player)
 
   override def addPart(other: RoleGraph): Boolean = {
     require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)

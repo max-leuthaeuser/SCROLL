@@ -42,7 +42,7 @@ trait RoleGroups {
       val min = rg.occ._1
       val max = rg.occ._2
       val types = rg.types
-      val actual = types.map(ts => plays.allPlayers.count(r => ts == ReflectiveHelper.classSimpleClassName(r.getClass.toString))).sum
+      val actual = types.map(ts => plays.allPlayers.count(r => ts == ReflectiveHelper.simpleName(r.getClass.toString))).sum
       if (actual < min || max < actual) {
         throw new RuntimeException(s"Occurrence cardinality in role group '$name' violated! " +
           s"Roles '$types' are played $actual times but should be between $min and $max.")
@@ -71,11 +71,11 @@ trait RoleGroups {
         solutions += sol
       } while (solver.solve())
 
-      val allPlayers = plays.allPlayers.filter(p => !types.contains(ReflectiveHelper.classSimpleClassName(p.getClass.toString)))
+      val allPlayers = plays.allPlayers.filter(p => !types.contains(ReflectiveHelper.simpleName(p.getClass.toString)))
       if (allPlayers.forall(p => {
         solutions.exists(s => {
           types.forall(t => {
-            val numRole = plays.roles(p).count(r => t == ReflectiveHelper.classSimpleClassName(r.getClass.toString))
+            val numRole = plays.roles(p).count(r => t == ReflectiveHelper.simpleName(r.getClass.toString))
             if (numRole == s.getIntVal(constraintsMap.getOrElse(t, throw new RuntimeException(s"Constraints for role group '${rg.name}' do not contain '$t'!")))) {
               resultRoleTypeSet.add(t)
               true
@@ -150,7 +150,7 @@ trait RoleGroups {
   }
 
   object Types {
-    def apply(ts: String*): Types = new Types(ts.map(ReflectiveHelper.typeSimpleClassName))
+    def apply(ts: String*): Types = new Types(ts.map(ReflectiveHelper.simpleName))
   }
 
   class Types(ts: Seq[String]) extends Entry {

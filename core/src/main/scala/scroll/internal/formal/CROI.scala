@@ -16,17 +16,17 @@ trait CROI extends CROM {
 
   private[this] def addType1(of: AnyRef): Unit = {
     val className = of.getClass.toString
-    val typeName = ReflectiveHelper.typeSimpleClassName(className)
-    croi.type1 += (ReflectiveHelper.hash(of) -> typeName)
+    val typeName = ReflectiveHelper.simpleName(className)
+    croi.type1 += (of.hashCode().toString -> typeName)
   }
 
   def addNatural(n: AnyRef): Unit = {
-    croi.n ::= ReflectiveHelper.hash(n)
+    croi.n ::= n.hashCode().toString
     addType1(n)
   }
 
   def addRole(r: AnyRef): Unit = {
-    croi.r ::= ReflectiveHelper.hash(r)
+    croi.r ::= r.hashCode().toString
     addType1(r)
   }
 
@@ -34,12 +34,12 @@ trait CROI extends CROM {
     require(c.isInstanceOf[Compartment])
     val man = classTag[T].toString
     val typeName = ReflectiveHelper.simpleName(man)
-    croi.c ::= ReflectiveHelper.hash(c)
-    croi.type1 += (ReflectiveHelper.hash(c) -> typeName)
+    croi.c ::= c.hashCode().toString
+    croi.type1 += (c.hashCode().toString -> typeName)
   }
 
   def addPlays(player: AnyRef, comp: AnyRef, role: AnyRef): Unit = {
-    val elem = (ReflectiveHelper.hash(player), ReflectiveHelper.hash(comp), ReflectiveHelper.hash(role))
+    val elem = (player.hashCode().toString, comp.hashCode().toString, role.hashCode().toString)
     croi.plays ::= elem
   }
 

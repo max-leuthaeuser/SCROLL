@@ -1,86 +1,24 @@
 package scroll.internal.util
 
-import com.google.common.cache.Cache
 import com.google.common.cache.CacheBuilder
+import com.google.common.cache.CacheLoader
+import com.google.common.cache.LoadingCache
 
 /**
-  * Support for memoization, encapsulating common behaviour of memoised
-  * entities and a general reset mechanism for all such entities.
+  * Support for memoization using [[com.google.common.cache.CacheBuilder]].
   */
 trait Memoiser {
 
   /**
-    * Common interface for encapsulation of memoization for a single memoised
-    * entity backed by a configurable cache.
+    * Builds a cache, which either returns an already-loaded value for a given key or atomically
+    * computes or retrieves it using the supplied { @code supplier }. If another thread is currently
+    * loading the value for this key, simply waits for that thread to finish and returns its loaded
+    * value. Note that multiple threads can concurrently load values for distinct keys.
+    *
+    * @param supplier the function to be used for loading values; must never return { @code null}
+    * @return a cache loader that loads values by passing each key to { @code supplier}
     */
-  trait MemoisedBase[T, U] {
-
-    /**
-      * The memo table.
-      */
-    def memo: Cache[AnyRef, AnyRef]
-
-    /**
-      * Return the value stored at key `t` as an option.
-      */
-    def get(t: T): Option[U] = Option(memo.getIfPresent(t).asInstanceOf[U])
-
-    /**
-      * Return the value stored at key `t` if there is one, otherwise
-      * return `u`. `u` is only evaluated if necessary and put into the cache.
-      */
-    def getAndPutWithDefault(t: T, u: => U): U = get(t).getOrElse({
-      val newU = u
-      put(t, newU)
-      newU
-    })
-
-    /**
-      * Has the value at `t` already been computed or not? By default, does
-      * the memo table contain a value for `t`?
-      */
-    def hasBeenComputedAt(t: T): Boolean = get(t).isDefined
-
-    /**
-      * Store the value `u` under the key `t`.
-      */
-    def put(t: T, u: U): Unit = {
-      memo.put(t.asInstanceOf[AnyRef], u.asInstanceOf[AnyRef])
-    }
-
-    /**
-      * Immediately reset the memo table.
-      */
-    def reset(): Unit = {
-      memo.invalidateAll()
-    }
-
-    /**
-      * Immediately reset the memo table at `t`.
-      */
-    def resetAt(t: T): Unit = {
-      memo.invalidate(t)
-    }
-
-    /**
-      * The number of entries in the memo table.
-      */
-    def size(): Long = memo.size
-  }
-
-  /**
-    * A memoised entity that uses equality to compare keys.
-    */
-  trait Memoised[T, U] extends MemoisedBase[T, U] {
-    val memo: Cache[AnyRef, AnyRef] = CacheBuilder.newBuilder.build()
-  }
-
-  /**
-    * A memoised entity that weakly holds onto its keys and uses identity
-    * to compare them.
-    */
-  trait IdMemoised[T, U] extends MemoisedBase[T, U] {
-    val memo: Cache[AnyRef, AnyRef] = CacheBuilder.newBuilder.weakKeys.build()
-  }
+  def buildCache[K <: AnyRef, V <: AnyRef](supplier: K => V): LoadingCache[K, V] =
+    CacheBuilder.newBuilder().build[K, V](CacheLoader.from((k: K) => supplier(k)))
 
 }
