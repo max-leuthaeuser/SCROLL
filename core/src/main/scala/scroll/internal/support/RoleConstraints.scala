@@ -21,43 +21,40 @@ trait RoleConstraints {
   protected val roleProhibitions: MutableGraph[String] = GraphBuilder.directed().build[String]()
 
   private[this] def checkImplications(player: AnyRef, role: AnyRef): Unit = {
-    roleImplications.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
-      case Nil => // done, thanks
-      case list =>
-        val allImplicitRoles = list.flatMap(Graphs.reachableNodes(roleImplications, _).asScala)
-        val allRoles = plays.roles(player).diff(Seq(player))
-        allImplicitRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
-          throw new RuntimeException(s"Role implication constraint violation: '$player' should play role '$r', but it does not!")
-        })
+    val list = roleImplications.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
+    if (list.nonEmpty) {
+      val allImplicitRoles = list.flatMap(Graphs.reachableNodes(roleImplications, _).asScala)
+      val allRoles = plays.roles(player).diff(Seq(player))
+      allImplicitRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
+        throw new RuntimeException(s"Role implication constraint violation: '$player' should play role '$r', but it does not!")
+      })
     }
   }
 
   private[this] def checkEquivalence(player: AnyRef, role: AnyRef): Unit = {
-    roleEquivalents.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
-      case Nil => // done, thanks
-      case list =>
-        val allEquivalentRoles = list.flatMap(Graphs.reachableNodes(roleEquivalents, _).asScala)
-        val allRoles = plays.roles(player).diff(Seq(player))
-        allEquivalentRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
-          throw new RuntimeException(s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!")
-        })
+    val list = roleEquivalents.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
+    if (list.nonEmpty) {
+      val allEquivalentRoles = list.flatMap(Graphs.reachableNodes(roleEquivalents, _).asScala)
+      val allRoles = plays.roles(player).diff(Seq(player))
+      allEquivalentRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
+        throw new RuntimeException(s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!")
+      })
     }
   }
 
   private[this] def checkProhibitions(player: AnyRef, role: AnyRef): Unit = {
-    roleProhibitions.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role)).toList match {
-      case Nil => // done, thanks
-      case list =>
-        val allProhibitedRoles = list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
-        val allRoles = plays.roles(player).diff(Seq(player))
-        val rs = if (allProhibitedRoles.size == allRoles.size) {
-          Set.empty[String]
-        } else {
-          allProhibitedRoles.filter(r => allRoles.exists(ReflectiveHelper.isInstanceOf(r, _)))
-        }
-        allProhibitedRoles.diff(rs).diff(list.toSet).foreach(r => if (allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
-          throw new RuntimeException(s"Role prohibition constraint violation: '$player' plays role '$r', but it is not allowed to do so!")
-        })
+    val list = roleProhibitions.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
+    if (list.nonEmpty) {
+      val allProhibitedRoles = list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
+      val allRoles = plays.roles(player).diff(Seq(player))
+      val rs = if (allProhibitedRoles.size == allRoles.size) {
+        Set.empty[String]
+      } else {
+        allProhibitedRoles.filter(r => allRoles.exists(ReflectiveHelper.isInstanceOf(r, _)))
+      }
+      allProhibitedRoles.diff(rs).diff(list.toSet).foreach(r => if (allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
+        throw new RuntimeException(s"Role prohibition constraint violation: '$player' plays role '$r', but it is not allowed to do so!")
+      })
     }
   }
 
