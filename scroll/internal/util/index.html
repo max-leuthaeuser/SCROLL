@@ -235,21 +235,17 @@ things like <a href="../support/Relationships.html" class="extype" name="scroll.
       </span>
       
       <p class="shortcomment cmt">Package containing some useful utility classes for SCROLL
-like logging (<a href="Log$.html" class="extype" name="scroll.internal.util.Log">scroll.internal.util.Log</a>) and reflection (<a href="ReflectiveHelper$.html" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).</p><div class="fullcomment"><div class="comment cmt"><p>Package containing some useful utility classes for SCROLL
-like logging (<a href="Log$.html" class="extype" name="scroll.internal.util.Log">scroll.internal.util.Log</a>) and reflection (<a href="ReflectiveHelper$.html" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).
+like reflection (<a href="ReflectiveHelper$.html" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).</p><div class="fullcomment"><div class="comment cmt"><p>Package containing some useful utility classes for SCROLL
+like reflection (<a href="ReflectiveHelper$.html" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="scroll.internal">internal</a></dd></dl></div>
     </li><li class="current-entities indented3">
-                        <span class="separator"></span>
-                        <a class="object" href="Log$.html" title="Very simple logging utility using slf4j."></a>
-                        <a href="Log$.html" title="Very simple logging utility using slf4j.">Log</a>
-                      </li><li class="current-entities indented3">
                         <a class="object" href="Many$.html" title=""></a>
                         <a class="class" href="Many.html" title=""></a>
                         <a href="Many.html" title="">Many</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="Memoiser.html" title="Support for memoization, encapsulating common behaviour of memoised entities and a general reset mechanism for all such entities."></a>
-                        <a href="Memoiser.html" title="Support for memoization, encapsulating common behaviour of memoised entities and a general reset mechanism for all such entities.">Memoiser</a>
+                        <a class="trait" href="Memoiser.html" title="Support for building caches using Guava caches."></a>
+                        <a href="Memoiser.html" title="Support for building caches using Guava caches.">Memoiser</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="object" href="ReflectiveHelper$.html" title="Contains useful functions for translating class and type names to Strings and provides helper functions to access common tasks for working with reflections."></a>
@@ -283,12 +279,12 @@ like logging (<a href="Log$.html" class="extype" name="scroll.internal.util.Log"
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Package containing some useful utility classes for SCROLL
-like logging (<a href="Log$.html" class="extype" name="scroll.internal.util.Log">scroll.internal.util.Log</a>) and reflection (<a href="ReflectiveHelper$.html" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).
+like reflection (<a href="ReflectiveHelper$.html" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.8/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></div>
         </div></div>
         
 
@@ -344,11 +340,11 @@ like logging (<a href="Log$.html" class="extype" name="scroll.internal.util.Log"
       </a>
     </span>
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="" href="Many.html"><span class="name">Many</span></a><span class="params">()</span><span class="result"> extends <span class="extype" name="scala.Ordered">Ordered</span>[<a href="http://www.scala-lang.org/api/2.12.7/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>] with <a href="http://www.scala-lang.org/api/2.12.7/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="http://www.scala-lang.org/api/2.12.7/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
+        <a title="" href="Many.html"><span class="name">Many</span></a><span class="params">()</span><span class="result"> extends <span class="extype" name="scala.Ordered">Ordered</span>[<a href="http://www.scala-lang.org/api/2.12.8/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a>] with <a href="http://www.scala-lang.org/api/2.12.8/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="http://www.scala-lang.org/api/2.12.8/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
       </span>
       
       
@@ -364,11 +360,10 @@ like logging (<a href="Log$.html" class="extype" name="scroll.internal.util.Log"
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="Support for memoization, encapsulating common behaviour of memoised entities and a general reset mechanism for all such entities." href="Memoiser.html"><span class="name">Memoiser</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
+        <a title="Support for building caches using Guava caches." href="Memoiser.html"><span class="name">Memoiser</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
-      <p class="shortcomment cmt">Support for memoization, encapsulating common behaviour of memoised
-entities and a general reset mechanism for all such entities.</p>
+      <p class="shortcomment cmt">Support for building caches using Guava caches.</p>
     </li></ol>
             </div>
 
@@ -377,23 +372,7 @@ entities and a general reset mechanism for all such entities.</p>
         <div class="values members">
               <h3>Value Members</h3>
               <ol>
-                <li name="scroll.internal.util.Log" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="Log"></a><a id="Log:Log"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/index.html#Log" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a title="Very simple logging utility using slf4j." href="Log$.html"><span class="name">Log</span></a>
-      </span>
-      
-      <p class="shortcomment cmt">Very simple logging utility using slf4j.</p>
-    </li><li name="scroll.internal.util.Many" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+                <li name="scroll.internal.util.Many" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Many"></a><a id="Many:Many"></a>
       <span class="permalink">
       <a href="../../../scroll/internal/util/index.html#Many" title="Permalink">
@@ -405,7 +384,7 @@ entities and a general reset mechanism for all such entities.</p>
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="" href="Many$.html"><span class="name">Many</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.7/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
+        <a title="" href="Many$.html"><span class="name">Many</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.8/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
       </span>
       
       
@@ -426,7 +405,7 @@ entities and a general reset mechanism for all such entities.</p>
       
       <p class="shortcomment cmt">Contains useful functions for translating class and type names to Strings
 and provides helper functions to access common tasks for working with reflections.</p><div class="fullcomment"><div class="comment cmt"><p>Contains useful functions for translating class and type names to Strings
-and provides helper functions to access common tasks for working with reflections.</p><p>Querying methods and fields is cached using <a href="Memoiser.html" class="extype" name="scroll.internal.util.Memoiser">scroll.internal.util.Memoiser</a>.
+and provides helper functions to access common tasks for working with reflections.</p><p>Querying methods and fields is cached.
 </p></div></div>
     </li>
               </ol>
@@ -439,9 +418,9 @@ and provides helper functions to access common tasks for working with reflection
 
         <div id="inheritedMembers">
         <div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.8/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></h3>
             </div>
         
         </div>

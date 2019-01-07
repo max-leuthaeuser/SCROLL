@@ -223,11 +223,11 @@ things like <a href="support/Relationships.html" class="extype" name="scroll.int
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="Package containing some useful utility classes for SCROLL like logging (scroll.internal.util.Log) and reflection (scroll.internal.util.ReflectiveHelper)." href="util/index.html"><span class="name">util</span></a>
+        <a title="Package containing some useful utility classes for SCROLL like reflection (scroll.internal.util.ReflectiveHelper)." href="util/index.html"><span class="name">util</span></a>
       </span>
       
       <p class="shortcomment cmt">Package containing some useful utility classes for SCROLL
-like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util.Log">scroll.internal.util.Log</a>) and reflection (<a href="util/ReflectiveHelper$.html" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).</p>
+like reflection (<a href="util/ReflectiveHelper$.html" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).</p>
     </li><li class="current-entities indented2">
                         <span class="separator"></span>
                         <a class="trait" href="Compartment.html" title="This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope."></a>
@@ -238,8 +238,8 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
                         <a href="Dispatchable.html" title="This Trait specifies a general interface for reflectively invoking methods.">Dispatchable</a>
                       </li><li class="current-entities indented2">
                         <span class="separator"></span>
-                        <a class="class" href="IPlayer.html" title="Wrapper class to add basic functionality to roles and its players as unified types."></a>
-                        <a href="IPlayer.html" title="Wrapper class to add basic functionality to roles and its players as unified types.">IPlayer</a>
+                        <a class="trait" href="ICompartment.html" title="Interface for implementing an objectified collaboration with a limited number of participating roles and a fixed scope."></a>
+                        <a href="ICompartment.html" title="Interface for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.">ICompartment</a>
                       </li><li class="current-entities indented2">
                         <span class="separator"></span>
                         <a class="trait" href="MultiCompartment.html" title="This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope."></a>
@@ -286,7 +286,7 @@ implementing an objectified collaboration with a limited number of participating
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.8/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></div>
         </div></div>
         
 
@@ -299,9 +299,9 @@ implementing an objectified collaboration with a limited number of participating
         <div id="types" class="types members">
               <h3>Type Members</h3>
               <ol><li name="scroll.internal.Compartment" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="CompartmentextendsRoleConstraintswithRoleRestrictionswithRoleGroupswithRelationshipswithQueryStrategieswithUnionTypes.RoleUnionTypes"></a><a id="Compartment:Compartment"></a>
+      <a id="CompartmentextendsICompartment"></a><a id="Compartment:Compartment"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/index.html#CompartmentextendsRoleConstraintswithRoleRestrictionswithRoleGroupswithRelationshipswithQueryStrategieswithUnionTypes.RoleUnionTypes" title="Permalink">
+      <a href="../../scroll/internal/index.html#CompartmentextendsICompartment" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -310,7 +310,7 @@ implementing an objectified collaboration with a limited number of participating
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope." href="Compartment.html"><span class="name">Compartment</span></a><span class="result"> extends <a href="support/RoleConstraints.html" class="extype" name="scroll.internal.support.RoleConstraints">RoleConstraints</a> with <a href="support/RoleRestrictions.html" class="extype" name="scroll.internal.support.RoleRestrictions">RoleRestrictions</a> with <a href="support/RoleGroups.html" class="extype" name="scroll.internal.support.RoleGroups">RoleGroups</a> with <a href="support/Relationships.html" class="extype" name="scroll.internal.support.Relationships">Relationships</a> with <a href="support/QueryStrategies.html" class="extype" name="scroll.internal.support.QueryStrategies">QueryStrategies</a> with <a href="support/UnionTypes$$RoleUnionTypes.html" class="extype" name="scroll.internal.support.UnionTypes.RoleUnionTypes">RoleUnionTypes</a></span>
+        <a title="This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope." href="Compartment.html"><span class="name">Compartment</span></a><span class="result"> extends <a href="ICompartment.html" class="extype" name="scroll.internal.ICompartment">ICompartment</a></span>
       </span>
       
       <p class="shortcomment cmt">This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.</p><div class="fullcomment"><div class="comment cmt"><p>This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.</p><h4>Overview</h4><p>Roles are dependent on some sort of context. We call them compartments. A typical example of a compartment is a university,
@@ -338,31 +338,14 @@ into your own specific compartment class or create an anonymous instance.</p><h4
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="This Trait specifies a general interface for reflectively invoking methods." href="Dispatchable.html"><span class="name">Dispatchable</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
+        <a title="This Trait specifies a general interface for reflectively invoking methods." href="Dispatchable.html"><span class="name">Dispatchable</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <p class="shortcomment cmt">This Trait specifies a general interface for reflectively invoking methods.</p>
-    </li><li name="scroll.internal.IPlayer" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="IPlayer[T&lt;:AnyRef]extendsAnyRef"></a><a id="IPlayer[T&lt;:AnyRef]:IPlayer[T]"></a>
+    </li><li name="scroll.internal.ICompartment" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ICompartmentextendsRoleConstraintswithRoleRestrictionswithRoleGroupswithRelationshipswithCompartmentRelationswithQueryStrategieswithRoleQuerieswithPlayerEqualitywithUnionTypes.RoleUnionTypes"></a><a id="ICompartment:ICompartment"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/index.html#IPlayer[T&lt;:AnyRef]extendsAnyRef" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">class</span>
-      </span>
-      <span class="symbol">
-        <a title="Wrapper class to add basic functionality to roles and its players as unified types." href="IPlayer.html"><span class="name">IPlayer</span></a><span class="tparams">[<span name="T">T &lt;: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
-      </span>
-      
-      <p class="shortcomment cmt">Wrapper class to add basic functionality to roles and its players as unified types.</p><div class="fullcomment"><div class="comment cmt"><p>Wrapper class to add basic functionality to roles and its players as unified types.
-</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>type of wrapped object</p></dd></dl></div>
-    </li><li name="scroll.internal.MultiCompartment" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="MultiCompartmentextendsCompartment"></a><a id="MultiCompartment:MultiCompartment"></a>
-      <span class="permalink">
-      <a href="../../scroll/internal/index.html#MultiCompartmentextendsCompartment" title="Permalink">
+      <a href="../../scroll/internal/index.html#ICompartmentextendsRoleConstraintswithRoleRestrictionswithRoleGroupswithRelationshipswithCompartmentRelationswithQueryStrategieswithRoleQuerieswithPlayerEqualitywithUnionTypes.RoleUnionTypes" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -371,7 +354,23 @@ into your own specific compartment class or create an anonymous instance.</p><h4
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope." href="MultiCompartment.html"><span class="name">MultiCompartment</span></a><span class="result"> extends <a href="Compartment.html" class="extype" name="scroll.internal.Compartment">Compartment</a></span>
+        <a title="Interface for implementing an objectified collaboration with a limited number of participating roles and a fixed scope." href="ICompartment.html"><span class="name">ICompartment</span></a><span class="result"> extends <a href="support/RoleConstraints.html" class="extype" name="scroll.internal.support.RoleConstraints">RoleConstraints</a> with <a href="support/RoleRestrictions.html" class="extype" name="scroll.internal.support.RoleRestrictions">RoleRestrictions</a> with <a href="support/RoleGroups.html" class="extype" name="scroll.internal.support.RoleGroups">RoleGroups</a> with <a href="support/Relationships.html" class="extype" name="scroll.internal.support.Relationships">Relationships</a> with <a href="support/CompartmentRelations.html" class="extype" name="scroll.internal.support.CompartmentRelations">CompartmentRelations</a> with <a href="support/QueryStrategies.html" class="extype" name="scroll.internal.support.QueryStrategies">QueryStrategies</a> with <a href="support/RoleQueries.html" class="extype" name="scroll.internal.support.RoleQueries">RoleQueries</a> with <a href="support/PlayerEquality.html" class="extype" name="scroll.internal.support.PlayerEquality">PlayerEquality</a> with <a href="support/UnionTypes$$RoleUnionTypes.html" class="extype" name="scroll.internal.support.UnionTypes.RoleUnionTypes">RoleUnionTypes</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Interface for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.</p>
+    </li><li name="scroll.internal.MultiCompartment" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="MultiCompartmentextendsICompartment"></a><a id="MultiCompartment:MultiCompartment"></a>
+      <span class="permalink">
+      <a href="../../scroll/internal/index.html#MultiCompartmentextendsICompartment" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope." href="MultiCompartment.html"><span class="name">MultiCompartment</span></a><span class="result"> extends <a href="ICompartment.html" class="extype" name="scroll.internal.ICompartment">ICompartment</a></span>
       </span>
       
       <p class="shortcomment cmt">This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.</p><div class="fullcomment"><div class="comment cmt"><p>This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
@@ -405,7 +404,7 @@ In contrast to the normal Compartment, in case of ambiguities all role methods w
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="This Trait enables dynamic invocation of role methods that are not natively available on the player object." href="SCROLLDynamic.html"><span class="name">SCROLLDynamic</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.7/scala/Dynamic.html#scala.Dynamic" class="extype" name="scala.Dynamic">Dynamic</a></span>
+        <a title="This Trait enables dynamic invocation of role methods that are not natively available on the player object." href="SCROLLDynamic.html"><span class="name">SCROLLDynamic</span></a><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.8/scala/Dynamic.html#scala.Dynamic" class="extype" name="scala.Dynamic">Dynamic</a></span>
       </span>
       
       <p class="shortcomment cmt">This Trait enables dynamic invocation of role methods that are not natively available on the player object.</p>
@@ -423,9 +422,9 @@ In contrast to the normal Compartment, in case of ambiguities all role methods w
 
         <div id="inheritedMembers">
         <div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.8/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></h3>
             </div>
         
         </div>
