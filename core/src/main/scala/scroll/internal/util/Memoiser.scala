@@ -5,7 +5,7 @@ import com.google.common.cache.CacheLoader
 import com.google.common.cache.LoadingCache
 
 /**
-  * Support for memoization using [[com.google.common.cache.CacheBuilder]].
+  * Support for building caches using Guava caches.
   */
 trait Memoiser {
 

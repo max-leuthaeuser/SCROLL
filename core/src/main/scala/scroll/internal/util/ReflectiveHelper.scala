@@ -10,7 +10,7 @@ import scala.reflect.classTag
   * Contains useful functions for translating class and type names to Strings
   * and provides helper functions to access common tasks for working with reflections.
   *
-  * Querying methods and fields is cached using [[com.google.common.cache.CacheBuilder]].
+  * Querying methods and fields is cached.
   */
 object ReflectiveHelper extends Memoiser {
 
