@@ -15,7 +15,7 @@ lazy val root = (project in file(".")).
 
 lazy val commonSettings = Seq(
   scalaVersion := lib.v.scalaVersion,
-  version := "1.7",
+  version := "1.8",
   mainClass := None,
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
