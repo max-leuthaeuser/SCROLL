@@ -1,7 +1,6 @@
 package scroll.benchmarks
 
 import scroll.internal.Compartment
-import scroll.internal.graph.ScalaRoleGraphBuilder
 
 class CachingExample {
 
@@ -13,9 +12,8 @@ class CachingExample {
     def doSomething(): Int = id
   }
 
-  class SomeCompartment(val cached: Boolean) extends Compartment {
-
-    ScalaRoleGraphBuilder.cached(cached = cached).checkForCycles(checkForCycles = false)
+  class SomeCompartment(val isCached: Boolean) extends Compartment {
+    reconfigure(cached = isCached, checkForCycles = false)
 
     def run(): Int = +core doSomething()
 

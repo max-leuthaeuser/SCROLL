@@ -2,8 +2,7 @@ package scroll.internal
 
 import scroll.internal.errors.SCROLLErrors.TypeError
 import scroll.internal.errors.SCROLLErrors.TypeNotFound
-import scroll.internal.graph.ScalaRoleGraph
-import scroll.internal.graph.ScalaRoleGraphBuilder
+import scroll.internal.graph.HasRoleGraph
 import scroll.internal.support._
 import scroll.internal.support.UnionTypes.RoleUnionTypes
 import scroll.internal.util.ReflectiveHelper
@@ -22,9 +21,8 @@ trait ICompartment extends RoleConstraints
   with QueryStrategies
   with RoleQueries
   with PlayerEquality
-  with RoleUnionTypes {
-
-  private[internal] var plays: ScalaRoleGraph = ScalaRoleGraphBuilder.build
+  with RoleUnionTypes
+  with HasRoleGraph {
 
   implicit def either2TorException[T](either: Either[_, T]): T = either.fold(
     l => {

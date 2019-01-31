@@ -2,7 +2,6 @@ package scroll.benchmarks
 
 import scroll.internal.support.DispatchQuery._
 import scroll.internal.Compartment
-import scroll.internal.graph.ScalaRoleGraphBuilder
 import scroll.internal.support.DispatchQuery
 
 class NoopExample(cached: Boolean) {
@@ -19,7 +18,7 @@ class NoopExample(cached: Boolean) {
   }
 
   trait NoopCompartment extends Compartment {
-    ScalaRoleGraphBuilder.cached(cached = cached).checkForCycles(checkForCycles = false)
+    reconfigure(cached = cached, checkForCycles = false)
 
     /**
       * No-op role methods which just forward to the base
