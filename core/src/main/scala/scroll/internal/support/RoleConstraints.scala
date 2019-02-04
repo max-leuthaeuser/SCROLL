@@ -24,7 +24,7 @@ trait RoleConstraints {
     val list = roleImplications.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
     if (list.nonEmpty) {
       val allImplicitRoles = list.flatMap(Graphs.reachableNodes(roleImplications, _).asScala)
-      val allRoles = plays.roles(player).diff(Seq(player))
+      val allRoles = plays.roles(player).drop(1)
       allImplicitRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
         throw new RuntimeException(s"Role implication constraint violation: '$player' should play role '$r', but it does not!")
       })
@@ -35,7 +35,7 @@ trait RoleConstraints {
     val list = roleEquivalents.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
     if (list.nonEmpty) {
       val allEquivalentRoles = list.flatMap(Graphs.reachableNodes(roleEquivalents, _).asScala)
-      val allRoles = plays.roles(player).diff(Seq(player))
+      val allRoles = plays.roles(player).drop(1)
       allEquivalentRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
         throw new RuntimeException(s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!")
       })
@@ -46,7 +46,7 @@ trait RoleConstraints {
     val list = roleProhibitions.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
     if (list.nonEmpty) {
       val allProhibitedRoles = list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
-      val allRoles = plays.roles(player).diff(Seq(player))
+      val allRoles = plays.roles(player).drop(1)
       val rs = if (allProhibitedRoles.size == allRoles.size) {
         Set.empty[String]
       } else {
@@ -109,7 +109,7 @@ trait RoleConstraints {
     */
   def RoleConstraintsChecked(func: => Unit): Unit = {
     func
-    plays.allPlayers.foreach(p => plays.roles(p).diff(Seq(p)).foreach(r => validateConstraints(p, r)))
+    plays.allPlayers.foreach(p => plays.roles(p).drop(1).foreach(r => validateConstraints(p, r)))
   }
 
   /**

@@ -70,8 +70,8 @@ trait Relationships {
     * @tparam R type of the role of the right side of the relationship
     */
   class Relationship[L <: AnyRef : ClassTag, R <: AnyRef : ClassTag](name: String,
-                                                                     var leftMul: Multiplicity,
-                                                                     var rightMul: Multiplicity) {
+                                                                     leftMul: Multiplicity,
+                                                                     rightMul: Multiplicity) {
 
     protected val MULT_NOT_ALLOWED: String = "This multiplicity is not allowed!"
 
