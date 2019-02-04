@@ -85,10 +85,8 @@ class MultiCompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cach
       When("Calling notPartOf on those MultiCompartments")
       compA.notPartOf(compB)
       Then("Core should play the correct roles")
-      compA.newPlayer(core).roles() should contain theSameElementsInOrderAs Seq(core, roleA)
-      compA.newPlayer(core).roles() should not contain roleB
-      compB.newPlayer(core).roles() should contain theSameElementsInOrderAs Seq(core, roleB)
-      compB.newPlayer(core).roles() should not contain roleA
+      compA.newPlayer(core).roles() should contain only roleA
+      compB.newPlayer(core).roles() should contain only roleB
     }
 
   }

@@ -85,10 +85,8 @@ class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       When("Calling notPartOf on those Compartments")
       compA.notPartOf(compB)
       Then("Core should play the correct roles")
-      compA.newPlayer(core).roles() should contain theSameElementsInOrderAs Seq(core, roleA)
-      compA.newPlayer(core).roles() should not contain roleB
-      compB.newPlayer(core).roles() should contain theSameElementsInOrderAs Seq(core, roleB)
-      compB.newPlayer(core).roles() should not contain roleA
+      compA.newPlayer(core).roles() should contain only roleA
+      compB.newPlayer(core).roles() should contain only roleB
     }
 
   }

@@ -15,6 +15,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     super.addBinding(player, role)
     predecessors(player).foreach(reset)
     roles(role).foreach(reset)
+    reset(role)
     reset(player)
   }
 
@@ -60,6 +61,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     super.removeBinding(player, role)
     predecessors(player).foreach(reset)
     roles(role).foreach(reset)
+    reset(role)
     reset(player)
   }
 

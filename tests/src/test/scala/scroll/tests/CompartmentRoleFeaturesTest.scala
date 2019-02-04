@@ -80,7 +80,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
         (+someCore).isPlaying[RoleA] shouldBe false
 
         And("role method invocation should not work any longer.")
-        +someCore a() match {
+        +someCore s() match {
           case Right(_) => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
         }
