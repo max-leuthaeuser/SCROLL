@@ -102,7 +102,7 @@ object ReflectiveHelper extends Memoiser {
 
   private[this] def allMethods(of: Class[_]): Seq[Method] = {
     def getAccessibleMethods(c: Class[_]): Seq[Method] = c match {
-      case null => Seq.empty
+      case null => Seq.empty[Method]
       case _ => c.getDeclaredMethods ++ getAccessibleMethods(c.getSuperclass)
     }
 
@@ -111,7 +111,7 @@ object ReflectiveHelper extends Memoiser {
 
   private[this] def allFields(of: Class[_]): Seq[Field] = {
     def accessibleFields(c: Class[_]): Seq[Field] = c match {
-      case null => Seq.empty
+      case null => Seq.empty[Field]
       case _ => c.getDeclaredFields ++ accessibleFields(c.getSuperclass)
     }
 

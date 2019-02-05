@@ -57,7 +57,7 @@ trait RoleGraph {
     * Returns a Seq of all roles attached to the given player (core object).
     *
     * @param player the player instance to get the roles for
-    * @return a Seq of all roles of core player including the player object itself. Returns an empty Seq if the given player is not in the role-playing graph.
+    * @return a Seq of all roles of core player. Returns an empty Seq if the given player is not in the role-playing graph.
     */
   def roles(player: AnyRef): Seq[AnyRef]
 
@@ -65,7 +65,7 @@ trait RoleGraph {
     * Returns a Seq of all facets attached to the given player (core object).
     *
     * @param player the player instance to get the facets for
-    * @return a Seq of all facets of core player including the player object itself. Returns an empty Seq if the given player is not in the role-playing graph.
+    * @return a Seq of all facets of core player. Returns an empty Seq if the given player is not in the role-playing graph.
     */
   def facets(player: AnyRef): Seq[Enumeration#Value]
 

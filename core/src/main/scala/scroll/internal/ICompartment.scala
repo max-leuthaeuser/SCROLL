@@ -47,7 +47,7 @@ trait ICompartment extends RoleConstraints
           case head +: Nil => coreFor(head)
           case r => r
         }
-      case _ => Seq.empty
+      case _ => Seq.empty[AnyRef]
     }
   }
 
@@ -274,7 +274,7 @@ trait ICompartment extends RoleConstraints
     /**
       * Returns a Seq of all roles attached to this player.
       *
-      * @return a Seq of all roles of this player including the player object itself. Returns an empty Seq if this player is not in the role-playing graph.
+      * @return a Seq of all roles of this player. Returns an empty Seq if this player is not in the role-playing graph.
       */
     def roles(): Seq[AnyRef] = plays.roles(this.wrapped)
 

@@ -112,13 +112,13 @@ final case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Nu
   def pred(rst: RST, c: CT, r: RT): List[RT] = if (links.contains((rst, c))) {
     links((rst, c)).filter(_._2 == r).map(_._1)
   } else {
-    List.empty
+    List.empty[RT]
   }
 
   def succ(rst: RST, c: CT, r: RT): List[RT] = if (links.contains((rst, c))) {
     links((rst, c)).filter(_._1 == r).map(_._2)
   } else {
-    List.empty
+    List.empty[RT]
   }
 
   private[this] def player(r: RT): NT = r match {

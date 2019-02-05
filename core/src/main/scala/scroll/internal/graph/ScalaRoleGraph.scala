@@ -1,11 +1,10 @@
 package scroll.internal.graph
 
+import com.google.common.graph.Graph
 import com.google.common.graph.GraphBuilder
 import com.google.common.graph.Graphs
-import com.google.common.graph.MutableGraph
 
 import scala.collection.JavaConverters._
-import scala.collection.mutable
 import scala.reflect.ClassTag
 
 /**
@@ -18,7 +17,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   protected val MERGE_MESSAGE: String = "You can only merge RoleGraphs of the same type!"
 
-  private val root: MutableGraph[Object] = GraphBuilder.directed().build[Object]()
+  private val root = GraphBuilder.directed().build[Object]()
 
   override def addPart(other: RoleGraph): Boolean = {
     require(other.isInstanceOf[ScalaRoleGraph], MERGE_MESSAGE)
@@ -66,24 +65,14 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     val _ = root.removeNode(player)
   }
 
-  private def follow(player: AnyRef, direction: Object => java.util.Set[Object]): Seq[AnyRef] =
+  private def filter(g: Graph[AnyRef], player: AnyRef): Seq[AnyRef] =
     if (containsPlayer(player)) {
-      val returnSeq = new mutable.ListBuffer[Object]
-      val processing = new mutable.Queue[Object]
-      direction(player).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
-      while (processing.nonEmpty) {
-        val next = processing.dequeue()
-        if (!returnSeq.contains(next)) {
-          val _ = returnSeq += next
-        }
-        direction(next).forEach(n => if (!n.isInstanceOf[Enumeration#Value]) processing.enqueue(n))
-      }
-      returnSeq
+      (Graphs.reachableNodes(g, player).asScala - player).toSeq
     } else {
       Seq.empty[AnyRef]
     }
 
-  override def roles(player: AnyRef): Seq[AnyRef] = follow(player, root.successors)
+  override def roles(player: AnyRef): Seq[AnyRef] = filter(root, player)
 
   override def facets(player: AnyRef): Seq[Enumeration#Value] =
     if (containsPlayer(player)) {
@@ -96,5 +85,5 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
 
   override def allPlayers: Seq[AnyRef] = root.nodes().asScala.toSeq
 
-  override def predecessors(player: AnyRef): Seq[AnyRef] = follow(player, root.predecessors)
+  override def predecessors(player: AnyRef): Seq[AnyRef] = filter(Graphs.transpose(root), player)
 }
