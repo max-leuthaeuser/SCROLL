@@ -103,11 +103,11 @@ class BankExample {
 
   var bank: Bank = _
 
-  def build(numPlayer: Int, numRoles: Int, numTransactions: Int, checkCycles: Boolean = false): BankExample = {
+  def build(numPlayer: Int, numRoles: Int, numTransactions: Int, cached: Boolean, checkCycles: Boolean = false): BankExample = {
     val players = (0 until numPlayer).map(i => new Person("Mr.", "Stan", "Mejer" + i, "Fake Street 1A"))
 
     bank = new Bank {
-      reconfigure(cached = true, checkCycles)
+      reconfigure(cached, checkCycles)
 
       private val accounts = players.zipWithIndex.map { case (p, i) =>
         val a = new Account(i, Money(100.0, "USD"))
@@ -123,7 +123,7 @@ class BankExample {
 
       (0 until numTransactions).foreach { _ =>
         val transaction = new Transaction {
-          reconfigure(cached = true, checkCycles)
+          reconfigure(cached, checkCycles)
 
           amount = Money(10.0, "USD")
           from = new Source()
@@ -139,7 +139,5 @@ class BankExample {
     }
     this
   }
-
-  def benchmark(): Boolean = bank.executeTransactions()
 
 }
