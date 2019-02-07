@@ -10,7 +10,7 @@ import scala.util.Random
 
 class BankExample {
 
-  class Person(title: String, firstName: String, lastName: String, address: String)
+  class Person(val name: String)
 
   class Account(id: Integer, var balance: Money) {
 
@@ -56,37 +56,20 @@ class BankExample {
       true
     }
 
-    class Customer(id: Integer, name: String) {
-      private val accounts = ArrayBuffer.empty[Account]
+    class Customer(name: String) {
+      private var account: Account = _
 
-      def addSavingsAccount(a: Account): Unit = {
+      def setSavingsAccount(a: Account): Unit = {
         val sa = new SavingsAccount()
-        accounts.append(a)
+        account = a
         val _ = a play sa
-      }
-
-      def addCheckingsAccount(a: Account): Unit = {
-        val ca = new CheckingsAccount()
-        accounts.append(a)
-        val _ = a play ca
       }
     }
 
     class MoneyTransfer() {
       def execute(): Unit = {
-        implicit val dd = Bypassing(_.isInstanceOf[MoneyTransfer])
+        implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[MoneyTransfer])
         val _ = +this execute()
-      }
-    }
-
-    class CheckingsAccount() {
-      private val limit: Money = Money(100, "USD")
-
-      def decrease(amount: Money): Unit = amount match {
-        case a if a <= limit =>
-          implicit val dd = Bypassing(_.isInstanceOf[CheckingsAccount])
-          val _ = +this decrease amount
-        case _ => throw new IllegalArgumentException("Amount > limit!")
       }
     }
 
@@ -94,7 +77,7 @@ class BankExample {
       private val transactionFee: Double = 0.1
 
       def decrease(amount: Money): Unit = {
-        implicit val dd = Bypassing(_.isInstanceOf[SavingsAccount])
+        implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[SavingsAccount])
         val _ = +this decrease (amount + amount * transactionFee)
       }
     }
@@ -104,16 +87,16 @@ class BankExample {
   var bank: Bank = _
 
   def build(numPlayer: Int, numRoles: Int, numTransactions: Int, cached: Boolean, checkCycles: Boolean = false): BankExample = {
-    val players = (0 until numPlayer).map(i => new Person("Mr.", "Stan", "Mejer" + i, "Fake Street 1A"))
+    val players = (0 until numPlayer).map(i => new Person("Name-" + i))
 
     bank = new Bank {
       reconfigure(cached, checkCycles)
 
-      private val accounts = players.zipWithIndex.map { case (p, i) =>
-        val a = new Account(i, Money(100.0, "USD"))
+      private val accounts: Seq[Account] = players.map { p =>
+        val a = new Account(p.name.hashCode, Money(100.0, "USD"))
         val roles = (0 until numRoles).map(ii => {
-          val c = new Customer(ii, "Customer" + i)
-          c addSavingsAccount a
+          val c = new Customer(s"Customer-$ii-${p.name}")
+          c setSavingsAccount a
           c
         })
         p play roles.head
@@ -122,7 +105,7 @@ class BankExample {
       }
 
       (0 until numTransactions).foreach { _ =>
-        val transaction = new Transaction {
+        val transaction: Transaction = new Transaction {
           reconfigure(cached, checkCycles)
 
           amount = Money(10.0, "USD")
@@ -134,7 +117,7 @@ class BankExample {
         val mt = new MoneyTransfer()
         transaction play mt
         moneyTransfers.append(mt)
-        transaction partOf this
+        this combine transaction
       }
     }
     this
