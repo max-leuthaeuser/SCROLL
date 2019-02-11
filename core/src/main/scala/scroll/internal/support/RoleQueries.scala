@@ -2,7 +2,6 @@ package scroll.internal.support
 
 import scroll.internal.ICompartment
 import scroll.internal.errors.SCROLLErrors.TypeError
-import scroll.internal.util.ReflectiveHelper
 
 import scala.reflect.ClassTag
 import scala.reflect.classTag
@@ -18,7 +17,7 @@ trait RoleQueries {
     * @return all player instances as Seq, that do conform to the given matcher
     */
   def all[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] =
-    plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(matcher.matches)
+    plays.allPlayers.collect { case p: T if matcher.matches(p) => p }
 
   /**
     * Query the role playing graph for all player instances that do conform to the given function.
@@ -28,7 +27,7 @@ trait RoleQueries {
     * @return all player instances as Seq, that do conform to the given matcher
     */
   def all[T <: AnyRef : ClassTag](matcher: T => Boolean): Seq[T] =
-    plays.allPlayers.filter(ReflectiveHelper.is[T]).map(_.asInstanceOf[T]).filter(matcher)
+    plays.allPlayers.collect { case p: T if matcher(p) => p }
 
   /**
     * Query the role playing graph for all player instances that do conform to the given matcher and return the first found.

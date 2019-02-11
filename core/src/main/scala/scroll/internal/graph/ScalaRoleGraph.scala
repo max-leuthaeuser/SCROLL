@@ -5,7 +5,6 @@ import com.google.common.graph.GraphBuilder
 import com.google.common.graph.Graphs
 
 import scala.collection.JavaConverters._
-import scala.reflect.ClassTag
 
 /**
   * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
@@ -48,7 +47,7 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     }
   }
 
-  override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
+  override def addBinding(player: AnyRef, role: AnyRef): Unit = {
     require(null != player)
     require(null != role)
     val _ = root.putEdge(player, role)
@@ -57,11 +56,11 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
     }
   }
 
-  override def removeBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
+  override def removeBinding(player: AnyRef, role: AnyRef): Unit = {
     val _ = root.removeEdge(player, role)
   }
 
-  override def removePlayer[P <: AnyRef : ClassTag](player: P): Unit = {
+  override def removePlayer(player: AnyRef): Unit = {
     val _ = root.removeNode(player)
   }
 

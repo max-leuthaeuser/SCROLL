@@ -2,8 +2,6 @@ package scroll.internal.graph
 
 import scroll.internal.util.Memoiser
 
-import scala.reflect.ClassTag
-
 class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGraph(checkForCycles) with Memoiser {
 
   private[this] val containsCache = buildCache[AnyRef, java.lang.Boolean](super.containsPlayer)
@@ -11,7 +9,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
   private[this] val rolesCache = buildCache[AnyRef, Seq[AnyRef]](super.roles)
   private[this] val facetsCache = buildCache[AnyRef, Seq[Enumeration#Value]](super.facets)
 
-  override def addBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
+  override def addBinding(player: AnyRef, role: AnyRef): Unit = {
     super.addBinding(player, role)
     predecessors(player).foreach(reset)
     roles(role).foreach(reset)
@@ -57,7 +55,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     }
   }
 
-  override def removeBinding[P <: AnyRef : ClassTag, R <: AnyRef : ClassTag](player: P, role: R): Unit = {
+  override def removeBinding(player: AnyRef, role: AnyRef): Unit = {
     super.removeBinding(player, role)
     predecessors(player).foreach(reset)
     roles(role).foreach(reset)
@@ -65,7 +63,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
     reset(player)
   }
 
-  override def removePlayer[P <: AnyRef : ClassTag](player: P): Unit = {
+  override def removePlayer(player: AnyRef): Unit = {
     roles(player).foreach(reset)
     predecessors(player).foreach(reset)
     super.removePlayer(player)

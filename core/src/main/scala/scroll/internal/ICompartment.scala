@@ -94,12 +94,10 @@ trait ICompartment extends RoleConstraints
   /**
     * Removes the play relation between core and role.
     *
-    * @tparam C type of core
-    * @tparam R type of role
     * @param core the core the given role should removed from
     * @param role the role that should removed from the given core
     */
-  def removePlaysRelation[C <: AnyRef : ClassTag, R <: AnyRef : ClassTag](core: C, role: R): Unit = {
+  def removePlaysRelation(core: AnyRef, role: AnyRef): Unit = {
     require(null != core)
     require(null != role)
     plays.removeBinding(core, role)
@@ -120,7 +118,7 @@ trait ICompartment extends RoleConstraints
     *
     * @param player the player to remove
     */
-  def removePlayer[P <: AnyRef : ClassTag](player: P): Unit = plays.removePlayer(player)
+  def removePlayer(player: AnyRef): Unit = plays.removePlayer(player)
 
   /**
     * Returns a Seq of all players
@@ -198,7 +196,7 @@ trait ICompartment extends RoleConstraints
       * @param role the role that should be removed
       * @return this
       */
-    def <->[R <: AnyRef : ClassTag](role: R): T = drop(role)
+    def <->(role: AnyRef): T = drop(role)
 
     /**
       * Removes the play relation between core and role.
@@ -206,8 +204,8 @@ trait ICompartment extends RoleConstraints
       * @param role the role that should be removed
       * @return this
       */
-    def drop[R <: AnyRef : ClassTag](role: R): T = {
-      removePlaysRelation[W, R](wrapped, role)
+    def drop(role: AnyRef): T = {
+      removePlaysRelation(wrapped, role)
       this
     }
 
