@@ -48,15 +48,13 @@ trait Compartment extends ICompartment {
       applyDispatchQuery(dispatchQuery, wrapped).view.map { r: AnyRef =>
         (r, ReflectiveHelper.findMethod(r, name, args))
       }.collectFirst {
-        case (r: AnyRef, Some(m: Method)) => (r, m)
-      }.map { case (r: AnyRef, m: Method) => dispatch[E](r, m, args: _*) }.
-        getOrElse(Left(RoleNotFound(wrapped.toString, name, args)))
+        case (r: AnyRef, Some(m: Method)) => dispatch[E](r, m, args: _*)
+      }.getOrElse(Left(RoleNotFound(wrapped.toString, name, args)))
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
-      applyDispatchQuery(dispatchQuery, wrapped).view.
-        find(ReflectiveHelper.hasMember(_, name)).
-        map { r: AnyRef => Right(ReflectiveHelper.propertyOf[E](r, name)) }.
-        getOrElse(Left(RoleNotFound(wrapped.toString, name, Seq.empty[Any])))
+      applyDispatchQuery(dispatchQuery, wrapped).view.collectFirst {
+        case r: AnyRef if ReflectiveHelper.hasMember(r, name) => Right(ReflectiveHelper.propertyOf[E](r, name))
+      }.getOrElse(Left(RoleNotFound(wrapped.toString, name, Seq.empty[Any])))
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit =
       applyDispatchQuery(dispatchQuery, wrapped).view.
