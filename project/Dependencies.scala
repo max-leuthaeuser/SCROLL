@@ -6,7 +6,7 @@ trait Dependencies {
 
   object v {
     val scalaVersion = "2.12.8"
-    val akkaVersion = "2.5.20"
+    val akkaVersion = "2.5.21"
     val shapelessVersion = "2.3.3"
     val scalatestVersion = "3.0.5"
     val chocoVersion = "4.10.0"
@@ -27,6 +27,12 @@ trait Dependencies {
     "org.eclipse.emf" % "org.eclipse.emf.common" % v.emfcommonVersion,
     "org.eclipse.emf" % "org.eclipse.emf.ecore" % v.emfecoreVersion,
     "org.eclipse.uml2" % "org.eclipse.uml2.uml" % v.umlVersion
+  )
+
+  val coreDependenciesOverrides = Seq(
+    "org.scala-lang" % "scala-library" % v.scalaVersion,
+    "org.eclipse.emf" % "org.eclipse.emf.common" % v.emfcommonVersion,
+    "org.eclipse.emf" % "org.eclipse.emf.ecore" % v.emfecoreVersion
   )
 
   val testDependencies = Seq(

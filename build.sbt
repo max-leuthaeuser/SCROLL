@@ -22,6 +22,7 @@ lazy val commonSettings = Seq(
     "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
   ),
   libraryDependencies ++= lib.coreDependencies,
+  dependencyOverrides ++= lib.coreDependenciesOverrides,
   javacOptions in Compile ++= Seq("-source", "1.8", "-target", "1.8"),
   scalacOptions ++= Seq(
     "-encoding", utf8,
