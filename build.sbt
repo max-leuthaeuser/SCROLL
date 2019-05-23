@@ -3,6 +3,8 @@ val linting = Linting
 
 val utf8 = java.nio.charset.StandardCharsets.UTF_8.toString
 
+ThisBuild / scalaVersion := lib.v.scalaVersion
+
 lazy val noPublishSettings =
   Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 
@@ -14,7 +16,6 @@ lazy val root = (project in file(".")).
   aggregate(core, tests, examples)
 
 lazy val commonSettings = Seq(
-  scalaVersion := lib.v.scalaVersion,
   version := "1.9",
   mainClass := None,
   resolvers ++= Seq(
