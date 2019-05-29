@@ -10,8 +10,8 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
   info("Test spec for an excerpt of the role concept.")
   info("Things like role playing and method invocation are tested.")
 
-  feature("Role playing") {
-    scenario("Dropping role and invoking methods") {
+  Feature("Role playing") {
+    Scenario("Dropping role and invoking methods") {
       Given("some player and role in a multi compartment")
       val someCore = new CoreA()
       new MultiCompartmentUnderTest() {
@@ -24,8 +24,8 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
         someCore drop someRole
 
         Then("the call must be invoked on the core object")
-        someCore a()
-        +someCore a()
+        someCore.a()
+        (+someCore).a()
 
         And("a role should be dropped correctly")
         (+someCore).isPlaying[RoleA] shouldBe false
@@ -33,14 +33,14 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
         (+someCore).isPlaying[RoleB] shouldBe true
 
         And("role method invocation should work.")
-        +someCore b() match {
+        (+someCore).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error) => fail(error.toString)
         }
       }
     }
 
-    scenario("Transferring a role") {
+    Scenario("Transferring a role") {
       Given("some players and role in a multi compartment")
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
@@ -54,7 +54,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
         someCoreA transfer someRole to someCoreB
 
         Then("the result of the call to the role of player someCoreB should be correct")
-        +someCoreB a() match {
+        (+someCoreB).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(0))
           case Left(error) => fail(error.toString)
         }
@@ -64,7 +64,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
       }
     }
 
-    scenario("Role playing and testing isPlaying") {
+    Scenario("Role playing and testing isPlaying") {
       Given("some players and roles in a multi compartment")
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
@@ -86,7 +86,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
       }
     }
 
-    scenario("Handling applyDynamic") {
+    Scenario("Handling applyDynamic") {
       Given("some players and role in a multi compartment")
       val someCoreA = new CoreA()
 
@@ -98,12 +98,12 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
         When("calling a dynamic method")
         Then("the result of the call to the role of player someCoreA should be correct")
         val expected = 0
-        +someCoreA a[Int]() match {
+        (+someCoreA).a[Int]() match {
           case Right(returnValue) => returnValue.head shouldBe Right(expected)
           case Left(error) => fail(error.toString)
         }
         And("a call to the role with a method that does not exist should fail")
-        val r = +someCoreA c()
+        val r = (+someCoreA).c()
         r match {
           case Left(_) => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
@@ -111,7 +111,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
       }
     }
 
-    scenario("Handling applyDynamicNamed") {
+    Scenario("Handling applyDynamicNamed") {
       Given("some players and role in a multi compartment")
       val someCoreA = new CoreA()
 
@@ -123,14 +123,14 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
         When("calling a dynamic method with named params")
         val expected = someRole.b("some", param = "out")
         Then("the result of the call to the role of player someCoreA should be correct")
-        +someCoreA b("some", param = "out") match {
+        (+someCoreA).b("some", param = "out") match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected))
           case Left(error) => fail(error.toString)
         }
       }
     }
 
-    scenario("Handling selectDynamic") {
+    Scenario("Handling selectDynamic") {
       Given("some players and role in a multi compartment")
       val someCoreA = new CoreA()
 
@@ -163,7 +163,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
       }
     }
 
-    scenario("Handling updateDynamic") {
+    Scenario("Handling updateDynamic") {
       Given("some players and role in a multi compartment")
       val someCoreA = new CoreA()
 
@@ -209,7 +209,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
     }
   }
 
-  scenario("Playing a role multiple times (same instance)") {
+  Scenario("Playing a role multiple times (same instance)") {
     Given("some players and role in a multi compartment")
     val someCoreA = new CoreA()
 
@@ -233,7 +233,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
     }
   }
 
-  scenario("Playing a role multiple times (different instances) from one player") {
+  Scenario("Playing a role multiple times (different instances) from one player") {
     Given("some players and 2 role instance of the same type in a multi compartment")
     val someCoreA = new CoreA()
 
@@ -259,7 +259,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
     }
   }
 
-  scenario("Playing a role multiple times (different instances, but using dispatch to select one)") {
+  Scenario("Playing a role multiple times (different instances, but using dispatch to select one)") {
     Given("some players and 2 role instance of the same type in a multi compartment")
     val someCoreA = new CoreA()
 
@@ -296,7 +296,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
     }
   }
 
-  scenario("Calling multi-argument method in roles") {
+  Scenario("Calling multi-argument method in roles") {
     Given("a player and a role instance in a multi compartment")
     val someCoreA = new CoreA()
 
@@ -340,7 +340,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
     * Char
     * boolean
     */
-  scenario("Calling method on a role with different primitive types") {
+  Scenario("Calling method on a role with different primitive types") {
     Given("a player and a role instance in a multi compartment")
     val someCoreA = new CoreA()
 
@@ -425,7 +425,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
     }
   }
 
-  scenario("Playing a role multiple times (same instance) from different players") {
+  Scenario("Playing a role multiple times (same instance) from different players") {
     Given("some players and role in a multi compartment")
     val someCoreA = new CoreA()
     val someCoreB = new CoreB()
@@ -477,7 +477,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
     }
   }
 
-  scenario("Cyclic role-playing relationship") {
+  Scenario("Cyclic role-playing relationship") {
     Given("a player and some roles in a multi compartment")
     val someCoreA = new CoreA()
 
@@ -497,7 +497,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
     }
   }
 
-  scenario("Compartment plays a role that is part of themselves") {
+  Scenario("Compartment plays a role that is part of themselves") {
     Given("a compartment and a role in it")
 
     class ACompartment extends CompartmentUnderTest {
@@ -515,7 +515,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
     }
   }
 
-  scenario("Deep roles") {
+  Scenario("Deep roles") {
     Given("a player and some roles in a multi compartment")
     val someCoreA = new CoreA()
 
@@ -564,7 +564,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
     }
   }
 
-  scenario("Handling null arguments for applyDynamic") {
+  Scenario("Handling null arguments for applyDynamic") {
     Given("a player and a role in a multi compartment")
     val someCoreA = new CoreA()
 
@@ -589,7 +589,7 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
     }
   }
 
-  scenario("Dropping roles when using deep roles") {
+  Scenario("Dropping roles when using deep roles") {
 
     class Core() {
       def a(): String = "a"
@@ -605,8 +605,8 @@ class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTe
 
     Given("a player and some roles in a multi compartment")
     val someCore = new Core()
-    val roleWithB = new RoleWithB
-    val roleWithC = new RoleWithC
+    val roleWithB = new RoleWithB()
+    val roleWithC = new RoleWithC()
 
     new MultiCompartmentUnderTest() {
       someCore play roleWithB

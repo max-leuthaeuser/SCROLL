@@ -8,8 +8,8 @@ class RoleSortingTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
   info("Test spec for sorting dynamic extensions.")
 
-  feature("Role sorting") {
-    scenario("Adding roles and sorting them") {
+  Feature("Role sorting") {
+    Scenario("Adding roles and sorting them") {
       Given("some player and roles in a compartment")
       val someCore = new CoreA()
       new CompartmentUnderTest() {
@@ -35,13 +35,13 @@ class RoleSortingTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         someCore play roleC
 
         When("dispatching without sorting")
-        val r1: String = +someCore method()
+        val r1: String = (+someCore).method()
         Then("the sorting should do nothing and keep the roles sorted as specified through their binding sequence")
         r1 shouldBe "C"
 
         When("dispatching with sorting")
         implicit var dd = DispatchQuery.empty.sortedWith(reverse)
-        val r2: String = +someCore method()
+        val r2: String = (+someCore).method()
         Then("the sorting should reorder them")
         r2 shouldBe "A"
 
@@ -49,7 +49,7 @@ class RoleSortingTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         dd = DispatchQuery.empty.sortedWith {
           case (_: SomeRoleB, _: SomeRoleC) => swap
         }
-        val r3: String = +someCore method()
+        val r3: String = (+someCore).method()
         Then("the sorting should reorder them")
         r3 shouldBe "B"
 
@@ -57,13 +57,13 @@ class RoleSortingTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         dd = Bypassing(_.isInstanceOf[SomeRoleA]).sortedWith {
           case (_: SomeRoleB, _: SomeRoleC) => swap
         }
-        val r4: String = +someCore method()
+        val r4: String = (+someCore).method()
         Then("the sorting should reorder them")
         r4 shouldBe "B"
       }
     }
 
-    scenario("Adding roles with cyclic calls and sorting them") {
+    Scenario("Adding roles with cyclic calls and sorting them") {
       Given("some player and roles in a compartment")
       class SomeCore {
         def method(): String = "Core"
@@ -75,14 +75,14 @@ class RoleSortingTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         case class SomeRoleA() {
           def method(): String = {
             implicit val dd = Bypassing(_.isInstanceOf[SomeRoleA])
-            +this method()
+            (+this).method()
           }
         }
 
         case class SomeRoleB() {
           def method(): String = {
             implicit val dd = DispatchQuery.empty.sortedWith(reverse)
-            +this method()
+            (+this).method()
           }
         }
 
@@ -93,7 +93,7 @@ class RoleSortingTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         someCore play roleB
 
         When("dispatching")
-        val r1: String = +someCore method()
+        val r1: String = (+someCore).method()
         Then("the sorting should prevent cyclic dispatching")
         And("return the result of the execution of the core method")
         r1 shouldBe "Core"

@@ -5,8 +5,8 @@ import scroll.examples._
 class ExamplesTest extends AbstractSCROLLTest(cached = true) {
   info("Test spec for scroll.examples.")
 
-  feature("Running scroll.examples") {
-    scenario("University") {
+  Feature("Running scroll.examples") {
+    Scenario("University") {
       When("Running the University example")
       val output = new java.io.ByteArrayOutputStream()
       Console.withOut(output) {
@@ -14,7 +14,7 @@ class ExamplesTest extends AbstractSCROLLTest(cached = true) {
       }
       val actual = streamToSeq(output)
       Then("There should be no error or exception and the printed output should be correct.")
-      actual shouldBe Seq(
+      actual should contain theSameElementsInOrderAs Seq(
         "I am a person",
         "Player equals core: true",
         "I am a student",
@@ -26,7 +26,7 @@ class ExamplesTest extends AbstractSCROLLTest(cached = true) {
       )
     }
 
-    scenario("Bank") {
+    Scenario("Bank") {
       When("Running the Bank example")
       val output = new java.io.ByteArrayOutputStream()
       Console.withOut(output) {
@@ -52,11 +52,11 @@ class ExamplesTest extends AbstractSCROLLTest(cached = true) {
         """SavingsAccount: scroll.examples.BankExample\$Bank\$SavingsAccount@.{6,8} -> Right\(9.00 USD\)"""
       )
 
-      (actual, expected).zipped.foreach((a, e) => a should fullyMatch regex e.r)
+      actual.lazyZip(expected).foreach((a, e) => a should fullyMatch regex e.r)
     }
 
 
-    scenario("API Calls") {
+    Scenario("API Calls") {
       When("Running the APICalls example")
       val output = new java.io.ByteArrayOutputStream()
       Console.withOut(output) {
@@ -65,14 +65,14 @@ class ExamplesTest extends AbstractSCROLLTest(cached = true) {
 
       val actual = streamToSeq(output)
       Then("There should be no error or exception and the printed output should be correct.")
-      actual shouldBe Seq(
+      actual should contain theSameElementsInOrderAs Seq(
         "Call A is correct.",
         "Call B is fixed now. :-)",
         "Call C is correct."
       )
     }
 
-    scenario("Robot") {
+    Scenario("Robot") {
       When("Running the Robot example")
       val output = new java.io.ByteArrayOutputStream()
       Console.withOut(output) {
@@ -80,10 +80,10 @@ class ExamplesTest extends AbstractSCROLLTest(cached = true) {
       }
       val actual = streamToSeq(output)
       Then("There should be no error or exception and the printed output should be correct.")
-      actual shouldBe Seq("I am Pete and moving to the kitchen with my wheels w.r.t. sensor value of 100.")
+      actual should contain theSameElementsInOrderAs Seq("I am Pete and moving to the kitchen with my wheels w.r.t. sensor value of 100.")
     }
 
-    scenario("Expression Problem") {
+    Scenario("Expression Problem") {
       When("Running the Expression Problem example")
       val output = new java.io.ByteArrayOutputStream()
       Console.withOut(output) {
@@ -91,7 +91,7 @@ class ExamplesTest extends AbstractSCROLLTest(cached = true) {
       }
       val actual = streamToSeq(output)
       Then("There should be no error or exception and the printed output should be correct.")
-      actual shouldBe Seq(
+      actual should contain theSameElementsInOrderAs Seq(
         "Eval: Right(9)",
         "Show: Right(Right(-Right(2)) + Right(11))"
       )

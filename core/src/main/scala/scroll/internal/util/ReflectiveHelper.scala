@@ -3,6 +3,7 @@ package scroll.internal.util
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 
+import scala.collection.immutable.ArraySeq
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 
@@ -103,7 +104,7 @@ object ReflectiveHelper extends Memoiser {
   private[this] def allMethods(of: Class[_]): Seq[Method] = {
     def getAccessibleMethods(c: Class[_]): Seq[Method] = c match {
       case null => Seq.empty[Method]
-      case _ => c.getDeclaredMethods ++ getAccessibleMethods(c.getSuperclass)
+      case _ => ArraySeq.unsafeWrapArray(c.getDeclaredMethods).concat(getAccessibleMethods(c.getSuperclass))
     }
 
     getAccessibleMethods(of).map { m => m.setAccessible(true); m }
@@ -112,7 +113,7 @@ object ReflectiveHelper extends Memoiser {
   private[this] def allFields(of: Class[_]): Seq[Field] = {
     def accessibleFields(c: Class[_]): Seq[Field] = c match {
       case null => Seq.empty[Field]
-      case _ => c.getDeclaredFields ++ accessibleFields(c.getSuperclass)
+      case _ => ArraySeq.unsafeWrapArray(c.getDeclaredFields).concat(accessibleFields(c.getSuperclass))
     }
 
     accessibleFields(of).map { f => f.setAccessible(true); f }

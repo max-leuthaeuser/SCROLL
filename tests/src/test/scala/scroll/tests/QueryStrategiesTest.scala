@@ -5,8 +5,8 @@ import scroll.tests.mocks._
 class QueryStrategiesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for QueryStrategies.")
 
-  feature("Querying objects using different query strategies") {
-    scenario("Testing MatchAny") {
+  Feature("Querying objects using different query strategies") {
+    Scenario("Testing MatchAny") {
       Given("A compartment and a MatchAny Strategy")
       new CompartmentUnderTest() {
         val expected = new RoleA()
@@ -22,7 +22,7 @@ class QueryStrategiesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
     }
 
-    scenario("Testing WithProperty") {
+    Scenario("Testing WithProperty") {
       Given("A compartment and a WithProperty Strategy")
       new CompartmentUnderTest() {
         val expected = new RoleA()
@@ -38,7 +38,7 @@ class QueryStrategiesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
     }
 
-    scenario("Testing WithResult") {
+    Scenario("Testing WithResult") {
       Given("A compartment and a WithResult Strategy")
       new CompartmentUnderTest() {
         val expected = new RoleA()
@@ -54,7 +54,7 @@ class QueryStrategiesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
     }
 
-    scenario("Testing one with custom matcher") {
+    Scenario("Testing one with custom matcher") {
       Given("A compartment")
       new CompartmentUnderTest() {
         val role1 = new RoleA()
@@ -74,7 +74,7 @@ class QueryStrategiesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
     }
 
-    scenario("Testing one with MatchAny") {
+    Scenario("Testing one with MatchAny") {
       Given("A compartment")
       new CompartmentUnderTest() {
         val role1 = new RoleA()

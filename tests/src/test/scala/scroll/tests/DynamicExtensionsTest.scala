@@ -7,8 +7,8 @@ class DynamicExtensionsTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
   info("Test spec for an excerpt of the dynamic extension concept.")
   info("Things like adding dynamic extensions and method invocation are tested.")
 
-  feature("Adding dynamic extensions") {
-    scenario("Removing dynamic extsions and invoking methods") {
+  Feature("Adding dynamic extensions") {
+    Scenario("Removing dynamic extsions and invoking methods") {
       Given("some player and a dynamic extension in a compartment")
       val someCore = new CoreA()
       new CompartmentUnderTest() {
@@ -21,8 +21,8 @@ class DynamicExtensionsTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
         someCore <-> someRole
 
         Then("the call must be invoked on the core object")
-        someCore a()
-        +someCore a()
+        someCore.a()
+        (+someCore).a()
 
         And("a dynamic extension should be dropped correctly")
         (+someCore).hasExtension[RoleA] shouldBe false
@@ -30,7 +30,7 @@ class DynamicExtensionsTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
         (+someCore).hasExtension[RoleB] shouldBe true
 
         And("method invocation should work.")
-        val resB: String = +someCore b()
+        val resB: String = (+someCore).b()
         resB shouldBe "b"
       }
     }

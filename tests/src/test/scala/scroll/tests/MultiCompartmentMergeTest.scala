@@ -5,8 +5,8 @@ import scroll.tests.mocks._
 class MultiCompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for merging/splitting MultiCompartments.")
 
-  feature("Merging/splitting MultiCompartments") {
-    scenario("Testing union") {
+  Feature("Merging/splitting MultiCompartments") {
+    Scenario("Testing union") {
       Given("Two MultiCompartments and some cores/roles")
       val core = new CoreA()
       val compA = new MultiCompartmentUnderTest {
@@ -28,7 +28,7 @@ class MultiCompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cach
       compB.newPlayer(core).isPlaying[RoleC] shouldBe true
     }
 
-    scenario("Testing combine") {
+    Scenario("Testing combine") {
       Given("Two MultiCompartments and some cores/roles")
       val core = new CoreA()
       val compA = new MultiCompartmentUnderTest {
@@ -50,7 +50,7 @@ class MultiCompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cach
       compB.newPlayer(core).isPlaying[RoleC] shouldBe true
     }
 
-    scenario("Testing partOf") {
+    Scenario("Testing partOf") {
       Given("Two MultiCompartments and some cores/roles")
       val core = new CoreA()
       val compA = new MultiCompartmentUnderTest {
@@ -68,7 +68,7 @@ class MultiCompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cach
       compB.newPlayer(core).isPlaying[RoleB] shouldBe true
     }
 
-    scenario("Testing notPartOf") {
+    Scenario("Testing notPartOf") {
       Given("Two MultiCompartments and some cores/roles")
       val core = new CoreA()
       class SomeRoleA

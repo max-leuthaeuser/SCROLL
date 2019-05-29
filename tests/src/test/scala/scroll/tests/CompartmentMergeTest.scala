@@ -5,8 +5,8 @@ import mocks._
 class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for merging/splitting Compartments.")
 
-  feature("Merging/splitting Compartments") {
-    scenario("Testing union") {
+  Feature("Merging/splitting Compartments") {
+    Scenario("Testing union") {
       Given("Two Compartments and some cores/roles")
       val core = new CoreA()
       val compA = new CompartmentUnderTest {
@@ -28,7 +28,7 @@ class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       compB.newPlayer(core).isPlaying[RoleC] shouldBe true
     }
 
-    scenario("Testing combine") {
+    Scenario("Testing combine") {
       Given("Two Compartments and some cores/roles")
       val core = new CoreA()
       val compA = new CompartmentUnderTest {
@@ -50,7 +50,7 @@ class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       compB.newPlayer(core).isPlaying[RoleC] shouldBe true
     }
 
-    scenario("Testing partOf") {
+    Scenario("Testing partOf") {
       Given("Two Compartments and some cores/roles")
       val core = new CoreA()
       val compA = new CompartmentUnderTest {
@@ -68,7 +68,7 @@ class CompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       compB.newPlayer(core).isPlaying[RoleB] shouldBe true
     }
 
-    scenario("Testing notPartOf") {
+    Scenario("Testing notPartOf") {
       Given("Two Compartments and some cores/roles")
       val core = new CoreA()
       class SomeRoleA

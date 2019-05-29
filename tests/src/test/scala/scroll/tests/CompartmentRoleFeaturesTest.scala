@@ -10,8 +10,8 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
   info("Test spec for an excerpt of the role concept.")
   info("Things like role playing and method invocation are tested.")
 
-  feature("Role playing") {
-    scenario("Dropping role and invoking methods") {
+  Feature("Role playing") {
+    Scenario("Dropping role and invoking methods") {
       Given("some player and role in a compartment")
       val someCore = new CoreA()
       new CompartmentUnderTest() {
@@ -24,7 +24,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
         someCore drop someRole
 
         Then("the call must be invoked on the core object")
-        someCore a()
+        someCore.a()
         +someCore a()
 
         And("a role should be dropped correctly")
@@ -33,12 +33,12 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
         (+someCore).isPlaying[RoleB] shouldBe true
 
         And("role method invocation should work.")
-        val resB: String = +someCore b()
+        val resB: String = (+someCore).b()
         resB shouldBe "b"
       }
     }
 
-    scenario("Dropping role and invoking methods with alias methods") {
+    Scenario("Dropping role and invoking methods with alias methods") {
       Given("some player and role in a compartment")
       val someCore = new CoreA()
       new CompartmentUnderTest() {
@@ -51,7 +51,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
         someCore <-> someRole
 
         Then("the call must be invoked on the core object")
-        someCore a()
+        someCore.a()
         +someCore a()
 
         And("a role should be dropped correctly")
@@ -60,12 +60,12 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
         (+someCore).isPlaying[RoleB] shouldBe true
 
         And("role method invocation should work.")
-        val resB: String = +someCore b()
+        val resB: String = (+someCore).b()
         resB shouldBe "b"
       }
     }
 
-    scenario("Removing a player using the compartment") {
+    Scenario("Removing a player using the compartment") {
       Given("some player and role in a compartment")
       val someCore = new CoreA()
       new CompartmentUnderTest() {
@@ -88,7 +88,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
       }
     }
 
-    scenario("Calling allPlayers using the compartment") {
+    Scenario("Calling allPlayers using the compartment") {
       Given("some player and role in a compartment")
       val someCore = new CoreA()
       new CompartmentUnderTest() {
@@ -104,7 +104,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
       }
     }
 
-    scenario("Transferring a role") {
+    Scenario("Transferring a role") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
@@ -118,7 +118,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
         someCoreA transfer someRole to someCoreB
 
         Then("the result of the call to the role of player someCoreB should be correct")
-        val res: Int = +someCoreB a()
+        val res: Int = (+someCoreB).a()
         res shouldBe 0
         And("the role should be transferred correctly.")
         (+someCoreA).isPlaying[RoleA] shouldBe false
@@ -126,7 +126,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
       }
     }
 
-    scenario("Role playing and testing isPlaying") {
+    Scenario("Role playing and testing isPlaying") {
       Given("some players and roles in a compartment")
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
@@ -148,7 +148,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
       }
     }
 
-    scenario("Handling applyDynamic") {
+    Scenario("Handling applyDynamic") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
 
@@ -159,12 +159,12 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
 
         When("calling a dynamic method")
         val expected = 0
-        val actual: Int = +someCoreA a()
+        val actual: Int = (+someCoreA).a()
 
         Then("the result of the call to the role of player someCoreA should be correct")
         expected shouldBe actual
         And("a call to the role with a method that does not exist should fail")
-        val r = +someCoreA c()
+        val r = (+someCoreA).c()
         r match {
           case Left(_) => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
@@ -172,7 +172,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
       }
     }
 
-    scenario("Handling applyDynamicNamed") {
+    Scenario("Handling applyDynamicNamed") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
 
@@ -183,14 +183,14 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
 
         When("calling a dynamic method with named params")
         val expected = someRole.b("some", param = "out")
-        val actual: String = +someCoreA b("some", param = "out")
+        val actual: String = (+someCoreA).b("some", param = "out")
 
         Then("the result of the call to the role of player someCoreA should be correct")
         expected shouldBe actual
       }
     }
 
-    scenario("Handling selectDynamic") {
+    Scenario("Handling selectDynamic") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
 
@@ -217,7 +217,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
       }
     }
 
-    scenario("Handling updateDynamic") {
+    Scenario("Handling updateDynamic") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
 
@@ -242,7 +242,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     }
   }
 
-  scenario("Playing a role multiple times (same instance)") {
+  Scenario("Playing a role multiple times (same instance)") {
     Given("some players and role in a compartment")
     val someCoreA = new CoreA()
 
@@ -265,7 +265,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     }
   }
 
-  scenario("Playing a role multiple times (different instances) from one player") {
+  Scenario("Playing a role multiple times (different instances) from one player") {
     Given("some players and 2 role instance of the same type in a compartment")
     val someCoreA = new CoreA()
 
@@ -290,7 +290,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     }
   }
 
-  scenario("Playing a role multiple times (different instances, but using dispatch to select one)") {
+  Scenario("Playing a role multiple times (different instances, but using dispatch to select one)") {
     Given("some players and 2 role instance of the same type in a compartment")
     val someCoreA = new CoreA()
 
@@ -326,7 +326,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     }
   }
 
-  scenario("Calling multi-argument method in roles") {
+  Scenario("Calling multi-argument method in roles") {
     Given("a player and a role instance in a compartment")
     val someCoreA = new CoreA()
 
@@ -367,7 +367,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     * Char
     * boolean
     */
-  scenario("Calling method on a role with different primitive types") {
+  Scenario("Calling method on a role with different primitive types") {
     Given("a player and a role instance in a compartment")
     val someCoreA = new CoreA()
 
@@ -437,7 +437,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     }
   }
 
-  scenario("Playing a role multiple times (same instance) from different players") {
+  Scenario("Playing a role multiple times (same instance) from different players") {
     Given("some players and role in a compartment")
     val someCoreA = new CoreA()
     val someCoreB = new CoreB()
@@ -486,7 +486,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     }
   }
 
-  scenario("Cyclic role-playing relationship") {
+  Scenario("Cyclic role-playing relationship") {
     Given("a player and some roles in a compartment")
     val someCoreA = new CoreA()
 
@@ -506,7 +506,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     }
   }
 
-  scenario("Compartment plays a role that is part of themselves") {
+  Scenario("Compartment plays a role that is part of themselves") {
     Given("a compartment and a role in it")
 
     class ACompartment extends CompartmentUnderTest {
@@ -524,7 +524,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     }
   }
 
-  scenario("Deep roles") {
+  Scenario("Deep roles") {
     Given("a player and some roles in a compartment")
     val someCoreA = new CoreA()
 
@@ -563,7 +563,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     }
   }
 
-  scenario("Deep roles (chained directly)") {
+  Scenario("Deep roles (chained directly)") {
     Given("a player and some roles in a compartment")
     val someCoreA = new CoreA()
 
@@ -598,7 +598,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     }
   }
 
-  scenario("Deep roles (chained directly with alias method)") {
+  Scenario("Deep roles (chained directly with alias method)") {
     Given("a player and some roles in a compartment")
     val someCoreA = new CoreA()
 
@@ -633,7 +633,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     }
   }
 
-  scenario("Handling null arguments for applyDynamic") {
+  Scenario("Handling null arguments for applyDynamic") {
     Given("a player and a role in a compartment")
     val someCoreA = new CoreA()
 
@@ -653,7 +653,7 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
     }
   }
 
-  scenario("Dropping roles when using deep roles") {
+  Scenario("Dropping roles when using deep roles") {
 
     class Core() {
       def a(): String = "a"
@@ -669,8 +669,8 @@ class CompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(ca
 
     Given("a player and some roles in a compartment")
     val someCore = new Core()
-    val roleWithB = new RoleWithB
-    val roleWithC = new RoleWithC
+    val roleWithB = new RoleWithB()
+    val roleWithC = new RoleWithC()
 
     new CompartmentUnderTest() {
       someCore play roleWithB

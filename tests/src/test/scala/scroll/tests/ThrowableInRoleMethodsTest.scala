@@ -26,8 +26,8 @@ class ThrowableInRoleMethodsTest(cached: Boolean) extends AbstractSCROLLTest(cac
 
   }
 
-  feature("Handling Throwable in role methods") {
-    scenario("Handling thrown Error") {
+  Feature("Handling Throwable in role methods") {
+    Scenario("Handling thrown Error") {
       Given("a player and a role in a compartment")
       new ExceptionShowcase() {
         val core = new CoreType()
@@ -38,7 +38,7 @@ class ThrowableInRoleMethodsTest(cached: Boolean) extends AbstractSCROLLTest(cac
       }
     }
 
-    scenario("Handling thrown unchecked Exception") {
+    Scenario("Handling thrown unchecked Exception") {
       Given("a player and a role in a compartment")
       new ExceptionShowcase() {
         val core = new CoreType()
@@ -49,7 +49,7 @@ class ThrowableInRoleMethodsTest(cached: Boolean) extends AbstractSCROLLTest(cac
       }
     }
 
-    scenario("Handling thrown checked Exception") {
+    Scenario("Handling thrown checked Exception") {
       Given("a player and a role in a compartment")
       new ExceptionShowcase() {
         val core = new CoreType()

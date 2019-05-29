@@ -5,8 +5,8 @@ import mocks._
 class EqualityRoleTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for role equality.")
 
-  feature("Role playing equality") {
-    scenario("Player and Role equality (flat roles)") {
+  Feature("Role playing equality") {
+    Scenario("Player and Role equality (flat roles)") {
       Given("some player and a role in a compartment")
 
       val someCore = new CoreA()
@@ -41,7 +41,7 @@ class EqualityRoleTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
     }
 
-    scenario("Player and Role equality (chained deep roles)") {
+    Scenario("Player and Role equality (chained deep roles)") {
       Given("some player and roles in a compartment")
 
       val someCore = new CoreA()
@@ -87,7 +87,7 @@ class EqualityRoleTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
     }
 
-    scenario("Player and Role equality (separate deep roles)") {
+    Scenario("Player and Role equality (separate deep roles)") {
       Given("some player and roles in a compartment")
 
       val someCore = new CoreA()

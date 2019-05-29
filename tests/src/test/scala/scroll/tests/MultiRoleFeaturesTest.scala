@@ -10,8 +10,8 @@ class MultiRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
   info("Test spec for an excerpt of the role concept for multi roles.")
   info("Things like role playing and method invocation are tested.")
 
-  feature("Role playing") {
-    scenario("Playing roles and invoking all methods") {
+  Feature("Role playing") {
+    Scenario("Playing roles and invoking all methods") {
       Given("some player and roles in a compartment")
       val someCore = new CoreA()
 
@@ -36,7 +36,7 @@ class MultiRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
         When("invoking methods")
         Then("the call must be invoked on all methods with the correct ordering")
         val expected = Seq(Right("RoleC"), Right("RoleB"), Right("RoleA"))
-        +someCore id() match {
+        (+someCore).id() match {
           case Right(actual) => actual shouldBe expected
           case Left(error) => fail(error.toString)
         }
@@ -48,11 +48,10 @@ class MultiRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
           case (_: RoleA, _: RoleB) => swap
           case (_: RoleB, _: RoleC) => swap
         }
-        +someCore id() match {
+        (+someCore).id() match {
           case Right(actual) => actual shouldBe expected.reverse
           case Left(error) => fail(error.toString)
         }
-
 
         When("invoking methods with filtering")
         Then("the call must be invoked on all methods with the correct ordering")
@@ -60,7 +59,7 @@ class MultiRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
         dd = Bypassing(_.isInstanceOf[RoleA]).sortedWith {
           case (_: RoleC, _: RoleB) => swap
         }
-        +someCore id() match {
+        (+someCore).id() match {
           case Right(actual) => actual shouldBe expected2
           case Left(error) => fail(error.toString)
         }
@@ -70,7 +69,7 @@ class MultiRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
         dd = Bypassing(_.isInstanceOf[RoleA]).sortedWith {
           case (_: RoleB, _: RoleC) => swap
         }
-        +someCore id() match {
+        (+someCore).id() match {
           case Right(actual) => actual shouldBe expected2.reverse
           case Left(error) => fail(error.toString)
         }

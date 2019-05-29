@@ -36,8 +36,8 @@ class RecursiveBaseCallsWithCaseClassesTest(cached: Boolean) extends AbstractSCR
 
   info("Test spec for recursive base calls.")
 
-  feature("Dispatching of base calls") {
-    scenario("Adding roles and doing a normal base call") {
+  Feature("Dispatching of base calls") {
+    Scenario("Adding roles and doing a normal base call") {
       Given("a player and a role in a compartment")
       new MultiRole() {
         val c = CoreType("p")
@@ -59,8 +59,8 @@ class RecursiveBaseCallsWithCaseClassesTest(cached: Boolean) extends AbstractSCR
     }
   }
 
-  feature("Dispatching of recursive base calls") {
-    scenario("Adding roles and chaining base calls recursively") {
+  Feature("Dispatching of recursive base calls") {
+    Scenario("Adding roles and chaining base calls recursively") {
       Given("a player and two roles in a compartment")
       new MultiRole() {
         val c1 = CoreType("c1")

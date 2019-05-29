@@ -8,8 +8,8 @@ class SCROLLErrorsTest extends AbstractSCROLLTest(cached = true) {
 
   info("Test spec for SCROLLErrors.")
 
-  feature("TypeNotFound") {
-    scenario("String representation") {
+  Feature("TypeNotFound") {
+    Scenario("String representation") {
       Given("A role name")
       val name = "TestRole"
       When("Creating a TypeNotFound error")
@@ -20,8 +20,8 @@ class SCROLLErrorsTest extends AbstractSCROLLTest(cached = true) {
     }
   }
 
-  feature("RoleNotFound") {
-    scenario("String representation (empty args)") {
+  Feature("RoleNotFound") {
+    Scenario("String representation (empty args)") {
       Given("A core and role name")
       val coreName = "TestCore"
       val roleName = "TestRole"
@@ -31,7 +31,7 @@ class SCROLLErrorsTest extends AbstractSCROLLTest(cached = true) {
       val expected = s"No role with '$roleName' could not be found for the player '$coreName'!"
       testObject.toString shouldBe expected
     }
-    scenario("String representation (with some args)") {
+    Scenario("String representation (with some args)") {
       Given("A core and role name")
       val coreName = "TestCore"
       val roleName = "TestRole"
@@ -44,8 +44,8 @@ class SCROLLErrorsTest extends AbstractSCROLLTest(cached = true) {
     }
   }
 
-  feature("IllegalRoleInvocationDispatch") {
-    scenario("String representation (empty args)") {
+  Feature("IllegalRoleInvocationDispatch") {
+    Scenario("String representation (empty args)") {
       Given("A role name and a target name")
       val targetName = "someMethod"
       val roleName = "TestRole"
@@ -55,7 +55,7 @@ class SCROLLErrorsTest extends AbstractSCROLLTest(cached = true) {
       val expected = s"'$targetName' could not be executed on role type '$roleName'!"
       testObject.toString shouldBe expected
     }
-    scenario("String representation (with some args)") {
+    Scenario("String representation (with some args)") {
       Given("A role name and a target name")
       val targetName = "someMethod"
       val roleName = "TestRole"

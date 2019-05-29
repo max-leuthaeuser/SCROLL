@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.impl.DynamicEObjectImpl
 import org.eclipse.emf.ecore.util.EcoreEList
 import scroll.internal.ecore.ECoreImporter
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
 /**

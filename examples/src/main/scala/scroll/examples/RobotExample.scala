@@ -14,11 +14,10 @@ object RobotExample {
 
     case class ServiceRole() {
       def move(): Unit = {
-        val name: String = +this name()
-        val target: String = +this getTarget()
-        val sensorValue: Int = +this readSensor()
-        val actor: String = +this getActor()
-
+        val name: String = (+this).name()
+        val target: String = (+this).getTarget()
+        val sensorValue: Int = (+this).readSensor()
+        val actor: String = (+this).getActor()
         println(s"I am $name and moving to the $target with my $actor w.r.t. sensor value of $sensorValue.")
       }
     }
@@ -52,10 +51,8 @@ object RobotExample {
   def main(args: Array[String]): Unit = {
     val _ = new Compartment {
       val myRobot = Robot("Pete") play ServiceRole() play NavigationRole() play ObservingEnvironmentRole() play DriveableRole()
-
       BehavioralView partOf this
-
-      myRobot move()
+      myRobot.move()
     }
   }
 }

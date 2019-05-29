@@ -6,8 +6,8 @@ import scroll.internal.formal.CROI
 class CROITest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for CROIs.")
 
-  feature("Specifying a CROI manually") {
-    scenario("CROI is filled manually") {
+  Feature("Specifying a CROI manually") {
+    Scenario("CROI is filled manually") {
       val p = getClass.getResource("/Bank.crom").getPath
 
       new CompartmentUnderTest() with CROI {

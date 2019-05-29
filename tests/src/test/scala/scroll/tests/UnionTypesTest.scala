@@ -5,8 +5,8 @@ import mocks._
 class UnionTypesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for union types in the context of roles.")
 
-  feature("Simple method invocation") {
-    scenario("Calling some role method directly") {
+  Feature("Simple method invocation") {
+    Scenario("Calling some role method directly") {
       Given("some players and role in a compartment")
       val someCoreA = new CoreA()
       new CompartmentUnderTest() {
@@ -26,7 +26,7 @@ class UnionTypesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
     }
 
-    scenario("Matching players and roles with Scala match") {
+    Scenario("Matching players and roles with Scala match") {
       Given("some players and role in a compartment")
       val someCore = new CoreA()
       new CompartmentUnderTest() {

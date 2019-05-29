@@ -42,16 +42,16 @@ object UniversityExample {
 
       val student = new Student
       println("Player equals core: " + ((hans play student) == hans))
-      +hans talk()
+      (+hans).talk()
 
       println((+student).name)
       println("Role core equals core: " + (+student == hans))
 
       uwe play new Professor
-      +uwe talk()
+      (+uwe).talk()
       println("Core equals core playing a role: " + (+uwe == uwe))
 
-      +uwe teach hans
+      (+uwe).teach(hans)
     }
   }
 }

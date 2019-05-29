@@ -44,7 +44,7 @@ object BankExample {
     class CheckingsAccount() {
       def decrease(amount: Money): Unit = {
         dd = Bypassing(_.isInstanceOf[CheckingsAccount])
-        val _ = +this decrease amount
+        val _ = (+this).decrease(amount)
       }
     }
 
@@ -57,7 +57,7 @@ object BankExample {
       def increase(amount: Money): Unit = {
         println("Increasing with fee.")
         dd = Bypassing(_.isInstanceOf[SavingsAccount])
-        val _ = +this increase (amount - calcTransactionFee(amount))
+        val _ = (+this).increase(amount - calcTransactionFee(amount))
       }
     }
 
@@ -65,7 +65,7 @@ object BankExample {
       def execute(): Unit = {
         println("Executing from Role.")
         dd = Bypassing(_.isInstanceOf[TransactionRole])
-        val _ = +this execute()
+        val _ = (+this).execute()
       }
     }
 
@@ -88,13 +88,13 @@ object BankExample {
 
     class Source() {
       def withDraw(m: Money): Unit = {
-        val _ = +this decrease m
+        val _ = (+this).decrease(m)
       }
     }
 
     class Target() {
       def deposit(m: Money): Unit = {
-        val _ = +this increase m
+        val _ = (+this).increase(m)
       }
     }
 
@@ -110,41 +110,41 @@ object BankExample {
     val accForBrian = new Account(Money(0, "USD"))
 
     val _ = new Bank {
-      val ca = new CheckingsAccount
-      val sa = new SavingsAccount
+      val ca = new CheckingsAccount()
+      val sa = new SavingsAccount()
 
       RoleGroupsChecked {
         accForStan play ca
         accForBrian play sa
       }
-      stan play new Customer
-      brian play new Customer
+      stan play new Customer()
+      brian play new Customer()
 
-      +stan addCheckingsAccount ca
-      +brian addSavingsAccount sa
+      (+stan).addCheckingsAccount(ca)
+      (+brian).addSavingsAccount(sa)
 
       println("### Before transaction ###")
       println("Balance for Stan:")
-      +stan listBalances()
+      (+stan).listBalances()
       println("Balance for Brian:")
-      +brian listBalances()
+      (+brian).listBalances()
 
       private val transaction = new Transaction(Money(10.0, "USD")) {
         RoleGroupsChecked {
-          accForStan play new Source
-          accForBrian play new Target
+          accForStan play new Source()
+          accForBrian play new Target()
         }
       }
 
       transaction partOf this
 
-      transaction play new TransactionRole execute()
+      (transaction play new TransactionRole()).execute()
 
       println("### After transaction ###")
       println("Balance for Stan:")
-      +stan listBalances()
+      (+stan).listBalances()
       println("Balance for Brian:")
-      +brian listBalances()
+      (+brian).listBalances()
     }
   }
 }

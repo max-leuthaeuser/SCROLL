@@ -5,8 +5,8 @@ import mocks._
 class RoleConstraintsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for role constraints.")
 
-  feature("Role implication") {
-    scenario("Role implication constraint") {
+  Feature("Role implication") {
+    Scenario("Role implication constraint") {
       new CompartmentUnderTest() {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
@@ -55,8 +55,8 @@ class RoleConstraintsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
     }
   }
 
-  feature("Role prohibition") {
-    scenario("Role prohibition constraint") {
+  Feature("Role prohibition") {
+    Scenario("Role prohibition constraint") {
       new CompartmentUnderTest() {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
@@ -103,8 +103,8 @@ class RoleConstraintsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
     }
   }
 
-  feature("Role equivalence") {
-    scenario("Role equivalence constraint") {
+  Feature("Role equivalence") {
+    Scenario("Role equivalence constraint") {
       new CompartmentUnderTest() {
         Given("A compartment, a player and some roles")
         val player = new CoreA()
@@ -151,8 +151,8 @@ class RoleConstraintsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
     }
   }
 
-  feature("Mixed constraints") {
-    scenario("Role implication and prohibition constraint") {
+  Feature("Mixed constraints") {
+    Scenario("Role implication and prohibition constraint") {
       new CompartmentUnderTest() {
         Given("A compartment, a player and some roles")
         val player = new CoreA()

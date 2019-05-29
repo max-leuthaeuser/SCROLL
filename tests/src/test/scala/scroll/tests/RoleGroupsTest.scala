@@ -5,8 +5,8 @@ import mocks._
 class RoleGroupsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for role groups.")
 
-  feature("Role groups") {
-    scenario("Validating role group cardinality") {
+  Feature("Role groups") {
+    Scenario("Validating role group cardinality") {
       val acc1 = new CoreA()
       val acc2 = new CoreA()
       new CompartmentUnderTest() {

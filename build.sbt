@@ -62,14 +62,10 @@ lazy val core = project.
       "-Xfatal-warnings",
       "-Xlint",
       "-Xlint:-missing-interpolator",
-      "-Yno-adapted-args",
       "-Ywarn-dead-code",
-      "-Ywarn-inaccessible",
       "-Ywarn-unused",
-      "-Ywarn-unused-import",
       "-Ywarn-numeric-widen",
-      "-Ywarn-value-discard",
-      "-Xfuture"),
+      "-Ywarn-value-discard"),
     organization := "com.github.max-leuthaeuser",
     publishTo := {
       val nexus = "https://oss.sonatype.org/"
@@ -127,8 +123,7 @@ lazy val tests = project.
         // Periodic notification of slowpokes (tests that have been running longer than 30s)
         , "-W", "30", "30"
       )
-    ),
-    libraryDependencies ++= lib.testDependencies
+    ),    libraryDependencies ++= lib.testDependencies
   ).
   dependsOn(core, examples)
 

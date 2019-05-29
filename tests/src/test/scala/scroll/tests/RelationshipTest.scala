@@ -5,8 +5,8 @@ import mocks._
 class RelationshipTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for the relationship concept.")
 
-  feature("Relationship specification and querying") {
-    scenario("Specifying a relationship") {
+  Feature("Relationship specification and querying") {
+    Scenario("Specifying a relationship") {
       Given("A compartment, a player and attached roles")
 
       val p = new CoreA

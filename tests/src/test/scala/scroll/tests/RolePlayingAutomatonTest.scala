@@ -9,8 +9,8 @@ import scroll.internal.rpa.RolePlayingAutomaton._
 class RolePlayingAutomatonTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for role playing automaton.")
 
-  feature("Specifying a role playing automaton") {
-    scenario("Binding roles") {
+  Feature("Specifying a role playing automaton") {
+    Scenario("Binding roles") {
       val w = new Waiter
       Given("A natural, some role instances")
       val player = new CoreA()

@@ -9,7 +9,7 @@ import scroll.internal.formal.FormalRoleGroup
 class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for ScalaFormalCROMExamples.")
 
-  feature("Testing the banking example") {
+  Feature("Testing the banking example") {
     val bank = FormalCROM(List("Person", "Company", "Account"),
       List("Customer", "Consultant", "CA", "SA", "Source", "Target", "MoneyTransfer"),
       List("Bank", "Transaction"),
@@ -25,7 +25,7 @@ class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
         "trans" -> List("Source", "Target"))
     )
 
-    scenario("Testing well formedness of banking model") {
+    Scenario("Testing well formedness of banking model") {
       bank.wellformed shouldBe true
     }
 
@@ -45,7 +45,7 @@ class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
       List(("advises", irreflexive))
     )
 
-    scenario("Testing compliance of banking model") {
+    Scenario("Testing compliance of banking model") {
       c_bank.compliant(bank) shouldBe true
     }
 
@@ -68,7 +68,7 @@ class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
         ("trans", "transaction") -> List(("S", "T")))
     )
 
-    scenario("Testing axioms 6 - 11 of the banking example 1") {
+    Scenario("Testing axioms 6 - 11 of the banking example 1") {
       bank1.compliant(bank) shouldBe true
       bank1.axiom6(bank) shouldBe true
       bank1.axiom7() shouldBe true
@@ -97,7 +97,7 @@ class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
         ("trans", "transaction") -> List(("S", "T")))
     )
 
-    scenario("Testing axioms 6 - 11 of the banking example 2") {
+    Scenario("Testing axioms 6 - 11 of the banking example 2") {
       bank2.compliant(bank) shouldBe true
       bank2.axiom6(bank) shouldBe true
       bank2.axiom7() shouldBe true
@@ -107,7 +107,7 @@ class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
       bank2.axiom11(bank) shouldBe true
     }
 
-    scenario("Testing validity of the banking example 1") {
+    Scenario("Testing validity of the banking example 1") {
       c_bank.validity(bank, bank1) shouldBe false
       c_bank.axiom13(bank, bank1) shouldBe false
       c_bank.axiom14(bank1) shouldBe false
@@ -115,7 +115,7 @@ class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
       c_bank.axiom16(bank1) shouldBe true
     }
 
-    scenario("Testing validity of the banking example 2") {
+    Scenario("Testing validity of the banking example 2") {
       c_bank.validity(bank, bank2) shouldBe true
       c_bank.axiom13(bank, bank2) shouldBe true
       c_bank.axiom14(bank2) shouldBe true

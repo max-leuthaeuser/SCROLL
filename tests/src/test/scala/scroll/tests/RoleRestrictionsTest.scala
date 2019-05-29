@@ -5,8 +5,8 @@ import mocks._
 class RoleRestrictionsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for role restrictions.")
 
-  feature("Specifying role restrictions") {
-    scenario("Validating role restrictions based on role types") {
+  Feature("Specifying role restrictions") {
+    Scenario("Validating role restrictions based on role types") {
       Given("A natural, some role instances")
       val player = new CoreA()
       When("A role restriction is specified")
@@ -29,7 +29,7 @@ class RoleRestrictionsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
     }
 
-    scenario("Validating role restrictions based on multiple role types") {
+    Scenario("Validating role restrictions based on multiple role types") {
       Given("A natural, some role instances")
       val player = new CoreA()
       When("Multiple role restrictions are specified")
@@ -51,7 +51,7 @@ class RoleRestrictionsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
     }
 
-    scenario("Validating role restrictions based on role types when removing restrictions") {
+    Scenario("Validating role restrictions based on role types when removing restrictions") {
       Given("A natural, some role instances")
       val player = new CoreA()
       When("A role restriction is specified")

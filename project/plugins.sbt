@@ -18,4 +18,5 @@ addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.4.2")
 
 addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.3.1")
 
-addSbtPlugin("org.danielnixon" % "sbt-extrawarts" % "1.0.3")
+// TODO: re-enable after a version for Scala 2.13.0-RC2 is available
+// addSbtPlugin("org.danielnixon" % "sbt-extrawarts" % "1.0.3")

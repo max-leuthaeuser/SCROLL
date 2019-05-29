@@ -5,8 +5,8 @@ import scroll.internal.formal.CROM
 class ECoreInstanceTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   info("Test spec for loading ECore CROM model instances.")
 
-  feature("Loading an ECore CROM model instance") {
-    scenario("No model is loaded") {
+  Feature("Loading an ECore CROM model instance") {
+    Scenario("No model is loaded") {
       new CompartmentUnderTest() with CROM {
         When("No model is available")
         Then("it can not be wellformed")
@@ -15,7 +15,7 @@ class ECoreInstanceTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
       }
     }
 
-    scenario("Loading from a valid path containing a valid model") {
+    Scenario("Loading from a valid path containing a valid model") {
       val p = getClass.getResource("/Bank.crom").getPath
 
       new CompartmentUnderTest() with CROM {
