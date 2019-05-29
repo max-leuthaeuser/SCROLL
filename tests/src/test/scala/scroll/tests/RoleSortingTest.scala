@@ -5,8 +5,7 @@ import scroll.internal.support.DispatchQuery._
 import scroll.tests.mocks.CoreA
 
 class RoleSortingTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-
-  info("Test spec for sorting dynamic extensions.")
+  info(s"Test spec for sorting dynamic extensions with cache = '$cached'.")
 
   Feature("Role sorting") {
     Scenario("Adding roles and sorting them") {

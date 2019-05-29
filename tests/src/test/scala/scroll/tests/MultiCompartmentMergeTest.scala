@@ -3,7 +3,7 @@ package scroll.tests
 import scroll.tests.mocks._
 
 class MultiCompartmentMergeTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for merging/splitting MultiCompartments.")
+  info(s"Test spec for merging/splitting MultiCompartments with cache = '$cached'.")
 
   Feature("Merging/splitting MultiCompartments") {
     Scenario("Testing union") {

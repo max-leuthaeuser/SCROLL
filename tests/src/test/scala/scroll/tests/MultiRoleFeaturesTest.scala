@@ -6,9 +6,7 @@ import scroll.internal.support.DispatchQuery._
 import mocks.CoreA
 
 class MultiRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-
-  info("Test spec for an excerpt of the role concept for multi roles.")
-  info("Things like role playing and method invocation are tested.")
+  info(s"Test spec for an excerpt of the role concept for multi roles with cache = '$cached'.")
 
   Feature("Role playing") {
     Scenario("Playing roles and invoking all methods") {

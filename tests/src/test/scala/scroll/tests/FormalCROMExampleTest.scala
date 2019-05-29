@@ -7,7 +7,7 @@ import scroll.internal.formal.FormalUtils
 import scroll.internal.formal.FormalRoleGroup
 
 class FormalCROMExampleTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for ScalaFormalCROMExamples.")
+  info(s"Test spec for ScalaFormalCROMExamples with cache = '$cached'.")
 
   Feature("Testing the banking example") {
     val bank = FormalCROM(List("Person", "Company", "Account"),

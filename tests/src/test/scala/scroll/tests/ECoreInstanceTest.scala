@@ -3,7 +3,7 @@ package scroll.tests
 import scroll.internal.formal.CROM
 
 class ECoreInstanceTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for loading ECore CROM model instances.")
+  info(s"Test spec for loading ECore CROM model instances with cache = '$cached'.")
 
   Feature("Loading an ECore CROM model instance") {
     Scenario("No model is loaded") {

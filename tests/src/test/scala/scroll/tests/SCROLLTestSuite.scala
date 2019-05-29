@@ -3,7 +3,12 @@ package scroll.tests
 import org.scalatest.Suites
 
 object SCROLLTestSuite {
-  val suites: Seq[AbstractSCROLLTest] = Seq(true, false).flatMap(c => {
+  val standardSuites: Seq[AbstractSCROLLTest] = Seq(
+    new ExamplesTest(),
+    new SCROLLErrorsTest()
+  )
+
+  val parameterizedSuites: Seq[AbstractSCROLLTest] = Seq(true, false).flatMap(c => {
     Seq(
       new CompartmentRoleFeaturesTest(cached = c),
       new MultiCompartmentRoleFeaturesTest(cached = c),
@@ -29,7 +34,10 @@ object SCROLLTestSuite {
       new MultiCompartmentMergeTest(cached = c),
       new CompartmentMergeTest(cached = c),
       new QueryStrategiesTest(cached = c))
-  }) :+ new ExamplesTest() :+ new SCROLLErrorsTest()
+  })
 }
 
-class SCROLLTestSuite extends Suites(SCROLLTestSuite.suites: _*)
+class SCROLLTestSuite extends Suites((
+  SCROLLTestSuite.standardSuites ++
+  SCROLLTestSuite.parameterizedSuites
+): _*)

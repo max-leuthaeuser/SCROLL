@@ -7,7 +7,7 @@ import scroll.internal.formal.FormalUtils
 import scroll.internal.formal.FormalRoleGroup
 
 class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for ScalaFormalCROM.")
+  info(s"Test spec for ScalaFormalCROM with cache = '$cached'.")
 
   Feature("Testing util functions") {
     Scenario("Testing function for mutually disjoint Lists") {

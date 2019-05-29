@@ -5,7 +5,6 @@ import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.TypeNotFound
 
 class SCROLLErrorsTest extends AbstractSCROLLTest(cached = true) {
-
   info("Test spec for SCROLLErrors.")
 
   Feature("TypeNotFound") {

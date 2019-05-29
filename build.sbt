@@ -109,6 +109,7 @@ lazy val examples = project.
 lazy val tests = project.
   settings(
     commonSettings,
+    logBuffered in Test := false,
     testOptions in Test := Seq(
       Tests.Filter(s => s.endsWith("Suite")),
       Tests.Argument(TestFrameworks.ScalaTest

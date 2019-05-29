@@ -3,9 +3,7 @@ package scroll.tests
 import mocks._
 
 class DynamicExtensionsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-
-  info("Test spec for an excerpt of the dynamic extension concept.")
-  info("Things like adding dynamic extensions and method invocation are tested.")
+  info(s"Test spec for an excerpt of the dynamic extension concept with cache = '$cached'.")
 
   Feature("Adding dynamic extensions") {
     Scenario("Removing dynamic extsions and invoking methods") {

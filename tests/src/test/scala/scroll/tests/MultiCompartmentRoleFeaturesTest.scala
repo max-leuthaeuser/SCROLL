@@ -6,9 +6,7 @@ import scroll.internal.support.DispatchQuery
 import scroll.internal.support.DispatchQuery._
 
 class MultiCompartmentRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-
-  info("Test spec for an excerpt of the role concept.")
-  info("Things like role playing and method invocation are tested.")
+  info(s"Test spec for an excerpt of the role concept with cache = '$cached'.")
 
   Feature("Role playing") {
     Scenario("Dropping role and invoking methods") {

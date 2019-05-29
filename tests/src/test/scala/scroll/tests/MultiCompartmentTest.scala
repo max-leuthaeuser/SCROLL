@@ -5,7 +5,7 @@ import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import mocks._
 
 class MultiCompartmentTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for the return types in multi compartments.")
+  info(s"Test spec for the return types in multi compartments with cache = '$cached'.")
 
   Feature("Return in MultiCompartments specification and typing") {
     Scenario("Specifying a MultiCompartment") {

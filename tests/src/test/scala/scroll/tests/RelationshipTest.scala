@@ -3,7 +3,7 @@ package scroll.tests
 import mocks._
 
 class RelationshipTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for the relationship concept.")
+  info(s"Test spec for the relationship concept with cache = '$cached'.")
 
   Feature("Relationship specification and querying") {
     Scenario("Specifying a relationship") {

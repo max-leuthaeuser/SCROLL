@@ -7,7 +7,7 @@ import scroll.internal.rpa.RolePlayingAutomaton
 import scroll.internal.rpa.RolePlayingAutomaton._
 
 class RolePlayingAutomatonTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for role playing automaton.")
+  info(s"Test spec for role playing automaton with cache = '$cached'.")
 
   Feature("Specifying a role playing automaton") {
     Scenario("Binding roles") {

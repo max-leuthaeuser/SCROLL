@@ -3,6 +3,7 @@ package scroll.tests
 import scroll.internal.support.DispatchQuery._
 
 class RecursiveBaseCallsWithClassesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
+  info(s"Test spec for recursive base calls with cache = '$cached'.")
 
   class CoreType {
     def someMethod(): Unit = {
@@ -33,8 +34,6 @@ class RecursiveBaseCallsWithClassesTest(cached: Boolean) extends AbstractSCROLLT
     }
 
   }
-
-  info("Test spec for recursive base calls.")
 
   Feature("Dispatching of base calls") {
     Scenario("Adding roles and doing a normal base call") {

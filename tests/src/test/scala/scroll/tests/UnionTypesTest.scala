@@ -3,7 +3,7 @@ package scroll.tests
 import mocks._
 
 class UnionTypesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for union types in the context of roles.")
+  info(s"Test spec for union types in the context of roles with cache = '$cached'.")
 
   Feature("Simple method invocation") {
     Scenario("Calling some role method directly") {

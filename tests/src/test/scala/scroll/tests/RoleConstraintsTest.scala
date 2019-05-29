@@ -3,7 +3,7 @@ package scroll.tests
 import mocks._
 
 class RoleConstraintsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for role constraints.")
+  info(s"Test spec for role constraints with cache = '$cached'.")
 
   Feature("Role implication") {
     Scenario("Role implication constraint") {

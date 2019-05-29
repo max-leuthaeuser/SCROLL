@@ -4,7 +4,7 @@ import mocks._
 import scroll.internal.formal.CROI
 
 class CROITest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for CROIs.")
+  info(s"Test spec for CROIs with cache = '$cached'.")
 
   Feature("Specifying a CROI manually") {
     Scenario("CROI is filled manually") {

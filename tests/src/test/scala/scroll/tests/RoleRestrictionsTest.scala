@@ -3,7 +3,7 @@ package scroll.tests
 import mocks._
 
 class RoleRestrictionsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for role restrictions.")
+  info(s"Test spec for role restrictions with cache = '$cached'.")
 
   Feature("Specifying role restrictions") {
     Scenario("Validating role restrictions based on role types") {

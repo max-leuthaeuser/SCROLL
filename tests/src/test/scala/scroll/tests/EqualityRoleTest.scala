@@ -3,7 +3,7 @@ package scroll.tests
 import mocks._
 
 class EqualityRoleTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for role equality.")
+  info(s"Test spec for role equality with cache = '$cached'.")
 
   Feature("Role playing equality") {
     Scenario("Player and Role equality (flat roles)") {

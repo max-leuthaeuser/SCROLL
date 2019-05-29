@@ -3,7 +3,7 @@ package scroll.tests
 import mocks._
 
 class RoleGroupsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for role groups.")
+  info(s"Test spec for role groups with cache = '$cached'.")
 
   Feature("Role groups") {
     Scenario("Validating role group cardinality") {

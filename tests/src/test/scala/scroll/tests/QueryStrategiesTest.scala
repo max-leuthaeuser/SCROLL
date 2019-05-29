@@ -3,7 +3,7 @@ package scroll.tests
 import scroll.tests.mocks._
 
 class QueryStrategiesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for QueryStrategies.")
+  info(s"Test spec for QueryStrategies with cache = '$cached'.")
 
   Feature("Querying objects using different query strategies") {
     Scenario("Testing MatchAny") {

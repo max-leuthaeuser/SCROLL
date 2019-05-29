@@ -4,6 +4,7 @@ import scroll.tests.mocks.CoreA
 import scroll.tests.mocks.CoreB
 
 class FacetsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
+  info(s"Test spec for facets with cache = '$cached'.")
 
   object TestFacet extends Enumeration {
     type Color = Value
@@ -11,9 +12,6 @@ class FacetsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
   }
 
   import TestFacet._
-
-  info("Test spec for facets.")
-  info("Things like filtering for specific facets are tested.")
 
   Feature("Facets spec and attachment") {
     Scenario("Adding facets") {

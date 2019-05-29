@@ -3,8 +3,7 @@ package scroll.tests
 import java.io.IOException
 
 class ThrowableInRoleMethodsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-
-  info("Test spec for handling a Throwable in role methods.")
+  info(s"Test spec for handling a Throwable in role methods with cache = '$cached'.")
 
   class CoreType
 
