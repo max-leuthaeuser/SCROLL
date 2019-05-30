@@ -35,7 +35,8 @@ lazy val commonSettings = Seq(
     "-language:implicitConversions",
     "-unchecked",
     "-target:jvm-" + lib.v.jvm),
-  coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*;scroll\\.examples\\.currency",
+  // TODO: re-enable after a coverage version for Scala 2.13.0-RC2 is available
+  // coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*;scroll\\.examples\\.currency",
   updateOptions := updateOptions.value.withCachedResolution(true),
   historyPath := Option(target.in(LocalRootProject).value / ".history"),
   cleanKeepFiles := cleanKeepFiles.value filterNot { file =>
