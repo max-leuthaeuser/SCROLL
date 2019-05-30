@@ -4,14 +4,15 @@ jdk:
 language: scala
 
 scala:
-  - 2.12.8
+  - 2.13.0-RC2
 
 install:
   - true
 
 branches:
   only:
-    - master
+    - 2.13.0-RC2
+    # - master
 
 # Use container-based infrastructure
 sudo: false
@@ -26,7 +27,7 @@ before_cache:
   # Cleanup the cached directories to avoid unnecessary cache updates
   - find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
   - find $HOME/.sbt        -name "*.lock"               -print -delete
-    
+
 script:
   - sbt clean coverage test
 
