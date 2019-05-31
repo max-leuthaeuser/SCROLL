@@ -124,8 +124,11 @@ lazy val tests = project.
         , "-oDI"
         // Periodic notification of slowpokes (tests that have been running longer than 30s)
         , "-W", "30", "30"
+        // You may pass 'true' or 'false' here to run the SCROLLTestSuite cached or un-cached.
+        // If nothing is specified, both cases will be tested.
+        // , "-Dcached=false"
       )
-    ),    libraryDependencies ++= lib.testDependencies
+    ), libraryDependencies ++= lib.testDependencies
   ).
   dependsOn(core, examples)
 
