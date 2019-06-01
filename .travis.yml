@@ -28,4 +28,4 @@ before_cache:
   - find $HOME/.sbt        -name "*.lock"               -print -delete
 
 script:
-  - sbt clean test
+  - sbt clean "testOnly **.SCROLLTestSuite"
