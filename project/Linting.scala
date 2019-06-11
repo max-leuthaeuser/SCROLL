@@ -4,7 +4,7 @@ import sbt._
 import org.scalastyle.sbt.ScalastylePlugin.autoImport._
 import wartremover.WartRemover.autoImport._
 import org.wartremover.contrib.ContribWarts.autoImport._
-// TODO: re-enable after a version for Scala 2.13.0-RC3 is available
+// TODO: re-enable after a version for Scala 2.13.0 is available
 // import org.danielnixon.extrawarts.ExtraWart
 
 object Linting extends Linting
@@ -55,7 +55,7 @@ trait Linting {
     ContribWart.UnintendedLaziness
   )
 
-  // TODO: re-enable after a version for Scala 2.13.0-RC3 is available
+  // TODO: re-enable after a version for Scala 2.13.0 is available
   // val extraWarts = Seq(
   //   ExtraWart.EnumerationPartial,
   //   ExtraWart.FutureObject,
@@ -71,11 +71,11 @@ trait Linting {
   val wartremoverConfiguration = Seq(
     wartremoverExcluded += baseDirectory.value / "src" / "main" / "scala" / "scroll" / "internal" / "formal",
     wartremoverErrors ++= stdWarts ++ contribWarts
-    // TODO: re-enable after a version for Scala 2.13.0-RC3 is available
+    // TODO: re-enable after a version for Scala 2.13.0 is available
     // ++ extraWarts
   )
 
-  // TODO: re-enable after a version for Scala 2.13.0-RC3 is available
+  // TODO: re-enable after a version for Scala 2.13.0 is available
   // val linterConfiguration = Seq(
   //   addCompilerPlugin(lib.linter)
   // )
@@ -83,7 +83,7 @@ trait Linting {
   val staticAnalysis =
     scalastyleConfiguration ++
       wartremoverConfiguration
-  // TODO: re-enable after a version for Scala 2.13.0-RC3 is available
+  // TODO: re-enable after a version for Scala 2.13.0 is available
   // ++ linterConfiguration
 
 }

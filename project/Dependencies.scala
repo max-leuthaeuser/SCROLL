@@ -5,16 +5,16 @@ object Dependencies extends Dependencies
 trait Dependencies {
 
   object v {
-    val scalaVersion = "2.13.0-RC3"
+    val scalaVersion = "2.13.0"
     val akkaVersion = "2.5.23"
     val shapelessVersion = "2.3.3"
-    val scalatestVersion = "3.1.0-SNAP12"
+    val scalatestVersion = "3.1.0-SNAP13"
     val chocoVersion = "4.10.0"
     val guavaVersion = "27.1-jre"
     val emfcommonVersion = "2.15.0"
     val emfecoreVersion = "2.15.0"
     val umlVersion = "3.1.0.v201006071150"
-    // TODO: re-enable after a version for Scala 2.13.0-RC3 is available
+    // TODO: re-enable after a version for Scala 2.13.0 is available
     // val linterVersion = "0.1.17"
     val jvm = "1.8"
   }
@@ -40,8 +40,6 @@ trait Dependencies {
     "org.scalatest" %% "scalatest" % v.scalatestVersion % "test"
   )
 
-  // TODO: re-enable after a version for Scala 2.13.0-RC3 is available
+  // TODO: re-enable after a version for Scala 2.13.0 is available
   // val linter = "org.psywerx.hairyfotr" %% "linter" % v.linterVersion
-
-
 }

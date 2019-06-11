@@ -11,3 +11,4 @@ source_gen*
 .project
 .settings/
 /bin/
+.bloop/
