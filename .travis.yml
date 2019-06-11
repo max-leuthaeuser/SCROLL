@@ -4,14 +4,14 @@ jdk:
 language: scala
 
 scala:
-  - 2.13.0-RC3
+  - 2.13.0
 
 install:
   - true
 
 branches:
   only:
-    - 2.13.0-RC3
+    - 2.13.0
 
 # Use container-based infrastructure
 sudo: false
