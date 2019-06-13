@@ -27,7 +27,7 @@ class ThrowableInRoleMethodsTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("Handling thrown Error") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new ExceptionShowcase(c, cc) {
         val core = new CoreType()
         core play new Exceptional()
@@ -37,7 +37,7 @@ class ThrowableInRoleMethodsTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("Handling thrown unchecked Exception") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new ExceptionShowcase(c, cc) {
         val core = new CoreType()
         core play new Exceptional()
@@ -47,7 +47,7 @@ class ThrowableInRoleMethodsTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("Handling thrown checked Exception") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new ExceptionShowcase(c, cc) {
         val core = new CoreType()
         core play new Exceptional()

@@ -14,7 +14,7 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
   case class RoleC(id: String = "RoleC")
 
   test("Playing roles and invoking all methods") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new MultiCompartmentUnderTest(c, cc) {
         implicit var dd = DispatchQuery.empty.sortedWith {

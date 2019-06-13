@@ -6,7 +6,7 @@ import scroll.tests.mocks._
 class CROITest extends AbstractParameterizedSCROLLTest {
 
   test("CROI is filled manually") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val p = getClass.getResource("/Bank.crom").getPath
       new CompartmentUnderTest(c, cc) with CROI {
         val n = new CoreA()

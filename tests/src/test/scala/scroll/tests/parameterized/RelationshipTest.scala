@@ -5,21 +5,23 @@ import scroll.tests.mocks._
 class RelationshipTest extends AbstractParameterizedSCROLLTest {
 
   test("Specifying a relationship") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val p = new CoreA
       new CompartmentUnderTest(c, cc) {
         val rA = new RoleA
         val rB = new RoleB
         val rC = new RoleC
         p play rA play rB
-        val rel1 = Relationship("rel1").from[RoleA](1).to[RoleB](1)
+        val relSize = 1
+        val rel1 = Relationship("rel1").from[RoleA](relSize).to[RoleB](relSize)
         rel1.left() should contain only rA
         rel1.right() should contain only rB
-        val rel2 = Relationship("rel2").from[RoleA](1).to[RoleC](1)
+        val rel2Name = "rel2"
+        val rel2 = Relationship(rel2Name).from[RoleA](relSize).to[RoleC](relSize)
         rel2.left() should contain only rA
-        a[AssertionError] should be thrownBy {
+        the [AssertionError] thrownBy {
           rel2.right()
-        }
+        } should have message s"assertion failed: With a concrete multiplicity for '$rel2Name' of '$relSize' the resulting role set should have the same size!"
 
         import scroll.internal.util.Many._
 

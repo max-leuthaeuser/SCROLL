@@ -5,7 +5,7 @@ import scroll.tests.mocks._
 class UnionTypesTest extends AbstractParameterizedSCROLLTest {
 
   test("Calling some role method directly") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCoreA = new CoreA()
       new CompartmentUnderTest(c, cc) {
         val someRoleC = new RoleC()
@@ -21,7 +21,7 @@ class UnionTypesTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("Matching players and roles with Scala match") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new CompartmentUnderTest(c, cc) {
         val roleA = new RoleA

@@ -6,7 +6,7 @@ import scroll.tests.mocks._
 class MultiCompartmentTest extends AbstractParameterizedSCROLLTest {
 
   test("Specifying a MultiCompartment") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val p = new CoreB()
       new MultiCompartmentUnderTest(c, cc) {
         (+p).i() match {

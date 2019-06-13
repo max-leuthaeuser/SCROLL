@@ -5,7 +5,7 @@ import scroll.tests.mocks._
 class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
 
   test("MatchAny") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
         val expected = new RoleA()
         val alsoExpected = new RoleA()
@@ -18,7 +18,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("WithProperty") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
         val expected = new RoleA()
         val notExpected = new RoleA()
@@ -31,7 +31,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("WithResult") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
         val expected = new RoleA()
         val notExpected = new RoleA()
@@ -44,7 +44,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("one with custom matcher") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
         val role1 = new RoleA()
         val role2 = new RoleA()
@@ -61,7 +61,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("one with MatchAny") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
         val role1 = new RoleA()
         val role2 = new RoleA()

@@ -12,7 +12,7 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
   import TestFacet._
 
   test("Adding facets") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new CompartmentUnderTest(c, cc) {
         val player = someCore <+> Red
@@ -23,7 +23,7 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("Removing facets") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new CompartmentUnderTest(c, cc) {
         val player = someCore <+> Red
@@ -35,7 +35,7 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("Transferring facets") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
       new CompartmentUnderTest(c, cc) {
@@ -49,7 +49,7 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("Filtering for facets") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCoreA1 = new CoreA()
       val someCoreA2 = new CoreA()
       val someCoreA3 = new CoreA()

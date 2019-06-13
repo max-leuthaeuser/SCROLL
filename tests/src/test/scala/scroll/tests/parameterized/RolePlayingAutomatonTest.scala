@@ -53,7 +53,7 @@ class RolePlayingAutomatonTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("Binding roles") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new ACompartment(c, cc) {
         w.await(timeout(10 seconds))
         (+player).isPlaying[RoleA] shouldBe true

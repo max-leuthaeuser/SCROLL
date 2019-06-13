@@ -36,7 +36,7 @@ class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLT
   }
 
   test("Adding roles and doing a normal base call") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new MultiRole(c, cc) {
         val c = CoreType("p")
         val r = RoleTypeA("r")
@@ -56,7 +56,7 @@ class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLT
   }
 
   test("Adding roles and chaining base calls recursively") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new MultiRole(c, cc) {
         val c1 = CoreType("c1")
         val c2 = CoreType("c2")

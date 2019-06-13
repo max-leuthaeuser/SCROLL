@@ -5,7 +5,7 @@ import scroll.tests.mocks._
 class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
 
   test("Player and Role equality (flat roles)") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new CompartmentUnderTest(c, cc) {
         val someRole = new RoleA()
@@ -24,7 +24,7 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("Player and Role equality (chained deep roles)") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new CompartmentUnderTest(c, cc) {
         val someRole = new RoleA()
@@ -51,7 +51,7 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("Player and Role equality (separate deep roles)") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new CompartmentUnderTest(c, cc) {
         val someRole = new RoleA()

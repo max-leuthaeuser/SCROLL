@@ -8,7 +8,7 @@ import scroll.tests.mocks.CoreA
 class RoleSortingTest extends AbstractParameterizedSCROLLTest {
 
   test("Adding roles and sorting them") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new CompartmentUnderTest(c, cc) {
 
@@ -55,7 +55,7 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("Adding roles with cyclic calls and sorting them") {
-    forAll("cached", "checkForCycles") { (c: Boolean, cc: Boolean) =>
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new SomeCore()
       new CompartmentUnderTest(c, cc) {
 
