@@ -110,8 +110,7 @@ lazy val examples = project.
 lazy val tests = project.
   settings(
     commonSettings,
-    logBuffered in Test := false,
-    parallelExecution in Test := false,
+    fork in Test := true,
     testOptions in Test := Seq(
       Tests.Argument(TestFrameworks.ScalaTest
         // F: show full stack traces
