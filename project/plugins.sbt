@@ -8,11 +8,9 @@ addSbtPlugin("pl.project13.scala" % "sbt-jmh" % "0.2.27")
 
 addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "5.2.4")
 
-// TODO: re-enable after a version for Scala 2.13.0 is available
-// addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.1")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.0")
 
-// TODO: re-enable after a version for Scala 2.13.0 is available
-// addSbtPlugin("com.codacy" % "sbt-codacy-coverage" % "1.3.15")
+addSbtPlugin("com.codacy" % "sbt-codacy-coverage" % "latest.release")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 

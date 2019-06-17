@@ -11,7 +11,7 @@ install:
 
 branches:
   only:
-    - 2.13.0
+    - master
 
 # Use container-based infrastructure
 sudo: false
@@ -28,4 +28,9 @@ before_cache:
   - find $HOME/.sbt        -name "*.lock"               -print -delete
 
 script:
-  - sbt clean "testOnly **.SCROLLTestSuite"
+  - sbt clean coverage "testOnly **.SCROLLTestSuite"
+
+after_success:
+  - sbt coverageReport
+  - sbt coverageAggregate
+  - sbt codacyCoverage
