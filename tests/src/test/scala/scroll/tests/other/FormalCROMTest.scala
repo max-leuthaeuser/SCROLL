@@ -1,33 +1,27 @@
-package scroll.tests
+package scroll.tests.other
 
-import scroll.internal.formal.FormalCROI
-import scroll.internal.formal.FormalCROM
-import scroll.internal.formal.FormalConstraintModel
-import scroll.internal.formal.FormalUtils
-import scroll.internal.formal.FormalRoleGroup
+import scroll.internal.formal._
+import scroll.tests.AbstractSCROLLTest
 
-class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for ScalaFormalCROM.")
+class FormalCROMTest extends AbstractSCROLLTest {
 
-  feature("Testing util functions") {
-    scenario("Testing function for mutually disjoint Lists") {
-      FormalUtils.mutualDisjoint(List(List.empty, List.empty)) shouldBe true
-      FormalUtils.mutualDisjoint(List(List(1, 2), List(3, 4))) shouldBe true
-      FormalUtils.mutualDisjoint(List(List(1), List(1))) shouldBe false
-      FormalUtils.mutualDisjoint(List(List.empty, List(1), List(1))) shouldBe false
-      FormalUtils.mutualDisjoint(List(List(1, 2, 3), List(3, 4, 5))) shouldBe false
-      FormalUtils.mutualDisjoint(List(List(1, 1), List(2))) shouldBe true
-    }
-
-    scenario("Testing function for total function") {
-      FormalUtils.totalFunction(List.empty, Map(1 -> List(1))) shouldBe true
-      FormalUtils.totalFunction(List(1, 2), Map(1 -> List(1), 2 -> List(2))) shouldBe true
-      FormalUtils.totalFunction(List(1, 2), Map(1 -> List(1))) shouldBe false
-      FormalUtils.totalFunction(List(1), Map.empty[Int, List[Int]]) shouldBe false
-    }
+  test("Function for mutually disjoint Lists") {
+    FormalUtils.mutualDisjoint(List(List.empty, List.empty)) shouldBe true
+    FormalUtils.mutualDisjoint(List(List(1, 2), List(3, 4))) shouldBe true
+    FormalUtils.mutualDisjoint(List(List(1), List(1))) shouldBe false
+    FormalUtils.mutualDisjoint(List(List.empty, List(1), List(1))) shouldBe false
+    FormalUtils.mutualDisjoint(List(List(1, 2, 3), List(3, 4, 5))) shouldBe false
+    FormalUtils.mutualDisjoint(List(List(1, 1), List(2))) shouldBe true
   }
 
-  feature("Testing CROM") {
+  test("Function for total function") {
+    FormalUtils.totalFunction(List.empty, Map(1 -> List(1))) shouldBe true
+    FormalUtils.totalFunction(List(1, 2), Map(1 -> List(1), 2 -> List(2))) shouldBe true
+    FormalUtils.totalFunction(List(1, 2), Map(1 -> List(1))) shouldBe false
+    FormalUtils.totalFunction(List(1), Map.empty[Int, List[Int]]) shouldBe false
+  }
+
+  test("CROM") {
     val test0 = FormalCROM.empty[String, String, String, String]
     val test1 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
     val test2 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
@@ -53,7 +47,7 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
     }
   }
 
-  feature("Testing CROI") {
+  test("CROI") {
     val test1 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
     val test8 = FormalCROI(List("1"), List("2", "3"), List("4"), Map("1" -> "1", "2" -> "2", "3" -> "3", "4" -> "4"), List(("1", "4", "2"), ("1", "4", "3")), Map(("a", "4") -> List(("2", "3"))))
     val test8b = FormalCROI.empty[String, String, String, String]
@@ -92,7 +86,7 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
     }
   }
 
-  feature("Testing Role Groups") {
+  test("Role Groups") {
     val testrg1 = "2"
     val testrg2 = FormalRoleGroup(List("2", "3"), 2, 2)
     val testrg3 = FormalRoleGroup(List(FormalRoleGroup(List("2", FormalRoleGroup(List("3"), 1, 2)), 0, 1), "2"), 1, 1)
@@ -114,7 +108,7 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
     }
   }
 
-  feature("Testing Constraint Models") {
+  test("Constraint Models") {
     val test0 = FormalCROM.empty[String, String, String, String]
     val test1 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
 
@@ -139,7 +133,7 @@ class FormalCROMTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
     testcm0.compliant(test0) shouldBe true
   }
 
-  feature("Testing Validity") {
+  test("Validity") {
     val test0 = FormalCROM.empty[String, String, String, String]
     val test1 = FormalCROM(List("1"), List("2", "3"), List("4"), List("a"), List(("1", "2"), ("1", "3")), Map("4" -> List("2", "3")), Map("a" -> List("2", "3")))
     val testcm0 = FormalConstraintModel.empty[String, String, String, String]

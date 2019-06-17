@@ -1,35 +1,36 @@
 package scroll.tests
 
 import org.scalatest.Suites
+import scroll.tests.other.ExamplesTest
+import scroll.tests.other.FormalCROMExampleTest
+import scroll.tests.other.FormalCROMTest
+import scroll.tests.other.SCROLLErrorsTest
 
-object SCROLLTestSuite {
-  val suites: Seq[AbstractSCROLLTest] = Seq(true, false).flatMap(c => {
-    Seq(
-      new CompartmentRoleFeaturesTest(cached = c),
-      new MultiCompartmentRoleFeaturesTest(cached = c),
-      new RoleSortingTest(cached = c),
-      new DynamicExtensionsTest(cached = c),
-      new EqualityRoleTest(cached = c),
-      new RelationshipTest(cached = c),
-      new UnionTypesTest(cached = c),
-      new FormalCROMTest(cached = c),
-      new FormalCROMExampleTest(cached = c),
-      new ECoreInstanceTest(cached = c),
-      new CROITest(cached = c),
-      new RoleConstraintsTest(cached = c),
-      new RolePlayingAutomatonTest(cached = c),
-      new RoleRestrictionsTest(cached = c),
-      new RoleGroupsTest(cached = c),
-      new MultiRoleFeaturesTest(cached = c),
-      new FacetsTest(cached = c),
-      new RecursiveBaseCallsWithClassesTest(cached = c),
-      new RecursiveBaseCallsWithCaseClassesTest(cached = c),
-      new ThrowableInRoleMethodsTest(cached = c),
-      new MultiCompartmentTest(cached = c),
-      new MultiCompartmentMergeTest(cached = c),
-      new CompartmentMergeTest(cached = c),
-      new QueryStrategiesTest(cached = c))
-  }) :+ new ExamplesTest() :+ new SCROLLErrorsTest()
-}
-
-class SCROLLTestSuite extends Suites(SCROLLTestSuite.suites: _*)
+class SCROLLTestSuite extends Suites(
+  new ExamplesTest(),
+  new SCROLLErrorsTest(),
+  new FormalCROMExampleTest(),
+  new FormalCROMTest(),
+  new parameterized.CompartmentMergeTest(),
+  new parameterized.CompartmentRoleFeaturesTest(),
+  new parameterized.CROITest(),
+  new parameterized.DynamicExtensionsTest(),
+  new parameterized.ECoreInstanceTest(),
+  new parameterized.EqualityRoleTest(),
+  new parameterized.FacetsTest(),
+  new parameterized.MultiCompartmentMergeTest(),
+  new parameterized.MultiCompartmentRoleFeaturesTest(),
+  new parameterized.MultiCompartmentTest(),
+  new parameterized.MultiRoleFeaturesTest(),
+  new parameterized.QueryStrategiesTest(),
+  new parameterized.RecursiveBaseCallsWithCaseClassesTest(),
+  new parameterized.RecursiveBaseCallsWithClassesTest(),
+  new parameterized.RelationshipTest(),
+  new parameterized.RoleConstraintsTest(),
+  new parameterized.RoleGroupsTest(),
+  new parameterized.RolePlayingAutomatonTest(),
+  new parameterized.RoleRestrictionsTest(),
+  new parameterized.RoleSortingTest(),
+  new parameterized.ThrowableInRoleMethodsTest(),
+  new parameterized.UnionTypesTest()
+)

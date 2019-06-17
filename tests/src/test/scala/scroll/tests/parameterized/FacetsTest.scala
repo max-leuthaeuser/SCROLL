@@ -1,9 +1,8 @@
-package scroll.tests
+package scroll.tests.parameterized
 
-import scroll.tests.mocks.CoreA
-import scroll.tests.mocks.CoreB
+import scroll.tests.mocks._
 
-class FacetsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
+class FacetsTest extends AbstractParameterizedSCROLLTest {
 
   object TestFacet extends Enumeration {
     type Color = Value
@@ -12,72 +11,58 @@ class FacetsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
 
   import TestFacet._
 
-  info("Test spec for facets.")
-  info("Things like filtering for specific facets are tested.")
-
-  feature("Facets spec and attachment") {
-    scenario("Adding facets") {
-      Given("some player and a facet in a compartment")
+  test("Adding facets") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
-      new CompartmentUnderTest() {
-        When("a facet is attached to the player")
+      new CompartmentUnderTest(c, cc) {
         val player = someCore <+> Red
-        Then("the facet should be found")
         player.hasFacets(Red) shouldBe true
         player.facets() shouldBe Seq(Red)
-      }
+      } shouldNot be(null)
     }
+  }
 
-    scenario("Removing facets") {
-      Given("some player and a facet in a compartment")
+  test("Removing facets") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
-      new CompartmentUnderTest() {
-        When("a facet is attached to the player")
+      new CompartmentUnderTest(c, cc) {
         val player = someCore <+> Red
-        And("is removed later on")
         player.drop(Red)
-        Then("the facet should be not be found any longer")
         player.hasFacets(Red) shouldBe false
         player.facets() shouldBe empty
-      }
+      } shouldNot be(null)
     }
+  }
 
-    scenario("Transferring facets") {
-      Given("some player and a facet in a compartment")
+  test("Transferring facets") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
-      new CompartmentUnderTest() {
-        When("a facet is attached to a player")
+      new CompartmentUnderTest(c, cc) {
         val playerA = someCoreA <+> Red
-        And("is transferred later on")
         val playerB = +someCoreB
         someCoreA transfer Red to someCoreB
-        Then("the facet should be not be found any longer on the first player")
         playerA.hasFacets(Red) shouldBe false
-        And("the second player should have the facet now")
         playerB.hasFacets(Red) shouldBe true
-      }
+      } shouldNot be(null)
     }
+  }
 
-    scenario("Filtering for facets") {
-      Given("some player and facets in a compartment")
+  test("Filtering for facets") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCoreA1 = new CoreA()
       val someCoreA2 = new CoreA()
       val someCoreA3 = new CoreA()
       val someCoreA4 = new CoreA()
       val someCoreA5 = new CoreA()
       val someCoreA6 = new CoreA()
-
-      new CompartmentUnderTest() {
-        When("some facets are attached")
+      new CompartmentUnderTest(c, cc) {
         someCoreA1 <+> Red
         someCoreA2 <+> Red
         someCoreA3 <+> Red
         someCoreA4 <+> Blue
         someCoreA5 <+> Blue
         someCoreA6 <+> Blue
-        And("we filter for a specific facet")
-        Then("only those object having the correct facet should be returned")
         all { c: CoreA => c.hasFacets(Red) } should contain only(someCoreA1, someCoreA2, someCoreA3)
         all { c: CoreA => c.hasSomeFacet(Red) } should contain only(someCoreA1, someCoreA2, someCoreA3)
         all { c: CoreA => c.hasFacets(Blue) } should contain only(someCoreA4, someCoreA5, someCoreA6)
@@ -87,7 +72,7 @@ class FacetsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
         all { c: CoreA => c.hasFacets(Green) } shouldBe empty
         all { c: CoreA => c.hasFacets(Red, Blue) } shouldBe empty
         all { c: CoreA => c.hasFacets(Red, Blue, Green) } shouldBe empty
-      }
+      } shouldNot be(null)
     }
   }
 

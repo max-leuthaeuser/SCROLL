@@ -45,7 +45,7 @@ final case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Nu
                                                                                                                     ) {
 
   assert(FormalUtils.mutualDisjoint(List(n, r, c, List(null))))
-  assert(FormalUtils.totalFunction(n.union(r).union(c), type1.map { case (k, v) => (k, List(v)) }))
+  assert(FormalUtils.totalFunction(n.concat(r).concat(c), type1.map { case (k, v) => (k, List(v)) }))
 
   /**
     * @param crom the CROM to check against
@@ -103,7 +103,7 @@ final case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Nu
         !links((rst1, c1)).contains((r_1, null)) && !links((rst1, c1)).contains((null, r_2))
     )
 
-  private[this] def o: List[AnyRef] = n.union(c)
+  private[this] def o: List[AnyRef] = n.concat(c)
 
   def o_c(c: CT): List[NT] = plays.filter(_._2 == c).map(_._1)
 

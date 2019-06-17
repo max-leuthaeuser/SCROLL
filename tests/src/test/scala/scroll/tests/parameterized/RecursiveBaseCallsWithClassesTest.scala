@@ -1,18 +1,19 @@
-package scroll.tests
+package scroll.tests.parameterized
 
 import scroll.internal.support.DispatchQuery._
+import scroll.tests.mocks.CompartmentUnderTest
 
-class RecursiveBaseCallsWithCaseClassesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
+class RecursiveBaseCallsWithClassesTest extends AbstractParameterizedSCROLLTest {
 
-  case class CoreType(id: String) {
+  class CoreType {
     def someMethod(): Unit = {
       println(s"CoreType($this)::someMethod()")
     }
   }
 
-  class MultiRole extends CompartmentUnderTest {
+  class MultiRole(c: Boolean, cc: Boolean) extends CompartmentUnderTest(c, cc) {
 
-    case class RoleTypeA(id: String) {
+    class RoleTypeA {
       implicit val dd = Bypassing((o: AnyRef) => {
         o == this || !o.isInstanceOf[CoreType]
       })
@@ -23,7 +24,7 @@ class RecursiveBaseCallsWithCaseClassesTest(cached: Boolean) extends AbstractSCR
       }
     }
 
-    case class RoleTypeB(id: String) {
+    class RoleTypeB {
       implicit val dd = Bypassing(_ == this)
 
       def someMethod(): Unit = {
@@ -34,17 +35,13 @@ class RecursiveBaseCallsWithCaseClassesTest(cached: Boolean) extends AbstractSCR
 
   }
 
-  info("Test spec for recursive base calls.")
-
-  feature("Dispatching of base calls") {
-    scenario("Adding roles and doing a normal base call") {
-      Given("a player and a role in a compartment")
-      new MultiRole() {
-        val c = CoreType("p")
-        val r = RoleTypeA("r")
+  test("Adding roles and doing a normal base call") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+      new MultiRole(c, cc) {
+        val c = new CoreType()
+        val r = new RoleTypeA()
         val player = c play r
         val output = new java.io.ByteArrayOutputStream()
-        When("calling base")
         Console.withOut(output) {
           player.someMethod()
         }
@@ -53,25 +50,23 @@ class RecursiveBaseCallsWithCaseClassesTest(cached: Boolean) extends AbstractSCR
           s"RoleTypeA($r)::someMethod()",
           s"CoreType($c)::someMethod()"
         )
-        Then("the calls should be in the correct order")
         actual should contain theSameElementsInOrderAs expected
-      }
+      } shouldNot be(null)
     }
   }
 
-  feature("Dispatching of recursive base calls") {
-    scenario("Adding roles and chaining base calls recursively") {
-      Given("a player and two roles in a compartment")
-      new MultiRole() {
-        val c1 = CoreType("c1")
-        val c2 = CoreType("c2")
-        val rA1 = RoleTypeA("rA1")
-        val rA2 = RoleTypeA("rA2")
-        val rB = RoleTypeB("rB")
-        val player1 = c1 play rA1 play rB
+  test("Adding roles and chaining base calls recursively") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+      new MultiRole(c, cc) {
+        val c1 = new CoreType()
+        val c2 = new CoreType()
+        val rA1 = new RoleTypeA()
+        val rA2 = new RoleTypeA()
+        val rB = new RoleTypeB()
+        val player1 = c1 play rA1
+        rA1 play rB
         val player2 = c2 play rA2
         val output = new java.io.ByteArrayOutputStream()
-        When("calling base")
         Console.withOut(output) {
           player1.someMethod()
         }
@@ -81,9 +76,9 @@ class RecursiveBaseCallsWithCaseClassesTest(cached: Boolean) extends AbstractSCR
           s"RoleTypeA($rA1)::someMethod()",
           s"CoreType($c1)::someMethod()"
         )
-        Then("the calls should be in the correct order")
         actual should contain theSameElementsInOrderAs expected
-      }
+      } shouldNot be(null)
     }
   }
+
 }

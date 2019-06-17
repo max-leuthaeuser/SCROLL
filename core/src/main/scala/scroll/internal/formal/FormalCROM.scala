@@ -57,7 +57,7 @@ final case class FormalCROM[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Nu
   def wellformed: Boolean = axiom1 && axiom2 && axiom3 && axiom4 && axiom5
 
   def axiom1: Boolean =
-    FormalUtils.all(rt.map(r => FormalUtils.any(nt.union(ct).map(t => fills.contains((t, r)))))) // linter:ignore ContainsTypeMismatch
+    FormalUtils.all(rt.map(r => FormalUtils.any(nt.concat(ct).map(t => fills.contains((t, r)))))) // linter:ignore ContainsTypeMismatch
 
   def axiom2: Boolean =
     FormalUtils.all(ct.map(c => parts(c).nonEmpty))

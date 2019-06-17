@@ -1,23 +1,12 @@
 package scroll.tests
 
-import org.scalatest.BeforeAndAfter
-import org.scalatest.FeatureSpec
-import org.scalatest.GivenWhenThen
 import org.scalatest.Matchers
-import scroll.tests.mocks.SomeCompartment
-import scroll.tests.mocks.SomeMultiCompartment
+import org.scalatest.ParallelTestExecution
+import org.scalatest.funsuite.AnyFunSuite
 
-abstract class AbstractSCROLLTest(cached: Boolean) extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfter {
+abstract class AbstractSCROLLTest extends AnyFunSuite with Matchers with ParallelTestExecution {
 
   protected def streamToSeq(in: java.io.ByteArrayOutputStream, splitAt: String = System.lineSeparator()): Seq[String] =
     in.toString.split(splitAt).toSeq
-
-  class CompartmentUnderTest() extends SomeCompartment(cached)
-
-  class MultiCompartmentUnderTest() extends SomeMultiCompartment(cached)
-
-  before {
-    info(s"Running SCROLL test '${this.getClass}' with cache = '$cached':")
-  }
 
 }

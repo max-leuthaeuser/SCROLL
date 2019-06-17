@@ -6,7 +6,7 @@ import com.google.common.graph.MutableGraph
 import scroll.internal.ICompartment
 import scroll.internal.util.ReflectiveHelper
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 

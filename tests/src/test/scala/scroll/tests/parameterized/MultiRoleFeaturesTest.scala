@@ -1,27 +1,22 @@
-package scroll.tests
+package scroll.tests.parameterized
 
-import scroll.internal.MultiCompartment
 import scroll.internal.support.DispatchQuery
 import scroll.internal.support.DispatchQuery._
-import mocks.CoreA
+import scroll.tests.mocks.CoreA
+import scroll.tests.mocks.MultiCompartmentUnderTest
 
-class MultiRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
+class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
-  info("Test spec for an excerpt of the role concept for multi roles.")
-  info("Things like role playing and method invocation are tested.")
+  case class RoleA(id: String = "RoleA")
 
-  feature("Role playing") {
-    scenario("Playing roles and invoking all methods") {
-      Given("some player and roles in a compartment")
+  case class RoleB(id: String = "RoleB")
+
+  case class RoleC(id: String = "RoleC")
+
+  test("Playing roles and invoking all methods") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
-
-      case class RoleA(id: String = "RoleA")
-
-      case class RoleB(id: String = "RoleB")
-
-      case class RoleC(id: String = "RoleC")
-
-      new MultiCompartment() {
+      new MultiCompartmentUnderTest(c, cc) {
         implicit var dd = DispatchQuery.empty.sortedWith {
           case (_: RoleC, _: RoleA) => swap
           case (_: RoleB, _: RoleA) => swap
@@ -30,51 +25,38 @@ class MultiRoleFeaturesTest(cached: Boolean) extends AbstractSCROLLTest(cached) 
         val roleA = RoleA()
         val roleB = RoleB()
         val roleC = RoleC()
-        And("some play relationships")
         someCore play roleA play roleB play roleC
-
-        When("invoking methods")
-        Then("the call must be invoked on all methods with the correct ordering")
         val expected = Seq(Right("RoleC"), Right("RoleB"), Right("RoleA"))
-        +someCore id() match {
+        (+someCore).id() match {
           case Right(actual) => actual shouldBe expected
           case Left(error) => fail(error.toString)
         }
-
-        When("invoking methods with sorting (reverse ordering)")
-        Then("the call must be invoked on all methods with the correct ordering")
         dd = DispatchQuery.empty.sortedWith {
           case (_: RoleA, _: RoleC) => swap
           case (_: RoleA, _: RoleB) => swap
           case (_: RoleB, _: RoleC) => swap
         }
-        +someCore id() match {
+        (+someCore).id() match {
           case Right(actual) => actual shouldBe expected.reverse
           case Left(error) => fail(error.toString)
         }
-
-
-        When("invoking methods with filtering")
-        Then("the call must be invoked on all methods with the correct ordering")
         val expected2 = Seq(Right("RoleC"), Right("RoleB"))
         dd = Bypassing(_.isInstanceOf[RoleA]).sortedWith {
           case (_: RoleC, _: RoleB) => swap
         }
-        +someCore id() match {
+        (+someCore).id() match {
           case Right(actual) => actual shouldBe expected2
           case Left(error) => fail(error.toString)
         }
-
-        When("invoking methods with filtering and sorting (reverse ordering)")
-        Then("the call must be invoked on all methods with the correct ordering")
         dd = Bypassing(_.isInstanceOf[RoleA]).sortedWith {
           case (_: RoleB, _: RoleC) => swap
         }
-        +someCore id() match {
+        (+someCore).id() match {
           case Right(actual) => actual shouldBe expected2.reverse
           case Left(error) => fail(error.toString)
         }
-      }
+      } shouldNot be(null)
     }
   }
+
 }

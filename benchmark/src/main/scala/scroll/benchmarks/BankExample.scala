@@ -36,13 +36,13 @@ class BankExample {
 
     class Source() {
       def withdraw(amount: Money): Unit = {
-        val _ = +this decrease amount
+        val _ = (+this).decrease(amount)
       }
     }
 
     class Target() {
       def deposite(amount: Money): Unit = {
-        val _ = +this increase amount
+        val _ = (+this).increase(amount)
       }
     }
 
@@ -69,7 +69,7 @@ class BankExample {
     class MoneyTransfer() {
       def execute(): Unit = {
         implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[MoneyTransfer])
-        val _ = +this execute()
+        val _ = (+this).execute()
       }
     }
 
@@ -78,7 +78,7 @@ class BankExample {
 
       def decrease(amount: Money): Unit = {
         implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[SavingsAccount])
-        val _ = +this decrease (amount + amount * transactionFee)
+        val _ = (+this).decrease(amount + amount * transactionFee)
       }
     }
 

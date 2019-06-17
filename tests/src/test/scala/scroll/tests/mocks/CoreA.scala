@@ -1,6 +1,5 @@
 package scroll.tests.mocks
 
 class CoreA {
-  def a(): Unit = {
-  }
+  def a(): Int = -1
 }

@@ -4,7 +4,10 @@ import com.google.common.graph.Graph
 import com.google.common.graph.GraphBuilder
 import com.google.common.graph.Graphs
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
+import scala.util.Failure
+import scala.util.Success
+import scala.util.Try
 
 /**
   * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
@@ -65,17 +68,19 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
   }
 
   private def filter(g: Graph[AnyRef], player: AnyRef): Seq[AnyRef] =
-    if (containsPlayer(player)) {
-      (Graphs.reachableNodes(g, player).asScala - player).toSeq
-    } else {
-      Seq.empty[AnyRef]
+    Try(Graphs.reachableNodes(g, player)) match {
+      case Success(nodes) =>
+        val buffer = new java.util.LinkedList(nodes)
+        buffer.remove(player)
+        buffer.asScala.toSeq
+      case Failure(_) => Seq.empty[AnyRef]
     }
 
   override def roles(player: AnyRef): Seq[AnyRef] = filter(root, player)
 
   override def facets(player: AnyRef): Seq[Enumeration#Value] =
     if (containsPlayer(player)) {
-      root.successors(player).asScala.toSeq.collect { case v: Enumeration#Value => v }
+      root.successors(player).asScala.collect { case v: Enumeration#Value => v }.toSeq
     } else {
       Seq.empty[Enumeration#Value]
     }

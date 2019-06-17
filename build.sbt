@@ -35,7 +35,8 @@ lazy val commonSettings = Seq(
     "-language:implicitConversions",
     "-unchecked",
     "-target:jvm-" + lib.v.jvm),
-  coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*;scroll\\.examples\\.currency",
+  // TODO: re-enable after a coverage version for Scala 2.13.0-RC2 is available
+  // coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*;scroll\\.examples\\.currency",
   updateOptions := updateOptions.value.withCachedResolution(true),
   historyPath := Option(target.in(LocalRootProject).value / ".history"),
   cleanKeepFiles := cleanKeepFiles.value filterNot { file =>
@@ -62,14 +63,10 @@ lazy val core = project.
       "-Xfatal-warnings",
       "-Xlint",
       "-Xlint:-missing-interpolator",
-      "-Yno-adapted-args",
       "-Ywarn-dead-code",
-      "-Ywarn-inaccessible",
       "-Ywarn-unused",
-      "-Ywarn-unused-import",
       "-Ywarn-numeric-widen",
-      "-Ywarn-value-discard",
-      "-Xfuture"),
+      "-Ywarn-value-discard"),
     organization := "com.github.max-leuthaeuser",
     publishTo := {
       val nexus = "https://oss.sonatype.org/"
@@ -113,8 +110,8 @@ lazy val examples = project.
 lazy val tests = project.
   settings(
     commonSettings,
+    fork in Test := true,
     testOptions in Test := Seq(
-      Tests.Filter(s => s.endsWith("Suite")),
       Tests.Argument(TestFrameworks.ScalaTest
         // F: show full stack traces
         // S: show short stack traces
@@ -127,8 +124,7 @@ lazy val tests = project.
         // Periodic notification of slowpokes (tests that have been running longer than 30s)
         , "-W", "30", "30"
       )
-    ),
-    libraryDependencies ++= lib.testDependencies
+    ), libraryDependencies ++= lib.testDependencies
   ).
   dependsOn(core, examples)
 

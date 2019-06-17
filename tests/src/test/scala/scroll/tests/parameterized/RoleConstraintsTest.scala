@@ -1,176 +1,143 @@
-package scroll.tests
+package scroll.tests.parameterized
 
-import mocks._
+import scroll.tests.mocks._
 
-class RoleConstraintsTest(cached: Boolean) extends AbstractSCROLLTest(cached) {
-  info("Test spec for role constraints.")
+class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
 
-  feature("Role implication") {
-    scenario("Role implication constraint") {
-      new CompartmentUnderTest() {
-        Given("A compartment, a player and some roles")
+  test("Role implication constraint") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+      new CompartmentUnderTest(c, cc) {
         val player = new CoreA()
         val roleA = new RoleA()
         val roleB = new RoleB()
         val roleC = new RoleC()
-        And("an role implication constraint")
         RoleImplication[RoleA, RoleB]()
-        When("checking the constraints")
-        Then("they should hold")
         RoleConstraintsChecked {
           player play roleA play roleB
         }
-
-        a[RuntimeException] should be thrownBy {
+        the [RuntimeException] thrownBy {
           RoleConstraintsChecked {
             player drop roleB
           }
-        }
-
+        } should have message s"Role implication constraint violation: '$player' should play role '${roleB.getClass.getName}', but it does not!"
         RoleConstraintsChecked {
           player play roleB
         }
-
         RoleImplication[RoleB, RoleC]()
         RoleConstraintsChecked {
           player play roleC
         }
-
-        a[RuntimeException] should be thrownBy {
+        the [RuntimeException] thrownBy {
           RoleConstraintsChecked {
             player drop roleB
           }
-        }
-
-        a[RuntimeException] should be thrownBy {
+        } should have message s"Role implication constraint violation: '$player' should play role '${roleB.getClass.getName}', but it does not!"
+        the [RuntimeException] thrownBy {
           RoleConstraintsChecked {
             player drop roleC
           }
-        }
-
+        } should have message s"Role implication constraint violation: '$player' should play role '${roleB.getClass.getName}', but it does not!"
         RoleConstraintsChecked {
           player play roleC play roleB
         }
-      }
+      } shouldNot be(null)
     }
   }
 
-  feature("Role prohibition") {
-    scenario("Role prohibition constraint") {
-      new CompartmentUnderTest() {
-        Given("A compartment, a player and some roles")
+  test("Role prohibition constraint") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+      new CompartmentUnderTest(c, cc) {
         val player = new CoreA()
         val roleA = new RoleA()
         val roleB = new RoleB()
         val roleC = new RoleC()
-        And("an role prohibition constraint")
         RoleProhibition[RoleA, RoleB]()
-        When("checking the constraints")
-        Then("they should hold")
         RoleConstraintsChecked {
           player play roleA
         }
-
         RoleConstraintsChecked {
           player drop roleA
           player play roleB
         }
-
-        a[RuntimeException] should be thrownBy {
+        the [RuntimeException] thrownBy {
           RoleConstraintsChecked {
             player play roleA
           }
-        }
-
+        } should have message s"Role prohibition constraint violation: '$player' plays role '${roleB.getClass.getName}', but it is not allowed to do so!"
         RoleProhibition[RoleB, RoleC]()
         RoleConstraintsChecked {
           player drop roleA
           player drop roleB
         }
-
-        a[RuntimeException] should be thrownBy {
+        the [RuntimeException] thrownBy {
           RoleConstraintsChecked {
             player play roleA
             player play roleB
             player play roleC
           }
-        }
-
+        } should have message s"Role prohibition constraint violation: '$player' plays role '${roleB.getClass.getName}', but it is not allowed to do so!"
         RoleConstraintsChecked {
           player drop roleB
         }
-      }
+      } shouldNot be(null)
     }
   }
 
-  feature("Role equivalence") {
-    scenario("Role equivalence constraint") {
-      new CompartmentUnderTest() {
-        Given("A compartment, a player and some roles")
+  test("Role equivalence constraint") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+      new CompartmentUnderTest(c, cc) {
         val player = new CoreA()
         val roleA = new RoleA()
         val roleB = new RoleB()
         val roleC = new RoleC()
-        And("an role equivalence constraint")
         RoleEquivalence[RoleA, RoleB]()
-        When("checking the constraints")
-        Then("they should hold")
-        a[RuntimeException] should be thrownBy {
+        the [RuntimeException] thrownBy {
           RoleConstraintsChecked {
             player play roleA
           }
-        }
-
+        } should have message s"Role equivalence constraint violation: '$player' should play role '${roleB.getClass.getName}', but it does not!"
         RoleConstraintsChecked {
           player play roleB
         }
-
-        a[RuntimeException] should be thrownBy {
+        the [RuntimeException] thrownBy {
           RoleConstraintsChecked {
             player drop roleA
           }
-        }
-
+        } should have message s"Role equivalence constraint violation: '$player' should play role '${roleA.getClass.getName}', but it does not!"
         RoleConstraintsChecked {
           player drop roleB
         }
-
         RoleEquivalence[RoleB, RoleC]()
         RoleConstraintsChecked {
           player play roleA
           player play roleB
           player play roleC
         }
-
-        a[RuntimeException] should be thrownBy {
+        the [RuntimeException] thrownBy {
           RoleConstraintsChecked {
             player drop roleB
           }
-        }
-      }
+        } should have message s"Role equivalence constraint violation: '$player' should play role '${roleB.getClass.getName}', but it does not!"
+      } shouldNot be(null)
     }
   }
 
-  feature("Mixed constraints") {
-    scenario("Role implication and prohibition constraint") {
-      new CompartmentUnderTest() {
-        Given("A compartment, a player and some roles")
+  test("Role implication and prohibition constraint") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+      new CompartmentUnderTest(c, cc) {
         val player = new CoreA()
         val roleA = new RoleA()
         val roleB = new RoleB()
-        And("an implication and prohibition constraint")
         RoleImplication[RoleA, RoleB]()
         RoleProhibition[RoleA, RoleB]()
-
-        When("checking the constraints")
-        Then("they should hold")
-        a[RuntimeException] should be thrownBy {
+        the [RuntimeException] thrownBy {
           RoleConstraintsChecked {
             player play roleA
             player play roleB
           }
-        }
-      }
+        } should have message s"Role prohibition constraint violation: '$player' plays role '${roleB.getClass.getName}', but it is not allowed to do so!"
+      } shouldNot be(null)
     }
   }
+
 }
