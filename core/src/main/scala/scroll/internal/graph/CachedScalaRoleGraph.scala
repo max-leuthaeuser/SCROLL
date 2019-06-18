@@ -11,6 +11,10 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
 
   override def addBinding(player: AnyRef, role: AnyRef): Unit = {
     super.addBinding(player, role)
+    resetAfterBinding(player, role)
+  }
+
+  private[this] def resetAfterBinding(player: AnyRef, role: AnyRef): Unit = {
     predecessors(player).foreach(reset)
     roles(role).foreach(reset)
     reset(role)
@@ -57,10 +61,7 @@ class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGrap
 
   override def removeBinding(player: AnyRef, role: AnyRef): Unit = {
     super.removeBinding(player, role)
-    predecessors(player).foreach(reset)
-    roles(role).foreach(reset)
-    reset(role)
-    reset(player)
+    resetAfterBinding(player, role)
   }
 
   override def removePlayer(player: AnyRef): Unit = {

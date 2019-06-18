@@ -36,6 +36,13 @@ trait ICompartment extends RoleConstraints
     case s => Right(s)
   }
 
+  protected def safeReturnHead[T](seq: Seq[T], typeName: String): Either[TypeError, T] = safeReturn(seq, typeName).fold(
+    l => {
+      Left(l)
+    }, { case head +: _ =>
+      Right(head)
+    })
+
   @tailrec
   protected final def coreFor(role: AnyRef): Seq[AnyRef] = {
     require(null != role)

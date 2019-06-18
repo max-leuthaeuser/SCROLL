@@ -36,12 +36,8 @@ trait RoleQueries {
     * @tparam T the type of the player instance to query for
     * @return the first player instance, that does conform to the given matcher or an appropriate error
     */
-  def one[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
-    l => {
-      Left(l)
-    }, { case head +: _ =>
-      Right(head)
-    })
+  def one[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] =
+    safeReturnHead(all[T](matcher), classTag[T].toString)
 
   /**
     * Query the role playing graph for all player instances that do conform to the given function and return the first found.
@@ -50,11 +46,6 @@ trait RoleQueries {
     * @tparam T the type of the player instance to query for
     * @return the first player instances, that do conform to the given matcher or an appropriate error
     */
-  def one[T <: AnyRef : ClassTag](matcher: T => Boolean): Either[TypeError, T] = safeReturn(all[T](matcher), classTag[T].toString).fold(
-    l => {
-      Left(l)
-    }, { case head +: _ =>
-      Right(head)
-    })
+  def one[T <: AnyRef : ClassTag](matcher: T => Boolean): Either[TypeError, T] = safeReturnHead(all[T](matcher), classTag[T].toString)
 
 }
