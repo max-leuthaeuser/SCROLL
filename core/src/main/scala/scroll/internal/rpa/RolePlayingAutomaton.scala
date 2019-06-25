@@ -6,7 +6,7 @@ import akka.actor.ActorSystem
 import akka.actor.FSM
 import akka.actor.LoggingFSM
 import akka.actor.Props
-import scroll.internal.Compartment
+import scroll.internal.compartment.impl.Compartment
 import scroll.internal.rpa.RolePlayingAutomaton.RPAData
 import scroll.internal.rpa.RolePlayingAutomaton.RPAState
 import scroll.internal.rpa.RolePlayingAutomaton.Start
@@ -52,12 +52,12 @@ object RolePlayingAutomaton {
 }
 
 /**
-  * Use this trait to implement your own [[scroll.internal.Compartment]] specific
+  * Use this trait to implement your own [[Compartment]] specific
   * role playing automaton. Please read the documentation for [[akka.actor.FSM]]
   * carefully, since the features from that are applicable for role playing automatons.
   *
   * Remember to call <code>run()</code> when you want to start this automaton in your
-  * [[scroll.internal.Compartment]] instance.
+  * [[Compartment]] instance.
   *
   * This automaton will always start in state [[scroll.internal.rpa.RolePlayingAutomaton.Start]], so hook in there.
   *

@@ -7,7 +7,7 @@ import com.google.common.cache.LoadingCache
 /**
   * Support for building caches using Guava caches.
   */
-trait Memoiser {
+object Memoiser {
 
   /**
     * Builds a cache, which either returns an already-loaded value for a given key or atomically

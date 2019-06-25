@@ -1,8 +1,17 @@
-package scroll.internal.graph
+package scroll.internal.graph.impl
 
-import scroll.internal.util.Memoiser
+import com.google.common.graph.GraphBuilder
+import com.google.common.graph.MutableGraph
+import scroll.internal.graph.RoleGraph
 
-class CachedScalaRoleGraph(checkForCycles: Boolean = true) extends ScalaRoleGraph(checkForCycles) with Memoiser {
+object CachedScalaRoleGraph {
+  def copyFrom(from: ScalaRoleGraph): CachedScalaRoleGraph = new CachedScalaRoleGraph(from.root, from.checkForCycles)
+}
+
+class CachedScalaRoleGraph(root: MutableGraph[Object] = GraphBuilder.directed().build[Object](),
+                           checkForCycles: Boolean = true) extends ScalaRoleGraph(root, checkForCycles) {
+
+  import scroll.internal.util.Memoiser._
 
   private[this] val containsCache = buildCache[AnyRef, java.lang.Boolean](super.containsPlayer)
   private[this] val predCache = buildCache[AnyRef, Seq[AnyRef]](super.predecessors)

@@ -1,7 +1,7 @@
 package scroll.tests.parameterized
 
-import scroll.internal.support.DispatchQuery
-import scroll.internal.support.DispatchQuery._
+import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.DispatchQuery._
 import scroll.tests.mocks.CompartmentUnderTest
 import scroll.tests.mocks.CoreA
 

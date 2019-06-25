@@ -1,8 +1,8 @@
 package scroll.tests.parameterized
 
+import scroll.internal.dispatch.DispatchQuery
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
-import scroll.internal.support.DispatchQuery
-import scroll.internal.support.DispatchQuery._
+import scroll.internal.dispatch.DispatchQuery._
 import scroll.tests.mocks._
 
 class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
@@ -49,7 +49,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       new CompartmentUnderTest(c, cc) {
         val someRole = new RoleA()
         someCore play someRole
-        this.removePlayer(someCore)
+        rolePlaying.removePlayer(someCore)
         (+someCore).isPlaying[RoleA] shouldBe false
         (+someCore).s() match {
           case Right(_) => fail("Player should have no access anymore!")
@@ -68,7 +68,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someCore play roleA
         someCore play roleB
         val expected = Seq(someCore, roleA, roleB)
-        this.allPlayers shouldBe expected
+        rolePlaying.allPlayers shouldBe expected
       } shouldNot be(null)
     }
   }

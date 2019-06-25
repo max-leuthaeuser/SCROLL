@@ -1,8 +1,9 @@
-package scroll.internal
+package scroll.internal.dispatch.impl
 
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
+import scroll.internal.dispatch.Dispatchable
 import scroll.internal.errors.SCROLLErrors.IllegalRoleInvocationDispatch
 import scroll.internal.errors.SCROLLErrors.InvocationError
 import scroll.internal.util.ReflectiveHelper

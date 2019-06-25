@@ -1,10 +1,11 @@
-package scroll.internal
+package scroll.internal.compartment.impl
 
 import java.lang.reflect.Method
 
+import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.SCROLLDynamic
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.SCROLLError
-import scroll.internal.support.DispatchQuery
 import scroll.internal.util.ReflectiveHelper
 
 import scala.reflect.ClassTag
@@ -32,7 +33,7 @@ import scala.reflect.ClassTag
   * }
   * }}}
   */
-trait Compartment extends ICompartment {
+trait Compartment extends AbstractCompartment {
 
   override def newPlayer[W <: AnyRef : ClassTag](obj: W): Player[W] = {
     require(null != obj)

@@ -1,4 +1,4 @@
-package scroll.internal
+package scroll.internal.dispatch
 
 import java.lang.reflect.Method
 

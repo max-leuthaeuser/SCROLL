@@ -3,7 +3,7 @@ package scroll.benchmarks
 import java.util.concurrent.TimeUnit
 
 import org.openjdk.jmh.annotations._
-import scroll.internal.SCROLLDynamic
+import scroll.internal.dispatch.SCROLLDynamic
 
 import scala.util.Random
 

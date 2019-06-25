@@ -1,8 +1,8 @@
 package scroll.benchmarks
 
-import scroll.internal.support.DispatchQuery._
-import scroll.internal.Compartment
-import scroll.internal.support.DispatchQuery
+import scroll.internal.compartment.impl.Compartment
+import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.DispatchQuery._
 
 class NoopExample(cached: Boolean) {
 
@@ -18,7 +18,7 @@ class NoopExample(cached: Boolean) {
   }
 
   trait NoopCompartment extends Compartment {
-    reconfigure(cached = cached, checkForCycles = false)
+    roleGraph.reconfigure(cached = cached, checkForCycles = false)
 
     /**
       * No-op role methods which just forward to the base

@@ -1,48 +1,35 @@
-package scroll.internal.support
+package scroll.internal.support.impl
 
 import org.chocosolver.solver.Model
 import org.chocosolver.solver.Solution
 import org.chocosolver.solver.variables.IntVar
-import scroll.internal.ICompartment
+import scroll.internal.graph.RoleGraphProxyApi
+import scroll.internal.support.RoleGroupsApi
 import scroll.internal.util.ReflectiveHelper
 
 import scala.collection.mutable
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 
-trait RoleGroups {
-  self: ICompartment =>
+class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGroupsApi {
+
+  import RoleGroupsApi._
 
   private[this] lazy val roleGroups = mutable.HashMap.empty[String, RoleGroup]
 
-  private[this] sealed trait Constraint
-
-  private[this] object AND extends Constraint
-
-  private[this] object OR extends Constraint
-
-  private[this] object XOR extends Constraint
-
-  private[this] object NOT extends Constraint
-
-  /**
-    * Wrapping function that checks all available role group constraints for
-    * all core objects and its roles after the given function was executed.
-    * Throws a RuntimeException if a role group constraint is violated!
-    *
-    * @param func the function to execute and check role group constraints afterwards
-    */
-  def RoleGroupsChecked(func: => Unit): Unit = {
+  override def checked(func: => Unit): Unit = {
     func
     validate()
   }
+
+  override def create(name: String): RoleGroupApi = RoleGroup(name, Seq.empty, (0, 0), (0, 0))
 
   private[this] def validateOccurrenceCardinality(): Unit = {
     roleGroups.foreach { case (name, rg) =>
       val min = rg.occ._1
       val max = rg.occ._2
       val types = rg.types
-      val actual = types.map(ts => plays.allPlayers.count(r => ts == ReflectiveHelper.simpleName(r.getClass.toString))).sum
+      val actual = types.map(ts => roleGraph.plays.allPlayers.count(r => ts == ReflectiveHelper.simpleName(r.getClass.toString))).sum
       if (actual < min || max < actual) {
         throw new RuntimeException(s"Occurrence cardinality in role group '$name' violated! " +
           s"Roles '$types' are played $actual times but should be between $min and $max.")
@@ -71,11 +58,11 @@ trait RoleGroups {
         solutions += sol
       } while (solver.solve())
 
-      val allPlayers = plays.allPlayers.filter(p => !types.contains(ReflectiveHelper.simpleName(p.getClass.toString)))
+      val allPlayers = roleGraph.plays.allPlayers.filter(p => !types.contains(ReflectiveHelper.simpleName(p.getClass.toString)))
       if (allPlayers.forall(p => {
         solutions.exists(s => {
           types.forall(t => {
-            val numRole = plays.roles(p).count(r => t == ReflectiveHelper.simpleName(r.getClass.toString))
+            val numRole = roleGraph.plays.roles(p).count(r => t == ReflectiveHelper.simpleName(r.getClass.toString))
             if (numRole == s.getIntVal(constraintsMap.getOrElse(t, throw new RuntimeException(s"Constraints for role group '${rg.name}' do not contain '$t'!")))) {
               resultRoleTypeSet.add(t)
               true
@@ -143,21 +130,7 @@ trait RoleGroups {
     }
   }
 
-  private[this] type CInt = Ordered[Int]
-
-  trait Entry {
-    def types: Seq[String]
-  }
-
-  object Types {
-    def apply(ts: String*): Types = new Types(ts.map(ReflectiveHelper.simpleName))
-  }
-
-  class Types(ts: Seq[String]) extends Entry {
-    override def types: Seq[String] = ts
-  }
-
-  case class RoleGroup(name: String, entries: Seq[Entry], limit: (Int, CInt), occ: (Int, CInt), var evaluated: Boolean = false) extends Entry {
+  case class RoleGroup(name: String, entries: Seq[Entry], limit: (Int, CInt), occ: (Int, CInt), var evaluated: Boolean = false) extends RoleGroupApi {
     assert(occ._1 >= 0 && occ._2 >= occ._1)
     assert(limit._1 >= 0 && limit._2 >= limit._1)
 
@@ -169,50 +142,46 @@ trait RoleGroups {
       case _ => throw new RuntimeException("Role groups can only contain a list of types or role groups itself!")
     }
 
-    def containing(rg: RoleGroup*)
-                  (limitLower: Int, limitUpper: CInt)
-                  (occLower: Int, occUpper: CInt): RoleGroup =
+    override def containing(rg: RoleGroupApi*)
+                           (limitLower: Int, limitUpper: CInt)
+                           (occLower: Int, occUpper: CInt): RoleGroupApi =
       addRoleGroup(new RoleGroup(name, rg, (limitLower, limitUpper), (occLower, occUpper)))
 
-    def containing[T1 <: AnyRef : ClassTag](limitLower: Int, limitUpper: CInt)
-                                           (occLower: Int, occUpper: CInt): RoleGroup = {
+    override def containing[T1 <: AnyRef : ClassTag](limitLower: Int, limitUpper: CInt)
+                                                    (occLower: Int, occUpper: CInt): RoleGroupApi = {
       val entry = Types(classTag[T1])
-      addRoleGroup(new RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
+      addRoleGroup(RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
     }
 
 
-    def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag]
+    override def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag]
     (limitLower: Int, limitUpper: CInt)
-    (occLower: Int, occUpper: CInt): RoleGroup = {
+    (occLower: Int, occUpper: CInt): RoleGroupApi = {
       val entry = Types(classTag[T1], classTag[T2])
-      addRoleGroup(new RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
+      addRoleGroup(RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
     }
 
-    def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag]
+    override def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag]
     (limitLower: Int, limitUpper: CInt)
-    (occLower: Int, occUpper: CInt): RoleGroup = {
+    (occLower: Int, occUpper: CInt): RoleGroupApi = {
       val entry = Types(classTag[T1], classTag[T2], classTag[T3])
-      addRoleGroup(new RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
+      addRoleGroup(RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
     }
 
-    def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag, T4 <: AnyRef : ClassTag]
+    override def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag, T4 <: AnyRef : ClassTag]
     (limitLower: Int, limitUpper: CInt)
-    (occLower: Int, occUpper: CInt): RoleGroup = {
+    (occLower: Int, occUpper: CInt): RoleGroupApi = {
       val entry = Types(classTag[T1], classTag[T2], classTag[T3], classTag[T4])
-      addRoleGroup(new RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
+      addRoleGroup(RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
     }
 
 
-    def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag, T4 <: AnyRef : ClassTag, T5 <: AnyRef : ClassTag]
+    override def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag, T4 <: AnyRef : ClassTag, T5 <: AnyRef : ClassTag]
     (limitLower: Int, limitUpper: CInt)
-    (occLower: Int, occUpper: CInt): RoleGroup = {
+    (occLower: Int, occUpper: CInt): RoleGroupApi = {
       val entry = Types(classTag[T1], classTag[T2], classTag[T3], classTag[T4], classTag[T5])
-      addRoleGroup(new RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
+      addRoleGroup(RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
     }
-  }
-
-  object RoleGroup {
-    def apply(name: String): RoleGroup = new RoleGroup(name, Seq.empty, (0, 0), (0, 0))
   }
 
 }

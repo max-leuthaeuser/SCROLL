@@ -11,7 +11,7 @@ install:
 
 branches:
   only:
-    - master
+    - CompartmentAPIRefactoring
 
 # Use container-based infrastructure
 sudo: false

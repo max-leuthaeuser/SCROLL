@@ -1,7 +1,6 @@
-package scroll.internal
+package scroll.internal.dispatch
 
 import scroll.internal.errors.SCROLLErrors.SCROLLError
-import scroll.internal.support.DispatchQuery
 
 /**
   * This Trait enables dynamic invocation of role methods that are not natively available on the player object.

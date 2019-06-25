@@ -1,6 +1,6 @@
 package scroll.examples
 
-import scroll.internal.Compartment
+import scroll.internal.compartment.impl.Compartment
 
 object UniversityExample {
 

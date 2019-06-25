@@ -1,6 +1,6 @@
 package scroll.tests.parameterized
 
-import scroll.internal.support.DispatchQuery._
+import scroll.internal.dispatch.DispatchQuery._
 import scroll.tests.mocks.CompartmentUnderTest
 
 class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLTest {

@@ -31,6 +31,5 @@ class SCROLLTestSuite extends Suites(
   new parameterized.RolePlayingAutomatonTest(),
   new parameterized.RoleRestrictionsTest(),
   new parameterized.RoleSortingTest(),
-  new parameterized.ThrowableInRoleMethodsTest(),
-  new parameterized.UnionTypesTest()
+  new parameterized.ThrowableInRoleMethodsTest()
 )

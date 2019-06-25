@@ -1,10 +1,10 @@
-package scroll.internal
+package scroll.internal.compartment.impl
 
 import java.lang.reflect.Method
 
+import scroll.internal.dispatch.DispatchQuery
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.SCROLLError
-import scroll.internal.support.DispatchQuery
 import scroll.internal.util.ReflectiveHelper
 
 import scala.reflect.ClassTag
@@ -13,7 +13,7 @@ import scala.reflect.ClassTag
   * This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
   * In contrast to the normal Compartment, in case of ambiguities all role methods will be called in sequence.
   */
-trait MultiCompartment extends ICompartment {
+trait MultiCompartment extends AbstractCompartment {
 
   implicit def either2SeqTOrException[T](either: Either[_, Seq[Either[_, T]]]): Seq[T] = either.fold(
     left => throw new RuntimeException(left.toString),

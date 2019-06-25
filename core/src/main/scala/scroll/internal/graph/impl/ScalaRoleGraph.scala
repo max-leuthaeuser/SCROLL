@@ -1,13 +1,21 @@
-package scroll.internal.graph
+package scroll.internal.graph.impl
 
 import com.google.common.graph.Graph
 import com.google.common.graph.GraphBuilder
 import com.google.common.graph.Graphs
+import com.google.common.graph.MutableGraph
+import scroll.internal.compartment.impl.AbstractCompartment
+import scroll.internal.graph.RoleGraph
 
+import scala.annotation.tailrec
 import scala.jdk.CollectionConverters._
 import scala.util.Failure
 import scala.util.Success
 import scala.util.Try
+
+object ScalaRoleGraph {
+  def copyFrom(from: ScalaRoleGraph): ScalaRoleGraph = new ScalaRoleGraph(from.root, from.checkForCycles)
+}
 
 /**
   * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
@@ -15,11 +23,10 @@ import scala.util.Try
   *
   * @param checkForCycles set to true to forbid cyclic role playing relationships
   */
-class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
+class ScalaRoleGraph(val root: MutableGraph[Object] = GraphBuilder.directed().build[Object](),
+                     val checkForCycles: Boolean = true) extends RoleGraph {
 
   protected val MERGE_MESSAGE: String = "You can only merge RoleGraphs of the same type!"
-
-  private val root = GraphBuilder.directed().build[Object]()
 
   override def addPart(other: RoleGraph): Boolean = {
     require(other.isInstanceOf[ScalaRoleGraph], MERGE_MESSAGE)
@@ -90,4 +97,19 @@ class ScalaRoleGraph(checkForCycles: Boolean = true) extends RoleGraph {
   override def allPlayers: Seq[AnyRef] = root.nodes().asScala.toSeq
 
   override def predecessors(player: AnyRef): Seq[AnyRef] = filter(Graphs.transpose(root), player)
+
+  @tailrec
+  final override def coreFor(role: AnyRef): Seq[AnyRef] = {
+    require(null != role)
+    role match {
+      case cur: AbstractCompartment#IPlayer[_, _] => coreFor(cur.wrapped)
+      case cur: AnyRef if containsPlayer(cur) =>
+        predecessors(cur) match {
+          case Nil => Seq(cur)
+          case head +: Nil => coreFor(head)
+          case r => r
+        }
+      case _ => Seq.empty[AnyRef]
+    }
+  }
 }

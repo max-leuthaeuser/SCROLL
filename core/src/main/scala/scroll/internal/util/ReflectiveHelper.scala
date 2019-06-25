@@ -13,7 +13,9 @@ import scala.reflect.classTag
   *
   * Querying methods and fields is cached.
   */
-object ReflectiveHelper extends Memoiser {
+object ReflectiveHelper {
+
+  import Memoiser._
 
   private[this] lazy val methodCache =
     buildCache[Class[_], Seq[Method]](allMethods)

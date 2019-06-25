@@ -1,6 +1,6 @@
 package scroll.internal.formal
 
-import scroll.internal.Compartment
+import scroll.internal.compartment.impl.Compartment
 import scroll.internal.util.ReflectiveHelper
 
 import scala.reflect.ClassTag
