@@ -18,7 +18,7 @@ trait CompartmentApi {
   /** Public access to role-playing specific API */
 
   /**
-    * Get [[RoleGraphProxyApi]] API entry point.
+    * Get [[scroll.internal.graph.RoleGraphProxyApi]] API entry point.
     */
   val roleGraph: RoleGraphProxyApi
 

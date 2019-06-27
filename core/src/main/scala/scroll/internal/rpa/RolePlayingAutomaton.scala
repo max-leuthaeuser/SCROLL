@@ -52,12 +52,12 @@ object RolePlayingAutomaton {
 }
 
 /**
-  * Use this trait to implement your own [[Compartment]] specific
+  * Use this trait to implement your own [[scroll.internal.compartment.impl.Compartment]] specific
   * role playing automaton. Please read the documentation for [[akka.actor.FSM]]
   * carefully, since the features from that are applicable for role playing automatons.
   *
   * Remember to call <code>run()</code> when you want to start this automaton in your
-  * [[Compartment]] instance.
+  * [[scroll.internal.compartment.impl.Compartment]] instance.
   *
   * This automaton will always start in state [[scroll.internal.rpa.RolePlayingAutomaton.Start]], so hook in there.
   *
