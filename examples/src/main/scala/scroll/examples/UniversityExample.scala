@@ -44,7 +44,8 @@ object UniversityExample {
       println("Player equals core: " + ((hans play student) == hans))
       (+hans).talk()
 
-      println((+student).name)
+      val name: String = (+student).name
+      println(name)
       println("Role core equals core: " + (+student == hans))
 
       uwe play new Professor

@@ -44,7 +44,9 @@ object ExpressionProblemExample {
       def show(): String = {
         val left: Exp = (+this).left
         val right: Exp = (+this).right
-        s"${(+left).show()} + ${(+right).show()}"
+        val ls: String = (+left).show()
+        val rs: String = (+right).show()
+        ls + " + " + rs
       }
     }
 
@@ -56,7 +58,8 @@ object ExpressionProblemExample {
     class NegShowable() {
       def show(): String = {
         val e: Exp = (+this).exp
-        s"-${(+e).show()}"
+        val es: String = (+e).show()
+        "-" + es
       }
     }
 
@@ -71,8 +74,10 @@ object ExpressionProblemExample {
         Num(11) playing new NumShowable
       ) play new AddShowable
 
-      println("Eval: " + e.eval())
-      println("Show: " + e.show())
+      val eval: Int = e.eval()
+      val show: String = e.show()
+      println("Eval: " + eval)
+      println("Show: " + show)
     }
   }
 }

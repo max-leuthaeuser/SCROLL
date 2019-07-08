@@ -36,8 +36,15 @@ object BankExample {
       def addSavingsAccount(acc: SavingsAccount): Unit = savingsAccounts += acc
 
       def listBalances(): Unit = {
-        checkingsAccounts.foreach(a => println("CheckingsAccount: " + a + " -> " + (+a).balance))
-        savingsAccounts.foreach(a => println("SavingsAccount: " + a + " -> " + (+a).balance))
+        checkingsAccounts.foreach(a => {
+          val balance: Money = (+a).balance
+          println("CheckingsAccount: " + a + " -> " + balance)
+        }
+        )
+        savingsAccounts.foreach(a => {
+          val balance: Money = (+a).balance
+          println("SavingsAccount: " + a + " -> " + balance)
+        })
       }
     }
 

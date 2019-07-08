@@ -15,7 +15,7 @@ class ExamplesTest extends AbstractSCROLLTest {
       "I am a person",
       "Player equals core: true",
       "I am a student",
-      "Right(hans)",
+      "hans",
       "Role core equals core: true",
       "I am a professor",
       "Core equals core playing a role: true",
@@ -33,18 +33,18 @@ class ExamplesTest extends AbstractSCROLLTest {
     val expected = Seq(
       """### Before transaction ###""",
       """Balance for Stan:""",
-      """CheckingsAccount: scroll.examples.BankExample\$Bank\$CheckingsAccount@.{6,8} -> Right\(10.00 USD\)""",
+      """CheckingsAccount: scroll.examples.BankExample\$Bank\$CheckingsAccount@.{6,8} -> 10.00 USD""",
       """Balance for Brian:""",
-      """SavingsAccount: scroll.examples.BankExample\$Bank\$SavingsAccount@.{6,8} -> Right\(0.00 USD\)""",
+      """SavingsAccount: scroll.examples.BankExample\$Bank\$SavingsAccount@.{6,8} -> 0.00 USD""",
       """Executing from Role.""",
       """Executing from Player.""",
       """Increasing with fee.""",
       """Transferred '10.00 USD' from 'scroll.examples.BankExample\$Transaction\$Source@.{6,8}' to 'scroll.examples.BankExample\$Transaction\$Target@.{6,8}'.""",
       """### After transaction ###""",
       """Balance for Stan:""",
-      """CheckingsAccount: scroll.examples.BankExample\$Bank\$CheckingsAccount@.{6,8} -> Right\(0.00 USD\)""",
+      """CheckingsAccount: scroll.examples.BankExample\$Bank\$CheckingsAccount@.{6,8} -> 0.00 USD""",
       """Balance for Brian:""",
-      """SavingsAccount: scroll.examples.BankExample\$Bank\$SavingsAccount@.{6,8} -> Right\(9.00 USD\)"""
+      """SavingsAccount: scroll.examples.BankExample\$Bank\$SavingsAccount@.{6,8} -> 9.00 USD"""
     )
 
     actual.lazyZip(expected).foreach((a, e) => a should fullyMatch regex e.r)
@@ -81,8 +81,8 @@ class ExamplesTest extends AbstractSCROLLTest {
     }
     val actual = streamToSeq(output)
     actual should contain theSameElementsInOrderAs Seq(
-      "Eval: Right(9)",
-      "Show: Right(Right(-Right(2)) + Right(11))"
+      "Eval: 9",
+      "Show: -2 + 11"
     )
   }
 
