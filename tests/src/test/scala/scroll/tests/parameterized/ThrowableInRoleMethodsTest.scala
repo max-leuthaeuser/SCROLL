@@ -32,7 +32,7 @@ class ThrowableInRoleMethodsTest extends AbstractParameterizedSCROLLTest {
         val core = new CoreType()
         core play new Exceptional()
         an[Error] should be thrownBy (+core).roleMethodWithError()
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -42,7 +42,7 @@ class ThrowableInRoleMethodsTest extends AbstractParameterizedSCROLLTest {
         val core = new CoreType()
         core play new Exceptional()
         an[RuntimeException] should be thrownBy (+core).roleMethodWithUncheckedException()
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -52,7 +52,7 @@ class ThrowableInRoleMethodsTest extends AbstractParameterizedSCROLLTest {
         val core = new CoreType()
         core play new Exceptional()
         an[IOException] should be thrownBy (+core).roleMethodWithCheckedException()
-      } shouldNot be(null)
+      }
     }
   }
 

@@ -21,7 +21,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         (+someCore).isPlaying[RoleB] shouldBe true
         val resB: String = (+someCore).b()
         resB shouldBe "b"
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -39,7 +39,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         (+someCore).isPlaying[RoleB] shouldBe true
         val resB: String = (+someCore).b()
         resB shouldBe "b"
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -55,7 +55,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(_) => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -69,7 +69,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someCore play roleB
         val expected = Seq(someCore, roleA, roleB)
         rolePlaying.allPlayers shouldBe expected
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -85,7 +85,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         res shouldBe 0
         (+someCoreA).isPlaying[RoleA] shouldBe false
         (+someCoreB).isPlaying[RoleA] shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -101,7 +101,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someCoreB.isPlaying[RoleA] shouldBe false
         someCoreB.isPlaying[RoleB] shouldBe false
         someCoreA.isPlaying[RoleA] shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -119,7 +119,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Left(_) => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -132,7 +132,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val expected = someRole.b("some", param = "out")
         val actual: String = (+someCoreA).b("some", param = "out")
         expected shouldBe actual
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -153,7 +153,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Left(_) => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -171,7 +171,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val actualB: Int = (+someCoreA).valueB
         expectedA shouldBe actualA
         expectedB shouldBe actualB
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -188,7 +188,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val actual2: String = (+someCoreA).valueC
         expected shouldBe actual1
         expected shouldBe actual2
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -207,7 +207,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val actual2: String = (+someCoreA).valueC
         (expected == actual1a || expected == actual1b) shouldBe true
         expected shouldBe actual2
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -235,7 +235,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         "valueC" shouldBe actual1
         "updated" shouldBe actual2
         "updated" shouldBe actual3
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -256,7 +256,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         expected2 shouldBe actual2
         expected1 shouldBe actual3
         expected2 shouldBe actual4
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -325,7 +325,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         actualByteP shouldBe expectedByte
         actualCharP shouldBe expectedChar
         actualBooleanP shouldBe expectedBoolean
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -361,7 +361,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(p) => p
         }
         player2 shouldBe someCoreA
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -379,7 +379,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           a[RuntimeException] should be thrownBy {
             someRoleC play someRoleA
           }
-        } shouldNot be(null)
+        }
       }
     }
   }
@@ -394,7 +394,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       new ACompartment(c, cc) {
         this play new ARole
         this.isPlaying[ARole] shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -428,7 +428,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         actualVal6 shouldBe expectedVal
         val expected = Seq(someRoleD, someRoleC, someRoleB, someRoleA, someCoreA)
         someRoleE.predecessors() shouldBe expected
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -458,7 +458,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         actualVal6 shouldBe expectedVal
         val expected = Seq(someCoreA)
         someRoleE.predecessors() shouldBe expected
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -488,7 +488,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         actualVal6 shouldBe expectedVal
         val expected = Seq(someCoreA)
         someRoleE.predecessors() shouldBe expected
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -504,7 +504,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         p.update(null)
         actual = p.valueC
         actual shouldBe null
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -629,7 +629,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         }
         actual = (+roleWithC).c()
         actual shouldBe "c"
-      } shouldNot be(null)
+      }
     }
   }
 

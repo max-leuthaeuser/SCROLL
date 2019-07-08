@@ -17,7 +17,7 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
         the[RuntimeException] thrownBy {
           player play roleA
         } should have message s"Role '$roleA' can not be played by '$player' due to the active role restrictions!"
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -35,7 +35,7 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
         the[RuntimeException] thrownBy {
           player play roleB
         } should have message s"Role '$roleB' can not be played by '$player' due to the active role restrictions!"
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -56,7 +56,7 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
         player drop roleA drop roleD
         roleRestrictions.removeRoleRestriction[CoreA]()
         player play roleA play roleD
-      } shouldNot be(null)
+      }
     }
   }
 

@@ -59,7 +59,7 @@ class RolePlayingAutomatonTest extends AbstractParameterizedSCROLLTest {
         (+player).isPlaying[RoleA] shouldBe true
         (+player).isPlaying[RoleB] shouldBe true
         (+player).isPlaying[RoleC] shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
 

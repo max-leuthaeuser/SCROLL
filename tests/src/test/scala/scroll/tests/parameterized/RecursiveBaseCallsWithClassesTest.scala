@@ -51,7 +51,7 @@ class RecursiveBaseCallsWithClassesTest extends AbstractParameterizedSCROLLTest 
           s"CoreType($c)::someMethod()"
         )
         actual should contain theSameElementsInOrderAs expected
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -77,7 +77,7 @@ class RecursiveBaseCallsWithClassesTest extends AbstractParameterizedSCROLLTest 
           s"CoreType($c1)::someMethod()"
         )
         actual should contain theSameElementsInOrderAs expected
-      } shouldNot be(null)
+      }
     }
   }
 

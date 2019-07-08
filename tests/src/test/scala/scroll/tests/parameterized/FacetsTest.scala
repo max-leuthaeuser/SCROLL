@@ -18,7 +18,7 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
         val player = someCore <+> Red
         player.hasFacets(Red) shouldBe true
         player.facets() shouldBe Seq(Red)
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -30,7 +30,7 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
         player.drop(Red)
         player.hasFacets(Red) shouldBe false
         player.facets() shouldBe empty
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -44,7 +44,7 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
         someCoreA transfer Red to someCoreB
         playerA.hasFacets(Red) shouldBe false
         playerB.hasFacets(Red) shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -72,7 +72,7 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
         roleQueries.all { c: CoreA => c.hasFacets(Green) } shouldBe empty
         roleQueries.all { c: CoreA => c.hasFacets(Red, Blue) } shouldBe empty
         roleQueries.all { c: CoreA => c.hasFacets(Red, Blue, Green) } shouldBe empty
-      } shouldNot be(null)
+      }
     }
   }
 

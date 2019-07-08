@@ -40,7 +40,7 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
         roleConstraints.checked {
           player play roleC play roleB
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -79,7 +79,7 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
         roleConstraints.checked {
           player drop roleB
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -118,7 +118,7 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
             player drop roleB
           }
         } should have message s"Role equivalence constraint violation: '$player' should play role '${roleB.getClass.getName}', but it does not!"
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -136,7 +136,7 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
             player play roleB
           }
         } should have message s"Role prohibition constraint violation: '$player' plays role '${roleB.getClass.getName}', but it is not allowed to do so!"
-      } shouldNot be(null)
+      }
     }
   }
 

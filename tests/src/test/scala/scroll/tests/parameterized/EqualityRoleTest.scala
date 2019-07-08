@@ -19,7 +19,7 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
         (+someRole) shouldBe player
         player shouldBe (+someRole)
         (+someRole) shouldBe someCore
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -46,7 +46,7 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
         player shouldBe b
         (+someRole) shouldBe someCore
         (+someOtherRole) shouldBe someCore
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -74,7 +74,7 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
         player shouldBe b
         (+someRole) shouldBe someCore
         (+someOtherRole) shouldBe someCore
-      } shouldNot be(null)
+      }
     }
   }
 

@@ -40,7 +40,7 @@ class MultiCompartmentTest extends AbstractParameterizedSCROLLTest {
         actual.size shouldBe 3
         expectedLists = Seq(Seq(3, 3), Seq(2, 2), Seq(1, 1))
         actualLists shouldBe expectedLists
-      } shouldNot be(null)
+      }
     }
   }
 

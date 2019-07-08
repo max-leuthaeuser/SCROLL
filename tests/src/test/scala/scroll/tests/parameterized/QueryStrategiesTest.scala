@@ -16,7 +16,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
         new CoreA play expected play alsoExpected
         val actual: Seq[RoleA] = roleQueries.all[RoleA](MatchAny())
         actual shouldBe Seq(expected, alsoExpected)
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -29,7 +29,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
         new CoreA play expected play notExpected
         val actual: Seq[RoleA] = roleQueries.all[RoleA](WithProperty("valueC", "valueC"))
         actual should contain only expected
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -42,7 +42,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
         new CoreA play expected play notExpected
         val actual: Seq[RoleA] = roleQueries.all[RoleA](WithResult("valueC", "valueC"))
         actual should contain only expected
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -59,7 +59,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
         }
         val actual: RoleA = roleQueries.one[RoleA](matcher)
         actual shouldBe role2
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -72,7 +72,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
         new CoreA play role1 play role2
         val actual: RoleA = roleQueries.one[RoleA]()
         actual shouldBe role1
-      } shouldNot be(null)
+      }
     }
   }
 

@@ -16,7 +16,7 @@ class CROITest extends AbstractParameterizedSCROLLTest {
         addRole(r)
         addCompartment(this)
         addPlays(n, this, r)
-      } shouldNot be(null)
+      }
     }
   }
 }

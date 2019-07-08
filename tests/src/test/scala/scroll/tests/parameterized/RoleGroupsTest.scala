@@ -33,7 +33,7 @@ class RoleGroupsTest extends AbstractParameterizedSCROLLTest {
             acc1 play target
           }
         } should have message s"Constraint set for inner cardinality of role group '$roleGroupName' violated!"
-      } shouldNot be(null)
+      }
     }
   }
 }

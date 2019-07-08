@@ -34,7 +34,7 @@ class RelationshipTest extends AbstractParameterizedSCROLLTest {
         val rB3 = new RoleB
         p play rB3
         rel3.right() should contain only(rB, rB2, rB3)
-      } shouldNot be(null)
+      }
     }
   }
 

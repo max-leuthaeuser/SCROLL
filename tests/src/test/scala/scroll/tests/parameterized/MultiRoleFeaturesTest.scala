@@ -55,7 +55,7 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(actual) => actual shouldBe expected2.reverse
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 
