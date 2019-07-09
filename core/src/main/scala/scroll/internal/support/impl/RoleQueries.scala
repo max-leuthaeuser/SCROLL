@@ -12,12 +12,12 @@ class RoleQueries(private[this] val roleGraph: RoleGraphProxyApi) extends RoleQu
 
   import scroll.internal.support.impl.QueryStrategies._
 
-  private[this] def safeReturn[T](seq: Seq[T], typeName: String): Either[TypeError, Seq[T]] = seq match {
-    case Nil => Left(TypeNotFound(typeName))
+  private[this] def safeReturn[T](seq: Seq[T], tpe: Class[_]): Either[TypeError, Seq[T]] = seq match {
+    case Nil => Left(TypeNotFound(tpe))
     case s => Right(s)
   }
 
-  private[this] def safeReturnHead[T](seq: Seq[T], typeName: String): Either[TypeError, T] = safeReturn(seq, typeName).fold(
+  private[this] def safeReturnHead[T](seq: Seq[T], tpe: Class[_]): Either[TypeError, T] = safeReturn(seq, tpe).fold(
     l => {
       Left(l)
     }, { case head +: _ =>
@@ -31,9 +31,9 @@ class RoleQueries(private[this] val roleGraph: RoleGraphProxyApi) extends RoleQu
     roleGraph.plays.allPlayers.collect { case p: T if matcher(p) => p }
 
   override def one[T <: AnyRef : ClassTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] =
-    safeReturnHead(all[T](matcher), classTag[T].toString)
+    safeReturnHead(all[T](matcher), classTag[T].runtimeClass)
 
   override def one[T <: AnyRef : ClassTag](matcher: T => Boolean): Either[TypeError, T] =
-    safeReturnHead(all[T](matcher), classTag[T].toString)
+    safeReturnHead(all[T](matcher), classTag[T].runtimeClass)
 
 }

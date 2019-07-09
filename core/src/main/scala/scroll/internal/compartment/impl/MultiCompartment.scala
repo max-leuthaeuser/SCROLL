@@ -29,11 +29,11 @@ trait MultiCompartment extends AbstractCompartment {
 
     def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
       applyDispatchQuery(dispatchQuery, wrapped).map { r: AnyRef =>
-        (r, ReflectiveHelper.findMethod(r, name, args))
+        (r, ReflectiveHelper.findMethod(r, name, args.toSeq))
       }.collect {
-        case (r: AnyRef, Some(m: Method)) => dispatch[E](r, m, args: _*)
+        case (r: AnyRef, Some(m: Method)) => dispatch[E](r, m, args.toSeq)
       } match {
-        case Nil => Left(RoleNotFound(wrapped.toString, name, args))
+        case Nil => Left(RoleNotFound(wrapped, name, args.toSeq))
         case l => Right(l)
       }
 
@@ -44,7 +44,7 @@ trait MultiCompartment extends AbstractCompartment {
       applyDispatchQuery(dispatchQuery, wrapped).collect {
         case r: AnyRef if ReflectiveHelper.hasMember(r, name) => ReflectiveHelper.propertyOf[E](r, name)
       } match {
-        case Nil => Left(RoleNotFound(wrapped.toString, name, Seq.empty[Any]))
+        case Nil => Left(RoleNotFound(wrapped, name, Seq.empty[Any]))
         case l => Right(l.map(Right(_)))
       }
 

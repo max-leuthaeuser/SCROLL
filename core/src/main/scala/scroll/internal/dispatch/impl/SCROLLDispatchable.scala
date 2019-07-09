@@ -17,11 +17,11 @@ import scala.util.Try
   */
 trait SCROLLDispatchable extends Dispatchable {
 
-  override def dispatch[E](on: AnyRef, m: Method, args: Any*): Either[InvocationError, E] = {
+  override def dispatch[E](on: AnyRef, m: Method, args: Seq[Any]): Either[InvocationError, E] = {
     require(null != on)
     require(null != m)
     require(null != args)
-    Try(ReflectiveHelper.resultOf[E](on, m, args.map(_.asInstanceOf[Object]))) match {
+    Try(ReflectiveHelper.resultOf[E](on, m, args)) match {
       case Success(s) => Right(s)
       case Failure(exc: InvocationTargetException) => throw exc.getTargetException
       case Failure(_) => Left(IllegalRoleInvocationDispatch(on.toString, m.getName, args))

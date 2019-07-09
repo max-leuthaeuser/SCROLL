@@ -4,45 +4,47 @@ import scroll.internal.errors.SCROLLErrors.IllegalRoleInvocationDispatch
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.TypeNotFound
 import scroll.tests.AbstractSCROLLTest
+import scroll.tests.mocks.CoreA
+import scroll.tests.mocks.RoleA
 
 class SCROLLErrorsTest extends AbstractSCROLLTest {
 
   test("TypeNotFound: String representation") {
-    val name = "TestRole"
-    val testObject = TypeNotFound(name)
-    val expected = s"Type '$name' could not be found!"
+    val tpe = new RoleA()
+    val testObject = TypeNotFound(tpe.getClass)
+    val expected = s"Type '${tpe.getClass}' could not be found!"
     testObject.toString shouldBe expected
   }
 
   test("RoleNotFound: String representation (empty args)") {
-    val coreName = "TestCore"
-    val roleName = "TestRole"
-    val testObject = RoleNotFound(coreName, roleName, Seq.empty)
-    val expected = s"No role with '$roleName' could not be found for the player '$coreName'!"
+    val tpe = new CoreA()
+    val targetName = "method"
+    val testObject = RoleNotFound(tpe, targetName, Seq.empty)
+    val expected = s"No role with '$targetName' could not be found for the player '$tpe'!"
     testObject.toString shouldBe expected
   }
   test("RoleNotFound: String representation (with some args)") {
-    val coreName = "TestCore"
-    val roleName = "TestRole"
+    val tpe = new CoreA()
+    val targetName = "method"
     val args = Seq("A", "B", "C")
-    val testObject = RoleNotFound(coreName, roleName, args)
-    val expected = s"No role with '$roleName' could not be found for the player '$coreName' with the following parameters: ('A', 'B', 'C')"
+    val testObject = RoleNotFound(tpe, targetName, args)
+    val expected = s"No role with '$targetName' could not be found for the player '$tpe' with the following parameters: ('A', 'B', 'C')"
     testObject.toString shouldBe expected
   }
 
   test("IllegalRoleInvocationDispatch: String representation (empty args)") {
+    val tpe = new RoleA()
     val targetName = "someMethod"
-    val roleName = "TestRole"
-    val testObject = IllegalRoleInvocationDispatch(roleName, targetName, Seq.empty)
-    val expected = s"'$targetName' could not be executed on role type '$roleName'!"
+    val testObject = IllegalRoleInvocationDispatch(tpe, targetName, Seq.empty)
+    val expected = s"'$targetName' could not be executed on role type '$tpe'!"
     testObject.toString shouldBe expected
   }
   test("IllegalRoleInvocationDispatch: String representation (with some args)") {
+    val tpe = new RoleA()
     val targetName = "someMethod"
-    val roleName = "TestRole"
     val args = Seq("A", "B", "C")
-    val testObject = IllegalRoleInvocationDispatch(roleName, targetName, args)
-    val expected = s"'$targetName' could not be executed on role type '$roleName' with the following parameters: ('A', 'B', 'C')"
+    val testObject = IllegalRoleInvocationDispatch(tpe, targetName, args)
+    val expected = s"'$targetName' could not be executed on role type '$tpe' with the following parameters: ('A', 'B', 'C')"
     testObject.toString shouldBe expected
   }
 

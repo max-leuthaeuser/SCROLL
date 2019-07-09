@@ -84,7 +84,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
     def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, AnyRef] =
       dispatchQuery.filter(roleGraph.plays.coreFor(this)) match {
         case elem +: _ => Right(elem)
-        case _ => Left(TypeNotFound(this.getClass.toString))
+        case _ => Left(TypeNotFound(this.getClass))
       }
 
     /**

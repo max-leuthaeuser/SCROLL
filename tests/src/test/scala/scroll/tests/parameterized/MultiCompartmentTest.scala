@@ -12,7 +12,7 @@ class MultiCompartmentTest extends AbstractParameterizedSCROLLTest {
         (+p).i() match {
           case Right(_) => fail("There should be no Right here")
           case Left(f@IllegalRoleInvocationDispatch(_, _, _)) => fail(f.toString)
-          case Left(RoleNotFound(core, _, _)) => core shouldBe p.toString
+          case Left(RoleNotFound(core, _, _)) => core shouldBe p
         }
         val rA = new RoleA()
         p play rA
