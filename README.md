@@ -2,7 +2,7 @@ SCROLL
 ======
 *SCala ROLes Language*
 
-[![Build Status](https://travis-ci.com/max-leuthaeuser/SCROLL.svg)](https://travis-ci.com/max-leuthaeuser/SCROLL) [![Codacy Badge](https://api.codacy.com/project/badge/0021c87e1b824c2f8a58b81406d5db48)](https://www.codacy.com/app/max-leuthaeuser/SCROLL) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/0021c87e1b824c2f8a58b81406d5db48)](https://www.codacy.com/app/max-leuthaeuser/SCROLL?utm_source=github.com&utm_medium=referral&utm_content=max-leuthaeuser/SCROLL&utm_campaign=Badge_Coverage)
+[![Build Status](https://travis-ci.com/max-leuthaeuser/SCROLL.svg)](https://travis-ci.com/max-leuthaeuser/SCROLL) [![Codacy Badge](https://api.codacy.com/project/badge/0021c87e1b824c2f8a58b81406d5db48)](https://www.codacy.com/app/max-leuthaeuser/SCROLL) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/0021c87e1b824c2f8a58b81406d5db48)](https://www.codacy.com/app/max-leuthaeuser/SCROLL?utm_source=github.com&utm_medium=referral&utm_content=max-leuthaeuser/SCROLL&utm_campaign=Badge_Coverage)[![Scala Steward badge](https://img.shields.io/badge/Scala_Steward-helping-brightgreen.svg?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAMAAAARSr4IAAAAVFBMVEUAAACHjojlOy5NWlrKzcYRKjGFjIbp293YycuLa3pYY2LSqql4f3pCUFTgSjNodYRmcXUsPD/NTTbjRS+2jomhgnzNc223cGvZS0HaSD0XLjbaSjElhIr+AAAAAXRSTlMAQObYZgAAAHlJREFUCNdNyosOwyAIhWHAQS1Vt7a77/3fcxxdmv0xwmckutAR1nkm4ggbyEcg/wWmlGLDAA3oL50xi6fk5ffZ3E2E3QfZDCcCN2YtbEWZt+Drc6u6rlqv7Uk0LdKqqr5rk2UCRXOk0vmQKGfc94nOJyQjouF9H/wCc9gECEYfONoAAAAASUVORK5CYII=)](https://scala-steward.org)
 
 ## Introduction ##
 
