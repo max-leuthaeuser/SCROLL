@@ -11,8 +11,8 @@ trait Dependencies {
     val scalatestVersion = "3.1.0-SNAP13"
     val chocoVersion = "4.10.0"
     val guavaVersion = "28.0-jre"
-    val emfcommonVersion = "2.15.0"
-    val emfecoreVersion = "2.15.0"
+    val emfcommonVersion = "2.16.0"
+    val emfecoreVersion = "2.16.0"
     val umlVersion = "3.1.0.v201006071150"
     // TODO: re-enable after a version for Scala 2.13.0 is available
     // val linterVersion = "0.1.17"
