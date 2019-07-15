@@ -4,7 +4,7 @@ addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.0.0-M2")
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "latest.release")
 
-addSbtPlugin("pl.project13.scala" % "sbt-jmh" % "0.2.27")
+addSbtPlugin("pl.project13.scala" % "sbt-jmh" % "0.3.7")
 
 addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "5.2.4")
 
