@@ -1,16 +1,13 @@
 package scroll.tests
 
 import org.scalatest.Suites
-import scroll.tests.other.ExamplesTest
-import scroll.tests.other.FormalCROMExampleTest
-import scroll.tests.other.FormalCROMTest
-import scroll.tests.other.SCROLLErrorsTest
 
 class SCROLLTestSuite extends Suites(
-  new ExamplesTest(),
-  new SCROLLErrorsTest(),
-  new FormalCROMExampleTest(),
-  new FormalCROMTest(),
+  new other.ExamplesTest(),
+  new other.SCROLLErrorsTest(),
+  new other.FormalCROMExampleTest(),
+  new other.FormalCROMTest(),
+  new parameterized.BuiltinsTest(),
   new parameterized.CompartmentMergeTest(),
   new parameterized.CompartmentRoleFeaturesTest(),
   new parameterized.CROITest(),

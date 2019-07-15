@@ -53,6 +53,9 @@ trait MultiCompartment extends AbstractCompartment {
         filter(ReflectiveHelper.hasMember(_, name)).
         foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
+    def hashCode()(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Int] = applyDynamic("hashCode")()(dispatchQuery)
+
+    def toString()(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[String] = applyDynamic("toString")()(dispatchQuery)
   }
 
 }

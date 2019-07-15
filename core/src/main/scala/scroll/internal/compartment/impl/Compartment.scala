@@ -62,6 +62,10 @@ trait Compartment extends AbstractCompartment {
         find(ReflectiveHelper.hasMember(_, name)).
         foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
+    def hashCode()(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Int = applyDynamic("hashCode")()(dispatchQuery)
+
+    def toString()(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): String = applyDynamic("toString")()(dispatchQuery)
+
   }
 
 }

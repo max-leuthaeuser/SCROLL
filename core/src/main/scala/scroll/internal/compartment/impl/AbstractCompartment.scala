@@ -230,6 +230,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
     }
 
     override def hashCode(): Int = wrapped.hashCode()
+
   }
 
 }
