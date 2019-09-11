@@ -10,7 +10,7 @@ addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "5.2.4")
 
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.0")
 
-addSbtPlugin("com.codacy" % "sbt-codacy-coverage" % "2.112")
+addSbtPlugin("com.codacy" % "sbt-codacy-coverage" % "3.0.1")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 
