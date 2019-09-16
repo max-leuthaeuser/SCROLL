@@ -1,6 +1,6 @@
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.7")
 
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.0.0-M2")
+addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.0.1-M3")
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.0")
 
