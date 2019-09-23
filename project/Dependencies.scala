@@ -11,7 +11,7 @@ trait Dependencies {
     val chocoVersion = "4.10.1"
     val guavaVersion = "28.1-jre"
     val emfcommonVersion = "2.16.0"
-    val emfecoreVersion = "2.18.0"
+    val emfecoreVersion = "2.19.0"
     val umlVersion = "3.1.0.v201006071150"
     val linterVersion = "0.1.17"
     val jvm = "1.8"

@@ -3,6 +3,9 @@ val linting = Linting
 
 val utf8 = java.nio.charset.StandardCharsets.UTF_8.toString
 
+// enables experimental Turbo mode with ClassLoader layering from sbt 1.3
+ThisBuild / turbo := true
+
 ThisBuild / scalaVersion := lib.v.scalaVersion
 
 lazy val noPublishSettings =
