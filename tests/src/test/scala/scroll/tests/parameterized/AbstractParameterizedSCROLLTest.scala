@@ -1,9 +1,10 @@
 package scroll.tests.parameterized
 
-import org.scalatest.prop.PropertyChecks
+import org.scalatest.prop.TableDrivenPropertyChecks
 import scroll.tests.AbstractSCROLLTest
 
-abstract class AbstractParameterizedSCROLLTest extends AbstractSCROLLTest with PropertyChecks {
+abstract class AbstractParameterizedSCROLLTest extends AbstractSCROLLTest with TableDrivenPropertyChecks {
+
 	protected val PARAMS =
 		Table(
 			("cached", "checkForCycles"),

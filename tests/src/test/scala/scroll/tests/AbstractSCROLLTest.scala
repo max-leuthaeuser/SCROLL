@@ -1,6 +1,6 @@
 package scroll.tests
 
-import org.scalatest.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.ParallelTestExecution
 import org.scalatest.funsuite.AnyFunSuite
 
