@@ -6,14 +6,13 @@ trait Dependencies {
 
   object v {
     val scalaVersion = "2.13.0"
-    val akkaVersion = "2.5.25"
-    val scalatestVersion = "3.1.0-SNAP13"
-    val chocoVersion = "4.10.1"
+    val akkaVersion = "2.6.0"
+    val scalatestVersion = "3.2.0-M1"
+    val chocoVersion = "4.10.2"
     val guavaVersion = "28.1-jre"
     val emfcommonVersion = "2.16.0"
     val emfecoreVersion = "2.19.0"
     val umlVersion = "3.1.0.v201006071150"
-    val linterVersion = "0.1.17"
     val jvm = "1.8"
   }
 
@@ -34,8 +33,10 @@ trait Dependencies {
   )
 
   val testDependencies = Seq(
-    "org.scalatest" %% "scalatest" % v.scalatestVersion % "test"
+    "org.scalatest" %% "scalatest" % v.scalatestVersion % "test",
+    "org.scalatest" %% "scalatest-core" % v.scalatestVersion % "test",
+    "org.scalatest" %% "scalatest-shouldmatchers" % v.scalatestVersion % "test"
   )
 
-  val linter = "org.psywerx.hairyfotr" % "linter_2.12" % v.linterVersion
 }
+

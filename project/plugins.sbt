@@ -17,6 +17,3 @@ addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.4.3")
 
 addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.3.1")
-
-// TODO: re-enable after a version for Scala 2.13.0 is available
-// addSbtPlugin("org.danielnixon" % "sbt-extrawarts" % "1.0.3")
