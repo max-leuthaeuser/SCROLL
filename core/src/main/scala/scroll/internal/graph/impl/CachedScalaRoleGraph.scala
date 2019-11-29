@@ -5,7 +5,7 @@ import com.google.common.graph.MutableGraph
 import scroll.internal.graph.RoleGraph
 
 object CachedScalaRoleGraph {
-  def copyFrom(from: ScalaRoleGraph): CachedScalaRoleGraph = new CachedScalaRoleGraph(from.root, from.checkForCycles)
+  def copyFrom(from: ScalaRoleGraph, checkForCycles: Boolean): CachedScalaRoleGraph = new CachedScalaRoleGraph(from.root, checkForCycles)
 }
 
 class CachedScalaRoleGraph(root: MutableGraph[Object] = GraphBuilder.directed().build[Object](),

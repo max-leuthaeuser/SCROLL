@@ -14,7 +14,7 @@ import scala.util.Success
 import scala.util.Try
 
 object ScalaRoleGraph {
-  def copyFrom(from: ScalaRoleGraph): ScalaRoleGraph = new ScalaRoleGraph(from.root, from.checkForCycles)
+  def copyFrom(from: ScalaRoleGraph, checkForCycles: Boolean): ScalaRoleGraph = new ScalaRoleGraph(from.root, checkForCycles)
 }
 
 /**
