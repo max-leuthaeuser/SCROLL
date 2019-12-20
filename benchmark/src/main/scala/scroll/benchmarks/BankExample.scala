@@ -3,7 +3,6 @@ package scroll.benchmarks
 import scroll.internal.support.DispatchQuery
 import DispatchQuery._
 import scroll.internal.Compartment
-import scroll.benchmarks.{Currency => Money}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
@@ -12,19 +11,19 @@ class BankExample {
 
   class Person(val name: String)
 
-  class Account(id: Integer, var balance: Money) {
+  class Account(id: Integer, var balance: Double) {
 
-    def increase(amount: Money): Unit = {
+    def increase(amount: Double): Unit = {
       balance = balance + amount
     }
 
-    def decrease(amount: Money): Unit = {
+    def decrease(amount: Double): Unit = {
       balance = balance - amount
     }
   }
 
   trait Transaction extends Compartment {
-    var amount: Money = _
+    var amount: Double = _
 
     var from: Source = _
     var to: Target = _
@@ -35,13 +34,13 @@ class BankExample {
     }
 
     class Source() {
-      def withdraw(amount: Money): Unit = {
+      def withdraw(amount: Double): Unit = {
         val _ = (+this).decrease(amount)
       }
     }
 
     class Target() {
-      def deposite(amount: Money): Unit = {
+      def deposite(amount: Double): Unit = {
         val _ = (+this).increase(amount)
       }
     }
@@ -76,7 +75,7 @@ class BankExample {
     class SavingsAccount() {
       private val transactionFee: Double = 0.1
 
-      def decrease(amount: Money): Unit = {
+      def decrease(amount: Double): Unit = {
         implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[SavingsAccount])
         val _ = (+this).decrease(amount + amount * transactionFee)
       }
@@ -93,7 +92,7 @@ class BankExample {
       reconfigure(cached, checkCycles)
 
       private val accounts: Seq[Account] = players.map { p =>
-        val a = new Account(p.name.hashCode, Money(100.0, "USD"))
+        val a = new Account(p.name.hashCode, 100.0)
         val roles = (0 until numRoles).map(ii => {
           val c = new Customer(s"Customer-$ii-${p.name}")
           c setSavingsAccount a
@@ -108,7 +107,7 @@ class BankExample {
         val transaction: Transaction = new Transaction {
           reconfigure(cached, checkCycles)
 
-          amount = Money(10.0, "USD")
+          amount = 10
           from = new Source()
           to = new Target()
           accounts(Random.nextInt(accounts.size)) play from
