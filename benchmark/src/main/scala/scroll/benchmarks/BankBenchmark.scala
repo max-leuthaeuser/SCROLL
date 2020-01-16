@@ -9,7 +9,7 @@ object BankBenchmark {
 
   @State(Scope.Benchmark)
   class Shared {
-    var bankExample: BankExample = new BankExample()
+    val bankExample: BankExample = new BankExample()
   }
 
   @State(Scope.Thread)

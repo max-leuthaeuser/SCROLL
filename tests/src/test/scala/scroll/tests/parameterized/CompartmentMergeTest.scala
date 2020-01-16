@@ -13,7 +13,7 @@ class CompartmentMergeTest extends AbstractParameterizedSCROLLTest {
       val compB = new CompartmentUnderTest(c, cc) {
         core play new RoleB()
       }
-      compA.union(compB)
+      compA.compartmentRelations.union(compB)
       compA.newPlayer(core).isPlaying[RoleA] shouldBe true
       compA.newPlayer(core).isPlaying[RoleB] shouldBe true
       compB.newPlayer(core).isPlaying[RoleA] shouldBe true
@@ -33,7 +33,7 @@ class CompartmentMergeTest extends AbstractParameterizedSCROLLTest {
       val compB = new CompartmentUnderTest(c, cc) {
         core play new RoleB()
       }
-      compA.combine(compB)
+      compA.compartmentRelations.combine(compB)
       compA.newPlayer(core).isPlaying[RoleA] shouldBe true
       compA.newPlayer(core).isPlaying[RoleB] shouldBe true
       compB.newPlayer(core).isPlaying[RoleA] shouldBe true
@@ -53,7 +53,7 @@ class CompartmentMergeTest extends AbstractParameterizedSCROLLTest {
       val compB = new CompartmentUnderTest(c, cc) {
         core play new RoleB()
       }
-      compA.partOf(compB)
+      compA.compartmentRelations.partOf(compB)
       compA.newPlayer(core).isPlaying[RoleA] shouldBe true
       compA.newPlayer(core).isPlaying[RoleB] shouldBe true
       compB.newPlayer(core).isPlaying[RoleA] shouldBe false
@@ -75,7 +75,7 @@ class CompartmentMergeTest extends AbstractParameterizedSCROLLTest {
       val compB = new CompartmentUnderTest(c, cc) {
         core play roleB
       }
-      compA.notPartOf(compB)
+      compA.compartmentRelations.notPartOf(compB)
       compA.newPlayer(core).roles() should contain only roleA
       compB.newPlayer(core).roles() should contain only roleB
     }

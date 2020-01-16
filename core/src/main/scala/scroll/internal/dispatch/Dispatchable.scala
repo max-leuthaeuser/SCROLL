@@ -1,4 +1,4 @@
-package scroll.internal
+package scroll.internal.dispatch
 
 import java.lang.reflect.Method
 
@@ -17,6 +17,6 @@ trait Dispatchable {
     * @tparam E the return type of method m
     * @return the resulting return value of the method invocation or an appropriate error
     */
-  def dispatch[E](on: AnyRef, m: Method, args: Any*): Either[InvocationError, E]
+  def dispatch[E](on: AnyRef, m: Method, args: Seq[Any]): Either[InvocationError, E]
 
 }

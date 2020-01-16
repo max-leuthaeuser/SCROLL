@@ -7,7 +7,6 @@ trait Dependencies {
   object v {
     val scalaVersion = "2.13.0"
     val akkaVersion = "2.6.1"
-    val shapelessVersion = "2.3.3"
     val scalatestVersion = "3.2.0-M2"
     val chocoVersion = "4.10.2"
     val guavaVersion = "28.2-jre"
@@ -20,7 +19,6 @@ trait Dependencies {
   val coreDependencies = Seq(
     "com.google.guava" % "guava" % v.guavaVersion,
     "com.typesafe.akka" %% "akka-actor" % v.akkaVersion,
-    "com.chuusai" %% "shapeless" % v.shapelessVersion,
     "org.choco-solver" % "choco-solver" % v.chocoVersion,
     "org.scala-lang" % "scala-reflect" % v.scalaVersion,
     "org.eclipse.emf" % "org.eclipse.emf.common" % v.emfcommonVersion,
@@ -41,3 +39,4 @@ trait Dependencies {
   )
 
 }
+

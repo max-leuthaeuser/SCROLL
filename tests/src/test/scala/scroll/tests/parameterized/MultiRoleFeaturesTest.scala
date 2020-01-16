@@ -1,7 +1,7 @@
 package scroll.tests.parameterized
 
-import scroll.internal.support.DispatchQuery
-import scroll.internal.support.DispatchQuery._
+import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.DispatchQuery._
 import scroll.tests.mocks.CoreA
 import scroll.tests.mocks.MultiCompartmentUnderTest
 
@@ -55,7 +55,7 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(actual) => actual shouldBe expected2.reverse
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 

@@ -1,8 +1,8 @@
 package scroll.benchmarks
 
-import scroll.internal.support.DispatchQuery
-import DispatchQuery._
-import scroll.internal.Compartment
+import scroll.internal.compartment.impl.Compartment
+import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.DispatchQuery.Bypassing
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
@@ -89,7 +89,7 @@ class BankExample {
     val players = (0 until numPlayer).map(i => new Person("Name-" + i))
 
     bank = new Bank {
-      reconfigure(cached, checkCycles)
+      roleGraph.reconfigure(cached, checkCycles)
 
       private val accounts: Seq[Account] = players.map { p =>
         val a = new Account(p.name.hashCode, 100.0)
@@ -105,7 +105,7 @@ class BankExample {
 
       (0 until numTransactions).foreach { _ =>
         val transaction: Transaction = new Transaction {
-          reconfigure(cached, checkCycles)
+          roleGraph.reconfigure(cached, checkCycles)
 
           amount = 10
           from = new Source()
@@ -116,7 +116,7 @@ class BankExample {
         val mt = new MoneyTransfer()
         transaction play mt
         moneyTransfers.append(mt)
-        this combine transaction
+        compartmentRelations.combine(transaction)
       }
     }
     this

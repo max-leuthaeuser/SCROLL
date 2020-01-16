@@ -1,10 +1,11 @@
-package scroll.internal
+package scroll.internal.compartment.impl
 
 import java.lang.reflect.Method
 
+import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.SCROLLDynamic
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.SCROLLError
-import scroll.internal.support.DispatchQuery
 import scroll.internal.util.ReflectiveHelper
 
 import scala.reflect.ClassTag
@@ -32,7 +33,7 @@ import scala.reflect.ClassTag
   * }
   * }}}
   */
-trait Compartment extends ICompartment {
+trait Compartment extends AbstractCompartment {
 
   override def newPlayer[W <: AnyRef : ClassTag](obj: W): Player[W] = {
     require(null != obj)
@@ -46,20 +47,24 @@ trait Compartment extends ICompartment {
 
     override def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
       applyDispatchQuery(dispatchQuery, wrapped).view.map { r: AnyRef =>
-        (r, ReflectiveHelper.findMethod(r, name, args))
+        (r, ReflectiveHelper.findMethod(r, name, args.toSeq))
       }.collectFirst {
-        case (r: AnyRef, Some(m: Method)) => dispatch[E](r, m, args: _*)
-      }.getOrElse(Left(RoleNotFound(wrapped.toString, name, args)))
+        case (r: AnyRef, Some(m: Method)) => dispatch[E](r, m, args.toSeq)
+      }.getOrElse(Left(RoleNotFound(wrapped, name, args.toSeq)))
 
     override def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
       applyDispatchQuery(dispatchQuery, wrapped).view.collectFirst {
         case r: AnyRef if ReflectiveHelper.hasMember(r, name) => Right(ReflectiveHelper.propertyOf[E](r, name))
-      }.getOrElse(Left(RoleNotFound(wrapped.toString, name, Seq.empty[Any])))
+      }.getOrElse(Left(RoleNotFound(wrapped, name, Seq.empty[Any])))
 
     override def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit =
       applyDispatchQuery(dispatchQuery, wrapped).view.
         find(ReflectiveHelper.hasMember(_, name)).
         foreach(ReflectiveHelper.setPropertyOf(_, name, value))
+
+    def hashCode()(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Int = applyDynamic("hashCode")()(dispatchQuery)
+
+    def toString()(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): String = applyDynamic("toString")()(dispatchQuery)
 
   }
 

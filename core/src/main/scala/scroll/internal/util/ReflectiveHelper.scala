@@ -13,7 +13,9 @@ import scala.reflect.classTag
   *
   * Querying methods and fields is cached.
   */
-object ReflectiveHelper extends Memoiser {
+object ReflectiveHelper {
+
+  import Memoiser._
 
   private[this] lazy val methodCache =
     buildCache[Class[_], Seq[Method]](allMethods)
@@ -154,8 +156,8 @@ object ReflectiveHelper extends Memoiser {
     methodMatchCache.get((on.getClass, name, args))
 
   private[this] def cachedHasMember(on: Class[_], name: String): java.lang.Boolean = {
-    val fields = fieldCache.get(on)
-    val methods = methodCache.get(on)
+    lazy val fields = fieldCache.get(on)
+    lazy val methods = methodCache.get(on)
     fields.exists(_.getName == name) || methods.exists(_.getName == name)
   }
 
@@ -198,7 +200,7 @@ object ReflectiveHelper extends Memoiser {
     * @tparam T the return type of the function
     * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
     */
-  def resultOf[T](on: AnyRef, m: Method, args: Seq[Object]): T =
+  def resultOf[T](on: AnyRef, m: Method, args: Seq[Any]): T =
     m.invoke(on, args: _*).asInstanceOf[T]
 
   /**

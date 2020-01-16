@@ -1,10 +1,10 @@
-package scroll.internal
+package scroll.internal.compartment.impl
 
 import java.lang.reflect.Method
 
+import scroll.internal.dispatch.DispatchQuery
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.SCROLLError
-import scroll.internal.support.DispatchQuery
 import scroll.internal.util.ReflectiveHelper
 
 import scala.reflect.ClassTag
@@ -13,7 +13,7 @@ import scala.reflect.ClassTag
   * This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
   * In contrast to the normal Compartment, in case of ambiguities all role methods will be called in sequence.
   */
-trait MultiCompartment extends ICompartment {
+trait MultiCompartment extends AbstractCompartment {
 
   implicit def either2SeqTOrException[T](either: Either[_, Seq[Either[_, T]]]): Seq[T] = either.fold(
     left => throw new RuntimeException(left.toString),
@@ -29,11 +29,11 @@ trait MultiCompartment extends ICompartment {
 
     def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
       applyDispatchQuery(dispatchQuery, wrapped).map { r: AnyRef =>
-        (r, ReflectiveHelper.findMethod(r, name, args))
+        (r, ReflectiveHelper.findMethod(r, name, args.toSeq))
       }.collect {
-        case (r: AnyRef, Some(m: Method)) => dispatch[E](r, m, args: _*)
+        case (r: AnyRef, Some(m: Method)) => dispatch[E](r, m, args.toSeq)
       } match {
-        case Nil => Left(RoleNotFound(wrapped.toString, name, args))
+        case Nil => Left(RoleNotFound(wrapped, name, args.toSeq))
         case l => Right(l)
       }
 
@@ -44,7 +44,7 @@ trait MultiCompartment extends ICompartment {
       applyDispatchQuery(dispatchQuery, wrapped).collect {
         case r: AnyRef if ReflectiveHelper.hasMember(r, name) => ReflectiveHelper.propertyOf[E](r, name)
       } match {
-        case Nil => Left(RoleNotFound(wrapped.toString, name, Seq.empty[Any]))
+        case Nil => Left(RoleNotFound(wrapped, name, Seq.empty[Any]))
         case l => Right(l.map(Right(_)))
       }
 
@@ -53,6 +53,9 @@ trait MultiCompartment extends ICompartment {
         filter(ReflectiveHelper.hasMember(_, name)).
         foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
+    def hashCode()(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Int] = applyDynamic("hashCode")()(dispatchQuery)
+
+    def toString()(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[String] = applyDynamic("toString")()(dispatchQuery)
   }
 
 }

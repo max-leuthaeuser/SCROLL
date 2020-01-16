@@ -1,30 +1,26 @@
-package scroll.internal.support
+package scroll.internal.support.impl
 
 import com.google.common.graph.GraphBuilder
 import com.google.common.graph.Graphs
 import com.google.common.graph.MutableGraph
-import scroll.internal.ICompartment
+import scroll.internal.graph.RoleGraphProxyApi
+import scroll.internal.support.RoleConstraintsApi
 import scroll.internal.util.ReflectiveHelper
 
 import scala.jdk.CollectionConverters._
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 
-/**
-  * Allows to add and check role constraints (Riehle constraints) to a compartment instance.
-  */
-trait RoleConstraints {
-  self: ICompartment =>
-
-  protected val roleImplications: MutableGraph[String] = GraphBuilder.directed().build[String]()
-  protected val roleEquivalents: MutableGraph[String] = GraphBuilder.directed().build[String]()
-  protected val roleProhibitions: MutableGraph[String] = GraphBuilder.directed().build[String]()
+class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends RoleConstraintsApi {
+  private[this] lazy val roleImplications: MutableGraph[String] = GraphBuilder.directed().build[String]()
+  private[this] lazy val roleEquivalents: MutableGraph[String] = GraphBuilder.directed().build[String]()
+  private[this] lazy val roleProhibitions: MutableGraph[String] = GraphBuilder.directed().build[String]()
 
   private[this] def checkImplications(player: AnyRef, role: AnyRef): Unit = {
     val list = roleImplications.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
     if (list.nonEmpty) {
       val allImplicitRoles = list.flatMap(Graphs.reachableNodes(roleImplications, _).asScala)
-      val allRoles = plays.roles(player)
+      val allRoles = roleGraph.plays.roles(player)
       allImplicitRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
         throw new RuntimeException(s"Role implication constraint violation: '$player' should play role '$r', but it does not!")
       })
@@ -35,7 +31,7 @@ trait RoleConstraints {
     val list = roleEquivalents.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
     if (list.nonEmpty) {
       val allEquivalentRoles = list.flatMap(Graphs.reachableNodes(roleEquivalents, _).asScala)
-      val allRoles = plays.roles(player)
+      val allRoles = roleGraph.plays.roles(player)
       allEquivalentRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
         throw new RuntimeException(s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!")
       })
@@ -46,7 +42,7 @@ trait RoleConstraints {
     val list = roleProhibitions.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
     if (list.nonEmpty) {
       val allProhibitedRoles = list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
-      val allRoles = plays.roles(player)
+      val allRoles = roleGraph.plays.roles(player)
       val rs = if (allProhibitedRoles.size == allRoles.size) {
         Set.empty[String]
       } else {
@@ -58,58 +54,27 @@ trait RoleConstraints {
     }
   }
 
-  /**
-    * Adds an role implication constraint between the given role types.
-    * Interpretation: if a core object plays an instance of role type A
-    * it also has to play an instance of role type B.
-    *
-    * @tparam A type of role A
-    * @tparam B type of role B that should be played implicitly if A is played
-    */
-  def RoleImplication[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
+  override def addRoleImplication[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
     val rA = classTag[A].toString
     val rB = classTag[B].toString
     val _ = roleImplications.putEdge(rA, rB)
   }
 
-  /**
-    * Adds an role equivalent constraint between the given role types.
-    * Interpretation: if a core object plays an instance of role type A
-    * it also has to play an instance of role type B and visa versa.
-    *
-    * @tparam A type of role A that should be played implicitly if B is played
-    * @tparam B type of role B that should be played implicitly if A is played
-    */
-  def RoleEquivalence[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
+  override def addRoleEquivalence[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
     val rA = classTag[A].toString
     val rB = classTag[B].toString
     val _ = (roleEquivalents.putEdge(rA, rB), roleEquivalents.putEdge(rB, rA))
   }
 
-  /**
-    * Adds an role prohibition constraint between the given role types.
-    * Interpretation: if a core object plays an instance of role type A
-    * it is not allowed to play B as well.
-    *
-    * @tparam A type of role A
-    * @tparam B type of role B that is not allowed to be played if A is played already
-    */
-  def RoleProhibition[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
+  override def addRoleProhibition[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
     val rA = classTag[A].toString
     val rB = classTag[B].toString
     val _ = roleProhibitions.putEdge(rA, rB)
   }
 
-  /**
-    * Wrapping function that checks all available role constraints for
-    * all core objects and its roles after the given function was executed.
-    * Throws a RuntimeException if a role constraint is violated!
-    *
-    * @param func the function to execute and check role constraints afterwards
-    */
-  def RoleConstraintsChecked(func: => Unit): Unit = {
+  override def checked(func: => Unit): Unit = {
     func
-    plays.allPlayers.foreach(p => plays.roles(p).foreach(r => validateConstraints(p, r)))
+    roleGraph.plays.allPlayers.foreach(p => roleGraph.plays.roles(p).foreach(r => validateConstraints(p, r)))
   }
 
   /**

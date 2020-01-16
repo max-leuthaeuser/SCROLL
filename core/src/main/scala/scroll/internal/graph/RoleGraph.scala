@@ -1,7 +1,7 @@
 package scroll.internal.graph
 
 /**
-  * Trait defining an generic interface for all kind of role graphs.
+  * API defining an generic interface for all kind of role graphs.
   */
 trait RoleGraph {
   /**
@@ -81,4 +81,6 @@ trait RoleGraph {
     * @return a list of all predecessors of the given player
     */
   def predecessors(player: AnyRef): Seq[AnyRef]
+
+  def coreFor(role: AnyRef): Seq[AnyRef]
 }

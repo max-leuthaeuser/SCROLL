@@ -4,7 +4,7 @@ import scroll.examples.RobotExample.ActorView.DriveableRole
 import scroll.examples.RobotExample.BehavioralView.ServiceRole
 import scroll.examples.RobotExample.NavigationView.NavigationRole
 import scroll.examples.RobotExample.SensorView.ObservingEnvironmentRole
-import scroll.internal.Compartment
+import scroll.internal.compartment.impl.Compartment
 
 object RobotExample {
 
@@ -51,7 +51,7 @@ object RobotExample {
   def main(args: Array[String]): Unit = {
     val _ = new Compartment {
       val myRobot = Robot("Pete") play ServiceRole() play NavigationRole() play ObservingEnvironmentRole() play DriveableRole()
-      BehavioralView partOf this
+      BehavioralView.compartmentRelations.partOf(this)
       myRobot.move()
     }
   }

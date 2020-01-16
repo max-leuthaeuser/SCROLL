@@ -1,8 +1,8 @@
 package scroll.tests.parameterized
 
+import scroll.internal.dispatch.DispatchQuery
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
-import scroll.internal.support.DispatchQuery
-import scroll.internal.support.DispatchQuery._
+import scroll.internal.dispatch.DispatchQuery._
 import scroll.tests.mocks._
 
 class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
@@ -25,7 +25,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -43,7 +43,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         }
         (+someCoreA).isPlaying[RoleA] shouldBe false
         (+someCoreB).isPlaying[RoleA] shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -59,7 +59,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someCoreB.isPlaying[RoleA] shouldBe false
         someCoreB.isPlaying[RoleB] shouldBe false
         someCoreA.isPlaying[RoleA] shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -77,7 +77,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Left(_) => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -92,7 +92,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected))
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -116,7 +116,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Left(_) => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -155,7 +155,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedB), Right(expectedB))
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -174,7 +174,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected))
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -195,7 +195,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected), Right(expected))
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -225,7 +225,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(returnValue) => returnValue shouldBe Seq(Right("updated"))
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -250,7 +250,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected2))
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -335,7 +335,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedBoolean))
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -375,7 +375,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(p) => p
         }
         player2 shouldBe someCoreA
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -393,7 +393,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           a[RuntimeException] should be thrownBy {
             someRoleC play someRoleA
           }
-        } shouldNot be(null)
+        }
       }
     }
   }
@@ -408,7 +408,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       new ACompartment {
         this play new ARole
         this.isPlaying[ARole] shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -450,7 +450,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedVal))
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -470,7 +470,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(returnValue) => returnValue shouldBe Seq(Right(null))
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -652,7 +652,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(returnValue) => returnValue shouldBe Seq(Right("c"))
           case Left(error) => fail(error.toString)
         }
-      } shouldNot be(null)
+      }
     }
   }
 

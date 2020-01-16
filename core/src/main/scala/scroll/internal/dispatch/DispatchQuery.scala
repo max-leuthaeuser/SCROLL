@@ -1,13 +1,7 @@
-package scroll.internal.support
-
-import scroll.internal.support.DispatchQuery.Bypassing
-import scroll.internal.support.DispatchQuery.From
-import scroll.internal.support.DispatchQuery.Through
-import scroll.internal.support.DispatchQuery.To
-import scroll.internal.support.DispatchQuery.identity
+package scroll.internal.dispatch
 
 /**
-  * Companion object for [[scroll.internal.support.DispatchQuery]] providing
+  * Companion object for [[DispatchQuery]] providing
   * some static dispatch functions and a fluent dispatch query creation API.
   */
 object DispatchQuery {
@@ -127,6 +121,8 @@ object DispatchQuery {
 
 }
 
+import DispatchQuery._
+
 /**
   * Composed dispatch query, i.e., applying the composition of all dispatch queries the given set of edges.
   * All provided queries must be side-effect free!
@@ -144,6 +140,7 @@ class DispatchQuery(
                      private[this] val empty: Boolean = false,
                      private[this] var _sortedWith: Option[(AnyRef, AnyRef) => Boolean] = Option.empty
                    ) {
+
   def isEmpty: Boolean = empty
 
   /**

@@ -15,7 +15,7 @@ class ExamplesTest extends AbstractSCROLLTest {
       "I am a person",
       "Player equals core: true",
       "I am a student",
-      "Right(hans)",
+      "hans",
       "Role core equals core: true",
       "I am a professor",
       "Core equals core playing a role: true",
@@ -81,8 +81,8 @@ class ExamplesTest extends AbstractSCROLLTest {
     }
     val actual = streamToSeq(output)
     actual should contain theSameElementsInOrderAs Seq(
-      "Eval: Right(9)",
-      "Show: Right(Right(-Right(2)) + Right(11))"
+      "Eval: 9",
+      "Show: -2 + 11"
     )
   }
 

@@ -1,7 +1,7 @@
 package scroll.tests.parameterized
 
-import scroll.internal.support.DispatchQuery
-import scroll.internal.support.DispatchQuery._
+import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.DispatchQuery._
 import scroll.tests.mocks.CompartmentUnderTest
 import scroll.tests.mocks.CoreA
 
@@ -46,7 +46,7 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
         }
         val r4: String = (+someCore).method()
         r4 shouldBe "B"
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -79,7 +79,7 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
         someCore play roleB
         val r1: String = (+someCore).method()
         r1 shouldBe "Core"
-      } shouldNot be(null)
+      }
     }
   }
 

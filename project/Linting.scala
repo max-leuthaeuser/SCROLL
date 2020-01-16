@@ -12,6 +12,7 @@ trait Linting {
   val lib = Dependencies
 
   val scalastyleConfiguration = Seq(
+    scalastyleConfig := file("project/scalastyle_config.xml"),
     scalastyleFailOnError := true,
     test in Test := test.in(Test)
       .dependsOn(scalastyle.in(Test).toTask(""))

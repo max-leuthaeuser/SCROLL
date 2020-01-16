@@ -1,6 +1,6 @@
 package scroll.tests.parameterized
 
-import scroll.internal.support.DispatchQuery._
+import scroll.internal.dispatch.DispatchQuery._
 import scroll.tests.mocks.CompartmentUnderTest
 
 class RecursiveBaseCallsWithClassesTest extends AbstractParameterizedSCROLLTest {
@@ -51,7 +51,7 @@ class RecursiveBaseCallsWithClassesTest extends AbstractParameterizedSCROLLTest 
           s"CoreType($c)::someMethod()"
         )
         actual should contain theSameElementsInOrderAs expected
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -77,7 +77,7 @@ class RecursiveBaseCallsWithClassesTest extends AbstractParameterizedSCROLLTest 
           s"CoreType($c1)::someMethod()"
         )
         actual should contain theSameElementsInOrderAs expected
-      } shouldNot be(null)
+      }
     }
   }
 

@@ -19,7 +19,7 @@ class DynamicExtensionsTest extends AbstractParameterizedSCROLLTest {
         (+someCore).hasExtension[RoleB] shouldBe true
         val resB: String = (+someCore).b()
         resB shouldBe "b"
-      } shouldNot be(null)
+      }
     }
   }
 

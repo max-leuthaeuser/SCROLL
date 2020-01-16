@@ -10,14 +10,14 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
       new CompartmentUnderTest(c, cc) {
         val roleA = new RoleA()
         val roleD = new RoleD()
-        AddRoleRestriction[CoreA, RoleA]
+        roleRestrictions.addRoleRestriction[CoreA, RoleA]()
         player play roleA
         player drop roleA
-        ReplaceRoleRestriction[CoreA, RoleD]
-        the [RuntimeException] thrownBy {
+        roleRestrictions.replaceRoleRestriction[CoreA, RoleD]()
+        the[RuntimeException] thrownBy {
           player play roleA
         } should have message s"Role '$roleA' can not be played by '$player' due to the active role restrictions!"
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -28,14 +28,14 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
         val roleA = new RoleA()
         val roleB = new RoleB()
         val roleD = new RoleD()
-        AddRoleRestriction[CoreA, RoleA]
-        AddRoleRestriction[CoreA, RoleD]
+        roleRestrictions.addRoleRestriction[CoreA, RoleA]()
+        roleRestrictions.addRoleRestriction[CoreA, RoleD]()
         player play roleA
         player play roleD
-        the [RuntimeException] thrownBy {
+        the[RuntimeException] thrownBy {
           player play roleB
         } should have message s"Role '$roleB' can not be played by '$player' due to the active role restrictions!"
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -45,18 +45,18 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
       new CompartmentUnderTest(c, cc) {
         val roleA = new RoleA()
         val roleD = new RoleD()
-        AddRoleRestriction[CoreA, RoleA]
+        roleRestrictions.addRoleRestriction[CoreA, RoleA]()
         player play roleA
-        RemoveRoleRestriction[CoreA]
+        roleRestrictions.removeRoleRestriction[CoreA]()
         player play roleD
         player drop roleA drop roleD
-        AddRoleRestriction[CoreA, RoleA]
-        AddRoleRestriction[CoreA, RoleD]
+        roleRestrictions.addRoleRestriction[CoreA, RoleA]()
+        roleRestrictions.addRoleRestriction[CoreA, RoleD]()
         player play roleA play roleD
         player drop roleA drop roleD
-        RemoveRoleRestriction[CoreA]
+        roleRestrictions.removeRoleRestriction[CoreA]()
         player play roleA play roleD
-      } shouldNot be(null)
+      }
     }
   }
 

@@ -1,8 +1,8 @@
 package scroll.examples
 
-import scroll.internal.support.DispatchQuery.Bypassing
-import scroll.internal.Compartment
-import scroll.internal.support.DispatchQuery
+import scroll.internal.compartment.impl.Compartment
+import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.DispatchQuery.Bypassing
 import scroll.internal.util.Many._
 
 import scala.collection.mutable
@@ -24,7 +24,7 @@ object BankExample {
 
   class Bank extends Compartment {
 
-    RoleGroup("Accounts").containing[CheckingsAccount, SavingsAccount](1, 1)(0, *)
+    roleGroups.create("Accounts").containing[CheckingsAccount, SavingsAccount](1, 1)(0, *)
 
     class Customer() {
       private val checkingsAccounts = mutable.ArrayBuffer[CheckingsAccount]()
@@ -80,14 +80,14 @@ object BankExample {
 
   class Transaction(val amount: Double) extends Compartment {
 
-    RoleGroup("Transaction").containing[Source, Target](1, 1)(2, 2)
+    roleGroups.create("Transaction").containing[Source, Target](1, 1)(2, 2)
 
-    private val transferRel = Relationship("transfer").from[Source](1).to[Target](1)
+    private val transferRel = roleRelationships.create("transfer").from[Source](1).to[Target](1)
 
     def execute(): Unit = {
       println("Executing from Player.")
-      one[Source]().withDraw(amount)
-      one[Target]().deposit(amount)
+      roleQueries.one[Source]().withDraw(amount)
+      roleQueries.one[Target]().deposit(amount)
       val from = transferRel.left().head
       val to = transferRel.right().head
       println(s"Transferred '$amount' from '$from' to '$to'.")
@@ -120,7 +120,7 @@ object BankExample {
       val ca = new CheckingsAccount()
       val sa = new SavingsAccount()
 
-      RoleGroupsChecked {
+      roleGroups.checked {
         accForStan play ca
         accForBrian play sa
       }
@@ -137,13 +137,13 @@ object BankExample {
       (+brian).listBalances()
 
       private val transaction = new Transaction(10) {
-        RoleGroupsChecked {
+        roleGroups.checked {
           accForStan play new Source()
           accForBrian play new Target()
         }
       }
 
-      transaction partOf this
+      transaction.compartmentRelations.partOf(this)
 
       (transaction play new TransactionRole()).execute()
 

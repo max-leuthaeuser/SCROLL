@@ -1,4 +1,4 @@
-package scroll.internal.support
+package scroll.internal.support.impl
 
 import scroll.internal.util.ReflectiveHelper
 
@@ -6,13 +6,13 @@ import scroll.internal.util.ReflectiveHelper
   * Allows to write queries looking for the content of an attribute of the certain role playing
   * object or the return value of one of its functions.
   */
-trait QueryStrategies {
+object QueryStrategies {
 
   abstract class RoleQueryStrategy {
     def matches(on: AnyRef): Boolean
   }
 
-  case class MatchAny() extends RoleQueryStrategy {
+  final case class MatchAny() extends RoleQueryStrategy {
     override def matches(on: AnyRef): Boolean = true
   }
 
@@ -23,7 +23,7 @@ trait QueryStrategies {
     * @param value the value of the attribute that is queried
     * @tparam T its type
     */
-  case class WithProperty[T](name: String, value: T) extends RoleQueryStrategy {
+  final case class WithProperty[T](name: String, value: T) extends RoleQueryStrategy {
     override def matches(on: AnyRef): Boolean = ReflectiveHelper.propertyOf[T](on, name) == value
   }
 
@@ -34,7 +34,7 @@ trait QueryStrategies {
     * @param result the return value of the function that is queried
     * @tparam T its type
     */
-  case class WithResult[T](name: String, result: T) extends RoleQueryStrategy {
+  final case class WithResult[T](name: String, result: T) extends RoleQueryStrategy {
     override def matches(on: AnyRef): Boolean = ReflectiveHelper.resultOf[T](on, name) == result
   }
 
