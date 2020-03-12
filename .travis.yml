@@ -34,3 +34,4 @@ after_success:
   - sbt coverageReport
   - sbt coverageAggregate
   - sbt codacyCoverage
+  - bash <(curl -s https://codecov.io/bash)
