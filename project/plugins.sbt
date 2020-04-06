@@ -16,4 +16,4 @@ addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 
 addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.4.5")
 
-addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.3.4")
+addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.3.5")
