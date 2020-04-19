@@ -1,4 +1,4 @@
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.8.1")
+addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.2")
 
 addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.0.1")
 
@@ -14,6 +14,6 @@ addSbtPlugin("com.codacy" % "sbt-codacy-coverage" % "3.0.3")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 
-addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.4.5")
+addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.4.7")
 
-addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.3.4")
+addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.3.6")
