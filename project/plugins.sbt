@@ -14,6 +14,6 @@ addSbtPlugin("com.codacy" % "sbt-codacy-coverage" % "3.0.3")
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 
-addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.4.8")
+addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.4.10")
 
 addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.3.7")
