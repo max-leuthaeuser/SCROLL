@@ -93,15 +93,7 @@ lazy val core = project.
       "-Ywarn-unused:privates"             // Warn if a private member is unused.
     ),
     organization := "com.github.max-leuthaeuser",
-    publishTo := {
-      val nexus = "https://oss.sonatype.org/"
-      if (isSnapshot.value) {
-        Option("snapshots" at nexus + "content/repositories/snapshots")
-      }
-      else {
-        Option("releases" at nexus + "service/local/staging/deploy/maven2")
-      }
-    },
+    publishTo := sonatypePublishToBundle.value,
     publishMavenStyle := true,
     publishArtifact in Test := false,
     pomIncludeRepository := { _ => false },
