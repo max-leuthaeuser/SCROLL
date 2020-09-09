@@ -25,7 +25,7 @@ object ExpressionProblemExample {
   trait M2 extends M1 {
 
     case class Neg(exp: Exp) extends Exp {
-      override def eval(): Int = -exp.eval
+      override def eval(): Int = -exp.eval()
     }
 
   }

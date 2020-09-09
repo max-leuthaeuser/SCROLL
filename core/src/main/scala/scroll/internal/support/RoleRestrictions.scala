@@ -24,7 +24,7 @@ trait RoleRestrictions {
     * @tparam A the player type
     * @tparam B the role type
     */
-  def AddRoleRestriction[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
+  def AddRoleRestriction[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag]: Unit = {
     addToMap(restrictions, (classTag[A].toString, classTag[B].runtimeClass))
   }
 
@@ -35,7 +35,7 @@ trait RoleRestrictions {
     * @tparam A the player type
     * @tparam B the role type
     */
-  def ReplaceRoleRestriction[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
+  def ReplaceRoleRestriction[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag]: Unit = {
     restrictions(classTag[A].toString) = List(classTag[B].runtimeClass)
   }
 
@@ -44,7 +44,7 @@ trait RoleRestrictions {
     *
     * @tparam A the player type
     */
-  def RemoveRoleRestriction[A <: AnyRef : ClassTag](): Unit = {
+  def RemoveRoleRestriction[A <: AnyRef : ClassTag]: Unit = {
     val _ = restrictions.remove(classTag[A].toString)
   }
 
