@@ -3,6 +3,8 @@ val linting = Linting
 
 val utf8 = java.nio.charset.StandardCharsets.UTF_8.toString
 
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
 // enables experimental Turbo mode with ClassLoader layering from sbt 1.3
 ThisBuild / turbo := true
 
@@ -19,7 +21,7 @@ lazy val root = (project in file(".")).
   aggregate(core, tests, examples)
 
 lazy val commonSettings = Seq(
-  version := "2.0",
+  version := "2.1",
   mainClass := None,
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
@@ -80,7 +82,6 @@ lazy val core = project.
       "-Xlint:type-parameter-shadow",      // A local type parameter shadows a type already in scope.
       "-Ywarn-dead-code",                  // Warn when dead code is identified.
       "-Ywarn-extra-implicit",             // Warn when more than one implicit parameter section is defined.
-      "-Xlint:nullary-override",           // Warn when non-nullary def f() overrides nullary def f.
       "-Xlint:nullary-unit",               // Warn when nullary methods return Unit.
       "-Ywarn-numeric-widen",              // Warn when numerics are widened.
       "-Ywarn-value-discard",              // Warn when non-Unit expression results are unused.

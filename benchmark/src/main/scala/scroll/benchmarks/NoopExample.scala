@@ -27,15 +27,15 @@ class NoopExample(cached: Boolean) {
       implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[NoopRole])
 
       def noArgs(): AnyRef = {
-        +this noArgs()
+        (+this).noArgs()
       }
 
       def referenceArgAndReturn(o: AnyRef): AnyRef = {
-        +this referenceArgAndReturn o
+        (+this).referenceArgAndReturn o
       }
 
       def primitiveArgsAndReturn(x: Int, y: Int): Int = {
-        +this primitiveArgsAndReturn(x, y)
+        (+this).primitiveArgsAndReturn(x, y)
       }
     }
 

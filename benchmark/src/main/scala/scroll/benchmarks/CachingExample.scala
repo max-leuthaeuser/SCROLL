@@ -15,7 +15,7 @@ class CachingExample {
   class SomeCompartment(val isCached: Boolean) extends Compartment {
     reconfigure(cached = isCached, checkForCycles = false)
 
-    def run(): Int = +core doSomething()
+    def run(): Int = (+core).doSomething()
 
   }
 
