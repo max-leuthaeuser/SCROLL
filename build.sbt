@@ -22,7 +22,6 @@ lazy val root = (project in file(".")).
 
 lazy val commonSettings = Seq(
   version := "2.1",
-  mainClass := None,
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
     "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
@@ -43,15 +42,10 @@ lazy val commonSettings = Seq(
   coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*;scroll\\.examples\\.currency",
   updateOptions := updateOptions.value.withCachedResolution(true),
   historyPath := Option(target.in(LocalRootProject).value / ".history"),
-  cleanKeepFiles := cleanKeepFiles.value filterNot { file =>
-    file.getPath.endsWith(".history")
-  },
   cancelable in Global := true,
   logLevel in Global := {
     if (insideCI.value) Level.Error else Level.Info
   },
-  showSuccess := true,
-  showTiming := true,
   initialize ~= { _ =>
     val ansi = System.getProperty("sbt.log.noformat", "false") != "true"
     if (ansi) System.setProperty("scala.color", "true")
@@ -62,6 +56,7 @@ lazy val core = project.
   settings(
     commonSettings,
     linting.staticAnalysis,
+    mainClass in (Compile, run) := None,
     name := "SCROLL",
     scalacOptions ++= Seq(
       "-explaintypes",                     // Explain type errors in more detail.

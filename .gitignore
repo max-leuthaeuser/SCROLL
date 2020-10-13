@@ -1,4 +1,5 @@
 .DS_Store
+.bsp/
 .idea/
 project/
 target/
