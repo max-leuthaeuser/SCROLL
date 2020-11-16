@@ -21,7 +21,7 @@ lazy val root = (project in file(".")).
   aggregate(core, tests, examples)
 
 lazy val commonSettings = Seq(
-  version := "2.1",
+  version := "2.2",
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
     "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
