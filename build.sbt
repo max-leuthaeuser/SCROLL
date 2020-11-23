@@ -39,7 +39,7 @@ lazy val commonSettings = Seq(
     "-language:implicitConversions",      // Allow definition of implicit functions called views.
     "-unchecked",                         // Enable additional warnings where generated code depends on assumptions.
     "-target:jvm-" + lib.v.jvm),
-  coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*;scroll\\.examples\\.currency",
+  coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*",
   updateOptions := updateOptions.value.withCachedResolution(true),
   historyPath := Option(target.in(LocalRootProject).value / ".history"),
   cancelable in Global := true,
