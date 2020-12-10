@@ -13,3 +13,4 @@ source_gen*
 .settings/
 /bin/
 .bloop/
+.bsp/sbt.json
