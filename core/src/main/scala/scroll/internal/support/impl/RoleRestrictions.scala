@@ -13,7 +13,7 @@ class RoleRestrictions() extends RoleRestrictionsApi {
   private[this] def addToMap(m: mutable.Map[String, List[Class[_]]], elem: (String, Class[_])): Unit = {
     val key = elem._1
     val value = elem._2
-    m.update(key, m.getOrElseUpdate(key, List(value)) :+ value)
+    m.update(key, m.getOrElseUpdate(key, List(value)) ++ List(value))
   }
 
   override def addRoleRestriction[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
