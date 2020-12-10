@@ -63,15 +63,15 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
         someCoreA4 <+> Blue
         someCoreA5 <+> Blue
         someCoreA6 <+> Blue
-        roleQueries.all { c: CoreA => c.hasFacets(Red) } should contain only(someCoreA1, someCoreA2, someCoreA3)
-        roleQueries.all { c: CoreA => c.hasSomeFacet(Red) } should contain only(someCoreA1, someCoreA2, someCoreA3)
-        roleQueries.all { c: CoreA => c.hasFacets(Blue) } should contain only(someCoreA4, someCoreA5, someCoreA6)
-        roleQueries.all { c: CoreA => c.hasSomeFacet(Blue) } should contain only(someCoreA4, someCoreA5, someCoreA6)
-        roleQueries.all { c: CoreA => c.hasSomeFacet(Red, Blue) } should contain only(someCoreA1, someCoreA2, someCoreA3, someCoreA4, someCoreA5, someCoreA6)
-        roleQueries.all { c: CoreA => c.hasSomeFacet(Green) } shouldBe empty
-        roleQueries.all { c: CoreA => c.hasFacets(Green) } shouldBe empty
-        roleQueries.all { c: CoreA => c.hasFacets(Red, Blue) } shouldBe empty
-        roleQueries.all { c: CoreA => c.hasFacets(Red, Blue, Green) } shouldBe empty
+        all { c: CoreA => c.hasFacets(Red) } should contain theSameElementsAs Set(someCoreA1, someCoreA2, someCoreA3)
+        all { c: CoreA => c.hasSomeFacet(Red) } should contain theSameElementsAs Set(someCoreA1, someCoreA2, someCoreA3)
+        all { c: CoreA => c.hasFacets(Blue) } should contain theSameElementsAs Set(someCoreA4, someCoreA5, someCoreA6)
+        all { c: CoreA => c.hasSomeFacet(Blue) } should contain theSameElementsAs Set(someCoreA4, someCoreA5, someCoreA6)
+        all { c: CoreA => c.hasSomeFacet(Red, Blue) } should contain theSameElementsAs Set(someCoreA1, someCoreA2, someCoreA3, someCoreA4, someCoreA5, someCoreA6)
+        all { c: CoreA => c.hasSomeFacet(Green) } shouldBe empty
+        all { c: CoreA => c.hasFacets(Green) } shouldBe empty
+        all { c: CoreA => c.hasFacets(Red, Blue) } shouldBe empty
+        all { c: CoreA => c.hasFacets(Red, Blue, Green) } shouldBe empty
       }
     }
   }

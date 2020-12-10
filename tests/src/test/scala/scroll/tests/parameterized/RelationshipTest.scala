@@ -30,10 +30,10 @@ class RelationshipTest extends AbstractParameterizedSCROLLTest {
         rel3.right() should contain only rB
         val rB2 = new RoleB
         p play rB2
-        rel3.right() should contain only(rB, rB2)
+        rel3.right() should contain theSameElementsAs Set(rB, rB2)
         val rB3 = new RoleB
         p play rB3
-        rel3.right() should contain only(rB, rB2, rB3)
+        rel3.right() should contain theSameElementsAs Set(rB, rB2, rB3)
       }
     }
   }

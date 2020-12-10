@@ -3,6 +3,8 @@ val linting = Linting
 
 val utf8 = java.nio.charset.StandardCharsets.UTF_8.toString
 
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
 // enables experimental Turbo mode with ClassLoader layering from sbt 1.3
 ThisBuild / turbo := true
 
@@ -19,8 +21,7 @@ lazy val root = (project in file(".")).
   aggregate(core, tests, examples)
 
 lazy val commonSettings = Seq(
-  version := "2.0",
-  mainClass := None,
+  version := "2.2",
   resolvers ++= Seq(
     "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
     "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
@@ -38,18 +39,13 @@ lazy val commonSettings = Seq(
     "-language:implicitConversions",      // Allow definition of implicit functions called views.
     "-unchecked",                         // Enable additional warnings where generated code depends on assumptions.
     "-target:jvm-" + lib.v.jvm),
-  coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*;scroll\\.examples\\.currency",
+  coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*",
   updateOptions := updateOptions.value.withCachedResolution(true),
   historyPath := Option(target.in(LocalRootProject).value / ".history"),
-  cleanKeepFiles := cleanKeepFiles.value filterNot { file =>
-    file.getPath.endsWith(".history")
-  },
   cancelable in Global := true,
   logLevel in Global := {
     if (insideCI.value) Level.Error else Level.Info
   },
-  showSuccess := true,
-  showTiming := true,
   initialize ~= { _ =>
     val ansi = System.getProperty("sbt.log.noformat", "false") != "true"
     if (ansi) System.setProperty("scala.color", "true")
@@ -60,6 +56,7 @@ lazy val core = project.
   settings(
     commonSettings,
     linting.staticAnalysis,
+    mainClass in (Compile, run) := None,
     name := "SCROLL",
     scalacOptions ++= Seq(
       "-explaintypes",                     // Explain type errors in more detail.
@@ -80,7 +77,6 @@ lazy val core = project.
       "-Xlint:type-parameter-shadow",      // A local type parameter shadows a type already in scope.
       "-Ywarn-dead-code",                  // Warn when dead code is identified.
       "-Ywarn-extra-implicit",             // Warn when more than one implicit parameter section is defined.
-      "-Xlint:nullary-override",           // Warn when non-nullary def f() overrides nullary def f.
       "-Xlint:nullary-unit",               // Warn when nullary methods return Unit.
       "-Ywarn-numeric-widen",              // Warn when numerics are widened.
       "-Ywarn-value-discard",              // Warn when non-Unit expression results are unused.
@@ -92,15 +88,7 @@ lazy val core = project.
       "-Ywarn-unused:privates"             // Warn if a private member is unused.
     ),
     organization := "com.github.max-leuthaeuser",
-    publishTo := {
-      val nexus = "https://oss.sonatype.org/"
-      if (isSnapshot.value) {
-        Option("snapshots" at nexus + "content/repositories/snapshots")
-      }
-      else {
-        Option("releases" at nexus + "service/local/staging/deploy/maven2")
-      }
-    },
+    publishTo := sonatypePublishToBundle.value,
     publishMavenStyle := true,
     publishArtifact in Test := false,
     pomIncludeRepository := { _ => false },
