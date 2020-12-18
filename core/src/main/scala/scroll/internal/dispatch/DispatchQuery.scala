@@ -59,7 +59,7 @@ object DispatchQuery {
     * @param sel   the selection function to evaluate on each element of the path
     * @param empty if set to true, the path will be returned unmodified
     */
-  private class From(val sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
+  class From(val sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
     @SuppressWarnings(Array("org.wartremover.contrib.warts.Apply"))
     override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = if (empty) {
       edges
@@ -75,7 +75,7 @@ object DispatchQuery {
     * @param sel   the selection function to evaluate on each element of the path
     * @param empty if set to true, the path will be returned unmodified
     */
-  private class To(val sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
+  class To(val sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
     @SuppressWarnings(Array("org.wartremover.contrib.warts.Apply"))
     override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = if (empty) {
       edges
@@ -94,7 +94,7 @@ object DispatchQuery {
     * @param sel   the selection function to evaluate on each element of the path
     * @param empty if set to true, the path will be returned unmodified
     */
-  private class Through(sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
+  class Through(sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
     @SuppressWarnings(Array("org.wartremover.contrib.warts.Apply"))
     override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = if (empty) {
       edges
@@ -110,7 +110,7 @@ object DispatchQuery {
     * @param sel   the selection function to evaluate on each element of the path
     * @param empty if set to true, the path will be returned unmodified
     */
-  private class Bypassing(sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
+  class Bypassing(sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
     @SuppressWarnings(Array("org.wartremover.contrib.warts.Apply"))
     override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = if (empty) {
       edges

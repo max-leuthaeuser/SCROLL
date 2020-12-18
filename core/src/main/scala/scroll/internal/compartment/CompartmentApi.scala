@@ -20,46 +20,46 @@ trait CompartmentApi {
   /**
     * Get [[scroll.internal.graph.RoleGraphProxyApi]] API entry point.
     */
-  val roleGraph: RoleGraphProxyApi
+  lazy val roleGraph: RoleGraphProxyApi
 
   /**
     * Get [[scroll.internal.support.RoleConstraintsApi]] API entry point.
     */
-  val roleConstraints: RoleConstraintsApi
+  lazy val roleConstraints: RoleConstraintsApi
 
   /**
     * Get [[scroll.internal.support.RoleRestrictionsApi]] API entry point.
     */
-  val roleRestrictions: RoleRestrictionsApi
+  lazy val roleRestrictions: RoleRestrictionsApi
 
   /**
     * Get [[scroll.internal.support.RolePlayingApi]] API entry point.
     */
-  val rolePlaying: RolePlayingApi
+  lazy val rolePlaying: RolePlayingApi
 
   /**
     * Get [[scroll.internal.support.RoleQueriesApi]] API entry point.
     */
-  val roleQueries: RoleQueriesApi
+  lazy val roleQueries: RoleQueriesApi
 
   /**
     * Get [[scroll.internal.support.CompartmentRelationsApi]] API entry point.
     */
-  val compartmentRelations: CompartmentRelationsApi
+  lazy val compartmentRelations: CompartmentRelationsApi
 
   /**
     * Get [[scroll.internal.support.RelationshipsApi]] API entry point.
     */
-  val roleRelationships: RelationshipsApi
+  lazy val roleRelationships: RelationshipsApi
 
   /**
     * Get [[scroll.internal.support.RoleGroupsApi]] API entry point.
     */
-  val roleGroups: RoleGroupsApi
+  lazy val roleGroups: RoleGroupsApi
 
   /**
     * Get [[scroll.internal.support.PlayerEqualityApi]] API entry point.
     */
-  val playerEquality: PlayerEqualityApi
+  lazy val playerEquality: PlayerEqualityApi
 
 }

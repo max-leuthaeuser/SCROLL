@@ -1,11 +1,12 @@
 import sbt.stringToOrganization
+import dotty.tools.sbtplugin.DottyPlugin.autoImport._
 
 object Dependencies extends Dependencies
 
 trait Dependencies {
 
   object v {
-    val scalaVersion = "2.13.4"
+    val scalaVersion = "3.0.0-M2"
     val akkaVersion = "2.6.10"
     val scalatestVersion = "3.2.3"
     val chocoVersion = "4.10.5"
@@ -18,16 +19,14 @@ trait Dependencies {
 
   val coreDependencies = Seq(
     "com.google.guava" % "guava" % v.guavaVersion,
-    "com.typesafe.akka" %% "akka-actor" % v.akkaVersion,
+    ("com.typesafe.akka" %% "akka-actor" % v.akkaVersion).withDottyCompat(v.scalaVersion),
     "org.choco-solver" % "choco-solver" % v.chocoVersion,
-    "org.scala-lang" % "scala-reflect" % v.scalaVersion,
     "org.eclipse.emf" % "org.eclipse.emf.common" % v.emfcommonVersion,
     "org.eclipse.emf" % "org.eclipse.emf.ecore" % v.emfecoreVersion,
     "org.eclipse.uml2" % "org.eclipse.uml2.uml" % v.umlVersion
   )
 
   val coreDependenciesOverrides = Seq(
-    "org.scala-lang" % "scala-library" % v.scalaVersion,
     "org.eclipse.emf" % "org.eclipse.emf.common" % v.emfcommonVersion,
     "org.eclipse.emf" % "org.eclipse.emf.ecore" % v.emfecoreVersion
   )

@@ -135,7 +135,6 @@ object ReflectiveHelper {
       case java.lang.Byte.TYPE => arg.isInstanceOf[Byte]
       case _ => arg == null || paramType.isAssignableFrom(arg.getClass)
     }
-    case faultyArgs => throw new IllegalArgumentException(s"Can not handle these arguments: '$faultyArgs'")
   }
 
   private[this] def matchMethod[A](m: Method, args: Seq[A]): Boolean =

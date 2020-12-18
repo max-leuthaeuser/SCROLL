@@ -17,7 +17,7 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new MultiCompartmentUnderTest(c, cc) {
-        implicit var dd = DispatchQuery.empty.sortedWith {
+        implicit var dd: DispatchQuery = DispatchQuery.empty.sortedWith {
           case (_: RoleC, _: RoleA) => swap
           case (_: RoleB, _: RoleA) => swap
           case (_: RoleC, _: RoleB) => swap

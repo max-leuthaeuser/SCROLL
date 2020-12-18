@@ -33,18 +33,18 @@ class ExamplesTest extends AbstractSCROLLTest {
     val expected = Seq(
       """### Before transaction ###""",
       """Balance for Stan:""",
-      """CheckingsAccount 'scroll.examples.BankExample\$Bank\$CheckingsAccount@.{6,8}': 10.0""",
+      """CheckingsAccount 'scroll.examples.BankExample\$Bank\$CheckingsAccount@.{5,8}': 10.0""",
       """Balance for Brian:""",
-      """SavingsAccount 'scroll.examples.BankExample\$Bank\$SavingsAccount@.{6,8}': 0.0""",
+      """SavingsAccount 'scroll.examples.BankExample\$Bank\$SavingsAccount@.{5,8}': 0.0""",
       """Executing from Role.""",
       """Executing from Player.""",
       """Increasing with fee.""",
-      """Transferred '10.0' from 'scroll.examples.BankExample\$Transaction\$Source@.{6,8}' to 'scroll.examples.BankExample\$Transaction\$Target@.{6,8}'.""",
+      """Transferred '10.0' from 'scroll.examples.BankExample\$Transaction\$Source@.{5,8}' to 'scroll.examples.BankExample\$Transaction\$Target@.{5,8}'.""",
       """### After transaction ###""",
       """Balance for Stan:""",
-      """CheckingsAccount 'scroll.examples.BankExample\$Bank\$CheckingsAccount@.{6,8}': 0.0""",
+      """CheckingsAccount 'scroll.examples.BankExample\$Bank\$CheckingsAccount@.{5,8}': 0.0""",
       """Balance for Brian:""",
-      """SavingsAccount 'scroll.examples.BankExample\$Bank\$SavingsAccount@.{6,8}': 9.0"""
+      """SavingsAccount 'scroll.examples.BankExample\$Bank\$SavingsAccount@.{5,8}': 9.0"""
     )
 
     actual.lazyZip(expected).foreach((a, e) => a should fullyMatch regex e.r)

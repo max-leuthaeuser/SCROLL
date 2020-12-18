@@ -1,6 +1,7 @@
 package scroll.examples
 
 import scroll.internal.compartment.impl.Compartment
+import scroll.internal.dispatch.DispatchQuery
 import scroll.internal.dispatch.DispatchQuery.Bypassing
 
 object APICallsExample {
@@ -22,15 +23,17 @@ object APICallsExample {
     }
 
     case class MyApp() {
-      val api = API() play FixedAPI()
+      private val api = API() play FixedAPI()
 
       def run(): Unit = {
         api.callA()
 
         api.callB()
 
-        implicit val dd = Bypassing(_.isInstanceOf[FixedAPI])
-        val _ = api.callC()
+        {
+          implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[FixedAPI])
+          val _ = api.callC()
+        }
       }
     }
 

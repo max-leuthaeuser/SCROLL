@@ -18,7 +18,7 @@ private[internal] object RoleGroupsApi {
 
   type CInt = Ordered[Int]
 
-  trait Entry {
+  sealed trait Entry {
     def types: Seq[String]
   }
 

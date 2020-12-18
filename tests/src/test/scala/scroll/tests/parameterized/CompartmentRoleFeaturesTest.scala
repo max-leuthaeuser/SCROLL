@@ -222,7 +222,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someRole2.valueB = 2
         someCoreA play someRole1
         someCoreA play someRole2
-        implicit val dd = From(_.isInstanceOf[CoreA]).
+        implicit val dd: DispatchQuery = From(_.isInstanceOf[CoreA]).
           To(_.isInstanceOf[RoleA]).
           Through(anything).
           Bypassing({
@@ -335,7 +335,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
       new CompartmentUnderTest(c, cc) {
-        implicit var dd = DispatchQuery.empty
+        implicit var dd: DispatchQuery = DispatchQuery.empty
         val someRole = new RoleA()
         someCoreA play someRole
         someCoreB play someRole

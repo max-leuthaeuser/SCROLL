@@ -37,14 +37,15 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
     }
   }
 
-  private[this] def buildConstraintsMap(types: Seq[String], op: Constraint, model: Model, numOfTypes: Int, min: Int, max: CInt, rg: RoleGroup): Map[String, IntVar] = types.map(ts => op match {
-    case AND => ts -> model.intVar("NUM$" + ts, 1)
-    case OR => ts -> model.intVar("NUM$" + ts, 0, numOfTypes)
-    case XOR => ts -> model.intVar("NUM$" + ts, 0, 1)
-    case NOT => ts -> model.intVar("NUM$" + ts, 0)
-    case _ =>
-      throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
-  }).toMap
+  private[this] def buildConstraintsMap(types: Seq[String], op: Constraint, model: Model, numOfTypes: Int, min: Int, max: CInt, rg: RoleGroup): Map[String, IntVar] =
+    types.map { ts =>
+      op match {
+        case AND => ts -> model.intVar("NUM$" + ts, 1)
+        case OR => ts -> model.intVar("NUM$" + ts, 0, numOfTypes)
+        case XOR => ts -> model.intVar("NUM$" + ts, 0, 1)
+        case NOT => ts -> model.intVar("NUM$" + ts, 0)
+      }
+    }.toMap
 
   private[this] def solve(model: Model, types: Seq[String], constraintsMap: Map[String, IntVar], rg: RoleGroup): Seq[String] = {
     val solver = model.getSolver
@@ -52,11 +53,12 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
       val resultRoleTypeSet = mutable.Set.empty[String]
 
       val solutions = mutable.ListBuffer.empty[Solution]
-      do {
+      while {
         val sol = new Solution(model)
         val _ = sol.record()
         solutions += sol
-      } while (solver.solve())
+        solver.solve()
+      } do ()
 
       val allPlayers = roleGraph.plays.allPlayers.filter(p => !types.contains(ReflectiveHelper.simpleName(p.getClass.toString)))
       if (allPlayers.forall(p => {
@@ -145,7 +147,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
     override def containing(rg: RoleGroupApi*)
                            (limitLower: Int, limitUpper: CInt)
                            (occLower: Int, occUpper: CInt): RoleGroupApi =
-      addRoleGroup(new RoleGroup(name, rg, (limitLower, limitUpper), (occLower, occUpper)))
+      addRoleGroup(RoleGroup(name, rg, (limitLower, limitUpper), (occLower, occUpper)))
 
     override def containing[T1 <: AnyRef : ClassTag](limitLower: Int, limitUpper: CInt)
                                                     (occLower: Int, occUpper: CInt): RoleGroupApi = {

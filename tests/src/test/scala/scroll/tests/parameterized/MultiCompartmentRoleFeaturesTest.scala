@@ -102,16 +102,14 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       new MultiCompartmentUnderTest(c, cc) {
         val someRole = new RoleA()
         someCoreA play someRole
+        val actualA: Seq[String] = (+someCoreA).valueA
         val expectedA = someRole.valueA
-        (+someCoreA).valueA[String] match {
-          case Right(returnValue) => returnValue.head shouldBe Right(expectedA)
-          case Left(error) => fail(error.toString)
-        }
+        actualA.head shouldBe expectedA
+
+        val actualB: Seq[Int] = (+someCoreA).valueB
         val expectedB = someRole.valueB
-        (+someCoreA).valueB[Int] match {
-          case Right(returnValue) => returnValue.head shouldBe Right(expectedB)
-          case Left(error) => fail(error.toString)
-        }
+        actualB.head shouldBe expectedB
+
         (+someCoreA).valueD match {
           case Left(_) => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
@@ -129,32 +127,26 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someCoreA play someRoleA play someRoleD
         val expectedA = "newValue"
         (+someCoreA).valueA = expectedA
-        (+someCoreA).valueA[String] match {
-          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedA), Right(expectedA))
-          case Left(error) => fail(error.toString)
-        }
-        (+someRoleA).valueA[String] match {
-          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedA), Right(expectedA))
-          case Left(error) => fail(error.toString)
-        }
-        (+someRoleD).valueA[String] match {
-          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedA), Right(expectedA))
-          case Left(error) => fail(error.toString)
-        }
+
+        val actualA: Seq[String] = (+someCoreA).valueA
+        actualA shouldBe Seq(expectedA, expectedA)
+
+        val actualRoleA: Seq[String] = (+someRoleA).valueA
+        actualRoleA shouldBe Seq(expectedA, expectedA)
+
+        val actualRoleD: Seq[String] = (+someRoleD).valueA
+        actualRoleD shouldBe Seq(expectedA, expectedA)
+
         val expectedB = -1
         (+someCoreA).valueB = expectedB
-        (+someCoreA).valueB[Int] match {
-          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedB), Right(expectedB))
-          case Left(error) => fail(error.toString)
-        }
-        (+someRoleA).valueB[Int] match {
-          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedB), Right(expectedB))
-          case Left(error) => fail(error.toString)
-        }
-        (+someRoleD).valueB[Int] match {
-          case Right(returnValue) => returnValue shouldBe Seq(Right(expectedB), Right(expectedB))
-          case Left(error) => fail(error.toString)
-        }
+        val actualCoreA: Seq[Int] = (+someCoreA).valueB
+        actualCoreA shouldBe Seq(expectedB, expectedB)
+
+        val actualRoleAValueB: Seq[Int] = (+someRoleA).valueB
+        actualRoleAValueB shouldBe Seq(expectedB, expectedB)
+
+        val actualRoleDValueB: Seq[Int] = (+someRoleD).valueB
+        actualRoleDValueB shouldBe Seq(expectedB, expectedB)
       }
     }
   }
@@ -209,7 +201,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someRole2.valueB = 2
         someCoreA play someRole1
         someCoreA play someRole2
-        implicit val dd = From(_.isInstanceOf[CoreA]).
+        implicit val dd: DispatchQuery = From(_.isInstanceOf[CoreA]).
           To(_.isInstanceOf[RoleA]).
           Through(anything).
           Bypassing({
@@ -344,7 +336,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
       new MultiCompartmentUnderTest(c, cc) {
-        implicit var dd = DispatchQuery.empty
+        implicit var dd: DispatchQuery = DispatchQuery.empty
         val someRole = new RoleA()
         someCoreA play someRole
         someCoreB play someRole

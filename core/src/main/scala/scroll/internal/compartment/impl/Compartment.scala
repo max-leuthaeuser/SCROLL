@@ -46,7 +46,7 @@ trait Compartment extends AbstractCompartment {
       applyDynamic[E](name)(args.map(_._2): _*)(dispatchQuery)
 
     override def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E] =
-      applyDispatchQuery(dispatchQuery, wrapped).view.map { r: AnyRef =>
+      applyDispatchQuery(dispatchQuery, wrapped).view.map { (r: AnyRef) =>
         (r, ReflectiveHelper.findMethod(r, name, args.toSeq))
       }.collectFirst {
         case (r: AnyRef, Some(m: Method)) => dispatch[E](r, m, args.toSeq)

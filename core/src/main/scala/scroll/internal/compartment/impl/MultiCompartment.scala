@@ -28,7 +28,7 @@ trait MultiCompartment extends AbstractCompartment {
   implicit class MultiPlayer[W <: AnyRef : ClassTag](override val wrapped: W) extends IPlayer[W, MultiPlayer[W]](wrapped) {
 
     def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
-      applyDispatchQuery(dispatchQuery, wrapped).map { r: AnyRef =>
+      applyDispatchQuery(dispatchQuery, wrapped).map { (r: AnyRef) =>
         (r, ReflectiveHelper.findMethod(r, name, args.toSeq))
       }.collect {
         case (r: AnyRef, Some(m: Method)) => dispatch[E](r, m, args.toSeq)

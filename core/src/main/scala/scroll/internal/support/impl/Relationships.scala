@@ -56,7 +56,6 @@ class Relationships(private[this] val roleQueries: RoleQueriesApi) extends Relat
           case _ =>
             throw new RuntimeException(MULT_NOT_ALLOWED) // default case
         }
-        case _ => throw new RuntimeException(MULT_NOT_ALLOWED) // default case
       }
       on
     }

@@ -55,7 +55,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
         new CoreA play role1 play role2
         val matcher = (r: RoleA) => r match {
           case r: RoleA => r.valueC == "yes"
-          case _ => false
+          case null => false
         }
         val actual: RoleA = roleQueries.one[RoleA](matcher)
         actual shouldBe role2

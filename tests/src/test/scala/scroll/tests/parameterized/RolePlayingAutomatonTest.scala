@@ -6,6 +6,8 @@ import scroll.internal.rpa.RolePlayingAutomaton
 import scroll.internal.rpa.RolePlayingAutomaton._
 import scroll.tests.mocks._
 
+import akka.actor.actorRef2Scala
+
 class RolePlayingAutomatonTest extends AbstractParameterizedSCROLLTest {
 
   class ACompartment(c: Boolean, cc: Boolean) extends CompartmentUnderTest(c, cc) {

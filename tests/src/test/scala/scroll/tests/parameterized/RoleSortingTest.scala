@@ -30,7 +30,7 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
         someCore play roleA
         someCore play roleB
         someCore play roleC
-        implicit var dd = DispatchQuery.empty
+        implicit var dd: DispatchQuery = DispatchQuery.empty
         val r1: String = (+someCore).method()
         r1 shouldBe "C"
         dd = DispatchQuery.empty.sortedWith(reverse)
@@ -61,14 +61,14 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
 
         case class SomeRoleA() {
           def method(): String = {
-            implicit val dd = Bypassing(_.isInstanceOf[SomeRoleA])
+            implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[SomeRoleA])
             (+this).method()
           }
         }
 
         case class SomeRoleB() {
           def method(): String = {
-            implicit val dd = DispatchQuery.empty.sortedWith(reverse)
+            implicit val dd: DispatchQuery = DispatchQuery.empty.sortedWith(reverse)
             (+this).method()
           }
         }
