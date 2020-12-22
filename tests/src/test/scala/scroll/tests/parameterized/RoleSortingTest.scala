@@ -30,22 +30,35 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
         someCore play roleA
         someCore play roleB
         someCore play roleC
-        implicit var dd: DispatchQuery = DispatchQuery.empty
-        val r1: String = (+someCore).method()
-        r1 shouldBe "C"
-        dd = DispatchQuery.empty.sortedWith(reverse)
-        val r2: String = (+someCore).method()
-        r2 shouldBe "A"
-        dd = DispatchQuery.empty.sortedWith {
-          case (_: SomeRoleB, _: SomeRoleC) => swap
+
+        {
+          given DispatchQuery = DispatchQuery()
+          val r1: String = (+someCore).method()
+          r1 shouldBe "C"
         }
-        val r3: String = (+someCore).method()
-        r3 shouldBe "B"
-        dd = Bypassing(_.isInstanceOf[SomeRoleA]).sortedWith {
-          case (_: SomeRoleB, _: SomeRoleC) => swap
+
+        {
+          given DispatchQuery = DispatchQuery().sortedWith(reverse)
+          val r2: String = (+someCore).method()
+          r2 shouldBe "A"
         }
-        val r4: String = (+someCore).method()
-        r4 shouldBe "B"
+
+        {
+          given DispatchQuery = DispatchQuery().sortedWith {
+            case (_: SomeRoleB, _: SomeRoleC) => swap
+          }
+          val r3: String = (+someCore).method()
+          r3 shouldBe "B"
+        }
+
+        {
+          given DispatchQuery = Bypassing(_.isInstanceOf[SomeRoleA]).sortedWith {
+            case (_: SomeRoleB, _: SomeRoleC) => swap
+          }
+          val r4: String = (+someCore).method()
+          r4 shouldBe "B"
+        }
+
       }
     }
   }
@@ -61,14 +74,14 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
 
         case class SomeRoleA() {
           def method(): String = {
-            implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[SomeRoleA])
+            given DispatchQuery = Bypassing(_.isInstanceOf[SomeRoleA])
             (+this).method()
           }
         }
 
         case class SomeRoleB() {
           def method(): String = {
-            implicit val dd: DispatchQuery = DispatchQuery.empty.sortedWith(reverse)
+            given DispatchQuery = DispatchQuery().sortedWith(reverse)
             (+this).method()
           }
         }

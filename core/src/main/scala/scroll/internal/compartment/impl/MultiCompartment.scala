@@ -27,7 +27,7 @@ trait MultiCompartment extends AbstractCompartment {
 
   implicit class MultiPlayer[W <: AnyRef : ClassTag](override val wrapped: W) extends IPlayer[W, MultiPlayer[W]](wrapped) {
 
-    def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
+    def applyDynamic[E](name: String)(args: Any*)(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
       applyDispatchQuery(dispatchQuery, wrapped).map { (r: AnyRef) =>
         (r, ReflectiveHelper.findMethod(r, name, args.toSeq))
       }.collect {
@@ -37,10 +37,10 @@ trait MultiCompartment extends AbstractCompartment {
         case l => Right(l)
       }
 
-    def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
-      applyDynamic[E](name)(args.map(_._2): _*)(dispatchQuery)
+    def applyDynamicNamed[E](name: String)(args: (String, Any)*)(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
+      applyDynamic[E](name)(args.map(_._2): _*)(using dispatchQuery)
 
-    def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
+    def selectDynamic[E](name: String)(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
       applyDispatchQuery(dispatchQuery, wrapped).collect {
         case r: AnyRef if ReflectiveHelper.hasMember(r, name) => ReflectiveHelper.propertyOf[E](r, name)
       } match {
@@ -48,14 +48,14 @@ trait MultiCompartment extends AbstractCompartment {
         case l => Right(l.map(Right(_)))
       }
 
-    def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit =
+    def updateDynamic(name: String)(value: Any)(using dispatchQuery: DispatchQuery = DispatchQuery()): Unit =
       applyDispatchQuery(dispatchQuery, wrapped).view.
         filter(ReflectiveHelper.hasMember(_, name)).
         foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
-    def hashCode()(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[Int] = applyDynamic("hashCode")()(dispatchQuery)
+    def hashCode()(using dispatchQuery: DispatchQuery = DispatchQuery()): Seq[Int] = applyDynamic("hashCode")()(using dispatchQuery)
 
-    def toString()(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Seq[String] = applyDynamic("toString")()(dispatchQuery)
+    def toString()(using dispatchQuery: DispatchQuery = DispatchQuery()): Seq[String] = applyDynamic("toString")()(using dispatchQuery)
   }
 
 }

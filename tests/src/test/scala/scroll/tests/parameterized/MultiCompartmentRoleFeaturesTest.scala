@@ -1,8 +1,8 @@
 package scroll.tests.parameterized
 
 import scroll.internal.dispatch.DispatchQuery
-import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.dispatch.DispatchQuery._
+import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.tests.mocks._
 
 class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
@@ -201,7 +201,8 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someRole2.valueB = 2
         someCoreA play someRole1
         someCoreA play someRole2
-        implicit val dd: DispatchQuery = From(_.isInstanceOf[CoreA]).
+        given DispatchQuery =
+          From(_.isInstanceOf[CoreA]).
           To(_.isInstanceOf[RoleA]).
           Through(anything).
           Bypassing({
@@ -336,7 +337,6 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
       new MultiCompartmentUnderTest(c, cc) {
-        implicit var dd: DispatchQuery = DispatchQuery.empty
         val someRole = new RoleA()
         someCoreA play someRole
         someCoreB play someRole
@@ -358,15 +358,19 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(p) => p
         }
         (player == someCoreA || player == someCoreB) shouldBe true
-        dd = From(anything).
-          To(c => c.isInstanceOf[CoreA] || c.isInstanceOf[CoreB]).
-          Through(anything).
-          Bypassing(_.isInstanceOf[CoreB])
-        val player2 = someRole.player match {
-          case Left(_) => fail("Player should be defined here!")
-          case Right(p) => p
+        
+        {
+          given DispatchQuery =
+            From(anything).
+            To(c => c.isInstanceOf[CoreA] || c.isInstanceOf[CoreB]).
+            Through(anything).
+            Bypassing(_.isInstanceOf[CoreB])
+          val player2 = someRole.player match {
+            case Left(_) => fail("Player should be defined here!")
+            case Right(p) => p
+          }
+          player2 shouldBe someCoreA
         }
-        player2 shouldBe someCoreA
       }
     }
   }

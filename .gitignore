@@ -13,3 +13,5 @@ source_gen*
 .settings/
 /bin/
 .bloop/
+.dotty-ide.json
+.dotty-ide-artifact

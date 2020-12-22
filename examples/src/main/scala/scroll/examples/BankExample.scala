@@ -2,7 +2,7 @@ package scroll.examples
 
 import scroll.internal.compartment.impl.Compartment
 import scroll.internal.dispatch.DispatchQuery
-import scroll.internal.dispatch.DispatchQuery.Bypassing
+import scroll.internal.dispatch.DispatchQuery._
 import scroll.internal.util.Many._
 
 import scala.collection.mutable
@@ -50,7 +50,7 @@ object BankExample {
 
     class CheckingsAccount() {
       def decrease(amount: Double): Unit = {
-        dd = Bypassing(_.isInstanceOf[CheckingsAccount])
+        given DispatchQuery = Bypassing(_.isInstanceOf[CheckingsAccount])
         val _ = (+this).decrease(amount)
       }
     }
@@ -63,7 +63,7 @@ object BankExample {
 
       def increase(amount: Double): Unit = {
         println("Increasing with fee.")
-        dd = Bypassing(_.isInstanceOf[SavingsAccount])
+        given DispatchQuery = Bypassing(_.isInstanceOf[SavingsAccount])
         val _ = (+this).increase(amount - calcTransactionFee(amount))
       }
     }
@@ -71,7 +71,7 @@ object BankExample {
     class TransactionRole() {
       def execute(): Unit = {
         println("Executing from Role.")
-        dd = Bypassing(_.isInstanceOf[TransactionRole])
+        given DispatchQuery = Bypassing(_.isInstanceOf[TransactionRole])
         val _ = (+this).execute()
       }
     }
@@ -106,8 +106,6 @@ object BankExample {
     }
 
   }
-
-  implicit var dd: DispatchQuery = DispatchQuery.empty
 
   def main(args: Array[String]): Unit = {
     val stan = Person("Stan")

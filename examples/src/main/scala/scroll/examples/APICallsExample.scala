@@ -31,7 +31,7 @@ object APICallsExample {
         api.callB()
 
         {
-          implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[FixedAPI])
+          given DispatchQuery = Bypassing(_.isInstanceOf[FixedAPI])
           val _ = api.callC()
         }
       }

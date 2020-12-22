@@ -16,7 +16,7 @@ trait SCROLLDynamic extends Dynamic {
     * @tparam E return type
     * @return the result of the function call or an appropriate error
     */
-  def applyDynamic[E](name: String)(args: Any*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E]
+  def applyDynamic[E](name: String)(args: Any*)(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[SCROLLError, E]
 
   /**
     * Allows to call a function with named arguments.
@@ -27,7 +27,7 @@ trait SCROLLDynamic extends Dynamic {
     * @tparam E return type
     * @return the result of the function call or an appropriate error
     */
-  def applyDynamicNamed[E](name: String)(args: (String, Any)*)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E]
+  def applyDynamicNamed[E](name: String)(args: (String, Any)*)(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[SCROLLError, E]
 
   /**
     * Allows to read a field.
@@ -37,7 +37,7 @@ trait SCROLLDynamic extends Dynamic {
     * @tparam E return type
     * @return the result of the field access or an appropriate error
     */
-  def selectDynamic[E](name: String)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[SCROLLError, E]
+  def selectDynamic[E](name: String)(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[SCROLLError, E]
 
   /**
     * Allows to write field updates.
@@ -46,6 +46,6 @@ trait SCROLLDynamic extends Dynamic {
     * @param value         the new value to write
     * @param dispatchQuery the dispatch rules that should be applied
     */
-  def updateDynamic(name: String)(value: Any)(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Unit
+  def updateDynamic(name: String)(value: Any)(using dispatchQuery: DispatchQuery = DispatchQuery()): Unit
 
 }

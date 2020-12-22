@@ -6,6 +6,10 @@ package scroll.internal.dispatch
   */
 object DispatchQuery {
 
+  type Selector = AnyRef => Boolean
+
+  type SelectorFunction = (Seq[AnyRef] => Seq[AnyRef])
+
   /**
     * Use this in [[DispatchQuery.sortedWith]] to state that no sorting between the objects in comparison should happen.
     */
@@ -26,46 +30,23 @@ object DispatchQuery {
   /**
     * Function always returning true
     */
-  val anything: AnyRef => Boolean = _ => true
+  val anything: Selector = _ => true
+
   /**
     * Function always returning false
     */
-  val nothing: AnyRef => Boolean = _ => false
+  val nothing: Selector = _ => false
 
-  protected class ToBuilder(f: AnyRef => Boolean) {
-    def To(t: AnyRef => Boolean): ThroughBuilder = new ThroughBuilder(f, t)
-  }
-
-  protected class ThroughBuilder(f: AnyRef => Boolean, t: AnyRef => Boolean) {
-    def Through(th: AnyRef => Boolean): BypassingBuilder = new BypassingBuilder(f, t, th)
-  }
-
-  protected class BypassingBuilder(f: AnyRef => Boolean, t: AnyRef => Boolean, th: AnyRef => Boolean) {
-    def Bypassing(b: AnyRef => Boolean): DispatchQuery =
-      new DispatchQuery(new From(f), new To(t), new Through(th), new Bypassing(b))
-  }
-
-  def From(f: AnyRef => Boolean): ToBuilder = new ToBuilder(f)
-
-  def Bypassing(b: AnyRef => Boolean): DispatchQuery =
-    new DispatchQuery(new From(anything, empty = true), new To(anything, empty = true), new Through(anything, empty = true), new Bypassing(b))
-
-  def empty: DispatchQuery = new DispatchQuery(new From(anything), new To(anything), new Through(anything), new Bypassing(nothing), empty = true)
+  private def empty: DispatchQuery = new DispatchQuery(new From(anything), new To(anything), new Through(anything), new Bypassing(nothing))
 
   /**
     * Dispatch filter selecting the sub-path from the starting edge until the end
     * of the path given as Seq, w.r.t. the evaluation of the selection function.
     *
     * @param sel   the selection function to evaluate on each element of the path
-    * @param empty if set to true, the path will be returned unmodified
     */
-  class From(val sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
-    @SuppressWarnings(Array("org.wartremover.contrib.warts.Apply"))
-    override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = if (empty) {
-      edges
-    } else {
-      edges.slice(edges.indexWhere(sel), edges.size)
-    }
+  case class From(val sel: Selector) extends SelectorFunction {
+    override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = edges.slice(edges.indexWhere(sel), edges.size)
   }
 
   /**
@@ -73,18 +54,12 @@ object DispatchQuery {
     * of the path given as Seq, w.r.t. the evaluation of the selection function.
     *
     * @param sel   the selection function to evaluate on each element of the path
-    * @param empty if set to true, the path will be returned unmodified
     */
-  class To(val sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
-    @SuppressWarnings(Array("org.wartremover.contrib.warts.Apply"))
-    override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = if (empty) {
-      edges
-    } else {
-      edges.lastIndexWhere(sel) match {
+  case class To(val sel: Selector) extends SelectorFunction {
+    override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = edges.lastIndexWhere(sel) match {
         case -1 => edges
         case _ => edges.slice(0, edges.lastIndexWhere(sel) + 1)
       }
-    }
   }
 
   /**
@@ -92,15 +67,9 @@ object DispatchQuery {
     * w.r.t. the evaluation of the selection function.
     *
     * @param sel   the selection function to evaluate on each element of the path
-    * @param empty if set to true, the path will be returned unmodified
     */
-  class Through(sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
-    @SuppressWarnings(Array("org.wartremover.contrib.warts.Apply"))
-    override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = if (empty) {
-      edges
-    } else {
-      edges.filter(sel)
-    }
+  case class Through(sel: Selector) extends SelectorFunction {
+    override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = edges.filter(sel)
   }
 
   /**
@@ -108,16 +77,24 @@ object DispatchQuery {
     * w.r.t. the evaluation of the selection function.
     *
     * @param sel   the selection function to evaluate on each element of the path
-    * @param empty if set to true, the path will be returned unmodified
     */
-  class Bypassing(sel: AnyRef => Boolean, empty: Boolean = false) extends (Seq[AnyRef] => Seq[AnyRef]) {
-    @SuppressWarnings(Array("org.wartremover.contrib.warts.Apply"))
-    override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = if (empty) {
-      edges
-    } else {
-      edges.filterNot(sel)
-    }
+  case class Bypassing(sel: Selector) extends SelectorFunction {
+    override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = edges.filterNot(sel)
   }
+
+  def apply(): DispatchQuery = empty
+
+  extension (dd: DispatchQuery) {
+    infix def From (sel: Selector): DispatchQuery = dd.copy(from = new From(sel))
+    infix def To (sel: Selector): DispatchQuery = dd.copy(to = new To(sel))
+    infix def Through (sel: Selector): DispatchQuery = dd.copy(through = new Through(sel))
+    infix def Bypassing (sel: Selector): DispatchQuery = dd.copy(bypassing = new Bypassing(sel))
+  }
+
+  given Conversion[From, DispatchQuery] = f => DispatchQuery().From(f.sel)
+  given Conversion[To, DispatchQuery] = f => DispatchQuery().To(f.sel)
+  given Conversion[Through, DispatchQuery] = f => DispatchQuery().Through(f.sel)
+  given Conversion[Bypassing, DispatchQuery] = b => DispatchQuery().Bypassing(b.sel)
 
 }
 
@@ -132,16 +109,13 @@ import DispatchQuery._
   * @param through   query specifying intermediate elements for the role dispatch query
   * @param bypassing query specifying all elements to be left out for the role dispatch query
   */
-class DispatchQuery(
+case class DispatchQuery(
                      from: From,
                      to: To,
                      through: Through,
                      bypassing: Bypassing,
-                     private[this] val empty: Boolean = false,
                      private[this] var _sortedWith: Option[(AnyRef, AnyRef) => Boolean] = Option.empty
                    ) {
-
-  def isEmpty: Boolean = empty
 
   /**
     * Set the function to later sort all dynamic extensions during [[DispatchQuery.filter]].
@@ -161,11 +135,7 @@ class DispatchQuery(
     * @return the filtered and sorted Seq of objects
     */
   def filter(anys: Seq[AnyRef]): Seq[AnyRef] = {
-    val r = if (isEmpty) {
-      anys.reverse
-    } else {
-      from.andThen(to).andThen(through).andThen(bypassing)(anys).reverse
-    }
+    val r = from.andThen(to).andThen(through).andThen(bypassing)(anys).reverse
     _sortedWith.fold(r) { s => r.sortWith(s) }
   }
 }

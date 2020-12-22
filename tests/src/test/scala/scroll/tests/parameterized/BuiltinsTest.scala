@@ -1,6 +1,7 @@
 package scroll.tests.parameterized
 
 import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.DispatchQuery._
 import scroll.tests.mocks.CompartmentUnderTest
 import scroll.tests.mocks.MultiCompartmentUnderTest
 import scroll.tests.mocks.RoleA
@@ -132,7 +133,7 @@ class BuiltinsTest extends AbstractParameterizedSCROLLTest {
 
         // we need to bypass bound instances of RoleA here. Otherwise, its hashCode and toString
         // methods from Object would be called.
-        implicit val dd: DispatchQuery = DispatchQuery.Bypassing(_.isInstanceOf[RoleA])
+        given DispatchQuery = Bypassing(_.isInstanceOf[RoleA])
         player.hashCode() shouldBe 0
         player.toString() shouldBe "Core"
       }
@@ -166,7 +167,7 @@ class BuiltinsTest extends AbstractParameterizedSCROLLTest {
 
         // we need to bypass bound instances of RoleA here. Otherwise, its hashCode and toString
         // methods from Object would be called.
-        implicit val dd: DispatchQuery = DispatchQuery.Bypassing(_.isInstanceOf[RoleA])
+        given DispatchQuery = Bypassing(_.isInstanceOf[RoleA])
         player.hashCode() shouldBe Seq(0)
         player.toString() shouldBe Seq("Core")
       }

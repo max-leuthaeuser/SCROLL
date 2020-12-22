@@ -15,7 +15,7 @@ class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLT
   class MultiRole(c: Boolean, cc: Boolean) extends CompartmentUnderTest(c, cc) {
 
     case class RoleTypeA(id: String) {
-      implicit val dd: DispatchQuery = Bypassing((o: AnyRef) => {
+      given DispatchQuery = Bypassing((o: AnyRef) => {
         o == this || !o.isInstanceOf[CoreType]
       })
 
@@ -26,7 +26,7 @@ class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLT
     }
 
     case class RoleTypeB(id: String) {
-      implicit val dd: DispatchQuery = Bypassing(_ == this)
+      given DispatchQuery = Bypassing(_ == this)
 
       def someMethod(): Unit = {
         println(s"RoleTypeB($this)::someMethod()")

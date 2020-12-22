@@ -81,7 +81,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
       * @param dispatchQuery provide this to sort the resulting instances if a role instance is played by multiple core objects
       * @return the player of this player instance if this is a role, or this itself or an appropriate error
       */
-    def player(implicit dispatchQuery: DispatchQuery = DispatchQuery.empty): Either[TypeError, AnyRef] =
+    def player(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[TypeError, AnyRef] =
       dispatchQuery.filter(roleGraph.plays.coreFor(this)) match {
         case elem +: _ => Right(elem)
         case _ => Left(TypeNotFound(this.getClass))

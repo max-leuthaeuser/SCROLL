@@ -67,7 +67,7 @@ class BankExample {
 
     class MoneyTransfer() {
       def execute(): Unit = {
-        implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[MoneyTransfer])
+        given DispatchQuery = Bypassing(_.isInstanceOf[MoneyTransfer])
         val _ = (+this).execute()
       }
     }
@@ -76,7 +76,7 @@ class BankExample {
       private val transactionFee: Double = 0.1
 
       def decrease(amount: Double): Unit = {
-        implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[SavingsAccount])
+        given DispatchQuery = Bypassing(_.isInstanceOf[SavingsAccount])
         val _ = (+this).decrease(amount + amount * transactionFee)
       }
     }
