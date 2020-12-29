@@ -28,10 +28,11 @@ before_cache:
   - find $HOME/.sbt        -name "*.lock"               -print -delete
 
 script:
-  - sbt clean coverage "testOnly **.SCROLLTestSuite"
+  # - sbt clean coverage test
+  - sbt clean test
 
-after_success:
-  - sbt coverageReport
-  - sbt coverageAggregate
-  - sbt codacyCoverage
-  - bash <(curl -s https://codecov.io/bash)
+# after_success:
+  # - sbt coverageReport
+  # - sbt coverageAggregate
+  # - sbt codacyCoverage
+  # - bash <(curl -s https://codecov.io/bash)
