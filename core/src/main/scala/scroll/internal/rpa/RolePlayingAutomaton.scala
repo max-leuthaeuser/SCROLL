@@ -44,11 +44,12 @@ object RolePlayingAutomaton {
 
   case object Terminate extends RPAData
 
-  protected class RPABuilder[T <: AnyRef : ClassTag]() {
-    def For(comp: Compartment): ActorRef = ActorSystem().actorOf(Props(classTag[T].runtimeClass, comp), s"rpa_${comp.hashCode()}")
+  protected class RPABuilder[T <: AnyRef: ClassTag]() {
+    def For(comp: Compartment): ActorRef =
+      ActorSystem().actorOf(Props(classTag[T].runtimeClass, comp), s"rpa_${comp.hashCode()}")
   }
 
-  def Use[T <: AnyRef : ClassTag]: RPABuilder[T] = new RPABuilder[T]()
+  def Use[T <: AnyRef: ClassTag]: RPABuilder[T] = new RPABuilder[T]()
 }
 
 /**
@@ -96,6 +97,7 @@ object RolePlayingAutomaton {
   * Simply use a companion object for this as well.
   */
 trait RolePlayingAutomaton extends Actor with LoggingFSM[RPAState, RPAData] {
+
   /**
     * Starts this automaton. Needs to be called first!
     * Will set the initial state to [[scroll.internal.rpa.RolePlayingAutomaton.Start]].

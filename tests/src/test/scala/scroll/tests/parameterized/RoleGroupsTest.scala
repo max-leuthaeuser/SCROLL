@@ -15,10 +15,10 @@ class RoleGroupsTest extends AbstractParameterizedSCROLLTest {
 
         class Target
 
-        val source = new Source
-        val target = new Target
+        val source        = new Source
+        val target        = new Target
         val roleGroupName = "Transaction"
-        val transaction = roleGroups.create(roleGroupName).containing[Source, Target](1, 1)(2, 2)
+        val transaction   = roleGroups.create(roleGroupName).containing[Source, Target](1, 1)(2, 2)
         roleGroups.checked {
           acc1 play source
           acc2 play target

@@ -15,7 +15,7 @@ trait RoleConstraintsApi {
     * @tparam A type of role A
     * @tparam B type of role B that should be played implicitly if A is played
     */
-  def addRoleImplication[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit
+  def addRoleImplication[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
   /**
     * Adds an role equivalent constraint between the given role types.
@@ -25,7 +25,7 @@ trait RoleConstraintsApi {
     * @tparam A type of role A that should be played implicitly if B is played
     * @tparam B type of role B that should be played implicitly if A is played
     */
-  def addRoleEquivalence[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit
+  def addRoleEquivalence[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
   /**
     * Adds an role prohibition constraint between the given role types.
@@ -35,7 +35,7 @@ trait RoleConstraintsApi {
     * @tparam A type of role A
     * @tparam B type of role B that is not allowed to be played if A is played already
     */
-  def addRoleProhibition[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit
+  def addRoleProhibition[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
   /**
     * Wrapping function that checks all available role constraints for

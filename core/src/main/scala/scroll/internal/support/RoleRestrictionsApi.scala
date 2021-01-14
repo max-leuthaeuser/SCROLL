@@ -13,7 +13,7 @@ trait RoleRestrictionsApi {
     * @tparam A the player type
     * @tparam B the role type
     */
-  def addRoleRestriction[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit
+  def addRoleRestriction[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
   /**
     * Replaces a role restriction for a player of type A with a
@@ -22,14 +22,14 @@ trait RoleRestrictionsApi {
     * @tparam A the player type
     * @tparam B the role type
     */
-  def replaceRoleRestriction[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit
+  def replaceRoleRestriction[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
   /**
     * Removes all role restriction for a player of type A.
     *
     * @tparam A the player type
     */
-  def removeRoleRestriction[A <: AnyRef : ClassTag](): Unit
+  def removeRoleRestriction[A <: AnyRef: ClassTag](): Unit
 
   /**
     * Checks all role restriction between the given player and a role type.
@@ -38,5 +38,5 @@ trait RoleRestrictionsApi {
     * @param player the player instance to check
     * @param role   the role type to check
     */
-  def validate[R <: AnyRef : ClassTag](player: AnyRef, role: R): Unit
+  def validate[R <: AnyRef: ClassTag](player: AnyRef, role: R): Unit
 }

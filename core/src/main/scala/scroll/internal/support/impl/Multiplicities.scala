@@ -21,11 +21,12 @@ object Multiplicities {
 
   implicit def orderedToConcreteValue(v: Ordered[Int]): ExpMultiplicity = v match {
     case Many() => MMany()
-    case _ => ConcreteValue(v)
+    case _      => ConcreteValue(v)
   }
 
   implicit def intToConcreteValue(v: Int): ConcreteValue = ConcreteValue(v)
 
-  final case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity) extends Multiplicity
+  final case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity)
+      extends Multiplicity
 
 }

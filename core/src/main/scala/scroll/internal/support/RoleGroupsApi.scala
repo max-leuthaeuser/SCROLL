@@ -56,30 +56,35 @@ trait RoleGroupsApi {
 
   trait RoleGroupApi extends Entry {
 
-    def containing(rg: RoleGroupApi*)
-                  (limitLower: Int, limitUpper: CInt)
-                  (occLower: Int, occUpper: CInt): RoleGroupApi
+    def containing(rg: RoleGroupApi*)(limitLower: Int,
+                                      limitUpper: CInt)(occLower: Int, occUpper: CInt): RoleGroupApi
 
-    def containing[T1 <: AnyRef : ClassTag](limitLower: Int, limitUpper: CInt)
-                                           (occLower: Int, occUpper: CInt): RoleGroupApi
+    def containing[T1 <: AnyRef: ClassTag](limitLower: Int, limitUpper: CInt)(
+        occLower: Int,
+        occUpper: CInt): RoleGroupApi
 
+    def containing[T1 <: AnyRef: ClassTag, T2 <: AnyRef: ClassTag](
+        limitLower: Int,
+        limitUpper: CInt)(occLower: Int, occUpper: CInt): RoleGroupApi
 
-    def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag]
-    (limitLower: Int, limitUpper: CInt)
-    (occLower: Int, occUpper: CInt): RoleGroupApi
+    def containing[T1 <: AnyRef: ClassTag, T2 <: AnyRef: ClassTag, T3 <: AnyRef: ClassTag](
+        limitLower: Int,
+        limitUpper: CInt)(occLower: Int, occUpper: CInt): RoleGroupApi
 
-    def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag]
-    (limitLower: Int, limitUpper: CInt)
-    (occLower: Int, occUpper: CInt): RoleGroupApi
+    def containing[T1 <: AnyRef: ClassTag,
+                   T2 <: AnyRef: ClassTag,
+                   T3 <: AnyRef: ClassTag,
+                   T4 <: AnyRef: ClassTag](limitLower: Int, limitUpper: CInt)(
+        occLower: Int,
+        occUpper: CInt): RoleGroupApi
 
-    def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag, T4 <: AnyRef : ClassTag]
-    (limitLower: Int, limitUpper: CInt)
-    (occLower: Int, occUpper: CInt): RoleGroupApi
-
-
-    def containing[T1 <: AnyRef : ClassTag, T2 <: AnyRef : ClassTag, T3 <: AnyRef : ClassTag, T4 <: AnyRef : ClassTag, T5 <: AnyRef : ClassTag]
-    (limitLower: Int, limitUpper: CInt)
-    (occLower: Int, occUpper: CInt): RoleGroupApi
+    def containing[T1 <: AnyRef: ClassTag,
+                   T2 <: AnyRef: ClassTag,
+                   T3 <: AnyRef: ClassTag,
+                   T4 <: AnyRef: ClassTag,
+                   T5 <: AnyRef: ClassTag](limitLower: Int, limitUpper: CInt)(
+        occLower: Int,
+        occUpper: CInt): RoleGroupApi
   }
 
 }

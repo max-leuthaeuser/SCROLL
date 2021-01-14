@@ -16,17 +16,17 @@ trait ECoreImporter {
   private[this] val META_MODEL_PATH = getClass.getResource("/crom_l1_composed.ecore").getPath
 
   private[this] def registerMetaModel(rs: ResourceSetImpl): Unit = {
-    Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap.put(
-      "ecore", new EcoreResourceFactoryImpl())
+    Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap
+      .put("ecore", new EcoreResourceFactoryImpl())
 
     val extendedMetaData = new BasicExtendedMetaData(rs.getPackageRegistry)
     rs.getLoadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData)
 
-    val r = rs.getResource(URI.createFileURI(META_MODEL_PATH), true)
+    val r       = rs.getResource(URI.createFileURI(META_MODEL_PATH), true)
     val eObject = r.getContents.get(0)
     eObject match {
       case p: EPackage => val _ = rs.getPackageRegistry.put(p.getNsURI, p)
-      case _ => throw new IllegalStateException("Meta-Model for CROM could not be loaded!")
+      case _           => throw new IllegalStateException("Meta-Model for CROM could not be loaded!")
     }
   }
 
@@ -42,7 +42,8 @@ trait ECoreImporter {
 
     val resourceSet = new ResourceSetImpl()
     registerMetaModel(resourceSet)
-    val _ = resourceSet.getResourceFactoryRegistry.getExtensionToFactoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl())
+    val _ = resourceSet.getResourceFactoryRegistry.getExtensionToFactoryMap
+      .put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl())
     val r = resourceSet.getResource(URI.createFileURI(path), true)
 
     require(null != r)

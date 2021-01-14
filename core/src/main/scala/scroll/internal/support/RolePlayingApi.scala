@@ -14,7 +14,10 @@ trait RolePlayingApi {
     * @param coreTo   the core the given role should be attached to
     * @param role     the role that should be transferred
     */
-  def transferRole[F <: AnyRef : ClassTag, T <: AnyRef : ClassTag, R <: AnyRef : ClassTag](coreFrom: F, coreTo: T, role: R): Unit
+  def transferRole[F <: AnyRef: ClassTag, T <: AnyRef: ClassTag, R <: AnyRef: ClassTag](
+      coreFrom: F,
+      coreTo: T,
+      role: R): Unit
 
   /**
     * Adds a play relation between core and role.
@@ -24,7 +27,7 @@ trait RolePlayingApi {
     * @param core the core to add the given role at
     * @param role the role that should added to the given core
     */
-  def addPlaysRelation[C <: AnyRef : ClassTag, R <: AnyRef : ClassTag](core: C, role: R): Unit
+  def addPlaysRelation[C <: AnyRef: ClassTag, R <: AnyRef: ClassTag](core: C, role: R): Unit
 
   /**
     * Removes the play relation between core and role.

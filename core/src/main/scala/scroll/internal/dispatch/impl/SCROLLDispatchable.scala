@@ -1,13 +1,12 @@
 package scroll.internal.dispatch.impl
 
-import java.lang.reflect.InvocationTargetException
-import java.lang.reflect.Method
-
 import scroll.internal.dispatch.Dispatchable
 import scroll.internal.errors.SCROLLErrors.IllegalRoleInvocationDispatch
 import scroll.internal.errors.SCROLLErrors.InvocationError
 import scroll.internal.util.ReflectiveHelper
 
+import java.lang.reflect.InvocationTargetException
+import java.lang.reflect.Method
 import scala.util.Failure
 import scala.util.Success
 import scala.util.Try
@@ -22,9 +21,9 @@ trait SCROLLDispatchable extends Dispatchable {
     require(null != m)
     require(null != args)
     Try(ReflectiveHelper.resultOf[E](on, m, args)) match {
-      case Success(s) => Right(s)
+      case Success(s)                              => Right(s)
       case Failure(exc: InvocationTargetException) => throw exc.getTargetException
-      case Failure(_) => Left(IllegalRoleInvocationDispatch(on.toString, m.getName, args))
+      case Failure(_)                              => Left(IllegalRoleInvocationDispatch(on.toString, m.getName, args))
     }
   }
 

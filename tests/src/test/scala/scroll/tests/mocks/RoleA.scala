@@ -2,7 +2,7 @@ package scroll.tests.mocks
 
 class RoleA {
   val valueA: String = "valueA"
-  var valueB: Int = 1
+  var valueB: Int    = 1
   var valueC: String = "valueC"
 
   def i(): Int = 1

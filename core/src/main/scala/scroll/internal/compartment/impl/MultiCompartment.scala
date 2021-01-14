@@ -1,12 +1,11 @@
 package scroll.internal.compartment.impl
 
-import java.lang.reflect.Method
-
 import scroll.internal.dispatch.DispatchQuery
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.SCROLLError
 import scroll.internal.util.ReflectiveHelper
 
+import java.lang.reflect.Method
 import scala.reflect.ClassTag
 
 /**

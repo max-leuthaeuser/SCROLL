@@ -1,8 +1,8 @@
 package scroll.tests.parameterized
 
-import java.io.IOException
-
 import scroll.tests.mocks.CompartmentUnderTest
+
+import java.io.IOException
 
 class ThrowableInRoleMethodsTest extends AbstractParameterizedSCROLLTest {
 

@@ -2,7 +2,6 @@ package scroll.internal.util
 
 import java.lang.reflect.Field
 import java.lang.reflect.Method
-
 import scala.collection.immutable.ArraySeq
 import scala.reflect.ClassTag
 import scala.reflect.classTag
@@ -21,10 +20,12 @@ object ReflectiveHelper {
     buildCache[Class[_], Seq[Method]](allMethods)
 
   private[this] lazy val methodsByNameCache =
-    buildCache[(Class[_], String), Seq[Method]]((t: (Class[_], String)) => cachedFindMethods(t._1, t._2))
+    buildCache[(Class[_], String), Seq[Method]]((t: (Class[_], String)) =>
+      cachedFindMethods(t._1, t._2))
 
   private[this] lazy val methodMatchCache =
-    buildCache[(Class[_], String, Seq[Any]), Option[Method]]((t: (Class[_], String, Seq[Any])) => cachedFindMethod(t._1, t._2, t._3))
+    buildCache[(Class[_], String, Seq[Any]), Option[Method]]((t: (Class[_], String, Seq[Any])) =>
+      cachedFindMethod(t._1, t._2, t._3))
 
   private[this] lazy val fieldCache =
     buildCache[Class[_], Seq[Field]]((c: Class[_]) => allFields(c))
@@ -36,19 +37,22 @@ object ReflectiveHelper {
     buildCache[String, String](cachedSimpleName)
 
   private[this] lazy val hasMemberCache =
-    buildCache[(Class[_], String), java.lang.Boolean]((t: (Class[_], String)) => cachedHasMember(t._1, t._2))
+    buildCache[(Class[_], String), java.lang.Boolean]((t: (Class[_], String)) =>
+      cachedHasMember(t._1, t._2))
 
   def addToMethodCache(c: Class[_]): Unit = methodCache.put(c, allMethods(c))
 
   def addToFieldCache(c: Class[_]): Unit = fieldCache.put(c, allFields(c))
 
-  private[this] def simpleClassName(s: String, on: String) = if (s.contains(on)) {
-    s.substring(s.lastIndexOf(on) + 1)
-  } else {
-    s
-  }
+  private[this] def simpleClassName(s: String, on: String) =
+    if (s.contains(on)) {
+      s.substring(s.lastIndexOf(on) + 1)
+    } else {
+      s
+    }
 
-  private[this] def cachedSimpleName(t: String): String = simpleClassName(simpleClassName(t, "."), "$")
+  private[this] def cachedSimpleName(t: String): String =
+    simpleClassName(simpleClassName(t, "."), "$")
 
   /**
     * Translates a Class or Type name to a String, i.e. removing anything before the last
@@ -90,9 +94,12 @@ object ReflectiveHelper {
     restrInterface.forall(method => roleInterface.exists(method.equals))
 
   private[this] def cachedFindField(of: Class[_], name: String): Field =
-    fieldCache.get(of).find(_.getName == name).getOrElse({
-      throw new RuntimeException(s"Field '$name' not found on '$of'!")
-    })
+    fieldCache
+      .get(of)
+      .find(_.getName == name)
+      .getOrElse({
+        throw new RuntimeException(s"Field '$name' not found on '$of'!")
+      })
 
   private[this] def findField(of: Class[_], name: String): Field =
     fieldByNameCache.get((of, name))
@@ -106,36 +113,45 @@ object ReflectiveHelper {
   private[this] def allMethods(of: Class[_]): Seq[Method] = {
     def getAccessibleMethods(c: Class[_]): Seq[Method] = c match {
       case null => Seq.empty[Method]
-      case _ => ArraySeq.unsafeWrapArray(c.getDeclaredMethods).concat(getAccessibleMethods(c.getSuperclass))
+      case _ =>
+        ArraySeq.unsafeWrapArray(c.getDeclaredMethods).concat(getAccessibleMethods(c.getSuperclass))
     }
 
-    getAccessibleMethods(of).map { m => m.setAccessible(true); m }
+    getAccessibleMethods(of).map { m =>
+      m.setAccessible(true); m
+    }
   }
 
   private[this] def allFields(of: Class[_]): Seq[Field] = {
     def accessibleFields(c: Class[_]): Seq[Field] = c match {
       case null => Seq.empty[Field]
-      case _ => ArraySeq.unsafeWrapArray(c.getDeclaredFields).concat(accessibleFields(c.getSuperclass))
+      case _ =>
+        ArraySeq.unsafeWrapArray(c.getDeclaredFields).concat(accessibleFields(c.getSuperclass))
     }
 
-    accessibleFields(of).map { f => f.setAccessible(true); f }
-  }
-
-  private[this] def isSameNumberOfParameters(m: Method, size: Int): Boolean = m.getParameterCount == size
-
-  private[this] def isSameArgumentTypes[A](m: Method, args: Seq[A]): Boolean = args.zip(m.getParameterTypes).forall {
-    case (arg, paramType: Class[_]) => paramType match {
-      case java.lang.Boolean.TYPE => arg.isInstanceOf[Boolean]
-      case java.lang.Character.TYPE => arg.isInstanceOf[Char]
-      case java.lang.Short.TYPE => arg.isInstanceOf[Short]
-      case java.lang.Integer.TYPE => arg.isInstanceOf[Integer]
-      case java.lang.Long.TYPE => arg.isInstanceOf[Long]
-      case java.lang.Float.TYPE => arg.isInstanceOf[Float]
-      case java.lang.Double.TYPE => arg.isInstanceOf[Double]
-      case java.lang.Byte.TYPE => arg.isInstanceOf[Byte]
-      case _ => arg == null || paramType.isAssignableFrom(arg.getClass)
+    accessibleFields(of).map { f =>
+      f.setAccessible(true); f
     }
   }
+
+  private[this] def isSameNumberOfParameters(m: Method, size: Int): Boolean =
+    m.getParameterCount == size
+
+  private[this] def isSameArgumentTypes[A](m: Method, args: Seq[A]): Boolean =
+    args.zip(m.getParameterTypes).forall {
+      case (arg, paramType: Class[_]) =>
+        paramType match {
+          case java.lang.Boolean.TYPE   => arg.isInstanceOf[Boolean]
+          case java.lang.Character.TYPE => arg.isInstanceOf[Char]
+          case java.lang.Short.TYPE     => arg.isInstanceOf[Short]
+          case java.lang.Integer.TYPE   => arg.isInstanceOf[Integer]
+          case java.lang.Long.TYPE      => arg.isInstanceOf[Long]
+          case java.lang.Float.TYPE     => arg.isInstanceOf[Float]
+          case java.lang.Double.TYPE    => arg.isInstanceOf[Double]
+          case java.lang.Byte.TYPE      => arg.isInstanceOf[Byte]
+          case _                        => arg == null || paramType.isAssignableFrom(arg.getClass)
+        }
+    }
 
   private[this] def matchMethod[A](m: Method, args: Seq[A]): Boolean =
     isSameNumberOfParameters(m, args.size) && isSameArgumentTypes(m, args)
@@ -155,7 +171,7 @@ object ReflectiveHelper {
     methodMatchCache.get((on.getClass, name, args))
 
   private[this] def cachedHasMember(on: Class[_], name: String): java.lang.Boolean = {
-    lazy val fields = fieldCache.get(on)
+    lazy val fields  = fieldCache.get(on)
     lazy val methods = methodCache.get(on)
     fields.exists(_.getName == name) || methods.exists(_.getName == name)
   }
@@ -225,8 +241,6 @@ object ReflectiveHelper {
     * @tparam T the type to check
     * @return true if the wrapped object is of type T, false otherwise
     */
-  def is[T <: AnyRef : ClassTag](on: AnyRef): Boolean =
+  def is[T <: AnyRef: ClassTag](on: AnyRef): Boolean =
     simpleName(on.getClass.toString) == simpleName(classTag[T].toString)
 }
-
-

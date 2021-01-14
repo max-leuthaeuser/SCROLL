@@ -14,7 +14,8 @@ import scala.util.Success
 import scala.util.Try
 
 object ScalaRoleGraph {
-  def copyFrom(from: ScalaRoleGraph, checkForCycles: Boolean): ScalaRoleGraph = new ScalaRoleGraph(from.root, checkForCycles)
+  def copyFrom(from: ScalaRoleGraph, checkForCycles: Boolean): ScalaRoleGraph =
+    new ScalaRoleGraph(from.root, checkForCycles)
 }
 
 /**
@@ -24,7 +25,8 @@ object ScalaRoleGraph {
   * @param checkForCycles set to true to forbid cyclic role playing relationships
   */
 class ScalaRoleGraph(val root: MutableGraph[Object] = GraphBuilder.directed().build[Object](),
-                     val checkForCycles: Boolean = true) extends RoleGraph {
+                     val checkForCycles: Boolean = true)
+    extends RoleGraph {
 
   protected val MERGE_MESSAGE: String = "You can only merge RoleGraphs of the same type!"
 
@@ -33,9 +35,11 @@ class ScalaRoleGraph(val root: MutableGraph[Object] = GraphBuilder.directed().bu
 
     val target = other.asInstanceOf[ScalaRoleGraph].root
     if (!target.nodes().isEmpty) {
-      target.edges().forEach(p => {
-        val _ = root.putEdge(p.source(), p.target())
-      })
+      target
+        .edges()
+        .forEach(p => {
+          val _ = root.putEdge(p.source(), p.target())
+        })
       checkCycles()
       true
     } else {
@@ -46,9 +50,11 @@ class ScalaRoleGraph(val root: MutableGraph[Object] = GraphBuilder.directed().bu
   override def detach(other: RoleGraph): Unit = {
     require(null != other)
     val target = other.asInstanceOf[ScalaRoleGraph].root
-    target.edges().forEach(p => {
-      removeBinding(p.source(), p.target())
-    })
+    target
+      .edges()
+      .forEach(p => {
+        removeBinding(p.source(), p.target())
+      })
   }
 
   private[this] def checkCycles(): Unit = {
@@ -105,9 +111,9 @@ class ScalaRoleGraph(val root: MutableGraph[Object] = GraphBuilder.directed().bu
       case cur: AbstractCompartment#IPlayer[_, _] => coreFor(cur.wrapped)
       case cur: AnyRef if containsPlayer(cur) =>
         predecessors(cur) match {
-          case Nil => Seq(cur)
+          case Nil         => Seq(cur)
           case head +: Nil => coreFor(head)
-          case r => r
+          case r           => r
         }
       case _ => Seq.empty[AnyRef]
     }

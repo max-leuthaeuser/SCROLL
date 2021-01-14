@@ -4,6 +4,27 @@ import scroll.internal.compartment.impl.Compartment
 
 object UniversityExample {
 
+  @main def runUniversityExample(): Unit = new University {
+    val hans = new Person("hans")
+    val uwe  = new Person("uwe")
+
+    hans.talk()
+
+    val student = new Student
+    println("Player equals core: " + ((hans play student) == hans))
+    (+hans).talk()
+
+    val name: String = (+student).name
+    println(name)
+    println("Role core equals core: " + (+student == hans))
+
+    uwe play new Professor
+    (+uwe).talk()
+    println("Core equals core playing a role: " + (+uwe == uwe))
+
+    (+uwe).teach(hans)
+  }
+
   class University extends Compartment {
 
     class Student {
@@ -30,29 +51,6 @@ object UniversityExample {
   class Person(val name: String) {
     def talk(): Unit = {
       println("I am a person")
-    }
-  }
-
-  def main(args: Array[String]): Unit = {
-    new University {
-      val hans = new Person("hans")
-      val uwe = new Person("uwe")
-
-      hans.talk()
-
-      val student = new Student
-      println("Player equals core: " + ((hans play student) == hans))
-      (+hans).talk()
-
-      val name: String = (+student).name
-      println(name)
-      println("Role core equals core: " + (+student == hans))
-
-      uwe play new Professor
-      (+uwe).talk()
-      println("Core equals core playing a role: " + (+uwe == uwe))
-
-      (+uwe).teach(hans)
     }
   }
 }

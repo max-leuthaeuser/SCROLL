@@ -12,7 +12,7 @@ class DynamicExtensionsTest extends AbstractParameterizedSCROLLTest {
         someCore <+> someRole
         someCore <+> new RoleB()
         someCore <-> someRole
-        val exptected = someCore.a()
+        val exptected   = someCore.a()
         val actual: Int = (+someCore).a()
         exptected shouldBe actual
         (+someCore).hasExtension[RoleA] shouldBe false

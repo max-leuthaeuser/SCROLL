@@ -26,7 +26,7 @@ class BankExample {
     var amount: Double = _
 
     var from: Source = _
-    var to: Target = _
+    var to: Target   = _
 
     def execute(): Unit = {
       from.withdraw(amount)
@@ -85,7 +85,11 @@ class BankExample {
 
   var bank: Bank = _
 
-  def build(numPlayer: Int, numRoles: Int, numTransactions: Int, cached: Boolean, checkCycles: Boolean = false): BankExample = {
+  def build(numPlayer: Int,
+            numRoles: Int,
+            numTransactions: Int,
+            cached: Boolean,
+            checkCycles: Boolean = false): BankExample = {
     val players = (0 until numPlayer).map(i => new Person("Name-" + i))
 
     bank = new Bank {

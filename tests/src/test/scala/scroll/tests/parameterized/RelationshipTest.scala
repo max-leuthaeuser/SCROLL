@@ -13,11 +13,11 @@ class RelationshipTest extends AbstractParameterizedSCROLLTest {
         val rC = new RoleC
         p play rA play rB
         val relSize = 1
-        val rel1 = roleRelationships.create("rel1").from[RoleA](relSize).to[RoleB](relSize)
+        val rel1    = roleRelationships.create("rel1").from[RoleA](relSize).to[RoleB](relSize)
         rel1.left() should contain only rA
         rel1.right() should contain only rB
         val rel2Name = "rel2"
-        val rel2 = roleRelationships.create(rel2Name).from[RoleA](relSize).to[RoleC](relSize)
+        val rel2     = roleRelationships.create(rel2Name).from[RoleA](relSize).to[RoleC](relSize)
         rel2.left() should contain only rA
         the[AssertionError] thrownBy {
           rel2.right()

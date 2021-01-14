@@ -4,6 +4,7 @@ package scroll.internal.graph
   * API defining an generic interface for all kind of role graphs.
   */
 trait RoleGraph {
+
   /**
     * RoleGraph given as other would get part of this.
     *

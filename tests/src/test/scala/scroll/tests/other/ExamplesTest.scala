@@ -8,7 +8,7 @@ class ExamplesTest extends AbstractSCROLLTest {
   test("scroll.examples.UniversityExample") {
     val output = new java.io.ByteArrayOutputStream()
     Console.withOut(output) {
-      UniversityExample.main(null)
+      UniversityExample.runUniversityExample()
     }
     val actual = streamToSeq(output)
     actual should contain theSameElementsInOrderAs Seq(
@@ -26,7 +26,7 @@ class ExamplesTest extends AbstractSCROLLTest {
   test("scroll.examples.BankExample") {
     val output = new java.io.ByteArrayOutputStream()
     Console.withOut(output) {
-      BankExample.main(null)
+      BankExample.runBankExample()
     }
     val actual = streamToSeq(output)
 
@@ -50,11 +50,10 @@ class ExamplesTest extends AbstractSCROLLTest {
     actual.lazyZip(expected).foreach((a, e) => a should fullyMatch regex e.r)
   }
 
-
   test("scroll.examples.APICallsExample") {
     val output = new java.io.ByteArrayOutputStream()
     Console.withOut(output) {
-      APICallsExample.main(null)
+      APICallsExample.runAPICallsExample()
     }
 
     val actual = streamToSeq(output)
@@ -68,16 +67,17 @@ class ExamplesTest extends AbstractSCROLLTest {
   test("scroll.examples.RobotExample") {
     val output = new java.io.ByteArrayOutputStream()
     Console.withOut(output) {
-      RobotExample.main(null)
+      RobotExample.runRobotExample()
     }
     val actual = streamToSeq(output)
-    actual should contain theSameElementsInOrderAs Seq("I am Pete and moving to the kitchen with my wheels w.r.t. sensor value of 100.")
+    actual should contain theSameElementsInOrderAs Seq(
+      "I am Pete and moving to the kitchen with my wheels w.r.t. sensor value of 100.")
   }
 
   test("Expression Problem") {
     val output = new java.io.ByteArrayOutputStream()
     Console.withOut(output) {
-      ExpressionProblemExample.main(null)
+      ExpressionProblemExample.runExpressionProblemExample()
     }
     val actual = streamToSeq(output)
     actual should contain theSameElementsInOrderAs Seq(

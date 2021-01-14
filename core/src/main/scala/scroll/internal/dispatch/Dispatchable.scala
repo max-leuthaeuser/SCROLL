@@ -1,13 +1,14 @@
 package scroll.internal.dispatch
 
-import java.lang.reflect.Method
-
 import scroll.internal.errors.SCROLLErrors.InvocationError
+
+import java.lang.reflect.Method
 
 /**
   * This Trait specifies a general interface for reflectively invoking methods.
   */
 trait Dispatchable {
+
   /**
     * For reflective dispatch.
     *

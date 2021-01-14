@@ -3,6 +3,7 @@ package scroll.internal.support
 import scroll.internal.compartment.CompartmentApi
 
 trait CompartmentRelationsApi {
+
   /**
     * Declaring a bidirectional is-part-of relation between compartment.
     */

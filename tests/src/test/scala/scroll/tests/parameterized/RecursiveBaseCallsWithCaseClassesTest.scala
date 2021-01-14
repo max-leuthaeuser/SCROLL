@@ -39,8 +39,8 @@ class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLT
   test("Adding roles and doing a normal base call") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new MultiRole(c, cc) {
-        val c = CoreType("p")
-        val r = RoleTypeA("r")
+        val c      = CoreType("p")
+        val r      = RoleTypeA("r")
         val player = c play r
         val output = new java.io.ByteArrayOutputStream()
         Console.withOut(output) {
@@ -59,14 +59,14 @@ class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLT
   test("Adding roles and chaining base calls recursively") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new MultiRole(c, cc) {
-        val c1 = CoreType("c1")
-        val c2 = CoreType("c2")
-        val rA1 = RoleTypeA("rA1")
-        val rA2 = RoleTypeA("rA2")
-        val rB = RoleTypeB("rB")
+        val c1      = CoreType("c1")
+        val c2      = CoreType("c2")
+        val rA1     = RoleTypeA("rA1")
+        val rA2     = RoleTypeA("rA2")
+        val rB      = RoleTypeB("rB")
         val player1 = c1 play rA1 play rB
         val player2 = c2 play rA2
-        val output = new java.io.ByteArrayOutputStream()
+        val output  = new java.io.ByteArrayOutputStream()
         Console.withOut(output) {
           player1.someMethod()
         }

@@ -1,7 +1,5 @@
 val lib = Dependencies
 
-val utf8 = java.nio.charset.StandardCharsets.UTF_8.toString
-
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 // enables experimental Turbo mode with ClassLoader layering from sbt 1.3
@@ -29,7 +27,6 @@ lazy val commonSettings = Seq(
   dependencyOverrides ++= lib.coreDependenciesOverrides,
   javacOptions in Compile ++= Seq("-source", "1.8", "-target", "1.8"),
   scalacOptions ++= Seq(
-    "-encoding", utf8,
     "-deprecation",                       // Emit warning and location for usages of deprecated APIs.
     "-feature",                           // Emit warning and location for usages of features that should be imported explicitly.
     "-language:dynamics",                 // Allow direct or indirect subclasses of scala.Dynamic.

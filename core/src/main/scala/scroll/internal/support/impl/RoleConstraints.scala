@@ -12,17 +12,22 @@ import scala.reflect.ClassTag
 import scala.reflect.classTag
 
 class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends RoleConstraintsApi {
-  private[this] lazy val roleImplications: MutableGraph[String] = GraphBuilder.directed().build[String]()
-  private[this] lazy val roleEquivalents: MutableGraph[String] = GraphBuilder.directed().build[String]()
-  private[this] lazy val roleProhibitions: MutableGraph[String] = GraphBuilder.directed().build[String]()
+  private[this] lazy val roleImplications: MutableGraph[String] =
+    GraphBuilder.directed().build[String]()
+  private[this] lazy val roleEquivalents: MutableGraph[String] =
+    GraphBuilder.directed().build[String]()
+  private[this] lazy val roleProhibitions: MutableGraph[String] =
+    GraphBuilder.directed().build[String]()
 
   private[this] def checkImplications(player: AnyRef, role: AnyRef): Unit = {
     val list = roleImplications.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
     if (list.nonEmpty) {
       val allImplicitRoles = list.flatMap(Graphs.reachableNodes(roleImplications, _).asScala)
-      val allRoles = roleGraph.plays.roles(player)
-      allImplicitRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
-        throw new RuntimeException(s"Role implication constraint violation: '$player' should play role '$r', but it does not!")
+      val allRoles         = roleGraph.plays.roles(player)
+      allImplicitRoles.foreach(r =>
+        if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
+          throw new RuntimeException(
+            s"Role implication constraint violation: '$player' should play role '$r', but it does not!")
       })
     }
   }
@@ -31,9 +36,11 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
     val list = roleEquivalents.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
     if (list.nonEmpty) {
       val allEquivalentRoles = list.flatMap(Graphs.reachableNodes(roleEquivalents, _).asScala)
-      val allRoles = roleGraph.plays.roles(player)
-      allEquivalentRoles.foreach(r => if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
-        throw new RuntimeException(s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!")
+      val allRoles           = roleGraph.plays.roles(player)
+      allEquivalentRoles.foreach(r =>
+        if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
+          throw new RuntimeException(
+            s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!")
       })
     }
   }
@@ -41,40 +48,47 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
   private[this] def checkProhibitions(player: AnyRef, role: AnyRef): Unit = {
     val list = roleProhibitions.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
     if (list.nonEmpty) {
-      val allProhibitedRoles = list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
+      val allProhibitedRoles =
+        list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
       val allRoles = roleGraph.plays.roles(player)
       val rs = if (allProhibitedRoles.size == allRoles.size) {
         Set.empty[String]
       } else {
         allProhibitedRoles.filter(r => allRoles.exists(ReflectiveHelper.isInstanceOf(r, _)))
       }
-      allProhibitedRoles.diff(rs).diff(list.toSet).foreach(r => if (allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
-        throw new RuntimeException(s"Role prohibition constraint violation: '$player' plays role '$r', but it is not allowed to do so!")
-      })
+      allProhibitedRoles
+        .diff(rs)
+        .diff(list.toSet)
+        .foreach(r =>
+          if (allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
+            throw new RuntimeException(
+              s"Role prohibition constraint violation: '$player' plays role '$r', but it is not allowed to do so!")
+        })
     }
   }
 
-  override def addRoleImplication[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
+  override def addRoleImplication[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit = {
     val rA = classTag[A].toString
     val rB = classTag[B].toString
-    val _ = roleImplications.putEdge(rA, rB)
+    val _  = roleImplications.putEdge(rA, rB)
   }
 
-  override def addRoleEquivalence[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
+  override def addRoleEquivalence[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit = {
     val rA = classTag[A].toString
     val rB = classTag[B].toString
-    val _ = (roleEquivalents.putEdge(rA, rB), roleEquivalents.putEdge(rB, rA))
+    val _  = (roleEquivalents.putEdge(rA, rB), roleEquivalents.putEdge(rB, rA))
   }
 
-  override def addRoleProhibition[A <: AnyRef : ClassTag, B <: AnyRef : ClassTag](): Unit = {
+  override def addRoleProhibition[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit = {
     val rA = classTag[A].toString
     val rB = classTag[B].toString
-    val _ = roleProhibitions.putEdge(rA, rB)
+    val _  = roleProhibitions.putEdge(rA, rB)
   }
 
   override def checked(func: => Unit): Unit = {
     func
-    roleGraph.plays.allPlayers.foreach(p => roleGraph.plays.roles(p).foreach(r => validateConstraints(p, r)))
+    roleGraph.plays.allPlayers.foreach(p =>
+      roleGraph.plays.roles(p).foreach(r => validateConstraints(p, r)))
   }
 
   /**

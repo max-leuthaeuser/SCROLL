@@ -31,7 +31,7 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           }
           (+someCore).id() match {
             case Right(actual) => actual shouldBe expected
-            case Left(error) => fail(error.toString)
+            case Left(error)   => fail(error.toString)
           }
         }
 
@@ -43,7 +43,7 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           }
           (+someCore).id() match {
             case Right(actual) => actual shouldBe expected.reverse
-            case Left(error) => fail(error.toString)
+            case Left(error)   => fail(error.toString)
           }
         }
 
@@ -55,17 +55,17 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           }
           (+someCore).id() match {
             case Right(actual) => actual shouldBe expected2
-            case Left(error) => fail(error.toString)
+            case Left(error)   => fail(error.toString)
           }
         }
 
         {
           given DispatchQuery = Bypassing(_.isInstanceOf[RoleA]).sortedWith {
-           case (_: RoleB, _: RoleC) => swap
+            case (_: RoleB, _: RoleC) => swap
           }
           (+someCore).id() match {
             case Right(actual) => actual shouldBe expected2.reverse
-            case Left(error) => fail(error.toString)
+            case Left(error)   => fail(error.toString)
           }
         }
       }

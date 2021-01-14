@@ -98,7 +98,7 @@ object DispatchQuery {
 
 }
 
-import DispatchQuery._
+import scroll.internal.dispatch.DispatchQuery._
 
 /**
   * Composed dispatch query, i.e., applying the composition of all dispatch queries the given set of edges.

@@ -8,9 +8,9 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
         val player = new CoreA()
-        val roleA = new RoleA()
-        val roleB = new RoleB()
-        val roleC = new RoleC()
+        val roleA  = new RoleA()
+        val roleB  = new RoleB()
+        val roleC  = new RoleC()
         roleConstraints.addRoleImplication[RoleA, RoleB]()
         roleConstraints.checked {
           player play roleA play roleB
@@ -48,9 +48,9 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
         val player = new CoreA()
-        val roleA = new RoleA()
-        val roleB = new RoleB()
-        val roleC = new RoleC()
+        val roleA  = new RoleA()
+        val roleB  = new RoleB()
+        val roleC  = new RoleC()
         roleConstraints.addRoleProhibition[RoleA, RoleB]()
         roleConstraints.checked {
           player play roleA
@@ -87,9 +87,9 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
         val player = new CoreA()
-        val roleA = new RoleA()
-        val roleB = new RoleB()
-        val roleC = new RoleC()
+        val roleA  = new RoleA()
+        val roleB  = new RoleB()
+        val roleC  = new RoleC()
         roleConstraints.addRoleEquivalence[RoleA, RoleB]()
         the[RuntimeException] thrownBy {
           roleConstraints.checked {
@@ -126,8 +126,8 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
         val player = new CoreA()
-        val roleA = new RoleA()
-        val roleB = new RoleB()
+        val roleA  = new RoleA()
+        val roleB  = new RoleB()
         roleConstraints.addRoleImplication[RoleA, RoleB]()
         roleConstraints.addRoleProhibition[RoleA, RoleB]()
         the[RuntimeException] thrownBy {

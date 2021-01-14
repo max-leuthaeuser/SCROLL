@@ -4,6 +4,22 @@ import scroll.internal.compartment.impl.Compartment
 
 object ExpressionProblemExample {
 
+  @main def runExpressionProblemExample(): Unit = {
+    new M4 {
+      val e = Add(
+        Neg(
+          Num(2) playing new NumShowable
+        ) playing new NegShowable,
+        Num(11) playing new NumShowable
+      ) play new AddShowable
+
+      val eval: Int    = e.eval()
+      val show: String = e.show()
+      println("Eval: " + eval)
+      println("Show: " + show)
+    }
+  }
+
   // M1
   trait M1 extends Compartment {
 
@@ -42,7 +58,7 @@ object ExpressionProblemExample {
 
     class AddShowable() {
       def show(): String = {
-        val left: Exp = (+this).left
+        val left: Exp  = (+this).left
         val right: Exp = (+this).right
         val ls: String = (+left).show()
         val rs: String = (+right).show()
@@ -57,27 +73,11 @@ object ExpressionProblemExample {
 
     class NegShowable() {
       def show(): String = {
-        val e: Exp = (+this).exp
+        val e: Exp     = (+this).exp
         val es: String = (+e).show()
         "-" + es
       }
     }
 
-  }
-
-  def main(args: Array[String]): Unit = {
-    new M4 {
-      val e = Add(
-        Neg(
-          Num(2) playing new NumShowable
-        ) playing new NegShowable,
-        Num(11) playing new NumShowable
-      ) play new AddShowable
-
-      val eval: Int = e.eval()
-      val show: String = e.show()
-      println("Eval: " + eval)
-      println("Show: " + show)
-    }
   }
 }

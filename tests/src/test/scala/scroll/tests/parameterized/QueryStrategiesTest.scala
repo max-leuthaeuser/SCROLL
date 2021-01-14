@@ -10,7 +10,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
   test("MatchAny") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
-        val expected = new RoleA()
+        val expected     = new RoleA()
         val alsoExpected = new RoleA()
         alsoExpected.valueC = "no"
         new CoreA play expected play alsoExpected
@@ -23,7 +23,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
   test("WithProperty") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
-        val expected = new RoleA()
+        val expected    = new RoleA()
         val notExpected = new RoleA()
         notExpected.valueC = "no"
         new CoreA play expected play notExpected
@@ -36,7 +36,7 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
   test("WithResult") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
-        val expected = new RoleA()
+        val expected    = new RoleA()
         val notExpected = new RoleA()
         notExpected.valueC = "no"
         new CoreA play expected play notExpected
@@ -53,9 +53,10 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
         val role2 = new RoleA()
         role2.valueC = "yes"
         new CoreA play role1 play role2
-        val matcher = (r: RoleA) => r match {
-          case r: RoleA => r.valueC == "yes"
-          case null => false
+        val matcher = (r: RoleA) =>
+          r match {
+            case r: RoleA => r.valueC == "yes"
+            case null     => false
         }
         val actual: RoleA = roleQueries.one[RoleA](matcher)
         actual shouldBe role2

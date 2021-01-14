@@ -5,18 +5,20 @@ import com.google.common.graph.MutableGraph
 import scroll.internal.graph.RoleGraph
 
 object CachedScalaRoleGraph {
-  def copyFrom(from: ScalaRoleGraph, checkForCycles: Boolean): CachedScalaRoleGraph = new CachedScalaRoleGraph(from.root, checkForCycles)
+  def copyFrom(from: ScalaRoleGraph, checkForCycles: Boolean): CachedScalaRoleGraph =
+    new CachedScalaRoleGraph(from.root, checkForCycles)
 }
 
 class CachedScalaRoleGraph(root: MutableGraph[Object] = GraphBuilder.directed().build[Object](),
-                           checkForCycles: Boolean = true) extends ScalaRoleGraph(root, checkForCycles) {
+                           checkForCycles: Boolean = true)
+    extends ScalaRoleGraph(root, checkForCycles) {
 
   import scroll.internal.util.Memoiser._
 
   private[this] val containsCache = buildCache[AnyRef, java.lang.Boolean](super.containsPlayer)
-  private[this] val predCache = buildCache[AnyRef, Seq[AnyRef]](super.predecessors)
-  private[this] val rolesCache = buildCache[AnyRef, Seq[AnyRef]](super.roles)
-  private[this] val facetsCache = buildCache[AnyRef, Seq[Enumeration#Value]](super.facets)
+  private[this] val predCache     = buildCache[AnyRef, Seq[AnyRef]](super.predecessors)
+  private[this] val rolesCache    = buildCache[AnyRef, Seq[AnyRef]](super.roles)
+  private[this] val facetsCache   = buildCache[AnyRef, Seq[Enumeration#Value]](super.facets)
 
   override def addBinding(player: AnyRef, role: AnyRef): Unit = {
     super.addBinding(player, role)

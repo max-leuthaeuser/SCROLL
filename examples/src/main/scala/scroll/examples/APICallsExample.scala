@@ -6,6 +6,10 @@ import scroll.internal.dispatch.DispatchQuery.Bypassing
 
 object APICallsExample {
 
+  @main def runAPICallsExample(): Unit = new APICalls {
+    MyApp().run()
+  }
+
   class APICalls extends Compartment {
 
     case class API() {
@@ -47,11 +51,5 @@ object APICallsExample {
       }
     }
 
-  }
-
-  def main(args: Array[String]): Unit = {
-    new APICalls {
-      MyApp().run()
-    }
   }
 }

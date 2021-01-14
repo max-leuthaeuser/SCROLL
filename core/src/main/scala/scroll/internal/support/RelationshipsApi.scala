@@ -9,12 +9,12 @@ trait RelationshipsApi {
 
   import scroll.internal.support.impl.Multiplicities._
 
-  abstract class ToBuilderApi[L <: AnyRef : ClassTag] {
-    def to[R <: AnyRef : ClassTag](rightMul: Multiplicity): RelationshipApi[L, R]
+  abstract class ToBuilderApi[L <: AnyRef: ClassTag] {
+    def to[R <: AnyRef: ClassTag](rightMul: Multiplicity): RelationshipApi[L, R]
   }
 
   abstract class FromBuilderApi {
-    def from[L <: AnyRef : ClassTag](leftMul: Multiplicity): ToBuilderApi[L]
+    def from[L <: AnyRef: ClassTag](leftMul: Multiplicity): ToBuilderApi[L]
   }
 
   /**
@@ -32,7 +32,7 @@ trait RelationshipsApi {
     * @tparam L type of the role of the left side of the relationship
     * @tparam R type of the role of the right side of the relationship
     */
-  abstract class RelationshipApi[L <: AnyRef : ClassTag, R <: AnyRef : ClassTag] {
+  abstract class RelationshipApi[L <: AnyRef: ClassTag, R <: AnyRef: ClassTag] {
 
     /**
       * Get all instances of the left side of the relationship w.r.t. the provided matching function and checking the multiplicity.

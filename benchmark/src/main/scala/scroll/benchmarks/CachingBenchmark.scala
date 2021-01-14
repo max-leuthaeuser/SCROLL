@@ -1,8 +1,7 @@
 package scroll.benchmarks
 
-import org.openjdk.jmh.annotations.Benchmark
-
 import org.openjdk.jmh.annotations._
+import org.openjdk.jmh.annotations.Benchmark
 
 object CachingBenchmark {
 
@@ -10,8 +9,6 @@ object CachingBenchmark {
   class Shared {
     val cachingExample: CachingExample = new CachingExample()
   }
-
-
   @State(Scope.Thread)
   class Local {
 
@@ -34,7 +31,7 @@ class CachingBenchmark extends AbstractBenchmark {
 
   private def reps(reps: Int, c: CachingExample#SomeCompartment): Int = {
     var result = 0
-    var index = 0
+    var index  = 0
     while (index < reps) {
       result = c.run()
       index += 1

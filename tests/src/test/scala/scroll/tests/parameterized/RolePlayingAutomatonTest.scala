@@ -1,20 +1,19 @@
 package scroll.tests.parameterized
 
+import akka.actor.actorRef2Scala
 import org.scalatest.concurrent.Waiters._
 import org.scalatest.time.SpanSugar._
 import scroll.internal.rpa.RolePlayingAutomaton
 import scroll.internal.rpa.RolePlayingAutomaton._
 import scroll.tests.mocks._
 
-import akka.actor.actorRef2Scala
-
 class RolePlayingAutomatonTest extends AbstractParameterizedSCROLLTest {
 
   class ACompartment(c: Boolean, cc: Boolean) extends CompartmentUnderTest(c, cc) {
     val player = new CoreA()
-    val roleA = new RoleA()
-    val roleB = new RoleB()
-    val roleC = new RoleC()
+    val roleA  = new RoleA()
+    val roleB  = new RoleB()
+    val roleC  = new RoleC()
 
     val w = new Waiter()
 
@@ -43,7 +42,7 @@ class RolePlayingAutomatonTest extends AbstractParameterizedSCROLLTest {
       }
 
       onTransition {
-        case Start -> StateA => player play roleA; self ! BindRole
+        case Start -> StateA  => player play roleA; self ! BindRole
         case StateA -> StateB => player play roleB; self ! BindRole
         case StateB -> StateC => player play roleC; self ! Terminate
       }
