@@ -74,13 +74,13 @@ trait ICompartment extends RoleConstraints
     * @param coreTo   the core the given role should be attached to
     * @param role     the role that should be transferred
     */
-  def transferRole[F <: AnyRef : ClassTag, T <: AnyRef : ClassTag, R <: AnyRef : ClassTag](coreFrom: F, coreTo: T, role: R): Unit = {
+  protected def transferRole[F <: AnyRef, T <: AnyRef, R <: AnyRef : ClassTag](coreFrom: F, coreTo: T, role: R): Unit = {
     require(null != coreFrom)
     require(null != coreTo)
     require(null != role)
     require(coreFrom != coreTo, "You can not transfer a role from itself.")
     removePlaysRelation(coreFrom, role)
-    addPlaysRelation(coreTo, role)
+    addPlaysRelation[T, R](coreTo, role)
   }
 
   /**
@@ -91,10 +91,10 @@ trait ICompartment extends RoleConstraints
     * @param core the core to add the given role at
     * @param role the role that should added to the given core
     */
-  def addPlaysRelation[C <: AnyRef : ClassTag, R <: AnyRef : ClassTag](core: C, role: R): Unit = {
+  protected def addPlaysRelation[C <: AnyRef, R <: AnyRef : ClassTag](core: C, role: R): Unit = {
     require(null != core)
     require(null != role)
-    validate(core, role)
+    validate[R](core, role)
     plays.addBinding(core, role)
   }
 
@@ -104,7 +104,7 @@ trait ICompartment extends RoleConstraints
     * @param core the core the given role should removed from
     * @param role the role that should removed from the given core
     */
-  def removePlaysRelation(core: AnyRef, role: AnyRef): Unit = {
+  protected def removePlaysRelation(core: AnyRef, role: AnyRef): Unit = {
     require(null != core)
     require(null != role)
     plays.removeBinding(core, role)
@@ -140,7 +140,7 @@ trait ICompartment extends RoleConstraints
     * @param wrapped the player or role that is wrapped into this dynamic type
     * @tparam W type of wrapped object
     */
-  abstract class IPlayer[+W <: AnyRef : ClassTag, +T <: IPlayer[W, T]](val wrapped: W) extends SCROLLDispatchable with Dynamic {
+  abstract class IPlayer[+W <: AnyRef, +T <: IPlayer[W, T]](val wrapped: W) extends SCROLLDispatchable with Dynamic {
 
     self: T =>
 
@@ -217,7 +217,7 @@ trait ICompartment extends RoleConstraints
     }
 
     protected class TransferToBuilder[R <: AnyRef : ClassTag](role: R) {
-      def to[P <: AnyRef : ClassTag](player: P): Unit = {
+      def to[P <: AnyRef](player: P): Unit = {
         transferRole[W, P, R](wrapped, player, role)
       }
     }

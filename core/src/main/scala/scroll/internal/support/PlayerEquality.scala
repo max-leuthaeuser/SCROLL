@@ -2,12 +2,10 @@ package scroll.internal.support
 
 import scroll.internal.ICompartment
 
-import scala.reflect.ClassTag
-
 trait PlayerEquality {
   self: ICompartment =>
 
-  def equalsPlayer[W <: AnyRef : ClassTag](a: IPlayer[W, _], b: IPlayer[W, _]): Boolean = {
+  def equalsPlayer[W <: AnyRef](a: IPlayer[W, _], b: IPlayer[W, _]): Boolean = {
     val coreA = coreFor(a.wrapped)
     val coreB = coreFor(b.wrapped)
     if (coreA.sizeIs == 1) {
@@ -19,7 +17,7 @@ trait PlayerEquality {
     }
   }
 
-  def equalsAny[W <: AnyRef : ClassTag](a: IPlayer[W, _], b: Any): Boolean = {
+  def equalsAny[W <: AnyRef](a: IPlayer[W, _], b: Any): Boolean = {
     val coreA = coreFor(a.wrapped)
     if (coreA.sizeIs == 1) {
       coreA.headOption.contains(b)
