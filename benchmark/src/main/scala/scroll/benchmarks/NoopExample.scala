@@ -31,7 +31,7 @@ class NoopExample(cached: Boolean) {
       }
 
       def referenceArgAndReturn(o: AnyRef): AnyRef = {
-        (+this).referenceArgAndReturn o
+        (+this).referenceArgAndReturn(o)
       }
 
       def primitiveArgsAndReturn(x: Int, y: Int): Int = {
