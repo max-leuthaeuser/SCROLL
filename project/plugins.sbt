@@ -1,4 +1,3 @@
-addSbtPlugin("ch.epfl.lamp"                      % "sbt-dotty"           % "0.5.3")
 addSbtPlugin("org.xerial.sbt"                    % "sbt-sonatype"        % "3.9.7")
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings"    % "3.0.0")
 addSbtPlugin("pl.project13.scala"                % "sbt-jmh"             % "0.4.0")
