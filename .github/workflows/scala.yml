@@ -33,7 +33,7 @@ jobs:
           java-version: '11'
           distribution: adopt
       - name: Generate Report
-        run: |
-          sbt coverageReport
-          sbt coverageAggregate
-          sbt codacyCoverage
+        uses: lokkju/github-action-sbt@v0.2.2
+        with:
+          project-token: '${{ secrets.CODACY_PROJECT_TOKEN }}'
+          commands: coverageReport, coverageAggregate, codacyCoverage
