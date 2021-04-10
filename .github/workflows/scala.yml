@@ -34,6 +34,11 @@ jobs:
      with:
        java-version: '11'
        distribution: 'adopt'
+   - name: Generate Report
+     run: |
+        sbt coverageReport
+        sbt coverageAggregate
+        sbt codacyCoverage
    - name: Codacy Coverage Reporter
      uses: codacy/codacy-coverage-reporter-action@0.2.0
      with:
