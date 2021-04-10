@@ -25,6 +25,8 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     needs: build
+    env:
+      CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -32,8 +34,5 @@ jobs:
         with:
           java-version: '11'
           distribution: adopt
-      - name: Generate Report
-        uses: lokkju/github-action-sbt@v0.2.2
-        with:
-          project-token: '${{ secrets.CODACY_PROJECT_TOKEN }}'
-          commands: coverageReport, coverageAggregate, codacyCoverage
+      - name: Run report
+        run: sbt coverageReport coverageAggregate codacyCoverage
