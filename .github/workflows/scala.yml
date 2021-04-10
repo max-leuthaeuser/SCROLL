@@ -1,19 +1,10 @@
 name: Scala CI
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+on: [push, pull_request]
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
-    env:
-      CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -22,9 +13,4 @@ jobs:
           java-version: '11'
           distribution: adopt
       - name: Run tests
-        run: sbt clean coverage test
-      - name: Run report
-        run: |
-          sbt coverageAggregate
-          sbt codacyCoverage
-          
+        run: sbt test          
