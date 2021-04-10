@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -21,12 +19,9 @@ jobs:
     - name: Run tests
       run: sbt clean coverage test
       
-  coverage:
-  
+  coverage:  
    runs-on: ubuntu-latest
-
    needs: build
-
    steps:
    - uses: actions/checkout@v2
    - name: Set up JDK 11
@@ -39,7 +34,7 @@ jobs:
         sbt coverageReport
         sbt coverageAggregate
    - name: Codacy Coverage Reporter
-     uses: codacy/codacy-coverage-reporter-action@0.2.0
+     uses: codacy/codacy-coverage-reporter-action@master
      with:
-       project-token: qmaA44jkdAPti5klDwdc
-          
+       project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+       coverage-reports: cobertura.xml
