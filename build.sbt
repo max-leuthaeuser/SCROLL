@@ -6,10 +6,9 @@ ThisBuild / scalaVersion := lib.v.scalaVersion
 
 addCommandAlias("format", ";scalafmtAll;scalafmtSbt")
 
-lazy val noPublishSettings =
-  Seq(publish := {}, publishLocal := {}, publishArtifact := false)
+lazy val noPublishSettings = Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 
-lazy val root              = (project in file("."))
+lazy val root = (project in file("."))
   .settings(
     name := "SCROLLRoot",
     noPublishSettings
