@@ -25,21 +25,13 @@ class RolePlayingAutomatonTest extends AbstractParameterizedSCROLLTest {
 
       private case object StateC extends RPAState
 
-      when(Start) {
-        case Event(BindRole, _) => goto(StateA)
-      }
+      when(Start) { case Event(BindRole, _) => goto(StateA) }
 
-      when(StateA) {
-        case Event(BindRole, _) => goto(StateB)
-      }
+      when(StateA) { case Event(BindRole, _) => goto(StateB) }
 
-      when(StateB) {
-        case Event(BindRole, _) => goto(StateC)
-      }
+      when(StateB) { case Event(BindRole, _) => goto(StateC) }
 
-      when(StateC) {
-        case Event(Terminate, _) => w.dismiss(); goto(Stop)
-      }
+      when(StateC) { case Event(Terminate, _) => w.dismiss(); goto(Stop) }
 
       onTransition {
         case Start -> StateA  => player play roleA; self ! BindRole

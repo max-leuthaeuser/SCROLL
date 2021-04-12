@@ -6,10 +6,10 @@ import scroll.internal.util.ReflectiveHelper
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 
-/**
-  * Representation of a Compartment Role Object Instance (CROI).
+/** Representation of a Compartment Role Object Instance (CROI).
   */
 trait CROI extends CROM {
+
   protected val croi: FormalCROI[String, String, String, String] =
     FormalCROI.empty[String, String, String, String]
 

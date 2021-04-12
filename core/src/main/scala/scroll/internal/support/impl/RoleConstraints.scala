@@ -12,10 +12,13 @@ import scala.reflect.ClassTag
 import scala.reflect.classTag
 
 class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends RoleConstraintsApi {
+
   private[this] lazy val roleImplications: MutableGraph[String] =
     GraphBuilder.directed().build[String]()
+
   private[this] lazy val roleEquivalents: MutableGraph[String] =
     GraphBuilder.directed().build[String]()
+
   private[this] lazy val roleProhibitions: MutableGraph[String] =
     GraphBuilder.directed().build[String]()
 
@@ -27,8 +30,10 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
       allImplicitRoles.foreach(r =>
         if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
           throw new RuntimeException(
-            s"Role implication constraint violation: '$player' should play role '$r', but it does not!")
-      })
+            s"Role implication constraint violation: '$player' should play role '$r', but it does not!"
+          )
+        }
+      )
     }
   }
 
@@ -40,8 +45,10 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
       allEquivalentRoles.foreach(r =>
         if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
           throw new RuntimeException(
-            s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!")
-      })
+            s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!"
+          )
+        }
+      )
     }
   }
 
@@ -50,8 +57,8 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
     if (list.nonEmpty) {
       val allProhibitedRoles =
         list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
-      val allRoles = roleGraph.plays.roles(player)
-      val rs = if (allProhibitedRoles.size == allRoles.size) {
+      val allRoles           = roleGraph.plays.roles(player)
+      val rs                 = if (allProhibitedRoles.size == allRoles.size) {
         Set.empty[String]
       } else {
         allProhibitedRoles.filter(r => allRoles.exists(ReflectiveHelper.isInstanceOf(r, _)))
@@ -62,8 +69,10 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
         .foreach(r =>
           if (allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
             throw new RuntimeException(
-              s"Role prohibition constraint violation: '$player' plays role '$r', but it is not allowed to do so!")
-        })
+              s"Role prohibition constraint violation: '$player' plays role '$r', but it is not allowed to do so!"
+            )
+          }
+        )
     }
   }
 
@@ -87,12 +96,10 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
 
   override def checked(func: => Unit): Unit = {
     func
-    roleGraph.plays.allPlayers.foreach(p =>
-      roleGraph.plays.roles(p).foreach(r => validateConstraints(p, r)))
+    roleGraph.plays.allPlayers.foreach(p => roleGraph.plays.roles(p).foreach(r => validateConstraints(p, r)))
   }
 
-  /**
-    * Checks all role constraints between the given player and role instance.
+  /** Checks all role constraints between the given player and role instance.
     * Will throw a RuntimeException if a constraint is violated!
     *
     * @param player the player instance to check

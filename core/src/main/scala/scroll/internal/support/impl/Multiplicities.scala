@@ -2,8 +2,7 @@ package scroll.internal.support.impl
 
 import scroll.internal.util.Many
 
-/**
-  * Provides some predefined multiplicities.
+/** Provides some predefined multiplicities.
   */
 object Multiplicities {
 
@@ -19,14 +18,14 @@ object Multiplicities {
     def To(t: ExpMultiplicity): Multiplicity = RangeMultiplicity(v, t)
   }
 
-  implicit def orderedToConcreteValue(v: Ordered[Int]): ExpMultiplicity = v match {
-    case Many() => MMany()
-    case _      => ConcreteValue(v)
-  }
+  implicit def orderedToConcreteValue(v: Ordered[Int]): ExpMultiplicity =
+    v match {
+      case Many() => MMany()
+      case _      => ConcreteValue(v)
+    }
 
   implicit def intToConcreteValue(v: Int): ConcreteValue = ConcreteValue(v)
 
-  final case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity)
-      extends Multiplicity
+  final case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity) extends Multiplicity
 
 }

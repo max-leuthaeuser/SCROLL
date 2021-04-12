@@ -16,8 +16,7 @@ import scroll.internal.rpa.RolePlayingAutomaton.Uninitialized
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 
-/**
-  * Companion object for the [[scroll.internal.rpa.RolePlayingAutomaton]] containing
+/** Companion object for the [[scroll.internal.rpa.RolePlayingAutomaton]] containing
   * predefined states and data objects for messaging.
   */
 object RolePlayingAutomaton {
@@ -45,6 +44,7 @@ object RolePlayingAutomaton {
   case object Terminate extends RPAData
 
   protected class RPABuilder[T <: AnyRef: ClassTag]() {
+
     def For(comp: Compartment): ActorRef =
       ActorSystem().actorOf(Props(classTag[T].runtimeClass, comp), s"rpa_${comp.hashCode()}")
   }
@@ -52,8 +52,7 @@ object RolePlayingAutomaton {
   def Use[T <: AnyRef: ClassTag]: RPABuilder[T] = new RPABuilder[T]()
 }
 
-/**
-  * Use this trait to implement your own [[scroll.internal.compartment.impl.Compartment]] specific
+/** Use this trait to implement your own [[scroll.internal.compartment.impl.Compartment]] specific
   * role playing automaton. Please read the documentation for [[akka.actor.FSM]]
   * carefully, since the features from that are applicable for role playing automatons.
   *
@@ -98,8 +97,7 @@ object RolePlayingAutomaton {
   */
 trait RolePlayingAutomaton extends Actor with LoggingFSM[RPAState, RPAData] {
 
-  /**
-    * Starts this automaton. Needs to be called first!
+  /** Starts this automaton. Needs to be called first!
     * Will set the initial state to [[scroll.internal.rpa.RolePlayingAutomaton.Start]].
     */
   def run(): Unit = {
@@ -108,8 +106,7 @@ trait RolePlayingAutomaton extends Actor with LoggingFSM[RPAState, RPAData] {
     initialize()
   }
 
-  /**
-    * Stops this automaton.
+  /** Stops this automaton.
     * Will set state to [[scroll.internal.rpa.RolePlayingAutomaton.Stop]] and terminates the
     * actor system for this [[akka.actor.FSM]].
     */
@@ -122,9 +119,8 @@ trait RolePlayingAutomaton extends Actor with LoggingFSM[RPAState, RPAData] {
     FSM.NullFunction
   }
 
-  onTransition {
-    case _ -> Stop =>
-      log.debug(s"Stopping RPA '${self.path}'")
-      val _ = halt()
+  onTransition { case _ -> Stop =>
+    log.debug(s"Stopping RPA '${self.path}'")
+    val _ = halt()
   }
 }

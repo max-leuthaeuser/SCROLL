@@ -38,8 +38,8 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
         someRole shouldBe someRole
         someOtherRole shouldBe someOtherRole
         someRole should not be someOtherRole
-        val a = +someRole
-        val b = +someOtherRole
+        val a             = +someRole
+        val b             = +someOtherRole
         a shouldBe player
         player shouldBe a
         b shouldBe player
@@ -66,8 +66,8 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
         someRole shouldBe someRole
         someOtherRole shouldBe someOtherRole
         someRole should not be someOtherRole
-        val a = +someRole
-        val b = +someOtherRole
+        val a             = +someRole
+        val b             = +someOtherRole
         a shouldBe player
         player shouldBe a
         b shouldBe player

@@ -9,8 +9,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 
-/**
-  * Trait providing functionality for importing ecore models.
+/** Trait providing functionality for importing ecore models.
   */
 trait ECoreImporter {
   private[this] val META_MODEL_PATH = getClass.getResource("/crom_l1_composed.ecore").getPath
@@ -26,12 +25,11 @@ trait ECoreImporter {
     val eObject = r.getContents.get(0)
     eObject match {
       case p: EPackage => val _ = rs.getPackageRegistry.put(p.getNsURI, p)
-      case _           => throw new IllegalStateException("Meta-Model for CROM could not be loaded!")
+      case _ => throw new IllegalStateException("Meta-Model for CROM could not be loaded!")
     }
   }
 
-  /**
-    * Load and imports an ecore model.
+  /** Load and imports an ecore model.
     * Remember to set the <code>path</code> variable!
     *
     * @param path the path to load the ecore model from
@@ -42,9 +40,9 @@ trait ECoreImporter {
 
     val resourceSet = new ResourceSetImpl()
     registerMetaModel(resourceSet)
-    val _ = resourceSet.getResourceFactoryRegistry.getExtensionToFactoryMap
+    val _           = resourceSet.getResourceFactoryRegistry.getExtensionToFactoryMap
       .put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl())
-    val r = resourceSet.getResource(URI.createFileURI(path), true)
+    val r           = resourceSet.getResource(URI.createFileURI(path), true)
 
     require(null != r)
     require(!r.getContents.isEmpty)

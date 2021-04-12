@@ -30,7 +30,7 @@ class MultiCompartmentTest extends AbstractParameterizedSCROLLTest {
         actual.size shouldBe 2
         var expectedLists = Seq(Seq(2, 2), Seq(1, 1))
         actualLists shouldBe expectedLists
-        val rC = new RoleC()
+        val rC            = new RoleC()
         rB play rC
         actual = (+p).i()
         actual.size shouldBe 3

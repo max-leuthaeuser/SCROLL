@@ -2,13 +2,11 @@ package scroll.internal.support
 
 import scala.reflect.ClassTag
 
-/**
-  * Allows to add and check role constraints (Riehle constraints) to a compartment instance.
+/** Allows to add and check role constraints (Riehle constraints) to a compartment instance.
   */
 trait RoleConstraintsApi {
 
-  /**
-    * Adds an role implication constraint between the given role types.
+  /** Adds an role implication constraint between the given role types.
     * Interpretation: if a core object plays an instance of role type A
     * it also has to play an instance of role type B.
     *
@@ -17,8 +15,7 @@ trait RoleConstraintsApi {
     */
   def addRoleImplication[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
-  /**
-    * Adds an role equivalent constraint between the given role types.
+  /** Adds an role equivalent constraint between the given role types.
     * Interpretation: if a core object plays an instance of role type A
     * it also has to play an instance of role type B and visa versa.
     *
@@ -27,8 +24,7 @@ trait RoleConstraintsApi {
     */
   def addRoleEquivalence[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
-  /**
-    * Adds an role prohibition constraint between the given role types.
+  /** Adds an role prohibition constraint between the given role types.
     * Interpretation: if a core object plays an instance of role type A
     * it is not allowed to play B as well.
     *
@@ -37,8 +33,7 @@ trait RoleConstraintsApi {
     */
   def addRoleProhibition[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
-  /**
-    * Wrapping function that checks all available role constraints for
+  /** Wrapping function that checks all available role constraints for
     * all core objects and its roles after the given function was executed.
     * Throws a RuntimeException if a role constraint is violated!
     *

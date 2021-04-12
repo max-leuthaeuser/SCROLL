@@ -15,8 +15,6 @@ class RoleA {
 
   def b(a: String, param: String = "in"): String = param
 
-  def update(value: String): Unit = {
-    this.valueC = value
-  }
+  def update(value: String): Unit = this.valueC = value
 
 }

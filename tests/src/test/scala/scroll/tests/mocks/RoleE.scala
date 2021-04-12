@@ -17,36 +17,20 @@ class RoleE {
 
   var valueBoolean: Boolean = false
 
-  def updateInt(newValue: Int): Unit = {
-    valueInt = newValue
-  }
+  def updateInt(newValue: Int): Unit = valueInt = newValue
 
-  def updateDouble(newValue: Double): Unit = {
-    valueDouble = newValue
-  }
+  def updateDouble(newValue: Double): Unit = valueDouble = newValue
 
-  def updateFloat(newValue: Float): Unit = {
-    valueFloat = newValue
-  }
+  def updateFloat(newValue: Float): Unit = valueFloat = newValue
 
-  def updateLong(newValue: Long): Unit = {
-    valueLong = newValue
-  }
+  def updateLong(newValue: Long): Unit = valueLong = newValue
 
-  def updateShort(newValue: Short): Unit = {
-    valueShort = newValue
-  }
+  def updateShort(newValue: Short): Unit = valueShort = newValue
 
-  def updateByte(newValue: Byte): Unit = {
-    valueByte = newValue
-  }
+  def updateByte(newValue: Byte): Unit = valueByte = newValue
 
-  def updateChar(newValue: Char): Unit = {
-    valueChar = newValue
-  }
+  def updateChar(newValue: Char): Unit = valueChar = newValue
 
-  def updateBoolean(newValue: Boolean): Unit = {
-    valueBoolean = newValue
-  }
+  def updateBoolean(newValue: Boolean): Unit = valueBoolean = newValue
 
 }

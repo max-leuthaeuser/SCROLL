@@ -1,13 +1,11 @@
 package scroll.internal.graph
 
-/**
-  * API for defining a proxy to a [[RoleGraph]] allowing to reconfigure it on-the-fly.
+/** API for defining a proxy to a [[RoleGraph]] allowing to reconfigure it on-the-fly.
   */
 trait RoleGraphProxyApi {
   private[internal] var plays: RoleGraph
 
-  /**
-    * Reconfigure the underlying [[RoleGraph]] making it cached/non-cached
+  /** Reconfigure the underlying [[RoleGraph]] making it cached/non-cached
     * or using/not using cycle detection.
     *
     * @param cached         either using a [[scroll.internal.graph.impl.CachedScalaRoleGraph]]

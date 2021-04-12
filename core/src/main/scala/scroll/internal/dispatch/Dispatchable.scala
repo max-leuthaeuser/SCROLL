@@ -4,13 +4,11 @@ import scroll.internal.errors.SCROLLErrors.InvocationError
 
 import java.lang.reflect.Method
 
-/**
-  * This Trait specifies a general interface for reflectively invoking methods.
+/** This Trait specifies a general interface for reflectively invoking methods.
   */
 trait Dispatchable {
 
-  /**
-    * For reflective dispatch.
+  /** For reflective dispatch.
     *
     * @param on   the instance to dispatch the given method m on
     * @param m    the method to dispatch

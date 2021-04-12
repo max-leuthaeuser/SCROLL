@@ -77,12 +77,7 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
         } should contain theSameElementsAs Set(someCoreA4, someCoreA5, someCoreA6)
         roleQueries.all { (c: CoreA) =>
           c.hasSomeFacet(Red, Blue)
-        } should contain theSameElementsAs Set(someCoreA1,
-                                               someCoreA2,
-                                               someCoreA3,
-                                               someCoreA4,
-                                               someCoreA5,
-                                               someCoreA6)
+        } should contain theSameElementsAs Set(someCoreA1, someCoreA2, someCoreA3, someCoreA4, someCoreA5, someCoreA6)
         roleQueries.all { (c: CoreA) =>
           c.hasSomeFacet(Green)
         } shouldBe empty

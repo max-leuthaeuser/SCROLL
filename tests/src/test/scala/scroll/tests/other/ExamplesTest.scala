@@ -71,7 +71,8 @@ class ExamplesTest extends AbstractSCROLLTest {
     }
     val actual = streamToSeq(output)
     actual should contain theSameElementsInOrderAs Seq(
-      "I am Pete and moving to the kitchen with my wheels w.r.t. sensor value of 100.")
+      "I am Pete and moving to the kitchen with my wheels w.r.t. sensor value of 100."
+    )
   }
 
   test("Expression Problem") {

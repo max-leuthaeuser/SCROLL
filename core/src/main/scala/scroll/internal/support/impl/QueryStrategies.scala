@@ -2,8 +2,7 @@ package scroll.internal.support.impl
 
 import scroll.internal.util.ReflectiveHelper
 
-/**
-  * Allows to write queries looking for the content of an attribute of the certain role playing
+/** Allows to write queries looking for the content of an attribute of the certain role playing
   * object or the return value of one of its functions.
   */
 object QueryStrategies {
@@ -16,8 +15,7 @@ object QueryStrategies {
     override def matches(on: AnyRef): Boolean = true
   }
 
-  /**
-    * Query strategy using the value the queried attribute.
+  /** Query strategy using the value the queried attribute.
     *
     * @param name  the name of the attribute that is queried
     * @param value the value of the attribute that is queried
@@ -27,8 +25,7 @@ object QueryStrategies {
     override def matches(on: AnyRef): Boolean = ReflectiveHelper.propertyOf[T](on, name) == value
   }
 
-  /**
-    * Query strategy using the return value the queried function.
+  /** Query strategy using the return value the queried function.
     *
     * @param name   the name of the function that is queried
     * @param result the return value of the function that is queried

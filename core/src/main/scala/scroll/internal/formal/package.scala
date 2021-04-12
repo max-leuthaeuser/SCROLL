@@ -1,7 +1,6 @@
 package scroll.internal
 
-/**
-  * This package contains the Scala reference implementation of the role-based modeling language for Compartment Role Object Models (CROM)
+/** This package contains the Scala reference implementation of the role-based modeling language for Compartment Role Object Models (CROM)
   * and Compartment Role Object Instances (CROI), as well as Constraint Models. The implementation is kept simple, comprehensive, and more
   * importantly close to their formalization. This is an adaption of [[https://github.com/Eden-06/formalCROM]].
   *

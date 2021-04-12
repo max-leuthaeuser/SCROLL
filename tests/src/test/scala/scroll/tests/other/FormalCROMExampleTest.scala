@@ -20,12 +20,16 @@ class FormalCROMExampleTest extends AbstractSCROLLTest {
       ("Account", "SA"),
       ("Transaction", "MoneyTransfer")
     ),
-    Map("Bank"        -> List("Consultant", "Customer", "CA", "SA", "MoneyTransfer"),
-        "Transaction" -> List("Source", "Target")),
-    Map("own_ca"      -> List("Customer", "CA"),
-        "own_sa"      -> List("Customer", "SA"),
-        "advises"     -> List("Consultant", "Customer"),
-        "trans"       -> List("Source", "Target"))
+    Map(
+      "Bank"        -> List("Consultant", "Customer", "CA", "SA", "MoneyTransfer"),
+      "Transaction" -> List("Source", "Target")
+    ),
+    Map(
+      "own_ca"      -> List("Customer", "CA"),
+      "own_sa"      -> List("Customer", "SA"),
+      "advises"     -> List("Consultant", "Customer"),
+      "trans"       -> List("Source", "Target")
+    )
   )
 
   test("Well-formedness of banking model") {
@@ -35,18 +39,21 @@ class FormalCROMExampleTest extends AbstractSCROLLTest {
   private val bankaccounts = FormalRoleGroup(List("CA", "SA"), 1, 1)
   private val participants = FormalRoleGroup(List("Source", "Target"), 1, 1)
 
-  private val irreflexive = (r: List[(String, String)]) =>
-    !FormalUtils.any(for { (x, y) <- r } yield x == y)
+  private val irreflexive = (r: List[(String, String)]) => !FormalUtils.any(for { (x, y) <- r } yield x == y)
 
   private val inf = Integer.MAX_VALUE
 
   private val c_bank = FormalConstraintModel.forStrings(
-    Map("Bank"        -> List(((1, inf), "Consultant"), ((0, inf), bankaccounts)),
-        "Transaction" -> List(((2, 2), participants))),
-    Map("own_ca"      -> ((1, 1), (0, inf)),
-        "own_sa"      -> ((1, inf), (0, inf)),
-        "advises"     -> ((0, inf), (1, inf)),
-        "trans"       -> ((1, 1), (1, 1))),
+    Map(
+      "Bank"        -> List(((1, inf), "Consultant"), ((0, inf), bankaccounts)),
+      "Transaction" -> List(((2, 2), participants))
+    ),
+    Map(
+      "own_ca"      -> ((1, 1), (0, inf)),
+      "own_sa"      -> ((1, inf), (0, inf)),
+      "advises"     -> ((0, inf), (1, inf)),
+      "trans"       -> ((1, 1), (1, 1))
+    ),
     List(("advises", irreflexive))
   )
 
@@ -59,21 +66,21 @@ class FormalCROMExampleTest extends AbstractSCROLLTest {
     List("Cu_1", "Cu_2", "Cu_3", "Ca", "Sa", "S", "T", "M"),
     List("bank", "transaction"),
     Map(
-      "Peter"       -> "Person",
-      "Klaus"       -> "Person",
-      "Google"      -> "Company",
-      "Account_1"   -> "Account",
-      "Account_2"   -> "Account",
-      "Cu_1"        -> "Customer",
-      "Cu_2"        -> "Customer",
-      "Cu_3"        -> "Customer",
-      "Ca"          -> "CA",
-      "Sa"          -> "SA",
-      "S"           -> "Source",
-      "T"           -> "Target",
-      "M"           -> "MoneyTransfer",
-      "bank"        -> "Bank",
-      "transaction" -> "Transaction"
+      "Peter"                  -> "Person",
+      "Klaus"                  -> "Person",
+      "Google"                 -> "Company",
+      "Account_1"              -> "Account",
+      "Account_2"              -> "Account",
+      "Cu_1"                   -> "Customer",
+      "Cu_2"                   -> "Customer",
+      "Cu_3"                   -> "Customer",
+      "Ca"                     -> "CA",
+      "Sa"                     -> "SA",
+      "S"                      -> "Source",
+      "T"                      -> "Target",
+      "M"                      -> "MoneyTransfer",
+      "bank"                   -> "Bank",
+      "transaction"            -> "Transaction"
     ),
     List(
       ("Klaus", "bank", "Cu_1"),
@@ -108,21 +115,21 @@ class FormalCROMExampleTest extends AbstractSCROLLTest {
     List("Con", "Cu_1", "Cu_2", "Ca", "Sa", "S", "T", "M"),
     List("bank", "transaction"),
     Map(
-      "Peter"       -> "Person",
-      "Klaus"       -> "Person",
-      "Google"      -> "Company",
-      "Account_1"   -> "Account",
-      "Account_2"   -> "Account",
-      "Con"         -> "Consultant",
-      "Cu_1"        -> "Customer",
-      "Cu_2"        -> "Customer",
-      "Ca"          -> "CA",
-      "Sa"          -> "SA",
-      "S"           -> "Source",
-      "T"           -> "Target",
-      "M"           -> "MoneyTransfer",
-      "bank"        -> "Bank",
-      "transaction" -> "Transaction"
+      "Peter"                  -> "Person",
+      "Klaus"                  -> "Person",
+      "Google"                 -> "Company",
+      "Account_1"              -> "Account",
+      "Account_2"              -> "Account",
+      "Con"                    -> "Consultant",
+      "Cu_1"                   -> "Customer",
+      "Cu_2"                   -> "Customer",
+      "Ca"                     -> "CA",
+      "Sa"                     -> "SA",
+      "S"                      -> "Source",
+      "T"                      -> "Target",
+      "M"                      -> "MoneyTransfer",
+      "bank"                   -> "Bank",
+      "transaction"            -> "Transaction"
     ),
     List(
       ("Klaus", "bank", "Cu_1"),

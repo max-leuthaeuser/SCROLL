@@ -8,16 +8,16 @@ class DynamicExtensionsTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new CompartmentUnderTest(c, cc) {
-        val someRole = new RoleA()
+        val someRole  = new RoleA()
         someCore <+> someRole
         someCore <+> new RoleB()
         someCore <-> someRole
-        val exptected   = someCore.a()
-        val actual: Int = (+someCore).a()
+        val exptected = someCore.a()
+        val actual: Int    = (+someCore).a()
         exptected shouldBe actual
         (+someCore).hasExtension[RoleA] shouldBe false
         (+someCore).hasExtension[RoleB] shouldBe true
-        val resB: String = (+someCore).b()
+        val resB:   String = (+someCore).b()
         resB shouldBe "b"
       }
     }

@@ -2,13 +2,11 @@ package scroll.internal.dispatch
 
 import scroll.internal.errors.SCROLLErrors.SCROLLError
 
-/**
-  * This Trait enables dynamic invocation of role methods that are not natively available on the player object.
+/** This Trait enables dynamic invocation of role methods that are not natively available on the player object.
   */
 trait SCROLLDynamic extends Dynamic {
 
-  /**
-    * Allows to call a function with arguments.
+  /** Allows to call a function with arguments.
     *
     * @param name          the function name
     * @param args          the arguments handed over to the given function
@@ -16,10 +14,11 @@ trait SCROLLDynamic extends Dynamic {
     * @tparam E return type
     * @return the result of the function call or an appropriate error
     */
-  def applyDynamic[E](name: String)(args: Any*)(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[SCROLLError, E]
+  def applyDynamic[E](name: String)(args: Any*)(
+    using dispatchQuery:    DispatchQuery = DispatchQuery()
+  ): Either[SCROLLError, E]
 
-  /**
-    * Allows to call a function with named arguments.
+  /** Allows to call a function with named arguments.
     *
     * @param name          the function name
     * @param args          tuple with the the name and argument handed over to the given function
@@ -27,10 +26,11 @@ trait SCROLLDynamic extends Dynamic {
     * @tparam E return type
     * @return the result of the function call or an appropriate error
     */
-  def applyDynamicNamed[E](name: String)(args: (String, Any)*)(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[SCROLLError, E]
+  def applyDynamicNamed[E](name: String)(args: (String, Any)*)(
+    using dispatchQuery:         DispatchQuery = DispatchQuery()
+  ): Either[SCROLLError, E]
 
-  /**
-    * Allows to read a field.
+  /** Allows to read a field.
     *
     * @param name          of the field
     * @param dispatchQuery the dispatch rules that should be applied
@@ -39,8 +39,7 @@ trait SCROLLDynamic extends Dynamic {
     */
   def selectDynamic[E](name: String)(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[SCROLLError, E]
 
-  /**
-    * Allows to write field updates.
+  /** Allows to write field updates.
     *
     * @param name          of the field
     * @param value         the new value to write

@@ -3,7 +3,7 @@ name: Scala CI
 on: [push, pull_request]
 
 jobs:
-  build:
+  test-scroll:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -12,5 +12,11 @@ jobs:
         with:
           java-version: '11'
           distribution: adopt
-      - name: Run tests
-        run: sbt test          
+      - name: Print sbt version
+        run: sbt --version
+      - name: Compile and run tests
+        run: sbt compile test
+      - name: Check formatting
+        run: sbt scalafmtCheckAll scalafmtSbtCheck
+      - run: echo "Previous step failed because code is not formatted. Run 'sbt format'"
+        if: ${{ failure() }}    

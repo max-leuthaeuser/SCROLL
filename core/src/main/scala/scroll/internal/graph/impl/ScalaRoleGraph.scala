@@ -14,19 +14,20 @@ import scala.util.Success
 import scala.util.Try
 
 object ScalaRoleGraph {
+
   def copyFrom(from: ScalaRoleGraph, checkForCycles: Boolean): ScalaRoleGraph =
     new ScalaRoleGraph(from.root, checkForCycles)
 }
 
-/**
-  * Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
+/** Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
   * a graph as underlying data model.
   *
   * @param checkForCycles set to true to forbid cyclic role playing relationships
   */
-class ScalaRoleGraph(val root: MutableGraph[Object] = GraphBuilder.directed().build[Object](),
-                     val checkForCycles: Boolean = true)
-    extends RoleGraph {
+class ScalaRoleGraph(
+  val root:           MutableGraph[Object] = GraphBuilder.directed().build[Object](),
+  val checkForCycles: Boolean = true
+) extends RoleGraph {
 
   protected val MERGE_MESSAGE: String = "You can only merge RoleGraphs of the same type!"
 
@@ -37,9 +38,9 @@ class ScalaRoleGraph(val root: MutableGraph[Object] = GraphBuilder.directed().bu
     if (!target.nodes().isEmpty) {
       target
         .edges()
-        .forEach(p => {
+        .forEach { p =>
           val _ = root.putEdge(p.source(), p.target())
-        })
+        }
       checkCycles()
       true
     } else {
@@ -52,16 +53,15 @@ class ScalaRoleGraph(val root: MutableGraph[Object] = GraphBuilder.directed().bu
     val target = other.asInstanceOf[ScalaRoleGraph].root
     target
       .edges()
-      .forEach(p => {
+      .forEach { p =>
         removeBinding(p.source(), p.target())
-      })
+      }
   }
 
-  private[this] def checkCycles(): Unit = {
+  private[this] def checkCycles(): Unit =
     if (checkForCycles && Graphs.hasCycle(root)) {
       throw new RuntimeException("Cyclic role-playing relationship found!")
     }
-  }
 
   override def addBinding(player: AnyRef, role: AnyRef): Unit = {
     require(null != player)
@@ -86,7 +86,7 @@ class ScalaRoleGraph(val root: MutableGraph[Object] = GraphBuilder.directed().bu
         val buffer = new java.util.LinkedList(nodes)
         buffer.remove(player)
         buffer.asScala.toSeq
-      case Failure(_) => Seq.empty[AnyRef]
+      case Failure(_)     => Seq.empty[AnyRef]
     }
 
   override def roles(player: AnyRef): Seq[AnyRef] = filter(root, player)
@@ -109,7 +109,7 @@ class ScalaRoleGraph(val root: MutableGraph[Object] = GraphBuilder.directed().bu
     require(null != role)
     role match {
       case cur: AbstractCompartment#IPlayer[_, _] => coreFor(cur.wrapped)
-      case cur: AnyRef if containsPlayer(cur) =>
+      case cur: AnyRef if containsPlayer(cur)     =>
         predecessors(cur) match {
           case Nil         => Seq(cur)
           case head +: Nil => coreFor(head)
