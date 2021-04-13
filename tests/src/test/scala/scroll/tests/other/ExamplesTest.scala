@@ -81,10 +81,7 @@ class ExamplesTest extends AbstractSCROLLTest {
       ExpressionProblemExample.runExpressionProblemExample()
     }
     val actual = streamToSeq(output)
-    actual should contain theSameElementsInOrderAs Seq(
-      "Eval: 9",
-      "Show: -2 + 11"
-    )
+    actual should contain theSameElementsInOrderAs Seq("Eval: 9", "Show: -2 + 11")
   }
 
 }

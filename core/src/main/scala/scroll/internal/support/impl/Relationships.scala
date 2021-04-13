@@ -9,14 +9,17 @@ class Relationships(private[this] val roleQueries: RoleQueriesApi) extends Relat
 
   import scroll.internal.support.impl.Multiplicities._
 
-  class ToBuilder[L <: AnyRef: ClassTag](name: String, leftMul: Multiplicity) extends ToBuilderApi[L] {
+  class ToBuilder[L <: AnyRef: ClassTag](name: String, leftMul: Multiplicity)
+      extends ToBuilderApi[L] {
 
     override def to[R <: AnyRef: ClassTag](rightMul: Multiplicity): RelationshipApi[L, R] =
       new Relationship[L, R](name, leftMul, rightMul)
   }
 
   class FromBuilder(name: String) extends FromBuilderApi {
-    override def from[L <: AnyRef: ClassTag](leftMul: Multiplicity): ToBuilder[L] = new ToBuilder[L](name, leftMul)
+
+    override def from[L <: AnyRef: ClassTag](leftMul: Multiplicity): ToBuilder[L] =
+      new ToBuilder[L](name, leftMul)
   }
 
   /** Creates a [[Relationships.Relationship]] with the given name
@@ -36,8 +39,8 @@ class Relationships(private[this] val roleQueries: RoleQueriesApi) extends Relat
     * @tparam R type of the role of the right side of the relationship
     */
   class Relationship[L <: AnyRef: ClassTag, R <: AnyRef: ClassTag](
-    name:     String,
-    leftMul:  Multiplicity,
+    name: String,
+    leftMul: Multiplicity,
     rightMul: Multiplicity
   ) extends RelationshipApi[L, R] {
 
@@ -45,9 +48,12 @@ class Relationships(private[this] val roleQueries: RoleQueriesApi) extends Relat
 
     private[this] def checkMul[T](m: Multiplicity, on: Seq[T]): Seq[T] = {
       m match {
-        case MMany()                 =>
-          assert(on.nonEmpty, s"With left multiplicity for '$name' of '*', the resulting role set should not be empty!")
-        case ConcreteValue(v)        =>
+        case MMany() =>
+          assert(
+            on.nonEmpty,
+            s"With left multiplicity for '$name' of '*', the resulting role set should not be empty!"
+          )
+        case ConcreteValue(v) =>
           assert(
             v.compare(on.size) == 0,
             s"With a concrete multiplicity for '$name' of '$v' the resulting role set should have the same size!"
@@ -59,21 +65,23 @@ class Relationships(private[this] val roleQueries: RoleQueriesApi) extends Relat
                 v1 <= on.size && v2 >= on.size,
                 s"With a multiplicity for '$name' from '$v1' to '$v2', the resulting role set size should be in between!"
               )
-            case (ConcreteValue(v), MMany())            =>
+            case (ConcreteValue(v), MMany()) =>
               assert(
                 v <= on.size,
                 s"With a multiplicity for '$name' from '$v' to '*', the resulting role set size should be in between!"
               )
-            case _                                      =>
+            case _ =>
               throw new RuntimeException(MULT_NOT_ALLOWED) // default case
           }
       }
       on
     }
 
-    override def left(matcher: L => Boolean = _ => true): Seq[L] = checkMul(leftMul, roleQueries.all[L](matcher))
+    override def left(matcher: L => Boolean = _ => true): Seq[L] =
+      checkMul(leftMul, roleQueries.all[L](matcher))
 
-    override def right(matcher: R => Boolean = _ => true): Seq[R] = checkMul(rightMul, roleQueries.all[R](matcher))
+    override def right(matcher: R => Boolean = _ => true): Seq[R] =
+      checkMul(rightMul, roleQueries.all[R](matcher))
 
   }
 

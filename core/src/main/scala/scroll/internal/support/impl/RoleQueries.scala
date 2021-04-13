@@ -26,14 +26,15 @@ class RoleQueries(private[this] val roleGraph: RoleGraphProxyApi) extends RoleQu
       }
     )
 
-  override def all[T <: AnyRef: ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T]               =
+  override def all[T <: AnyRef: ClassTag](matcher: RoleQueryStrategy = MatchAny()): Seq[T] =
     roleGraph.plays.allPlayers.collect { case p: T if matcher.matches(p) => p }
 
-  override def all[T <: AnyRef: ClassTag](matcher: T => Boolean):                   Seq[T]               =
+  override def all[T <: AnyRef: ClassTag](matcher: T => Boolean): Seq[T] =
     roleGraph.plays.allPlayers.collect { case p: T if matcher(p) => p }
 
-  override def one[T <: AnyRef: ClassTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T] =
-    safeReturnHead(all[T](matcher), classTag[T].runtimeClass)
+  override def one[T <: AnyRef: ClassTag](
+    matcher: RoleQueryStrategy = MatchAny()
+  ): Either[TypeError, T] = safeReturnHead(all[T](matcher), classTag[T].runtimeClass)
 
   override def one[T <: AnyRef: ClassTag](matcher: T => Boolean): Either[TypeError, T] =
     safeReturnHead(all[T](matcher), classTag[T].runtimeClass)

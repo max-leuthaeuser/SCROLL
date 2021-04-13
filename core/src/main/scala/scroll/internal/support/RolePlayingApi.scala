@@ -15,8 +15,8 @@ trait RolePlayingApi {
     */
   def transferRole[F <: AnyRef: ClassTag, T <: AnyRef: ClassTag, R <: AnyRef: ClassTag](
     coreFrom: F,
-    coreTo:   T,
-    role:     R
+    coreTo: T,
+    role: R
   ): Unit
 
   /** Adds a play relation between core and role.

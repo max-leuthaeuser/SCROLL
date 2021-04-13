@@ -25,21 +25,21 @@ import scala.reflect.ClassTag
   */
 abstract class AbstractCompartment() extends CompartmentApi {
 
-  override lazy val roleGraph:            RoleGraphProxyApi       = new ScalaRoleGraphProxy()
-  override lazy val roleConstraints:      RoleConstraintsApi      = new RoleConstraints(roleGraph)
-  override lazy val roleRestrictions:     RoleRestrictionsApi     = new RoleRestrictions()
-  override lazy val rolePlaying:          RolePlayingApi          = new RolePlaying(roleGraph, roleRestrictions)
-  override lazy val roleQueries:          RoleQueriesApi          = new RoleQueries(roleGraph)
-  override lazy val compartmentRelations: CompartmentRelationsApi = new CompartmentRelations(roleGraph)
-  override lazy val roleRelationships:    RelationshipsApi        = new Relationships(roleQueries)
-  override lazy val roleGroups:           RoleGroupsApi           = new RoleGroups(roleGraph)
-  override lazy val playerEquality:       PlayerEqualityApi       = new PlayerEquality(roleGraph)
+  override lazy val roleGraph: RoleGraphProxyApi          = new ScalaRoleGraphProxy()
+  override lazy val roleConstraints: RoleConstraintsApi   = new RoleConstraints(roleGraph)
+  override lazy val roleRestrictions: RoleRestrictionsApi = new RoleRestrictions()
+  override lazy val rolePlaying: RolePlayingApi           = new RolePlaying(roleGraph, roleRestrictions)
+  override lazy val roleQueries: RoleQueriesApi           = new RoleQueries(roleGraph)
+
+  override lazy val compartmentRelations: CompartmentRelationsApi = new CompartmentRelations(
+    roleGraph
+  )
+  override lazy val roleRelationships: RelationshipsApi = new Relationships(roleQueries)
+  override lazy val roleGroups: RoleGroupsApi           = new RoleGroups(roleGraph)
+  override lazy val playerEquality: PlayerEqualityApi   = new PlayerEquality(roleGraph)
 
   implicit def either2TorException[T](either: Either[_, T]): T =
-    either.fold(
-      l => throw new RuntimeException(l.toString),
-      r => r
-    )
+    either.fold(l => throw new RuntimeException(l.toString), r => r)
 
   protected def applyDispatchQuery(dispatchQuery: DispatchQuery, on: AnyRef): Seq[AnyRef] =
     roleGraph.plays.coreFor(on).lastOption match {
@@ -136,7 +136,9 @@ abstract class AbstractCompartment() extends CompartmentApi {
     }
 
     protected class TransferToBuilder[R <: AnyRef: ClassTag](role: R) {
-      def to[P <: AnyRef: ClassTag](player: P): Unit = rolePlaying.transferRole[W, P, R](wrapped, player, role)
+
+      def to[P <: AnyRef: ClassTag](player: P): Unit =
+        rolePlaying.transferRole[W, P, R](wrapped, player, role)
     }
 
     /** Transfers a role to another player.
@@ -144,21 +146,24 @@ abstract class AbstractCompartment() extends CompartmentApi {
       * @tparam R type of role
       * @param role the role to transfer
       */
-    def transfer[R <: AnyRef: ClassTag](role: R): TransferToBuilder[R] = new TransferToBuilder[R](role)
+    def transfer[R <: AnyRef: ClassTag](role: R): TransferToBuilder[R] =
+      new TransferToBuilder[R](role)
 
     /** Checks if this IPlayer has all of the given facet(s) attached.
       *
       * @param f the facet(s)
       * @return true if this player has all of the given facets attached, false otherwise.
       */
-    def hasFacets(f: Enumeration#Value*): Boolean = f.forall(roleGraph.plays.facets(wrapped).contains)
+    def hasFacets(f: Enumeration#Value*): Boolean =
+      f.forall(roleGraph.plays.facets(wrapped).contains)
 
     /** Checks if this IPlayer has at least one of the given facets attached.
       *
       * @param f the facets
       * @return true if this player has at least one of the given facets attached, false otherwise.
       */
-    def hasSomeFacet(f: Enumeration#Value*): Boolean = f.exists(roleGraph.plays.facets(wrapped).contains)
+    def hasSomeFacet(f: Enumeration#Value*): Boolean =
+      f.exists(roleGraph.plays.facets(wrapped).contains)
 
     /** Checks of this IPlayer has an extension of the given type.
       * Alias for [[IPlayer.isPlaying]].
@@ -171,7 +176,8 @@ abstract class AbstractCompartment() extends CompartmentApi {
       * @return true if this player is playing a role of type R, false otherwise. Returns false also, if
       *         the player is not available in the role-playing graph.
       */
-    def isPlaying[R <: AnyRef: ClassTag]: Boolean = roleGraph.plays.roles(wrapped).exists(ReflectiveHelper.is[R])
+    def isPlaying[R <: AnyRef: ClassTag]: Boolean =
+      roleGraph.plays.roles(wrapped).exists(ReflectiveHelper.is[R])
 
     /** Alias for [[IPlayer.play]].
       *
@@ -208,7 +214,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
       o match {
         case other: IPlayer[_, _] => playerEquality.equalsPlayer(this, other)
         case other: Any           => playerEquality.equalsAny(this, other)
-        case _ => false // default case
+        case _                    => false // default case
       }
 
     override def hashCode(): Int = wrapped.hashCode()

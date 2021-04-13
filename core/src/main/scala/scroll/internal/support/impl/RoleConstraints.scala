@@ -57,8 +57,8 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
     if (list.nonEmpty) {
       val allProhibitedRoles =
         list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
-      val allRoles           = roleGraph.plays.roles(player)
-      val rs                 = if (allProhibitedRoles.size == allRoles.size) {
+      val allRoles = roleGraph.plays.roles(player)
+      val rs = if (allProhibitedRoles.size == allRoles.size) {
         Set.empty[String]
       } else {
         allProhibitedRoles.filter(r => allRoles.exists(ReflectiveHelper.isInstanceOf(r, _)))
@@ -96,7 +96,9 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
 
   override def checked(func: => Unit): Unit = {
     func
-    roleGraph.plays.allPlayers.foreach(p => roleGraph.plays.roles(p).foreach(r => validateConstraints(p, r)))
+    roleGraph.plays.allPlayers.foreach(p =>
+      roleGraph.plays.roles(p).foreach(r => validateConstraints(p, r))
+    )
   }
 
   /** Checks all role constraints between the given player and role instance.

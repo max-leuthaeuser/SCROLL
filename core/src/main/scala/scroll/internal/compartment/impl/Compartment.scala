@@ -43,7 +43,7 @@ trait Compartment extends AbstractCompartment {
         with SCROLLDynamic {
 
     override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(
-      using dispatchQuery:                  DispatchQuery = DispatchQuery()
+      using dispatchQuery: DispatchQuery = DispatchQuery()
     ): Either[SCROLLError, E] = applyDynamic[E](name)(args.map(_._2): _*) (using dispatchQuery)
 
     override def applyDynamic[E](
@@ -59,15 +59,18 @@ trait Compartment extends AbstractCompartment {
         .getOrElse(Left(RoleNotFound(wrapped, name, args.toSeq)))
 
     override def selectDynamic[E](
-      name:                String
+      name: String
     )(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[SCROLLError, E] =
       applyDispatchQuery(dispatchQuery, wrapped).view
         .collectFirst {
-          case r: AnyRef if ReflectiveHelper.hasMember(r, name) => Right(ReflectiveHelper.propertyOf[E](r, name))
+          case r: AnyRef if ReflectiveHelper.hasMember(r, name) =>
+            Right(ReflectiveHelper.propertyOf[E](r, name))
         }
         .getOrElse(Left(RoleNotFound(wrapped, name, Seq.empty[Any])))
 
-    override def updateDynamic(name: String)(value: Any)(using dispatchQuery: DispatchQuery = DispatchQuery()): Unit =
+    override def updateDynamic(
+      name: String
+    )(value: Any)(using dispatchQuery: DispatchQuery = DispatchQuery()): Unit =
       applyDispatchQuery(dispatchQuery, wrapped).view
         .find(ReflectiveHelper.hasMember(_, name))
         .foreach(ReflectiveHelper.setPropertyOf(_, name, value))

@@ -8,9 +8,7 @@ object ExpressionProblemExample {
     new M4 {
 
       val e = Add(
-        Neg(
-          Num(2) playing new NumShowable
-        ) playing new NegShowable,
+        Neg(Num(2) playing new NumShowable) playing new NegShowable,
         Num(11) playing new NumShowable
       ) play new AddShowable
 
@@ -60,10 +58,10 @@ object ExpressionProblemExample {
     class AddShowable() {
 
       def show(): String = {
-        val left:  Exp    = (+this).left
-        val right: Exp    = (+this).right
-        val ls:    String = (+left).show()
-        val rs:    String = (+right).show()
+        val left: Exp  = (+this).left
+        val right: Exp = (+this).right
+        val ls: String = (+left).show()
+        val rs: String = (+right).show()
         ls + " + " + rs
       }
     }
@@ -76,7 +74,7 @@ object ExpressionProblemExample {
     class NegShowable() {
 
       def show(): String = {
-        val e:  Exp    = (+this).exp
+        val e: Exp     = (+this).exp
         val es: String = (+e).show()
         "-" + es
       }

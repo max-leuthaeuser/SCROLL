@@ -8,12 +8,12 @@ class RelationshipTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val p = new CoreA
       new CompartmentUnderTest(c, cc) {
-        val rA       = new RoleA
-        val rB       = new RoleB
-        val rC       = new RoleC
+        val rA = new RoleA
+        val rB = new RoleB
+        val rC = new RoleC
         p play rA play rB
-        val relSize  = 1
-        val rel1     = roleRelationships.create("rel1").from[RoleA](relSize).to[RoleB](relSize)
+        val relSize = 1
+        val rel1    = roleRelationships.create("rel1").from[RoleA](relSize).to[RoleB](relSize)
         rel1.left() should contain only rA
         rel1.right() should contain only rB
         val rel2Name = "rel2"
@@ -28,10 +28,10 @@ class RelationshipTest extends AbstractParameterizedSCROLLTest {
         val rel3 = roleRelationships.create("rel3").from[RoleA](1).to[RoleB](*)
         rel3.left() should contain only rA
         rel3.right() should contain only rB
-        val rB2  = new RoleB
+        val rB2 = new RoleB
         p play rB2
         rel3.right() should contain theSameElementsAs Set(rB, rB2)
-        val rB3  = new RoleB
+        val rB3 = new RoleB
         p play rB3
         rel3.right() should contain theSameElementsAs Set(rB, rB2, rB3)
       }

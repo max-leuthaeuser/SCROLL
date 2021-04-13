@@ -39,7 +39,7 @@ object UniversityExample {
           case s if (+s).isPlaying[Student] =>
             val studentName: String = (+student).name
             println("Teaching: " + studentName)
-          case _                            => println("Nope! I am only teaching students!")
+          case _ => println("Nope! I am only teaching students!")
         }
 
       def talk(): Unit = println("I am a professor")

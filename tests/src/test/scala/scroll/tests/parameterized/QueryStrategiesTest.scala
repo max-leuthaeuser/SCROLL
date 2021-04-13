@@ -49,14 +49,14 @@ class QueryStrategiesTest extends AbstractParameterizedSCROLLTest {
   test("one with custom matcher") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
-        val role1   = new RoleA()
-        val role2   = new RoleA()
+        val role1 = new RoleA()
+        val role2 = new RoleA()
         role2.valueC = "yes"
         new CoreA play role1 play role2
         val matcher = (r: RoleA) =>
           r match {
             case r: RoleA => r.valueC == "yes"
-            case null => false
+            case null     => false
           }
         val actual: RoleA = roleQueries.one[RoleA](matcher)
         actual shouldBe role2

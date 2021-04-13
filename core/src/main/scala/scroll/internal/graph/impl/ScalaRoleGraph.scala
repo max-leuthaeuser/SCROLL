@@ -25,7 +25,7 @@ object ScalaRoleGraph {
   * @param checkForCycles set to true to forbid cyclic role playing relationships
   */
 class ScalaRoleGraph(
-  val root:           MutableGraph[Object] = GraphBuilder.directed().build[Object](),
+  val root: MutableGraph[Object] = GraphBuilder.directed().build[Object](),
   val checkForCycles: Boolean = true
 ) extends RoleGraph {
 
@@ -86,7 +86,7 @@ class ScalaRoleGraph(
         val buffer = new java.util.LinkedList(nodes)
         buffer.remove(player)
         buffer.asScala.toSeq
-      case Failure(_)     => Seq.empty[AnyRef]
+      case Failure(_) => Seq.empty[AnyRef]
     }
 
   override def roles(player: AnyRef): Seq[AnyRef] = filter(root, player)
@@ -109,7 +109,7 @@ class ScalaRoleGraph(
     require(null != role)
     role match {
       case cur: AbstractCompartment#IPlayer[_, _] => coreFor(cur.wrapped)
-      case cur: AnyRef if containsPlayer(cur)     =>
+      case cur: AnyRef if containsPlayer(cur) =>
         predecessors(cur) match {
           case Nil         => Seq(cur)
           case head +: Nil => coreFor(head)

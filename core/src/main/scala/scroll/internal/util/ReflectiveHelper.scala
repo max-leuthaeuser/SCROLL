@@ -19,24 +19,28 @@ object ReflectiveHelper {
     buildCache[Class[_], Seq[Method]](allMethods)
 
   private[this] lazy val methodsByNameCache =
-    buildCache[(Class[_], String), Seq[Method]]((t: (Class[_], String)) => cachedFindMethods(t._1, t._2))
+    buildCache[(Class[_], String), Seq[Method]]((t: (Class[_], String)) =>
+      cachedFindMethods(t._1, t._2)
+    )
 
-  private[this] lazy val methodMatchCache   =
+  private[this] lazy val methodMatchCache =
     buildCache[(Class[_], String, Seq[Any]), Option[Method]]((t: (Class[_], String, Seq[Any])) =>
       cachedFindMethod(t._1, t._2, t._3)
     )
 
-  private[this] lazy val fieldCache       =
+  private[this] lazy val fieldCache =
     buildCache[Class[_], Seq[Field]]((c: Class[_]) => allFields(c))
 
   private[this] lazy val fieldByNameCache =
     buildCache[(Class[_], String), Field]((t: (Class[_], String)) => cachedFindField(t._1, t._2))
 
-  private[this] lazy val classNameCache   =
+  private[this] lazy val classNameCache =
     buildCache[String, String](cachedSimpleName)
 
   private[this] lazy val hasMemberCache =
-    buildCache[(Class[_], String), java.lang.Boolean]((t: (Class[_], String)) => cachedHasMember(t._1, t._2))
+    buildCache[(Class[_], String), java.lang.Boolean]((t: (Class[_], String)) =>
+      cachedHasMember(t._1, t._2)
+    )
 
   def addToMethodCache(c: Class[_]): Unit = methodCache.put(c, allMethods(c))
 
@@ -49,7 +53,8 @@ object ReflectiveHelper {
       s
     }
 
-  private[this] def cachedSimpleName(t: String): String = simpleClassName(simpleClassName(t, "."), "$")
+  private[this] def cachedSimpleName(t: String): String =
+    simpleClassName(simpleClassName(t, "."), "$")
 
   /** Translates a Class or Type name to a String, i.e. removing anything before the last
     * occurrence of "<code>$</code>" or "<code>.</code>".
@@ -65,7 +70,8 @@ object ReflectiveHelper {
     * @param that the second class name already as instance of Any
     * @return true iff both names are the same, false otherwise
     */
-  def isInstanceOf(mani: String, that: AnyRef): Boolean = simpleName(that.getClass.toString) == simpleName(mani)
+  def isInstanceOf(mani: String, that: AnyRef): Boolean =
+    simpleName(that.getClass.toString) == simpleName(mani)
 
   /** Compares two class names.
     *
@@ -97,14 +103,17 @@ object ReflectiveHelper {
   private[this] def cachedFindMethods(of: Class[_], name: String): Seq[Method] =
     methodCache.get(of).filter(_.getName == name)
 
-  private[this] def findMethods(of: Class[_], name: String): Seq[Method] = methodsByNameCache.get((of, name))
+  private[this] def findMethods(of: Class[_], name: String): Seq[Method] =
+    methodsByNameCache.get((of, name))
 
   private[this] def allMethods(of: Class[_]): Seq[Method] = {
     def getAccessibleMethods(c: Class[_]): Seq[Method] =
       c match {
         case null => Seq.empty[Method]
-        case _    =>
-          ArraySeq.unsafeWrapArray(c.getDeclaredMethods).concat(getAccessibleMethods(c.getSuperclass))
+        case _ =>
+          ArraySeq
+            .unsafeWrapArray(c.getDeclaredMethods)
+            .concat(getAccessibleMethods(c.getSuperclass))
       }
 
     getAccessibleMethods(of).map { m =>
@@ -116,7 +125,7 @@ object ReflectiveHelper {
     def accessibleFields(c: Class[_]): Seq[Field] =
       c match {
         case null => Seq.empty[Field]
-        case _    =>
+        case _ =>
           ArraySeq.unsafeWrapArray(c.getDeclaredFields).concat(accessibleFields(c.getSuperclass))
       }
 
@@ -125,7 +134,8 @@ object ReflectiveHelper {
     }
   }
 
-  private[this] def isSameNumberOfParameters(m: Method, size: Int): Boolean = m.getParameterCount == size
+  private[this] def isSameNumberOfParameters(m: Method, size: Int): Boolean =
+    m.getParameterCount == size
 
   private[this] def isSameArgumentTypes[A](m: Method, args: Seq[A]): Boolean =
     args.zip(m.getParameterTypes).forall { case (arg, paramType: Class[_]) =>
@@ -179,7 +189,8 @@ object ReflectiveHelper {
     * @tparam T the type of the field
     * @return the runtime content of type T of the field with the given name of the wrapped object
     */
-  def propertyOf[T](on: AnyRef, name: String): T = findField(on.getClass, name).get(on).asInstanceOf[T]
+  def propertyOf[T](on: AnyRef, name: String): T =
+    findField(on.getClass, name).get(on).asInstanceOf[T]
 
   /** Sets the field given as name to the provided value.
     *
@@ -187,7 +198,8 @@ object ReflectiveHelper {
     * @param name  the name of the field of interest
     * @param value the value to set for this field
     */
-  def setPropertyOf(on: AnyRef, name: String, value: Any): Unit = findField(on.getClass, name).set(on, value)
+  def setPropertyOf(on: AnyRef, name: String, value: Any): Unit =
+    findField(on.getClass, name).set(on, value)
 
   /** Returns the runtime result of type T of the given function and arguments by executing this function of the wrapped object.
     *
@@ -210,7 +222,7 @@ object ReflectiveHelper {
     findMethods(on.getClass, name) match {
       case elem +: _ =>
         elem.invoke(on).asInstanceOf[T]
-      case Nil       =>
+      case Nil =>
         throw new RuntimeException(s"Function with name '$name' not found on '$on'!")
     }
 

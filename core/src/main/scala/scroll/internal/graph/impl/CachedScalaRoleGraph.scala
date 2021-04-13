@@ -11,7 +11,7 @@ object CachedScalaRoleGraph {
 }
 
 class CachedScalaRoleGraph(
-  root:           MutableGraph[Object] = GraphBuilder.directed().build[Object](),
+  root: MutableGraph[Object] = GraphBuilder.directed().build[Object](),
   checkForCycles: Boolean = true
 ) extends ScalaRoleGraph(root, checkForCycles) {
 

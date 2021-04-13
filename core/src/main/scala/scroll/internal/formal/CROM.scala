@@ -37,15 +37,21 @@ trait CROM extends ECoreImporter {
       .map(of.eGet(_).toString)
       .getOrElse("-")
 
-  private[this] def constructNT[NT >: Null <: AnyRef](elem: EObject): NT = instanceName(elem).asInstanceOf[NT]
+  private[this] def constructNT[NT >: Null <: AnyRef](elem: EObject): NT =
+    instanceName(elem).asInstanceOf[NT]
 
-  private[this] def constructRT[RT >: Null <: AnyRef](elem: EObject): RT = instanceName(elem).asInstanceOf[RT]
+  private[this] def constructRT[RT >: Null <: AnyRef](elem: EObject): RT =
+    instanceName(elem).asInstanceOf[RT]
 
-  private[this] def constructCT[CT >: Null <: AnyRef](elem: EObject): CT = instanceName(elem).asInstanceOf[CT]
+  private[this] def constructCT[CT >: Null <: AnyRef](elem: EObject): CT =
+    instanceName(elem).asInstanceOf[CT]
 
-  private[this] def constructRST[RST >: Null <: AnyRef](elem: EObject): RST = instanceName(elem).asInstanceOf[RST]
+  private[this] def constructRST[RST >: Null <: AnyRef](elem: EObject): RST =
+    instanceName(elem).asInstanceOf[RST]
 
-  private[this] def constructFills[NT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): List[(NT, RT)] = {
+  private[this] def constructFills[NT >: Null <: AnyRef, RT >: Null <: AnyRef](
+    elem: EObject
+  ): List[(NT, RT)] = {
     val obj       = elem.asInstanceOf[DynamicEObjectImpl]
     val filler    = obj.dynamicGet(1).asInstanceOf[DynamicEObjectImpl].dynamicGet(0).asInstanceOf[NT]
     val filledObj = obj.dynamicGet(0).asInstanceOf[DynamicEObjectImpl]
@@ -70,23 +76,27 @@ trait CROM extends ECoreImporter {
         }
       )
 
-  private[this] def constructParts[CT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (CT, List[RT]) = {
+  private[this] def constructParts[CT >: Null <: AnyRef, RT >: Null <: AnyRef](
+    elem: EObject
+  ): (CT, List[RT]) = {
     val ct    = instanceName(elem.eContainer()).asInstanceOf[CT]
     val roles = collectRoles(elem).map(r => instanceName(r).asInstanceOf[RT])
     (ct, roles)
   }
 
-  private[this] def constructRel[RST >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (RST, List[RT]) = {
+  private[this] def constructRel[RST >: Null <: AnyRef, RT >: Null <: AnyRef](
+    elem: EObject
+  ): (RST, List[RT]) = {
     val rstName = instanceName(elem)
     val roles   = collectRoles(elem.eContainer())
-    val rsts    = roles
+    val rsts = roles
       .filter { role =>
         val incoming = role
           .asInstanceOf[DynamicEObjectImpl]
           .dynamicGet(1)
           .asInstanceOf[EcoreEList[DynamicEObjectImpl]]
           .asScala
-        val inCond   = incoming match {
+        val inCond = incoming match {
           case null => false
           case _    => incoming.exists(e => e.dynamicGet(0).asInstanceOf[String] == rstName)
         }
@@ -95,7 +105,7 @@ trait CROM extends ECoreImporter {
           .dynamicGet(2)
           .asInstanceOf[EcoreEList[DynamicEObjectImpl]]
           .asScala
-        val outCond  = outgoing match {
+        val outCond = outgoing match {
           case null => false
           case _    => outgoing.exists(e => e.dynamicGet(0).asInstanceOf[String] == rstName)
         }
@@ -105,7 +115,10 @@ trait CROM extends ECoreImporter {
     (rstName.asInstanceOf[RST], rsts)
   }
 
-  private[this] def addToMap(m: mutable.Map[String, List[String]], elem: (String, List[String])): Unit = {
+  private[this] def addToMap(
+    m: mutable.Map[String, List[String]],
+    elem: (String, List[String])
+  ): Unit = {
     val key   = elem._1
     val value = elem._2
     m.update(key, m.getOrElseUpdate(key, value) ++ value)
@@ -129,18 +142,26 @@ trait CROM extends ECoreImporter {
       .filter(e => validTypes.contains(e.eClass().getName))
       .foreach { curr =>
         curr.eClass().getName match {
-          case NATURALTYPE     => nt     += constructNT(curr)
-          case ROLETYPE        => rt     += constructRT(curr)
-          case COMPARTMENTTYPE => ct     += constructCT(curr)
-          case RELATIONSHIP    =>
+          case NATURALTYPE     => nt += constructNT(curr)
+          case ROLETYPE        => rt += constructRT(curr)
+          case COMPARTMENTTYPE => ct += constructCT(curr)
+          case RELATIONSHIP =>
             val _ = rst += constructRST[String](curr)
             addToMap(rel, constructRel[String, String](curr))
-          case FULFILLMENT     => fills ++= constructFills(curr)
-          case PART            => addToMap(parts, constructParts[String, String](curr))
-          case _               =>
+          case FULFILLMENT => fills ++= constructFills(curr)
+          case PART        => addToMap(parts, constructParts[String, String](curr))
+          case _           =>
         }
       }
-    FormalCROM(nt.result(), rt.result(), ct.result(), rst.result(), fills.result(), parts.toMap, rel.toMap)
+    FormalCROM(
+      nt.result(),
+      rt.result(),
+      ct.result(),
+      rst.result(),
+      fills.result(),
+      parts.toMap,
+      rel.toMap
+    )
       .asInstanceOf[FormalCROM[NT, RT, CT, RST]]
   }
 }

@@ -5,15 +5,17 @@ package scroll.internal.formal
 object FormalConstraintModel {
 
   def empty[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef]
-    : FormalConstraintModel[NT, RT, CT, RST] = FormalConstraintModel[NT, RT, CT, RST](Map.empty, Map.empty, List.empty)
+    : FormalConstraintModel[NT, RT, CT, RST] =
+    FormalConstraintModel[NT, RT, CT, RST](Map.empty, Map.empty, List.empty)
 
   /** Little helper factory method for creating a constraint model with Strings only.
     */
   def forStrings(
     rolec: Map[String, List[((Int, Int), AnyRef)]],
-    card:  Map[String, ((Int, Int), (Int, Int))],
+    card: Map[String, ((Int, Int), (Int, Int))],
     intra: List[(String, List[(String, String)] => Boolean)]
-  ): FormalConstraintModel[String, String, String, String] = FormalConstraintModel(rolec, card, intra)
+  ): FormalConstraintModel[String, String, String, String] =
+    FormalConstraintModel(rolec, card, intra)
 }
 
 /** Class representation of the Constraint Model.
@@ -33,7 +35,7 @@ final case class FormalConstraintModel[
   RST >: Null <: AnyRef
 ](
   rolec: Map[CT, List[((Int, Int), AnyRef)]],
-  card:  Map[RST, ((Int, Int), (Int, Int))],
+  card: Map[RST, ((Int, Int), (Int, Int))],
   intra: List[(RST, List[(NT, NT)] => Boolean)]
 ) {
 
@@ -53,9 +55,10 @@ final case class FormalConstraintModel[
     * @return true iff the constraint model is compliant to the given CROM and the given CROI is valid wrt. the constraint model
     */
   def validity(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
-    compliant(crom) && croi.compliant(crom) && axiom13(crom, croi) && axiom14(croi) && axiom15(crom, croi) && axiom16(
+    compliant(crom) && croi.compliant(crom) && axiom13(crom, croi) && axiom14(croi) && axiom15(
+      crom,
       croi
-    )
+    ) && axiom16(croi)
 
   def axiom13(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
     FormalUtils.all(for {
@@ -68,26 +71,24 @@ final case class FormalConstraintModel[
     })
 
   def axiom14(croi: FormalCROI[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(
-      for {
-        (o, c, r) <- croi.plays if rolec.contains(croi.type1(c).asInstanceOf[CT])
-        (_, a)    <- rolec(croi.type1(c).asInstanceOf[CT])
-        if FormalUtils.atoms(a).contains(croi.type1(r))
-      } yield FormalUtils.evaluate(a, croi, o, c) == 1
-    )
+    FormalUtils.all(for {
+      (o, c, r) <- croi.plays if rolec.contains(croi.type1(c).asInstanceOf[CT])
+      (_, a)    <- rolec(croi.type1(c).asInstanceOf[CT])
+      if FormalUtils.atoms(a).contains(croi.type1(r))
+    } yield FormalUtils.evaluate(a, croi, o, c) == 1)
 
   def axiom15(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
-    FormalUtils.all(
-      for {
-        rst        <- crom.rst if card.contains(rst)
-        c          <- croi.c if croi.links.contains((rst, c))
-        (r_1, r_2) <- croi.links((rst, c))
-      } yield {
-        val l1 = croi.pred(rst, c, r_2).size
-        val l2 = croi.succ(rst, c, r_1).size
-        card(rst)._1._1 <= l1 && l1 <= card(rst)._1._2 && card(rst)._2._1 <= l2 && l2 <= card(rst)._2._2
-      }
-    )
+    FormalUtils.all(for {
+      rst        <- crom.rst if card.contains(rst)
+      c          <- croi.c if croi.links.contains((rst, c))
+      (r_1, r_2) <- croi.links((rst, c))
+    } yield {
+      val l1 = croi.pred(rst, c, r_2).size
+      val l2 = croi.succ(rst, c, r_1).size
+      card(rst)._1._1 <= l1 && l1 <= card(rst)._1._2 && card(rst)._2._1 <= l2 && l2 <= card(
+        rst
+      )._2._2
+    })
 
   def axiom16(croi: FormalCROI[NT, RT, CT, RST]): Boolean =
     FormalUtils.all(for {

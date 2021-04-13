@@ -10,7 +10,10 @@ import scala.reflect.classTag
 class RoleRestrictions() extends RoleRestrictionsApi {
   private[this] lazy val restrictions = mutable.HashMap.empty[String, List[Class[_]]]
 
-  private[this] def addToMap(m: mutable.Map[String, List[Class[_]]], elem: (String, Class[_])): Unit = {
+  private[this] def addToMap(
+    m: mutable.Map[String, List[Class[_]]],
+    elem: (String, Class[_])
+  ): Unit = {
     val key   = elem._1
     val value = elem._2
     m.update(key, m.getOrElseUpdate(key, List(value)) ++ List(value))
@@ -35,7 +38,9 @@ class RoleRestrictions() extends RoleRestrictionsApi {
             .exists(r => ReflectiveHelper.isSameInterface(roleInterface, r.getDeclaredMethods))
         }
       ) {
-        throw new RuntimeException(s"Role '$role' can not be played by '$player' due to the active role restrictions!")
+        throw new RuntimeException(
+          s"Role '$role' can not be played by '$player' due to the active role restrictions!"
+        )
       }
     }
 }
