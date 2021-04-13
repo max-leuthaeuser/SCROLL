@@ -4,14 +4,13 @@ on: [push, pull_request]
 
 jobs:
   test-scroll:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: adopt
+      - name: apt-get update
+        run: sudo apt-get update
+      - name: Set up openjdk 1.8
+        run: sudo apt-get install openjdk-8-jdk
       - name: Print sbt version
         run: sbt --version
       - name: Compile and run tests
