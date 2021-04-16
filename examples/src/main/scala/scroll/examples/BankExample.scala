@@ -57,13 +57,9 @@ object BankExample {
 
   class Account(var balance: Double = 0) {
 
-    def increase(amount: Double): Unit = {
-      balance = balance + amount
-    }
+    def increase(amount: Double): Unit = balance = balance + amount
 
-    def decrease(amount: Double): Unit = {
-      balance = balance - amount
-    }
+    def decrease(amount: Double): Unit = balance = balance - amount
   }
 
   class Bank extends Compartment {
@@ -93,9 +89,10 @@ object BankExample {
     }
 
     class CheckingsAccount() {
+
       def decrease(amount: Double): Unit = {
         given DispatchQuery = Bypassing(_.isInstanceOf[CheckingsAccount])
-        val _ = (+this).decrease(amount)
+        val _               = (+this).decrease(amount)
       }
     }
 
@@ -106,17 +103,18 @@ object BankExample {
       def increase(amount: Double): Unit = {
         println("Increasing with fee.")
         given DispatchQuery = Bypassing(_.isInstanceOf[SavingsAccount])
-        val _ = (+this).increase(amount - calcTransactionFee(amount))
+        val _               = (+this).increase(amount - calcTransactionFee(amount))
       }
 
       private def calcTransactionFee(amount: Double): Double = amount * transactionFee
     }
 
     class TransactionRole() {
+
       def execute(): Unit = {
         println("Executing from Role.")
         given DispatchQuery = Bypassing(_.isInstanceOf[TransactionRole])
-        val _ = (+this).execute()
+        val _               = (+this).execute()
       }
     }
 
@@ -138,12 +136,14 @@ object BankExample {
     }
 
     class Source() {
+
       def withDraw(m: Double): Unit = {
         val _ = (+this).decrease(m)
       }
     }
 
     class Target() {
+
       def deposit(m: Double): Unit = {
         val _ = (+this).increase(m)
       }

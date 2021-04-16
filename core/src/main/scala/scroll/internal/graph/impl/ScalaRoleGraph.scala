@@ -38,9 +38,7 @@ class ScalaRoleGraph(
     if (!target.nodes().isEmpty) {
       target
         .edges()
-        .forEach { p =>
-          val _ = root.putEdge(p.source(), p.target())
-        }
+        .forEach { p => val _ = root.putEdge(p.source(), p.target()) }
       checkCycles()
       true
     } else {

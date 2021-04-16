@@ -42,9 +42,9 @@ trait Compartment extends AbstractCompartment {
       extends IPlayer[W, Player[W]](wrapped)
         with SCROLLDynamic {
 
-    override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(
-      using dispatchQuery: DispatchQuery = DispatchQuery()
-    ): Either[SCROLLError, E] = applyDynamic[E](name)(args.map(_._2): _*) (using dispatchQuery)
+    override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(using
+      dispatchQuery: DispatchQuery = DispatchQuery()
+    ): Either[SCROLLError, E] = applyDynamic[E](name)(args.map(_._2): _*)(using dispatchQuery)
 
     override def applyDynamic[E](
       name: String
@@ -76,10 +76,10 @@ trait Compartment extends AbstractCompartment {
         .foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
     def hashCode()(using dispatchQuery: DispatchQuery = DispatchQuery()): Int =
-      applyDynamic("hashCode")() (using dispatchQuery)
+      applyDynamic("hashCode")()(using dispatchQuery)
 
     def toString()(using dispatchQuery: DispatchQuery = DispatchQuery()): String =
-      applyDynamic("toString")() (using dispatchQuery)
+      applyDynamic("toString")()(using dispatchQuery)
 
   }
 

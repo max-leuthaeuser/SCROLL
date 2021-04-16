@@ -27,8 +27,8 @@ trait MultiCompartment extends AbstractCompartment {
   implicit class MultiPlayer[W <: AnyRef: ClassTag](override val wrapped: W)
       extends IPlayer[W, MultiPlayer[W]](wrapped) {
 
-    def applyDynamic[E](name: String)(args: Any*)(
-      using dispatchQuery: DispatchQuery = DispatchQuery()
+    def applyDynamic[E](name: String)(args: Any*)(using
+      dispatchQuery: DispatchQuery = DispatchQuery()
     ): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
       applyDispatchQuery(dispatchQuery, wrapped)
         .map { (r: AnyRef) =>
@@ -41,13 +41,13 @@ trait MultiCompartment extends AbstractCompartment {
         case l   => Right(l)
       }
 
-    def applyDynamicNamed[E](name: String)(args: (String, Any)*)(
-      using dispatchQuery: DispatchQuery = DispatchQuery()
+    def applyDynamicNamed[E](name: String)(args: (String, Any)*)(using
+      dispatchQuery: DispatchQuery = DispatchQuery()
     ): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
-      applyDynamic[E](name)(args.map(_._2): _*) (using dispatchQuery)
+      applyDynamic[E](name)(args.map(_._2): _*)(using dispatchQuery)
 
-    def selectDynamic[E](name: String)(
-      using dispatchQuery: DispatchQuery = DispatchQuery()
+    def selectDynamic[E](name: String)(using
+      dispatchQuery: DispatchQuery = DispatchQuery()
     ): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
       applyDispatchQuery(dispatchQuery, wrapped).collect {
         case r: AnyRef if ReflectiveHelper.hasMember(r, name) =>
@@ -65,10 +65,10 @@ trait MultiCompartment extends AbstractCompartment {
         .foreach(ReflectiveHelper.setPropertyOf(_, name, value))
 
     def hashCode()(using dispatchQuery: DispatchQuery = DispatchQuery()): Seq[Int] =
-      applyDynamic("hashCode")() (using dispatchQuery)
+      applyDynamic("hashCode")()(using dispatchQuery)
 
     def toString()(using dispatchQuery: DispatchQuery = DispatchQuery()): Seq[String] =
-      applyDynamic("toString")() (using dispatchQuery)
+      applyDynamic("toString")()(using dispatchQuery)
   }
 
 }
