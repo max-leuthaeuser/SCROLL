@@ -201,14 +201,15 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someRole2.valueB = 2
         someCoreA play someRole1
         someCoreA play someRole2
-        given DispatchQuery = From(_.isInstanceOf[CoreA])
-          .To(_.isInstanceOf[RoleA])
-          .Through(anything)
-          .Bypassing({
-            case r: RoleA =>
-              1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
-            case _ => false
-          })
+        given DispatchQuery =
+          From(_.isInstanceOf[CoreA])
+            .To(_.isInstanceOf[RoleA])
+            .Through(anything)
+            .Bypassing({
+              case r: RoleA =>
+                1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
+              case _ => false
+            })
         (+someCoreA).update("updated")
         val actual1: String = someRole1.valueC
         val actual2: String = someRole2.valueC
@@ -247,8 +248,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
     }
   }
 
-  /**
-    * test case for primitive types:
+  /** test case for primitive types:
     * Int
     * Double
     * Float
@@ -360,10 +360,11 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         (player == someCoreA || player == someCoreB) shouldBe true
 
         {
-          given DispatchQuery = From(anything)
-            .To(c => c.isInstanceOf[CoreA] || c.isInstanceOf[CoreB])
-            .Through(anything)
-            .Bypassing(_.isInstanceOf[CoreB])
+          given DispatchQuery =
+            From(anything)
+              .To(c => c.isInstanceOf[CoreA] || c.isInstanceOf[CoreB])
+              .Through(anything)
+              .Bypassing(_.isInstanceOf[CoreB])
           val player2 = someRole.player match {
             case Left(_)  => fail("Player should be defined here!")
             case Right(p) => p

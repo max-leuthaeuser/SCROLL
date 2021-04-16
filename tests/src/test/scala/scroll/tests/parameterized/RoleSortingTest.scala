@@ -33,28 +33,30 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
 
         {
           given DispatchQuery = DispatchQuery()
-          val r1: String = (+someCore).method()
+          val r1: String      = (+someCore).method()
           r1 shouldBe "C"
         }
 
         {
           given DispatchQuery = DispatchQuery().sortedWith(reverse)
-          val r2: String = (+someCore).method()
+          val r2: String      = (+someCore).method()
           r2 shouldBe "A"
         }
 
         {
-          given DispatchQuery = DispatchQuery().sortedWith {
-            case (_: SomeRoleB, _: SomeRoleC) => swap
-          }
+          given DispatchQuery =
+            DispatchQuery().sortedWith { case (_: SomeRoleB, _: SomeRoleC) =>
+              swap
+            }
           val r3: String = (+someCore).method()
           r3 shouldBe "B"
         }
 
         {
-          given DispatchQuery = Bypassing(_.isInstanceOf[SomeRoleA]).sortedWith {
-            case (_: SomeRoleB, _: SomeRoleC) => swap
-          }
+          given DispatchQuery =
+            Bypassing(_.isInstanceOf[SomeRoleA]).sortedWith { case (_: SomeRoleB, _: SomeRoleC) =>
+              swap
+            }
           val r4: String = (+someCore).method()
           r4 shouldBe "B"
         }

@@ -7,17 +7,18 @@ import scroll.tests.mocks.CompartmentUnderTest
 class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLTest {
 
   case class CoreType(id: String) {
-    def someMethod(): Unit = {
-      println(s"CoreType($this)::someMethod()")
-    }
+
+    def someMethod(): Unit = println(s"CoreType($this)::someMethod()")
   }
 
   class MultiRole(c: Boolean, cc: Boolean) extends CompartmentUnderTest(c, cc) {
 
     case class RoleTypeA(id: String) {
-      given DispatchQuery = Bypassing((o: AnyRef) => {
-        o == this || !o.isInstanceOf[CoreType]
-      })
+
+      given DispatchQuery =
+        Bypassing { (o: AnyRef) =>
+          o == this || !o.isInstanceOf[CoreType]
+        }
 
       def someMethod(): Unit = {
         println(s"RoleTypeA($this)::someMethod()")
@@ -46,11 +47,8 @@ class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLT
         Console.withOut(output) {
           player.someMethod()
         }
-        val actual = streamToSeq(output)
-        val expected = Seq(
-          s"RoleTypeA($r)::someMethod()",
-          s"CoreType($c)::someMethod()"
-        )
+        val actual   = streamToSeq(output)
+        val expected = Seq(s"RoleTypeA($r)::someMethod()", s"CoreType($c)::someMethod()")
         actual should contain theSameElementsInOrderAs expected
       }
     }

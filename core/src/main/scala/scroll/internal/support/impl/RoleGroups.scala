@@ -152,9 +152,8 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
     try
       roleGroups.values
         .filter(!_.evaluated)
-        .foreach(eval)
-        finally
-    roleGroups.values.foreach(_.evaluated = false)
+        .foreach(eval);
+    finally roleGroups.values.foreach(_.evaluated = false)
 
   /** Checks all role groups.
     * Will throw a RuntimeException if a role group constraint is violated!

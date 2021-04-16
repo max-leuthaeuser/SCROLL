@@ -24,11 +24,12 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val expected = Seq(Right("RoleC"), Right("RoleB"), Right("RoleA"))
 
         {
-          given DispatchQuery = DispatchQuery().sortedWith {
-            case (_: RoleC, _: RoleA) => swap
-            case (_: RoleB, _: RoleA) => swap
-            case (_: RoleC, _: RoleB) => swap
-          }
+          given DispatchQuery =
+            DispatchQuery().sortedWith {
+              case (_: RoleC, _: RoleA) => swap
+              case (_: RoleB, _: RoleA) => swap
+              case (_: RoleC, _: RoleB) => swap
+            }
           (+someCore).id() match {
             case Right(actual) => actual shouldBe expected
             case Left(error)   => fail(error.toString)
@@ -36,11 +37,12 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         }
 
         {
-          given DispatchQuery = DispatchQuery().sortedWith {
-            case (_: RoleA, _: RoleC) => swap
-            case (_: RoleA, _: RoleB) => swap
-            case (_: RoleB, _: RoleC) => swap
-          }
+          given DispatchQuery =
+            DispatchQuery().sortedWith {
+              case (_: RoleA, _: RoleC) => swap
+              case (_: RoleA, _: RoleB) => swap
+              case (_: RoleB, _: RoleC) => swap
+            }
           (+someCore).id() match {
             case Right(actual) => actual shouldBe expected.reverse
             case Left(error)   => fail(error.toString)
@@ -50,9 +52,10 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val expected2 = Seq(Right("RoleC"), Right("RoleB"))
 
         {
-          given DispatchQuery = Bypassing(_.isInstanceOf[RoleA]).sortedWith {
-            case (_: RoleC, _: RoleB) => swap
-          }
+          given DispatchQuery =
+            Bypassing(_.isInstanceOf[RoleA]).sortedWith { case (_: RoleC, _: RoleB) =>
+              swap
+            }
           (+someCore).id() match {
             case Right(actual) => actual shouldBe expected2
             case Left(error)   => fail(error.toString)
@@ -60,9 +63,10 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         }
 
         {
-          given DispatchQuery = Bypassing(_.isInstanceOf[RoleA]).sortedWith {
-            case (_: RoleB, _: RoleC) => swap
-          }
+          given DispatchQuery =
+            Bypassing(_.isInstanceOf[RoleA]).sortedWith { case (_: RoleB, _: RoleC) =>
+              swap
+            }
           (+someCore).id() match {
             case Right(actual) => actual shouldBe expected2.reverse
             case Left(error)   => fail(error.toString)
