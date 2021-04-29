@@ -40,7 +40,7 @@ lazy val commonSettings = Seq(
     "-unchecked",                         // Enable additional warnings where generated code depends on assumptions.
     "-target:jvm-" + lib.v.jvm),
   updateOptions := updateOptions.value.withCachedResolution(true),
-  historyPath := Option(target.in(LocalRootProject).value / ".history"),
+  historyPath := Option((LocalRootProject / target).value / ".history"),
   Global / cancelable := true,
   Global / logLevel := {
     if (insideCI.value) Level.Error else Level.Info
@@ -142,7 +142,7 @@ lazy val tests = project.
 lazy val benchmark = project.
   settings(
     commonSettings,
-    mainClass in(Jmh, run) := Option("scroll.benchmarks.RunnerApp")
+    Jmh / run / mainClass := Option("scroll.benchmarks.RunnerApp")
   ).
   enablePlugins(JmhPlugin).
   dependsOn(core)
