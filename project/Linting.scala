@@ -13,9 +13,9 @@ trait Linting {
 
   val scalastyleConfiguration = Seq(
     scalastyleFailOnError := true,
-    test in Test := test.in(Test)
-      .dependsOn(scalastyle.in(Test).toTask(""))
-      .dependsOn(scalastyle.in(Compile).toTask(""))
+    Test  / test := (Test / test)
+      .dependsOn((Test / scalastyle).toTask(""))
+      .dependsOn((Compile / scalastyle).toTask(""))
       .value
   )
 
