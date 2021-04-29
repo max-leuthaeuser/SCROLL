@@ -28,7 +28,7 @@ lazy val commonSettings = Seq(
   ),
   libraryDependencies ++= lib.coreDependencies,
   dependencyOverrides ++= lib.coreDependenciesOverrides,
-  javacOptions in Compile ++= Seq("-source", "1.8", "-target", "1.8"),
+  Compile / javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
   scalacOptions ++= Seq(
     "-encoding", utf8,
     "-deprecation",                       // Emit warning and location for usages of deprecated APIs.
@@ -39,11 +39,10 @@ lazy val commonSettings = Seq(
     "-language:implicitConversions",      // Allow definition of implicit functions called views.
     "-unchecked",                         // Enable additional warnings where generated code depends on assumptions.
     "-target:jvm-" + lib.v.jvm),
-  coverageExcludedPackages := "<empty>;scroll\\.benchmarks\\..*",
   updateOptions := updateOptions.value.withCachedResolution(true),
   historyPath := Option(target.in(LocalRootProject).value / ".history"),
-  cancelable in Global := true,
-  logLevel in Global := {
+  Global / cancelable := true,
+  Global / logLevel := {
     if (insideCI.value) Level.Error else Level.Info
   },
   initialize ~= { _ =>
@@ -56,7 +55,7 @@ lazy val core = project.
   settings(
     commonSettings,
     linting.staticAnalysis,
-    mainClass in (Compile, run) := None,
+    Compile / run / mainClass := None,
     name := "SCROLL",
     scalacOptions ++= Seq(
       "-explaintypes",                     // Explain type errors in more detail.
@@ -90,7 +89,7 @@ lazy val core = project.
     organization := "com.github.max-leuthaeuser",
     publishTo := sonatypePublishToBundle.value,
     publishMavenStyle := true,
-    publishArtifact in Test := false,
+    Test / publishArtifact := false,
     pomIncludeRepository := { _ => false },
     pomExtra :=
       <url>https://github.com/max-leuthaeuser/SCROLL</url>
@@ -122,8 +121,8 @@ lazy val examples = project.
 lazy val tests = project.
   settings(
     commonSettings,
-    fork in Test := true,
-    testOptions in Test := Seq(
+    Test / fork := true,
+    Test / testOptions := Seq(
       Tests.Argument(TestFrameworks.ScalaTest
         // F: show full stack traces
         // S: show short stack traces
