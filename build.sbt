@@ -142,6 +142,7 @@ lazy val tests = project.
 lazy val benchmark = project.
   settings(
     commonSettings,
+    scalacOptions -= "-Xfatal-warnings",
     Jmh / run / mainClass := Option("scroll.benchmarks.RunnerApp")
   ).
   enablePlugins(JmhPlugin).
