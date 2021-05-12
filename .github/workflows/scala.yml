@@ -15,4 +15,5 @@ jobs:
         run: sbt --version
       - name: Compile and run tests
         run: sbt clean compile test
-        
+      - name: Compile Jmh benchmarks
+        run: sbt clean benchmark/Jmh/compile
