@@ -35,8 +35,7 @@ lazy val commonSettings = Seq(
     // Allow definition of implicit functions called views:
     "-language:implicitConversions",
     // Enable additional warnings where generated code depends on assumptions:
-    "-unchecked",
-    "-target:jvm-" + lib.v.jvm
+    "-unchecked"
   ),
   updateOptions := updateOptions.value.withCachedResolution(true),
   historyPath := Option((LocalRootProject / target).value / ".history"),
