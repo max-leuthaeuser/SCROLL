@@ -15,6 +15,8 @@ jobs:
         run: sbt --version
       - name: Compile and run tests
         run: sbt clean compile test
+      - name: Compile Jmh benchmarks
+        run: sbt clean benchmark/Jmh/compile
       - name: Check formatting
         run: sbt scalafmtCheckAll scalafmtSbtCheck
       - run: echo "Previous step failed because code is not formatted. Run 'sbt format'"
