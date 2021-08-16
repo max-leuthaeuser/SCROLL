@@ -36,19 +36,22 @@ trait RoleGroupsApi {
 
   import RoleGroupsApi._
 
-  /** Wrapping function that checks all available role group constraints for
-    * all core objects and its roles after the given function was executed.
-    * Throws a RuntimeException if a role group constraint is violated!
+  /** Wrapping function that checks all available role group constraints for all core objects and
+    * its roles after the given function was executed. Throws a RuntimeException if a role group
+    * constraint is violated!
     *
-    * @param func the function to execute and check role group constraints afterwards
+    * @param func
+    *   the function to execute and check role group constraints afterwards
     */
   def checked(func: => Unit): Unit
 
-  /** Creates a [[scroll.internal.support.RoleGroupsApi.RoleGroupApi]] with the given name
-    * with a fluent relationship creation API.
+  /** Creates a [[scroll.internal.support.RoleGroupsApi.RoleGroupApi]] with the given name with a
+    * fluent relationship creation API.
     *
-    * @param name the name of the created RoleGroup
-    * @return an instance of RoleGroupApi
+    * @param name
+    *   the name of the created RoleGroup
+    * @return
+    *   an instance of RoleGroupApi
     */
   def create(name: String): RoleGroupApi
 
@@ -87,6 +90,7 @@ trait RoleGroupsApi {
       T4 <: AnyRef: ClassTag,
       T5 <: AnyRef: ClassTag
     ](limitLower: Int, limitUpper: CInt)(occLower: Int, occUpper: CInt): RoleGroupApi
+
   }
 
 }

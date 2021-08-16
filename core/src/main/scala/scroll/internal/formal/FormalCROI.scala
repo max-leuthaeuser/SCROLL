@@ -25,20 +25,31 @@ object FormalCROI {
     plays: List[(String, String, String)],
     links: Map[(String, String), List[(String, String)]]
   ): FormalCROI[String, String, String, String] = FormalCROI(n, r, c, type1, plays, links)
+
 }
 
 /** Class representation of the Compartment Role Object Instance (CROI).
   *
-  * @param n     list of all naturals
-  * @param r     list of all roles
-  * @param c     list of all compartments
-  * @param type1 type mapping
-  * @param plays plays relation
-  * @param links link function
-  * @tparam NT  type of naturals
-  * @tparam RT  type of roles
-  * @tparam CT  type of compartments
-  * @tparam RST type of relationships
+  * @param n
+  *   list of all naturals
+  * @param r
+  *   list of all roles
+  * @param c
+  *   list of all compartments
+  * @param type1
+  *   type mapping
+  * @param plays
+  *   plays relation
+  * @param links
+  *   link function
+  * @tparam NT
+  *   type of naturals
+  * @tparam RT
+  *   type of roles
+  * @tparam CT
+  *   type of compartments
+  * @tparam RST
+  *   type of relationships
   */
 final case class FormalCROI[
   NT >: Null <: AnyRef,
@@ -55,12 +66,15 @@ final case class FormalCROI[
 ) {
 
   assert(FormalUtils.mutualDisjoint(List(n, r, c, List(null))))
+
   assert(
     FormalUtils.totalFunction(n.concat(r).concat(c), type1.map { case (k, v) => (k, List(v)) })
   )
 
-  /** @param crom the CROM to check against
-    * @return true iff the CROI is compliant to the given CROM
+  /** @param crom
+    *   the CROM to check against
+    * @return
+    *   true iff the CROI is compliant to the given CROM
     */
   def compliant(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
     crom.wellformed &&
@@ -143,7 +157,7 @@ final case class FormalCROI[
       case _ =>
         plays.find(_._3 == r) match {
           case Some(p) => p._1
-          case _       => throw new RuntimeException(s"The given role '$r' is not played in the CROI!")
+          case _ => throw new RuntimeException(s"The given role '$r' is not played in the CROI!")
         }
     }
 
@@ -151,4 +165,5 @@ final case class FormalCROI[
     links((rst, c)).map { case (r_1, r_2) =>
       (player(r_1), player(r_2))
     }
+
 }

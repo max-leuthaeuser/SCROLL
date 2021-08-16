@@ -17,9 +17,12 @@ object QueryStrategies {
 
   /** Query strategy using the value the queried attribute.
     *
-    * @param name  the name of the attribute that is queried
-    * @param value the value of the attribute that is queried
-    * @tparam T its type
+    * @param name
+    *   the name of the attribute that is queried
+    * @param value
+    *   the value of the attribute that is queried
+    * @tparam T
+    *   its type
     */
   final case class WithProperty[T](name: String, value: T) extends RoleQueryStrategy {
     override def matches(on: AnyRef): Boolean = ReflectiveHelper.propertyOf[T](on, name) == value
@@ -27,9 +30,12 @@ object QueryStrategies {
 
   /** Query strategy using the return value the queried function.
     *
-    * @param name   the name of the function that is queried
-    * @param result the return value of the function that is queried
-    * @tparam T its type
+    * @param name
+    *   the name of the function that is queried
+    * @param result
+    *   the return value of the function that is queried
+    * @tparam T
+    *   its type
     */
   final case class WithResult[T](name: String, result: T) extends RoleQueryStrategy {
     override def matches(on: AnyRef): Boolean = ReflectiveHelper.resultOf[T](on, name) == result

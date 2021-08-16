@@ -101,15 +101,18 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
     )
   }
 
-  /** Checks all role constraints between the given player and role instance.
-    * Will throw a RuntimeException if a constraint is violated!
+  /** Checks all role constraints between the given player and role instance. Will throw a
+    * RuntimeException if a constraint is violated!
     *
-    * @param player the player instance to check
-    * @param role   the role instance to check
+    * @param player
+    *   the player instance to check
+    * @param role
+    *   the role instance to check
     */
   private[this] def validateConstraints(player: AnyRef, role: AnyRef): Unit = {
     checkImplications(player, role)
     checkEquivalence(player, role)
     checkProhibitions(player, role)
   }
+
 }

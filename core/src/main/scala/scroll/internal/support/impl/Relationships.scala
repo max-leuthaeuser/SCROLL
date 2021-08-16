@@ -14,29 +14,38 @@ class Relationships(private[this] val roleQueries: RoleQueriesApi) extends Relat
 
     override def to[R <: AnyRef: ClassTag](rightMul: Multiplicity): RelationshipApi[L, R] =
       new Relationship[L, R](name, leftMul, rightMul)
+
   }
 
   class FromBuilder(name: String) extends FromBuilderApi {
 
     override def from[L <: AnyRef: ClassTag](leftMul: Multiplicity): ToBuilder[L] =
       new ToBuilder[L](name, leftMul)
+
   }
 
-  /** Creates a [[Relationships.Relationship]] with the given name
-    * with a fluent relationship creation API.
+  /** Creates a [[Relationships.Relationship]] with the given name with a fluent relationship
+    * creation API.
     *
-    * @param name the name of the created Relationship
-    * @return an instance of the Relationship builder
+    * @param name
+    *   the name of the created Relationship
+    * @return
+    *   an instance of the Relationship builder
     */
   override def create(name: String): FromBuilder = new FromBuilder(name)
 
   /** Class representation of a relationship between two (role) types.
     *
-    * @param name     name of the relationship
-    * @param leftMul  multiplicity of the left side of the relationship
-    * @param rightMul multiplicity of the right side of the relationship
-    * @tparam L type of the role of the left side of the relationship
-    * @tparam R type of the role of the right side of the relationship
+    * @param name
+    *   name of the relationship
+    * @param leftMul
+    *   multiplicity of the left side of the relationship
+    * @param rightMul
+    *   multiplicity of the right side of the relationship
+    * @tparam L
+    *   type of the role of the left side of the relationship
+    * @tparam R
+    *   type of the role of the right side of the relationship
     */
   class Relationship[L <: AnyRef: ClassTag, R <: AnyRef: ClassTag](
     name: String,

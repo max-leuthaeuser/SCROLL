@@ -448,4 +448,5 @@ class FormalCROMTest extends AbstractSCROLLTest {
       c.validity(m, i) shouldBe (co && a13 && a14 && a15 && a16)
     }
   }
+
 }

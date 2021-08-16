@@ -9,13 +9,15 @@ import scroll.internal.util.ReflectiveHelper
 import java.lang.reflect.Method
 import scala.reflect.ClassTag
 
-/** This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
+/** This Trait allows for implementing an objectified collaboration with a limited number of
+  * participating roles and a fixed scope.
   *
   * ==Overview==
-  * Roles are dependent on some sort of context. We call them compartments. A typical example of a compartment is a university,
-  * which contains the roles Student and Teacher collaborating in Courses. Everything in SCROLL happens inside of Compartments
-  * but roles (implemented as standard Scala classes) can be defined or imported from everywhere. Just mix in this Trait
-  * into your own specific compartment class or create an anonymous instance.
+  * Roles are dependent on some sort of context. We call them compartments. A typical example of a
+  * compartment is a university, which contains the roles Student and Teacher collaborating in
+  * Courses. Everything in SCROLL happens inside of Compartments but roles (implemented as standard
+  * Scala classes) can be defined or imported from everywhere. Just mix in this Trait into your own
+  * specific compartment class or create an anonymous instance.
   *
   * ==Example==
   * {{{

@@ -22,4 +22,5 @@ class ECoreInstanceTest extends AbstractParameterizedSCROLLTest {
       }
     }
   }
+
 }

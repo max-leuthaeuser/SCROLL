@@ -16,17 +16,25 @@ object FormalConstraintModel {
     intra: List[(String, List[(String, String)] => Boolean)]
   ): FormalConstraintModel[String, String, String, String] =
     FormalConstraintModel(rolec, card, intra)
+
 }
 
 /** Class representation of the Constraint Model.
   *
-  * @param rolec the role constraints
-  * @param card  cardinality mappings
-  * @param intra intra-relationship constraints
-  * @tparam NT  type of naturals
-  * @tparam RT  type of roles
-  * @tparam CT  type of compartments
-  * @tparam RST type of relationships
+  * @param rolec
+  *   the role constraints
+  * @param card
+  *   cardinality mappings
+  * @param intra
+  *   intra-relationship constraints
+  * @tparam NT
+  *   type of naturals
+  * @tparam RT
+  *   type of roles
+  * @tparam CT
+  *   type of compartments
+  * @tparam RST
+  *   type of relationships
   */
 final case class FormalConstraintModel[
   NT >: Null <: AnyRef,
@@ -39,8 +47,10 @@ final case class FormalConstraintModel[
   intra: List[(RST, List[(NT, NT)] => Boolean)]
 ) {
 
-  /** @param crom the CROM instance to check against
-    * @return true iff the constraint model is compliant to the given CROM.
+  /** @param crom
+    *   the CROM instance to check against
+    * @return
+    *   true iff the constraint model is compliant to the given CROM.
     */
   def compliant(crom: FormalCROM[NT, RT, CT, RST]): Boolean = crom.wellformed && axiom12(crom)
 
@@ -50,9 +60,13 @@ final case class FormalConstraintModel[
       (_, a) <- rolec(ct1)
     } yield FormalUtils.atoms(a).toSet.subsetOf(crom.parts(ct1).toSet))
 
-  /** @param crom the CROM instance to check against
-    * @param croi the CROI instance to check against
-    * @return true iff the constraint model is compliant to the given CROM and the given CROI is valid wrt. the constraint model
+  /** @param crom
+    *   the CROM instance to check against
+    * @param croi
+    *   the CROI instance to check against
+    * @return
+    *   true iff the constraint model is compliant to the given CROM and the given CROI is valid
+    *   wrt. the constraint model
     */
   def validity(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
     compliant(crom) && croi.compliant(crom) && axiom13(crom, croi) && axiom14(croi) && axiom15(
@@ -95,4 +109,5 @@ final case class FormalConstraintModel[
       c        <- croi.c
       (rst, f) <- intra if croi.links.contains((rst, c))
     } yield f(croi.overline_links(rst, c)))
+
 }

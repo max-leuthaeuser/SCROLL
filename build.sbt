@@ -37,8 +37,8 @@ lazy val commonSettings = Seq(
     // Enable additional warnings where generated code depends on assumptions:
     "-unchecked"
   ),
-  updateOptions := updateOptions.value.withCachedResolution(true),
-  historyPath := Option((LocalRootProject / target).value / ".history"),
+  updateOptions       := updateOptions.value.withCachedResolution(true),
+  historyPath         := Option((LocalRootProject / target).value / ".history"),
   Global / cancelable := true,
   Global / logLevel := {
     if (insideCI.value) Level.Error else Level.Info
@@ -52,11 +52,11 @@ lazy val commonSettings = Seq(
 lazy val core = project.settings(
   commonSettings,
   Compile / run / mainClass := None,
-  name := "SCROLL",
+  name                      := "SCROLL",
   scalacOptions += "-Xfatal-warnings",
-  organization := "com.github.max-leuthaeuser",
-  publishTo := sonatypePublishToBundle.value,
-  publishMavenStyle := true,
+  organization           := "com.github.max-leuthaeuser",
+  publishTo              := sonatypePublishToBundle.value,
+  publishMavenStyle      := true,
   Test / publishArtifact := false,
   scmInfo := Some(
     ScmInfo(

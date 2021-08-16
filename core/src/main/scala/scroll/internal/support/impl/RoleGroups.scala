@@ -155,8 +155,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
         .foreach(eval);
     finally roleGroups.values.foreach(_.evaluated = false)
 
-  /** Checks all role groups.
-    * Will throw a RuntimeException if a role group constraint is violated!
+  /** Checks all role groups. Will throw a RuntimeException if a role group constraint is violated!
     */
   private[this] def validate(): Unit = {
     validateOccurrenceCardinality()
@@ -243,6 +242,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
       val entry = Types(classTag[T1], classTag[T2], classTag[T3], classTag[T4], classTag[T5])
       addRoleGroup(RoleGroup(name, Seq(entry), (limitLower, limitUpper), (occLower, occUpper)))
     }
+
   }
 
 }

@@ -9,4 +9,5 @@ abstract class AbstractParameterizedSCROLLTest
 
   protected val PARAMS =
     Table(("cached", "checkForCycles"), (true, true), (true, false), (false, true), (false, false))
+
 }

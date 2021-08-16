@@ -34,6 +34,7 @@ object RobotExample {
           s"I am $name and moving to the $target with my $actor w.r.t. sensor value of $sensorValue."
         )
       }
+
     }
 
   }
@@ -61,4 +62,5 @@ object RobotExample {
     }
 
   }
+
 }

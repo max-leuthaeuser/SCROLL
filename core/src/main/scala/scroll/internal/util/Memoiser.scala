@@ -13,8 +13,10 @@ object Memoiser {
     * loading the value for this key, simply waits for that thread to finish and returns its loaded
     * value. Note that multiple threads can concurrently load values for distinct keys.
     *
-    * @param supplier the function to be used for loading values; must never return { @code null}
-    * @return a cache loader that loads values by passing each key to { @code supplier}
+    * @param supplier
+    *   the function to be used for loading values; must never return { @code null}
+    * @return
+    *   a cache loader that loads values by passing each key to { @code supplier}
     */
   def buildCache[K <: AnyRef, V <: AnyRef](supplier: K => V): LoadingCache[K, V] =
     CacheBuilder.newBuilder().build[K, V](CacheLoader.from((k: K) => supplier(k)))

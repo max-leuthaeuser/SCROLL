@@ -22,6 +22,7 @@ object SCROLLErrors {
             args.map(e => s"'$e'").mkString("(", ", ", ")")
         case _ => s"No role with '$target' could not be found for the player '$forCore'!"
       }
+
   }
 
   sealed trait InvocationError extends SCROLLError
@@ -36,6 +37,7 @@ object SCROLLErrors {
             args.map(e => s"'$e'").mkString("(", ", ", ")")
         case _ => s"'$target' could not be executed on role type '$roleType'!"
       }
+
   }
 
 }

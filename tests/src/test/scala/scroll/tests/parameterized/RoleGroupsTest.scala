@@ -36,4 +36,5 @@ class RoleGroupsTest extends AbstractParameterizedSCROLLTest {
       }
     }
   }
+
 }

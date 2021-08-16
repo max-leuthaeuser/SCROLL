@@ -4,25 +4,31 @@ package scroll.internal.formal
   */
 object FormalUtils {
 
-  /** @param sets the list of sets to check
-    * @tparam T the type of the contained elements
-    * @return true iff the given sets are mutually disjoint to each other
+  /** @param sets
+    *   the list of sets to check
+    * @tparam T
+    *   the type of the contained elements
+    * @return
+    *   true iff the given sets are mutually disjoint to each other
     */
   def mutualDisjoint[T](sets: List[List[T]]): Boolean = {
     val all = sets.flatMap(_.distinct)
     all.lengthCompare(all.distinct.size) == 0
   }
 
-  /** @return true iff the mapping in foo provides a total function in the domain of 'domain'
+  /** @return
+    *   true iff the mapping in foo provides a total function in the domain of 'domain'
     */
   def totalFunction[T, RT](domain: List[T], foo: Map[T, List[RT]]): Boolean =
     domain.toSet.subsetOf(foo.keySet)
 
-  /** @return true iff the provided list only contains true, false otherwise
+  /** @return
+    *   true iff the provided list only contains true, false otherwise
     */
   def all(on: List[Boolean]): Boolean = !on.contains(false)
 
-  /** @return true iff the provided list contains true at least once, false otherwise.
+  /** @return
+    *   true iff the provided list contains true at least once, false otherwise.
     */
   def any(on: List[Boolean]): Boolean = on.contains(true)
 
@@ -49,4 +55,5 @@ object FormalUtils {
         if (elem.lower <= sum && sum <= elem.upper) 1 else 0
       case _ => throw new IllegalArgumentException(s"Can't handle: '$a'")
     }
+
 }

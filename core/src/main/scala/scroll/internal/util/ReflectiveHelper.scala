@@ -6,8 +6,8 @@ import scala.collection.immutable.ArraySeq
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 
-/** Contains useful functions for translating class and type names to Strings
-  * and provides helper functions to access common tasks for working with reflections.
+/** Contains useful functions for translating class and type names to Strings and provides helper
+  * functions to access common tasks for working with reflections.
   *
   * Querying methods and fields is cached.
   */
@@ -56,36 +56,47 @@ object ReflectiveHelper {
   private[this] def cachedSimpleName(t: String): String =
     simpleClassName(simpleClassName(t, "."), "$")
 
-  /** Translates a Class or Type name to a String, i.e. removing anything before the last
-    * occurrence of "<code>$</code>" or "<code>.</code>".
+  /** Translates a Class or Type name to a String, i.e. removing anything before the last occurrence
+    * of "<code>$</code>" or "<code>.</code>".
     *
-    * @param t the Class or Type name as String
-    * @return anything after the last occurrence of "<code>$</code>" or "<code>.</code>"
+    * @param t
+    *   the Class or Type name as String
+    * @return
+    *   anything after the last occurrence of "<code>$</code>" or "<code>.</code>"
     */
   def simpleName(t: String): String = classNameCache.get(t)
 
   /** Compares two class names.
     *
-    * @param mani the first class name derived from a class manifest (e.g., from classTag) as String
-    * @param that the second class name already as instance of Any
-    * @return true iff both names are the same, false otherwise
+    * @param mani
+    *   the first class name derived from a class manifest (e.g., from classTag) as String
+    * @param that
+    *   the second class name already as instance of Any
+    * @return
+    *   true iff both names are the same, false otherwise
     */
   def isInstanceOf(mani: String, that: AnyRef): Boolean =
     simpleName(that.getClass.toString) == simpleName(mani)
 
   /** Compares two class names.
     *
-    * @param mani the first class name derived from a class manifest (e.g., from classTag) as String
-    * @param that the second class name already as String
-    * @return true iff both names are the same, false otherwise
+    * @param mani
+    *   the first class name derived from a class manifest (e.g., from classTag) as String
+    * @param that
+    *   the second class name already as String
+    * @return
+    *   true iff both names are the same, false otherwise
     */
   def isInstanceOf(mani: String, that: String): Boolean = simpleName(that) == simpleName(mani)
 
   /** Compares two interfaces given as Array of its Methods.
     *
-    * @param roleInterface  Array of Methods from the first interface
-    * @param restrInterface Array of Methods from the second interface
-    * @return true iff all methods from the restrInterface can be found in roleInterface, false otherwise
+    * @param roleInterface
+    *   Array of Methods from the first interface
+    * @param restrInterface
+    *   Array of Methods from the second interface
+    * @return
+    *   true iff all methods from the restrInterface can be found in roleInterface, false otherwise
     */
   def isSameInterface(roleInterface: Array[Method], restrInterface: Array[Method]): Boolean =
     restrInterface.forall(method => roleInterface.exists(method.equals))
@@ -160,10 +171,14 @@ object ReflectiveHelper {
 
   /** Find a method of the wrapped object by its name and argument list given.
     *
-    * @param on   the instance to search on
-    * @param name the name of the function/method of interest
-    * @param args the args function/method of interest
-    * @return Some(Method) if the wrapped object provides the function/method in question, None otherwise
+    * @param on
+    *   the instance to search on
+    * @param name
+    *   the name of the function/method of interest
+    * @param args
+    *   the args function/method of interest
+    * @return
+    *   Some(Method) if the wrapped object provides the function/method in question, None otherwise
     */
   def findMethod(on: AnyRef, name: String, args: Seq[Any]): Option[Method] =
     methodMatchCache.get((on.getClass, name, args))
@@ -176,47 +191,70 @@ object ReflectiveHelper {
 
   /** Checks if the wrapped object provides a member (field or function/method) with the given name.
     *
-    * @param on   the instance to search on
-    * @param name the name of the member (field or function/method)  of interest
-    * @return true if the wrapped object provides the given member, false otherwise
+    * @param on
+    *   the instance to search on
+    * @param name
+    *   the name of the member (field or function/method) of interest
+    * @return
+    *   true if the wrapped object provides the given member, false otherwise
     */
   def hasMember(on: AnyRef, name: String): Boolean = hasMemberCache.get((on.getClass, name))
 
   /** Returns the runtime content of type T of the field with the given name of the wrapped object.
     *
-    * @param on   the instance to search on
-    * @param name the name of the field of interest
-    * @tparam T the type of the field
-    * @return the runtime content of type T of the field with the given name of the wrapped object
+    * @param on
+    *   the instance to search on
+    * @param name
+    *   the name of the field of interest
+    * @tparam T
+    *   the type of the field
+    * @return
+    *   the runtime content of type T of the field with the given name of the wrapped object
     */
   def propertyOf[T](on: AnyRef, name: String): T =
     findField(on.getClass, name).get(on).asInstanceOf[T]
 
   /** Sets the field given as name to the provided value.
     *
-    * @param on    the instance to search on
-    * @param name  the name of the field of interest
-    * @param value the value to set for this field
+    * @param on
+    *   the instance to search on
+    * @param name
+    *   the name of the field of interest
+    * @param value
+    *   the value to set for this field
     */
   def setPropertyOf(on: AnyRef, name: String, value: Any): Unit =
     findField(on.getClass, name).set(on, value)
 
-  /** Returns the runtime result of type T of the given function and arguments by executing this function of the wrapped object.
+  /** Returns the runtime result of type T of the given function and arguments by executing this
+    * function of the wrapped object.
     *
-    * @param on   the instance to search on
-    * @param m    the function of interest
-    * @param args the arguments of the function of interest
-    * @tparam T the return type of the function
-    * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
+    * @param on
+    *   the instance to search on
+    * @param m
+    *   the function of interest
+    * @param args
+    *   the arguments of the function of interest
+    * @tparam T
+    *   the return type of the function
+    * @return
+    *   the runtime result of type T of the function with the given name by executing this function
+    *   of the wrapped object
     */
   def resultOf[T](on: AnyRef, m: Method, args: Seq[Any]): T = m.invoke(on, args: _*).asInstanceOf[T]
 
-  /** Returns the runtime result of type T of the function with the given name by executing this function of the wrapped object.
+  /** Returns the runtime result of type T of the function with the given name by executing this
+    * function of the wrapped object.
     *
-    * @param on   the instance to search on
-    * @param name the name of the function of interest
-    * @tparam T the return type of the function
-    * @return the runtime result of type T of the function with the given name by executing this function of the wrapped object
+    * @param on
+    *   the instance to search on
+    * @param name
+    *   the name of the function of interest
+    * @tparam T
+    *   the return type of the function
+    * @return
+    *   the runtime result of type T of the function with the given name by executing this function
+    *   of the wrapped object
     */
   def resultOf[T](on: AnyRef, name: String): T =
     findMethods(on.getClass, name) match {
@@ -228,10 +266,14 @@ object ReflectiveHelper {
 
   /** Checks if the wrapped object is of type T.
     *
-    * @param on the instance to search on
-    * @tparam T the type to check
-    * @return true if the wrapped object is of type T, false otherwise
+    * @param on
+    *   the instance to search on
+    * @tparam T
+    *   the type to check
+    * @return
+    *   true if the wrapped object is of type T, false otherwise
     */
   def is[T <: AnyRef: ClassTag](on: AnyRef): Boolean =
     simpleName(on.getClass.toString) == simpleName(classTag[T].toString)
+
 }

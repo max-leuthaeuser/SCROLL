@@ -8,6 +8,7 @@ object CachedScalaRoleGraph {
 
   def copyFrom(from: ScalaRoleGraph, checkForCycles: Boolean): CachedScalaRoleGraph =
     new CachedScalaRoleGraph(from.root, checkForCycles)
+
 }
 
 class CachedScalaRoleGraph(
@@ -83,4 +84,5 @@ class CachedScalaRoleGraph(
     super.removePlayer(player)
     reset(player)
   }
+
 }

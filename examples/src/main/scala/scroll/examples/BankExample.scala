@@ -86,6 +86,7 @@ object BankExample {
           println(s"SavingsAccount '$account': $balance")
         }
       }
+
     }
 
     class CheckingsAccount() {
@@ -94,6 +95,7 @@ object BankExample {
         given DispatchQuery = Bypassing(_.isInstanceOf[CheckingsAccount])
         val _               = (+this).decrease(amount)
       }
+
     }
 
     class SavingsAccount() {
@@ -116,6 +118,7 @@ object BankExample {
         given DispatchQuery = Bypassing(_.isInstanceOf[TransactionRole])
         val _               = (+this).execute()
       }
+
     }
 
   }
@@ -140,6 +143,7 @@ object BankExample {
       def withDraw(m: Double): Unit = {
         val _ = (+this).decrease(m)
       }
+
     }
 
     class Target() {
@@ -147,7 +151,9 @@ object BankExample {
       def deposit(m: Double): Unit = {
         val _ = (+this).increase(m)
       }
+
     }
 
   }
+
 }

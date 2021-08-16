@@ -50,4 +50,5 @@ object UniversityExample {
   class Person(val name: String) {
     def talk(): Unit = println("I am a person")
   }
+
 }

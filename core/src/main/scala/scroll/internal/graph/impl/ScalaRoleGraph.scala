@@ -17,12 +17,14 @@ object ScalaRoleGraph {
 
   def copyFrom(from: ScalaRoleGraph, checkForCycles: Boolean): ScalaRoleGraph =
     new ScalaRoleGraph(from.root, checkForCycles)
+
 }
 
-/** Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using
-  * a graph as underlying data model.
+/** Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using a graph as
+  * underlying data model.
   *
-  * @param checkForCycles set to true to forbid cyclic role playing relationships
+  * @param checkForCycles
+  *   set to true to forbid cyclic role playing relationships
   */
 class ScalaRoleGraph(
   val root: MutableGraph[Object] = GraphBuilder.directed().build[Object](),
@@ -38,7 +40,9 @@ class ScalaRoleGraph(
     if (!target.nodes().isEmpty) {
       target
         .edges()
-        .forEach { p => val _ = root.putEdge(p.source(), p.target()) }
+        .forEach { p =>
+          val _ = root.putEdge(p.source(), p.target())
+        }
       checkCycles()
       true
     } else {
@@ -116,4 +120,5 @@ class ScalaRoleGraph(
       case _ => Seq.empty[AnyRef]
     }
   }
+
 }

@@ -25,15 +25,16 @@ trait ECoreImporter {
     val eObject = r.getContents.get(0)
     eObject match {
       case p: EPackage => val _ = rs.getPackageRegistry.put(p.getNsURI, p)
-      case _           => throw new IllegalStateException("Meta-Model for CROM could not be loaded!")
+      case _ => throw new IllegalStateException("Meta-Model for CROM could not be loaded!")
     }
   }
 
-  /** Load and imports an ecore model.
-    * Remember to set the <code>path</code> variable!
+  /** Load and imports an ecore model. Remember to set the <code>path</code> variable!
     *
-    * @param path the path to load the ecore model from
-    * @return the imported model as Resource
+    * @param path
+    *   the path to load the ecore model from
+    * @return
+    *   the imported model as Resource
     */
   protected def loadModel(path: String): Resource = {
     require(null != path && path.nonEmpty)
@@ -48,4 +49,5 @@ trait ECoreImporter {
     require(!r.getContents.isEmpty)
     r
   }
+
 }

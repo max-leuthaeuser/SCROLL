@@ -8,8 +8,9 @@ import scroll.internal.util.ReflectiveHelper
 import java.lang.reflect.Method
 import scala.reflect.ClassTag
 
-/** This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
-  * In contrast to the normal Compartment, in case of ambiguities all role methods will be called in sequence.
+/** This Trait allows for implementing an objectified collaboration with a limited number of
+  * participating roles and a fixed scope. In contrast to the normal Compartment, in case of
+  * ambiguities all role methods will be called in sequence.
   */
 trait MultiCompartment extends AbstractCompartment {
 
@@ -69,6 +70,7 @@ trait MultiCompartment extends AbstractCompartment {
 
     def toString()(using dispatchQuery: DispatchQuery = DispatchQuery()): Seq[String] =
       applyDynamic("toString")()(using dispatchQuery)
+
   }
 
 }

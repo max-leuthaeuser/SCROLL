@@ -24,6 +24,7 @@ class RecursiveBaseCallsWithClassesTest extends AbstractParameterizedSCROLLTest 
         println(s"RoleTypeA($this)::someMethod()")
         (+this).someMethod()
       }
+
     }
 
     class RoleTypeB {
@@ -33,6 +34,7 @@ class RecursiveBaseCallsWithClassesTest extends AbstractParameterizedSCROLLTest 
         println(s"RoleTypeB($this)::someMethod()")
         (+this).someMethod()
       }
+
     }
 
   }

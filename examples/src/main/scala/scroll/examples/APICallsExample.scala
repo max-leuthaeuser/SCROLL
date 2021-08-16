@@ -34,6 +34,7 @@ object APICallsExample {
           val _               = api.callC()
         }
       }
+
     }
 
     case class FixedAPI() {
@@ -43,4 +44,5 @@ object APICallsExample {
     }
 
   }
+
 }

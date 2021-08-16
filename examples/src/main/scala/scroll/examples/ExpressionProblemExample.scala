@@ -53,6 +53,7 @@ object ExpressionProblemExample {
         val value: Int = (+this).value
         value.toString
       }
+
     }
 
     class AddShowable() {
@@ -64,6 +65,7 @@ object ExpressionProblemExample {
         val rs: String = (+right).show()
         ls + " + " + rs
       }
+
     }
 
   }
@@ -78,7 +80,9 @@ object ExpressionProblemExample {
         val es: String = (+e).show()
         "-" + es
       }
+
     }
 
   }
+
 }

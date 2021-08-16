@@ -6,24 +6,24 @@ object Dependencies extends Dependencies
 trait Dependencies {
 
   object v {
-    val scalaVersion     = "3.0.0"
-    val akkaVersion      = "2.6.14"
+    val scalaVersion     = "3.0.1"
+    val akkaVersion      = "2.6.15"
     val scalatestVersion = "3.2.9"
     val chocoVersion     = "4.10.6"
     val guavaVersion     = "30.1.1-jre"
     val emfcommonVersion = "2.22.0"
-    val emfecoreVersion  = "2.23.0"
+    val emfecoreVersion  = "2.24.0"
     val umlVersion       = "3.1.0.v201006071150"
     val jvm              = "1.8"
   }
 
   val coreDependencies = Seq(
-    "com.google.guava"    % "guava"                  % v.guavaVersion,
-    ("com.typesafe.akka" %% "akka-actor"             % v.akkaVersion).cross(CrossVersion.for3Use2_13),
-    "org.choco-solver"    % "choco-solver"           % v.chocoVersion,
-    "org.eclipse.emf"     % "org.eclipse.emf.common" % v.emfcommonVersion,
-    "org.eclipse.emf"     % "org.eclipse.emf.ecore"  % v.emfecoreVersion,
-    "org.eclipse.uml2"    % "org.eclipse.uml2.uml"   % v.umlVersion
+    "com.google.guava"    % "guava"        % v.guavaVersion,
+    ("com.typesafe.akka" %% "akka-actor"   % v.akkaVersion).cross(CrossVersion.for3Use2_13),
+    "org.choco-solver"    % "choco-solver" % v.chocoVersion,
+    "org.eclipse.emf"  % "org.eclipse.emf.common" % v.emfcommonVersion,
+    "org.eclipse.emf"  % "org.eclipse.emf.ecore"  % v.emfecoreVersion,
+    "org.eclipse.uml2" % "org.eclipse.uml2.uml"   % v.umlVersion
   )
 
   val coreDependenciesOverrides = Seq(

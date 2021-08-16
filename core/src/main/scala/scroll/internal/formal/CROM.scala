@@ -24,8 +24,10 @@ trait CROM extends ECoreImporter {
 
   /** Checks if the loaded CROM is wellformed.
     *
-    * @param path the file path to load a CROM from
-    * @return true if a model was loaded using `withModel()` and it is wellformed, false otherwise
+    * @param path
+    *   the file path to load a CROM from
+    * @return
+    *   true if a model was loaded using `withModel()` and it is wellformed, false otherwise
     */
   def wellformed(path: String): Boolean = construct(path).wellformed
 
@@ -52,8 +54,8 @@ trait CROM extends ECoreImporter {
   private[this] def constructFills[NT >: Null <: AnyRef, RT >: Null <: AnyRef](
     elem: EObject
   ): List[(NT, RT)] = {
-    val obj       = elem.asInstanceOf[DynamicEObjectImpl]
-    val filler    = obj.dynamicGet(1).asInstanceOf[DynamicEObjectImpl].dynamicGet(0).asInstanceOf[NT]
+    val obj    = elem.asInstanceOf[DynamicEObjectImpl]
+    val filler = obj.dynamicGet(1).asInstanceOf[DynamicEObjectImpl].dynamicGet(0).asInstanceOf[NT]
     val filledObj = obj.dynamicGet(0).asInstanceOf[DynamicEObjectImpl]
     if (filledObj.eClass().getName == ROLEGROUP) {
       collectRoles(filledObj).map(r => (filler, instanceName(r).asInstanceOf[RT]))
@@ -164,4 +166,5 @@ trait CROM extends ECoreImporter {
     )
       .asInstanceOf[FormalCROM[NT, RT, CT, RST]]
   }
+
 }

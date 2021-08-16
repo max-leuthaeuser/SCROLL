@@ -24,6 +24,7 @@ class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLT
         println(s"RoleTypeA($this)::someMethod()")
         (+this).someMethod()
       }
+
     }
 
     case class RoleTypeB(id: String) {
@@ -33,6 +34,7 @@ class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLT
         println(s"RoleTypeB($this)::someMethod()")
         (+this).someMethod()
       }
+
     }
 
   }

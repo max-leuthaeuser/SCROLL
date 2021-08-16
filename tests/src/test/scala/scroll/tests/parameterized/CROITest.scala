@@ -19,4 +19,5 @@ class CROITest extends AbstractParameterizedSCROLLTest {
       }
     }
   }
+
 }

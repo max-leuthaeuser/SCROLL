@@ -27,21 +27,33 @@ object FormalCROM {
     parts: Map[String, List[String]],
     rel: Map[String, List[String]]
   ): FormalCROM[String, String, String, String] = FormalCROM(nt, rt, ct, rst, fills, parts, rel)
+
 }
 
 /** Class representation of the Compartment Role Object Model (CROM).
   *
-  * @param nt    list of all natural types
-  * @param rt    list of all role types
-  * @param ct    list of all compartment types
-  * @param rst   list of all relationship types
-  * @param fills fills-relation
-  * @param parts parts-relation
-  * @param rel   relationship mappings
-  * @tparam NT  type of naturals
-  * @tparam RT  type of roles
-  * @tparam CT  type of compartments
-  * @tparam RST type of relationships
+  * @param nt
+  *   list of all natural types
+  * @param rt
+  *   list of all role types
+  * @param ct
+  *   list of all compartment types
+  * @param rst
+  *   list of all relationship types
+  * @param fills
+  *   fills-relation
+  * @param parts
+  *   parts-relation
+  * @param rel
+  *   relationship mappings
+  * @tparam NT
+  *   type of naturals
+  * @tparam RT
+  *   type of roles
+  * @tparam CT
+  *   type of compartments
+  * @tparam RST
+  *   type of relationships
   */
 final case class FormalCROM[
   NT >: Null <: AnyRef,
@@ -62,7 +74,8 @@ final case class FormalCROM[
   assert(FormalUtils.totalFunction(ct, parts))
   assert(FormalUtils.totalFunction(rst, rel))
 
-  /** @return true iff the CROM is wellformed w.r.t. all axioms provided, false otherwise
+  /** @return
+    *   true iff the CROM is wellformed w.r.t. all axioms provided, false otherwise
     */
   def wellformed: Boolean = axiom1 && axiom2 && axiom3 && axiom4 && axiom5
 
@@ -80,4 +93,5 @@ final case class FormalCROM[
     FormalUtils.all(
       rst.map(r => FormalUtils.any(ct.map(c => rel(r).toSet.subsetOf(parts(c).toSet))))
     )
+
 }

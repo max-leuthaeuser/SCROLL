@@ -23,6 +23,7 @@ class SCROLLErrorsTest extends AbstractSCROLLTest {
     val expected   = s"No role with '$targetName' could not be found for the player '$tpe'!"
     testObject.toString shouldBe expected
   }
+
   test("RoleNotFound: String representation (with some args)") {
     val tpe        = new CoreA()
     val targetName = "method"
@@ -40,6 +41,7 @@ class SCROLLErrorsTest extends AbstractSCROLLTest {
     val expected   = s"'$targetName' could not be executed on role type '$tpe'!"
     testObject.toString shouldBe expected
   }
+
   test("IllegalRoleInvocationDispatch: String representation (with some args)") {
     val tpe        = new RoleA()
     val targetName = "someMethod"

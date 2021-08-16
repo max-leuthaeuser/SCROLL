@@ -10,7 +10,8 @@ import scroll.internal.support.RolePlayingApi
 import scroll.internal.support.RoleQueriesApi
 import scroll.internal.support.RoleRestrictionsApi
 
-/** Defines the API for Compartments that implement an objectified collaboration with a limited number of participating roles and a fixed scope.
+/** Defines the API for Compartments that implement an objectified collaboration with a limited
+  * number of participating roles and a fixed scope.
   */
 trait CompartmentApi {
 
