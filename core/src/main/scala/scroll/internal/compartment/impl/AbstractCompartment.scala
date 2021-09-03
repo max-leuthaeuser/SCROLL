@@ -107,9 +107,9 @@ abstract class AbstractCompartment() extends CompartmentApi {
       wrapped match {
         case p: IPlayer[_, _] => rolePlaying.addPlaysRelation[W, R](p.wrapped.asInstanceOf[W], role)
         case p: AnyRef        => rolePlaying.addPlaysRelation[W, R](p.asInstanceOf[W], role)
-        case p =>
+        case null =>
           throw new RuntimeException(
-            s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles! You tried it with '$p'."
+            s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles!"
           )
       }
       this
@@ -252,8 +252,8 @@ abstract class AbstractCompartment() extends CompartmentApi {
     override def equals(o: Any): Boolean =
       o match {
         case other: IPlayer[_, _] => playerEquality.equalsPlayer(this, other)
-        case other: Any           => playerEquality.equalsAny(this, other)
-        case _                    => false // default case
+        case other: AnyRef        => playerEquality.equalsAny(this, other)
+        case null                 => false
       }
 
     override def hashCode(): Int = wrapped.hashCode()

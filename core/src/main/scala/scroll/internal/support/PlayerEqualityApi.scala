@@ -11,6 +11,6 @@ trait PlayerEqualityApi {
     b: AbstractCompartment#IPlayer[W, _]
   ): Boolean
 
-  def equalsAny[W <: AnyRef: ClassTag](a: AbstractCompartment#IPlayer[W, _], b: Any): Boolean
+  def equalsAny[W <: AnyRef: ClassTag](a: AbstractCompartment#IPlayer[W, _], b: AnyRef): Boolean
 
 }
