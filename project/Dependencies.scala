@@ -5,7 +5,7 @@ object Dependencies extends Dependencies
 trait Dependencies {
 
   object v {
-    val scalaVersion = "2.13.6"
+    val scalaVersion = "2.13.7"
     val akkaVersion = "2.6.17"
     val shapelessVersion = "2.3.7"
     val scalatestVersion = "3.2.10"
