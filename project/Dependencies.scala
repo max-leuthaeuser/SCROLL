@@ -7,7 +7,7 @@ trait Dependencies {
 
   object v {
     val scalaVersion     = "3.1.0"
-    val akkaVersion      = "2.6.17"
+    val akkaVersion      = "2.6.17+70-9b174a31-SNAPSHOT"
     val scalatestVersion = "3.2.10"
     val chocoVersion     = "4.10.7"
     val guavaVersion     = "31.0.1-jre"
@@ -18,12 +18,12 @@ trait Dependencies {
   }
 
   val coreDependencies = Seq(
-    "com.google.guava"    % "guava"        % v.guavaVersion,
-    ("com.typesafe.akka" %% "akka-actor"   % v.akkaVersion).cross(CrossVersion.for3Use2_13),
-    "org.choco-solver"    % "choco-solver" % v.chocoVersion,
-    "org.eclipse.emf"  % "org.eclipse.emf.common" % v.emfcommonVersion,
-    "org.eclipse.emf"  % "org.eclipse.emf.ecore"  % v.emfecoreVersion,
-    "org.eclipse.uml2" % "org.eclipse.uml2.uml"   % v.umlVersion
+    "com.typesafe.akka" %% "akka-actor"             % v.akkaVersion,
+    "com.google.guava"   % "guava"                  % v.guavaVersion,
+    "org.choco-solver"   % "choco-solver"           % v.chocoVersion,
+    "org.eclipse.emf"    % "org.eclipse.emf.common" % v.emfcommonVersion,
+    "org.eclipse.emf"    % "org.eclipse.emf.ecore"  % v.emfecoreVersion,
+    "org.eclipse.uml2"   % "org.eclipse.uml2.uml"   % v.umlVersion
   )
 
   val coreDependenciesOverrides = Seq(
