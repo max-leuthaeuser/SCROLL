@@ -1,17 +1,16 @@
 package scroll.benchmarks
 
-import java.util.concurrent.TimeUnit
-
 import org.openjdk.jmh.annotations._
-import scroll.internal.SCROLLDynamic
+import scroll.internal.dispatch.SCROLLDynamic
 
+import java.util.concurrent.TimeUnit
 import scala.util.Random
 
 object NoopBenchmark {
 
   @State(Scope.Thread)
   class Local {
-    var x, y: Int = _
+    var x, y: Int             = _
     var player: SCROLLDynamic = _
 
     @Param(Array("true", "false"))
@@ -37,8 +36,7 @@ class NoopBenchmark extends AbstractBenchmark {
   import NoopBenchmark.Local
 
   @Benchmark
-  def baseline(): Unit = {
-  }
+  def baseline(): Unit = {}
 
   @Benchmark
   def basecall_noargs(local: Local): Any = {

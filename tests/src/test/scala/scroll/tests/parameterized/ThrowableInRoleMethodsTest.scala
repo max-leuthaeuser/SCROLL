@@ -1,8 +1,8 @@
 package scroll.tests.parameterized
 
-import java.io.IOException
-
 import scroll.tests.mocks.CompartmentUnderTest
+
+import java.io.IOException
 
 class ThrowableInRoleMethodsTest extends AbstractParameterizedSCROLLTest {
 
@@ -11,17 +11,11 @@ class ThrowableInRoleMethodsTest extends AbstractParameterizedSCROLLTest {
   class ExceptionShowcase(c: Boolean, cc: Boolean) extends CompartmentUnderTest(c, cc) {
 
     class Exceptional {
-      def roleMethodWithError(): Unit = {
-        throw new Error()
-      }
+      def roleMethodWithError(): Unit = throw new Error()
 
-      def roleMethodWithUncheckedException(): Unit = {
-        throw new RuntimeException()
-      }
+      def roleMethodWithUncheckedException(): Unit = throw new RuntimeException()
 
-      def roleMethodWithCheckedException(): Unit = {
-        throw new IOException()
-      }
+      def roleMethodWithCheckedException(): Unit = throw new IOException()
     }
 
   }
@@ -32,7 +26,7 @@ class ThrowableInRoleMethodsTest extends AbstractParameterizedSCROLLTest {
         val core = new CoreType()
         core play new Exceptional()
         an[Error] should be thrownBy (+core).roleMethodWithError()
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -42,7 +36,7 @@ class ThrowableInRoleMethodsTest extends AbstractParameterizedSCROLLTest {
         val core = new CoreType()
         core play new Exceptional()
         an[RuntimeException] should be thrownBy (+core).roleMethodWithUncheckedException()
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -52,7 +46,7 @@ class ThrowableInRoleMethodsTest extends AbstractParameterizedSCROLLTest {
         val core = new CoreType()
         core play new Exceptional()
         an[IOException] should be thrownBy (+core).roleMethodWithCheckedException()
-      } shouldNot be(null)
+      }
     }
   }
 

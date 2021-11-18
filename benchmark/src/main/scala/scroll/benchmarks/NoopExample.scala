@@ -1,10 +1,12 @@
 package scroll.benchmarks
 
-import scroll.internal.support.DispatchQuery._
-import scroll.internal.Compartment
-import scroll.internal.support.DispatchQuery
+import scroll.internal.compartment.impl.Compartment
+import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.DispatchQuery._
 
 class NoopExample(cached: Boolean) {
+
+  val compartment = new NoopCompartment()
 
   class BaseType {
     def noArgs(): AnyRef = this
@@ -17,14 +19,16 @@ class NoopExample(cached: Boolean) {
     def primitiveArgsAndReturn(x: Int, y: Int): Int = x + y
   }
 
-  trait NoopCompartment extends Compartment {
-    reconfigure(cached = cached, checkForCycles = false)
+  class NoopCompartment extends Compartment {
+    roleGraph.reconfigure(cached = cached, checkForCycles = false)
+
+    val player = new BaseType() play new NoopRole()
 
     /**
       * No-op role methods which just forward to the base
       */
     class NoopRole {
-      implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[NoopRole])
+      given DispatchQuery = Bypassing(_.isInstanceOf[NoopRole])
 
       def noArgs(): AnyRef = {
         (+this).noArgs()
@@ -41,7 +45,4 @@ class NoopExample(cached: Boolean) {
 
   }
 
-  val compartment = new NoopCompartment {
-    val player = new BaseType() play new NoopRole()
-  }
 }

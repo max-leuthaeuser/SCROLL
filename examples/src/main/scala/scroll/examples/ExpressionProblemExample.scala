@@ -1,8 +1,22 @@
 package scroll.examples
 
-import scroll.internal.Compartment
+import scroll.internal.compartment.impl.Compartment
 
 object ExpressionProblemExample {
+
+  @main def runExpressionProblemExample(): Unit =
+    new M4 {
+
+      val e = Add(
+        Neg(Num(2) playing new NumShowable) playing new NegShowable,
+        Num(11) playing new NumShowable
+      ) play new AddShowable
+
+      val eval: Int    = e.eval()
+      val show: String = e.show()
+      println("Eval: " + eval)
+      println("Show: " + show)
+    }
 
   // M1
   trait M1 extends Compartment {
@@ -34,18 +48,24 @@ object ExpressionProblemExample {
   trait M3 extends M2 {
 
     class NumShowable() {
+
       def show(): String = {
         val value: Int = (+this).value
         value.toString
       }
+
     }
 
     class AddShowable() {
+
       def show(): String = {
-        val left: Exp = (+this).left
+        val left: Exp  = (+this).left
         val right: Exp = (+this).right
-        s"${(+left).show()} + ${(+right).show()}"
+        val ls: String = (+left).show()
+        val rs: String = (+right).show()
+        ls + " + " + rs
       }
+
     }
 
   }
@@ -54,25 +74,15 @@ object ExpressionProblemExample {
   trait M4 extends M3 {
 
     class NegShowable() {
+
       def show(): String = {
-        val e: Exp = (+this).exp
-        s"-${(+e).show()}"
+        val e: Exp     = (+this).exp
+        val es: String = (+e).show()
+        "-" + es
       }
+
     }
 
   }
 
-  def main(args: Array[String]): Unit = {
-    new M4 {
-      val e = Add(
-        Neg(
-          Num(2) playing new NumShowable
-        ) playing new NegShowable,
-        Num(11) playing new NumShowable
-      ) play new AddShowable
-
-      println("Eval: " + e.eval())
-      println("Show: " + e.show())
-    }
-  }
 }

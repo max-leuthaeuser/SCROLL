@@ -1,126 +1,24 @@
 package scroll.examples
 
-import scroll.internal.support.DispatchQuery.Bypassing
-import scroll.internal.Compartment
-import scroll.internal.support.DispatchQuery
-import scroll.internal.util.Many._
-
-import scala.collection.mutable
+import scroll.internal.compartment.impl.Compartment
+import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.DispatchQuery.Bypassing
+import scroll.internal.util.Many.*
 
 object BankExample {
 
-  case class Person(name: String)
-
-  class Account(var balance: Double = 0) {
-
-    def increase(amount: Double): Unit = {
-      balance = balance + amount
-    }
-
-    def decrease(amount: Double): Unit = {
-      balance = balance - amount
-    }
-  }
-
-  class Bank extends Compartment {
-
-    RoleGroup("Accounts").containing[CheckingsAccount, SavingsAccount](1, 1)(0, *)
-
-    class Customer() {
-      private val checkingsAccounts = mutable.ArrayBuffer[CheckingsAccount]()
-      private val savingsAccounts = mutable.ArrayBuffer[SavingsAccount]()
-
-      def addCheckingsAccount(acc: CheckingsAccount): Unit = checkingsAccounts += acc
-
-      def addSavingsAccount(acc: SavingsAccount): Unit = savingsAccounts += acc
-
-      def listBalances(): Unit = {
-        checkingsAccounts.foreach { a =>
-          val account = a
-          val balance: Double = (+account).balance
-          println(s"CheckingsAccount '$account': $balance")
-        }
-        savingsAccounts.foreach { a =>
-          val account = a
-          val balance: Double = (+account).balance
-          println(s"SavingsAccount '$account': $balance")
-        }
-      }
-    }
-
-    class CheckingsAccount() {
-      def decrease(amount: Double): Unit = {
-        dd = Bypassing(_.isInstanceOf[CheckingsAccount])
-        val _ = (+this).decrease(amount)
-      }
-    }
-
-    class SavingsAccount() {
-
-      private val transactionFee = 0.1
-
-      private def calcTransactionFee(amount: Double): Double = amount * transactionFee
-
-      def increase(amount: Double): Unit = {
-        println("Increasing with fee.")
-        dd = Bypassing(_.isInstanceOf[SavingsAccount])
-        val _ = (+this).increase(amount - calcTransactionFee(amount))
-      }
-    }
-
-    class TransactionRole() {
-      def execute(): Unit = {
-        println("Executing from Role.")
-        dd = Bypassing(_.isInstanceOf[TransactionRole])
-        val _ = (+this).execute()
-      }
-    }
-
-  }
-
-  class Transaction(val amount: Double) extends Compartment {
-
-    RoleGroup("Transaction").containing[Source, Target](1, 1)(2, 2)
-
-    private val transferRel = Relationship("transfer").from[Source](1).to[Target](1)
-
-    def execute(): Unit = {
-      println("Executing from Player.")
-      one[Source]().withDraw(amount)
-      one[Target]().deposit(amount)
-      val from = transferRel.left().head
-      val to = transferRel.right().head
-      println(s"Transferred '$amount' from '$from' to '$to'.")
-    }
-
-    class Source() {
-      def withDraw(m: Double): Unit = {
-        val _ = (+this).decrease(m)
-      }
-    }
-
-    class Target() {
-      def deposit(m: Double): Unit = {
-        val _ = (+this).increase(m)
-      }
-    }
-
-  }
-
-  implicit var dd: DispatchQuery = DispatchQuery.empty
-
-  def main(args: Array[String]): Unit = {
-    val stan = Person("Stan")
+  @main def runBankExample(): Unit = {
+    val stan  = Person("Stan")
     val brian = Person("Brian")
 
-    val accForStan = new Account(10)
+    val accForStan  = new Account(10)
     val accForBrian = new Account(0)
 
     val _ = new Bank {
       val ca = new CheckingsAccount()
       val sa = new SavingsAccount()
 
-      RoleGroupsChecked {
+      roleGroups.checked {
         accForStan play ca
         accForBrian play sa
       }
@@ -137,13 +35,13 @@ object BankExample {
       (+brian).listBalances()
 
       private val transaction = new Transaction(10) {
-        RoleGroupsChecked {
+        roleGroups.checked {
           accForStan play new Source()
           accForBrian play new Target()
         }
       }
 
-      transaction partOf this
+      transaction.compartmentRelations.partOf(this)
 
       (transaction play new TransactionRole()).execute()
 
@@ -154,4 +52,108 @@ object BankExample {
       (+brian).listBalances()
     }
   }
+
+  case class Person(name: String)
+
+  class Account(var balance: Double = 0) {
+
+    def increase(amount: Double): Unit = balance = balance + amount
+
+    def decrease(amount: Double): Unit = balance = balance - amount
+  }
+
+  class Bank extends Compartment {
+
+    roleGroups.create("Accounts").containing[CheckingsAccount, SavingsAccount](1, 1)(0, *)
+
+    class Customer() {
+      private val checkingsAccounts = scala.collection.mutable.ArrayBuffer[CheckingsAccount]()
+      private val savingsAccounts   = scala.collection.mutable.ArrayBuffer[SavingsAccount]()
+
+      def addCheckingsAccount(acc: CheckingsAccount): Unit = checkingsAccounts += acc
+
+      def addSavingsAccount(acc: SavingsAccount): Unit = savingsAccounts += acc
+
+      def listBalances(): Unit = {
+        checkingsAccounts.foreach { a =>
+          val account         = a
+          val balance: Double = (+account).balance
+          println(s"CheckingsAccount '$account': $balance")
+        }
+        savingsAccounts.foreach { a =>
+          val account         = a
+          val balance: Double = (+account).balance
+          println(s"SavingsAccount '$account': $balance")
+        }
+      }
+
+    }
+
+    class CheckingsAccount() {
+
+      def decrease(amount: Double): Unit = {
+        given DispatchQuery = Bypassing(_.isInstanceOf[CheckingsAccount])
+        val _               = (+this).decrease(amount)
+      }
+
+    }
+
+    class SavingsAccount() {
+
+      private val transactionFee = 0.1
+
+      def increase(amount: Double): Unit = {
+        println("Increasing with fee.")
+        given DispatchQuery = Bypassing(_.isInstanceOf[SavingsAccount])
+        val _               = (+this).increase(amount - calcTransactionFee(amount))
+      }
+
+      private def calcTransactionFee(amount: Double): Double = amount * transactionFee
+    }
+
+    class TransactionRole() {
+
+      def execute(): Unit = {
+        println("Executing from Role.")
+        given DispatchQuery = Bypassing(_.isInstanceOf[TransactionRole])
+        val _               = (+this).execute()
+      }
+
+    }
+
+  }
+
+  class Transaction(val amount: Double) extends Compartment {
+
+    roleGroups.create("Transaction").containing[Source, Target](1, 1)(2, 2)
+
+    private val transferRel = roleRelationships.create("transfer").from[Source](1).to[Target](1)
+
+    def execute(): Unit = {
+      println("Executing from Player.")
+      roleQueries.one[Source]().withDraw(amount)
+      roleQueries.one[Target]().deposit(amount)
+      val from = transferRel.left().head
+      val to   = transferRel.right().head
+      println(s"Transferred '$amount' from '$from' to '$to'.")
+    }
+
+    class Source() {
+
+      def withDraw(m: Double): Unit = {
+        val _ = (+this).decrease(m)
+      }
+
+    }
+
+    class Target() {
+
+      def deposit(m: Double): Unit = {
+        val _ = (+this).increase(m)
+      }
+
+    }
+
+  }
+
 }

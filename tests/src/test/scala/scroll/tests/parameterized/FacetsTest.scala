@@ -18,7 +18,7 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
         val player = someCore <+> Red
         player.hasFacets(Red) shouldBe true
         player.facets() shouldBe Seq(Red)
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -30,7 +30,7 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
         player.drop(Red)
         player.hasFacets(Red) shouldBe false
         player.facets() shouldBe empty
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -44,7 +44,7 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
         someCoreA transfer Red to someCoreB
         playerA.hasFacets(Red) shouldBe false
         playerB.hasFacets(Red) shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -63,16 +63,41 @@ class FacetsTest extends AbstractParameterizedSCROLLTest {
         someCoreA4 <+> Blue
         someCoreA5 <+> Blue
         someCoreA6 <+> Blue
-        all { c: CoreA => c.hasFacets(Red) } should contain theSameElementsAs Set(someCoreA1, someCoreA2, someCoreA3)
-        all { c: CoreA => c.hasSomeFacet(Red) } should contain theSameElementsAs Set(someCoreA1, someCoreA2, someCoreA3)
-        all { c: CoreA => c.hasFacets(Blue) } should contain theSameElementsAs Set(someCoreA4, someCoreA5, someCoreA6)
-        all { c: CoreA => c.hasSomeFacet(Blue) } should contain theSameElementsAs Set(someCoreA4, someCoreA5, someCoreA6)
-        all { c: CoreA => c.hasSomeFacet(Red, Blue) } should contain theSameElementsAs Set(someCoreA1, someCoreA2, someCoreA3, someCoreA4, someCoreA5, someCoreA6)
-        all { c: CoreA => c.hasSomeFacet(Green) } shouldBe empty
-        all { c: CoreA => c.hasFacets(Green) } shouldBe empty
-        all { c: CoreA => c.hasFacets(Red, Blue) } shouldBe empty
-        all { c: CoreA => c.hasFacets(Red, Blue, Green) } shouldBe empty
-      } shouldNot be(null)
+        roleQueries.all { (c: CoreA) =>
+          c.hasFacets(Red)
+        } should contain theSameElementsAs Set(someCoreA1, someCoreA2, someCoreA3)
+        roleQueries.all { (c: CoreA) =>
+          c.hasSomeFacet(Red)
+        } should contain theSameElementsAs Set(someCoreA1, someCoreA2, someCoreA3)
+        roleQueries.all { (c: CoreA) =>
+          c.hasFacets(Blue)
+        } should contain theSameElementsAs Set(someCoreA4, someCoreA5, someCoreA6)
+        roleQueries.all { (c: CoreA) =>
+          c.hasSomeFacet(Blue)
+        } should contain theSameElementsAs Set(someCoreA4, someCoreA5, someCoreA6)
+        roleQueries.all { (c: CoreA) =>
+          c.hasSomeFacet(Red, Blue)
+        } should contain theSameElementsAs Set(
+          someCoreA1,
+          someCoreA2,
+          someCoreA3,
+          someCoreA4,
+          someCoreA5,
+          someCoreA6
+        )
+        roleQueries.all { (c: CoreA) =>
+          c.hasSomeFacet(Green)
+        } shouldBe empty
+        roleQueries.all { (c: CoreA) =>
+          c.hasFacets(Green)
+        } shouldBe empty
+        roleQueries.all { (c: CoreA) =>
+          c.hasFacets(Red, Blue)
+        } shouldBe empty
+        roleQueries.all { (c: CoreA) =>
+          c.hasFacets(Red, Blue, Green)
+        } shouldBe empty
+      }
     }
   }
 

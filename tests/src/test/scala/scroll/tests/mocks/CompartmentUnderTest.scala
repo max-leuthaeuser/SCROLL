@@ -1,7 +1,7 @@
 package scroll.tests.mocks
 
-import scroll.internal.Compartment
+import scroll.internal.compartment.impl.Compartment
 
 class CompartmentUnderTest(cached: Boolean, checkForCycles: Boolean) extends Compartment {
-  reconfigure(cached, checkForCycles)
+  roleGraph.reconfigure(cached, checkForCycles)
 }

@@ -2,7 +2,7 @@ package scroll.tests.mocks
 
 class RoleD {
   var valueA: String = "valueA"
-  var valueB: Int = -1
+  var valueB: Int    = -1
 
   def i(): Int = 4
 

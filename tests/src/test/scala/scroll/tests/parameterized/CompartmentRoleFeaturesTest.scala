@@ -1,8 +1,8 @@
 package scroll.tests.parameterized
 
+import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.DispatchQuery._
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
-import scroll.internal.support.DispatchQuery
-import scroll.internal.support.DispatchQuery._
 import scroll.tests.mocks._
 
 class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
@@ -21,7 +21,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         (+someCore).isPlaying[RoleB] shouldBe true
         val resB: String = (+someCore).b()
         resB shouldBe "b"
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -39,7 +39,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         (+someCore).isPlaying[RoleB] shouldBe true
         val resB: String = (+someCore).b()
         resB shouldBe "b"
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -49,14 +49,14 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       new CompartmentUnderTest(c, cc) {
         val someRole = new RoleA()
         someCore play someRole
-        this.removePlayer(someCore)
+        rolePlaying.removePlayer(someCore)
         (+someCore).isPlaying[RoleA] shouldBe false
         (+someCore).s() match {
           case Right(_) => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err) => fail("This exception is not expected: ", err)
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -69,8 +69,8 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someCore play roleA
         someCore play roleB
         val expected = Seq(someCore, roleA, roleB)
-        this.allPlayers shouldBe expected
-      } shouldNot be(null)
+        rolePlaying.allPlayers shouldBe expected
+      }
     }
   }
 
@@ -86,7 +86,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         res shouldBe 0
         (+someCoreA).isPlaying[RoleA] shouldBe false
         (+someCoreB).isPlaying[RoleA] shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -102,7 +102,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someCoreB.isPlaying[RoleA] shouldBe false
         someCoreB.isPlaying[RoleB] shouldBe false
         someCoreA.isPlaying[RoleA] shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -112,15 +112,15 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       new CompartmentUnderTest(c, cc) {
         val someRole = new RoleA()
         someCoreA play someRole
-        val expected = 0
+        val expected    = 0
         val actual: Int = (+someCoreA).a()
         expected shouldBe actual
         val r = (+someCoreA).c()
         r match {
-          case Left(_) => // correct
+          case Left(_)  => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -130,10 +130,10 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       new CompartmentUnderTest(c, cc) {
         val someRole = new RoleA()
         someCoreA play someRole
-        val expected = someRole.b("some", param = "out")
+        val expected       = someRole.b("some", param = "out")
         val actual: String = (+someCoreA).b("some", param = "out")
         expected shouldBe actual
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -143,18 +143,18 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       new CompartmentUnderTest(c, cc) {
         val someRole = new RoleA()
         someCoreA play someRole
-        val expectedA = someRole.valueA
+        val expectedA       = someRole.valueA
         val actualA: String = (+someCoreA).valueA
-        val expectedB = someRole.valueB
-        val actualB: Int = (+someCoreA).valueB
+        val expectedB       = someRole.valueB
+        val actualB: Int    = (+someCoreA).valueB
         expectedA shouldBe actualA
         expectedB shouldBe actualB
         val r = (+someCoreA).valueD
         r match {
-          case Left(_) => // correct
+          case Left(_)  => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
         }
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -167,12 +167,12 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val expectedA = "newValue"
         (+someCoreA).valueA = expectedA
         val actualA: String = (+someCoreA).valueA
-        val expectedB = -1
+        val expectedB       = -1
         (+someCoreA).valueB = expectedB
         val actualB: Int = (+someCoreA).valueB
         expectedA shouldBe actualA
         expectedB shouldBe actualB
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -189,7 +189,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val actual2: String = (+someCoreA).valueC
         expected shouldBe actual1
         expected shouldBe actual2
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -205,10 +205,10 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         (+someCoreA).update(expected)
         val actual1a: String = someRole1.valueC
         val actual1b: String = someRole2.valueC
-        val actual2: String = (+someCoreA).valueC
+        val actual2: String  = (+someCoreA).valueC
         (expected == actual1a || expected == actual1b) shouldBe true
         expected shouldBe actual2
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -222,13 +222,15 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someRole2.valueB = 2
         someCoreA play someRole1
         someCoreA play someRole2
-        implicit val dd = From(_.isInstanceOf[CoreA]).
-          To(_.isInstanceOf[RoleA]).
-          Through(anything).
-          Bypassing({
-            case r: RoleA => 1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
-            case _ => false
-          })
+        given DispatchQuery =
+          From(_.isInstanceOf[CoreA])
+            .To(_.isInstanceOf[RoleA])
+            .Through(anything)
+            .Bypassing {
+              case r: RoleA =>
+                1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
+              case _ => false
+            }
         (+someCoreA).update("updated")
         val actual1: String = someRole1.valueC
         val actual2: String = someRole2.valueC
@@ -236,7 +238,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         "valueC" shouldBe actual1
         "updated" shouldBe actual2
         "updated" shouldBe actual3
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -249,28 +251,19 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val expected1 = "updated"
         val expected2 = 1
         (+someCoreA).update(expected1, expected2)
-        val actual1 = someRole.valueA
-        val actual2 = someRole.valueB
+        val actual1         = someRole.valueA
+        val actual2         = someRole.valueB
         val actual3: String = (+someCoreA).valueA
-        val actual4: Int = (+someCoreA).valueB
+        val actual4: Int    = (+someCoreA).valueB
         expected1 shouldBe actual1
         expected2 shouldBe actual2
         expected1 shouldBe actual3
         expected2 shouldBe actual4
-      } shouldNot be(null)
+      }
     }
   }
 
-  /**
-    * test case for primitive types:
-    * Int
-    * Double
-    * Float
-    * Long
-    * Short
-    * Byte
-    * Char
-    * boolean
+  /** test case for primitive types: Int Double Float Long Short Byte Char boolean
     */
   test("Calling method on a role with different primitive types") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
@@ -278,13 +271,13 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       new CompartmentUnderTest(c, cc) {
         val someRole = new RoleE()
         someCoreA play someRole
-        val expectedInt: Int = 0
-        val expectedDouble: Double = 0
-        val expectedFloat: Float = 0
-        val expectedLong: Long = 0
-        val expectedShort: Short = 0
-        val expectedByte: Byte = 0
-        val expectedChar: Char = 'B'
+        val expectedInt: Int         = 0
+        val expectedDouble: Double   = 0
+        val expectedFloat: Float     = 0
+        val expectedLong: Long       = 0
+        val expectedShort: Short     = 0
+        val expectedByte: Byte       = 0
+        val expectedChar: Char       = 'B'
         val expectedBoolean: Boolean = true
         (+someCoreA).updateInt(expectedInt)
         (+someCoreA).updateDouble(expectedDouble)
@@ -294,13 +287,13 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         (+someCoreA).updateByte(expectedByte)
         (+someCoreA).updateChar(expectedChar)
         (+someCoreA).updateBoolean(expectedBoolean)
-        val actualIntR = someRole.valueInt
-        val actualDoubleR = someRole.valueDouble
-        val actualFloatR = someRole.valueFloat
-        val actualLongR = someRole.valueLong
-        val actualShortR = someRole.valueShort
-        val actualByteR = someRole.valueByte
-        val actualCharR = someRole.valueChar
+        val actualIntR     = someRole.valueInt
+        val actualDoubleR  = someRole.valueDouble
+        val actualFloatR   = someRole.valueFloat
+        val actualLongR    = someRole.valueLong
+        val actualShortR   = someRole.valueShort
+        val actualByteR    = someRole.valueByte
+        val actualCharR    = someRole.valueChar
         val actualBooleanR = someRole.valueBoolean
         actualIntR shouldBe expectedInt
         actualDoubleR shouldBe expectedDouble
@@ -310,13 +303,13 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         actualByteR shouldBe expectedByte
         actualCharR shouldBe expectedChar
         actualBooleanR shouldBe expectedBoolean
-        val actualIntP: Int = (+someCoreA).valueInt
-        val actualDoubleP: Double = (+someCoreA).valueDouble
-        val actualFloatP: Float = (+someCoreA).valueFloat
-        val actualLongP: Long = (+someCoreA).valueLong
-        val actualShortP: Short = (+someCoreA).valueShort
-        val actualByteP: Byte = (+someCoreA).valueByte
-        val actualCharP: Char = (+someCoreA).valueChar
+        val actualIntP: Int         = (+someCoreA).valueInt
+        val actualDoubleP: Double   = (+someCoreA).valueDouble
+        val actualFloatP: Float     = (+someCoreA).valueFloat
+        val actualLongP: Long       = (+someCoreA).valueLong
+        val actualShortP: Short     = (+someCoreA).valueShort
+        val actualByteP: Byte       = (+someCoreA).valueByte
+        val actualCharP: Char       = (+someCoreA).valueChar
         val actualBooleanP: Boolean = (+someCoreA).valueBoolean
         actualIntP shouldBe expectedInt
         actualDoubleP shouldBe expectedDouble
@@ -326,7 +319,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         actualByteP shouldBe expectedByte
         actualCharP shouldBe expectedChar
         actualBooleanP shouldBe expectedBoolean
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -335,7 +328,6 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       val someCoreA = new CoreA()
       val someCoreB = new CoreB()
       new CompartmentUnderTest(c, cc) {
-        implicit var dd = DispatchQuery.empty
         val someRole = new RoleA()
         someCoreA play someRole
         someCoreB play someRole
@@ -349,20 +341,24 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         expected shouldBe actual2
         expected shouldBe actual3
         val player = someRole.player match {
-          case Left(_) => fail("Player should be defined here!")
+          case Left(_)  => fail("Player should be defined here!")
           case Right(p) => p
         }
         (player == someCoreA || player == someCoreB) shouldBe true
-        dd = From(anything).
-          To(c => c.isInstanceOf[CoreA] || c.isInstanceOf[CoreB]).
-          Through(anything).
-          Bypassing(_.isInstanceOf[CoreB])
-        val player2 = someRole.player match {
-          case Left(_) => fail("Player should be defined here!")
-          case Right(p) => p
+
+        {
+          given DispatchQuery =
+            From(anything)
+              .To(c => c.isInstanceOf[CoreA] || c.isInstanceOf[CoreB])
+              .Through(anything)
+              .Bypassing(_.isInstanceOf[CoreB])
+          val player2 = someRole.player match {
+            case Left(_)  => fail("Player should be defined here!")
+            case Right(p) => p
+          }
+          player2 shouldBe someCoreA
         }
-        player2 shouldBe someCoreA
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -380,7 +376,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           a[RuntimeException] should be thrownBy {
             someRoleC play someRoleA
           }
-        } shouldNot be(null)
+        }
       }
     }
   }
@@ -395,7 +391,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       new ACompartment(c, cc) {
         this play new ARole
         this.isPlaying[ARole] shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -403,11 +399,11 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCoreA = new CoreA()
       new CompartmentUnderTest(c, cc) {
-        val someRoleA = new RoleA()
-        val someRoleB = new RoleB()
-        val someRoleC = new RoleC()
-        val someRoleD = new RoleD()
-        val someRoleE = new RoleE()
+        val someRoleA   = new RoleA()
+        val someRoleB   = new RoleB()
+        val someRoleC   = new RoleC()
+        val someRoleD   = new RoleD()
+        val someRoleE   = new RoleE()
         val expectedVal = 10
         someCoreA play someRoleA
         someRoleA play someRoleB
@@ -429,7 +425,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         actualVal6 shouldBe expectedVal
         val expected = Seq(someRoleD, someRoleC, someRoleB, someRoleA, someCoreA)
         someRoleE.predecessors() shouldBe expected
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -437,11 +433,11 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCoreA = new CoreA()
       new CompartmentUnderTest(c, cc) {
-        val someRoleA = new RoleA()
-        val someRoleB = new RoleB()
-        val someRoleC = new RoleC()
-        val someRoleD = new RoleD()
-        val someRoleE = new RoleE()
+        val someRoleA   = new RoleA()
+        val someRoleB   = new RoleB()
+        val someRoleC   = new RoleC()
+        val someRoleD   = new RoleD()
+        val someRoleE   = new RoleE()
         val expectedVal = 10
         someCoreA playing someRoleA playing someRoleB playing someRoleC playing someRoleD playing someRoleE
         (+someCoreA).valueInt = expectedVal
@@ -459,7 +455,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         actualVal6 shouldBe expectedVal
         val expected = Seq(someCoreA)
         someRoleE.predecessors() shouldBe expected
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -467,11 +463,11 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCoreA = new CoreA()
       new CompartmentUnderTest(c, cc) {
-        val someRoleA = new RoleA()
-        val someRoleB = new RoleB()
-        val someRoleC = new RoleC()
-        val someRoleD = new RoleD()
-        val someRoleE = new RoleE()
+        val someRoleA   = new RoleA()
+        val someRoleB   = new RoleB()
+        val someRoleC   = new RoleC()
+        val someRoleD   = new RoleD()
+        val someRoleE   = new RoleE()
         val expectedVal = 10
         someCoreA <=> someRoleA <=> someRoleB <=> someRoleC <=> someRoleD <=> someRoleE
         (+someCoreA).valueInt = expectedVal
@@ -489,7 +485,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         actualVal6 shouldBe expectedVal
         val expected = Seq(someCoreA)
         someRoleE.predecessors() shouldBe expected
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -497,15 +493,15 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCoreA = new CoreA()
       new CompartmentUnderTest(c, cc) {
-        val someRoleA = new RoleA()
+        val someRoleA        = new RoleA()
         val expected: String = "valueC"
-        val p = someCoreA play someRoleA
-        var actual: String = p.valueC
+        val p                = someCoreA play someRoleA
+        var actual: String   = p.valueC
         actual shouldBe expected
         p.update(null)
         actual = p.valueC
         actual shouldBe null
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -521,7 +517,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
     }
 
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCore = new Core()
+      val someCore  = new Core()
       val roleWithB = new RoleWithB()
       val roleWithC = new RoleWithC()
       new CompartmentUnderTest(c, cc) {
@@ -640,7 +636,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         }
         actual = (+roleWithC).c()
         actual shouldBe "c"
-      } shouldNot be(null)
+      }
     }
   }
 

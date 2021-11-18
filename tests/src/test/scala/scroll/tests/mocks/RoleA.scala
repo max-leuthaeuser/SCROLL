@@ -2,7 +2,7 @@ package scroll.tests.mocks
 
 class RoleA {
   val valueA: String = "valueA"
-  var valueB: Int = 1
+  var valueB: Int    = 1
   var valueC: String = "valueC"
 
   def i(): Int = 1
@@ -15,8 +15,6 @@ class RoleA {
 
   def b(a: String, param: String = "in"): String = param
 
-  def update(value: String): Unit = {
-    this.valueC = value
-  }
+  def update(value: String): Unit = this.valueC = value
 
 }

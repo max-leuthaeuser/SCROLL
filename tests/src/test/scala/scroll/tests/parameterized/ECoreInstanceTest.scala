@@ -10,7 +10,7 @@ class ECoreInstanceTest extends AbstractParameterizedSCROLLTest {
       new CompartmentUnderTest(c, cc) with CROM {
         an[IllegalArgumentException] should be thrownBy wellformed("")
         an[IllegalArgumentException] should be thrownBy wellformed(null)
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -19,7 +19,8 @@ class ECoreInstanceTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) with CROM {
         wellformed(p) shouldBe true
-      } shouldNot be(null)
+      }
     }
   }
+
 }

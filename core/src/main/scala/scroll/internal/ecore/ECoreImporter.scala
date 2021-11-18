@@ -9,20 +9,19 @@ import org.eclipse.emf.ecore.xmi.XMLResource
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 
-/**
-  * Trait providing functionality for importing ecore models.
+/** Trait providing functionality for importing ecore models.
   */
 trait ECoreImporter {
   private[this] val META_MODEL_PATH = getClass.getResource("/crom_l1_composed.ecore").getPath
 
   private[this] def registerMetaModel(rs: ResourceSetImpl): Unit = {
-    Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap.put(
-      "ecore", new EcoreResourceFactoryImpl())
+    Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap
+      .put("ecore", new EcoreResourceFactoryImpl())
 
     val extendedMetaData = new BasicExtendedMetaData(rs.getPackageRegistry)
     rs.getLoadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData)
 
-    val r = rs.getResource(URI.createFileURI(META_MODEL_PATH), true)
+    val r       = rs.getResource(URI.createFileURI(META_MODEL_PATH), true)
     val eObject = r.getContents.get(0)
     eObject match {
       case p: EPackage => val _ = rs.getPackageRegistry.put(p.getNsURI, p)
@@ -30,23 +29,25 @@ trait ECoreImporter {
     }
   }
 
-  /**
-    * Load and imports an ecore model.
-    * Remember to set the <code>path</code> variable!
+  /** Load and imports an ecore model. Remember to set the <code>path</code> variable!
     *
-    * @param path the path to load the ecore model from
-    * @return the imported model as Resource
+    * @param path
+    *   the path to load the ecore model from
+    * @return
+    *   the imported model as Resource
     */
   protected def loadModel(path: String): Resource = {
     require(null != path && path.nonEmpty)
 
     val resourceSet = new ResourceSetImpl()
     registerMetaModel(resourceSet)
-    val _ = resourceSet.getResourceFactoryRegistry.getExtensionToFactoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl())
+    val _ = resourceSet.getResourceFactoryRegistry.getExtensionToFactoryMap
+      .put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl())
     val r = resourceSet.getResource(URI.createFileURI(path), true)
 
     require(null != r)
     require(!r.getContents.isEmpty)
     r
   }
+
 }

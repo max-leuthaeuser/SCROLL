@@ -1,8 +1,8 @@
 package scroll.benchmarks
 
-import scroll.internal.support.DispatchQuery
-import DispatchQuery._
-import scroll.internal.Compartment
+import scroll.internal.compartment.impl.Compartment
+import scroll.internal.dispatch.DispatchQuery
+import scroll.internal.dispatch.DispatchQuery.Bypassing
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
@@ -26,7 +26,7 @@ class BankExample {
     var amount: Double = _
 
     var from: Source = _
-    var to: Target = _
+    var to: Target   = _
 
     def execute(): Unit = {
       from.withdraw(amount)
@@ -67,7 +67,7 @@ class BankExample {
 
     class MoneyTransfer() {
       def execute(): Unit = {
-        implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[MoneyTransfer])
+        given DispatchQuery = Bypassing(_.isInstanceOf[MoneyTransfer])
         val _ = (+this).execute()
       }
     }
@@ -76,7 +76,7 @@ class BankExample {
       private val transactionFee: Double = 0.1
 
       def decrease(amount: Double): Unit = {
-        implicit val dd: DispatchQuery = Bypassing(_.isInstanceOf[SavingsAccount])
+        given DispatchQuery = Bypassing(_.isInstanceOf[SavingsAccount])
         val _ = (+this).decrease(amount + amount * transactionFee)
       }
     }
@@ -85,11 +85,15 @@ class BankExample {
 
   var bank: Bank = _
 
-  def build(numPlayer: Int, numRoles: Int, numTransactions: Int, cached: Boolean, checkCycles: Boolean = false): BankExample = {
+  def build(numPlayer: Int,
+            numRoles: Int,
+            numTransactions: Int,
+            cached: Boolean,
+            checkCycles: Boolean = false): BankExample = {
     val players = (0 until numPlayer).map(i => new Person("Name-" + i))
 
     bank = new Bank {
-      reconfigure(cached, checkCycles)
+      roleGraph.reconfigure(cached, checkCycles)
 
       private val accounts: Seq[Account] = players.map { p =>
         val a = new Account(p.name.hashCode, 100.0)
@@ -105,7 +109,7 @@ class BankExample {
 
       (0 until numTransactions).foreach { _ =>
         val transaction: Transaction = new Transaction {
-          reconfigure(cached, checkCycles)
+          roleGraph.reconfigure(cached, checkCycles)
 
           amount = 10
           from = new Source()
@@ -116,7 +120,7 @@ class BankExample {
         val mt = new MoneyTransfer()
         transaction play mt
         moneyTransfers.append(mt)
-        this combine transaction
+        compartmentRelations.combine(transaction)
       }
     }
     this

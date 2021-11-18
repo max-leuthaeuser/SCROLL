@@ -9,7 +9,7 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
       val someCore = new CoreA()
       new CompartmentUnderTest(c, cc) {
         val someRole = new RoleA()
-        val player = someCore play someRole
+        val player   = someCore play someRole
         player shouldBe player
         someCore shouldBe someCore
         player shouldBe someCore
@@ -19,7 +19,7 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
         (+someRole) shouldBe player
         player shouldBe (+someRole)
         (+someRole) shouldBe someCore
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -27,9 +27,9 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new CompartmentUnderTest(c, cc) {
-        val someRole = new RoleA()
+        val someRole      = new RoleA()
         val someOtherRole = new RoleB()
-        val player = (someCore play someRole) play someOtherRole
+        val player        = (someCore play someRole) play someOtherRole
         player shouldBe player
         someCore shouldBe someCore
         player shouldBe someCore
@@ -46,7 +46,7 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
         player shouldBe b
         (+someRole) shouldBe someCore
         (+someOtherRole) shouldBe someCore
-      } shouldNot be(null)
+      }
     }
   }
 
@@ -54,9 +54,9 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new CompartmentUnderTest(c, cc) {
-        val someRole = new RoleA()
+        val someRole      = new RoleA()
         val someOtherRole = new RoleB()
-        val player = someCore play someRole
+        val player        = someCore play someRole
         someRole play someOtherRole
         player shouldBe player
         someCore shouldBe someCore
@@ -74,7 +74,7 @@ class EqualityRoleTest extends AbstractParameterizedSCROLLTest {
         player shouldBe b
         (+someRole) shouldBe someCore
         (+someOtherRole) shouldBe someCore
-      } shouldNot be(null)
+      }
     }
   }
 

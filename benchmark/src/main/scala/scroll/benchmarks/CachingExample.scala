@@ -1,6 +1,6 @@
 package scroll.benchmarks
 
-import scroll.internal.Compartment
+import scroll.internal.compartment.impl.Compartment
 
 class CachingExample {
 
@@ -13,7 +13,7 @@ class CachingExample {
   }
 
   class SomeCompartment(val isCached: Boolean) extends Compartment {
-    reconfigure(cached = isCached, checkForCycles = false)
+    roleGraph.reconfigure(cached = isCached, checkForCycles = false)
 
     def run(): Int = (+core).doSomething()
 
@@ -21,7 +21,7 @@ class CachingExample {
 
   private val core = new Core()
 
-  var cachedCompartment: SomeCompartment = _
+  var cachedCompartment: SomeCompartment    = _
   var noncachedCompartment: SomeCompartment = _
 
   def build(numRoles: Int): CachingExample = {

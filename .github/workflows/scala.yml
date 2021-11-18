@@ -1,19 +1,31 @@
 name: Scala CI
-
 on: [push, pull_request]
-
 jobs:
   test-scroll:
-    runs-on: ubuntu-18.04
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2019, macos-10.15, macos-11]
     steps:
       - uses: actions/checkout@v2
-      - name: apt-get update
-        run: sudo apt-get update
-      - name: Set up openjdk 1.8
-        run: sudo apt-get install openjdk-8-jdk
-      - name: Print sbt version
-        run: sbt --version
+        with:
+          fetch-depth: 1
+      - name: Set up JDK 8 and SBT
+        uses: olafurpg/setup-scala@v11
+        with:
+          java-version: adopt@1.8
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.sbt
+            ~/.coursier
+          key: ${{ runner.os }}-sbt-${{ hashfiles('**/build.sbt') }}
       - name: Compile and run tests
-        run: sbt clean compile test
+        run: sbt -v -Dfile.encoding=UTF-8 "clean; +test;"
+        shell: bash
       - name: Compile Jmh benchmarks
-        run: sbt clean benchmark/Jmh/compile
+        run: sbt -v -Dfile.encoding=UTF-8 "clean; benchmark/Jmh/compile;"
+      - name: Check formatting
+        run: sbt -v -Dfile.encoding=UTF-8 "scalafmtCheckAll; scalafmtSbtCheck;"
+      - run: echo "Previous step failed because code is not formatted. Run 'sbt format'"
+        if: ${{ failure() }}
