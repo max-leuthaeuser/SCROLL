@@ -9,6 +9,7 @@ object CachingBenchmark {
   class Shared {
     val cachingExample: CachingExample = new CachingExample()
   }
+
   @State(Scope.Thread)
   class Local {
 
@@ -21,6 +22,7 @@ object CachingBenchmark {
     def setup(shared: Shared): Unit = synchronized {
       cachingExample = shared.cachingExample.build(roles)
     }
+
   }
 
 }

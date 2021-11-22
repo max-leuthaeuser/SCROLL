@@ -21,6 +21,7 @@ object BankBenchmark {
     def setup(shared: Shared): Unit = synchronized {
       bankExample = shared.bankExample.build(players, roles, transactions, cached)
     }
+
   }
 
 }
