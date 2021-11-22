@@ -13,8 +13,7 @@ class NoopExample(cached: Boolean) {
 
     def referenceArgAndReturn(o: AnyRef): AnyRef = o
 
-    /**
-      * Primitive argument and return types probably provoke autoboxing when a role is bound.
+    /** Primitive argument and return types probably provoke autoboxing when a role is bound.
       */
     def primitiveArgsAndReturn(x: Int, y: Int): Int = x + y
   }
@@ -24,23 +23,20 @@ class NoopExample(cached: Boolean) {
 
     val player = new BaseType() play new NoopRole()
 
-    /**
-      * No-op role methods which just forward to the base
+    /** No-op role methods which just forward to the base
       */
     class NoopRole {
       given DispatchQuery = Bypassing(_.isInstanceOf[NoopRole])
 
-      def noArgs(): AnyRef = {
+      def noArgs(): AnyRef =
         (+this).noArgs()
-      }
 
-      def referenceArgAndReturn(o: AnyRef): AnyRef = {
+      def referenceArgAndReturn(o: AnyRef): AnyRef =
         (+this).referenceArgAndReturn(o)
-      }
 
-      def primitiveArgsAndReturn(x: Int, y: Int): Int = {
+      def primitiveArgsAndReturn(x: Int, y: Int): Int =
         (+this).primitiveArgsAndReturn(x, y)
-      }
+
     }
 
   }

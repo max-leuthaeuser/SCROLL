@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 object RunnerApp {
+
   def main(args: Array[String]): Unit = {
     val opts      = new CommandLineOptions(args: _*)
     val runner    = new Runner(opts)
@@ -22,4 +23,5 @@ object RunnerApp {
       .getInstance(ResultFormatType.JSON, s"benchmark_$timeStamp.json")
       .writeOut(results)
   }
+
 }

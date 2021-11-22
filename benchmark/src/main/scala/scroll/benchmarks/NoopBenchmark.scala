@@ -22,13 +22,13 @@ object NoopBenchmark {
       x = Random.nextInt()
       y = Random.nextInt()
     }
+
   }
 
 }
 
-/** Measures role method dispatch overhead for a single role bound to
-  * a player, where each role method just forwards the method call to
-  * its base.
+/** Measures role method dispatch overhead for a single role bound to a player, where each role
+  * method just forwards the method call to its base.
   */
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 class NoopBenchmark extends AbstractBenchmark {
@@ -39,17 +39,15 @@ class NoopBenchmark extends AbstractBenchmark {
   def baseline(): Unit = {}
 
   @Benchmark
-  def basecall_noargs(local: Local): Any = {
+  def basecall_noargs(local: Local): Any =
     local.player.noArgs()
-  }
 
   @Benchmark
-  def basecall_withargs(local: Local): Any = {
+  def basecall_withargs(local: Local): Any =
     local.player.referenceArgAndReturn(local.player)
-  }
 
   @Benchmark
-  def basecall_primitiveargs(local: Local): Any = {
+  def basecall_primitiveargs(local: Local): Any =
     local.player.primitiveArgsAndReturn(local.x, local.y)
-  }
+
 }

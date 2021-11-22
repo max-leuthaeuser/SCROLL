@@ -13,13 +13,12 @@ class BankExample {
 
   class Account(id: Integer, var balance: Double) {
 
-    def increase(amount: Double): Unit = {
+    def increase(amount: Double): Unit =
       balance = balance + amount
-    }
 
-    def decrease(amount: Double): Unit = {
+    def decrease(amount: Double): Unit =
       balance = balance - amount
-    }
+
   }
 
   trait Transaction extends Compartment {
@@ -34,15 +33,19 @@ class BankExample {
     }
 
     class Source() {
+
       def withdraw(amount: Double): Unit = {
         val _ = (+this).decrease(amount)
       }
+
     }
 
     class Target() {
+
       def deposite(amount: Double): Unit = {
         val _ = (+this).increase(amount)
       }
+
     }
 
   }
@@ -63,13 +66,16 @@ class BankExample {
         account = a
         val _ = a play sa
       }
+
     }
 
     class MoneyTransfer() {
+
       def execute(): Unit = {
         given DispatchQuery = Bypassing(_.isInstanceOf[MoneyTransfer])
-        val _ = (+this).execute()
+        val _               = (+this).execute()
       }
+
     }
 
     class SavingsAccount() {
@@ -77,19 +83,22 @@ class BankExample {
 
       def decrease(amount: Double): Unit = {
         given DispatchQuery = Bypassing(_.isInstanceOf[SavingsAccount])
-        val _ = (+this).decrease(amount + amount * transactionFee)
+        val _               = (+this).decrease(amount + amount * transactionFee)
       }
+
     }
 
   }
 
   var bank: Bank = _
 
-  def build(numPlayer: Int,
-            numRoles: Int,
-            numTransactions: Int,
-            cached: Boolean,
-            checkCycles: Boolean = false): BankExample = {
+  def build(
+    numPlayer: Int,
+    numRoles: Int,
+    numTransactions: Int,
+    cached: Boolean,
+    checkCycles: Boolean = false
+  ): BankExample = {
     val players = (0 until numPlayer).map(i => new Person("Name-" + i))
 
     bank = new Bank {
@@ -97,11 +106,11 @@ class BankExample {
 
       private val accounts: Seq[Account] = players.map { p =>
         val a = new Account(p.name.hashCode, 100.0)
-        val roles = (0 until numRoles).map(ii => {
+        val roles = (0 until numRoles).map { ii =>
           val c = new Customer(s"Customer-$ii-${p.name}")
           c setSavingsAccount a
           c
-        })
+        }
         p play roles.head
         roles.sliding(2).foreach(l => l(0) play l(1))
         a
