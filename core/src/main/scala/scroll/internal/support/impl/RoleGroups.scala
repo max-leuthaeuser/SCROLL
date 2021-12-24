@@ -149,9 +149,10 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
   }
 
   private[this] def validateInnerCardinality(): Unit =
-    try roleGroups.values
-      .filter(!_.evaluated)
-      .foreach(eval)
+    try
+      roleGroups.values
+        .filter(!_.evaluated)
+        .foreach(eval)
     finally roleGroups.values.foreach(_.evaluated = false)
 
   /** Checks all role groups. Will throw a RuntimeException if a role group constraint is violated!
