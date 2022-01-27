@@ -8,7 +8,7 @@ trait Dependencies {
   object v {
     val scalaVersion     = "3.1.0"
     val akkaVersion      = "2.6.18"
-    val scalatestVersion = "3.2.10"
+    val scalatestVersion = "3.2.11"
     val chocoVersion     = "4.10.8"
     val guavaVersion     = "31.0.1-jre"
     val emfcommonVersion = "2.23.0"
