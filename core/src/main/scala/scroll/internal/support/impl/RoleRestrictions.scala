@@ -8,11 +8,11 @@ import scala.reflect.ClassTag
 import scala.reflect.classTag
 
 class RoleRestrictions() extends RoleRestrictionsApi {
-  private[this] lazy val restrictions = mutable.HashMap.empty[String, List[Class[_]]]
+  private[this] lazy val restrictions = mutable.HashMap.empty[String, List[Class[?]]]
 
   private[this] def addToMap(
-    m: mutable.Map[String, List[Class[_]]],
-    elem: (String, Class[_])
+    m: mutable.Map[String, List[Class[?]]],
+    elem: (String, Class[?])
   ): Unit = {
     val key   = elem._1
     val value = elem._2

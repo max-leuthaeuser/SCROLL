@@ -180,7 +180,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
     assert(occ._1 >= 0 && occ._2 >= occ._1)
     assert(limit._1 >= 0 && limit._2 >= limit._1)
 
-    implicit private[this] def classTagToString(m: ClassTag[_]): String =
+    implicit private[this] def classTagToString(m: ClassTag[?]): String =
       ReflectiveHelper.simpleName(m.toString)
 
     override def types: Seq[String] =

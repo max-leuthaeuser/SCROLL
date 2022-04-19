@@ -8,7 +8,7 @@ object SCROLLErrors {
 
   sealed trait TypeError extends Throwable
 
-  final case class TypeNotFound(tpe: Class[_]) extends TypeError {
+  final case class TypeNotFound(tpe: Class[?]) extends TypeError {
     override def toString: String = s"Type '$tpe' could not be found!"
   }
 
