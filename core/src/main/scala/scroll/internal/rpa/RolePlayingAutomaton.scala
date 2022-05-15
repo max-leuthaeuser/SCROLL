@@ -50,7 +50,7 @@ object RolePlayingAutomaton {
 
   }
 
-  def Use[T <: AnyRef: ClassTag]: RPABuilder[T] = new RPABuilder[T]()
+  def Use[T <: AnyRef: ClassTag]: RPABuilder[T] = new RPABuilder[T]
 }
 
 /** Use this trait to implement your own [[scroll.internal.compartment.impl.Compartment]] specific

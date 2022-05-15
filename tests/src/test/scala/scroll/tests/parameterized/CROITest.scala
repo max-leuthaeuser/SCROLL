@@ -9,8 +9,8 @@ class CROITest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val p = getClass.getResource("/Bank.crom").getPath
       new CompartmentUnderTest(c, cc) with CROI {
-        val n = new CoreA()
-        val r = new RoleA()
+        val n = new CoreA
+        val r = new RoleA
         wellformed(p) shouldBe true
         addNatural(n)
         addRole(r)

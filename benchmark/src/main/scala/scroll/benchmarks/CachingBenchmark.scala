@@ -7,7 +7,7 @@ object CachingBenchmark {
 
   @State(Scope.Benchmark)
   class Shared {
-    val cachingExample: CachingExample = new CachingExample()
+    val cachingExample: CachingExample = new CachingExample
   }
 
   @State(Scope.Thread)

@@ -10,12 +10,12 @@ import scroll.tests.mocks._
 class RolePlayingAutomatonTest extends AbstractParameterizedSCROLLTest {
 
   class ACompartment(c: Boolean, cc: Boolean) extends CompartmentUnderTest(c, cc) {
-    val player = new CoreA()
-    val roleA  = new RoleA()
-    val roleB  = new RoleB()
-    val roleC  = new RoleC()
+    val player = new CoreA
+    val roleA  = new RoleA
+    val roleB  = new RoleB
+    val roleC  = new RoleC
 
-    val w = new Waiter()
+    val w = new Waiter
 
     class MyRPA extends RolePlayingAutomaton {
 

@@ -104,7 +104,7 @@ class FormalCROMTest extends AbstractSCROLLTest {
       t.axiom3 shouldBe a3
       t.axiom4 shouldBe a4
       t.axiom5 shouldBe a5
-      t.wellformed shouldBe (a1 && a2 && a3 && a4 && a5)
+      t.wellformed shouldBe a1 && a2 && a3 && a4 && a5
     }
   }
 
@@ -230,7 +230,7 @@ class FormalCROMTest extends AbstractSCROLLTest {
       t.axiom9(test1) shouldBe a9
       t.axiom10(test1) shouldBe a10
       t.axiom11(test1) shouldBe a11
-      t.compliant(test1) shouldBe (a6 && a7 && a8 && a9 && a10 && a11)
+      t.compliant(test1) shouldBe a6 && a7 && a8 && a9 && a10 && a11
     }
   }
 
@@ -445,7 +445,7 @@ class FormalCROMTest extends AbstractSCROLLTest {
       c.axiom14(i) shouldBe a14
       c.axiom15(m, i) shouldBe a15
       c.axiom16(i) shouldBe a16
-      c.validity(m, i) shouldBe (co && a13 && a14 && a15 && a16)
+      c.validity(m, i) shouldBe co && a13 && a14 && a15 && a16
     }
   }
 

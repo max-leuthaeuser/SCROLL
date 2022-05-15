@@ -62,7 +62,7 @@ class BankExample {
       private var account: Account = _
 
       def setSavingsAccount(a: Account): Unit = {
-        val sa = new SavingsAccount()
+        val sa = new SavingsAccount
         account = a
         val _ = a play sa
       }
@@ -121,12 +121,12 @@ class BankExample {
           roleGraph.reconfigure(cached, checkCycles)
 
           amount = 10
-          from = new Source()
-          to = new Target()
+          from = new Source
+          to = new Target
           accounts(Random.nextInt(accounts.size)) play from
           accounts(Random.nextInt(accounts.size)) play to
         }
-        val mt = new MoneyTransfer()
+        val mt = new MoneyTransfer
         transaction play mt
         moneyTransfers.append(mt)
         compartmentRelations.combine(transaction)

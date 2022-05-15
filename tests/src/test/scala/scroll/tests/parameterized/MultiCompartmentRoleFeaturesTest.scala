@@ -9,11 +9,11 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Dropping role and invoking methods") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCore = new CoreA()
+      val someCore = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
-        val someRole = new RoleA()
+        val someRole = new RoleA
         someCore play someRole
-        someCore play new RoleB()
+        someCore play new RoleB
         someCore drop someRole
         (+someCore).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(-1))
@@ -31,10 +31,10 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Transferring a role") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
-      val someCoreB = new CoreB()
+      val someCoreA = new CoreA
+      val someCoreB = new CoreB
       new MultiCompartmentUnderTest(c, cc) {
-        val someRole = new RoleA()
+        val someRole = new RoleA
         someCoreA play someRole
         someCoreA transfer someRole to someCoreB
         (+someCoreB).a() match {
@@ -49,11 +49,11 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Role playing and testing isPlaying") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
-      val someCoreB = new CoreB()
+      val someCoreA = new CoreA
+      val someCoreB = new CoreB
       new MultiCompartmentUnderTest(c, cc) {
-        val someRoleA = new RoleA()
-        val someRoleB = new RoleB()
+        val someRoleA = new RoleA
+        val someRoleB = new RoleB
         someCoreA play someRoleA
         someCoreA.isPlaying[RoleB] shouldBe false
         someCoreB.isPlaying[RoleA] shouldBe false
@@ -65,9 +65,9 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Handling applyDynamic") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
+      val someCoreA = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
-        val someRole = new RoleA()
+        val someRole = new RoleA
         someCoreA play someRole
         (+someCoreA).a[Int]() match {
           case Right(returnValue) => returnValue.head shouldBe Right(0)
@@ -83,9 +83,9 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Handling applyDynamicNamed") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
+      val someCoreA = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
-        val someRole = new RoleA()
+        val someRole = new RoleA
         someCoreA play someRole
         val expected = someRole.b("some", param = "out")
         (+someCoreA).b("some", param = "out") match {
@@ -98,9 +98,9 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Handling selectDynamic") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
+      val someCoreA = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
-        val someRole = new RoleA()
+        val someRole = new RoleA
         someCoreA play someRole
         val actualA: Seq[String] = (+someCoreA).valueA
         val expectedA            = someRole.valueA
@@ -120,10 +120,10 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Handling updateDynamic") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
+      val someCoreA = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
-        val someRoleA = new RoleA()
-        val someRoleD = new RoleD()
+        val someRoleA = new RoleA
+        val someRoleD = new RoleD
         someCoreA play someRoleA play someRoleD
         val expectedA = "newValue"
         (+someCoreA).valueA = expectedA
@@ -153,9 +153,9 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Playing a role multiple times (same instance)") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
+      val someCoreA = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
-        val someRole = new RoleA()
+        val someRole = new RoleA
         someCoreA play someRole
         someCoreA play someRole
         val expected = "updated"
@@ -172,17 +172,17 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Playing a role multiple times (different instances) from one player") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
+      val someCoreA = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
-        val someRole1 = new RoleA()
-        val someRole2 = new RoleA()
+        val someRole1 = new RoleA
+        val someRole2 = new RoleA
         someCoreA play someRole1
         someCoreA play someRole2
         val expected = "updated"
         (+someCoreA).update(expected)
         val actual1a: String = someRole1.valueC
         val actual1b: String = someRole2.valueC
-        (expected == actual1a || expected == actual1b) shouldBe true
+        expected == actual1a || expected == actual1b shouldBe true
         (+someCoreA).valueC match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected), Right(expected))
           case Left(error)        => fail(error.toString)
@@ -193,10 +193,10 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Playing a role multiple times (different instances, but using dispatch to select one)") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
+      val someCoreA = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
-        val someRole1 = new RoleA()
-        val someRole2 = new RoleA()
+        val someRole1 = new RoleA
+        val someRole2 = new RoleA
         someRole1.valueB = 1
         someRole2.valueB = 2
         someCoreA play someRole1
@@ -225,9 +225,9 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Calling multi-argument method in roles") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
+      val someCoreA = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
-        val someRole = new RoleD()
+        val someRole = new RoleD
         someCoreA play someRole
         val expected1 = "updated"
         val expected2 = 1
@@ -252,9 +252,9 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
     */
   test("Calling method on a role with different primitive types") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
+      val someCoreA = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
-        val someRole = new RoleE()
+        val someRole = new RoleE
         someCoreA play someRole
         val expectedInt: Int         = 0
         val expectedDouble: Double   = 0
@@ -326,10 +326,10 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Playing a role multiple times (same instance) from different players") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
-      val someCoreB = new CoreB()
+      val someCoreA = new CoreA
+      val someCoreB = new CoreB
       new MultiCompartmentUnderTest(c, cc) {
-        val someRole = new RoleA()
+        val someRole = new RoleA
         someCoreA play someRole
         someCoreB play someRole
         val expected = "updated"
@@ -349,7 +349,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Left(_)  => fail("Player should be defined here!")
           case Right(p) => p
         }
-        (player == someCoreA || player == someCoreB) shouldBe true
+        player == someCoreA || player == someCoreB shouldBe true
 
         {
           given DispatchQuery =
@@ -370,11 +370,11 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
   test("Cyclic role-playing relationship") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       whenever(cc) {
-        val someCoreA = new CoreA()
+        val someCoreA = new CoreA
         new MultiCompartmentUnderTest(c, true) {
-          val someRoleA = new RoleA()
-          val someRoleB = new RoleB()
-          val someRoleC = new RoleC()
+          val someRoleA = new RoleA
+          val someRoleB = new RoleB
+          val someRoleC = new RoleC
           someCoreA play someRoleA
           someRoleA play someRoleB
           someRoleB play someRoleC
@@ -402,13 +402,13 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Deep roles") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
+      val someCoreA = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
-        val someRoleA   = new RoleA()
-        val someRoleB   = new RoleB()
-        val someRoleC   = new RoleC()
-        val someRoleD   = new RoleD()
-        val someRoleE   = new RoleE()
+        val someRoleA   = new RoleA
+        val someRoleB   = new RoleB
+        val someRoleC   = new RoleC
+        val someRoleD   = new RoleD
+        val someRoleE   = new RoleE
         val expectedVal = 10
         someCoreA play someRoleA
         someRoleA play someRoleB
@@ -444,9 +444,9 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Handling null arguments for applyDynamic") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCoreA = new CoreA()
+      val someCoreA = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
-        val someRoleA        = new RoleA()
+        val someRoleA        = new RoleA
         val expected: String = "valueC"
         val p                = someCoreA play someRoleA
         p.valueC match {
@@ -473,9 +473,9 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       def c(): String = "c"
     }
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCore  = new Core()
-      val roleWithB = new RoleWithB()
-      val roleWithC = new RoleWithC()
+      val someCore  = new Core
+      val roleWithB = new RoleWithB
+      val roleWithC = new RoleWithC
       new MultiCompartmentUnderTest(c, cc) {
         someCore play roleWithB
         (+someCore).a() match {

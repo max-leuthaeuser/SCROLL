@@ -15,15 +15,15 @@ object BankExample {
     val accForBrian = new Account(0)
 
     val _ = new Bank {
-      val ca = new CheckingsAccount()
-      val sa = new SavingsAccount()
+      val ca = new CheckingsAccount
+      val sa = new SavingsAccount
 
       roleGroups.checked {
         accForStan play ca
         accForBrian play sa
       }
-      stan play new Customer()
-      brian play new Customer()
+      stan play new Customer
+      brian play new Customer
 
       (+stan).addCheckingsAccount(ca)
       (+brian).addSavingsAccount(sa)
@@ -36,14 +36,14 @@ object BankExample {
 
       private val transaction = new Transaction(10) {
         roleGroups.checked {
-          accForStan play new Source()
-          accForBrian play new Target()
+          accForStan play new Source
+          accForBrian play new Target
         }
       }
 
       transaction.compartmentRelations.partOf(this)
 
-      (transaction play new TransactionRole()).execute()
+      (transaction play new TransactionRole).execute()
 
       println("### After transaction ###")
       println("Balance for Stan:")

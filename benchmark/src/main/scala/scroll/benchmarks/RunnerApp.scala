@@ -14,7 +14,7 @@ object RunnerApp {
     val opts      = new CommandLineOptions(args: _*)
     val runner    = new Runner(opts)
     val results   = runner.run()
-    val timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date())
+    val timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date)
 
     ResultFormatFactory
       .getInstance(ResultFormatType.SCSV, s"benchmark_$timeStamp.csv")

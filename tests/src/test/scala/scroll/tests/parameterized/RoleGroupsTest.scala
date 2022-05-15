@@ -7,8 +7,8 @@ class RoleGroupsTest extends AbstractParameterizedSCROLLTest {
 
   test("Validating role group cardinality") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val acc1 = new CoreA()
-      val acc2 = new CoreA()
+      val acc1 = new CoreA
+      val acc2 = new CoreA
       new CompartmentUnderTest(c, cc) {
 
         class Source

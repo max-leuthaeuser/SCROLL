@@ -45,7 +45,7 @@ class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLT
         val c      = CoreType("p")
         val r      = RoleTypeA("r")
         val player = c play r
-        val output = new java.io.ByteArrayOutputStream()
+        val output = new java.io.ByteArrayOutputStream
         Console.withOut(output) {
           player.someMethod()
         }
@@ -66,7 +66,7 @@ class RecursiveBaseCallsWithCaseClassesTest extends AbstractParameterizedSCROLLT
         val rB      = RoleTypeB("rB")
         val player1 = c1 play rA1 play rB
         val player2 = c2 play rA2
-        val output  = new java.io.ByteArrayOutputStream()
+        val output  = new java.io.ByteArrayOutputStream
         Console.withOut(output) {
           player1.someMethod()
         }

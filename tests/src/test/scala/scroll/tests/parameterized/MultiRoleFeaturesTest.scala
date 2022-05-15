@@ -15,7 +15,7 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
   test("Playing roles and invoking all methods") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCore = new CoreA()
+      val someCore = new CoreA
       new MultiCompartmentUnderTest(c, cc) {
         val roleA = RoleA()
         val roleB = RoleB()

@@ -10,14 +10,14 @@ import scroll.tests.mocks.RoleA
 class SCROLLErrorsTest extends AbstractSCROLLTest {
 
   test("TypeNotFound: String representation") {
-    val tpe        = new RoleA()
+    val tpe        = new RoleA
     val testObject = TypeNotFound(tpe.getClass)
     val expected   = s"Type '${tpe.getClass}' could not be found!"
     testObject.toString shouldBe expected
   }
 
   test("RoleNotFound: String representation (empty args)") {
-    val tpe        = new CoreA()
+    val tpe        = new CoreA
     val targetName = "method"
     val testObject = RoleNotFound(tpe, targetName, Seq.empty)
     val expected   = s"No role with '$targetName' could not be found for the player '$tpe'!"
@@ -25,7 +25,7 @@ class SCROLLErrorsTest extends AbstractSCROLLTest {
   }
 
   test("RoleNotFound: String representation (with some args)") {
-    val tpe        = new CoreA()
+    val tpe        = new CoreA
     val targetName = "method"
     val args       = Seq("A", "B", "C")
     val testObject = RoleNotFound(tpe, targetName, args)
@@ -35,7 +35,7 @@ class SCROLLErrorsTest extends AbstractSCROLLTest {
   }
 
   test("IllegalRoleInvocationDispatch: String representation (empty args)") {
-    val tpe        = new RoleA()
+    val tpe        = new RoleA
     val targetName = "someMethod"
     val testObject = IllegalRoleInvocationDispatch(tpe, targetName, Seq.empty)
     val expected   = s"'$targetName' could not be executed on role type '$tpe'!"
@@ -43,7 +43,7 @@ class SCROLLErrorsTest extends AbstractSCROLLTest {
   }
 
   test("IllegalRoleInvocationDispatch: String representation (with some args)") {
-    val tpe        = new RoleA()
+    val tpe        = new RoleA
     val targetName = "someMethod"
     val args       = Seq("A", "B", "C")
     val testObject = IllegalRoleInvocationDispatch(tpe, targetName, args)

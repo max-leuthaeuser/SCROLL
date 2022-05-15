@@ -6,7 +6,7 @@ import scroll.internal.dispatch.DispatchQuery._
 
 class NoopExample(cached: Boolean) {
 
-  val compartment = new NoopCompartment()
+  val compartment = new NoopCompartment
 
   class BaseType {
     def noArgs(): AnyRef = this
@@ -21,7 +21,7 @@ class NoopExample(cached: Boolean) {
   class NoopCompartment extends Compartment {
     roleGraph.reconfigure(cached = cached, checkForCycles = false)
 
-    val player = new BaseType() play new NoopRole()
+    val player = new BaseType play new NoopRole
 
     /** No-op role methods which just forward to the base
       */

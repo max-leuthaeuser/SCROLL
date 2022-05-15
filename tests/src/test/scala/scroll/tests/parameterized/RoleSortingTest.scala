@@ -9,7 +9,7 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
 
   test("Adding roles and sorting them") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCore = new CoreA()
+      val someCore = new CoreA
       new CompartmentUnderTest(c, cc) {
 
         case class SomeRoleA() {
@@ -71,7 +71,7 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
 
   test("Adding roles with cyclic calls and sorting them") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCore = new SomeCore()
+      val someCore = new SomeCore
       new CompartmentUnderTest(c, cc) {
 
         case class SomeRoleA() {

@@ -9,7 +9,7 @@ object BankBenchmark {
 
   @State(Scope.Benchmark)
   class Shared {
-    val bankExample: BankExample = new BankExample()
+    val bankExample: BankExample = new BankExample
   }
 
   @State(Scope.Thread)
@@ -31,7 +31,7 @@ class BankBenchmark extends AbstractBenchmark with BankBenchmarkConfig.Exhaustiv
   import BankBenchmark._
 
   @Benchmark
-  def buildTimes: BankExample = new BankExample().build(players, roles, transactions, cached)
+  def buildTimes: BankExample = new BankExample.build(players, roles, transactions, cached)
 
   @Benchmark
   def runTimes(local: Local): Boolean = local.bankExample.bank.executeTransactions()

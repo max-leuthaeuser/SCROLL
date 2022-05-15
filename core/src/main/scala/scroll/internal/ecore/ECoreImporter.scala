@@ -16,7 +16,7 @@ trait ECoreImporter {
 
   private[this] def registerMetaModel(rs: ResourceSetImpl): Unit = {
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap
-      .put("ecore", new EcoreResourceFactoryImpl())
+      .put("ecore", new EcoreResourceFactoryImpl)
 
     val extendedMetaData = new BasicExtendedMetaData(rs.getPackageRegistry)
     rs.getLoadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData)
@@ -39,10 +39,10 @@ trait ECoreImporter {
   protected def loadModel(path: String): Resource = {
     require(null != path && path.nonEmpty)
 
-    val resourceSet = new ResourceSetImpl()
+    val resourceSet = new ResourceSetImpl
     registerMetaModel(resourceSet)
     val _ = resourceSet.getResourceFactoryRegistry.getExtensionToFactoryMap
-      .put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl())
+      .put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl)
     val r = resourceSet.getResource(URI.createFileURI(path), true)
 
     require(null != r)

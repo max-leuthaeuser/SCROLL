@@ -19,7 +19,7 @@ class CachingExample {
 
   }
 
-  private val core = new Core()
+  private val core = new Core
 
   var cachedCompartment: SomeCompartment    = _
   var noncachedCompartment: SomeCompartment = _

@@ -23,8 +23,8 @@ class BuiltinsTest extends AbstractParameterizedSCROLLTest {
   test("Native Player and Role builtins") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
-        val core = new CoreWithBuiltins()
-        val role = new RoleWithBuiltins()
+        val core = new CoreWithBuiltins
+        val role = new RoleWithBuiltins
 
         core should not be role
         role should not be core
@@ -47,8 +47,8 @@ class BuiltinsTest extends AbstractParameterizedSCROLLTest {
   test("Player with Role builtins") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
-        val core = new CoreWithBuiltins()
-        val role = new RoleWithBuiltins()
+        val core = new CoreWithBuiltins
+        val role = new RoleWithBuiltins
 
         val player = core play role
 
@@ -78,8 +78,8 @@ class BuiltinsTest extends AbstractParameterizedSCROLLTest {
   test("Player with Role builtins (MultiCompartment") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new MultiCompartmentUnderTest(c, cc) {
-        val core = new CoreWithBuiltins()
-        val role = new RoleWithBuiltins()
+        val core = new CoreWithBuiltins
+        val role = new RoleWithBuiltins
 
         val player = core play role
 
@@ -109,8 +109,8 @@ class BuiltinsTest extends AbstractParameterizedSCROLLTest {
   test("Player without Role builtins (defaulting back to core)") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
-        val core = new CoreWithBuiltins()
-        val role = new RoleA()
+        val core = new CoreWithBuiltins
+        val role = new RoleA
 
         val player = core play role
 
@@ -143,8 +143,8 @@ class BuiltinsTest extends AbstractParameterizedSCROLLTest {
   test("Player without Role builtins (defaulting back to core, MultiComparment)") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new MultiCompartmentUnderTest(c, cc) {
-        val core = new CoreWithBuiltins()
-        val role = new RoleA()
+        val core = new CoreWithBuiltins
+        val role = new RoleA
 
         val player = core play role
 

@@ -6,11 +6,11 @@ class DynamicExtensionsTest extends AbstractParameterizedSCROLLTest {
 
   test("Removing dynamic extensions and invoking methods") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val someCore = new CoreA()
+      val someCore = new CoreA
       new CompartmentUnderTest(c, cc) {
-        val someRole = new RoleA()
+        val someRole = new RoleA
         someCore <+> someRole
-        someCore <+> new RoleB()
+        someCore <+> new RoleB
         someCore <-> someRole
         val exptected   = someCore.a()
         val actual: Int = (+someCore).a()

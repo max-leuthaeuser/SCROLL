@@ -7,10 +7,10 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
   test("Role implication constraint") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
-        val player = new CoreA()
-        val roleA  = new RoleA()
-        val roleB  = new RoleB()
-        val roleC  = new RoleC()
+        val player = new CoreA
+        val roleA  = new RoleA
+        val roleB  = new RoleB
+        val roleC  = new RoleC
         roleConstraints.addRoleImplication[RoleA, RoleB]()
         roleConstraints.checked {
           player play roleA play roleB
@@ -47,10 +47,10 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
   test("Role prohibition constraint") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
-        val player = new CoreA()
-        val roleA  = new RoleA()
-        val roleB  = new RoleB()
-        val roleC  = new RoleC()
+        val player = new CoreA
+        val roleA  = new RoleA
+        val roleB  = new RoleB
+        val roleC  = new RoleC
         roleConstraints.addRoleProhibition[RoleA, RoleB]()
         roleConstraints.checked {
           player play roleA
@@ -86,10 +86,10 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
   test("Role equivalence constraint") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
-        val player = new CoreA()
-        val roleA  = new RoleA()
-        val roleB  = new RoleB()
-        val roleC  = new RoleC()
+        val player = new CoreA
+        val roleA  = new RoleA
+        val roleB  = new RoleB
+        val roleC  = new RoleC
         roleConstraints.addRoleEquivalence[RoleA, RoleB]()
         the[RuntimeException] thrownBy {
           roleConstraints.checked {
@@ -125,9 +125,9 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
   test("Role implication and prohibition constraint") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) {
-        val player = new CoreA()
-        val roleA  = new RoleA()
-        val roleB  = new RoleB()
+        val player = new CoreA
+        val roleA  = new RoleA
+        val roleB  = new RoleB
         roleConstraints.addRoleImplication[RoleA, RoleB]()
         roleConstraints.addRoleProhibition[RoleA, RoleB]()
         the[RuntimeException] thrownBy {

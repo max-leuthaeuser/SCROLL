@@ -6,10 +6,10 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
 
   test("Validating role restrictions based on role types") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val player = new CoreA()
+      val player = new CoreA
       new CompartmentUnderTest(c, cc) {
-        val roleA = new RoleA()
-        val roleD = new RoleD()
+        val roleA = new RoleA
+        val roleD = new RoleD
         roleRestrictions.addRoleRestriction[CoreA, RoleA]()
         player play roleA
         player drop roleA
@@ -23,11 +23,11 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
 
   test("Validating role restrictions based on multiple role types") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val player = new CoreA()
+      val player = new CoreA
       new CompartmentUnderTest(c, cc) {
-        val roleA = new RoleA()
-        val roleB = new RoleB()
-        val roleD = new RoleD()
+        val roleA = new RoleA
+        val roleB = new RoleB
+        val roleD = new RoleD
         roleRestrictions.addRoleRestriction[CoreA, RoleA]()
         roleRestrictions.addRoleRestriction[CoreA, RoleD]()
         player play roleA
@@ -41,10 +41,10 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
 
   test("Validating role restrictions based on role types when removing restrictions") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val player = new CoreA()
+      val player = new CoreA
       new CompartmentUnderTest(c, cc) {
-        val roleA = new RoleA()
-        val roleD = new RoleD()
+        val roleA = new RoleA
+        val roleD = new RoleD
         roleRestrictions.addRoleRestriction[CoreA, RoleA]()
         player play roleA
         roleRestrictions.removeRoleRestriction[CoreA]()

@@ -25,9 +25,9 @@ import scala.reflect.ClassTag
   */
 abstract class AbstractCompartment() extends CompartmentApi {
 
-  override lazy val roleGraph: RoleGraphProxyApi          = new ScalaRoleGraphProxy()
+  override lazy val roleGraph: RoleGraphProxyApi          = new ScalaRoleGraphProxy
   override lazy val roleConstraints: RoleConstraintsApi   = new RoleConstraints(roleGraph)
-  override lazy val roleRestrictions: RoleRestrictionsApi = new RoleRestrictions()
+  override lazy val roleRestrictions: RoleRestrictionsApi = new RoleRestrictions
   override lazy val rolePlaying: RolePlayingApi = new RolePlaying(roleGraph, roleRestrictions)
   override lazy val roleQueries: RoleQueriesApi = new RoleQueries(roleGraph)
 

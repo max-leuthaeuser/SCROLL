@@ -6,7 +6,7 @@ import scroll.tests.AbstractSCROLLTest
 class ExamplesTest extends AbstractSCROLLTest {
 
   test("scroll.examples.UniversityExample") {
-    val output = new java.io.ByteArrayOutputStream()
+    val output = new java.io.ByteArrayOutputStream
     Console.withOut(output) {
       UniversityExample.runUniversityExample()
     }
@@ -24,7 +24,7 @@ class ExamplesTest extends AbstractSCROLLTest {
   }
 
   test("scroll.examples.BankExample") {
-    val output = new java.io.ByteArrayOutputStream()
+    val output = new java.io.ByteArrayOutputStream
     Console.withOut(output) {
       BankExample.runBankExample()
     }
@@ -51,7 +51,7 @@ class ExamplesTest extends AbstractSCROLLTest {
   }
 
   test("scroll.examples.APICallsExample") {
-    val output = new java.io.ByteArrayOutputStream()
+    val output = new java.io.ByteArrayOutputStream
     Console.withOut(output) {
       APICallsExample.runAPICallsExample()
     }
@@ -65,7 +65,7 @@ class ExamplesTest extends AbstractSCROLLTest {
   }
 
   test("scroll.examples.RobotExample") {
-    val output = new java.io.ByteArrayOutputStream()
+    val output = new java.io.ByteArrayOutputStream
     Console.withOut(output) {
       RobotExample.runRobotExample()
     }
@@ -76,7 +76,7 @@ class ExamplesTest extends AbstractSCROLLTest {
   }
 
   test("Expression Problem") {
-    val output = new java.io.ByteArrayOutputStream()
+    val output = new java.io.ByteArrayOutputStream
     Console.withOut(output) {
       ExpressionProblemExample.runExpressionProblemExample()
     }

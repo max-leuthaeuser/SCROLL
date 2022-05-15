@@ -115,12 +115,12 @@ final case class FormalCROI[
       } yield FormalUtils.any(
         for {
           r_1 <- repsilon
-        } yield ((plays
-          .contains((o1, c1, r1)) && (type1(r1) == crom.rel(rst1).head)) == links((rst1, c1))
-          .contains((r1, r_1))) &&
-          ((plays
-            .contains((o1, c1, r1)) && (type1(r1) == crom.rel(rst1).tail.head)) == links((rst1, c1))
-            .contains((r_1, r1)))
+        } yield (plays
+          .contains((o1, c1, r1)) && type1(r1) == crom.rel(rst1).head) == links((rst1, c1))
+          .contains((r1, r_1)) &&
+          (plays
+            .contains((o1, c1, r1)) && type1(r1) == crom.rel(rst1).tail.head) == links((rst1, c1))
+            .contains((r_1, r1))
       )
     )
 

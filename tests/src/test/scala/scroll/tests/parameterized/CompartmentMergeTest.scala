@@ -6,19 +6,19 @@ class CompartmentMergeTest extends AbstractParameterizedSCROLLTest {
 
   test("union") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val core = new CoreA()
+      val core = new CoreA
       val compA = new CompartmentUnderTest(c, cc) {
-        core play new RoleA()
+        core play new RoleA
       }
       val compB = new CompartmentUnderTest(c, cc) {
-        core play new RoleB()
+        core play new RoleB
       }
       compA.compartmentRelations.union(compB)
       compA.newPlayer(core).isPlaying[RoleA] shouldBe true
       compA.newPlayer(core).isPlaying[RoleB] shouldBe true
       compB.newPlayer(core).isPlaying[RoleA] shouldBe true
       compB.newPlayer(core).isPlaying[RoleB] shouldBe true
-      compB.newPlayer(core).play(new RoleC())
+      compB.newPlayer(core).play(new RoleC)
       compA.newPlayer(core).isPlaying[RoleC] shouldBe false
       compB.newPlayer(core).isPlaying[RoleC] shouldBe true
     }
@@ -26,19 +26,19 @@ class CompartmentMergeTest extends AbstractParameterizedSCROLLTest {
 
   test("combine") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val core = new CoreA()
+      val core = new CoreA
       val compA = new CompartmentUnderTest(c, cc) {
-        core play new RoleA()
+        core play new RoleA
       }
       val compB = new CompartmentUnderTest(c, cc) {
-        core play new RoleB()
+        core play new RoleB
       }
       compA.compartmentRelations.combine(compB)
       compA.newPlayer(core).isPlaying[RoleA] shouldBe true
       compA.newPlayer(core).isPlaying[RoleB] shouldBe true
       compB.newPlayer(core).isPlaying[RoleA] shouldBe true
       compB.newPlayer(core).isPlaying[RoleB] shouldBe true
-      compB.newPlayer(core).play(new RoleC())
+      compB.newPlayer(core).play(new RoleC)
       compA.newPlayer(core).isPlaying[RoleC] shouldBe true
       compB.newPlayer(core).isPlaying[RoleC] shouldBe true
     }
@@ -46,12 +46,12 @@ class CompartmentMergeTest extends AbstractParameterizedSCROLLTest {
 
   test("partOf") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val core = new CoreA()
+      val core = new CoreA
       val compA = new CompartmentUnderTest(c, cc) {
-        core play new RoleA()
+        core play new RoleA
       }
       val compB = new CompartmentUnderTest(c, cc) {
-        core play new RoleB()
+        core play new RoleB
       }
       compA.compartmentRelations.partOf(compB)
       compA.newPlayer(core).isPlaying[RoleA] shouldBe true
@@ -63,7 +63,7 @@ class CompartmentMergeTest extends AbstractParameterizedSCROLLTest {
 
   test("notPartOf") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val core = new CoreA()
+      val core = new CoreA
       class SomeRoleA
       class SomeRoleB
       val roleA = new SomeRoleA
