@@ -22,8 +22,7 @@ trait RoleQueriesApi {
   /** Query the role playing graph for all player instances that do conform to the given function.
     *
     * @param matcher
-    *   the matching function that should match the queried player instance in the role playing
-    *   graph
+    *   the matching function that should match the queried player instance in the role playing graph
     * @tparam T
     *   the type of the player instance to query for
     * @return
@@ -31,8 +30,8 @@ trait RoleQueriesApi {
     */
   def all[T <: AnyRef: ClassTag](matcher: T => Boolean): Seq[T]
 
-  /** Query the role playing graph for all player instances that do conform to the given matcher and
-    * return the first found.
+  /** Query the role playing graph for all player instances that do conform to the given matcher and return the first
+    * found.
     *
     * @param matcher
     *   the matcher that should match the queried player instance in the role playing graph
@@ -43,12 +42,11 @@ trait RoleQueriesApi {
     */
   def one[T <: AnyRef: ClassTag](matcher: RoleQueryStrategy = MatchAny()): Either[TypeError, T]
 
-  /** Query the role playing graph for all player instances that do conform to the given function
-    * and return the first found.
+  /** Query the role playing graph for all player instances that do conform to the given function and return the first
+    * found.
     *
     * @param matcher
-    *   the matching function that should match the queried player instance in the role playing
-    *   graph
+    *   the matching function that should match the queried player instance in the role playing graph
     * @tparam T
     *   the type of the player instance to query for
     * @return

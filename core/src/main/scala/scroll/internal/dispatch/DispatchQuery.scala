@@ -1,7 +1,7 @@
 package scroll.internal.dispatch
 
-/** Companion object for [[DispatchQuery]] providing some static dispatch functions and a fluent
-  * dispatch query creation API.
+/** Companion object for [[DispatchQuery]] providing some static dispatch functions and a fluent dispatch query creation
+  * API.
   */
 object DispatchQuery {
 
@@ -9,13 +9,12 @@ object DispatchQuery {
 
   type SelectorFunction = Seq[AnyRef] => Seq[AnyRef]
 
-  /** Use this in [[DispatchQuery.sortedWith]] to state that no sorting between the objects in
-    * comparison should happen.
+  /** Use this in [[DispatchQuery.sortedWith]] to state that no sorting between the objects in comparison should happen.
     */
   val identity: Boolean = false
 
-  /** Use this in [[DispatchQuery.sortedWith]] to state that always swapping between the objects in
-    * comparison should happen.
+  /** Use this in [[DispatchQuery.sortedWith]] to state that always swapping between the objects in comparison should
+    * happen.
     */
   val swap: Boolean = true
 
@@ -34,15 +33,10 @@ object DispatchQuery {
   val nothing: Selector = _ => false
 
   private def empty: DispatchQuery =
-    new DispatchQuery(
-      new From(anything),
-      new To(anything),
-      new Through(anything),
-      new Bypassing(nothing)
-    )
+    new DispatchQuery(new From(anything), new To(anything), new Through(anything), new Bypassing(nothing))
 
-  /** Dispatch filter selecting the sub-path from the starting edge until the end of the path given
-    * as Seq, w.r.t. the evaluation of the selection function.
+  /** Dispatch filter selecting the sub-path from the starting edge until the end of the path given as Seq, w.r.t. the
+    * evaluation of the selection function.
     *
     * @param sel
     *   the selection function to evaluate on each element of the path
@@ -54,8 +48,8 @@ object DispatchQuery {
 
   }
 
-  /** Dispatch filter selecting the sub-path from the last edge until the end of the path given as
-    * Seq, w.r.t. the evaluation of the selection function.
+  /** Dispatch filter selecting the sub-path from the last edge until the end of the path given as Seq, w.r.t. the
+    * evaluation of the selection function.
     *
     * @param sel
     *   the selection function to evaluate on each element of the path
@@ -70,8 +64,8 @@ object DispatchQuery {
 
   }
 
-  /** Dispatch filter to specify which edges to keep on the path given as Seq, w.r.t. the evaluation
-    * of the selection function.
+  /** Dispatch filter to specify which edges to keep on the path given as Seq, w.r.t. the evaluation of the selection
+    * function.
     *
     * @param sel
     *   the selection function to evaluate on each element of the path
@@ -80,8 +74,8 @@ object DispatchQuery {
     override def apply(edges: Seq[AnyRef]): Seq[AnyRef] = edges.filter(sel)
   }
 
-  /** Dispatch filter to specify which edges to skip on the path given as Seq, w.r.t. the evaluation
-    * of the selection function.
+  /** Dispatch filter to specify which edges to skip on the path given as Seq, w.r.t. the evaluation of the selection
+    * function.
     *
     * @param sel
     *   the selection function to evaluate on each element of the path
@@ -108,8 +102,8 @@ object DispatchQuery {
 
 import scroll.internal.dispatch.DispatchQuery._
 
-/** Composed dispatch query, i.e., applying the composition of all dispatch queries the given set of
-  * edges. All provided queries must be side-effect free!
+/** Composed dispatch query, i.e., applying the composition of all dispatch queries the given set of edges. All provided
+  * queries must be side-effect free!
   *
   * @param from
   *   query selecting the starting element for the role dispatch query

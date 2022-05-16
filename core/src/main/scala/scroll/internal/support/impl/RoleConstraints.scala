@@ -96,13 +96,11 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
 
   override def checked(func: => Unit): Unit = {
     func
-    roleGraph.plays.allPlayers.foreach(p =>
-      roleGraph.plays.roles(p).foreach(r => validateConstraints(p, r))
-    )
+    roleGraph.plays.allPlayers.foreach(p => roleGraph.plays.roles(p).foreach(r => validateConstraints(p, r)))
   }
 
-  /** Checks all role constraints between the given player and role instance. Will throw a
-    * RuntimeException if a constraint is violated!
+  /** Checks all role constraints between the given player and role instance. Will throw a RuntimeException if a
+    * constraint is violated!
     *
     * @param player
     *   the player instance to check

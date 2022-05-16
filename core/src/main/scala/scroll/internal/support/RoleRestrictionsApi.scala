@@ -2,8 +2,7 @@ package scroll.internal.support
 
 import scala.reflect.ClassTag
 
-/** Allows to add and check role restrictions (in the sense of structural typing) to a compartment
-  * instance.
+/** Allows to add and check role restrictions (in the sense of structural typing) to a compartment instance.
   */
 trait RoleRestrictionsApi {
 
@@ -16,8 +15,8 @@ trait RoleRestrictionsApi {
     */
   def addRoleRestriction[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
-  /** Replaces a role restriction for a player of type A with a new role restriction between the
-    * given player type A and role type B.
+  /** Replaces a role restriction for a player of type A with a new role restriction between the given player type A and
+    * role type B.
     *
     * @tparam A
     *   the player type
@@ -33,8 +32,8 @@ trait RoleRestrictionsApi {
     */
   def removeRoleRestriction[A <: AnyRef: ClassTag](): Unit
 
-  /** Checks all role restriction between the given player and a role type. Will throw a
-    * RuntimeException if a restriction is violated!
+  /** Checks all role restriction between the given player and a role type. Will throw a RuntimeException if a
+    * restriction is violated!
     *
     * @param player
     *   the player instance to check

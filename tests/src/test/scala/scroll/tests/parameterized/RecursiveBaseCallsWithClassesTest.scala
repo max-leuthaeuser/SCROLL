@@ -72,11 +72,8 @@ class RecursiveBaseCallsWithClassesTest extends AbstractParameterizedSCROLLTest 
           player1.someMethod()
         }
         val actual = streamToSeq(output)
-        val expected = Seq(
-          s"RoleTypeB($rB)::someMethod()",
-          s"RoleTypeA($rA1)::someMethod()",
-          s"CoreType($c1)::someMethod()"
-        )
+        val expected =
+          Seq(s"RoleTypeB($rB)::someMethod()", s"RoleTypeA($rA1)::someMethod()", s"CoreType($c1)::someMethod()")
         actual should contain theSameElementsInOrderAs expected
       }
     }

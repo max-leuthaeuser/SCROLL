@@ -6,8 +6,8 @@ import scala.reflect.ClassTag
   */
 trait RoleConstraintsApi {
 
-  /** Adds an role implication constraint between the given role types. Interpretation: if a core
-    * object plays an instance of role type A it also has to play an instance of role type B.
+  /** Adds an role implication constraint between the given role types. Interpretation: if a core object plays an
+    * instance of role type A it also has to play an instance of role type B.
     *
     * @tparam A
     *   type of role A
@@ -16,9 +16,8 @@ trait RoleConstraintsApi {
     */
   def addRoleImplication[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
-  /** Adds an role equivalent constraint between the given role types. Interpretation: if a core
-    * object plays an instance of role type A it also has to play an instance of role type B and
-    * visa versa.
+  /** Adds an role equivalent constraint between the given role types. Interpretation: if a core object plays an
+    * instance of role type A it also has to play an instance of role type B and visa versa.
     *
     * @tparam A
     *   type of role A that should be played implicitly if B is played
@@ -27,8 +26,8 @@ trait RoleConstraintsApi {
     */
   def addRoleEquivalence[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
-  /** Adds an role prohibition constraint between the given role types. Interpretation: if a core
-    * object plays an instance of role type A it is not allowed to play B as well.
+  /** Adds an role prohibition constraint between the given role types. Interpretation: if a core object plays an
+    * instance of role type A it is not allowed to play B as well.
     *
     * @tparam A
     *   type of role A
@@ -37,9 +36,8 @@ trait RoleConstraintsApi {
     */
   def addRoleProhibition[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
-  /** Wrapping function that checks all available role constraints for all core objects and its
-    * roles after the given function was executed. Throws a RuntimeException if a role constraint is
-    * violated!
+  /** Wrapping function that checks all available role constraints for all core objects and its roles after the given
+    * function was executed. Throws a RuntimeException if a role constraint is violated!
     *
     * @param func
     *   the function to execute and check role constraints afterwards

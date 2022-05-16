@@ -20,20 +20,18 @@ import scroll.internal.util.ReflectiveHelper
 
 import scala.reflect.ClassTag
 
-/** Partly implements the API for Compartments. See the subclasses [[Compartment]] and
-  * [[MultiCompartment]] for examples of a full implementation.
+/** Partly implements the API for Compartments. See the subclasses [[Compartment]] and [[MultiCompartment]] for examples
+  * of a full implementation.
   */
 abstract class AbstractCompartment() extends CompartmentApi {
 
   override lazy val roleGraph: RoleGraphProxyApi          = new ScalaRoleGraphProxy()
   override lazy val roleConstraints: RoleConstraintsApi   = new RoleConstraints(roleGraph)
   override lazy val roleRestrictions: RoleRestrictionsApi = new RoleRestrictions()
-  override lazy val rolePlaying: RolePlayingApi = new RolePlaying(roleGraph, roleRestrictions)
-  override lazy val roleQueries: RoleQueriesApi = new RoleQueries(roleGraph)
+  override lazy val rolePlaying: RolePlayingApi           = new RolePlaying(roleGraph, roleRestrictions)
+  override lazy val roleQueries: RoleQueriesApi           = new RoleQueries(roleGraph)
 
-  override lazy val compartmentRelations: CompartmentRelationsApi = new CompartmentRelations(
-    roleGraph
-  )
+  override lazy val compartmentRelations: CompartmentRelationsApi = new CompartmentRelations(roleGraph)
 
   override lazy val roleRelationships: RelationshipsApi = new Relationships(roleQueries)
   override lazy val roleGroups: RoleGroupsApi           = new RoleGroups(roleGraph)
@@ -48,8 +46,8 @@ abstract class AbstractCompartment() extends CompartmentApi {
       case _          => Seq.empty[AnyRef]
     }
 
-  /** Explicit helper factory method for creating a new Player instance without the need to relying
-    * on the implicit mechanics of Scala.
+  /** Explicit helper factory method for creating a new Player instance without the need to relying on the implicit
+    * mechanics of Scala.
     *
     * @param obj
     *   the player or role that is wrapped into this dynamic player type
@@ -81,11 +79,9 @@ abstract class AbstractCompartment() extends CompartmentApi {
     /** Returns the player of this player instance if this is a role, or this itself.
       *
       * @param dispatchQuery
-      *   provide this to sort the resulting instances if a role instance is played by multiple core
-      *   objects
+      *   provide this to sort the resulting instances if a role instance is played by multiple core objects
       * @return
-      *   the player of this player instance if this is a role, or this itself or an appropriate
-      *   error
+      *   the player of this player instance if this is a role, or this itself or an appropriate error
       */
     def player(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[TypeError, AnyRef] =
       dispatchQuery.filter(roleGraph.plays.coreFor(this)) match {
@@ -108,9 +104,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
         case p: IPlayer[_, _] => rolePlaying.addPlaysRelation[W, R](p.wrapped.asInstanceOf[W], role)
         case p: AnyRef        => rolePlaying.addPlaysRelation[W, R](p.asInstanceOf[W], role)
         case null =>
-          throw new RuntimeException(
-            s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles!"
-          )
+          throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles!")
       }
       this
     }
@@ -204,8 +198,8 @@ abstract class AbstractCompartment() extends CompartmentApi {
       * @tparam R
       *   type of role
       * @return
-      *   true if this player is playing a role of type R, false otherwise. Returns false also, if
-      *   the player is not available in the role-playing graph.
+      *   true if this player is playing a role of type R, false otherwise. Returns false also, if the player is not
+      *   available in the role-playing graph.
       */
     def isPlaying[R <: AnyRef: ClassTag]: Boolean =
       roleGraph.plays.roles(wrapped).exists(ReflectiveHelper.is[R])
@@ -228,21 +222,19 @@ abstract class AbstractCompartment() extends CompartmentApi {
     /** Returns a Seq of all roles attached to this player.
       *
       * @return
-      *   a Seq of all roles of this player. Returns an empty Seq if this player is not in the
-      *   role-playing graph.
+      *   a Seq of all roles of this player. Returns an empty Seq if this player is not in the role-playing graph.
       */
     def roles(): Seq[AnyRef] = roleGraph.plays.roles(this.wrapped)
 
     /** Returns a Seq of all facets attached to this player.
       *
       * @return
-      *   a Seq of all facets of this player including the player object itself. Returns an empty
-      *   Seq if this player is not in the role-playing graph.
+      *   a Seq of all facets of this player including the player object itself. Returns an empty Seq if this player is
+      *   not in the role-playing graph.
       */
     def facets(): Seq[Enumeration#Value] = roleGraph.plays.facets(this.wrapped)
 
-    /** Returns a list of all predecessors of this player, i.e., a transitive closure of its cores
-      * (deep roles).
+    /** Returns a list of all predecessors of this player, i.e., a transitive closure of its cores (deep roles).
       *
       * @return
       *   a list of all predecessors of this player

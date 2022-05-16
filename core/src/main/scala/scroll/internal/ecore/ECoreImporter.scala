@@ -25,7 +25,7 @@ trait ECoreImporter {
     val eObject = r.getContents.get(0)
     eObject match {
       case p: EPackage => val _ = rs.getPackageRegistry.put(p.getNsURI, p)
-      case _ => throw new IllegalStateException("Meta-Model for CROM could not be loaded!")
+      case _           => throw new IllegalStateException("Meta-Model for CROM could not be loaded!")
     }
   }
 

@@ -6,15 +6,7 @@ object FormalCROM {
 
   def empty[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef]
     : FormalCROM[NT, RT, CT, RST] =
-    FormalCROM[NT, RT, CT, RST](
-      List.empty,
-      List.empty,
-      List.empty,
-      List.empty,
-      List.empty,
-      Map.empty,
-      Map.empty
-    )
+    FormalCROM[NT, RT, CT, RST](List.empty, List.empty, List.empty, List.empty, List.empty, Map.empty, Map.empty)
 
   /** Little helper factory method for creating a CROM with Strings only.
     */
@@ -55,12 +47,7 @@ object FormalCROM {
   * @tparam RST
   *   type of relationships
   */
-final case class FormalCROM[
-  NT >: Null <: AnyRef,
-  RT >: Null <: AnyRef,
-  CT >: Null <: AnyRef,
-  RST >: Null <: AnyRef
-](
+final case class FormalCROM[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](
   nt: List[NT],
   rt: List[RT],
   ct: List[CT],
@@ -90,8 +77,6 @@ final case class FormalCROM[
   def axiom4: Boolean = FormalUtils.all(rst.map(r => rel(r).head != rel(r).tail.head))
 
   def axiom5: Boolean =
-    FormalUtils.all(
-      rst.map(r => FormalUtils.any(ct.map(c => rel(r).toSet.subsetOf(parts(c).toSet))))
-    )
+    FormalUtils.all(rst.map(r => FormalUtils.any(ct.map(c => rel(r).toSet.subsetOf(parts(c).toSet)))))
 
 }

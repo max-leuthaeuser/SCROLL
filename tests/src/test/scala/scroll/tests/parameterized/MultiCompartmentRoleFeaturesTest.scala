@@ -538,19 +538,19 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Left(error)        => fail(error.toString)
         }
         (+roleWithB).a() match {
-          case Right(_) => fail("Player should have no access anymore!")
+          case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
-          case Left(err) => fail("This exception is not expected: ", err)
+          case Left(err)                                   => fail("This exception is not expected: ", err)
         }
         (+roleWithC).a() match {
-          case Right(_) => fail("Player should have no access anymore!")
+          case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
-          case Left(err) => fail("This exception is not expected: ", err)
+          case Left(err)                                   => fail("This exception is not expected: ", err)
         }
         (+someCore).b() match {
-          case Right(_) => fail("Player should have no access anymore!")
+          case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
-          case Left(err) => fail("This exception is not expected: ", err)
+          case Left(err)                                   => fail("This exception is not expected: ", err)
         }
         (+roleWithB).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
@@ -561,9 +561,9 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Left(error)        => fail(error.toString)
         }
         (+someCore).c() match {
-          case Right(_) => fail("Player should have no access anymore!")
+          case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
-          case Left(err) => fail("This exception is not expected: ", err)
+          case Left(err)                                   => fail("This exception is not expected: ", err)
         }
         (+roleWithB).c() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("c"))
@@ -616,35 +616,35 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Left(error)        => fail(error.toString)
         }
         (+roleWithB).a() match {
-          case Right(_) => fail("Player should have no access anymore!")
+          case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
-          case Left(err) => fail("This exception is not expected: ", err)
+          case Left(err)                                   => fail("This exception is not expected: ", err)
         }
         (+roleWithC).a() match {
-          case Right(_) => fail("Player should have no access anymore!")
+          case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
-          case Left(err) => fail("This exception is not expected: ", err)
+          case Left(err)                                   => fail("This exception is not expected: ", err)
         }
         (+someCore).b() match {
-          case Right(_) => fail("Player should have no access anymore!")
+          case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
-          case Left(err) => fail("This exception is not expected: ", err)
+          case Left(err)                                   => fail("This exception is not expected: ", err)
         }
         roleWithB.b() shouldBe "b"
         (+roleWithC).b() match {
-          case Right(_) => fail("Player should have no access anymore!")
+          case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
-          case Left(err) => fail("This exception is not expected: ", err)
+          case Left(err)                                   => fail("This exception is not expected: ", err)
         }
         (+someCore).c() match {
-          case Right(_) => fail("Player should have no access anymore!")
+          case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
-          case Left(err) => fail("This exception is not expected: ", err)
+          case Left(err)                                   => fail("This exception is not expected: ", err)
         }
         (+roleWithB).c() match {
-          case Right(_) => fail("Player should have no access anymore!")
+          case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
-          case Left(err) => fail("This exception is not expected: ", err)
+          case Left(err)                                   => fail("This exception is not expected: ", err)
         }
         (+roleWithC).c() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("c"))

@@ -2,8 +2,7 @@ package scroll.internal.dispatch
 
 import scroll.internal.errors.SCROLLErrors.SCROLLError
 
-/** This Trait enables dynamic invocation of role methods that are not natively available on the
-  * player object.
+/** This Trait enables dynamic invocation of role methods that are not natively available on the player object.
   */
 trait SCROLLDynamic extends Dynamic {
 
@@ -52,9 +51,7 @@ trait SCROLLDynamic extends Dynamic {
     * @return
     *   the result of the field access or an appropriate error
     */
-  def selectDynamic[E](name: String)(using
-    dispatchQuery: DispatchQuery = DispatchQuery()
-  ): Either[SCROLLError, E]
+  def selectDynamic[E](name: String)(using dispatchQuery: DispatchQuery = DispatchQuery()): Either[SCROLLError, E]
 
   /** Allows to write field updates.
     *
@@ -65,8 +62,6 @@ trait SCROLLDynamic extends Dynamic {
     * @param dispatchQuery
     *   the dispatch rules that should be applied
     */
-  def updateDynamic(name: String)(value: Any)(using
-    dispatchQuery: DispatchQuery = DispatchQuery()
-  ): Unit
+  def updateDynamic(name: String)(value: Any)(using dispatchQuery: DispatchQuery = DispatchQuery()): Unit
 
 }

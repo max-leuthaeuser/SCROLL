@@ -30,11 +30,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
       val max   = rg.occ._2
       val types = rg.types
       val actual = types
-        .map(ts =>
-          roleGraph.plays.allPlayers.count(r =>
-            ts == ReflectiveHelper.simpleName(r.getClass.toString)
-          )
-        )
+        .map(ts => roleGraph.plays.allPlayers.count(r => ts == ReflectiveHelper.simpleName(r.getClass.toString)))
         .sum
       if (actual < min || max < actual) {
         throw new RuntimeException(
@@ -80,9 +76,8 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
         solver.solve()
       } do ()
 
-      val allPlayers = roleGraph.plays.allPlayers.filter(p =>
-        !types.contains(ReflectiveHelper.simpleName(p.getClass.toString))
-      )
+      val allPlayers =
+        roleGraph.plays.allPlayers.filter(p => !types.contains(ReflectiveHelper.simpleName(p.getClass.toString)))
       if (
         allPlayers.forall { p =>
           solutions.exists { s =>
@@ -94,9 +89,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
                 numRole == s.getIntVal(
                   constraintsMap.getOrElse(
                     t,
-                    throw new RuntimeException(
-                      s"Constraints for role group '${rg.name}' do not contain '$t'!"
-                    )
+                    throw new RuntimeException(s"Constraints for role group '${rg.name}' do not contain '$t'!")
                   )
                 )
               ) {
@@ -117,9 +110,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
       throw new RuntimeException(s"Constraint set of role group '${rg.name}' unsolvable!")
     }
     // give up
-    throw new RuntimeException(
-      s"Constraint set for inner cardinality of role group '${rg.name}' violated!"
-    )
+    throw new RuntimeException(s"Constraint set for inner cardinality of role group '${rg.name}' violated!")
   }
 
   private[this] def eval(rg: RoleGroup): Seq[String] = {
@@ -138,9 +129,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
       case _ if min == 1 && max.compare(1) == 0 => (model.intVar(sumName, 1), XOR)
       case _ if min == 0 && max.compare(0) == 0 => (model.intVar(sumName, 0), NOT)
       case _ =>
-        throw new RuntimeException(
-          s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!"
-        )
+        throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
     }
 
     val constraintsMap = buildConstraintsMap(types, op, model, numOfTypes, min, max, rg)
@@ -188,9 +177,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
         case ts: Types     => ts.types
         case rg: RoleGroup => eval(rg)
         case _ =>
-          throw new RuntimeException(
-            "Role groups can only contain a list of types or role groups itself!"
-          )
+          throw new RuntimeException("Role groups can only contain a list of types or role groups itself!")
       }
 
     override def containing(

@@ -20,8 +20,7 @@ object ScalaRoleGraph {
 
 }
 
-/** Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using a graph as
-  * underlying data model.
+/** Scala specific implementation of a [[scroll.internal.graph.RoleGraph]] using a graph as underlying data model.
   *
   * @param checkForCycles
   *   set to true to forbid cyclic role playing relationships

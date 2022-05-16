@@ -11,9 +11,7 @@ object RobotExample {
   @main def runRobotExample(): Unit = {
     val _ = new Compartment {
       val myRobot =
-        Robot(
-          "Pete"
-        ) play ServiceRole() play NavigationRole() play ObservingEnvironmentRole() play DriveableRole()
+        Robot("Pete") play ServiceRole() play NavigationRole() play ObservingEnvironmentRole() play DriveableRole()
       BehavioralView.compartmentRelations.partOf(this)
       myRobot.move()
     }
@@ -30,9 +28,7 @@ object RobotExample {
         val target: String   = (+this).getTarget()
         val sensorValue: Int = (+this).readSensor()
         val actor: String    = (+this).getActor()
-        println(
-          s"I am $name and moving to the $target with my $actor w.r.t. sensor value of $sensorValue."
-        )
+        println(s"I am $name and moving to the $target with my $actor w.r.t. sensor value of $sensorValue.")
       }
 
     }

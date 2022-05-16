@@ -238,11 +238,7 @@ class FormalCROMTest extends AbstractSCROLLTest {
     val testrg1 = "2"
     val testrg2 = FormalRoleGroup(List("2", "3"), 2, 2)
     val testrg3 =
-      FormalRoleGroup(
-        List(FormalRoleGroup(List("2", FormalRoleGroup(List("3"), 1, 2)), 0, 1), "2"),
-        1,
-        1
-      )
+      FormalRoleGroup(List(FormalRoleGroup(List("2", FormalRoleGroup(List("3"), 1, 2)), 0, 1), "2"), 1, 1)
     val testrg4 = FormalRoleGroup(List.empty, 0, 0)
     val testrg5 = FormalRoleGroup(List.empty, 1, 1)
     val testrg6 = FormalRoleGroup(List("2"), 0, 0)
@@ -295,11 +291,7 @@ class FormalCROMTest extends AbstractSCROLLTest {
       List(("a", order))
     )
     val testcm2 =
-      FormalConstraintModel.forStrings(
-        Map("4" -> List(((1, 1), "2"))),
-        Map("a" -> ((1, 1), (1, 1))),
-        List.empty
-      )
+      FormalConstraintModel.forStrings(Map("4" -> List(((1, 1), "2"))), Map("a" -> ((1, 1), (1, 1))), List.empty)
     val testcm3 =
       FormalConstraintModel.forStrings(Map("4" -> List(((1, 1), "2"))), Map.empty, List.empty)
     val testcm4 =
@@ -308,14 +300,7 @@ class FormalCROMTest extends AbstractSCROLLTest {
       FormalConstraintModel.forStrings(Map("5" -> List(((1, 1), "2"))), Map.empty, List.empty)
 
     val cmtests =
-      Seq(
-        (testcm0, true),
-        (testcm1, true),
-        (testcm2, true),
-        (testcm3, true),
-        (testcm4, false),
-        (testcm5, true)
-      )
+      Seq((testcm0, true), (testcm1, true), (testcm2, true), (testcm3, true), (testcm4, false), (testcm5, true))
 
     for { (t, a12) <- cmtests } {
       t.axiom12(test1) shouldBe a12
@@ -390,16 +375,7 @@ class FormalCROMTest extends AbstractSCROLLTest {
       List("1", "5", "6"),
       List("2", "3", "7", "8"),
       List("4"),
-      Map(
-        "1" -> "1",
-        "5" -> "1",
-        "6" -> "1",
-        "2" -> "2",
-        "3" -> "3",
-        "7" -> "2",
-        "8" -> "3",
-        "4" -> "4"
-      ),
+      Map("1" -> "1", "5" -> "1", "6" -> "1", "2" -> "2", "3" -> "3", "7" -> "2", "8" -> "3", "4" -> "4"),
       List(("1", "4", "2"), ("5", "4", "3"), ("5", "4", "7"), ("6", "4", "8")),
       Map(("a", "4") -> List(("2", "3"), ("7", "8")))
     )
@@ -407,17 +383,7 @@ class FormalCROMTest extends AbstractSCROLLTest {
       List("1", "5", "6", "9"),
       List("2", "3", "7", "8"),
       List("4"),
-      Map(
-        "1" -> "1",
-        "5" -> "1",
-        "6" -> "1",
-        "9" -> "1",
-        "2" -> "2",
-        "3" -> "3",
-        "7" -> "2",
-        "8" -> "3",
-        "4" -> "4"
-      ),
+      Map("1" -> "1", "5" -> "1", "6" -> "1", "9" -> "1", "2" -> "2", "3" -> "3", "7" -> "2", "8" -> "3", "4" -> "4"),
       List(("1", "4", "2"), ("5", "4", "3"), ("6", "4", "7"), ("9", "4", "8")),
       Map(("a", "4") -> List(("2", "3"), ("7", "8")))
     )

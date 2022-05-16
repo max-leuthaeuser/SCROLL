@@ -6,14 +6,7 @@ object FormalCROI {
 
   def empty[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef]
     : FormalCROI[NT, RT, CT, RST] =
-    FormalCROI[NT, RT, CT, RST](
-      List.empty,
-      List.empty,
-      List.empty,
-      Map.empty,
-      List.empty,
-      Map.empty
-    )
+    FormalCROI[NT, RT, CT, RST](List.empty, List.empty, List.empty, Map.empty, List.empty, Map.empty)
 
   /** Little helper factory method for creating a CROI with Strings only.
     */
@@ -51,12 +44,7 @@ object FormalCROI {
   * @tparam RST
   *   type of relationships
   */
-final case class FormalCROI[
-  NT >: Null <: AnyRef,
-  RT >: Null <: AnyRef,
-  CT >: Null <: AnyRef,
-  RST >: Null <: AnyRef
-](
+final case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](
   var n: List[NT],
   var r: List[RT],
   var c: List[CT],
@@ -67,9 +55,7 @@ final case class FormalCROI[
 
   assert(FormalUtils.mutualDisjoint(List(n, r, c, List(null))))
 
-  assert(
-    FormalUtils.totalFunction(n.concat(r).concat(c), type1.map { case (k, v) => (k, List(v)) })
-  )
+  assert(FormalUtils.totalFunction(n.concat(r).concat(c), type1.map { case (k, v) => (k, List(v)) }))
 
   /** @param crom
     *   the CROM to check against
@@ -95,9 +81,7 @@ final case class FormalCROI[
     } yield type1(r1) != type1(r))
 
   def axiom8(): Boolean =
-    FormalUtils.all(
-      r.map(r1 => plays.collect { case (o, cc, r2) if r2 == r1 => (o, cc) }.lengthCompare(1) == 0)
-    )
+    FormalUtils.all(r.map(r1 => plays.collect { case (o, cc, r2) if r2 == r1 => (o, cc) }.lengthCompare(1) == 0))
 
   def axiom9(crom: FormalCROM[NT, RT, CT, RST]): Boolean =
     FormalUtils.all(for {
@@ -157,7 +141,7 @@ final case class FormalCROI[
       case _ =>
         plays.find(_._3 == r) match {
           case Some(p) => p._1
-          case _ => throw new RuntimeException(s"The given role '$r' is not played in the CROI!")
+          case _       => throw new RuntimeException(s"The given role '$r' is not played in the CROI!")
         }
     }
 

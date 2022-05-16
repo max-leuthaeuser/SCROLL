@@ -39,8 +39,7 @@ class FormalCROMExampleTest extends AbstractSCROLLTest {
   private val bankaccounts = FormalRoleGroup(List("CA", "SA"), 1, 1)
   private val participants = FormalRoleGroup(List("Source", "Target"), 1, 1)
 
-  private val irreflexive = (r: List[(String, String)]) =>
-    !FormalUtils.any(for { (x, y) <- r } yield x == y)
+  private val irreflexive = (r: List[(String, String)]) => !FormalUtils.any(for { (x, y) <- r } yield x == y)
 
   private val inf = Integer.MAX_VALUE
 

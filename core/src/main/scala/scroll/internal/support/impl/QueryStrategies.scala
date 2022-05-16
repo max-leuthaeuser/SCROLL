@@ -2,8 +2,8 @@ package scroll.internal.support.impl
 
 import scroll.internal.util.ReflectiveHelper
 
-/** Allows to write queries looking for the content of an attribute of the certain role playing
-  * object or the return value of one of its functions.
+/** Allows to write queries looking for the content of an attribute of the certain role playing object or the return
+  * value of one of its functions.
   */
 object QueryStrategies {
 

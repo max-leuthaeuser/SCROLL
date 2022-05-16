@@ -23,10 +23,7 @@ class PlayerEquality(private[this] val roleGraph: RoleGraphProxyApi) extends Pla
     }
   }
 
-  override def equalsAny[W <: AnyRef: ClassTag](
-    a: AbstractCompartment#IPlayer[W, _],
-    b: AnyRef
-  ): Boolean = {
+  override def equalsAny[W <: AnyRef: ClassTag](a: AbstractCompartment#IPlayer[W, _], b: AnyRef): Boolean = {
     val coreA = roleGraph.plays.coreFor(a.wrapped)
     if (coreA.sizeIs == 1) {
       coreA.headOption.contains(b)

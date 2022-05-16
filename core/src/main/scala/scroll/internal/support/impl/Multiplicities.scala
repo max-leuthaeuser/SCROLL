@@ -26,7 +26,6 @@ object Multiplicities {
 
   implicit def intToConcreteValue(v: Int): ConcreteValue = ConcreteValue(v)
 
-  final case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity)
-      extends Multiplicity
+  final case class RangeMultiplicity(from: ExpMultiplicity, to: ExpMultiplicity) extends Multiplicity
 
 }

@@ -55,8 +55,7 @@ trait RoleGraph {
     * @param player
     *   the player instance to get the roles for
     * @return
-    *   a Seq of all roles of core player. Returns an empty Seq if the given player is not in the
-    *   role-playing graph.
+    *   a Seq of all roles of core player. Returns an empty Seq if the given player is not in the role-playing graph.
     */
   def roles(player: AnyRef): Seq[AnyRef]
 
@@ -65,8 +64,7 @@ trait RoleGraph {
     * @param player
     *   the player instance to get the facets for
     * @return
-    *   a Seq of all facets of core player. Returns an empty Seq if the given player is not in the
-    *   role-playing graph.
+    *   a Seq of all facets of core player. Returns an empty Seq if the given player is not in the role-playing graph.
     */
   def facets(player: AnyRef): Seq[Enumeration#Value]
 
@@ -79,8 +77,7 @@ trait RoleGraph {
     */
   def containsPlayer(player: AnyRef): Boolean
 
-  /** Returns a list of all predecessors of the given player, i.e. a transitive closure of its cores
-    * (deep roles).
+  /** Returns a list of all predecessors of the given player, i.e. a transitive closure of its cores (deep roles).
     *
     * @param player
     *   the player instance to calculate the cores of

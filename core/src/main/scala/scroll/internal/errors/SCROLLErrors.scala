@@ -12,8 +12,7 @@ object SCROLLErrors {
     override def toString: String = s"Type '$tpe' could not be found!"
   }
 
-  final case class RoleNotFound(forCore: AnyRef, target: String, args: Seq[Any])
-      extends SCROLLError {
+  final case class RoleNotFound(forCore: AnyRef, target: String, args: Seq[Any]) extends SCROLLError {
 
     override def toString: String =
       args match {

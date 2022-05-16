@@ -39,15 +39,14 @@ object FormalUtils {
       case _                     => throw new IllegalArgumentException(s"Can't handle: '$a'")
     }
 
-  def evaluate[
-    NT >: Null <: AnyRef,
-    RT >: Null <: AnyRef,
-    CT >: Null <: AnyRef,
-    RST >: Null <: AnyRef
-  ](a: AnyRef, croi: FormalCROI[NT, RT, CT, RST], o: NT, c: CT): Int =
+  def evaluate[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](
+    a: AnyRef,
+    croi: FormalCROI[NT, RT, CT, RST],
+    o: NT,
+    c: CT
+  ): Int =
     a match {
-      case _: String
-          if any(croi.r.filter(croi.type1(_) == a).map(rr => croi.plays.contains((o, c, rr)))) =>
+      case _: String if any(croi.r.filter(croi.type1(_) == a).map(rr => croi.plays.contains((o, c, rr)))) =>
         1
       case _: String => 0
       case elem: FormalRoleGroup =>

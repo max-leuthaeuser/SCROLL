@@ -9,8 +9,7 @@ class Relationships(private[this] val roleQueries: RoleQueriesApi) extends Relat
 
   import scroll.internal.support.impl.Multiplicities._
 
-  class ToBuilder[L <: AnyRef: ClassTag](name: String, leftMul: Multiplicity)
-      extends ToBuilderApi[L] {
+  class ToBuilder[L <: AnyRef: ClassTag](name: String, leftMul: Multiplicity) extends ToBuilderApi[L] {
 
     override def to[R <: AnyRef: ClassTag](rightMul: Multiplicity): RelationshipApi[L, R] =
       new Relationship[L, R](name, leftMul, rightMul)
@@ -24,8 +23,7 @@ class Relationships(private[this] val roleQueries: RoleQueriesApi) extends Relat
 
   }
 
-  /** Creates a [[Relationships.Relationship]] with the given name with a fluent relationship
-    * creation API.
+  /** Creates a [[Relationships.Relationship]] with the given name with a fluent relationship creation API.
     *
     * @param name
     *   the name of the created Relationship
@@ -58,10 +56,7 @@ class Relationships(private[this] val roleQueries: RoleQueriesApi) extends Relat
     private[this] def checkMul[T](m: Multiplicity, on: Seq[T]): Seq[T] = {
       m match {
         case MMany() =>
-          assert(
-            on.nonEmpty,
-            s"With left multiplicity for '$name' of '*', the resulting role set should not be empty!"
-          )
+          assert(on.nonEmpty, s"With left multiplicity for '$name' of '*', the resulting role set should not be empty!")
         case ConcreteValue(v) =>
           assert(
             v.compare(on.size) == 0,

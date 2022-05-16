@@ -34,8 +34,8 @@ trait RelationshipsApi {
     */
   abstract class RelationshipApi[L <: AnyRef: ClassTag, R <: AnyRef: ClassTag] {
 
-    /** Get all instances of the left side of the relationship w.r.t. the provided matching function
-      * and checking the multiplicity.
+    /** Get all instances of the left side of the relationship w.r.t. the provided matching function and checking the
+      * multiplicity.
       *
       * @param matcher
       *   a matching function to select the appropriate instances
@@ -44,8 +44,8 @@ trait RelationshipsApi {
       */
     def left(matcher: L => Boolean = _ => true): Seq[L]
 
-    /** Get all instances of the right side of the relationship w.r.t. the provided matching
-      * function and checking the multiplicity.
+    /** Get all instances of the right side of the relationship w.r.t. the provided matching function and checking the
+      * multiplicity.
       *
       * @param matcher
       *   a matching function to select the appropriate instances

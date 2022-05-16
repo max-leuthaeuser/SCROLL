@@ -5,8 +5,7 @@ package scroll.internal.graph
 trait RoleGraphProxyApi {
   private[internal] var plays: RoleGraph
 
-  /** Reconfigure the underlying [[RoleGraph]] making it cached/non-cached or using/not using cycle
-    * detection.
+  /** Reconfigure the underlying [[RoleGraph]] making it cached/non-cached or using/not using cycle detection.
     *
     * @param cached
     *   either using a [[scroll.internal.graph.impl.CachedScalaRoleGraph]] or a non-cached

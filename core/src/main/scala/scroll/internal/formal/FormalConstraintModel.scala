@@ -65,14 +65,13 @@ final case class FormalConstraintModel[
     * @param croi
     *   the CROI instance to check against
     * @return
-    *   true iff the constraint model is compliant to the given CROM and the given CROI is valid
-    *   wrt. the constraint model
+    *   true iff the constraint model is compliant to the given CROM and the given CROI is valid wrt. the constraint
+    *   model
     */
   def validity(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
-    compliant(crom) && croi.compliant(crom) && axiom13(crom, croi) && axiom14(croi) && axiom15(
-      crom,
+    compliant(crom) && croi.compliant(crom) && axiom13(crom, croi) && axiom14(croi) && axiom15(crom, croi) && axiom16(
       croi
-    ) && axiom16(croi)
+    )
 
   def axiom13(crom: FormalCROM[NT, RT, CT, RST], croi: FormalCROI[NT, RT, CT, RST]): Boolean =
     FormalUtils.all(for {
@@ -99,9 +98,7 @@ final case class FormalConstraintModel[
     } yield {
       val l1 = croi.pred(rst, c, r_2).size
       val l2 = croi.succ(rst, c, r_1).size
-      card(rst)._1._1 <= l1 && l1 <= card(rst)._1._2 && card(rst)._2._1 <= l2 && l2 <= card(
-        rst
-      )._2._2
+      card(rst)._1._1 <= l1 && l1 <= card(rst)._1._2 && card(rst)._2._1 <= l2 && l2 <= card(rst)._2._2
     })
 
   def axiom16(croi: FormalCROI[NT, RT, CT, RST]): Boolean =

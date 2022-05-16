@@ -51,11 +51,9 @@ trait CROM extends ECoreImporter {
   private[this] def constructRST[RST >: Null <: AnyRef](elem: EObject): RST =
     instanceName(elem).asInstanceOf[RST]
 
-  private[this] def constructFills[NT >: Null <: AnyRef, RT >: Null <: AnyRef](
-    elem: EObject
-  ): List[(NT, RT)] = {
-    val obj    = elem.asInstanceOf[DynamicEObjectImpl]
-    val filler = obj.dynamicGet(1).asInstanceOf[DynamicEObjectImpl].dynamicGet(0).asInstanceOf[NT]
+  private[this] def constructFills[NT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): List[(NT, RT)] = {
+    val obj       = elem.asInstanceOf[DynamicEObjectImpl]
+    val filler    = obj.dynamicGet(1).asInstanceOf[DynamicEObjectImpl].dynamicGet(0).asInstanceOf[NT]
     val filledObj = obj.dynamicGet(0).asInstanceOf[DynamicEObjectImpl]
     if (filledObj.eClass().getName == ROLEGROUP) {
       collectRoles(filledObj).map(r => (filler, instanceName(r).asInstanceOf[RT]))
@@ -78,17 +76,13 @@ trait CROM extends ECoreImporter {
         }
       )
 
-  private[this] def constructParts[CT >: Null <: AnyRef, RT >: Null <: AnyRef](
-    elem: EObject
-  ): (CT, List[RT]) = {
+  private[this] def constructParts[CT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (CT, List[RT]) = {
     val ct    = instanceName(elem.eContainer()).asInstanceOf[CT]
     val roles = collectRoles(elem).map(r => instanceName(r).asInstanceOf[RT])
     (ct, roles)
   }
 
-  private[this] def constructRel[RST >: Null <: AnyRef, RT >: Null <: AnyRef](
-    elem: EObject
-  ): (RST, List[RT]) = {
+  private[this] def constructRel[RST >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (RST, List[RT]) = {
     val rstName = instanceName(elem)
     val roles   = collectRoles(elem.eContainer())
     val rsts = roles
@@ -117,10 +111,7 @@ trait CROM extends ECoreImporter {
     (rstName.asInstanceOf[RST], rsts)
   }
 
-  private[this] def addToMap(
-    m: mutable.Map[String, List[String]],
-    elem: (String, List[String])
-  ): Unit = {
+  private[this] def addToMap(m: mutable.Map[String, List[String]], elem: (String, List[String])): Unit = {
     val key   = elem._1
     val value = elem._2
     m.update(key, m.getOrElseUpdate(key, value) ++ value)
@@ -155,15 +146,7 @@ trait CROM extends ECoreImporter {
           case _           =>
         }
       }
-    FormalCROM(
-      nt.result(),
-      rt.result(),
-      ct.result(),
-      rst.result(),
-      fills.result(),
-      parts.toMap,
-      rel.toMap
-    )
+    FormalCROM(nt.result(), rt.result(), ct.result(), rst.result(), fills.result(), parts.toMap, rel.toMap)
       .asInstanceOf[FormalCROM[NT, RT, CT, RST]]
   }
 

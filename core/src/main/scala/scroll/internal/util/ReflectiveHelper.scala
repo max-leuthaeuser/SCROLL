@@ -6,8 +6,8 @@ import scala.collection.immutable.ArraySeq
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 
-/** Contains useful functions for translating class and type names to Strings and provides helper
-  * functions to access common tasks for working with reflections.
+/** Contains useful functions for translating class and type names to Strings and provides helper functions to access
+  * common tasks for working with reflections.
   *
   * Querying methods and fields is cached.
   */
@@ -19,9 +19,7 @@ object ReflectiveHelper {
     buildCache[Class[?], Seq[Method]](allMethods)
 
   private[this] lazy val methodsByNameCache =
-    buildCache[(Class[?], String), Seq[Method]]((t: (Class[?], String)) =>
-      cachedFindMethods(t._1, t._2)
-    )
+    buildCache[(Class[?], String), Seq[Method]]((t: (Class[?], String)) => cachedFindMethods(t._1, t._2))
 
   private[this] lazy val methodMatchCache =
     buildCache[(Class[?], String, Seq[Any]), Option[Method]]((t: (Class[?], String, Seq[Any])) =>
@@ -38,9 +36,7 @@ object ReflectiveHelper {
     buildCache[String, String](cachedSimpleName)
 
   private[this] lazy val hasMemberCache =
-    buildCache[(Class[?], String), java.lang.Boolean]((t: (Class[?], String)) =>
-      cachedHasMember(t._1, t._2)
-    )
+    buildCache[(Class[?], String), java.lang.Boolean]((t: (Class[?], String)) => cachedHasMember(t._1, t._2))
 
   def addToMethodCache(c: Class[?]): Unit = methodCache.put(c, allMethods(c))
 
@@ -56,8 +52,8 @@ object ReflectiveHelper {
   private[this] def cachedSimpleName(t: String): String =
     simpleClassName(simpleClassName(t, "."), "$")
 
-  /** Translates a Class or Type name to a String, i.e. removing anything before the last occurrence
-    * of "<code>$</code>" or "<code>.</code>".
+  /** Translates a Class or Type name to a String, i.e. removing anything before the last occurrence of "<code>$</code>"
+    * or "<code>.</code>".
     *
     * @param t
     *   the Class or Type name as String
@@ -226,8 +222,8 @@ object ReflectiveHelper {
   def setPropertyOf(on: AnyRef, name: String, value: Any): Unit =
     findField(on.getClass, name).set(on, value)
 
-  /** Returns the runtime result of type T of the given function and arguments by executing this
-    * function of the wrapped object.
+  /** Returns the runtime result of type T of the given function and arguments by executing this function of the wrapped
+    * object.
     *
     * @param on
     *   the instance to search on
@@ -238,13 +234,13 @@ object ReflectiveHelper {
     * @tparam T
     *   the return type of the function
     * @return
-    *   the runtime result of type T of the function with the given name by executing this function
-    *   of the wrapped object
+    *   the runtime result of type T of the function with the given name by executing this function of the wrapped
+    *   object
     */
   def resultOf[T](on: AnyRef, m: Method, args: Seq[Any]): T = m.invoke(on, args: _*).asInstanceOf[T]
 
-  /** Returns the runtime result of type T of the function with the given name by executing this
-    * function of the wrapped object.
+  /** Returns the runtime result of type T of the function with the given name by executing this function of the wrapped
+    * object.
     *
     * @param on
     *   the instance to search on
@@ -253,8 +249,8 @@ object ReflectiveHelper {
     * @tparam T
     *   the return type of the function
     * @return
-    *   the runtime result of type T of the function with the given name by executing this function
-    *   of the wrapped object
+    *   the runtime result of type T of the function with the given name by executing this function of the wrapped
+    *   object
     */
   def resultOf[T](on: AnyRef, name: String): T =
     findMethods(on.getClass, name) match {

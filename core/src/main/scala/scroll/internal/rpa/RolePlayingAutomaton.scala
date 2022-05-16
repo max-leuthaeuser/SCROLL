@@ -16,8 +16,8 @@ import scroll.internal.rpa.RolePlayingAutomaton.Uninitialized
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 
-/** Companion object for the [[scroll.internal.rpa.RolePlayingAutomaton]] containing predefined
-  * states and data objects for messaging.
+/** Companion object for the [[scroll.internal.rpa.RolePlayingAutomaton]] containing predefined states and data objects
+  * for messaging.
   */
 object RolePlayingAutomaton {
 
@@ -53,21 +53,19 @@ object RolePlayingAutomaton {
   def Use[T <: AnyRef: ClassTag]: RPABuilder[T] = new RPABuilder[T]()
 }
 
-/** Use this trait to implement your own [[scroll.internal.compartment.impl.Compartment]] specific
-  * role playing automaton. Please read the documentation for [[akka.actor.FSM]] carefully, since
-  * the features from that are applicable for role playing automatons.
+/** Use this trait to implement your own [[scroll.internal.compartment.impl.Compartment]] specific role playing
+  * automaton. Please read the documentation for [[akka.actor.FSM]] carefully, since the features from that are
+  * applicable for role playing automatons.
   *
   * Remember to call <code>run()</code> when you want to start this automaton in your
   * [[scroll.internal.compartment.impl.Compartment]] instance.
   *
-  * This automaton will always start in state [[scroll.internal.rpa.RolePlayingAutomaton.Start]], so
-  * hook in there.
+  * This automaton will always start in state [[scroll.internal.rpa.RolePlayingAutomaton.Start]], so hook in there.
   *
-  * Final state is always [[scroll.internal.rpa.RolePlayingAutomaton.Stop]], that will terminate the
-  * actor system for this [[akka.actor.FSM]].
+  * Final state is always [[scroll.internal.rpa.RolePlayingAutomaton.Stop]], that will terminate the actor system for
+  * this [[akka.actor.FSM]].
   *
-  * Use the factory method <code>RolePlayingAutomaton.Use</code> to gain an instance of your
-  * specific FSM, e.g.:
+  * Use the factory method <code>RolePlayingAutomaton.Use</code> to gain an instance of your specific FSM, e.g.:
   *
   * {{{
   * trait MyCompartment extends Compartment {
@@ -94,8 +92,8 @@ object RolePlayingAutomaton {
   * new MyCompartment {}
   * }}}
   *
-  * Some predefined event types for messaging are available in the companion object. You may want to
-  * define your own states and event types. Simply use a companion object for this as well.
+  * Some predefined event types for messaging are available in the companion object. You may want to define your own
+  * states and event types. Simply use a companion object for this as well.
   */
 trait RolePlayingAutomaton extends Actor with LoggingFSM[RPAState, RPAData] {
 
@@ -108,8 +106,8 @@ trait RolePlayingAutomaton extends Actor with LoggingFSM[RPAState, RPAData] {
     initialize()
   }
 
-  /** Stops this automaton. Will set state to [[scroll.internal.rpa.RolePlayingAutomaton.Stop]] and
-    * terminates the actor system for this [[akka.actor.FSM]].
+  /** Stops this automaton. Will set state to [[scroll.internal.rpa.RolePlayingAutomaton.Stop]] and terminates the actor
+    * system for this [[akka.actor.FSM]].
     */
   def halt(): State = {
     val _ = context.system.terminate()

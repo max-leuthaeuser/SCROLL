@@ -24,10 +24,7 @@ class RolePlaying(
     addPlaysRelation(coreTo, role)
   }
 
-  override def addPlaysRelation[C <: AnyRef: ClassTag, R <: AnyRef: ClassTag](
-    core: C,
-    role: R
-  ): Unit = {
+  override def addPlaysRelation[C <: AnyRef: ClassTag, R <: AnyRef: ClassTag](core: C, role: R): Unit = {
     require(null != core)
     require(null != role)
     roleRestrictions.validate(core, role)
