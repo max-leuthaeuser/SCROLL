@@ -59,10 +59,7 @@ lazy val core = project.settings(
   publishMavenStyle      := true,
   Test / publishArtifact := false,
   scmInfo := Some(
-    ScmInfo(
-      url("https://github.com/max-leuthaeuser/SCROLL"),
-      "scm:git:github.com/max-leuthaeuser/SCROLL.git"
-    )
+    ScmInfo(url("https://github.com/max-leuthaeuser/SCROLL"), "scm:git:github.com/max-leuthaeuser/SCROLL.git")
   ),
   homepage := Some(url("https://github.com/max-leuthaeuser/SCROLL")),
   licenses := List("LGPL 3.0 license" -> url("http://www.opensource.org/licenses/lgpl-3.0.html")),
