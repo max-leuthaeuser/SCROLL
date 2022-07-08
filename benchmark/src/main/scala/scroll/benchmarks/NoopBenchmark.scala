@@ -27,8 +27,8 @@ object NoopBenchmark {
 
 }
 
-/** Measures role method dispatch overhead for a single role bound to a player, where each role
-  * method just forwards the method call to its base.
+/** Measures role method dispatch overhead for a single role bound to a player, where each role method just forwards the
+  * method call to its base.
   */
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 class NoopBenchmark extends AbstractBenchmark {
