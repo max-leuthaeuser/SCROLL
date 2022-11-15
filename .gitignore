@@ -15,3 +15,4 @@ source_gen*
 .bloop/
 .dotty-ide.json
 .dotty-ide-artifact
+null/
