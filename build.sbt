@@ -81,7 +81,6 @@ lazy val examples = project.settings(commonSettings).dependsOn(core)
 lazy val tests = project
   .settings(
     commonSettings,
-    Test / fork := true,
     Test / testOptions := Seq(
       Tests.Argument(
         TestFrameworks.ScalaTest,
