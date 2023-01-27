@@ -51,13 +51,13 @@ lazy val commonSettings = Seq(
 
 lazy val core = project.settings(
   commonSettings,
+  scalacOptions += "-Xfatal-warnings",
   Compile / run / mainClass := None,
   name                      := "SCROLL",
-  scalacOptions += "-Xfatal-warnings",
-  organization           := "com.github.max-leuthaeuser",
-  publishTo              := sonatypePublishToBundle.value,
-  publishMavenStyle      := true,
-  Test / publishArtifact := false,
+  organization              := "com.github.max-leuthaeuser",
+  publishTo                 := sonatypePublishToBundle.value,
+  publishMavenStyle         := true,
+  Test / publishArtifact    := false,
   scmInfo := Some(
     ScmInfo(url("https://github.com/max-leuthaeuser/SCROLL"), "scm:git:github.com/max-leuthaeuser/SCROLL.git")
   ),
@@ -81,6 +81,8 @@ lazy val examples = project.settings(commonSettings).dependsOn(core)
 lazy val tests = project
   .settings(
     commonSettings,
+    Test / fork := true,
+    Test / javaOptions ++= Seq("--add-opens", "java.base/java.lang=ALL-UNNAMED"),
     Test / testOptions := Seq(
       Tests.Argument(
         TestFrameworks.ScalaTest,
