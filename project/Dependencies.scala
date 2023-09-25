@@ -6,13 +6,13 @@ object Dependencies extends Dependencies
 trait Dependencies {
 
   object v {
-    val scalaVersion     = "3.2.2"
-    val akkaVersion      = "2.7.0"
-    val scalatestVersion = "3.2.15"
-    val chocoVersion     = "4.10.12"
-    val guavaVersion     = "31.1-jre"
-    val emfcommonVersion = "2.28.0"
-    val emfecoreVersion  = "2.33.0"
+    val scalaVersion     = "3.3.1"
+    val akkaVersion      = "2.8.5"
+    val scalatestVersion = "3.2.17"
+    val chocoVersion     = "4.10.13"
+    val guavaVersion     = "32.1.2-jre"
+    val emfcommonVersion = "2.29.0"
+    val emfecoreVersion  = "2.35.0"
     val umlVersion       = "3.1.0.v201006071150"
     val jvm              = "1.8"
   }

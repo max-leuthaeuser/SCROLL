@@ -243,9 +243,9 @@ abstract class AbstractCompartment() extends CompartmentApi {
 
     override def equals(o: Any): Boolean =
       o match {
-        case other: IPlayer[_, _] => playerEquality.equalsPlayer(this, other)
-        case other: AnyRef        => playerEquality.equalsAny(this, other)
-        case null                 => false
+        case other: IPlayer[W @unchecked, _] => playerEquality.equalsPlayer(this, other)
+        case other: AnyRef                   => playerEquality.equalsAny(this, other)
+        case null                            => false
       }
 
     override def hashCode(): Int = wrapped.hashCode()
