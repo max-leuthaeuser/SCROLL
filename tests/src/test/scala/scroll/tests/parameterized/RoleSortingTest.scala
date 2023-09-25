@@ -7,26 +7,25 @@ import scroll.tests.mocks.CoreA
 
 class RoleSortingTest extends AbstractParameterizedSCROLLTest {
 
+  private case class SomeRoleA() {
+    def method(): String = "A"
+  }
+
+  private case class SomeRoleB() {
+    def method(): String = "B"
+  }
+
+  private case class SomeRoleC() {
+    def method(): String = "C"
+  }
+
   test("Adding roles and sorting them") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()
       new CompartmentUnderTest(c, cc) {
-
-        case class SomeRoleA() {
-          def method(): String = "A"
-        }
-
-        case class SomeRoleB() {
-          def method(): String = "B"
-        }
-
-        case class SomeRoleC() {
-          def method(): String = "C"
-        }
-
-        val roleA = SomeRoleA()
-        val roleB = SomeRoleB()
-        val roleC = SomeRoleC()
+        private val roleA = SomeRoleA()
+        private val roleB = SomeRoleB()
+        private val roleC = SomeRoleC()
         someCore play roleA
         someCore play roleB
         someCore play roleC
@@ -65,7 +64,7 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
     }
   }
 
-  class SomeCore {
+  private class SomeCore {
     def method(): String = "Core"
   }
 
@@ -73,25 +72,28 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new SomeCore()
       new CompartmentUnderTest(c, cc) {
+        private case class SomeRoleD() {
 
-        case class SomeRoleA() {
           def method(): String = {
-            given DispatchQuery = Bypassing(_.isInstanceOf[SomeRoleA])
+            given DispatchQuery = Bypassing(_.isInstanceOf[this.type])
             (+this).method()
           }
+
         }
 
-        case class SomeRoleB() {
+        private case class SomeRoleE() {
+
           def method(): String = {
             given DispatchQuery = DispatchQuery().sortedWith(reverse)
             (+this).method()
           }
+
         }
 
-        val roleA = SomeRoleA()
-        val roleB = SomeRoleB()
-        someCore play roleA
-        someCore play roleB
+        private val roleD = SomeRoleD()
+        private val roleE = SomeRoleE()
+        someCore play roleD
+        someCore play roleE
         val r1: String = (+someCore).method()
         r1 shouldBe "Core"
       }
