@@ -19,20 +19,24 @@ class RoleGroupsTest extends AbstractParameterizedSCROLLTest {
         val target        = new Target
         val roleGroupName = "Transaction"
         val transaction   = roleGroups.create(roleGroupName).containing[Source, Target](1, 1)(2, 2)
+
         roleGroups.checked {
           acc1 play source
           acc2 play target
         }
+
         the[RuntimeException] thrownBy {
           roleGroups.checked {
             acc2 drop target
           }
         } should have message s"Constraint set for inner cardinality of role group '$roleGroupName' violated!"
+
         the[RuntimeException] thrownBy {
           roleGroups.checked {
             acc1 play target
           }
         } should have message s"Constraint set for inner cardinality of role group '$roleGroupName' violated!"
+
       }
     }
   }

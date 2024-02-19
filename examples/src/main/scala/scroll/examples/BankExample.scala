@@ -22,6 +22,7 @@ object BankExample {
         accForStan play ca
         accForBrian play sa
       }
+
       stan play new Customer()
       brian play new Customer()
 
@@ -35,10 +36,12 @@ object BankExample {
       (+brian).listBalances()
 
       private val transaction = new Transaction(10) {
+
         roleGroups.checked {
           accForStan play new Source()
           accForBrian play new Target()
         }
+
       }
 
       transaction.compartmentRelations.partOf(this)

@@ -19,6 +19,7 @@ class RelationshipTest extends AbstractParameterizedSCROLLTest {
         val rel2Name = "rel2"
         val rel2     = roleRelationships.create(rel2Name).from[RoleA](relSize).to[RoleC](relSize)
         rel2.left() should contain only rA
+
         the[AssertionError] thrownBy {
           rel2.right()
         } should have message s"assertion failed: With a concrete multiplicity for '$rel2Name' of '$relSize' the resulting role set should have the same size!"

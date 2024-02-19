@@ -72,6 +72,7 @@ class RoleSortingTest extends AbstractParameterizedSCROLLTest {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new SomeCore()
       new CompartmentUnderTest(c, cc) {
+
         private case class SomeRoleD() {
 
           def method(): String = {
