@@ -15,16 +15,20 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someCore play someRole
         someCore play new RoleB()
         someCore drop someRole
+
         (+someCore).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(-1))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCore).isPlaying[RoleA] shouldBe false
         (+someCore).isPlaying[RoleB] shouldBe true
+
         (+someCore).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error)        => fail(error.toString)
         }
+
       }
     }
   }
@@ -37,10 +41,12 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val someRole = new RoleA()
         someCoreA play someRole
         someCoreA transfer someRole to someCoreB
+
         (+someCoreB).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(0))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCoreA).isPlaying[RoleA] shouldBe false
         (+someCoreB).isPlaying[RoleA] shouldBe true
       }
@@ -69,14 +75,17 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       new MultiCompartmentUnderTest(c, cc) {
         val someRole = new RoleA()
         someCoreA play someRole
+
         (+someCoreA).a[Int]() match {
           case Right(returnValue) => returnValue.head shouldBe Right(0)
           case Left(error)        => fail(error.toString)
         }
+
         (+someCoreA).c() match {
           case Left(_)  => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
         }
+
       }
     }
   }
@@ -88,10 +97,12 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val someRole = new RoleA()
         someCoreA play someRole
         val expected = someRole.b("some", param = "out")
+
         (+someCoreA).b("some", param = "out") match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected))
           case Left(error)        => fail(error.toString)
         }
+
       }
     }
   }
@@ -114,6 +125,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Left(_)  => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
         }
+
       }
     }
   }
@@ -162,10 +174,12 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         (+someCoreA).update(expected)
         val actual1: String = someRole.valueC
         expected shouldBe actual1
+
         (+someCoreA).valueC match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected))
           case Left(error)        => fail(error.toString)
         }
+
       }
     }
   }
@@ -183,10 +197,12 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val actual1a: String = someRole1.valueC
         val actual1b: String = someRole2.valueC
         (expected == actual1a || expected == actual1b) shouldBe true
+
         (+someCoreA).valueC match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected), Right(expected))
           case Left(error)        => fail(error.toString)
         }
+
       }
     }
   }
@@ -201,6 +217,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someRole2.valueB = 2
         someCoreA play someRole1
         someCoreA play someRole2
+
         given DispatchQuery =
           From(_.isInstanceOf[CoreA])
             .To(_.isInstanceOf[RoleA])
@@ -210,15 +227,18 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
                 1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
               case _ => false
             }
+
         (+someCoreA).update("updated")
         val actual1: String = someRole1.valueC
         val actual2: String = someRole2.valueC
         "valueC" shouldBe actual1
         "updated" shouldBe actual2
+
         (+someCoreA).valueC match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("updated"))
           case Left(error)        => fail(error.toString)
         }
+
       }
     }
   }
@@ -236,14 +256,17 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val actual2 = someRole.valueB
         expected1 shouldBe actual1
         expected2 shouldBe actual2
+
         (+someCoreA).valueA match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected1))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCoreA).valueB match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected2))
           case Left(error)        => fail(error.toString)
         }
+
       }
     }
   }
@@ -288,38 +311,47 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         actualByteR shouldBe expectedByte
         actualCharR shouldBe expectedChar
         actualBooleanR shouldBe expectedBoolean
+
         (+someCoreA).valueInt match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedInt))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCoreA).valueDouble match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedDouble))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCoreA).valueFloat match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedFloat))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCoreA).valueLong match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedLong))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCoreA).valueShort match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedShort))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCoreA).valueByte match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedByte))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCoreA).valueChar match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedChar))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCoreA).valueBoolean match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedBoolean))
           case Left(error)        => fail(error.toString)
         }
+
       }
     }
   }
@@ -337,18 +369,22 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         (+someCoreB).update(expected)
         val actual1: String = someRole.valueC
         expected shouldBe actual1
+
         (+someCoreA).valueC match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCoreB).valueC match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected))
           case Left(error)        => fail(error.toString)
         }
+
         val player = someRole.player match {
           case Left(_)  => fail("Player should be defined here!")
           case Right(p) => p
         }
+
         (player == someCoreA || player == someCoreB) shouldBe true
 
         {
@@ -363,6 +399,7 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           }
           player2 shouldBe someCoreA
         }
+
       }
     }
   }
@@ -378,9 +415,11 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           someCoreA play someRoleA
           someRoleA play someRoleB
           someRoleB play someRoleC
+
           a[RuntimeException] should be thrownBy {
             someRoleC play someRoleA
           }
+
         }
       }
     }
@@ -418,26 +457,32 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         (+someCoreA).valueInt = expectedVal
         val actualVal6: Int = someRoleE.valueInt
         actualVal6 shouldBe expectedVal
+
         (+someCoreA).valueInt match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedVal))
           case Left(error)        => fail(error.toString)
         }
+
         (+someRoleB).valueInt match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedVal))
           case Left(error)        => fail(error.toString)
         }
+
         (+someRoleC).valueInt match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedVal))
           case Left(error)        => fail(error.toString)
         }
+
         (+someRoleD).valueInt match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedVal))
           case Left(error)        => fail(error.toString)
         }
+
         (+someRoleE).valueInt match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expectedVal))
           case Left(error)        => fail(error.toString)
         }
+
       }
     }
   }
@@ -449,15 +494,19 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val someRoleA        = new RoleA()
         val expected: String = "valueC"
         val p                = someCoreA play someRoleA
+
         p.valueC match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(expected))
           case Left(error)        => fail(error.toString)
         }
+
         p.update(null)
+
         p.valueC match {
           case Right(returnValue) => returnValue shouldBe Seq(Right(null))
           case Left(error)        => fail(error.toString)
         }
+
       }
     }
   }
@@ -478,43 +527,54 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
       val roleWithC = new RoleWithC()
       new MultiCompartmentUnderTest(c, cc) {
         someCore play roleWithB
+
         (+someCore).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("a"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithB).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("a"))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCore).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithB).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error)        => fail(error.toString)
         }
+
         roleWithB play roleWithC
+
         (+someCore).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("a"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithB).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("a"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithC).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("a"))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCore).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithB).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithC).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error)        => fail(error.toString)
@@ -524,132 +584,165 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Right(returnValue) => returnValue shouldBe Seq(Right("c"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithB).c() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("c"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithC).c() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("c"))
           case Left(error)        => fail(error.toString)
         }
+
         someCore.drop(roleWithB)
+
         (+someCore).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("a"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithB).a() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+roleWithC).a() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+someCore).b() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+roleWithB).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithC).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCore).c() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+roleWithB).c() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("c"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithC).c() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("c"))
           case Left(error)        => fail(error.toString)
         }
+
         someCore.play(roleWithB)
+
         (+someCore).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("a"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithB).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("a"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithC).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("a"))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCore).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithB).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithC).b() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("b"))
           case Left(error)        => fail(error.toString)
         }
+
         (+someCore).c() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("c"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithB).c() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("c"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithC).c() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("c"))
           case Left(error)        => fail(error.toString)
         }
+
         roleWithB.remove()
+
         (+someCore).a() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("a"))
           case Left(error)        => fail(error.toString)
         }
+
         (+roleWithB).a() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+roleWithC).a() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+someCore).b() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         roleWithB.b() shouldBe "b"
+
         (+roleWithC).b() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+someCore).c() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+roleWithB).c() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+roleWithC).c() match {
           case Right(returnValue) => returnValue shouldBe Seq(Right("c"))
           case Left(error)        => fail(error.toString)
         }
+
       }
     }
   }

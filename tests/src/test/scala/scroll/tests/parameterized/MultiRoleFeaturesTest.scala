@@ -72,6 +72,7 @@ class MultiRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
             case Left(error)   => fail(error.toString)
           }
         }
+
       }
     }
   }

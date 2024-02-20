@@ -51,11 +51,13 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someCore play someRole
         rolePlaying.removePlayer(someCore)
         (+someCore).isPlaying[RoleA] shouldBe false
+
         (+someCore).s() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
       }
     }
   }
@@ -116,10 +118,12 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         val actual: Int = (+someCoreA).a()
         expected shouldBe actual
         val r = (+someCoreA).c()
+
         r match {
           case Left(_)  => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
         }
+
       }
     }
   }
@@ -150,10 +154,12 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         expectedA shouldBe actualA
         expectedB shouldBe actualB
         val r = (+someCoreA).valueD
+
         r match {
           case Left(_)  => // correct
           case Right(_) => fail("A call to the role with a method that does not exist should fail")
         }
+
       }
     }
   }
@@ -222,6 +228,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someRole2.valueB = 2
         someCoreA play someRole1
         someCoreA play someRole2
+
         given DispatchQuery =
           From(_.isInstanceOf[CoreA])
             .To(_.isInstanceOf[RoleA])
@@ -231,6 +238,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
                 1 == r.valueB // so we ignore someRole1 here while dispatching the call to update
               case _ => false
             }
+
         (+someCoreA).update("updated")
         val actual1: String = someRole1.valueC
         val actual2: String = someRole2.valueC
@@ -340,10 +348,12 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         expected shouldBe actual1
         expected shouldBe actual2
         expected shouldBe actual3
+
         val player = someRole.player match {
           case Left(_)  => fail("Player should be defined here!")
           case Right(p) => p
         }
+
         (player == someCoreA || player == someCoreB) shouldBe true
 
         {
@@ -358,6 +368,7 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           }
           player2 shouldBe someCoreA
         }
+
       }
     }
   }
@@ -373,9 +384,11 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           someCoreA play someRoleA
           someRoleA play someRoleB
           someRoleB play someRoleC
+
           a[RuntimeException] should be thrownBy {
             someRoleC play someRoleA
           }
+
         }
       }
     }
@@ -552,30 +565,36 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         someCore.drop(roleWithB)
         actual = (+someCore).a()
         actual shouldBe "a"
+
         (+roleWithB).a() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+roleWithC).a() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+someCore).b() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         actual = (+roleWithB).b()
         actual shouldBe "b"
         actual = (+roleWithC).b()
         actual shouldBe "b"
+
         (+someCore).c() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         actual = (+roleWithB).c()
         actual shouldBe "c"
         actual = (+roleWithC).c()
@@ -602,38 +621,46 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
         roleWithB.remove()
         actual = (+someCore).a()
         actual shouldBe "a"
+
         (+roleWithB).a() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+roleWithC).a() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+someCore).b() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         actual = roleWithB.b()
         actual shouldBe "b"
+
         (+roleWithC).b() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+someCore).c() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         (+roleWithB).c() match {
           case Right(_)                                    => fail("Player should have no access anymore!")
           case Left(err) if err.isInstanceOf[RoleNotFound] => // this is fine
           case Left(err)                                   => fail("This exception is not expected: ", err)
         }
+
         actual = (+roleWithC).c()
         actual shouldBe "c"
       }
