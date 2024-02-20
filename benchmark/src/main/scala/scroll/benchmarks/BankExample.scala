@@ -131,6 +131,7 @@ class BankExample {
         moneyTransfers.append(mt)
         compartmentRelations.combine(transaction)
       }
+
     }
     this
   }

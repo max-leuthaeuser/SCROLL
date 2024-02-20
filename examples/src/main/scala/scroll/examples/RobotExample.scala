@@ -10,8 +10,10 @@ object RobotExample {
 
   @main def runRobotExample(): Unit = {
     val _ = new Compartment {
+
       val myRobot =
         Robot("Pete") play ServiceRole() play NavigationRole() play ObservingEnvironmentRole() play DriveableRole()
+
       BehavioralView.compartmentRelations.partOf(this)
       myRobot.move()
     }
