@@ -45,7 +45,7 @@ object RolePlayingAutomaton {
 
   protected class RPABuilder[T <: AnyRef: ClassTag]() {
 
-    def For(comp: Compartment): ActorRef =
+    infix def For(comp: Compartment): ActorRef =
       ActorSystem().actorOf(Props(classTag[T].runtimeClass, comp), s"rpa_${comp.hashCode()}")
 
   }

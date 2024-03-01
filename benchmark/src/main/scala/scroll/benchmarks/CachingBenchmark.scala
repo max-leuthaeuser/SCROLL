@@ -13,10 +13,10 @@ object CachingBenchmark {
   @State(Scope.Thread)
   class Local {
 
-    var cachingExample: CachingExample = _
+    var cachingExample: CachingExample = scala.compiletime.uninitialized
 
     @Param(Array("10", "100", "1000"))
-    var roles: Int = _
+    var roles: Int = scala.compiletime.uninitialized
 
     @Setup
     def setup(shared: Shared): Unit = synchronized {

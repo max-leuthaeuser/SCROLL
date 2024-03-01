@@ -6,10 +6,8 @@ import scroll.internal.support.RoleRestrictionsApi
 
 import scala.reflect.ClassTag
 
-class RolePlaying(
-  private[this] val roleGraph: RoleGraphProxyApi,
-  private[this] val roleRestrictions: RoleRestrictionsApi
-) extends RolePlayingApi {
+class RolePlaying(private val roleGraph: RoleGraphProxyApi, private val roleRestrictions: RoleRestrictionsApi)
+    extends RolePlayingApi {
 
   override def transferRole[F <: AnyRef: ClassTag, T <: AnyRef: ClassTag, R <: AnyRef: ClassTag](
     coreFrom: F,

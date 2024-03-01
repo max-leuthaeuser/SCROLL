@@ -11,18 +11,18 @@ import scala.jdk.CollectionConverters._
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 
-class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends RoleConstraintsApi {
+class RoleConstraints(private val roleGraph: RoleGraphProxyApi) extends RoleConstraintsApi {
 
-  private[this] lazy val roleImplications: MutableGraph[String] =
+  private lazy val roleImplications: MutableGraph[String] =
     GraphBuilder.directed().build[String]()
 
-  private[this] lazy val roleEquivalents: MutableGraph[String] =
+  private lazy val roleEquivalents: MutableGraph[String] =
     GraphBuilder.directed().build[String]()
 
-  private[this] lazy val roleProhibitions: MutableGraph[String] =
+  private lazy val roleProhibitions: MutableGraph[String] =
     GraphBuilder.directed().build[String]()
 
-  private[this] def checkImplications(player: AnyRef, role: AnyRef): Unit = {
+  private def checkImplications(player: AnyRef, role: AnyRef): Unit = {
     val list = roleImplications.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
     if (list.nonEmpty) {
       val allImplicitRoles = list.flatMap(Graphs.reachableNodes(roleImplications, _).asScala)
@@ -37,7 +37,7 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
     }
   }
 
-  private[this] def checkEquivalence(player: AnyRef, role: AnyRef): Unit = {
+  private def checkEquivalence(player: AnyRef, role: AnyRef): Unit = {
     val list = roleEquivalents.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
     if (list.nonEmpty) {
       val allEquivalentRoles = list.flatMap(Graphs.reachableNodes(roleEquivalents, _).asScala)
@@ -52,7 +52,7 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
     }
   }
 
-  private[this] def checkProhibitions(player: AnyRef, role: AnyRef): Unit = {
+  private def checkProhibitions(player: AnyRef, role: AnyRef): Unit = {
     val list = roleProhibitions.nodes().asScala.filter(ReflectiveHelper.isInstanceOf(_, role))
     if (list.nonEmpty) {
       val allProhibitedRoles =
@@ -107,7 +107,7 @@ class RoleConstraints(private[this] val roleGraph: RoleGraphProxyApi) extends Ro
     * @param role
     *   the role instance to check
     */
-  private[this] def validateConstraints(player: AnyRef, role: AnyRef): Unit = {
+  private def validateConstraints(player: AnyRef, role: AnyRef): Unit = {
     checkImplications(player, role)
     checkEquivalence(player, role)
     checkProhibitions(player, role)

@@ -11,7 +11,7 @@ import java.util.Date
 object RunnerApp {
 
   def main(args: Array[String]): Unit = {
-    val opts      = new CommandLineOptions(args: _*)
+    val opts      = new CommandLineOptions(args*)
     val runner    = new Runner(opts)
     val results   = runner.run()
     val timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date())

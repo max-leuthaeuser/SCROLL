@@ -5,7 +5,7 @@ import scroll.internal.support.RoleQueriesApi
 
 import scala.reflect.ClassTag
 
-class Relationships(private[this] val roleQueries: RoleQueriesApi) extends RelationshipsApi {
+class Relationships(private val roleQueries: RoleQueriesApi) extends RelationshipsApi {
 
   import scroll.internal.support.impl.Multiplicities._
 
@@ -53,7 +53,7 @@ class Relationships(private[this] val roleQueries: RoleQueriesApi) extends Relat
 
     protected val MULT_NOT_ALLOWED: String = "This multiplicity is not allowed!"
 
-    private[this] def checkMul[T](m: Multiplicity, on: Seq[T]): Seq[T] = {
+    private def checkMul[T](m: Multiplicity, on: Seq[T]): Seq[T] = {
       m match {
         case MMany() =>
           assert(on.nonEmpty, s"With left multiplicity for '$name' of '*', the resulting role set should not be empty!")

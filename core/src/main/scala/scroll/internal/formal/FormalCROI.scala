@@ -115,11 +115,11 @@ final case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Nu
       (r_1, r_2) <- links((rst1, c1)) if r_1 != null && r_2 != null
     } yield !links((rst1, c1)).contains((r_1, null)) && !links((rst1, c1)).contains((null, r_2)))
 
-  private[this] def o: List[AnyRef] = n.concat(c)
+  private def o: List[AnyRef] = n.concat(c)
 
   def o_c(c: CT): List[NT] = plays.filter(_._2 == c).map(_._1)
 
-  private[this] def repsilon: List[RT] = r :+ null
+  private def repsilon: List[RT] = r :+ null
 
   def pred(rst: RST, c: CT, r: RT): List[RT] =
     if (links.contains((rst, c))) {
@@ -135,7 +135,7 @@ final case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Nu
       List.empty[RT]
     }
 
-  private[this] def player(r: RT): NT =
+  private def player(r: RT): NT =
     r match {
       case null => null
       case _ =>

@@ -15,41 +15,41 @@ object ReflectiveHelper {
 
   import Memoiser._
 
-  private[this] lazy val methodCache =
+  private lazy val methodCache =
     buildCache[Class[?], Seq[Method]](allMethods)
 
-  private[this] lazy val methodsByNameCache =
+  private lazy val methodsByNameCache =
     buildCache[(Class[?], String), Seq[Method]]((t: (Class[?], String)) => cachedFindMethods(t._1, t._2))
 
-  private[this] lazy val methodMatchCache =
+  private lazy val methodMatchCache =
     buildCache[(Class[?], String, Seq[Any]), Option[Method]]((t: (Class[?], String, Seq[Any])) =>
       cachedFindMethod(t._1, t._2, t._3)
     )
 
-  private[this] lazy val fieldCache =
+  private lazy val fieldCache =
     buildCache[Class[?], Seq[Field]]((c: Class[?]) => allFields(c))
 
-  private[this] lazy val fieldByNameCache =
+  private lazy val fieldByNameCache =
     buildCache[(Class[?], String), Field]((t: (Class[?], String)) => cachedFindField(t._1, t._2))
 
-  private[this] lazy val classNameCache =
+  private lazy val classNameCache =
     buildCache[String, String](cachedSimpleName)
 
-  private[this] lazy val hasMemberCache =
+  private lazy val hasMemberCache =
     buildCache[(Class[?], String), java.lang.Boolean]((t: (Class[?], String)) => cachedHasMember(t._1, t._2))
 
   def addToMethodCache(c: Class[?]): Unit = methodCache.put(c, allMethods(c))
 
   def addToFieldCache(c: Class[?]): Unit = fieldCache.put(c, allFields(c))
 
-  private[this] def simpleClassName(s: String, on: String) =
+  private def simpleClassName(s: String, on: String) =
     if (s.contains(on)) {
       s.substring(s.lastIndexOf(on) + 1)
     } else {
       s
     }
 
-  private[this] def cachedSimpleName(t: String): String =
+  private def cachedSimpleName(t: String): String =
     simpleClassName(simpleClassName(t, "."), "$")
 
   /** Translates a Class or Type name to a String, i.e. removing anything before the last occurrence of "<code>$</code>"
@@ -97,7 +97,7 @@ object ReflectiveHelper {
   def isSameInterface(roleInterface: Array[Method], restrInterface: Array[Method]): Boolean =
     restrInterface.forall(method => roleInterface.exists(method.equals))
 
-  private[this] def cachedFindField(of: Class[?], name: String): Field =
+  private def cachedFindField(of: Class[?], name: String): Field =
     fieldCache
       .get(of)
       .find(_.getName == name)
@@ -105,15 +105,15 @@ object ReflectiveHelper {
         throw new RuntimeException(s"Field '$name' not found on '$of'!")
       }
 
-  private[this] def findField(of: Class[?], name: String): Field = fieldByNameCache.get((of, name))
+  private def findField(of: Class[?], name: String): Field = fieldByNameCache.get((of, name))
 
-  private[this] def cachedFindMethods(of: Class[?], name: String): Seq[Method] =
+  private def cachedFindMethods(of: Class[?], name: String): Seq[Method] =
     methodCache.get(of).filter(_.getName == name)
 
-  private[this] def findMethods(of: Class[?], name: String): Seq[Method] =
+  private def findMethods(of: Class[?], name: String): Seq[Method] =
     methodsByNameCache.get((of, name))
 
-  private[this] def allMethods(of: Class[?]): Seq[Method] = {
+  private def allMethods(of: Class[?]): Seq[Method] = {
     def getAccessibleMethods(c: Class[?]): Seq[Method] =
       c match {
         case null => Seq.empty[Method]
@@ -128,7 +128,7 @@ object ReflectiveHelper {
     }
   }
 
-  private[this] def allFields(of: Class[?]): Seq[Field] = {
+  private def allFields(of: Class[?]): Seq[Field] = {
     def accessibleFields(c: Class[?]): Seq[Field] =
       c match {
         case null => Seq.empty[Field]
@@ -141,10 +141,10 @@ object ReflectiveHelper {
     }
   }
 
-  private[this] def isSameNumberOfParameters(m: Method, size: Int): Boolean =
+  private def isSameNumberOfParameters(m: Method, size: Int): Boolean =
     m.getParameterCount == size
 
-  private[this] def isSameArgumentTypes(m: Method, args: Seq[Any]): Boolean =
+  private def isSameArgumentTypes(m: Method, args: Seq[Any]): Boolean =
     args.zip(m.getParameterTypes).forall { case (arg, paramType) =>
       paramType match {
         case java.lang.Boolean.TYPE   => arg.isInstanceOf[Boolean]
@@ -159,10 +159,10 @@ object ReflectiveHelper {
       }
     }
 
-  private[this] def matchMethod(m: Method, args: Seq[Any]): Boolean =
+  private def matchMethod(m: Method, args: Seq[Any]): Boolean =
     isSameNumberOfParameters(m, args.size) && isSameArgumentTypes(m, args)
 
-  private[this] def cachedFindMethod(on: Class[?], name: String, args: Seq[Any]): Option[Method] =
+  private def cachedFindMethod(on: Class[?], name: String, args: Seq[Any]): Option[Method] =
     findMethods(on, name).find(matchMethod(_, args))
 
   /** Find a method of the wrapped object by its name and argument list given.
@@ -179,7 +179,7 @@ object ReflectiveHelper {
   def findMethod(on: AnyRef, name: String, args: Seq[Any]): Option[Method] =
     methodMatchCache.get((on.getClass, name, args))
 
-  private[this] def cachedHasMember(on: Class[?], name: String): java.lang.Boolean = {
+  private def cachedHasMember(on: Class[?], name: String): java.lang.Boolean = {
     lazy val fields  = fieldCache.get(on)
     lazy val methods = methodCache.get(on)
     fields.exists(_.getName == name) || methods.exists(_.getName == name)
@@ -237,7 +237,7 @@ object ReflectiveHelper {
     *   the runtime result of type T of the function with the given name by executing this function of the wrapped
     *   object
     */
-  def resultOf[T](on: AnyRef, m: Method, args: Seq[Any]): T = m.invoke(on, args: _*).asInstanceOf[T]
+  def resultOf[T](on: AnyRef, m: Method, args: Seq[Any]): T = m.invoke(on, args*).asInstanceOf[T]
 
   /** Returns the runtime result of type T of the function with the given name by executing this function of the wrapped
     * object.

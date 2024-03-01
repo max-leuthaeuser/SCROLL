@@ -15,7 +15,7 @@ trait CROI extends CROM {
 
   def compliant(path: String): Boolean = croi.compliant(construct(path))
 
-  private[this] def addType1(of: AnyRef): Unit = {
+  private def addType1(of: AnyRef): Unit = {
     val className = of.getClass.toString
     val typeName  = ReflectiveHelper.simpleName(className)
     croi.type1 += (of.hashCode().toString -> typeName)

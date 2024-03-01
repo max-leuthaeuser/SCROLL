@@ -8,17 +8,17 @@ import scroll.internal.support.RoleQueriesApi
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 
-class RoleQueries(private[this] val roleGraph: RoleGraphProxyApi) extends RoleQueriesApi {
+class RoleQueries(private val roleGraph: RoleGraphProxyApi) extends RoleQueriesApi {
 
   import scroll.internal.support.impl.QueryStrategies._
 
-  private[this] def safeReturn[T](seq: Seq[T], tpe: Class[?]): Either[TypeError, Seq[T]] =
+  private def safeReturn[T](seq: Seq[T], tpe: Class[?]): Either[TypeError, Seq[T]] =
     seq match {
       case Nil => Left(TypeNotFound(tpe))
       case s   => Right(s)
     }
 
-  private[this] def safeReturnHead[T](seq: Seq[T], tpe: Class[?]): Either[TypeError, T] =
+  private def safeReturnHead[T](seq: Seq[T], tpe: Class[?]): Either[TypeError, T] =
     safeReturn(seq, tpe).fold(
       l => Left(l),
       { case head +: _ =>

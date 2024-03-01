@@ -14,7 +14,7 @@ import scala.reflect.ClassTag
   */
 trait MultiCompartment extends AbstractCompartment {
 
-  implicit def either2SeqTOrException[T](either: Either[_, Seq[Either[_, T]]]): Seq[T] =
+  implicit def either2SeqTOrException[T](either: Either[?, Seq[Either[?, T]]]): Seq[T] =
     either.fold(left => throw new RuntimeException(left.toString), right => right.map(either2TorException))
 
   override def newPlayer[W <: AnyRef: ClassTag](obj: W): MultiPlayer[W] = {
@@ -42,7 +42,7 @@ trait MultiCompartment extends AbstractCompartment {
     def applyDynamicNamed[E](name: String)(args: (String, Any)*)(using
       dispatchQuery: DispatchQuery = DispatchQuery()
     ): Either[SCROLLError, Seq[Either[SCROLLError, E]]] =
-      applyDynamic[E](name)(args.map(_._2): _*)(using dispatchQuery)
+      applyDynamic[E](name)(args.map(_._2)*)(using dispatchQuery)
 
     def selectDynamic[E](
       name: String

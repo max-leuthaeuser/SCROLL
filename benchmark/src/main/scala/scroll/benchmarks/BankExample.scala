@@ -22,10 +22,10 @@ class BankExample {
   }
 
   trait Transaction extends Compartment {
-    var amount: Double = _
+    var amount: Double = scala.compiletime.uninitialized
 
-    var from: Source = _
-    var to: Target   = _
+    var from: Source = scala.compiletime.uninitialized
+    var to: Target   = scala.compiletime.uninitialized
 
     def execute(): Unit = {
       from.withdraw(amount)
@@ -59,7 +59,7 @@ class BankExample {
     }
 
     class Customer(name: String) {
-      private var account: Account = _
+      private var account: Account = scala.compiletime.uninitialized
 
       def setSavingsAccount(a: Account): Unit = {
         val sa = new SavingsAccount()
@@ -90,7 +90,7 @@ class BankExample {
 
   }
 
-  var bank: Bank = _
+  var bank: Bank = scala.compiletime.uninitialized
 
   def build(
     numPlayer: Int,
@@ -108,7 +108,7 @@ class BankExample {
         val a = new Account(p.name.hashCode, 100.0)
         val roles = (0 until numRoles).map { ii =>
           val c = new Customer(s"Customer-$ii-${p.name}")
-          c setSavingsAccount a
+          c.setSavingsAccount(a)
           c
         }
         p play roles.head

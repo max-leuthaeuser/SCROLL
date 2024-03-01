@@ -4,7 +4,7 @@ import scroll.internal.compartment.CompartmentApi
 import scroll.internal.graph.RoleGraphProxyApi
 import scroll.internal.support.CompartmentRelationsApi
 
-class CompartmentRelations(private[this] val roleGraph: RoleGraphProxyApi) extends CompartmentRelationsApi {
+class CompartmentRelations(private val roleGraph: RoleGraphProxyApi) extends CompartmentRelationsApi {
 
   override def union(other: CompartmentApi): Unit = {
     require(null != other)

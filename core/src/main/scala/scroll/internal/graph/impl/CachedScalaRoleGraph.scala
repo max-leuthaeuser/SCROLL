@@ -18,31 +18,31 @@ class CachedScalaRoleGraph(
 
   import scroll.internal.util.Memoiser._
 
-  private[this] val containsCache = buildCache[AnyRef, java.lang.Boolean](super.containsPlayer)
-  private[this] val predCache     = buildCache[AnyRef, Seq[AnyRef]](super.predecessors)
-  private[this] val rolesCache    = buildCache[AnyRef, Seq[AnyRef]](super.roles)
-  private[this] val facetsCache   = buildCache[AnyRef, Seq[Enumeration#Value]](super.facets)
+  private val containsCache = buildCache[AnyRef, java.lang.Boolean](super.containsPlayer)
+  private val predCache     = buildCache[AnyRef, Seq[AnyRef]](super.predecessors)
+  private val rolesCache    = buildCache[AnyRef, Seq[AnyRef]](super.roles)
+  private val facetsCache   = buildCache[AnyRef, Seq[Enumeration#Value]](super.facets)
 
   override def addBinding(player: AnyRef, role: AnyRef): Unit = {
     super.addBinding(player, role)
     resetAfterBinding(player, role)
   }
 
-  private[this] def resetAfterBinding(player: AnyRef, role: AnyRef): Unit = {
+  private def resetAfterBinding(player: AnyRef, role: AnyRef): Unit = {
     predecessors(player).foreach(reset)
     roles(role).foreach(reset)
     reset(role)
     reset(player)
   }
 
-  private[this] def resetAll(): Unit = {
+  private def resetAll(): Unit = {
     containsCache.invalidateAll()
     predCache.invalidateAll()
     rolesCache.invalidateAll()
     facetsCache.invalidateAll()
   }
 
-  private[this] def reset(o: AnyRef): Unit = {
+  private def reset(o: AnyRef): Unit = {
     containsCache.invalidate(o)
     predCache.invalidate(o)
     rolesCache.invalidate(o)

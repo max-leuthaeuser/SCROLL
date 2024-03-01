@@ -21,8 +21,8 @@ class CachingExample {
 
   private val core = new Core()
 
-  var cachedCompartment: SomeCompartment    = _
-  var noncachedCompartment: SomeCompartment = _
+  var cachedCompartment: SomeCompartment    = scala.compiletime.uninitialized
+  var noncachedCompartment: SomeCompartment = scala.compiletime.uninitialized
 
   def build(numRoles: Int): CachingExample = {
     val allRoles = (0 until numRoles).map(new IntermediateRole(_)) :+ new TailingRole(numRoles)

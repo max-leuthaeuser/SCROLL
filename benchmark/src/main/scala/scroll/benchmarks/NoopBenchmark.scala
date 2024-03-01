@@ -10,11 +10,11 @@ object NoopBenchmark {
 
   @State(Scope.Thread)
   class Local {
-    var x, y: Int             = _
-    var player: SCROLLDynamic = _
+    var x, y: Int             = scala.compiletime.uninitialized
+    var player: SCROLLDynamic = scala.compiletime.uninitialized
 
     @Param(Array("true", "false"))
-    var cached: Boolean = _
+    var cached: Boolean = scala.compiletime.uninitialized
 
     @Setup(Level.Iteration)
     def setup(): Unit = {

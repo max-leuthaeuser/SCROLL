@@ -45,7 +45,7 @@ trait Compartment extends AbstractCompartment {
 
     override def applyDynamicNamed[E](name: String)(args: (String, Any)*)(using
       dispatchQuery: DispatchQuery = DispatchQuery()
-    ): Either[SCROLLError, E] = applyDynamic[E](name)(args.map(_._2): _*)(using dispatchQuery)
+    ): Either[SCROLLError, E] = applyDynamic[E](name)(args.map(_._2)*)(using dispatchQuery)
 
     override def applyDynamic[E](
       name: String

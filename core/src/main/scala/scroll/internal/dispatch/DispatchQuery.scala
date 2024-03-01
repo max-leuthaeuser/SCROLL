@@ -119,7 +119,7 @@ case class DispatchQuery(
   to: To,
   through: Through,
   bypassing: Bypassing,
-  private[this] var _sortedWith: Option[(AnyRef, AnyRef) => Boolean] = Option.empty
+  private var _sortedWith: Option[(AnyRef, AnyRef) => Boolean] = Option.empty
 ) {
 
   /** Set the function to later sort all dynamic extensions during [[DispatchQuery.filter]].

@@ -37,7 +37,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
   override lazy val roleGroups: RoleGroupsApi           = new RoleGroups(roleGraph)
   override lazy val playerEquality: PlayerEqualityApi   = new PlayerEquality(roleGraph)
 
-  implicit def either2TorException[T](either: Either[_, T]): T =
+  implicit def either2TorException[T](either: Either[?, T]): T =
     either.fold(l => throw new RuntimeException(l.toString), r => r)
 
   protected def applyDispatchQuery(dispatchQuery: DispatchQuery, on: AnyRef): Seq[AnyRef] =
@@ -54,7 +54,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
     * @return
     *   a new Player instance wrapping the given object
     */
-  def newPlayer[W <: AnyRef: ClassTag](obj: W): IPlayer[W, _]
+  def newPlayer[W <: AnyRef: ClassTag](obj: W): IPlayer[W, ?]
 
   /** Wrapper class to add basic functionality to roles and its players as unified types.
     *
@@ -98,10 +98,10 @@ abstract class AbstractCompartment() extends CompartmentApi {
       * @return
       *   this
       */
-    def play[R <: AnyRef: ClassTag](role: R): T = {
+    infix def play[R <: AnyRef: ClassTag](role: R): T = {
       require(null != role)
       wrapped match {
-        case p: IPlayer[_, _] => rolePlaying.addPlaysRelation[W, R](p.wrapped.asInstanceOf[W], role)
+        case p: IPlayer[?, ?] => rolePlaying.addPlaysRelation[W, R](p.wrapped.asInstanceOf[W], role)
         case p: AnyRef        => rolePlaying.addPlaysRelation[W, R](p.asInstanceOf[W], role)
         case null =>
           throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles!")
@@ -118,7 +118,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
       * @return
       *   the player instance
       */
-    def <=>[R <: AnyRef: ClassTag](role: R): W = playing(role)
+    infix def <=>[R <: AnyRef: ClassTag](role: R): W = playing(role)
 
     /** Adds a play relation between core and role but always returns the player instance.
       *
@@ -129,7 +129,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
       * @return
       *   the player instance
       */
-    def playing[R <: AnyRef: ClassTag](role: R): W = play(role).wrapped
+    infix def playing[R <: AnyRef: ClassTag](role: R): W = play(role).wrapped
 
     /** Alias for [[IPlayer.drop]].
       *
@@ -138,7 +138,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
       * @return
       *   this
       */
-    def <->(role: AnyRef): T = drop(role)
+    infix def <->(role: AnyRef): T = drop(role)
 
     /** Removes the play relation between core and role.
       *
@@ -147,14 +147,14 @@ abstract class AbstractCompartment() extends CompartmentApi {
       * @return
       *   this
       */
-    def drop(role: AnyRef): T = {
+    infix def drop(role: AnyRef): T = {
       rolePlaying.removePlaysRelation(wrapped, role)
       this
     }
 
     protected class TransferToBuilder[R <: AnyRef: ClassTag](role: R) {
 
-      def to[P <: AnyRef: ClassTag](player: P): Unit =
+      infix def to[P <: AnyRef: ClassTag](player: P): Unit =
         rolePlaying.transferRole[W, P, R](wrapped, player, role)
 
     }
@@ -166,7 +166,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
       * @param role
       *   the role to transfer
       */
-    def transfer[R <: AnyRef: ClassTag](role: R): TransferToBuilder[R] =
+    infix def transfer[R <: AnyRef: ClassTag](role: R): TransferToBuilder[R] =
       new TransferToBuilder[R](role)
 
     /** Checks if this IPlayer has all of the given facet(s) attached.
@@ -243,7 +243,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
 
     override def equals(o: Any): Boolean =
       o match {
-        case other: IPlayer[W @unchecked, _] => playerEquality.equalsPlayer(this, other)
+        case other: IPlayer[W @unchecked, ?] => playerEquality.equalsPlayer(this, other)
         case other: AnyRef                   => playerEquality.equalsAny(this, other)
         case null                            => false
       }

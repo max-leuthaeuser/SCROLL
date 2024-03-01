@@ -59,7 +59,7 @@ class ScalaRoleGraph(
       }
   }
 
-  private[this] def checkCycles(): Unit =
+  private def checkCycles(): Unit =
     if (checkForCycles && Graphs.hasCycle(root)) {
       throw new RuntimeException("Cyclic role-playing relationship found!")
     }
@@ -109,7 +109,7 @@ class ScalaRoleGraph(
   final override def coreFor(role: AnyRef): Seq[AnyRef] = {
     require(null != role)
     role match {
-      case cur: AbstractCompartment#IPlayer[_, _] => coreFor(cur.wrapped)
+      case cur: AbstractCompartment#IPlayer[?, ?] => coreFor(cur.wrapped)
       case cur: AnyRef if containsPlayer(cur) =>
         predecessors(cur) match {
           case Nil         => Seq(cur)

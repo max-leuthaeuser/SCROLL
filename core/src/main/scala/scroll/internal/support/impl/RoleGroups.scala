@@ -11,11 +11,11 @@ import scala.collection.mutable
 import scala.reflect.ClassTag
 import scala.reflect.classTag
 
-class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGroupsApi {
+class RoleGroups(private val roleGraph: RoleGraphProxyApi) extends RoleGroupsApi {
 
   import RoleGroupsApi._
 
-  private[this] lazy val roleGroups = mutable.HashMap.empty[String, RoleGroup]
+  private lazy val roleGroups = mutable.HashMap.empty[String, RoleGroup]
 
   override def checked(func: => Unit): Unit = {
     func
@@ -24,7 +24,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
 
   override def create(name: String): RoleGroupApi = RoleGroup(name, Seq.empty, (0, 0), (0, 0))
 
-  private[this] def validateOccurrenceCardinality(): Unit =
+  private def validateOccurrenceCardinality(): Unit =
     roleGroups.foreach { case (name, rg) =>
       val min   = rg.occ._1
       val max   = rg.occ._2
@@ -40,7 +40,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
       }
     }
 
-  private[this] def buildConstraintsMap(
+  private def buildConstraintsMap(
     types: Seq[String],
     op: Constraint,
     model: Model,
@@ -58,7 +58,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
       }
     }.toMap
 
-  private[this] def solve(
+  private def solve(
     model: Model,
     types: Seq[String],
     constraintsMap: Map[String, IntVar],
@@ -113,7 +113,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
     throw new RuntimeException(s"Constraint set for inner cardinality of role group '${rg.name}' violated!")
   }
 
-  private[this] def eval(rg: RoleGroup): Seq[String] = {
+  private def eval(rg: RoleGroup): Seq[String] = {
     val model      = new Model(s"MODEL$$${rg.hashCode()}")
     val types      = rg.types
     val numOfTypes = types.size
@@ -137,7 +137,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
     solve(model, types, constraintsMap, rg)
   }
 
-  private[this] def validateInnerCardinality(): Unit =
+  private def validateInnerCardinality(): Unit =
     try
       roleGroups.values
         .filter(!_.evaluated)
@@ -146,12 +146,12 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
 
   /** Checks all role groups. Will throw a RuntimeException if a role group constraint is violated!
     */
-  private[this] def validate(): Unit = {
+  private def validate(): Unit = {
     validateOccurrenceCardinality()
     validateInnerCardinality()
   }
 
-  private[this] def addRoleGroup(rg: RoleGroup): RoleGroup =
+  private def addRoleGroup(rg: RoleGroup): RoleGroup =
     if (roleGroups.exists { case (n, _) => n == rg.name }) {
       throw new RuntimeException(s"The RoleGroup ${rg.name} was already added!")
     } else {
@@ -169,7 +169,7 @@ class RoleGroups(private[this] val roleGraph: RoleGraphProxyApi) extends RoleGro
     assert(occ._1 >= 0 && occ._2 >= occ._1)
     assert(limit._1 >= 0 && limit._2 >= limit._1)
 
-    implicit private[this] def classTagToString(m: ClassTag[?]): String =
+    implicit private def classTagToString(m: ClassTag[?]): String =
       ReflectiveHelper.simpleName(m.toString)
 
     override def types: Seq[String] =

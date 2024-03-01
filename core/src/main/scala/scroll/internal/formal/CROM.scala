@@ -11,15 +11,15 @@ import scala.jdk.CollectionConverters._
 /** Representation of a Compartment Role Object Model (CROM).
   */
 trait CROM extends ECoreImporter {
-  private[this] val NATURALTYPE     = "NaturalType"
-  private[this] val ROLETYPE        = "RoleType"
-  private[this] val COMPARTMENTTYPE = "CompartmentType"
-  private[this] val ROLEGROUP       = "RoleGroup"
-  private[this] val RELATIONSHIP    = "Relationship"
-  private[this] val FULFILLMENT     = "Fulfillment"
-  private[this] val PART            = "Part"
+  private val NATURALTYPE     = "NaturalType"
+  private val ROLETYPE        = "RoleType"
+  private val COMPARTMENTTYPE = "CompartmentType"
+  private val ROLEGROUP       = "RoleGroup"
+  private val RELATIONSHIP    = "Relationship"
+  private val FULFILLMENT     = "Fulfillment"
+  private val PART            = "Part"
 
-  private[this] val validTypes =
+  private val validTypes =
     Set(NATURALTYPE, ROLEGROUP, ROLETYPE, COMPARTMENTTYPE, RELATIONSHIP, FULFILLMENT, PART)
 
   /** Checks if the loaded CROM is wellformed.
@@ -31,7 +31,7 @@ trait CROM extends ECoreImporter {
     */
   def wellformed(path: String): Boolean = construct(path).wellformed
 
-  private[this] def instanceName(of: EObject): String =
+  private def instanceName(of: EObject): String =
     of.eClass()
       .getEAllAttributes
       .asScala
@@ -39,19 +39,19 @@ trait CROM extends ECoreImporter {
       .map(of.eGet(_).toString)
       .getOrElse("-")
 
-  private[this] def constructNT[NT >: Null <: AnyRef](elem: EObject): NT =
+  private def constructNT[NT >: Null <: AnyRef](elem: EObject): NT =
     instanceName(elem).asInstanceOf[NT]
 
-  private[this] def constructRT[RT >: Null <: AnyRef](elem: EObject): RT =
+  private def constructRT[RT >: Null <: AnyRef](elem: EObject): RT =
     instanceName(elem).asInstanceOf[RT]
 
-  private[this] def constructCT[CT >: Null <: AnyRef](elem: EObject): CT =
+  private def constructCT[CT >: Null <: AnyRef](elem: EObject): CT =
     instanceName(elem).asInstanceOf[CT]
 
-  private[this] def constructRST[RST >: Null <: AnyRef](elem: EObject): RST =
+  private def constructRST[RST >: Null <: AnyRef](elem: EObject): RST =
     instanceName(elem).asInstanceOf[RST]
 
-  private[this] def constructFills[NT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): List[(NT, RT)] = {
+  private def constructFills[NT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): List[(NT, RT)] = {
     val obj       = elem.asInstanceOf[DynamicEObjectImpl]
     val filler    = obj.dynamicGet(1).asInstanceOf[DynamicEObjectImpl].dynamicGet(0).asInstanceOf[NT]
     val filledObj = obj.dynamicGet(0).asInstanceOf[DynamicEObjectImpl]
@@ -63,7 +63,7 @@ trait CROM extends ECoreImporter {
     }
   }
 
-  private[this] def collectRoles(of: EObject): List[EObject] =
+  private def collectRoles(of: EObject): List[EObject] =
     of.eContents()
       .asScala
       .toList
@@ -76,13 +76,13 @@ trait CROM extends ECoreImporter {
         }
       )
 
-  private[this] def constructParts[CT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (CT, List[RT]) = {
+  private def constructParts[CT >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (CT, List[RT]) = {
     val ct    = instanceName(elem.eContainer()).asInstanceOf[CT]
     val roles = collectRoles(elem).map(r => instanceName(r).asInstanceOf[RT])
     (ct, roles)
   }
 
-  private[this] def constructRel[RST >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (RST, List[RT]) = {
+  private def constructRel[RST >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (RST, List[RT]) = {
     val rstName = instanceName(elem)
     val roles   = collectRoles(elem.eContainer())
     val rsts = roles
@@ -111,18 +111,15 @@ trait CROM extends ECoreImporter {
     (rstName.asInstanceOf[RST], rsts)
   }
 
-  private[this] def addToMap(m: mutable.Map[String, List[String]], elem: (String, List[String])): Unit = {
+  private def addToMap(m: mutable.Map[String, List[String]], elem: (String, List[String])): Unit = {
     val key   = elem._1
     val value = elem._2
     m.update(key, m.getOrElseUpdate(key, value) ++ value)
   }
 
-  protected[this] def construct[
-    NT >: Null <: AnyRef,
-    RT >: Null <: AnyRef,
-    CT >: Null <: AnyRef,
-    RST >: Null <: AnyRef
-  ](path: String): FormalCROM[NT, RT, CT, RST] = {
+  protected def construct[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Null <: AnyRef, RST >: Null <: AnyRef](
+    path: String
+  ): FormalCROM[NT, RT, CT, RST] = {
     val nt    = mutable.ListBuffer[String]()
     val rt    = mutable.ListBuffer[String]()
     val ct    = mutable.ListBuffer[String]()

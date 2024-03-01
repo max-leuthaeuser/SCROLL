@@ -15,7 +15,7 @@ object BankBenchmark {
   @State(Scope.Thread)
   class Local extends BankBenchmarkConfig.Exhaustive {
 
-    var bankExample: BankExample = _
+    var bankExample: BankExample = scala.compiletime.uninitialized
 
     @Setup
     def setup(shared: Shared): Unit = synchronized {
