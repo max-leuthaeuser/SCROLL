@@ -76,12 +76,13 @@ lazy val core = project.settings(
   }
 )
 
-lazy val examples = project.settings(commonSettings).dependsOn(core)
+lazy val examples = project.settings(commonSettings, publish / skip := true).dependsOn(core)
 
 lazy val tests = project
   .settings(
     commonSettings,
-    Test / fork := true,
+    publish / skip := true,
+    Test / fork    := true,
     Test / javaOptions ++= Seq("--add-opens", "java.base/java.lang=ALL-UNNAMED"),
     Test / testOptions := Seq(
       Tests.Argument(
@@ -105,6 +106,6 @@ lazy val tests = project
   .dependsOn(core, examples)
 
 lazy val benchmark = project
-  .settings(commonSettings, Jmh / run / mainClass := Option("scroll.benchmarks.RunnerApp"))
+  .settings(commonSettings, publish / skip := true, Jmh / run / mainClass := Option("scroll.benchmarks.RunnerApp"))
   .enablePlugins(JmhPlugin)
   .dependsOn(core)
