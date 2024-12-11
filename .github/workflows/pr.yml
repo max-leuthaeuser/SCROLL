@@ -16,6 +16,9 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: 'sbt'
+      - name: Install sbt
+        if: matrix.os == 'macos-latest'
+        run: brew install sbt
       - name: Compile and run tests
         run: sbt "clean; test;"
       - name: Compile Jmh benchmarks
