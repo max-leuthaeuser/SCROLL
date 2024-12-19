@@ -5,6 +5,7 @@ import java.lang.reflect.Method
 import scala.collection.immutable.ArraySeq
 import scala.reflect.ClassTag
 import scala.reflect.classTag
+import scala.util.Try
 
 /** Contains useful functions for translating class and type names to Strings and provides helper functions to access
   * common tasks for working with reflections.
@@ -124,7 +125,7 @@ object ReflectiveHelper {
       }
 
     getAccessibleMethods(of).map { m =>
-      m.setAccessible(true); m
+      Try(m.setAccessible(true)); m
     }
   }
 
@@ -137,7 +138,7 @@ object ReflectiveHelper {
       }
 
     accessibleFields(of).map { f =>
-      f.setAccessible(true); f
+      Try(f.setAccessible(true)); f
     }
   }
 

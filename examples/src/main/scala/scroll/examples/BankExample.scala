@@ -69,7 +69,7 @@ object BankExample {
 
     roleGroups.create("Accounts").containing[CheckingsAccount, SavingsAccount](1, 1)(0, *)
 
-    class Customer() {
+    class Customer {
       private val checkingsAccounts = scala.collection.mutable.ArrayBuffer[CheckingsAccount]()
       private val savingsAccounts   = scala.collection.mutable.ArrayBuffer[SavingsAccount]()
 
@@ -92,7 +92,7 @@ object BankExample {
 
     }
 
-    class CheckingsAccount() {
+    class CheckingsAccount {
 
       def decrease(amount: Double): Unit = {
         given DispatchQuery = Bypassing(_.isInstanceOf[CheckingsAccount])
@@ -101,7 +101,7 @@ object BankExample {
 
     }
 
-    class SavingsAccount() {
+    class SavingsAccount {
 
       private val transactionFee = 0.1
 
@@ -114,7 +114,7 @@ object BankExample {
       private def calcTransactionFee(amount: Double): Double = amount * transactionFee
     }
 
-    class TransactionRole() {
+    class TransactionRole {
 
       def execute(): Unit = {
         println("Executing from Role.")
@@ -141,7 +141,7 @@ object BankExample {
       println(s"Transferred '$amount' from '$from' to '$to'.")
     }
 
-    class Source() {
+    class Source {
 
       def withDraw(m: Double): Unit = {
         val _ = (+this).decrease(m)
@@ -149,7 +149,7 @@ object BankExample {
 
     }
 
-    class Target() {
+    class Target {
 
       def deposit(m: Double): Unit = {
         val _ = (+this).increase(m)
