@@ -6,7 +6,6 @@ object ExpressionProblemExample {
 
   @main def runExpressionProblemExample(): Unit =
     new M4 {
-
       val e = Add(
         Neg(Num(2) playing new NumShowable) playing new NegShowable,
         Num(11) playing new NumShowable
