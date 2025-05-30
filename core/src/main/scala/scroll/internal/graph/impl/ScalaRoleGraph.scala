@@ -110,7 +110,7 @@ class ScalaRoleGraph(
     require(null != role)
     role match {
       case cur: AbstractCompartment#IPlayer[?, ?] => coreFor(cur.wrapped)
-      case cur: AnyRef if containsPlayer(cur) =>
+      case cur: AnyRef if containsPlayer(cur)     =>
         predecessors(cur) match {
           case Nil         => Seq(cur)
           case head +: Nil => coreFor(head)

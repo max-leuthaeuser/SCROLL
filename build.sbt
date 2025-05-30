@@ -40,7 +40,7 @@ lazy val commonSettings = Seq(
   updateOptions       := updateOptions.value.withCachedResolution(true),
   historyPath         := Option((LocalRootProject / target).value / ".history"),
   Global / cancelable := true,
-  Global / logLevel := {
+  Global / logLevel   := {
     if (insideCI.value) Level.Error else Level.Info
   },
   initialize ~= { _ =>
@@ -58,11 +58,11 @@ lazy val core = project.settings(
   publishTo                 := sonatypePublishToBundle.value,
   publishMavenStyle         := true,
   Test / publishArtifact    := false,
-  scmInfo := Some(
+  scmInfo                   := Some(
     ScmInfo(url("https://github.com/max-leuthaeuser/SCROLL"), "scm:git:github.com/max-leuthaeuser/SCROLL.git")
   ),
-  homepage := Some(url("https://github.com/max-leuthaeuser/SCROLL")),
-  licenses := List("LGPL 3.0 license" -> url("http://www.opensource.org/licenses/lgpl-3.0.html")),
+  homepage   := Some(url("https://github.com/max-leuthaeuser/SCROLL")),
+  licenses   := List("LGPL 3.0 license" -> url("http://www.opensource.org/licenses/lgpl-3.0.html")),
   developers := List(
     Developer(
       "max-leuthaeuser",

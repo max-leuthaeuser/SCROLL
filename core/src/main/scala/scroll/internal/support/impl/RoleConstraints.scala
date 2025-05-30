@@ -58,7 +58,7 @@ class RoleConstraints(private val roleGraph: RoleGraphProxyApi) extends RoleCons
       val allProhibitedRoles =
         list.flatMap(Graphs.reachableNodes(roleProhibitions, _).asScala).toSet
       val allRoles = roleGraph.plays.roles(player)
-      val rs = if (allProhibitedRoles.size == allRoles.size) {
+      val rs       = if (allProhibitedRoles.size == allRoles.size) {
         Set.empty[String]
       } else {
         allProhibitedRoles.filter(r => allRoles.exists(ReflectiveHelper.isInstanceOf(r, _)))

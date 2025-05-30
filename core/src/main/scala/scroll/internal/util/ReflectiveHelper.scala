@@ -118,7 +118,7 @@ object ReflectiveHelper {
     def getAccessibleMethods(c: Class[?]): Seq[Method] =
       c match {
         case null => Seq.empty[Method]
-        case _ =>
+        case _    =>
           ArraySeq
             .unsafeWrapArray(c.getDeclaredMethods)
             .concat(getAccessibleMethods(c.getSuperclass))
@@ -133,7 +133,7 @@ object ReflectiveHelper {
     def accessibleFields(c: Class[?]): Seq[Field] =
       c match {
         case null => Seq.empty[Field]
-        case _ =>
+        case _    =>
           ArraySeq.unsafeWrapArray(c.getDeclaredFields).concat(accessibleFields(c.getSuperclass))
       }
 

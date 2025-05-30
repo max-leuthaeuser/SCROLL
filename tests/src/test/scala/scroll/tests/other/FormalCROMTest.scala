@@ -127,7 +127,7 @@ class FormalCROMTest extends AbstractSCROLLTest {
       Map(("a", "4") -> List(("2", "3")))
     )
     val test8b = FormalCROI.empty[String, String, String, String]
-    val test9 = FormalCROI(
+    val test9  = FormalCROI(
       List("1"),
       List("2", "3"),
       List("4"),

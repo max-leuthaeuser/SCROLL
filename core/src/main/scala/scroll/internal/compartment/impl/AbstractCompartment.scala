@@ -103,7 +103,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
       wrapped match {
         case p: IPlayer[?, ?] => rolePlaying.addPlaysRelation[W, R](p.wrapped.asInstanceOf[W], role)
         case p: AnyRef        => rolePlaying.addPlaysRelation[W, R](p.asInstanceOf[W], role)
-        case null =>
+        case null             =>
           throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles!")
       }
       this

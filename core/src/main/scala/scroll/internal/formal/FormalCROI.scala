@@ -138,7 +138,7 @@ final case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Nu
   private def player(r: RT): NT =
     r match {
       case null => null
-      case _ =>
+      case _    =>
         plays.find(_._3 == r) match {
           case Some(p) => p._1
           case _       => throw new RuntimeException(s"The given role '$r' is not played in the CROI!")
