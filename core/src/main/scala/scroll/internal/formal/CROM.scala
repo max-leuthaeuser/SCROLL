@@ -85,7 +85,7 @@ trait CROM extends ECoreImporter {
   private def constructRel[RST >: Null <: AnyRef, RT >: Null <: AnyRef](elem: EObject): (RST, List[RT]) = {
     val rstName = instanceName(elem)
     val roles   = collectRoles(elem.eContainer())
-    val rsts = roles
+    val rsts    = roles
       .filter { role =>
         val incoming = role
           .asInstanceOf[DynamicEObjectImpl]
@@ -135,7 +135,7 @@ trait CROM extends ECoreImporter {
           case NATURALTYPE     => nt += constructNT(curr)
           case ROLETYPE        => rt += constructRT(curr)
           case COMPARTMENTTYPE => ct += constructCT(curr)
-          case RELATIONSHIP =>
+          case RELATIONSHIP    =>
             val _ = rst += constructRST[String](curr)
             addToMap(rel, constructRel[String, String](curr))
           case FULFILLMENT => fills ++= constructFills(curr)

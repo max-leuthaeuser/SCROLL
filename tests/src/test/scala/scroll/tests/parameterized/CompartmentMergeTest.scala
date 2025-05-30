@@ -6,7 +6,7 @@ class CompartmentMergeTest extends AbstractParameterizedSCROLLTest {
 
   test("union") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val core = new CoreA()
+      val core  = new CoreA()
       val compA = new CompartmentUnderTest(c, cc) {
         core play new RoleA()
       }
@@ -26,7 +26,7 @@ class CompartmentMergeTest extends AbstractParameterizedSCROLLTest {
 
   test("combine") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val core = new CoreA()
+      val core  = new CoreA()
       val compA = new CompartmentUnderTest(c, cc) {
         core play new RoleA()
       }
@@ -46,7 +46,7 @@ class CompartmentMergeTest extends AbstractParameterizedSCROLLTest {
 
   test("partOf") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val core = new CoreA()
+      val core  = new CoreA()
       val compA = new CompartmentUnderTest(c, cc) {
         core play new RoleA()
       }

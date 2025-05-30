@@ -48,7 +48,7 @@ object FormalUtils {
     a match {
       case _: String if any(croi.r.filter(croi.type1(_) == a).map(rr => croi.plays.contains((o, c, rr)))) =>
         1
-      case _: String => 0
+      case _: String             => 0
       case elem: FormalRoleGroup =>
         val sum = elem.rolegroups.map(evaluate(_, croi, o, c)).sum
         if (elem.lower <= sum && sum <= elem.upper) 1 else 0

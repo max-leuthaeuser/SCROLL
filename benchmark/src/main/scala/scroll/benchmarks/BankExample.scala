@@ -105,7 +105,7 @@ class BankExample {
       roleGraph.reconfigure(cached, checkCycles)
 
       private val accounts: Seq[Account] = players.map { p =>
-        val a = new Account(p.name.hashCode, 100.0)
+        val a     = new Account(p.name.hashCode, 100.0)
         val roles = (0 until numRoles).map { ii =>
           val c = new Customer(s"Customer-$ii-${p.name}")
           c.setSavingsAccount(a)

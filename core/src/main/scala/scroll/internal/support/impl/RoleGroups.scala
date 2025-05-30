@@ -26,9 +26,9 @@ class RoleGroups(private val roleGraph: RoleGraphProxyApi) extends RoleGroupsApi
 
   private def validateOccurrenceCardinality(): Unit =
     roleGroups.foreach { case (name, rg) =>
-      val min   = rg.occ._1
-      val max   = rg.occ._2
-      val types = rg.types
+      val min    = rg.occ._1
+      val max    = rg.occ._2
+      val types  = rg.types
       val actual = types
         .map(ts => roleGraph.plays.allPlayers.count(r => ts == ReflectiveHelper.simpleName(r.getClass.toString)))
         .sum
@@ -128,7 +128,7 @@ class RoleGroups(private val roleGraph: RoleGraphProxyApi) extends RoleGroupsApi
         (model.intVar(sumName, 1, numOfTypes), OR)
       case _ if min == 1 && max.compare(1) == 0 => (model.intVar(sumName, 1), XOR)
       case _ if min == 0 && max.compare(0) == 0 => (model.intVar(sumName, 0), NOT)
-      case _ =>
+      case _                                    =>
         throw new RuntimeException(s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!")
     }
 
@@ -176,7 +176,7 @@ class RoleGroups(private val roleGraph: RoleGraphProxyApi) extends RoleGroupsApi
       entries.flatMap {
         case ts: Types     => ts.types
         case rg: RoleGroup => eval(rg)
-        case _ =>
+        case _             =>
           throw new RuntimeException("Role groups can only contain a list of types or role groups itself!")
       }
 
