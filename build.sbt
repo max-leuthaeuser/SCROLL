@@ -1,3 +1,5 @@
+import xerial.sbt.Sonatype.sonatypeCentralHost
+
 val lib = Dependencies
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
@@ -13,11 +15,7 @@ lazy val root = (project in file("."))
   .aggregate(core, tests, examples)
 
 lazy val commonSettings = Seq(
-  version := "3.1",
-  resolvers ++= Seq(
-    "Sonatype OSS Snapshots".at("https://oss.sonatype.org/content/repositories/snapshots"),
-    "Sonatype OSS Releases".at("https://oss.sonatype.org/content/repositories/releases")
-  ),
+  version := "3.2",
   libraryDependencies ++= lib.coreDependencies,
   dependencyOverrides ++= lib.coreDependenciesOverrides,
   Compile / javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
@@ -55,6 +53,7 @@ lazy val core = project.settings(
   Compile / run / mainClass := None,
   name                      := "SCROLL",
   organization              := "com.github.max-leuthaeuser",
+  sonatypeCredentialHost    := sonatypeCentralHost,
   publishTo                 := sonatypePublishToBundle.value,
   publishMavenStyle         := true,
   Test / publishArtifact    := false,
