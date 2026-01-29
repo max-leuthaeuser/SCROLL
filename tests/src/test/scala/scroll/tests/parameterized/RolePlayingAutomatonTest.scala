@@ -1,6 +1,5 @@
 package scroll.tests.parameterized
 
-import akka.actor.actorRef2Scala
 import org.scalatest.concurrent.Waiters._
 import org.scalatest.time.SpanSugar._
 import scroll.internal.rpa.RolePlayingAutomaton
