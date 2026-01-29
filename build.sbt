@@ -10,6 +10,30 @@ addCommandAlias("format", ";scalafmtAll;scalafmtSbt")
 
 lazy val noPublishSettings = Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 
+ThisBuild / compile / javacOptions ++= Seq("-Xlint", "--release=11") ++ {
+  val javaVersion = sys.props("java.specification.version").toFloat
+  assert(javaVersion.toInt >= 13, s"this build requires JDK13+ - you're using $javaVersion")
+  Nil
+}
+
+ThisBuild / scalacOptions ++= Seq(
+  "-Werror",
+  // Emit warning and location for usages of deprecated APIs:
+  "-deprecation",
+  // Emit warning and location for usages of features that should be imported explicitly:
+  "-feature",
+  // Allow direct or indirect subclasses of scala.Dynamic:
+  "-language:dynamics",
+  // Allow reflective access to members of structural types:
+  "-language:reflectiveCalls",
+  // Allow postfix operator notation:
+  "-language:postfixOps",
+  // Allow definition of implicit functions called views:
+  "-language:implicitConversions",
+  // Enable additional warnings where generated code depends on assumptions:
+  "-unchecked"
+)
+
 lazy val root = (project in file("."))
   .settings(name := "SCROLLRoot", noPublishSettings)
   .aggregate(core, tests, examples)
@@ -18,23 +42,6 @@ lazy val commonSettings = Seq(
   version := "3.2",
   libraryDependencies ++= lib.coreDependencies,
   dependencyOverrides ++= lib.coreDependenciesOverrides,
-  Compile / javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
-  scalacOptions ++= Seq(
-    // Emit warning and location for usages of deprecated APIs:
-    "-deprecation",
-    // Emit warning and location for usages of features that should be imported explicitly:
-    "-feature",
-    // Allow direct or indirect subclasses of scala.Dynamic:
-    "-language:dynamics",
-    // Allow reflective access to members of structural types:
-    "-language:reflectiveCalls",
-    // Allow postfix operator notation:
-    "-language:postfixOps",
-    // Allow definition of implicit functions called views:
-    "-language:implicitConversions",
-    // Enable additional warnings where generated code depends on assumptions:
-    "-unchecked"
-  ),
   updateOptions       := updateOptions.value.withCachedResolution(true),
   historyPath         := Option((LocalRootProject / target).value / ".history"),
   Global / cancelable := true,
@@ -49,7 +56,6 @@ lazy val commonSettings = Seq(
 
 lazy val core = project.settings(
   commonSettings,
-  scalacOptions += "-Xfatal-warnings",
   Compile / run / mainClass := None,
   name                      := "SCROLL",
   organization              := "com.github.max-leuthaeuser",
