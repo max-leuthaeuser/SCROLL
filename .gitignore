@@ -1,6 +1,8 @@
 .DS_Store
 .bsp/
 .idea/
+.vscode/
+.metals/
 project/
 target/
 *.iml
