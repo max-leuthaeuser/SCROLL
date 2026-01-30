@@ -11,8 +11,9 @@ addCommandAlias("format", ";scalafmtAll;scalafmtSbt")
 lazy val noPublishSettings = Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 
 ThisBuild / compile / javacOptions ++= Seq("-Xlint", "--release=11") ++ {
+  // Scala >= 3.8 requires at least SDK >= 17 for compilation and execution
   val javaVersion = sys.props("java.specification.version").toFloat
-  assert(javaVersion.toInt >= 13, s"this build requires JDK13+ - you're using $javaVersion")
+  assert(javaVersion.toInt >= 17, s"this build requires JDK17+ - you're using $javaVersion")
   Nil
 }
 
@@ -39,7 +40,7 @@ lazy val root = (project in file("."))
   .aggregate(core, tests, examples)
 
 lazy val commonSettings = Seq(
-  version := "3.2",
+  version := "3.3",
   libraryDependencies ++= lib.coreDependencies,
   dependencyOverrides ++= lib.coreDependenciesOverrides,
   updateOptions       := updateOptions.value.withCachedResolution(true),
