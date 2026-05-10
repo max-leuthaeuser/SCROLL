@@ -310,9 +310,9 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <div class="values members">
               <h3>Abstract Value Members</h3>
               <ol><li name="scroll.internal.Compartment.Dispatchable#dispatch" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="dispatch[E,A](on:Any,m:reflect.runtime.universe.Symbol,args:Seq[A]):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]"></a><a id="dispatch[E,A](Any,scala.reflect.api.JavaUniverse.Symbol,Seq[A]):Either[InvocationError,E]"></a>
+      <a id="dispatch[E,A](on:Any,m:java.lang.reflect.Method,args:Seq[A]):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]"></a><a id="dispatch[E,A](Any,Method,Seq[A]):Either[InvocationError,E]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Dispatchable.html#dispatch[E,A](on:Any,m:reflect.runtime.universe.Symbol,args:Seq[A]):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]" title="Permalink">
+      <a href="../../scroll/internal/Compartment$Dispatchable.html#dispatch[E,A](on:Any,m:java.lang.reflect.Method,args:Seq[A]):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -321,15 +321,15 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">dispatch</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>, <span name="m">m: <span class="extype" name="scala.reflect.api.Symbols.Symbol">scala.reflect.api.JavaUniverse.Symbol</span></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scroll.internal.Compartment.Dispatchable.dispatch.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$InvocationError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.InvocationError">InvocationError</a>, <span class="extype" name="scroll.internal.Compartment.Dispatchable.dispatch.E">E</span>]</span>
+        <span class="name">dispatch</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>, <span name="m">m: <span class="extype" name="java.lang.reflect.Method">Method</span></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scroll.internal.Compartment.Dispatchable.dispatch.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$InvocationError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.InvocationError">InvocationError</a>, <span class="extype" name="scroll.internal.Compartment.Dispatchable.dispatch.E">E</span>]</span>
       </span>
       
       <p class="shortcomment cmt">For multi-argument dispatch.</p><div class="fullcomment"><div class="comment cmt"><p>For multi-argument dispatch.
 </p></div><dl class="paramcmts block"><dt class="tparam">E</dt><dd class="cmt"><p>the return type of method m</p></dd><dt class="tparam">A</dt><dd class="cmt"><p>the type of the argument values</p></dd><dt class="param">on</dt><dd class="cmt"><p>the instance to dispatch the given method m on</p></dd><dt class="param">m</dt><dd class="cmt"><p>the method to dispatch</p></dd><dt class="param">args</dt><dd class="cmt"><p>the arguments to pass to method m</p></dd><dt>returns</dt><dd class="cmt"><p>the resulting return value of the method invocation or an appropriate error</p></dd></dl></div>
     </li><li name="scroll.internal.Compartment.Dispatchable#dispatch" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="dispatch[E](on:Any,m:reflect.runtime.universe.Symbol):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]"></a><a id="dispatch[E](Any,scala.reflect.api.JavaUniverse.Symbol):Either[InvocationError,E]"></a>
+      <a id="dispatch[E](on:Any,m:java.lang.reflect.Method):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]"></a><a id="dispatch[E](Any,Method):Either[InvocationError,E]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Dispatchable.html#dispatch[E](on:Any,m:reflect.runtime.universe.Symbol):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]" title="Permalink">
+      <a href="../../scroll/internal/Compartment$Dispatchable.html#dispatch[E](on:Any,m:java.lang.reflect.Method):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -338,7 +338,7 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">dispatch</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>, <span name="m">m: <span class="extype" name="scala.reflect.api.Symbols.Symbol">scala.reflect.api.JavaUniverse.Symbol</span></span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$InvocationError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.InvocationError">InvocationError</a>, <span class="extype" name="scroll.internal.Compartment.Dispatchable.dispatch.E">E</span>]</span>
+        <span class="name">dispatch</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Any" class="extype" target="_top">Any</a></span>, <span name="m">m: <span class="extype" name="java.lang.reflect.Method">Method</span></span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$InvocationError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.InvocationError">InvocationError</a>, <span class="extype" name="scroll.internal.Compartment.Dispatchable.dispatch.E">E</span>]</span>
       </span>
       
       <p class="shortcomment cmt">For empty argument list dispatch.</p><div class="fullcomment"><div class="comment cmt"><p>For empty argument list dispatch.
