@@ -41,4 +41,29 @@ class RoleGroupsTest extends AbstractParameterizedSCROLLTest {
     }
   }
 
+  test("Validating nested role groups repeatedly") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+      val acc1 = new CoreA()
+      val acc2 = new CoreA()
+      new CompartmentUnderTest(c, cc) {
+
+        class Source
+
+        class Target
+
+        val source = new Source
+        val target = new Target
+        val pair   = roleGroups.create("Pair").containing[Source, Target](1, 1)(2, 2)
+        roleGroups.create("Transaction").containing(pair)(1, 1)(2, 2)
+
+        roleGroups.checked {
+          acc1 play source
+          acc2 play target
+        }
+
+        roleGroups.checked {}
+      }
+    }
+  }
+
 }

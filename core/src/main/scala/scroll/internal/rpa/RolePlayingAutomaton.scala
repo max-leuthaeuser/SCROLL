@@ -119,7 +119,8 @@ object RolePlayingAutomaton {
   */
 trait RolePlayingAutomaton {
 
-  private val runtime = Runtime.default
+  private val runtime   = Runtime.default
+  private val stateLock = new AnyRef
 
   private val queue: Queue[RPAData] = Unsafe.unsafe { implicit u =>
     runtime.unsafe.run(Queue.unbounded[RPAData]).getOrThrow()
@@ -139,11 +140,15 @@ trait RolePlayingAutomaton {
 
   /** Register event handler for a state. */
   def when(state: RPAState)(handler: PartialFunction[Event, Transition]): Unit =
-    handlers = handlers.updated(state, handler)
+    stateLock.synchronized {
+      handlers = handlers.updated(state, handler)
+    }
 
   /** Register transition handler. Multiple handlers can be chained. */
   def onTransition(handler: PartialFunction[(RPAState, RPAState), Unit]): Unit =
-    transitionHandler = transitionHandler.orElse(handler)
+    stateLock.synchronized {
+      transitionHandler = transitionHandler.orElse(handler)
+    }
 
   def goto(state: RPAState, data: RPAData = Uninitialized): Transition = Transition(state, data)
 
@@ -154,24 +159,30 @@ trait RolePlayingAutomaton {
 
   /** Stops this automaton by interrupting the processing fiber. */
   def halt(): Unit = {
-    currentState = Stop
-    fiber.foreach { f =>
+    val activeFiber = stateLock.synchronized {
+      currentState = Stop
+      val runningFiber = fiber
+      fiber = None
+      runningFiber
+    }
+    activeFiber.foreach { f =>
       Unsafe.unsafe { implicit u =>
         runtime.unsafe.run(f.interrupt).getOrThrow()
       }
     }
-    fiber = None
   }
 
   private def start(): Unit =
-    if (fiber.isEmpty) {
-      currentState = Start
-      currentData = Uninitialized
-      val loop         = processLoop
-      val startedFiber = Unsafe.unsafe { implicit u =>
-        runtime.unsafe.run(loop.forkDaemon).getOrThrow()
+    stateLock.synchronized {
+      if (fiber.isEmpty) {
+        currentState = Start
+        currentData = Uninitialized
+        val loop         = processLoop
+        val startedFiber = Unsafe.unsafe { implicit u =>
+          runtime.unsafe.run(loop.forkDaemon).getOrThrow()
+        }
+        fiber = Some(startedFiber)
       }
-      fiber = Some(startedFiber)
     }
 
   private def enqueue(data: RPAData): Unit =
@@ -181,19 +192,36 @@ trait RolePlayingAutomaton {
 
   private def processLoop: ZIO[Any, Nothing, Unit] =
     queue.take.flatMap { message =>
-      val state = currentState
-      val data  = currentData
-      handlers.get(state) match {
-        case Some(handler) if handler.isDefinedAt(Event(message, data)) =>
-          val Transition(nextState, nextData) = handler(Event(message, data))
-          currentState = nextState
-          currentData = nextData
-          if (transitionHandler.isDefinedAt(state -> nextState)) {
-            transitionHandler(state -> nextState)
+      val snapshot = stateLock.synchronized {
+        val state = currentState
+        val data  = currentData
+        handlers.get(state) match {
+          case Some(handler) if handler.isDefinedAt(Event(message, data)) => Some((state, data, handler))
+          case _                                                          => None
+        }
+      }
+
+      snapshot match {
+        case Some((state, data, handler)) =>
+          val Transition(nextState, nextData)    = handler(Event(message, data))
+          val (shouldContinue, transitionAction) = stateLock.synchronized {
+            if (fiber.isEmpty || currentState == Stop) {
+              (false, Option.empty[() => Unit])
+            } else {
+              currentState = nextState
+              currentData = nextData
+              val action = transitionHandler.lift(state -> nextState).map(handler => () => handler)
+              (nextState != Stop, action)
+            }
           }
-          if (nextState == Stop) ZIO.unit else processLoop
+
+          transitionAction.foreach(_())
+          if (shouldContinue) processLoop else ZIO.unit
         case _ =>
-          processLoop
+          val shouldContinue = stateLock.synchronized {
+            fiber.nonEmpty && currentState != Stop
+          }
+          if (shouldContinue) processLoop else ZIO.unit
       }
     }
 
