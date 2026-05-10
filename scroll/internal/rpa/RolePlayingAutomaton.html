@@ -152,16 +152,16 @@ implementing an automaton specifying compartment specific role lifecycle.
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">RolePlayingAutomaton</span><span class="result"> extends <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/Actor.html#akka.actor.Actor" class="extype" name="akka.actor.Actor">Actor</a> with <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/LoggingFSM.html#akka.actor.LoggingFSM" class="extype" name="akka.actor.LoggingFSM">LoggingFSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</span>
+        <span class="name">RolePlayingAutomaton</span><span class="result"> extends <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/Actor.html#akka.actor.Actor" class="extype" name="akka.actor.Actor">Actor</a> with <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/LoggingFSM.html#akka.actor.LoggingFSM" class="extype" name="akka.actor.LoggingFSM">LoggingFSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</span>
       </span>
       </h4>
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Use this trait to implement your own <a href="../Compartment.html" class="extype" name="scroll.internal.Compartment">scroll.internal.Compartment</a> specific
-role playing automaton. Please read the documentation for <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/FSM.html" class="extype" name="akka.actor.FSM">akka.actor.FSM</a>
+role playing automaton. Please read the documentation for <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/FSM.html" class="extype" name="akka.actor.FSM">akka.actor.FSM</a>
 carefully, since the features from that are applicable for role playing automatons.</p><p>Remember to call <code>run()</code> when you want to start this automaton in your
 <a href="../Compartment.html" class="extype" name="scroll.internal.Compartment">scroll.internal.Compartment</a> instance.</p><p>This automaton will always start in state <a href="RolePlayingAutomaton$$Start$.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.Start">scroll.internal.rpa.RolePlayingAutomaton.Start</a>, so hook in there.</p><p>Final state is always <a href="RolePlayingAutomaton$$Stop$.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.Stop">scroll.internal.rpa.RolePlayingAutomaton.Stop</a>,
-that will terminate the actor system for this <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/FSM.html" class="extype" name="akka.actor.FSM">akka.actor.FSM</a>.</p><p>Use the factory method <code>RolePlayingAutomaton.Use</code> to gain an instance of your specific FSM, e.g.:</p><pre><span class="kw">trait</span> MyCompartment <span class="kw">extends</span> Compartment {
+that will terminate the actor system for this <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/FSM.html" class="extype" name="akka.actor.FSM">akka.actor.FSM</a>.</p><p>Use the factory method <code>RolePlayingAutomaton.Use</code> to gain an instance of your specific FSM, e.g.:</p><pre><span class="kw">trait</span> MyCompartment <span class="kw">extends</span> Compartment {
 <span class="cmt">// ... some roles and interaction</span>
 
 <span class="cmt">// your specific RPA here</span>
@@ -189,7 +189,7 @@ Simply use a companion object for this as well.
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/LoggingFSM.html#akka.actor.LoggingFSM" class="extype" name="akka.actor.LoggingFSM">LoggingFSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>], <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/FSM.html#akka.actor.FSM" class="extype" name="akka.actor.FSM">FSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>], <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/ActorLogging.html#akka.actor.ActorLogging" class="extype" name="akka.actor.ActorLogging">ActorLogging</a>, <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/routing/Listeners.html#akka.routing.Listeners" class="extype" name="akka.routing.Listeners">Listeners</a>, <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/Actor.html#akka.actor.Actor" class="extype" name="akka.actor.Actor">Actor</a>, <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a>, <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/LoggingFSM.html#akka.actor.LoggingFSM" class="extype" name="akka.actor.LoggingFSM">LoggingFSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>], <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/FSM.html#akka.actor.FSM" class="extype" name="akka.actor.FSM">FSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>], <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/ActorLogging.html#akka.actor.ActorLogging" class="extype" name="akka.actor.ActorLogging">ActorLogging</a>, <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/routing/Listeners.html#akka.routing.Listeners" class="extype" name="akka.routing.Listeners">Listeners</a>, <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/Actor.html#akka.actor.Actor" class="extype" name="akka.actor.Actor">Actor</a>, <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a>, <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></div>
         </div></div>
         
 
@@ -500,7 +500,10 @@ Simply use a companion object for this as well.
         <span class="name">aroundPostRestart</span><span class="params">(<span name="reason">reason: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../akka/index.html" class="extype" name="akka">akka</a>] </dd><dt>Definition Classes</dt><dd>Actor</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../akka/index.html" class="extype" name="akka">akka</a>] </dd><dt>Definition Classes</dt><dd>Actor</dd><dt>Annotations</dt><dd>
+                <span class="name">@InternalApi</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="akka.actor.Actor#aroundPostStop" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="aroundPostStop():Unit"></a>
       <span class="permalink">
@@ -516,7 +519,10 @@ Simply use a companion object for this as well.
         <span class="name">aroundPostStop</span><span class="params">()</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../akka/index.html" class="extype" name="akka">akka</a>] </dd><dt>Definition Classes</dt><dd>Actor</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../akka/index.html" class="extype" name="akka">akka</a>] </dd><dt>Definition Classes</dt><dd>Actor</dd><dt>Annotations</dt><dd>
+                <span class="name">@InternalApi</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="akka.actor.Actor#aroundPreRestart" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="aroundPreRestart(reason:Throwable,message:Option[Any]):Unit"></a><a id="aroundPreRestart(Throwable,Option[Any]):Unit"></a>
       <span class="permalink">
@@ -532,7 +538,10 @@ Simply use a companion object for this as well.
         <span class="name">aroundPreRestart</span><span class="params">(<span name="reason">reason: <span class="extype" name="scala.Throwable">Throwable</span></span>, <span name="message">message: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../akka/index.html" class="extype" name="akka">akka</a>] </dd><dt>Definition Classes</dt><dd>Actor</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../akka/index.html" class="extype" name="akka">akka</a>] </dd><dt>Definition Classes</dt><dd>Actor</dd><dt>Annotations</dt><dd>
+                <span class="name">@InternalApi</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="akka.actor.Actor#aroundPreStart" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="aroundPreStart():Unit"></a>
       <span class="permalink">
@@ -548,7 +557,10 @@ Simply use a companion object for this as well.
         <span class="name">aroundPreStart</span><span class="params">()</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../akka/index.html" class="extype" name="akka">akka</a>] </dd><dt>Definition Classes</dt><dd>Actor</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../akka/index.html" class="extype" name="akka">akka</a>] </dd><dt>Definition Classes</dt><dd>Actor</dd><dt>Annotations</dt><dd>
+                <span class="name">@InternalApi</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="akka.actor.Actor#aroundReceive" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="aroundReceive(receive:akka.actor.Actor.Receive,msg:Any):Unit"></a><a id="aroundReceive(akka.actor.Actor.Receive,Any):Unit"></a>
       <span class="permalink">
@@ -564,7 +576,10 @@ Simply use a companion object for this as well.
         <span class="name">aroundReceive</span><span class="params">(<span name="receive">receive: <span class="extype" name="akka.actor.Actor.Receive">akka.actor.Actor.Receive</span></span>, <span name="msg">msg: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../akka/index.html" class="extype" name="akka">akka</a>] </dd><dt>Definition Classes</dt><dd>Actor</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../akka/index.html" class="extype" name="akka">akka</a>] </dd><dt>Definition Classes</dt><dd>Actor</dd><dt>Annotations</dt><dd>
+                <span class="name">@InternalApi</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -633,7 +648,7 @@ Simply use a companion object for this as well.
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">context</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/ActorContext.html#akka.actor.ActorContext" class="extype" name="akka.actor.ActorContext">ActorContext</a></span>
+        <span class="name">context</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/ActorContext.html#akka.actor.ActorContext" class="extype" name="akka.actor.ActorContext">ActorContext</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Actor</dd></dl></div>
@@ -738,7 +753,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">gossip</span><span class="params">(<span name="msg">msg: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="sender">sender: <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/ActorRef.html#akka.actor.ActorRef" class="extype" name="akka.actor.ActorRef">ActorRef</a></span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">gossip</span><span class="params">(<span name="msg">msg: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="sender">sender: <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/ActorRef.html#akka.actor.ActorRef" class="extype" name="akka.actor.ActorRef">ActorRef</a></span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Listeners</dd></dl></div>
@@ -775,7 +790,7 @@ Simply use a companion object for this as well.
       
       <p class="shortcomment cmt">Stops this automaton.</p><div class="fullcomment"><div class="comment cmt"><p>Stops this automaton.
 Will set state to <a href="RolePlayingAutomaton$$Stop$.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.Stop">scroll.internal.rpa.RolePlayingAutomaton.Stop</a> and terminates the
-actor system for this <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/FSM.html" class="extype" name="akka.actor.FSM">akka.actor.FSM</a>.
+actor system for this <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/FSM.html" class="extype" name="akka.actor.FSM">akka.actor.FSM</a>.
 </p></div></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
@@ -872,7 +887,7 @@ actor system for this <a href="https://oss.sonatype.org/service/local/repositori
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">listeners</span><span class="result">: <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html#java.util.Set" class="extype" name="java.util.Set">Set</a>[<a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/ActorRef.html#akka.actor.ActorRef" class="extype" name="akka.actor.ActorRef">ActorRef</a>]</span>
+        <span class="name">listeners</span><span class="result">: <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html#java.util.Set" class="extype" name="java.util.Set">Set</a>[<a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/ActorRef.html#akka.actor.ActorRef" class="extype" name="akka.actor.ActorRef">ActorRef</a>]</span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Listeners</dd></dl></div>
@@ -888,7 +903,7 @@ actor system for this <a href="https://oss.sonatype.org/service/local/repositori
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">log</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/event/LoggingAdapter.html#akka.event.LoggingAdapter" class="extype" name="akka.event.LoggingAdapter">LoggingAdapter</a></span>
+        <span class="name">log</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/event/LoggingAdapter.html#akka.event.LoggingAdapter" class="extype" name="akka.event.LoggingAdapter">LoggingAdapter</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>ActorLogging</dd></dl></div>
@@ -1154,7 +1169,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">self</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/ActorRef.html#akka.actor.ActorRef" class="extype" name="akka.actor.ActorRef">ActorRef</a></span>
+        <span class="name">self</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/ActorRef.html#akka.actor.ActorRef" class="extype" name="akka.actor.ActorRef">ActorRef</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Actor</dd></dl></div>
@@ -1170,7 +1185,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">sender</span><span class="params">()</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/ActorRef.html#akka.actor.ActorRef" class="extype" name="akka.actor.ActorRef">ActorRef</a></span>
+        <span class="name">sender</span><span class="params">()</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/ActorRef.html#akka.actor.ActorRef" class="extype" name="akka.actor.ActorRef">ActorRef</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Actor</dd></dl></div>
@@ -1330,7 +1345,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">supervisorStrategy</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/SupervisorStrategy.html#akka.actor.SupervisorStrategy" class="extype" name="akka.actor.SupervisorStrategy">SupervisorStrategy</a></span>
+        <span class="name">supervisorStrategy</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/SupervisorStrategy.html#akka.actor.SupervisorStrategy" class="extype" name="akka.actor.SupervisorStrategy">SupervisorStrategy</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Actor</dd></dl></div>
@@ -1525,15 +1540,15 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
 
         <div id="inheritedMembers">
         <div class="parent" name="akka.actor.LoggingFSM">
-              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/LoggingFSM.html#akka.actor.LoggingFSM" class="extype" name="akka.actor.LoggingFSM">LoggingFSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</h3>
+              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/LoggingFSM.html#akka.actor.LoggingFSM" class="extype" name="akka.actor.LoggingFSM">LoggingFSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</h3>
             </div><div class="parent" name="akka.actor.FSM">
-              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/FSM.html#akka.actor.FSM" class="extype" name="akka.actor.FSM">FSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</h3>
+              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/FSM.html#akka.actor.FSM" class="extype" name="akka.actor.FSM">FSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</h3>
             </div><div class="parent" name="akka.actor.ActorLogging">
-              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/ActorLogging.html#akka.actor.ActorLogging" class="extype" name="akka.actor.ActorLogging">ActorLogging</a></h3>
+              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/ActorLogging.html#akka.actor.ActorLogging" class="extype" name="akka.actor.ActorLogging">ActorLogging</a></h3>
             </div><div class="parent" name="akka.routing.Listeners">
-              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/routing/Listeners.html#akka.routing.Listeners" class="extype" name="akka.routing.Listeners">Listeners</a></h3>
+              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/routing/Listeners.html#akka.routing.Listeners" class="extype" name="akka.routing.Listeners">Listeners</a></h3>
             </div><div class="parent" name="akka.actor.Actor">
-              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.4.12/akka-actor_2.12-2.4.12-javadoc.jar/!/akka/actor/Actor.html#akka.actor.Actor" class="extype" name="akka.actor.Actor">Actor</a></h3>
+              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/public/archive/com/typesafe/akka/akka-actor_2.12/2.5.7/akka-actor_2.12-2.5.7-javadoc.jar/!/akka/actor/Actor.html#akka.actor.Actor" class="extype" name="akka.actor.Actor">Actor</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">

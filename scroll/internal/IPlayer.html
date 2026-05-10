@@ -244,12 +244,12 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
                         <a href="Compartment.html" title="This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.">Compartment</a>
                       </li><li class="current-entities indented2">
                         <span class="separator"></span>
-                        <a class="trait" href="" title="This Trait specifies a general interface for reflectively invoking methods."></a>
-                        <a href="" title="This Trait specifies a general interface for reflectively invoking methods.">Dispatchable</a>
+                        <a class="trait" href="Dispatchable.html" title="This Trait specifies a general interface for reflectively invoking methods."></a>
+                        <a href="Dispatchable.html" title="This Trait specifies a general interface for reflectively invoking methods.">Dispatchable</a>
                       </li><li class="current-entities indented2">
                         <span class="separator"></span>
-                        <a class="class" href="IPlayer.html" title="Wrapper class to add basic functionality to roles and its players as unified types."></a>
-                        <a href="IPlayer.html" title="Wrapper class to add basic functionality to roles and its players as unified types.">IPlayer</a>
+                        <a class="class" href="" title="Wrapper class to add basic functionality to roles and its players as unified types."></a>
+                        <a href="" title="Wrapper class to add basic functionality to roles and its players as unified types.">IPlayer</a>
                       </li><li class="current-entities indented2">
                         <span class="separator"></span>
                         <a class="trait" href="MultiCompartment.html" title="This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope."></a>
@@ -267,12 +267,12 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
             </div>
           </div>
           <div id="content">
-            <body class="trait type">
+            <body class="class type">
       <div id="definition">
-        <div class="big-circle trait">t</div>
+        <div class="big-circle class">c</div>
         <p id="owner"><a href="../index.html" class="extype" name="scroll">scroll</a>.<a href="index.html" class="extype" name="scroll.internal">internal</a></p>
-        <h1>Dispatchable<span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html" title="Permalink">
+        <h1>IPlayer<span class="permalink">
+      <a href="../../scroll/internal/IPlayer.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
@@ -281,17 +281,17 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">Dispatchable</span><span class="result"> extends <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>
+        <span class="name">IPlayer</span><span class="tparams">[<span name="T">T &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="result"> extends <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>
       </span>
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This Trait specifies a general interface for reflectively invoking methods.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Wrapper class to add basic functionality to roles and its players as unified types.
+</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>type of wrapped object</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -300,7 +300,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
             <span class="toggle">
               Known Subclasses
             </span>
-            <div class="subClasses hiddenContent"><a href="Compartment$Player.html" class="extype" name="scroll.internal.Compartment.Player">Player</a>, <a href="MultiCompartment$MultiPlayer.html" class="extype" name="scroll.internal.MultiCompartment.MultiPlayer">MultiPlayer</a>, <a href="SCROLLDispatchable.html" class="extype" name="scroll.internal.SCROLLDispatchable">SCROLLDispatchable</a></div>
+            <div class="subClasses hiddenContent"><a href="Compartment$Player.html" class="extype" name="scroll.internal.Compartment.Player">Player</a>, <a href="MultiCompartment$MultiPlayer.html" class="extype" name="scroll.internal.MultiCompartment.MultiPlayer">MultiPlayer</a></div>
           </div></div>
         
 
@@ -326,7 +326,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="scroll.internal.Dispatchable"><span>Dispatchable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="scroll.internal.IPlayer"><span>IPlayer</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -344,16 +344,35 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
 
       <div id="template">
         <div id="allMembers">
-        
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="scroll.internal.IPlayer#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(wrapped:T)(implicitevidence$1:scala.reflect.ClassTag[T]):scroll.internal.IPlayer[T]"></a><a id="&lt;init&gt;:IPlayer[T]"></a>
+      <span class="permalink">
+      <a href="../../scroll/internal/IPlayer.html#&lt;init&gt;(wrapped:T)(implicitevidence$1:scala.reflect.ClassTag[T]):scroll.internal.IPlayer[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">IPlayer</span><span class="params">(<span name="wrapped">wrapped: <span class="extype" name="scroll.internal.IPlayer.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.IPlayer.T">T</span>]</span>)</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">wrapped</dt><dd class="cmt"><p>the player or role that is wrapped into this dynamic type</p></dd></dl></div>
+    </li></ol>
+            </div>
 
         
 
         <div class="values members">
               <h3>Abstract Value Members</h3>
-              <ol><li name="scroll.internal.Dispatchable#dispatch" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="dispatch[E,A](on:AnyRef,m:java.lang.reflect.Method,args:Seq[A]):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]"></a><a id="dispatch[E,A](AnyRef,Method,Seq[A]):Either[InvocationError,E]"></a>
+              <ol><li name="scroll.internal.IPlayer#&lt;+&gt;" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="&lt;+&gt;[R&lt;:AnyRef](role:R)(implicitevidence$3:scala.reflect.ClassTag[R]):scroll.internal.IPlayer[T]"></a><a id="&lt;+&gt;[R&lt;:AnyRef](R)(ClassTag[R]):IPlayer[T]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#dispatch[E,A](on:AnyRef,m:java.lang.reflect.Method,args:Seq[A]):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#&lt;+&gt;[R&lt;:AnyRef](role:R)(implicitevidence$3:scala.reflect.ClassTag[R]):scroll.internal.IPlayer[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -362,15 +381,15 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">dispatch</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="on">on: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>, <span name="m">m: <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#java.lang.reflect.Method" class="extype" name="java.lang.reflect.Method">Method</a></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scroll.internal.Dispatchable.dispatch.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$InvocationError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.InvocationError">InvocationError</a>, <span class="extype" name="scroll.internal.Dispatchable.dispatch.E">E</span>]</span>
+        <span title="gt4s: $less$plus$greater" class="name">&lt;+&gt;</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.IPlayer.&lt;+&gt;.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.IPlayer.&lt;+&gt;.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.IPlayer">IPlayer</a>[<span class="extype" name="scroll.internal.IPlayer.T">T</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">For multi-argument dispatch.</p><div class="fullcomment"><div class="comment cmt"><p>For multi-argument dispatch.
-</p></div><dl class="paramcmts block"><dt class="tparam">E</dt><dd class="cmt"><p>the return type of method m</p></dd><dt class="tparam">A</dt><dd class="cmt"><p>the type of the argument values</p></dd><dt class="param">on</dt><dd class="cmt"><p>the instance to dispatch the given method m on</p></dd><dt class="param">m</dt><dd class="cmt"><p>the method to dispatch</p></dd><dt class="param">args</dt><dd class="cmt"><p>the arguments to pass to method m</p></dd><dt>returns</dt><dd class="cmt"><p>the resulting return value of the method invocation or an appropriate error</p></dd></dl></div>
-    </li><li name="scroll.internal.Dispatchable#dispatch" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="dispatch[E](on:AnyRef,m:java.lang.reflect.Method):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]"></a><a id="dispatch[E](AnyRef,Method):Either[InvocationError,E]"></a>
+      <p class="shortcomment cmt">Alias for <a href="#play[R&lt;:AnyRef](role:R)(implicitevidence$2:scala.reflect.ClassTag[R]):scroll.internal.IPlayer[T]" class="extmbr" name="scroll.internal.IPlayer#play">IPlayer.play</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Alias for <a href="#play[R&lt;:AnyRef](role:R)(implicitevidence$2:scala.reflect.ClassTag[R]):scroll.internal.IPlayer[T]" class="extmbr" name="scroll.internal.IPlayer#play">IPlayer.play</a>.
+</p></div><dl class="paramcmts block"><dt class="tparam">R</dt><dd class="cmt"><p>type of role</p></dd><dt class="param">role</dt><dd class="cmt"><p>the role that should be played</p></dd><dt>returns</dt><dd class="cmt"><p>this</p></dd></dl></div>
+    </li><li name="scroll.internal.IPlayer#&lt;-&gt;" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="&lt;-&gt;[R&lt;:AnyRef](role:R)(implicitevidence$5:scala.reflect.ClassTag[R]):scroll.internal.IPlayer[T]"></a><a id="&lt;-&gt;[R&lt;:AnyRef](R)(ClassTag[R]):IPlayer[T]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#dispatch[E](on:AnyRef,m:java.lang.reflect.Method):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#&lt;-&gt;[R&lt;:AnyRef](role:R)(implicitevidence$5:scala.reflect.ClassTag[R]):scroll.internal.IPlayer[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -379,11 +398,45 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">dispatch</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span name="on">on: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>, <span name="m">m: <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#java.lang.reflect.Method" class="extype" name="java.lang.reflect.Method">Method</a></span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$InvocationError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.InvocationError">InvocationError</a>, <span class="extype" name="scroll.internal.Dispatchable.dispatch.E">E</span>]</span>
+        <span title="gt4s: $less$minus$greater" class="name">&lt;-&gt;</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.IPlayer.&lt;-&gt;.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.IPlayer.&lt;-&gt;.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.IPlayer">IPlayer</a>[<span class="extype" name="scroll.internal.IPlayer.T">T</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">For empty argument list dispatch.</p><div class="fullcomment"><div class="comment cmt"><p>For empty argument list dispatch.
-</p></div><dl class="paramcmts block"><dt class="tparam">E</dt><dd class="cmt"><p>the return type of method m</p></dd><dt class="param">on</dt><dd class="cmt"><p>the instance to dispatch the given method m on</p></dd><dt class="param">m</dt><dd class="cmt"><p>the method to dispatch</p></dd><dt>returns</dt><dd class="cmt"><p>the resulting return value of the method invocation or an appropriate error</p></dd></dl></div>
+      <p class="shortcomment cmt">Alias for <a href="#drop[R&lt;:AnyRef](role:R)(implicitevidence$4:scala.reflect.ClassTag[R]):scroll.internal.IPlayer[T]" class="extmbr" name="scroll.internal.IPlayer#drop">IPlayer.drop</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Alias for <a href="#drop[R&lt;:AnyRef](role:R)(implicitevidence$4:scala.reflect.ClassTag[R]):scroll.internal.IPlayer[T]" class="extmbr" name="scroll.internal.IPlayer#drop">IPlayer.drop</a>.
+</p></div><dl class="paramcmts block"><dt class="param">role</dt><dd class="cmt"><p>the role that should be removed</p></dd><dt>returns</dt><dd class="cmt"><p>this</p></dd></dl></div>
+    </li><li name="scroll.internal.IPlayer#drop" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="drop[R&lt;:AnyRef](role:R)(implicitevidence$4:scala.reflect.ClassTag[R]):scroll.internal.IPlayer[T]"></a><a id="drop[R&lt;:AnyRef](R)(ClassTag[R]):IPlayer[T]"></a>
+      <span class="permalink">
+      <a href="../../scroll/internal/IPlayer.html#drop[R&lt;:AnyRef](role:R)(implicitevidence$4:scala.reflect.ClassTag[R]):scroll.internal.IPlayer[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">drop</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.IPlayer.drop.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.IPlayer.drop.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.IPlayer">IPlayer</a>[<span class="extype" name="scroll.internal.IPlayer.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Removes the play relation between core and role.</p><div class="fullcomment"><div class="comment cmt"><p>Removes the play relation between core and role.
+</p></div><dl class="paramcmts block"><dt class="param">role</dt><dd class="cmt"><p>the role that should be removed</p></dd><dt>returns</dt><dd class="cmt"><p>this</p></dd></dl></div>
+    </li><li name="scroll.internal.IPlayer#play" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="play[R&lt;:AnyRef](role:R)(implicitevidence$2:scala.reflect.ClassTag[R]):scroll.internal.IPlayer[T]"></a><a id="play[R&lt;:AnyRef](R)(ClassTag[R]):IPlayer[T]"></a>
+      <span class="permalink">
+      <a href="../../scroll/internal/IPlayer.html#play[R&lt;:AnyRef](role:R)(implicitevidence$2:scala.reflect.ClassTag[R]):scroll.internal.IPlayer[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">play</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.IPlayer.play.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.IPlayer.play.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.IPlayer">IPlayer</a>[<span class="extype" name="scroll.internal.IPlayer.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Adds a play relation between core and role.</p><div class="fullcomment"><div class="comment cmt"><p>Adds a play relation between core and role.
+</p></div><dl class="paramcmts block"><dt class="tparam">R</dt><dd class="cmt"><p>type of role</p></dd><dt class="param">role</dt><dd class="cmt"><p>the role that should be played</p></dd><dt>returns</dt><dd class="cmt"><p>this</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -393,7 +446,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
                 <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#!=(x$1:Any):Boolean" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#!=(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -409,7 +462,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="##():Int"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html###():Int" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html###():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -425,7 +478,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#==(x$1:Any):Boolean" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#==(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -441,7 +494,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#asInstanceOf[T0]:T0" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#asInstanceOf[T0]:T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -457,7 +510,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#clone():Object" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#clone():Object" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -481,7 +534,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#eq(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -497,7 +550,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="equals(x$1:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#equals(x$1:Any):Boolean" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#equals(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -513,7 +566,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#finalize():Unit" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#finalize():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -535,7 +588,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#getClass():Class[_]" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#getClass():Class[_]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -554,7 +607,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#hashCode():Int" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#hashCode():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -573,7 +626,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#isInstanceOf[T0]:Boolean" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#isInstanceOf[T0]:Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -589,7 +642,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#ne(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -605,7 +658,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#notify():Unit" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#notify():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -624,7 +677,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#notifyAll():Unit" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#notifyAll():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -643,7 +696,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -659,7 +712,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#toString():String" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#toString():String" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -672,10 +725,28 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scroll.internal.IPlayer#unary_+" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="unary_+:scroll.internal.IPlayer[T]"></a><a id="unary_+:IPlayer[T]"></a>
+      <span class="permalink">
+      <a href="../../scroll/internal/IPlayer.html#unary_+:scroll.internal.IPlayer[T]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: unary_$plus" class="name">unary_+</span><span class="result">: <a href="" class="extype" name="scroll.internal.IPlayer">IPlayer</a>[<span class="extype" name="scroll.internal.IPlayer.T">T</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Applies lifting to Player
+</p><div class="fullcomment"><div class="comment cmt"><p>Applies lifting to Player
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>an lifted Player instance with the calling object as wrapped.</p></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#wait():Unit" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#wait():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -697,7 +768,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -719,7 +790,7 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Dispatchable.html#wait(x$1:Long):Unit" title="Permalink">
+      <a href="../../scroll/internal/IPlayer.html#wait(x$1:Long):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -740,6 +811,22 @@ like logging (<a href="util/Log$.html" class="extype" name="scroll.internal.util
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="scroll.internal.IPlayer#wrapped" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="wrapped:T"></a>
+      <span class="permalink">
+      <a href="../../scroll/internal/IPlayer.html#wrapped:T" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wrapped</span><span class="result">: <span class="extype" name="scroll.internal.IPlayer.T">T</span></span>
+      </span>
+      
+      
     </li>
               </ol>
             </div>

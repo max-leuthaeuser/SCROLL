@@ -125,8 +125,8 @@ things like <a href="Relationships.html" class="extype" name="scroll.internal.su
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="scroll.internal">internal</a></dd></dl></div>
     </li><li class="current-entities indented3">
                         <a class="object" href="DispatchQuery$.html" title="Companion object for scroll.internal.support.DispatchQuery providing some static dispatch functions and a fluent dispatch query creation API."></a>
-                        <a class="class" href="DispatchQuery.html" title="Composed dispatch query, i.e."></a>
-                        <a href="DispatchQuery.html" title="Composed dispatch query, i.e.">DispatchQuery</a>
+                        <a class="class" href="DispatchQuery.html" title="Composed dispatch query, i.e., applying the composition of all dispatch queries the given set of edges."></a>
+                        <a href="DispatchQuery.html" title="Composed dispatch query, i.e., applying the composition of all dispatch queries the given set of edges.">DispatchQuery</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="QueryStrategies.html" title="Allows to write queries looking for the content of an attribute of the certain role playing object or the return value of one of its functions."></a>
@@ -290,10 +290,10 @@ things like <a href="Relationships.html" class="extype" name="scroll.internal.su
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scroll.internal.support.RoleRestrictions#ReplaceRoleRestriction" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="ReplaceRoleRestriction[A,B]()(implicitevidence$3:scala.reflect.ClassTag[A],implicitevidence$4:scala.reflect.ClassTag[B]):Unit"></a><a id="ReplaceRoleRestriction[A,B]()(ClassTag[A],ClassTag[B]):Unit"></a>
+    </li><li name="scroll.internal.support.RoleRestrictions#AddRoleRestriction" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="AddRoleRestriction[A&lt;:AnyRef,B&lt;:AnyRef]()(implicitevidence$1:scala.reflect.ClassTag[A],implicitevidence$2:scala.reflect.ClassTag[B]):Unit"></a><a id="AddRoleRestriction[A&lt;:AnyRef,B&lt;:AnyRef]()(ClassTag[A],ClassTag[B]):Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/support/RoleRestrictions.html#ReplaceRoleRestriction[A,B]()(implicitevidence$3:scala.reflect.ClassTag[A],implicitevidence$4:scala.reflect.ClassTag[B]):Unit" title="Permalink">
+      <a href="../../../scroll/internal/support/RoleRestrictions.html#AddRoleRestriction[A&lt;:AnyRef,B&lt;:AnyRef]()(implicitevidence$1:scala.reflect.ClassTag[A],implicitevidence$2:scala.reflect.ClassTag[B]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -302,29 +302,46 @@ things like <a href="Relationships.html" class="extype" name="scroll.internal.su
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ReplaceRoleRestriction</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.ReplaceRoleRestriction.A">A</span>]</span>, <span name="arg1">arg1: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.ReplaceRoleRestriction.B">B</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">AddRoleRestriction</span><span class="tparams">[<span name="A">A &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>, <span name="B">B &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.AddRoleRestriction.A">A</span>]</span>, <span name="arg1">arg1: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.AddRoleRestriction.B">B</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Add a role restriction between the given player type A and role type B.</p><div class="fullcomment"><div class="comment cmt"><p>Add a role restriction between the given player type A and role type B.
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the player type</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>the role type</p></dd></dl></div>
+    </li><li name="scroll.internal.support.RoleRestrictions#RemoveRoleRestriction" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="RemoveRoleRestriction[A&lt;:AnyRef]()(implicitevidence$5:scala.reflect.ClassTag[A]):Unit"></a><a id="RemoveRoleRestriction[A&lt;:AnyRef]()(ClassTag[A]):Unit"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/support/RoleRestrictions.html#RemoveRoleRestriction[A&lt;:AnyRef]()(implicitevidence$5:scala.reflect.ClassTag[A]):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">RemoveRoleRestriction</span><span class="tparams">[<span name="A">A &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.RemoveRoleRestriction.A">A</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Removes all role restriction for a player of type A.</p><div class="fullcomment"><div class="comment cmt"><p>Removes all role restriction for a player of type A.
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the player type</p></dd></dl></div>
+    </li><li name="scroll.internal.support.RoleRestrictions#ReplaceRoleRestriction" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ReplaceRoleRestriction[A&lt;:AnyRef,B&lt;:AnyRef]()(implicitevidence$3:scala.reflect.ClassTag[A],implicitevidence$4:scala.reflect.ClassTag[B]):Unit"></a><a id="ReplaceRoleRestriction[A&lt;:AnyRef,B&lt;:AnyRef]()(ClassTag[A],ClassTag[B]):Unit"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/support/RoleRestrictions.html#ReplaceRoleRestriction[A&lt;:AnyRef,B&lt;:AnyRef]()(implicitevidence$3:scala.reflect.ClassTag[A],implicitevidence$4:scala.reflect.ClassTag[B]):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ReplaceRoleRestriction</span><span class="tparams">[<span name="A">A &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>, <span name="B">B &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.ReplaceRoleRestriction.A">A</span>]</span>, <span name="arg1">arg1: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.ReplaceRoleRestriction.B">B</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <p class="shortcomment cmt">Replaces a role restriction for a player of type A with a
 new role restriction between the given player type A and role type B.</p><div class="fullcomment"><div class="comment cmt"><p>Replaces a role restriction for a player of type A with a
 new role restriction between the given player type A and role type B.
-</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the player type</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>the role type</p></dd></dl></div>
-    </li><li name="scroll.internal.support.RoleRestrictions#RoleRestriction" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="RoleRestriction[A,B]()(implicitevidence$1:scala.reflect.ClassTag[A],implicitevidence$2:scala.reflect.ClassTag[B]):Unit"></a><a id="RoleRestriction[A,B]()(ClassTag[A],ClassTag[B]):Unit"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/support/RoleRestrictions.html#RoleRestriction[A,B]()(implicitevidence$1:scala.reflect.ClassTag[A],implicitevidence$2:scala.reflect.ClassTag[B]):Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">RoleRestriction</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">()</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.RoleRestriction.A">A</span>]</span>, <span name="arg1">arg1: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.RoleRestriction.B">B</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
-      </span>
-      
-      <p class="shortcomment cmt">Add a role restriction between the given player type A and role type B.</p><div class="fullcomment"><div class="comment cmt"><p>Add a role restriction between the given player type A and role type B.
 </p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>the player type</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>the role type</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
@@ -561,9 +578,9 @@ new role restriction between the given player type A and role type B.
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scroll.internal.support.RoleRestrictions#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="validate[R](player:Any,role:R)(implicitevidence$5:scala.reflect.ClassTag[R]):Unit"></a><a id="validate[R](Any,R)(ClassTag[R]):Unit"></a>
+      <a id="validate[R&lt;:AnyRef](player:AnyRef,role:R)(implicitevidence$6:scala.reflect.ClassTag[R]):Unit"></a><a id="validate[R&lt;:AnyRef](AnyRef,R)(ClassTag[R]):Unit"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/support/RoleRestrictions.html#validate[R](player:Any,role:R)(implicitevidence$5:scala.reflect.ClassTag[R]):Unit" title="Permalink">
+      <a href="../../../scroll/internal/support/RoleRestrictions.html#validate[R&lt;:AnyRef](player:AnyRef,role:R)(implicitevidence$6:scala.reflect.ClassTag[R]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -572,7 +589,7 @@ new role restriction between the given player type A and role type B.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">validate</span><span class="tparams">[<span name="R">R</span>]</span><span class="params">(<span name="player">player: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>, <span name="role">role: <span class="extype" name="scroll.internal.support.RoleRestrictions.validate.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.validate.R">R</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">validate</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="player">player: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>, <span name="role">role: <span class="extype" name="scroll.internal.support.RoleRestrictions.validate.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.support.RoleRestrictions.validate.R">R</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.4/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <p class="shortcomment cmt">Checks all role restriction between the given player and a role type.</p><div class="fullcomment"><div class="comment cmt"><p>Checks all role restriction between the given player and a role type.
