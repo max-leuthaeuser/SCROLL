@@ -47,15 +47,15 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">RolePlayingAutomaton</span><span class="result"> extends <span class="extype" name="akka.actor.Actor">Actor</span> with <span class="extype" name="akka.actor.LoggingFSM">LoggingFSM</span>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</span>
+        <span class="name">RolePlayingAutomaton</span><span class="result"> extends <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.Actor" class="extype" target="_top">Actor</a> with <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.LoggingFSM" class="extype" target="_top">LoggingFSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Use this trait to implement your own <a href="../Compartment.html" class="extype" name="scroll.internal.Compartment">scroll.internal.Compartment</a> specific
-role playing automaton. Please read the documentation for <span class="extype" name="akka.actor.FSM">akka.actor.FSM</span>
+role playing automaton. Please read the documentation for <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.FSM" class="extype" target="_top">akka.actor.FSM</a>
 carefully, since the features from that are applicable for role playing automatons.</p><p>Remember to call <code>run()</code> when you want to start this automaton in your
 <a href="../Compartment.html" class="extype" name="scroll.internal.Compartment">scroll.internal.Compartment</a> instance.</p><p>This automaton will always start in state <a href="RolePlayingAutomaton$$Start$.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.Start">scroll.internal.rpa.RolePlayingAutomaton.Start</a>, so hook in there.</p><p>Final state is always <a href="RolePlayingAutomaton$$Stop$.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.Stop">scroll.internal.rpa.RolePlayingAutomaton.Stop</a>,
-that will terminate the actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM</span>.</p><p>Use the factory method <code>RolePlayingAutomaton.Use</code> to gain an instance of your specific FSM, e.g.:</p><pre><span class="kw">trait</span> MyCompartment <span class="kw">extends</span> Compartment {
+that will terminate the actor system for this <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.FSM" class="extype" target="_top">akka.actor.FSM</a>.</p><p>Use the factory method <code>RolePlayingAutomaton.Use</code> to gain an instance of your specific FSM, e.g.:</p><pre><span class="kw">trait</span> MyCompartment <span class="kw">extends</span> Compartment {
 <span class="cmt">// ... some roles and interaction</span>
 
 <span class="cmt">// your specific RPA here</span>
@@ -81,7 +81,7 @@ You may want to define your own states and event types.
 Simply use a companion object for this as well.
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="akka.actor.LoggingFSM">LoggingFSM</span>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>], <span class="extype" name="akka.actor.FSM">FSM</span>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>], <span class="extype" name="akka.actor.ActorLogging">ActorLogging</span>, <span class="extype" name="akka.routing.Listeners">Listeners</span>, <span class="extype" name="akka.actor.Actor">Actor</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.LoggingFSM" class="extype" target="_top">LoggingFSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>], <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.FSM" class="extype" target="_top">FSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>], <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.ActorLogging" class="extype" target="_top">ActorLogging</a>, <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.routing.Listeners" class="extype" target="_top">Listeners</a>, <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.Actor" class="extype" target="_top">Actor</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
         </div></div>
         
 
@@ -146,7 +146,7 @@ Simply use a companion object for this as well.
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">Receive</span><span class="result"> = <span class="extype" name="scala.PartialFunction">PartialFunction</span>[<span class="extype" name="scala.Any">Any</span>, <span class="extype" name="scala.Unit">Unit</span>]</span>
+        <span class="name">Receive</span><span class="result"> = <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.PartialFunction" class="extype" target="_top">PartialFunction</a>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@Receive=akka.actor.Actor.Receive" title="Permalink" target="_top">
@@ -180,7 +180,7 @@ Simply use a companion object for this as well.
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">StateFunction</span><span class="result"> = <span class="extype" name="scala.PartialFunction">PartialFunction</span>[<a href="#Event=akka.actor.FSM.Event[D]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.Event">Event</a>, <a href="#State=akka.actor.FSM.State[S,D]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.State">State</a>]</span>
+        <span class="name">StateFunction</span><span class="result"> = <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.PartialFunction" class="extype" target="_top">PartialFunction</a>[<a href="#Event=akka.actor.FSM.Event[D]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.Event">Event</a>, <a href="#State=akka.actor.FSM.State[S,D]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.State">State</a>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@StateFunction=PartialFunction[FSM.this.Event,FSM.this.State]" title="Permalink" target="_top">
@@ -214,7 +214,7 @@ Simply use a companion object for this as well.
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">Timeout</span><span class="result"> = <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.concurrent.duration.FiniteDuration">FiniteDuration</span>]</span>
+        <span class="name">Timeout</span><span class="result"> = <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.concurrent.duration.FiniteDuration" class="extype" target="_top">FiniteDuration</a>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@Timeout=Option[scala.concurrent.duration.FiniteDuration]" title="Permalink" target="_top">
@@ -231,7 +231,7 @@ Simply use a companion object for this as well.
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">TransformHelper</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">TransformHelper</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@TransformHelperextendsAnyRef" title="Permalink" target="_top">
@@ -248,7 +248,7 @@ Simply use a companion object for this as well.
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">TransitionHandler</span><span class="result"> = <span class="extype" name="scala.PartialFunction">PartialFunction</span>[(<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>), <span class="extype" name="scala.Unit">Unit</span>]</span>
+        <span class="name">TransitionHandler</span><span class="result"> = <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.PartialFunction" class="extype" target="_top">PartialFunction</a>[(<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>), <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@TransitionHandler=PartialFunction[(S,S),Unit]" title="Permalink" target="_top">
@@ -272,7 +272,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@!=(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -289,7 +289,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@##():Int" title="Permalink" target="_top">
@@ -323,7 +323,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@==(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -391,7 +391,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">aroundPostRestart</span><span class="params">(<span name="reason">reason: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">aroundPostRestart</span><span class="params">(<span name="reason">reason: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@aroundPostRestart(reason:Throwable):Unit" title="Permalink" target="_top">
@@ -408,7 +408,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">aroundPostStop</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">aroundPostStop</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@aroundPostStop():Unit" title="Permalink" target="_top">
@@ -425,7 +425,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">aroundPreRestart</span><span class="params">(<span name="reason">reason: <span class="extype" name="scala.Throwable">Throwable</span></span>, <span name="message">message: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Any">Any</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">aroundPreRestart</span><span class="params">(<span name="reason">reason: <span class="extype" name="scala.Throwable">Throwable</span></span>, <span name="message">message: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@aroundPreRestart(reason:Throwable,message:Option[Any]):Unit" title="Permalink" target="_top">
@@ -442,7 +442,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">aroundPreStart</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">aroundPreStart</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@aroundPreStart():Unit" title="Permalink" target="_top">
@@ -459,7 +459,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">aroundReceive</span><span class="params">(<span name="receive">receive: <span class="extype" name="akka.actor.Actor.Receive">akka.actor.Actor.Receive</span></span>, <span name="msg">msg: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">aroundReceive</span><span class="params">(<span name="receive">receive: <span class="extype" name="akka.actor.Actor.Receive">akka.actor.Actor.Receive</span></span>, <span name="msg">msg: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@aroundReceive(receive:akka.actor.Actor.Receive,msg:Any):Unit" title="Permalink" target="_top">
@@ -493,7 +493,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">cancelTimer</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">cancelTimer</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@cancelTimer(name:String):Unit" title="Permalink" target="_top">
@@ -510,7 +510,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@clone():Object" title="Permalink" target="_top">
@@ -533,7 +533,7 @@ Simply use a companion object for this as well.
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">context</span><span class="result">: <span class="extype" name="akka.actor.ActorContext">ActorContext</span></span>
+        <span class="name">context</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.ActorContext" class="extype" target="_top">ActorContext</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@context:akka.actor.ActorContext" title="Permalink" target="_top">
@@ -550,7 +550,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
@@ -567,7 +567,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@equals(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -584,7 +584,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@finalize():Unit" title="Permalink" target="_top">
@@ -641,7 +641,7 @@ Simply use a companion object for this as well.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">gossip</span><span class="params">(<span name="msg">msg: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="sender">sender: <span class="extype" name="akka.actor.ActorRef">ActorRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">gossip</span><span class="params">(<span name="msg">msg: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="sender">sender: <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.ActorRef" class="extype" target="_top">ActorRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@gossip(msg:Any)(implicitsender:akka.actor.ActorRef):Unit" title="Permalink" target="_top">
@@ -684,7 +684,7 @@ Simply use a companion object for this as well.
     </span>
       <p class="shortcomment cmt">Stops this automaton.</p><div class="fullcomment"><div class="comment cmt"><p>Stops this automaton.
 Will set state to <a href="RolePlayingAutomaton$$Stop$.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.Stop">scroll.internal.rpa.RolePlayingAutomaton.Stop</a> and terminates the
-actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM</span>.
+actor system for this <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.FSM" class="extype" target="_top">akka.actor.FSM</a>.
 </p></div></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
@@ -695,7 +695,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@hashCode():Int" title="Permalink" target="_top">
@@ -712,7 +712,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">initialize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">initialize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@initialize():Unit" title="Permalink" target="_top">
@@ -729,7 +729,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
@@ -746,7 +746,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isTimerActive</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isTimerActive</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@isTimerActive(name:String):Boolean" title="Permalink" target="_top">
@@ -780,7 +780,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">listeners</span><span class="result">: <span class="extype" name="java.util.Set">Set</span>[<span class="extype" name="akka.actor.ActorRef">ActorRef</span>]</span>
+        <span class="name">listeners</span><span class="result">: <span class="extype" name="java.util.Set">Set</span>[<a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.ActorRef" class="extype" target="_top">ActorRef</a>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@listeners:java.util.Set[akka.actor.ActorRef]" title="Permalink" target="_top">
@@ -797,7 +797,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">log</span><span class="result">: <span class="extype" name="akka.event.LoggingAdapter">LoggingAdapter</span></span>
+        <span class="name">log</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.event.LoggingAdapter" class="extype" target="_top">LoggingAdapter</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@log:akka.event.LoggingAdapter" title="Permalink" target="_top">
@@ -814,7 +814,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">logDepth</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+        <span class="name">logDepth</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@logDepth:Int" title="Permalink" target="_top">
@@ -831,7 +831,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">logTermination</span><span class="params">(<span name="reason">reason: <span class="extype" name="akka.actor.FSM.Reason">Reason</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">logTermination</span><span class="params">(<span name="reason">reason: <span class="extype" name="akka.actor.FSM.Reason">Reason</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@logTermination(reason:akka.actor.FSM.Reason):Unit" title="Permalink" target="_top">
@@ -848,7 +848,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
@@ -882,7 +882,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@notify():Unit" title="Permalink" target="_top">
@@ -899,7 +899,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@notifyAll():Unit" title="Permalink" target="_top">
@@ -916,7 +916,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">onTermination</span><span class="params">(<span name="terminationHandler">terminationHandler: <span class="extype" name="scala.PartialFunction">PartialFunction</span>[<a href="#StopEvent=akka.actor.FSM.StopEvent[S,D]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.StopEvent">StopEvent</a>, <span class="extype" name="scala.Unit">Unit</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">onTermination</span><span class="params">(<span name="terminationHandler">terminationHandler: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.PartialFunction" class="extype" target="_top">PartialFunction</a>[<a href="#StopEvent=akka.actor.FSM.StopEvent[S,D]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.StopEvent">StopEvent</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@onTermination(terminationHandler:PartialFunction[FSM.this.StopEvent,Unit]):Unit" title="Permalink" target="_top">
@@ -933,7 +933,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">onTransition</span><span class="params">(<span name="transitionHandler">transitionHandler: <a href="#TransitionHandler=PartialFunction[(S,S),Unit]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.TransitionHandler">TransitionHandler</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">onTransition</span><span class="params">(<span name="transitionHandler">transitionHandler: <a href="#TransitionHandler=PartialFunction[(S,S),Unit]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.TransitionHandler">TransitionHandler</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@onTransition(transitionHandler:FSM.this.TransitionHandler):Unit" title="Permalink" target="_top">
@@ -950,7 +950,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">postRestart</span><span class="params">(<span name="reason">reason: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">postRestart</span><span class="params">(<span name="reason">reason: <span class="extype" name="scala.Throwable">Throwable</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@postRestart(reason:Throwable):Unit" title="Permalink" target="_top">
@@ -973,7 +973,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">postStop</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">postStop</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@postStop():Unit" title="Permalink" target="_top">
@@ -990,7 +990,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">preRestart</span><span class="params">(<span name="reason">reason: <span class="extype" name="scala.Throwable">Throwable</span></span>, <span name="message">message: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Any">Any</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">preRestart</span><span class="params">(<span name="reason">reason: <span class="extype" name="scala.Throwable">Throwable</span></span>, <span name="message">message: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Option" class="extype" target="_top">Option</a>[<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@preRestart(reason:Throwable,message:Option[Any]):Unit" title="Permalink" target="_top">
@@ -1013,7 +1013,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">preStart</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">preStart</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@preStart():Unit" title="Permalink" target="_top">
@@ -1053,7 +1053,7 @@ actor system for this <span class="extype" name="akka.actor.FSM">akka.actor.FSM<
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">run</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">run</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@run():Unit" title="Permalink" target="_top">
@@ -1072,7 +1072,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">self</span><span class="result">: <span class="extype" name="akka.actor.ActorRef">ActorRef</span></span>
+        <span class="name">self</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.ActorRef" class="extype" target="_top">ActorRef</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@self:akka.actor.ActorRef" title="Permalink" target="_top">
@@ -1089,7 +1089,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">sender</span><span class="params">()</span><span class="result">: <span class="extype" name="akka.actor.ActorRef">ActorRef</span></span>
+        <span class="name">sender</span><span class="params">()</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.ActorRef" class="extype" target="_top">ActorRef</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@sender():akka.actor.ActorRef" title="Permalink" target="_top">
@@ -1106,7 +1106,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setStateTimeout</span><span class="params">(<span name="state">state: <a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a></span>, <span name="timeout">timeout: <a href="#Timeout=Option[scala.concurrent.duration.FiniteDuration]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.Timeout">Timeout</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">setStateTimeout</span><span class="params">(<span name="state">state: <a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a></span>, <span name="timeout">timeout: <a href="#Timeout=Option[scala.concurrent.duration.FiniteDuration]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.Timeout">Timeout</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@setStateTimeout(state:S,timeout:FSM.this.Timeout):Unit" title="Permalink" target="_top">
@@ -1123,7 +1123,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setTimer</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="msg">msg: <span class="extype" name="scala.Any">Any</span></span>, <span name="timeout">timeout: <span class="extype" name="scala.concurrent.duration.FiniteDuration">FiniteDuration</span></span>, <span name="repeat">repeat: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">setTimer</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="msg">msg: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>, <span name="timeout">timeout: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.concurrent.duration.FiniteDuration" class="extype" target="_top">FiniteDuration</a></span>, <span name="repeat">repeat: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@setTimer(name:String,msg:Any,timeout:scala.concurrent.duration.FiniteDuration,repeat:Boolean):Unit" title="Permalink" target="_top">
@@ -1140,7 +1140,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">startWith</span><span class="params">(<span name="stateName">stateName: <a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a></span>, <span name="stateData">stateData: <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a></span>, <span name="timeout">timeout: <a href="#Timeout=Option[scala.concurrent.duration.FiniteDuration]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.Timeout">Timeout</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">startWith</span><span class="params">(<span name="stateName">stateName: <a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a></span>, <span name="stateData">stateData: <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a></span>, <span name="timeout">timeout: <a href="#Timeout=Option[scala.concurrent.duration.FiniteDuration]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.Timeout">Timeout</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@startWith(stateName:S,stateData:D,timeout:FSM.this.Timeout):Unit" title="Permalink" target="_top">
@@ -1259,7 +1259,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">supervisorStrategy</span><span class="result">: <span class="extype" name="akka.actor.SupervisorStrategy">SupervisorStrategy</span></span>
+        <span class="name">supervisorStrategy</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.SupervisorStrategy" class="extype" target="_top">SupervisorStrategy</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@supervisorStrategy:akka.actor.SupervisorStrategy" title="Permalink" target="_top">
@@ -1310,7 +1310,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">total2pf</span><span class="params">(<span name="transitionHandler">transitionHandler: (<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>) ⇒ <span class="extype" name="scala.Unit">Unit</span></span>)</span><span class="result">: <a href="#TransitionHandler=PartialFunction[(S,S),Unit]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.TransitionHandler">TransitionHandler</a></span>
+        <span class="name">total2pf</span><span class="params">(<span name="transitionHandler">transitionHandler: (<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>)</span><span class="result">: <a href="#TransitionHandler=PartialFunction[(S,S),Unit]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.TransitionHandler">TransitionHandler</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@total2pf(transitionHandler:(S,S)=&gt;Unit):FSM.this.TransitionHandler" title="Permalink" target="_top">
@@ -1344,7 +1344,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">unhandled</span><span class="params">(<span name="message">message: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">unhandled</span><span class="params">(<span name="message">message: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@unhandled(message:Any):Unit" title="Permalink" target="_top">
@@ -1361,7 +1361,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@wait():Unit" title="Permalink" target="_top">
@@ -1384,7 +1384,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
@@ -1407,7 +1407,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@wait(x$1:Long):Unit" title="Permalink" target="_top">
@@ -1430,7 +1430,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">when</span><span class="params">(<span name="stateName">stateName: <a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a></span>, <span name="stateTimeout">stateTimeout: <span class="extype" name="scala.concurrent.duration.FiniteDuration">FiniteDuration</span></span>)</span><span class="params">(<span name="stateFunction">stateFunction: <a href="#StateFunction=PartialFunction[FSM.this.Event,FSM.this.State]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.StateFunction">StateFunction</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">when</span><span class="params">(<span name="stateName">stateName: <a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a></span>, <span name="stateTimeout">stateTimeout: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.concurrent.duration.FiniteDuration" class="extype" target="_top">FiniteDuration</a></span>)</span><span class="params">(<span name="stateFunction">stateFunction: <a href="#StateFunction=PartialFunction[FSM.this.Event,FSM.this.State]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.StateFunction">StateFunction</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@when(stateName:S,stateTimeout:scala.concurrent.duration.FiniteDuration)(stateFunction:FSM.this.StateFunction):Unit" title="Permalink" target="_top">
@@ -1447,7 +1447,7 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">whenUnhandled</span><span class="params">(<span name="stateFunction">stateFunction: <a href="#StateFunction=PartialFunction[FSM.this.Event,FSM.this.State]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.StateFunction">StateFunction</a></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">whenUnhandled</span><span class="params">(<span name="stateFunction">stateFunction: <a href="#StateFunction=PartialFunction[FSM.this.Event,FSM.this.State]" class="extmbr" name="scroll.internal.rpa.RolePlayingAutomaton.StateFunction">StateFunction</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.rpa.RolePlayingAutomaton@whenUnhandled(stateFunction:FSM.this.StateFunction):Unit" title="Permalink" target="_top">
@@ -1465,19 +1465,19 @@ Will set the initial state to <a href="RolePlayingAutomaton$$Start$.html" class=
 
         <div id="inheritedMembers">
         <div class="parent" name="akka.actor.LoggingFSM">
-              <h3>Inherited from <span class="extype" name="akka.actor.LoggingFSM">LoggingFSM</span>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</h3>
+              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.LoggingFSM" class="extype" target="_top">LoggingFSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</h3>
             </div><div class="parent" name="akka.actor.FSM">
-              <h3>Inherited from <span class="extype" name="akka.actor.FSM">FSM</span>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</h3>
+              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.FSM" class="extype" target="_top">FSM</a>[<a href="RolePlayingAutomaton$$RPAState.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAState">RPAState</a>, <a href="RolePlayingAutomaton$$RPAData.html" class="extype" name="scroll.internal.rpa.RolePlayingAutomaton.RPAData">RPAData</a>]</h3>
             </div><div class="parent" name="akka.actor.ActorLogging">
-              <h3>Inherited from <span class="extype" name="akka.actor.ActorLogging">ActorLogging</span></h3>
+              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.ActorLogging" class="extype" target="_top">ActorLogging</a></h3>
             </div><div class="parent" name="akka.routing.Listeners">
-              <h3>Inherited from <span class="extype" name="akka.routing.Listeners">Listeners</span></h3>
+              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.routing.Listeners" class="extype" target="_top">Listeners</a></h3>
             </div><div class="parent" name="akka.actor.Actor">
-              <h3>Inherited from <span class="extype" name="akka.actor.Actor">Actor</span></h3>
+              <h3>Inherited from <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/typesafe/akka/akka-actor_2.11/2.4.2/akka-actor_2.11-2.4.2-javadoc.jar/!/index.html#akka.actor.Actor" class="extype" target="_top">Actor</a></h3>
             </div><div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
             </div>
         
         </div>
