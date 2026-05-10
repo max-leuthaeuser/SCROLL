@@ -51,7 +51,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>All provided query function must be side-effect free!
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Composed dispatch query, i.e. applying the composition of all dispatch queries the given set of edges
+through the function <i>reorder</i>.
+All provided queries must be side-effect free!
 </p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a></div>
@@ -92,7 +94,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="scroll.internal.support.DispatchQuery#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(from:Any=&gt;Boolean,to:Any=&gt;Boolean,through:Any=&gt;Boolean,bypassing:Any=&gt;Boolean,traversalStrategy:scroll.internal.support.DispatchQuery.TraversalStrategy,empty:Boolean):scroll.internal.support.DispatchQuery"></a>
+      <a id="&lt;init&gt;(from:scroll.internal.support.DispatchQuery.From,to:scroll.internal.support.DispatchQuery.To,through:scroll.internal.support.DispatchQuery.Through,bypassing:scroll.internal.support.DispatchQuery.Bypassing,traversalStrategy:scroll.internal.support.DispatchQuery.TraversalStrategy,empty:Boolean):scroll.internal.support.DispatchQuery"></a>
       <a id="&lt;init&gt;:DispatchQuery"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -100,14 +102,14 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">DispatchQuery</span><span class="params">(<span name="from">from: (<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a> = <span class="symbol"><span class="name"><a href="DispatchQuery$.html">DispatchQuery.anything</a></span></span></span>, <span name="to">to: (<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a> = <span class="symbol"><span class="name"><a href="DispatchQuery$.html">DispatchQuery.anything</a></span></span></span>, <span name="through">through: (<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a> = <span class="symbol"><span class="name"><a href="DispatchQuery$.html">DispatchQuery.anything</a></span></span></span>, <span name="bypassing">bypassing: (<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a> = <span class="symbol"><span class="name"><a href="DispatchQuery$.html">DispatchQuery.nothing</a></span></span></span>, <span name="traversalStrategy">traversalStrategy: <a href="DispatchQuery$$TraversalStrategy.html" class="extype" name="scroll.internal.support.DispatchQuery.TraversalStrategy">TraversalStrategy</a> = <span class="symbol"><span class="name"><a href="../../package.html">DFS</a></span></span></span>, <span name="empty">empty: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a> = <span class="symbol">false</span></span>)</span>
+        <span class="name">DispatchQuery</span><span class="params">(<span name="from">from: <span class="extype" name="scroll.internal.support.DispatchQuery.From">From</span></span>, <span name="to">to: <span class="extype" name="scroll.internal.support.DispatchQuery.To">To</span></span>, <span name="through">through: <span class="extype" name="scroll.internal.support.DispatchQuery.Through">Through</span></span>, <span name="bypassing">bypassing: <span class="extype" name="scroll.internal.support.DispatchQuery.Bypassing">Bypassing</span></span>, <span name="traversalStrategy">traversalStrategy: <a href="DispatchQuery$$TraversalStrategy.html" class="extype" name="scroll.internal.support.DispatchQuery.TraversalStrategy">TraversalStrategy</a> = <span class="symbol"><span class="name"><a href="../../package.html">DFS</a></span></span></span>, <span name="empty">empty: <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a> = <span class="symbol">false</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.DispatchQuery@&lt;init&gt;(from:Any=&gt;Boolean,to:Any=&gt;Boolean,through:Any=&gt;Boolean,bypassing:Any=&gt;Boolean,traversalStrategy:scroll.internal.support.DispatchQuery.TraversalStrategy,empty:Boolean):scroll.internal.support.DispatchQuery" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.DispatchQuery@&lt;init&gt;(from:scroll.internal.support.DispatchQuery.From,to:scroll.internal.support.DispatchQuery.To,through:scroll.internal.support.DispatchQuery.Through,bypassing:scroll.internal.support.DispatchQuery.Bypassing,traversalStrategy:scroll.internal.support.DispatchQuery.TraversalStrategy,empty:Boolean):scroll.internal.support.DispatchQuery" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">from</dt><dd class="cmt"><p>query function selecting the starting element for the role dispatch query</p></dd><dt class="param">to</dt><dd class="cmt"><p>query function selecting the end element for the role dispatch query</p></dd><dt class="param">through</dt><dd class="cmt"><p>query function specifying intermediate elements for the role dispatch query</p></dd><dt class="param">bypassing</dt><dd class="cmt"><p>query function specifying all elements to be left out for the role dispatch query</p></dd><dt class="param">traversalStrategy</dt><dd class="cmt"><p>the traversal strategy to use when querying for roles or the player object</p></dd></dl></div>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">from</dt><dd class="cmt"><p>query selecting the starting element for the role dispatch query</p></dd><dt class="param">to</dt><dd class="cmt"><p>query selecting the end element for the role dispatch query</p></dd><dt class="param">through</dt><dd class="cmt"><p>query specifying intermediate elements for the role dispatch query</p></dd><dt class="param">bypassing</dt><dd class="cmt"><p>query specifying all elements to be left out for the role dispatch query</p></dd><dt class="param">traversalStrategy</dt><dd class="cmt"><p>the traversal strategy to use when querying for roles or the player object</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -185,23 +187,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="scroll.internal.support.DispatchQuery#bypassing" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="bypassing:Any=&gt;Boolean"></a>
-      <a id="bypassing:(Any)⇒Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">bypassing</span><span class="result">: (<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.DispatchQuery@bypassing:Any=&gt;Boolean" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">query function specifying all elements to be left out for the role dispatch query</p>
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -282,23 +267,6 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="scroll.internal.support.DispatchQuery#from" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="from:Any=&gt;Boolean"></a>
-      <a id="from:(Any)⇒Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">from</span><span class="result">: (<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.DispatchQuery@from:Any=&gt;Boolean" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">query function selecting the starting element for the role dispatch query</p>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -452,40 +420,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scroll.internal.support.DispatchQuery#through" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="through:Any=&gt;Boolean"></a>
-      <a id="through:(Any)⇒Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">through</span><span class="result">: (<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.DispatchQuery@through:Any=&gt;Boolean" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">query function specifying intermediate elements for the role dispatch query</p>
-    </li><li name="scroll.internal.support.DispatchQuery#to" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="to:Any=&gt;Boolean"></a>
-      <a id="to:(Any)⇒Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">to</span><span class="result">: (<a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Any" class="extype" target="_top">Any</a>) ⇒ <a href="http://www.scala-lang.org/api/2.11.7/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.DispatchQuery@to:Any=&gt;Boolean" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">query function selecting the end element for the role dispatch query</p>
     </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
