@@ -350,25 +350,6 @@ to compare them.
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#dup" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="dup(t1:T,t2:T):Unit"></a><a id="dup(T,T):Unit"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/Memoiser$IdMemoised.html#dup(t1:T,t2:T):Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">dup</span><span class="params">(<span name="t1">t1: <span class="extype" name="scroll.internal.util.Memoiser.IdMemoised.T">T</span></span>, <span name="t2">t2: <span class="extype" name="scroll.internal.util.Memoiser.IdMemoised.T">T</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
-      </span>
-      
-      <p class="shortcomment cmt">Duplicate an entry if possible.</p><div class="fullcomment"><div class="comment cmt"><p>Duplicate an entry if possible. If <code>t1</code> has a memoised value associated
-with it, set the value associated with <code>t2</code> to the same value. If there
-is no value associated with <code>t1</code>, do nothing.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -440,6 +421,25 @@ is no value associated with <code>t1</code>, do nothing.
       
       <p class="shortcomment cmt">Return the value stored at key <code>t</code> as an option.</p><div class="fullcomment"><div class="comment cmt"><p>Return the value stored at key <code>t</code> as an option.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
+    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#getAndPutWithDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getAndPutWithDefault(t:T,u:=&gt;U):U"></a><a id="getAndPutWithDefault(T,⇒U):U"></a>
+      <span class="permalink">
+      <a href="../../../scroll/internal/util/Memoiser$IdMemoised.html#getAndPutWithDefault(t:T,u:=&gt;U):U" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getAndPutWithDefault</span><span class="params">(<span name="t">t: <span class="extype" name="scroll.internal.util.Memoiser.IdMemoised.T">T</span></span>, <span name="u">u: ⇒ <span class="extype" name="scroll.internal.util.Memoiser.IdMemoised.U">U</span></span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.Memoiser.IdMemoised.U">U</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Return the value stored at key <code>t</code> if there is one, otherwise
+return <code>u</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Return the value stored at key <code>t</code> if there is one, otherwise
+return <code>u</code>. <code>u</code> is only evaluated if necessary and put into the cache.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -456,25 +456,6 @@ is no value associated with <code>t1</code>, do nothing.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#getWithDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="getWithDefault(t:T,u:=&gt;U):U"></a><a id="getWithDefault(T,⇒U):U"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/Memoiser$IdMemoised.html#getWithDefault(t:T,u:=&gt;U):U" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getWithDefault</span><span class="params">(<span name="t">t: <span class="extype" name="scroll.internal.util.Memoiser.IdMemoised.T">T</span></span>, <span name="u">u: ⇒ <span class="extype" name="scroll.internal.util.Memoiser.IdMemoised.U">U</span></span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.Memoiser.IdMemoised.U">U</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Return the value stored at key <code>t</code> if there is one, otherwise
-return <code>u</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Return the value stored at key <code>t</code> if there is one, otherwise
-return <code>u</code>. <code>u</code> is only evaluated if necessary.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
     </li><li name="scroll.internal.util.Memoiser.MemoisedBase#hasBeenComputedAt" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasBeenComputedAt(t:T):Boolean"></a><a id="hasBeenComputedAt(T):Boolean"></a>
       <span class="permalink">
@@ -539,7 +520,7 @@ the memo table contain a value for <code>t</code>?
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">memo</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/google/guava/guava/20.0/guava-20.0-javadoc.jar/!/index.html#com.google.common.cache.Cache" class="extype" target="_top">Cache</a>[<a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>]</span>
+        <span class="name">memo</span><span class="result">: <a href="https://oss.sonatype.org/service/local/repositories/releases/archive/com/google/guava/guava/21.0/guava-21.0-javadoc.jar/!/index.html#com.google.common.cache.Cache" class="extype" target="_top">Cache</a>[<a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>]</span>
       </span>
       
       <p class="shortcomment cmt">The memo table.</p><div class="fullcomment"><div class="comment cmt"><p>The memo table.
@@ -608,25 +589,6 @@ the memo table contain a value for <code>t</code>?
       </span>
       
       <p class="shortcomment cmt">Store the value <code>u</code> under the key <code>t</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Store the value <code>u</code> under the key <code>t</code>.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
-    </li><li name="scroll.internal.util.Memoiser.MemoisedBase#putIfNotPresent" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="putIfNotPresent(t:T,u:=&gt;U):Unit"></a><a id="putIfNotPresent(T,⇒U):Unit"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/Memoiser$IdMemoised.html#putIfNotPresent(t:T,u:=&gt;U):Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">putIfNotPresent</span><span class="params">(<span name="t">t: <span class="extype" name="scroll.internal.util.Memoiser.IdMemoised.T">T</span></span>, <span name="u">u: ⇒ <span class="extype" name="scroll.internal.util.Memoiser.IdMemoised.U">U</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.0/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
-      </span>
-      
-      <p class="shortcomment cmt">Store the value <code>u</code> under the key <code>t</code> if <code>t</code> does not already have an
-associated value.</p><div class="fullcomment"><div class="comment cmt"><p>Store the value <code>u</code> under the key <code>t</code> if <code>t</code> does not already have an
-associated value. <code>u</code> is only evaluated if necessary.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a></dd></dl></div>
     </li><li name="scroll.internal.util.Memoiser.MemoisedBase#reset" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="reset():Unit"></a>
