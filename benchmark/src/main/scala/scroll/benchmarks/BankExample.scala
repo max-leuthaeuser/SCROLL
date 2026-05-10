@@ -7,6 +7,10 @@ import scroll.internal.dispatch.DispatchQuery.Bypassing
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
+/** End-to-end benchmark fixture modelling a bank with customers, accounts, and money transfers.
+  *
+  * The setup exercises role binding, deep dispatch chains, compartment composition, and optional graph caching.
+  */
 class BankExample {
 
   class Person(val name: String)

@@ -3,6 +3,8 @@ package scroll.benchmarks
 import org.openjdk.jmh.annotations._
 import org.openjdk.jmh.annotations.Benchmark
 
+/** Benchmarks for comparing cached versus non-cached dispatch over repeated invocations.
+  */
 object CachingBenchmark {
 
   @State(Scope.Benchmark)
@@ -27,6 +29,8 @@ object CachingBenchmark {
 
 }
 
+/** Measures the cost of repeated dispatches through cached and non-cached role graphs.
+  */
 class CachingBenchmark extends AbstractBenchmark {
 
   import CachingBenchmark._

@@ -6,6 +6,8 @@ import scroll.internal.dispatch.SCROLLDynamic
 import java.util.concurrent.TimeUnit
 import scala.util.Random
 
+/** Benchmarks for the lightweight no-op forwarding scenario.
+  */
 object NoopBenchmark {
 
   @State(Scope.Thread)
@@ -16,6 +18,8 @@ object NoopBenchmark {
     @Param(Array("true", "false"))
     var cached: Boolean = scala.compiletime.uninitialized
 
+    /** Rebuilds the no-op scenario for the current cache mode before each iteration.
+      */
     @Setup(Level.Iteration)
     def setup(): Unit = {
       player = new NoopExample(cached).compartment.player

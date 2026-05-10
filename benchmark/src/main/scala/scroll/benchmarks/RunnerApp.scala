@@ -8,6 +8,10 @@ import org.openjdk.jmh.runner.options.CommandLineOptions
 import java.text.SimpleDateFormat
 import java.util.Date
 
+/** Runs JMH from the command line and writes the collected results in machine-readable formats.
+  *
+  * Output files are created in the current working directory using a timestamped `benchmark_<timestamp>` prefix.
+  */
 object RunnerApp {
 
   def main(args: Array[String]): Unit = {

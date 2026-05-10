@@ -5,6 +5,8 @@ import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 
+/** Benchmarks for the bank example with configurable player, role, transaction, and caching settings.
+  */
 object BankBenchmark {
 
   @State(Scope.Benchmark)
@@ -26,6 +28,8 @@ object BankBenchmark {
 
 }
 
+/** Measures both building and executing the larger bank benchmark scenario.
+  */
 class BankBenchmark extends AbstractBenchmark with BankBenchmarkConfig.Exhaustive {
 
   import BankBenchmark._
