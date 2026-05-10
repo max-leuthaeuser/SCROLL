@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.util.BasicExtendedMetaData
 import org.eclipse.emf.ecore.xmi.XMLResource
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import scroll.internal.errors.SCROLLErrors.CROMMetaModelLoadFailure
 
 /** Trait providing functionality for importing ecore models.
   */
@@ -25,7 +26,7 @@ trait ECoreImporter {
     val eObject = r.getContents.get(0)
     eObject match {
       case p: EPackage => val _ = rs.getPackageRegistry.put(p.getNsURI, p)
-      case _           => throw new IllegalStateException("Meta-Model for CROM could not be loaded!")
+      case _           => throw CROMMetaModelLoadFailure()
     }
   }
 

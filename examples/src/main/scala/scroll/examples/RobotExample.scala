@@ -4,7 +4,7 @@ import scroll.examples.RobotExample.ActorView.DriveableRole
 import scroll.examples.RobotExample.BehavioralView.ServiceRole
 import scroll.examples.RobotExample.NavigationView.NavigationRole
 import scroll.examples.RobotExample.SensorView.ObservingEnvironmentRole
-import scroll.internal.compartment.impl.Compartment
+import scroll.Compartment
 
 object RobotExample {
 

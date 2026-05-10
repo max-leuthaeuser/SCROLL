@@ -3,6 +3,9 @@ package scroll.internal.support.impl
 import com.google.common.graph.GraphBuilder
 import com.google.common.graph.Graphs
 import com.google.common.graph.MutableGraph
+import scroll.internal.errors.SCROLLErrors.RoleEquivalenceConstraintViolation
+import scroll.internal.errors.SCROLLErrors.RoleImplicationConstraintViolation
+import scroll.internal.errors.SCROLLErrors.RoleProhibitionConstraintViolation
 import scroll.internal.graph.RoleGraphProxyApi
 import scroll.internal.support.RoleConstraintsApi
 import scroll.internal.util.ReflectiveHelper
@@ -29,9 +32,7 @@ class RoleConstraints(private val roleGraph: RoleGraphProxyApi) extends RoleCons
       val allRoles         = roleGraph.plays.roles(player)
       allImplicitRoles.foreach(r =>
         if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
-          throw new RuntimeException(
-            s"Role implication constraint violation: '$player' should play role '$r', but it does not!"
-          )
+          throw RoleImplicationConstraintViolation(player, r)
         }
       )
     }
@@ -44,9 +45,7 @@ class RoleConstraints(private val roleGraph: RoleGraphProxyApi) extends RoleCons
       val allRoles           = roleGraph.plays.roles(player)
       allEquivalentRoles.foreach(r =>
         if (!allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
-          throw new RuntimeException(
-            s"Role equivalence constraint violation: '$player' should play role '$r', but it does not!"
-          )
+          throw RoleEquivalenceConstraintViolation(player, r)
         }
       )
     }
@@ -68,9 +67,7 @@ class RoleConstraints(private val roleGraph: RoleGraphProxyApi) extends RoleCons
         .diff(list.toSet)
         .foreach(r =>
           if (allRoles.exists(ReflectiveHelper.isInstanceOf(r, _))) {
-            throw new RuntimeException(
-              s"Role prohibition constraint violation: '$player' plays role '$r', but it is not allowed to do so!"
-            )
+            throw RoleProhibitionConstraintViolation(player, r)
           }
         )
     }
@@ -99,8 +96,9 @@ class RoleConstraints(private val roleGraph: RoleGraphProxyApi) extends RoleCons
     roleGraph.plays.allPlayers.foreach(p => roleGraph.plays.roles(p).foreach(r => validateConstraints(p, r)))
   }
 
-  /** Checks all role constraints between the given player and role instance. Will throw a RuntimeException if a
-    * constraint is violated!
+  /** Checks all role constraints between the given player and role instance.
+    *
+    * Raises typed constraint violations when a configured implication, equivalence, or prohibition is broken.
     *
     * @param player
     *   the player instance to check

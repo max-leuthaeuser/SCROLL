@@ -1,5 +1,9 @@
 package scroll.internal.util
 
+import com.google.common.util.concurrent.UncheckedExecutionException
+import scroll.internal.errors.SCROLLErrors.ReflectiveFieldNotFound
+import scroll.internal.errors.SCROLLErrors.ReflectiveMethodNotFound
+
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 import scala.collection.immutable.ArraySeq
@@ -15,6 +19,17 @@ import scala.util.Try
 object ReflectiveHelper {
 
   import Memoiser._
+
+  private val primitiveWrappers: Map[Class[?], Class[?]] = Map(
+    java.lang.Boolean.TYPE   -> classOf[java.lang.Boolean],
+    java.lang.Character.TYPE -> classOf[java.lang.Character],
+    java.lang.Short.TYPE     -> classOf[java.lang.Short],
+    java.lang.Integer.TYPE   -> classOf[java.lang.Integer],
+    java.lang.Long.TYPE      -> classOf[java.lang.Long],
+    java.lang.Float.TYPE     -> classOf[java.lang.Float],
+    java.lang.Double.TYPE    -> classOf[java.lang.Double],
+    java.lang.Byte.TYPE      -> classOf[java.lang.Byte]
+  )
 
   private lazy val methodCache =
     buildCache[Class[?], Seq[Method]](allMethods)
@@ -53,6 +68,14 @@ object ReflectiveHelper {
   private def cachedSimpleName(t: String): String =
     simpleClassName(simpleClassName(t, "."), "$")
 
+  private def getCachedValue[T](load: => T): T =
+    try
+      load
+    catch {
+      case err: UncheckedExecutionException if err.getCause.isInstanceOf[RuntimeException] =>
+        throw err.getCause.asInstanceOf[RuntimeException]
+    }
+
   /** Translates a Class or Type name to a String, i.e. removing anything before the last occurrence of "<code>$</code>"
     * or "<code>.</code>".
     *
@@ -61,7 +84,7 @@ object ReflectiveHelper {
     * @return
     *   anything after the last occurrence of "<code>$</code>" or "<code>.</code>"
     */
-  def simpleName(t: String): String = classNameCache.get(t)
+  def simpleName(t: String): String = getCachedValue(classNameCache.get(t))
 
   /** Compares two class names.
     *
@@ -103,16 +126,17 @@ object ReflectiveHelper {
       .get(of)
       .find(_.getName == name)
       .getOrElse {
-        throw new RuntimeException(s"Field '$name' not found on '$of'!")
+        throw ReflectiveFieldNotFound(of, name)
       }
 
-  private def findField(of: Class[?], name: String): Field = fieldByNameCache.get((of, name))
+  private def findField(of: Class[?], name: String): Field =
+    getCachedValue(fieldByNameCache.get((of, name)))
 
   private def cachedFindMethods(of: Class[?], name: String): Seq[Method] =
     methodCache.get(of).filter(_.getName == name)
 
   private def findMethods(of: Class[?], name: String): Seq[Method] =
-    methodsByNameCache.get((of, name))
+    getCachedValue(methodsByNameCache.get((of, name)))
 
   private def allMethods(of: Class[?]): Seq[Method] = {
     def getAccessibleMethods(c: Class[?]): Seq[Method] =
@@ -145,26 +169,90 @@ object ReflectiveHelper {
   private def isSameNumberOfParameters(m: Method, size: Int): Boolean =
     m.getParameterCount == size
 
+  private def wrappedType(tpe: Class[?]): Class[?] = primitiveWrappers.getOrElse(tpe, tpe)
+
   private def isSameArgumentTypes(m: Method, args: Seq[Any]): Boolean =
     args.zip(m.getParameterTypes).forall { case (arg, paramType) =>
-      paramType match {
-        case java.lang.Boolean.TYPE   => arg.isInstanceOf[Boolean]
-        case java.lang.Character.TYPE => arg.isInstanceOf[Char]
-        case java.lang.Short.TYPE     => arg.isInstanceOf[Short]
-        case java.lang.Integer.TYPE   => arg.isInstanceOf[Integer]
-        case java.lang.Long.TYPE      => arg.isInstanceOf[Long]
-        case java.lang.Float.TYPE     => arg.isInstanceOf[Float]
-        case java.lang.Double.TYPE    => arg.isInstanceOf[Double]
-        case java.lang.Byte.TYPE      => arg.isInstanceOf[Byte]
-        case _                        => arg == null || paramType.isAssignableFrom(arg.getClass)
+      if (arg == null) {
+        !paramType.isPrimitive
+      } else {
+        wrappedType(paramType).isAssignableFrom(arg.getClass)
       }
     }
 
   private def matchMethod(m: Method, args: Seq[Any]): Boolean =
     isSameNumberOfParameters(m, args.size) && isSameArgumentTypes(m, args)
 
+  private def inheritanceDistance(from: Class[?], to: Class[?]): Int =
+    if (from == to) {
+      0
+    } else {
+      val directParents = Option(from.getSuperclass).toSeq ++ from.getInterfaces.toSeq
+      directParents
+        .filter(to.isAssignableFrom)
+        .map(parent => inheritanceDistance(parent, to))
+        .collect { case distance if distance != Int.MaxValue => distance + 1 }
+        .minOption
+        .getOrElse(Int.MaxValue)
+    }
+
+  private def compareParameterSpecificity(arg: Any, left: Class[?], right: Class[?]): Int = {
+    val leftType  = wrappedType(left)
+    val rightType = wrappedType(right)
+
+    if (leftType == rightType) {
+      0
+    } else if (arg != null) {
+      val argType       = arg.getClass
+      val leftDistance  = inheritanceDistance(argType, leftType)
+      val rightDistance = inheritanceDistance(argType, rightType)
+
+      if (leftDistance < rightDistance) {
+        -1
+      } else if (rightDistance < leftDistance) {
+        1
+      } else if (leftType.isAssignableFrom(rightType)) {
+        1
+      } else if (rightType.isAssignableFrom(leftType)) {
+        -1
+      } else {
+        0
+      }
+    } else if (leftType.isAssignableFrom(rightType)) {
+      1
+    } else if (rightType.isAssignableFrom(leftType)) {
+      -1
+    } else {
+      0
+    }
+  }
+
+  private def declaringClassDistance(on: Class[?], declaringClass: Class[?]): Int =
+    inheritanceDistance(on, declaringClass)
+
+  private def selectMostSpecificMethod(on: Class[?], methods: Seq[Method], args: Seq[Any]): Option[Method] =
+    methods.reduceLeftOption { (best, candidate) =>
+      val comparisons =
+        args.zip(best.getParameterTypes.zip(candidate.getParameterTypes)).map { case (arg, (bestType, candidateType)) =>
+          compareParameterSpecificity(arg, bestType, candidateType)
+        }
+
+      val candidateBetter = comparisons.contains(1)
+      val bestBetter      = comparisons.contains(-1)
+
+      if (candidateBetter && !bestBetter) {
+        candidate
+      } else if (bestBetter && !candidateBetter) {
+        best
+      } else {
+        val bestDeclaringDistance      = declaringClassDistance(on, best.getDeclaringClass)
+        val candidateDeclaringDistance = declaringClassDistance(on, candidate.getDeclaringClass)
+        if (candidateDeclaringDistance < bestDeclaringDistance) candidate else best
+      }
+    }
+
   private def cachedFindMethod(on: Class[?], name: String, args: Seq[Any]): Option[Method] =
-    findMethods(on, name).find(matchMethod(_, args))
+    selectMostSpecificMethod(on, findMethods(on, name).filter(matchMethod(_, args)), args)
 
   /** Find a method of the wrapped object by its name and argument list given.
     *
@@ -178,7 +266,7 @@ object ReflectiveHelper {
     *   Some(Method) if the wrapped object provides the function/method in question, None otherwise
     */
   def findMethod(on: AnyRef, name: String, args: Seq[Any]): Option[Method] =
-    methodMatchCache.get((on.getClass, name, args))
+    getCachedValue(methodMatchCache.get((on.getClass, name, args)))
 
   private def cachedHasMember(on: Class[?], name: String): java.lang.Boolean = {
     lazy val fields  = fieldCache.get(on)
@@ -195,7 +283,8 @@ object ReflectiveHelper {
     * @return
     *   true if the wrapped object provides the given member, false otherwise
     */
-  def hasMember(on: AnyRef, name: String): Boolean = hasMemberCache.get((on.getClass, name))
+  def hasMember(on: AnyRef, name: String): Boolean =
+    getCachedValue(hasMemberCache.get((on.getClass, name)))
 
   /** Returns the runtime content of type T of the field with the given name of the wrapped object.
     *
@@ -258,7 +347,7 @@ object ReflectiveHelper {
       case elem +: _ =>
         elem.invoke(on).asInstanceOf[T]
       case Nil =>
-        throw new RuntimeException(s"Function with name '$name' not found on '$on'!")
+        throw ReflectiveMethodNotFound(on, name)
     }
 
   /** Checks if the wrapped object is of type T.

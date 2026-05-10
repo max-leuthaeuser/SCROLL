@@ -2,6 +2,8 @@ package scroll.benchmarks
 
 import scroll.internal.compartment.impl.Compartment
 
+/** Benchmark fixture comparing cached and non-cached dispatch lookups across a role chain of configurable depth.
+  */
 class CachingExample {
 
   class Core

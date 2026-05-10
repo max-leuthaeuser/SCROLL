@@ -4,6 +4,8 @@ import scroll.internal.compartment.impl.Compartment
 import scroll.internal.dispatch.DispatchQuery
 import scroll.internal.dispatch.DispatchQuery._
 
+/** Minimal benchmark fixture for measuring dispatch overhead when a role only forwards to the base object.
+  */
 class NoopExample(cached: Boolean) {
 
   val compartment = new NoopCompartment()

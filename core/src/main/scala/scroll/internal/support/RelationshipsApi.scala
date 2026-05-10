@@ -37,6 +37,9 @@ trait RelationshipsApi {
     /** Get all instances of the left side of the relationship w.r.t. the provided matching function and checking the
       * multiplicity.
       *
+      * Implementations raise typed [[scroll.internal.errors.SCROLLErrors.RelationshipError]] instances when the
+      * configured multiplicity is violated or not supported.
+      *
       * @param matcher
       *   a matching function to select the appropriate instances
       * @return
@@ -46,6 +49,9 @@ trait RelationshipsApi {
 
     /** Get all instances of the right side of the relationship w.r.t. the provided matching function and checking the
       * multiplicity.
+      *
+      * Implementations raise typed [[scroll.internal.errors.SCROLLErrors.RelationshipError]] instances when the
+      * configured multiplicity is violated or not supported.
       *
       * @param matcher
       *   a matching function to select the appropriate instances

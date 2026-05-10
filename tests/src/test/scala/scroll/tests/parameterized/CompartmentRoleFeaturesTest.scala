@@ -2,10 +2,36 @@ package scroll.tests.parameterized
 
 import scroll.internal.dispatch.DispatchQuery
 import scroll.internal.dispatch.DispatchQuery._
+import scroll.internal.errors.SCROLLErrors.CyclicRolePlayingRelationshipForPlayer
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
+import scroll.internal.errors.SCROLLErrors.TypeNotFound
 import scroll.tests.mocks._
 
 class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
+
+  test("Implicit unwrapping preserves RoleNotFound") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+      val someCore = new CoreA()
+      new CompartmentUnderTest(c, cc) {
+        val err = intercept[RoleNotFound] {
+          val _: String = (+someCore).missingMethod()
+        }
+        err.forCore shouldBe someCore
+        err.target shouldBe "missingMethod"
+      }
+    }
+  }
+
+  test("Implicit unwrapping preserves TypeNotFound") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+      new CompartmentUnderTest(c, cc) {
+        val err = intercept[TypeNotFound] {
+          val _: RoleA = roleQueries.one[RoleA]()
+        }
+        err.tpe shouldBe classOf[RoleA]
+      }
+    }
+  }
 
   test("Dropping role and invoking methods") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
@@ -385,9 +411,10 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           someRoleA play someRoleB
           someRoleB play someRoleC
 
-          a[RuntimeException] should be thrownBy {
+          val err = the[CyclicRolePlayingRelationshipForPlayer] thrownBy {
             someRoleC play someRoleA
           }
+          err.player shouldBe someRoleC
 
         }
       }

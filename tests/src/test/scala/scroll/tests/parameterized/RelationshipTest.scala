@@ -1,5 +1,6 @@
 package scroll.tests.parameterized
 
+import scroll.internal.errors.SCROLLErrors.ConcreteRelationshipMultiplicityViolation
 import scroll.tests.mocks._
 
 class RelationshipTest extends AbstractParameterizedSCROLLTest {
@@ -20,9 +21,10 @@ class RelationshipTest extends AbstractParameterizedSCROLLTest {
         val rel2     = roleRelationships.create(rel2Name).from[RoleA](relSize).to[RoleC](relSize)
         rel2.left() should contain only rA
 
-        the[AssertionError] thrownBy {
+        val violation = the[ConcreteRelationshipMultiplicityViolation] thrownBy
           rel2.right()
-        } should have message s"assertion failed: With a concrete multiplicity for '$rel2Name' of '$relSize' the resulting role set should have the same size!"
+        violation.relationshipName shouldBe rel2Name
+        violation.expectedSize.compare(relSize) shouldBe 0
 
         import scroll.internal.util.Many._
 

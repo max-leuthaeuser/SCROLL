@@ -1,5 +1,7 @@
 package scroll.internal.formal
 
+import scroll.internal.errors.SCROLLErrors.RoleNotPlayedInCROI
+
 /** Companion object for the formal representation of the Compartment Role Object Instance (CROI).
   */
 object FormalCROI {
@@ -117,36 +119,30 @@ final case class FormalCROI[NT >: Null <: AnyRef, RT >: Null <: AnyRef, CT >: Nu
 
   private def o: List[AnyRef] = n.concat(c)
 
+  private def linksFor(rst: RST, c: CT): List[(RT, RT)] = links.getOrElse((rst, c), List.empty)
+
   def o_c(c: CT): List[NT] = plays.filter(_._2 == c).map(_._1)
 
   private def repsilon: List[RT] = r :+ null
 
   def pred(rst: RST, c: CT, r: RT): List[RT] =
-    if (links.contains((rst, c))) {
-      links((rst, c)).filter(_._2 == r).map(_._1)
-    } else {
-      List.empty[RT]
-    }
+    linksFor(rst, c).filter(_._2 == r).map(_._1)
 
   def succ(rst: RST, c: CT, r: RT): List[RT] =
-    if (links.contains((rst, c))) {
-      links((rst, c)).filter(_._1 == r).map(_._2)
-    } else {
-      List.empty[RT]
-    }
+    linksFor(rst, c).filter(_._1 == r).map(_._2)
+
+  private def playerOption(r: RT): Option[NT] =
+    Option(r).flatMap(role => plays.find(_._3 == role).map(_._1))
 
   private def player(r: RT): NT =
-    r match {
-      case null => null
-      case _    =>
-        plays.find(_._3 == r) match {
-          case Some(p) => p._1
-          case _       => throw new RuntimeException(s"The given role '$r' is not played in the CROI!")
-        }
+    if (r == null) {
+      null.asInstanceOf[NT]
+    } else {
+      playerOption(r).getOrElse(throw RoleNotPlayedInCROI(r))
     }
 
   def overline_links(rst: RST, c: CT): List[(NT, NT)] =
-    links((rst, c)).map { case (r_1, r_2) =>
+    linksFor(rst, c).map { case (r_1, r_2) =>
       (player(r_1), player(r_2))
     }
 

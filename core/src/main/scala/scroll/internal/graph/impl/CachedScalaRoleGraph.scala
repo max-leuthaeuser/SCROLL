@@ -52,7 +52,7 @@ class CachedScalaRoleGraph(
   override def containsPlayer(player: AnyRef): Boolean = containsCache.get(player)
 
   override def detach(other: RoleGraph): Unit = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
+    require(other.isInstanceOf[ScalaRoleGraph], MERGE_MESSAGE)
     super.detach(other)
     resetAll()
   }
@@ -64,7 +64,7 @@ class CachedScalaRoleGraph(
   override def facets(player: AnyRef): Seq[Enumeration#Value] = facetsCache.get(player)
 
   override def addPart(other: RoleGraph): Boolean = {
-    require(other.isInstanceOf[CachedScalaRoleGraph], MERGE_MESSAGE)
+    require(other.isInstanceOf[ScalaRoleGraph], MERGE_MESSAGE)
     if (super.addPart(other)) {
       resetAll()
       true

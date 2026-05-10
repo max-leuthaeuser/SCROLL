@@ -5,12 +5,12 @@ import scroll.tests.mocks._
 class MultiCompartmentMergeTest extends AbstractParameterizedSCROLLTest {
 
   test("union") {
-    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+    forAll(PARAM_PAIRS) { (cachedA: Boolean, checkForCyclesA: Boolean, cachedB: Boolean, checkForCyclesB: Boolean) =>
       val core  = new CoreA()
-      val compA = new MultiCompartmentUnderTest(c, cc) {
+      val compA = new MultiCompartmentUnderTest(cachedA, checkForCyclesA) {
         core play new RoleA()
       }
-      val compB = new MultiCompartmentUnderTest(c, cc) {
+      val compB = new MultiCompartmentUnderTest(cachedB, checkForCyclesB) {
         core play new RoleB()
       }
       compA.compartmentRelations.union(compB)
@@ -25,12 +25,12 @@ class MultiCompartmentMergeTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("combine") {
-    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+    forAll(PARAM_PAIRS) { (cachedA: Boolean, checkForCyclesA: Boolean, cachedB: Boolean, checkForCyclesB: Boolean) =>
       val core  = new CoreA()
-      val compA = new MultiCompartmentUnderTest(c, cc) {
+      val compA = new MultiCompartmentUnderTest(cachedA, checkForCyclesA) {
         core play new RoleA()
       }
-      val compB = new MultiCompartmentUnderTest(c, cc) {
+      val compB = new MultiCompartmentUnderTest(cachedB, checkForCyclesB) {
         core play new RoleB()
       }
       compA.compartmentRelations.combine(compB)
@@ -45,12 +45,12 @@ class MultiCompartmentMergeTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("partOf") {
-    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+    forAll(PARAM_PAIRS) { (cachedA: Boolean, checkForCyclesA: Boolean, cachedB: Boolean, checkForCyclesB: Boolean) =>
       val core  = new CoreA()
-      val compA = new MultiCompartmentUnderTest(c, cc) {
+      val compA = new MultiCompartmentUnderTest(cachedA, checkForCyclesA) {
         core play new RoleA()
       }
-      val compB = new MultiCompartmentUnderTest(c, cc) {
+      val compB = new MultiCompartmentUnderTest(cachedB, checkForCyclesB) {
         core play new RoleB()
       }
       compA.compartmentRelations.partOf(compB)
@@ -62,17 +62,17 @@ class MultiCompartmentMergeTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("notPartOf") {
-    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+    forAll(PARAM_PAIRS) { (cachedA: Boolean, checkForCyclesA: Boolean, cachedB: Boolean, checkForCyclesB: Boolean) =>
       val core = new CoreA()
       class SomeRoleA
       class SomeRoleB
       val roleA = new SomeRoleA
       val roleB = new SomeRoleB
-      val compA = new MultiCompartmentUnderTest(c, cc) {
+      val compA = new MultiCompartmentUnderTest(cachedA, checkForCyclesA) {
         core play roleA
         core play roleB
       }
-      val compB = new MultiCompartmentUnderTest(c, cc) {
+      val compB = new MultiCompartmentUnderTest(cachedB, checkForCyclesB) {
         core play roleB
       }
       compA.compartmentRelations.notPartOf(compB)

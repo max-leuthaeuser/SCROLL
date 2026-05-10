@@ -37,7 +37,7 @@ trait RoleConstraintsApi {
   def addRoleProhibition[A <: AnyRef: ClassTag, B <: AnyRef: ClassTag](): Unit
 
   /** Wrapping function that checks all available role constraints for all core objects and its roles after the given
-    * function was executed. Throws a RuntimeException if a role constraint is violated!
+    * function was executed. Throws a typed constraint validation error if a role constraint is violated.
     *
     * @param func
     *   the function to execute and check role constraints afterwards

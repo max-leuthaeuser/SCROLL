@@ -1,11 +1,26 @@
 package scroll.tests.parameterized
 
+import scroll.sequenceResults
 import scroll.internal.dispatch.DispatchQuery
 import scroll.internal.dispatch.DispatchQuery._
+import scroll.internal.errors.SCROLLErrors.CyclicRolePlayingRelationshipForPlayer
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.tests.mocks._
 
 class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
+
+  test("Implicit unwrapping preserves RoleNotFound") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+      val someCore = new CoreA()
+      new MultiCompartmentUnderTest(c, cc) {
+        val err = intercept[RoleNotFound] {
+          val _: Seq[String] = (+someCore).missingMethod()
+        }
+        err.forCore shouldBe someCore
+        err.target shouldBe "missingMethod"
+      }
+    }
+  }
 
   test("Dropping role and invoking methods") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
@@ -29,6 +44,21 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           case Left(error)        => fail(error.toString)
         }
 
+      }
+    }
+  }
+
+  test("Multi-dispatch results can be sequenced") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+      val someCore = new CoreA()
+      new MultiCompartmentUnderTest(c, cc) {
+        someCore play new RoleA()
+        someCore play new RoleD()
+
+        (+someCore).i[Int]().sequenceResults match {
+          case Right(values) => values should contain theSameElementsAs Seq(1, 4)
+          case Left(error)   => fail(error.toString)
+        }
       }
     }
   }
@@ -416,9 +446,10 @@ class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           someRoleA play someRoleB
           someRoleB play someRoleC
 
-          a[RuntimeException] should be thrownBy {
+          val err = the[CyclicRolePlayingRelationshipForPlayer] thrownBy {
             someRoleC play someRoleA
           }
+          err.player shouldBe someRoleC
 
         }
       }

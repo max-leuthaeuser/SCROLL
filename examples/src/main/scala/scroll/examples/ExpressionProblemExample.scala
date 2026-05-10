@@ -1,6 +1,6 @@
 package scroll.examples
 
-import scroll.internal.compartment.impl.Compartment
+import scroll.Compartment
 
 object ExpressionProblemExample {
 
