@@ -1,6 +1,6 @@
-.documentableFilter {
+/* .documentableFilter {
   padding: 24px 24px 24px 12px;
-  background-color: var(--code-bg);
+  background-color: var(--documentable-bg);
 }
 
 .documentableFilter.active .filterToggleButton svg {
@@ -141,4 +141,4 @@
 .deselectAll:hover,
 .deselectAll:focus {
   color: var(--active-bg);
-}
+} */
