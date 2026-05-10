@@ -1,5 +1,6 @@
 package scroll.tests.parameterized
 
+import scroll.internal.errors.SCROLLErrors.RoleGroupInnerCardinalityViolation
 import scroll.tests.mocks.CompartmentUnderTest
 import scroll.tests.mocks.CoreA
 
@@ -25,13 +26,13 @@ class RoleGroupsTest extends AbstractParameterizedSCROLLTest {
           acc2 play target
         }
 
-        the[RuntimeException] thrownBy {
+        the[RoleGroupInnerCardinalityViolation] thrownBy {
           roleGroups.checked {
             acc2 drop target
           }
         } should have message s"Constraint set for inner cardinality of role group '$roleGroupName' violated!"
 
-        the[RuntimeException] thrownBy {
+        the[RoleGroupInnerCardinalityViolation] thrownBy {
           roleGroups.checked {
             acc1 play target
           }

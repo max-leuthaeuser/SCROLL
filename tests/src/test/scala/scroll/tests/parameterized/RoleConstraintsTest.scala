@@ -1,5 +1,8 @@
 package scroll.tests.parameterized
 
+import scroll.internal.errors.SCROLLErrors.RoleEquivalenceConstraintViolation
+import scroll.internal.errors.SCROLLErrors.RoleImplicationConstraintViolation
+import scroll.internal.errors.SCROLLErrors.RoleProhibitionConstraintViolation
 import scroll.tests.mocks._
 
 class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
@@ -17,7 +20,7 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
           player play roleA play roleB
         }
 
-        the[RuntimeException] thrownBy {
+        the[RoleImplicationConstraintViolation] thrownBy {
           roleConstraints.checked {
             player drop roleB
           }
@@ -33,13 +36,13 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
           player play roleC
         }
 
-        the[RuntimeException] thrownBy {
+        the[RoleImplicationConstraintViolation] thrownBy {
           roleConstraints.checked {
             player drop roleB
           }
         } should have message s"Role implication constraint violation: '$player' should play role '${roleB.getClass.getName}', but it does not!"
 
-        the[RuntimeException] thrownBy {
+        the[RoleImplicationConstraintViolation] thrownBy {
           roleConstraints.checked {
             player drop roleC
           }
@@ -71,7 +74,7 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
           player play roleB
         }
 
-        the[RuntimeException] thrownBy {
+        the[RoleProhibitionConstraintViolation] thrownBy {
           roleConstraints.checked {
             player play roleA
           }
@@ -84,7 +87,7 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
           player drop roleB
         }
 
-        the[RuntimeException] thrownBy {
+        the[RoleProhibitionConstraintViolation] thrownBy {
           roleConstraints.checked {
             player play roleA
             player play roleB
@@ -109,7 +112,7 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
         val roleC  = new RoleC()
         roleConstraints.addRoleEquivalence[RoleA, RoleB]()
 
-        the[RuntimeException] thrownBy {
+        the[RoleEquivalenceConstraintViolation] thrownBy {
           roleConstraints.checked {
             player play roleA
           }
@@ -119,7 +122,7 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
           player play roleB
         }
 
-        the[RuntimeException] thrownBy {
+        the[RoleEquivalenceConstraintViolation] thrownBy {
           roleConstraints.checked {
             player drop roleA
           }
@@ -137,7 +140,7 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
           player play roleC
         }
 
-        the[RuntimeException] thrownBy {
+        the[RoleEquivalenceConstraintViolation] thrownBy {
           roleConstraints.checked {
             player drop roleB
           }
@@ -156,7 +159,7 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
         roleConstraints.addRoleImplication[RoleA, RoleB]()
         roleConstraints.addRoleProhibition[RoleA, RoleB]()
 
-        the[RuntimeException] thrownBy {
+        the[RoleProhibitionConstraintViolation] thrownBy {
           roleConstraints.checked {
             player play roleA
             player play roleB

@@ -1,5 +1,6 @@
 package scroll.internal.support.impl
 
+import scroll.internal.errors.SCROLLErrors.RoleRestrictionViolation
 import scroll.internal.support.RoleRestrictionsApi
 import scroll.internal.util.ReflectiveHelper
 
@@ -44,7 +45,7 @@ class RoleRestrictions() extends RoleRestrictionsApi {
             .exists(r => ReflectiveHelper.isSameInterface(roleInterface, r.getDeclaredMethods))
         }
       ) {
-        throw new RuntimeException(s"Role '$role' can not be played by '$player' due to the active role restrictions!")
+        throw RoleRestrictionViolation(player, role)
       }
     }
 

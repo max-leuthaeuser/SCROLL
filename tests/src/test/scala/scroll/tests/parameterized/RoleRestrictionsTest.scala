@@ -1,5 +1,6 @@
 package scroll.tests.parameterized
 
+import scroll.internal.errors.SCROLLErrors.RoleRestrictionViolation
 import scroll.tests.mocks._
 
 class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
@@ -15,7 +16,7 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
         player drop roleA
         roleRestrictions.replaceRoleRestriction[CoreA, RoleD]()
 
-        the[RuntimeException] thrownBy {
+        the[RoleRestrictionViolation] thrownBy {
           player play roleA
         } should have message s"Role '$roleA' can not be played by '$player' due to the active role restrictions!"
 
@@ -35,7 +36,7 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
         player play roleA
         player play roleD
 
-        the[RuntimeException] thrownBy {
+        the[RoleRestrictionViolation] thrownBy {
           player play roleB
         } should have message s"Role '$roleB' can not be played by '$player' due to the active role restrictions!"
 

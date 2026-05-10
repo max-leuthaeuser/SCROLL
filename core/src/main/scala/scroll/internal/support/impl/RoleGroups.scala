@@ -3,6 +3,13 @@ package scroll.internal.support.impl
 import org.chocosolver.solver.Model
 import org.chocosolver.solver.Solution
 import org.chocosolver.solver.variables.IntVar
+import scroll.internal.errors.SCROLLErrors.DuplicateRoleGroup
+import scroll.internal.errors.SCROLLErrors.InvalidRoleGroupConstraint
+import scroll.internal.errors.SCROLLErrors.InvalidRoleGroupEntry
+import scroll.internal.errors.SCROLLErrors.MissingRoleGroupConstraint
+import scroll.internal.errors.SCROLLErrors.RoleGroupInnerCardinalityViolation
+import scroll.internal.errors.SCROLLErrors.RoleGroupOccurrenceCardinalityViolation
+import scroll.internal.errors.SCROLLErrors.UnsolvableRoleGroupConstraint
 import scroll.internal.graph.RoleGraphProxyApi
 import scroll.internal.support.RoleGroupsApi
 import scroll.internal.util.ReflectiveHelper
@@ -35,10 +42,7 @@ class RoleGroups(private val roleGraph: RoleGraphProxyApi) extends RoleGroupsApi
         .map(ts => roleGraph.plays.allPlayers.count(r => ts == ReflectiveHelper.simpleName(r.getClass.toString)))
         .sum
       if (actual < min || max < actual) {
-        throw new RuntimeException(
-          s"Occurrence cardinality in role group '$name' violated! " +
-            s"Roles '$types' are played $actual times but should be between $min and $max."
-        )
+        throw RoleGroupOccurrenceCardinalityViolation(name, types, actual, min, max.toString)
       }
     }
 
@@ -87,14 +91,7 @@ class RoleGroups(private val roleGraph: RoleGraphProxyApi) extends RoleGroupsApi
               val numRole = roleGraph.plays
                 .roles(p)
                 .count(r => t == ReflectiveHelper.simpleName(r.getClass.toString))
-              if (
-                numRole == s.getIntVal(
-                  constraintsMap.getOrElse(
-                    t,
-                    throw new RuntimeException(s"Constraints for role group '${rg.name}' do not contain '$t'!")
-                  )
-                )
-              ) {
+              if (numRole == s.getIntVal(constraintsMap.getOrElse(t, throw MissingRoleGroupConstraint(rg.name, t)))) {
                 resultRoleTypeSet.add(t)
                 true
               } else {
@@ -108,18 +105,17 @@ class RoleGroups(private val roleGraph: RoleGraphProxyApi) extends RoleGroupsApi
       }
 
     } else {
-      throw new RuntimeException(s"Constraint set of role group '${rg.name}' unsolvable!")
+      throw UnsolvableRoleGroupConstraint(rg.name)
     }
     // give up
-    throw new RuntimeException(s"Constraint set for inner cardinality of role group '${rg.name}' violated!")
+    throw RoleGroupInnerCardinalityViolation(rg.name)
   }
 
   private def resolveTypes(rg: RoleGroup, evaluatedGroups: mutable.Map[String, Seq[String]]): Seq[String] =
     rg.entries.flatMap {
       case ts: Types         => ts.types
       case nested: RoleGroup => eval(nested, evaluatedGroups)
-      case _                 =>
-        throw new RuntimeException("Role groups can only contain a list of types or role groups itself!")
+      case _                 => throw InvalidRoleGroupEntry()
     }
 
   private def eval(rg: RoleGroup, evaluatedGroups: mutable.Map[String, Seq[String]]): Seq[String] =
@@ -139,10 +135,7 @@ class RoleGroups(private val roleGraph: RoleGraphProxyApi) extends RoleGroupsApi
             (model.intVar(sumName, 1, numOfTypes), OR)
           case _ if min == 1 && max.compare(1) == 0 => (model.intVar(sumName, 1), XOR)
           case _ if min == 0 && max.compare(0) == 0 => (model.intVar(sumName, 0), NOT)
-          case _                                    =>
-            throw new RuntimeException(
-              s"Role group constraint of ($min, $max) for role group '${rg.name}' not possible!"
-            )
+          case _                                    => throw InvalidRoleGroupConstraint(rg.name, min, max.toString)
         }
 
         val constraintsMap = buildConstraintsMap(types, op, model, numOfTypes, min, max, rg)
@@ -165,7 +158,7 @@ class RoleGroups(private val roleGraph: RoleGraphProxyApi) extends RoleGroupsApi
 
   private def addRoleGroup(rg: RoleGroup): RoleGroup =
     if (roleGroups.putIfAbsent(rg.name, rg).nonEmpty) {
-      throw new RuntimeException(s"The RoleGroup ${rg.name} was already added!")
+      throw DuplicateRoleGroup(rg.name)
     } else {
       rg
     }
