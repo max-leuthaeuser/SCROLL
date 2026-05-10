@@ -20,11 +20,12 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
           player play roleA play roleB
         }
 
-        the[RoleImplicationConstraintViolation] thrownBy {
+        val implicationViolation1 = the[RoleImplicationConstraintViolation] thrownBy
           roleConstraints.checked {
             player drop roleB
           }
-        } should have message s"Role implication constraint violation: '$player' should play role '${roleB.getClass.getName}', but it does not!"
+        implicationViolation1.player shouldBe player
+        implicationViolation1.requiredRole shouldBe roleB.getClass.getName
 
         roleConstraints.checked {
           player play roleB
@@ -36,17 +37,19 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
           player play roleC
         }
 
-        the[RoleImplicationConstraintViolation] thrownBy {
+        val implicationViolation2 = the[RoleImplicationConstraintViolation] thrownBy
           roleConstraints.checked {
             player drop roleB
           }
-        } should have message s"Role implication constraint violation: '$player' should play role '${roleB.getClass.getName}', but it does not!"
+        implicationViolation2.player shouldBe player
+        implicationViolation2.requiredRole shouldBe roleB.getClass.getName
 
-        the[RoleImplicationConstraintViolation] thrownBy {
+        val implicationViolation3 = the[RoleImplicationConstraintViolation] thrownBy
           roleConstraints.checked {
             player drop roleC
           }
-        } should have message s"Role implication constraint violation: '$player' should play role '${roleB.getClass.getName}', but it does not!"
+        implicationViolation3.player shouldBe player
+        implicationViolation3.requiredRole shouldBe roleB.getClass.getName
 
         roleConstraints.checked {
           player play roleC play roleB
@@ -74,11 +77,12 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
           player play roleB
         }
 
-        the[RoleProhibitionConstraintViolation] thrownBy {
+        val prohibitionViolation1 = the[RoleProhibitionConstraintViolation] thrownBy
           roleConstraints.checked {
             player play roleA
           }
-        } should have message s"Role prohibition constraint violation: '$player' plays role '${roleB.getClass.getName}', but it is not allowed to do so!"
+        prohibitionViolation1.player shouldBe player
+        prohibitionViolation1.prohibitedRole shouldBe roleB.getClass.getName
 
         roleConstraints.addRoleProhibition[RoleB, RoleC]()
 
@@ -87,13 +91,14 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
           player drop roleB
         }
 
-        the[RoleProhibitionConstraintViolation] thrownBy {
+        val prohibitionViolation2 = the[RoleProhibitionConstraintViolation] thrownBy
           roleConstraints.checked {
             player play roleA
             player play roleB
             player play roleC
           }
-        } should have message s"Role prohibition constraint violation: '$player' plays role '${roleB.getClass.getName}', but it is not allowed to do so!"
+        prohibitionViolation2.player shouldBe player
+        prohibitionViolation2.prohibitedRole shouldBe roleB.getClass.getName
 
         roleConstraints.checked {
           player drop roleB
@@ -112,21 +117,23 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
         val roleC  = new RoleC()
         roleConstraints.addRoleEquivalence[RoleA, RoleB]()
 
-        the[RoleEquivalenceConstraintViolation] thrownBy {
+        val equivalenceViolation1 = the[RoleEquivalenceConstraintViolation] thrownBy
           roleConstraints.checked {
             player play roleA
           }
-        } should have message s"Role equivalence constraint violation: '$player' should play role '${roleB.getClass.getName}', but it does not!"
+        equivalenceViolation1.player shouldBe player
+        equivalenceViolation1.requiredRole shouldBe roleB.getClass.getName
 
         roleConstraints.checked {
           player play roleB
         }
 
-        the[RoleEquivalenceConstraintViolation] thrownBy {
+        val equivalenceViolation2 = the[RoleEquivalenceConstraintViolation] thrownBy
           roleConstraints.checked {
             player drop roleA
           }
-        } should have message s"Role equivalence constraint violation: '$player' should play role '${roleA.getClass.getName}', but it does not!"
+        equivalenceViolation2.player shouldBe player
+        equivalenceViolation2.requiredRole shouldBe roleA.getClass.getName
 
         roleConstraints.checked {
           player drop roleB
@@ -140,11 +147,12 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
           player play roleC
         }
 
-        the[RoleEquivalenceConstraintViolation] thrownBy {
+        val equivalenceViolation3 = the[RoleEquivalenceConstraintViolation] thrownBy
           roleConstraints.checked {
             player drop roleB
           }
-        } should have message s"Role equivalence constraint violation: '$player' should play role '${roleB.getClass.getName}', but it does not!"
+        equivalenceViolation3.player shouldBe player
+        equivalenceViolation3.requiredRole shouldBe roleB.getClass.getName
 
       }
     }
@@ -159,12 +167,13 @@ class RoleConstraintsTest extends AbstractParameterizedSCROLLTest {
         roleConstraints.addRoleImplication[RoleA, RoleB]()
         roleConstraints.addRoleProhibition[RoleA, RoleB]()
 
-        the[RoleProhibitionConstraintViolation] thrownBy {
+        val prohibitionViolation = the[RoleProhibitionConstraintViolation] thrownBy
           roleConstraints.checked {
             player play roleA
             player play roleB
           }
-        } should have message s"Role prohibition constraint violation: '$player' plays role '${roleB.getClass.getName}', but it is not allowed to do so!"
+        prohibitionViolation.player shouldBe player
+        prohibitionViolation.prohibitedRole shouldBe roleB.getClass.getName
 
       }
     }

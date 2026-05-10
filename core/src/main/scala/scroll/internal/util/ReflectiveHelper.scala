@@ -1,5 +1,9 @@
 package scroll.internal.util
 
+import com.google.common.util.concurrent.UncheckedExecutionException
+import scroll.internal.errors.SCROLLErrors.ReflectiveFieldNotFound
+import scroll.internal.errors.SCROLLErrors.ReflectiveMethodNotFound
+
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 import scala.collection.immutable.ArraySeq
@@ -64,6 +68,14 @@ object ReflectiveHelper {
   private def cachedSimpleName(t: String): String =
     simpleClassName(simpleClassName(t, "."), "$")
 
+  private def getCachedValue[T](load: => T): T =
+    try
+      load
+    catch {
+      case err: UncheckedExecutionException if err.getCause.isInstanceOf[RuntimeException] =>
+        throw err.getCause.asInstanceOf[RuntimeException]
+    }
+
   /** Translates a Class or Type name to a String, i.e. removing anything before the last occurrence of "<code>$</code>"
     * or "<code>.</code>".
     *
@@ -72,7 +84,7 @@ object ReflectiveHelper {
     * @return
     *   anything after the last occurrence of "<code>$</code>" or "<code>.</code>"
     */
-  def simpleName(t: String): String = classNameCache.get(t)
+  def simpleName(t: String): String = getCachedValue(classNameCache.get(t))
 
   /** Compares two class names.
     *
@@ -114,16 +126,17 @@ object ReflectiveHelper {
       .get(of)
       .find(_.getName == name)
       .getOrElse {
-        throw new RuntimeException(s"Field '$name' not found on '$of'!")
+        throw ReflectiveFieldNotFound(of, name)
       }
 
-  private def findField(of: Class[?], name: String): Field = fieldByNameCache.get((of, name))
+  private def findField(of: Class[?], name: String): Field =
+    getCachedValue(fieldByNameCache.get((of, name)))
 
   private def cachedFindMethods(of: Class[?], name: String): Seq[Method] =
     methodCache.get(of).filter(_.getName == name)
 
   private def findMethods(of: Class[?], name: String): Seq[Method] =
-    methodsByNameCache.get((of, name))
+    getCachedValue(methodsByNameCache.get((of, name)))
 
   private def allMethods(of: Class[?]): Seq[Method] = {
     def getAccessibleMethods(c: Class[?]): Seq[Method] =
@@ -253,7 +266,7 @@ object ReflectiveHelper {
     *   Some(Method) if the wrapped object provides the function/method in question, None otherwise
     */
   def findMethod(on: AnyRef, name: String, args: Seq[Any]): Option[Method] =
-    methodMatchCache.get((on.getClass, name, args))
+    getCachedValue(methodMatchCache.get((on.getClass, name, args)))
 
   private def cachedHasMember(on: Class[?], name: String): java.lang.Boolean = {
     lazy val fields  = fieldCache.get(on)
@@ -270,7 +283,8 @@ object ReflectiveHelper {
     * @return
     *   true if the wrapped object provides the given member, false otherwise
     */
-  def hasMember(on: AnyRef, name: String): Boolean = hasMemberCache.get((on.getClass, name))
+  def hasMember(on: AnyRef, name: String): Boolean =
+    getCachedValue(hasMemberCache.get((on.getClass, name)))
 
   /** Returns the runtime content of type T of the field with the given name of the wrapped object.
     *
@@ -333,7 +347,7 @@ object ReflectiveHelper {
       case elem +: _ =>
         elem.invoke(on).asInstanceOf[T]
       case Nil =>
-        throw new RuntimeException(s"Function with name '$name' not found on '$on'!")
+        throw ReflectiveMethodNotFound(on, name)
     }
 
   /** Checks if the wrapped object is of type T.

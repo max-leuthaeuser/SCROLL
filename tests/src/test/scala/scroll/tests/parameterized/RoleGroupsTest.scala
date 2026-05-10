@@ -26,17 +26,17 @@ class RoleGroupsTest extends AbstractParameterizedSCROLLTest {
           acc2 play target
         }
 
-        the[RoleGroupInnerCardinalityViolation] thrownBy {
+        val innerViolation1 = the[RoleGroupInnerCardinalityViolation] thrownBy
           roleGroups.checked {
             acc2 drop target
           }
-        } should have message s"Constraint set for inner cardinality of role group '$roleGroupName' violated!"
+        innerViolation1.groupName shouldBe roleGroupName
 
-        the[RoleGroupInnerCardinalityViolation] thrownBy {
+        val innerViolation2 = the[RoleGroupInnerCardinalityViolation] thrownBy
           roleGroups.checked {
             acc1 play target
           }
-        } should have message s"Constraint set for inner cardinality of role group '$roleGroupName' violated!"
+        innerViolation2.groupName shouldBe roleGroupName
 
       }
     }

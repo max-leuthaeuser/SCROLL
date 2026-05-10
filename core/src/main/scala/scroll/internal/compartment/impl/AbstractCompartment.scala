@@ -3,6 +3,7 @@ package scroll.internal.compartment.impl
 import scroll.internal.compartment.CompartmentApi
 import scroll.internal.dispatch.DispatchQuery
 import scroll.internal.dispatch.impl.SCROLLDispatchable
+import scroll.internal.errors.SCROLLErrors.InvalidRolePlayer
 import scroll.internal.errors.SCROLLErrors.SCROLLError
 import scroll.internal.errors.SCROLLErrors.TypeError
 import scroll.internal.errors.SCROLLErrors.TypeNotFound
@@ -105,7 +106,7 @@ abstract class AbstractCompartment() extends CompartmentApi {
         case p: IPlayer[?, ?] => rolePlaying.addPlaysRelation[W, R](p.wrapped.asInstanceOf[W], role)
         case p: AnyRef        => rolePlaying.addPlaysRelation[W, R](p.asInstanceOf[W], role)
         case null             =>
-          throw new RuntimeException(s"Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles!")
+          throw InvalidRolePlayer()
       }
       this
     }

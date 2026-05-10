@@ -15,6 +15,7 @@ class MultiCompartmentTest extends AbstractParameterizedSCROLLTest {
           case Left(f @ IllegalRoleInvocationDispatch(_, _, _)) => fail(f.toString)
           case Left(TypeNotFound(tpe))                          => fail(s"Unexpected type lookup failure for '$tpe'")
           case Left(RoleNotFound(core, _, _))                   => core shouldBe p
+          case Left(error)                                      => fail("Unexpected dispatch failure: ", error)
         }
 
         val rA = new RoleA()

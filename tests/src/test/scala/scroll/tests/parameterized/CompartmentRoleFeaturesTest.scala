@@ -2,6 +2,7 @@ package scroll.tests.parameterized
 
 import scroll.internal.dispatch.DispatchQuery
 import scroll.internal.dispatch.DispatchQuery._
+import scroll.internal.errors.SCROLLErrors.CyclicRolePlayingRelationshipForPlayer
 import scroll.internal.errors.SCROLLErrors.RoleNotFound
 import scroll.internal.errors.SCROLLErrors.TypeNotFound
 import scroll.tests.mocks._
@@ -410,9 +411,10 @@ class CompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
           someRoleA play someRoleB
           someRoleB play someRoleC
 
-          a[RuntimeException] should be thrownBy {
+          val err = the[CyclicRolePlayingRelationshipForPlayer] thrownBy {
             someRoleC play someRoleA
           }
+          err.player shouldBe someRoleC
 
         }
       }

@@ -96,8 +96,9 @@ class RoleConstraints(private val roleGraph: RoleGraphProxyApi) extends RoleCons
     roleGraph.plays.allPlayers.foreach(p => roleGraph.plays.roles(p).foreach(r => validateConstraints(p, r)))
   }
 
-  /** Checks all role constraints between the given player and role instance. Will throw a RuntimeException if a
-    * constraint is violated!
+  /** Checks all role constraints between the given player and role instance.
+    *
+    * Raises typed constraint violations when a configured implication, equivalence, or prohibition is broken.
     *
     * @param player
     *   the player instance to check

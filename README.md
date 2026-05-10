@@ -52,6 +52,10 @@ new Compartment {
 For user-facing imports, prefer the public `scroll` facade such as `scroll.Compartment`, `scroll.DispatchQuery`, and
 `scroll.Many.*` instead of importing from `scroll.internal.*`.
 
+When working with `scroll.MultiCompartment`, the public `scroll.MultiDispatchResult` alias and `sequenceResults`
+extension help flatten the nested `Either[SCROLLError, Seq[Either[SCROLLError, E]]]` return shape into
+`Either[SCROLLError, Seq[E]]` when all dispatched role invocations succeed.
+
 A more elaborated example can be found [here](https://github.com/max-leuthaeuser/SCROLL/wiki/The-Bank-Example-%28Overview%29) and [here](https://github.com/max-leuthaeuser/SCROLL/wiki/The-Bank-Example-%28Advanced-Role-features%29).
 
 You can find even more examples [here](https://github.com/max-leuthaeuser/SCROLL/tree/master/examples/src/main/scala/scroll/examples).

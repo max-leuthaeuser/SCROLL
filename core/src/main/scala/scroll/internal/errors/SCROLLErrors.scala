@@ -4,7 +4,9 @@ package scroll.internal.errors
   */
 object SCROLLErrors {
 
-  sealed trait SCROLLError extends RuntimeException
+  sealed trait SCROLLError extends RuntimeException {
+    override def getMessage: String = toString
+  }
 
   sealed trait TypeError extends SCROLLError
 
@@ -53,6 +55,18 @@ object SCROLLErrors {
   }
 
   sealed trait RoleGroupError extends ValidationError
+
+  sealed trait RelationshipError extends ValidationError
+
+  sealed trait ReflectionError extends SCROLLError
+
+  sealed trait FormalModelError extends RuntimeException {
+    override def getMessage: String = toString
+  }
+
+  sealed trait GraphError extends SCROLLError
+
+  sealed trait PlayerError extends SCROLLError
 
   /** Raised when the occurrence cardinality of a role group is outside the configured bounds.
     */
@@ -104,6 +118,86 @@ object SCROLLErrors {
     */
   final case class DuplicateRoleGroup(groupName: String) extends RoleGroupError {
     override def toString: String = s"The RoleGroup $groupName was already added!"
+  }
+
+  /** Raised when a relationship expects at least one match but none can be found.
+    */
+  final case class EmptyRelationshipMultiplicityViolation(relationshipName: String) extends RelationshipError {
+
+    override def toString: String =
+      s"With left multiplicity for '$relationshipName' of '*', the resulting role set should not be empty!"
+
+  }
+
+  /** Raised when a relationship expects an exact number of matches but gets a different size.
+    */
+  final case class ConcreteRelationshipMultiplicityViolation(relationshipName: String, expectedSize: Ordered[Int])
+      extends RelationshipError {
+
+    override def toString: String =
+      s"With a concrete multiplicity for '$relationshipName' of '$expectedSize' the resulting role set should have the same size!"
+
+  }
+
+  /** Raised when a relationship expects a bounded range of matches but gets a size outside that range.
+    */
+  final case class RangeRelationshipMultiplicityViolation(
+    relationshipName: String,
+    lowerBound: Ordered[Int],
+    upperBound: String
+  ) extends RelationshipError {
+
+    override def toString: String =
+      s"With a multiplicity for '$relationshipName' from '$lowerBound' to '$upperBound', the resulting role set size should be in between!"
+
+  }
+
+  /** Raised when a relationship uses a multiplicity shape that is not supported by the runtime.
+    */
+  final case class UnsupportedRelationshipMultiplicity() extends RelationshipError {
+    override def toString: String = "This multiplicity is not allowed!"
+  }
+
+  /** Raised when reflective field lookup fails.
+    */
+  final case class ReflectiveFieldNotFound(owner: Class[?], fieldName: String) extends ReflectionError {
+    override def toString: String = s"Field '$fieldName' not found on '$owner'!"
+  }
+
+  /** Raised when reflective method lookup by name fails.
+    */
+  final case class ReflectiveMethodNotFound(target: AnyRef, methodName: String) extends ReflectionError {
+    override def toString: String = s"Function with name '$methodName' not found on '$target'!"
+  }
+
+  /** Raised when a role graph operation would introduce a cycle.
+    */
+  final case class CyclicRolePlayingRelationshipFound() extends GraphError {
+    override def toString: String = "Cyclic role-playing relationship found!"
+  }
+
+  /** Raised when a specific player would become part of a cyclic role graph.
+    */
+  final case class CyclicRolePlayingRelationshipForPlayer(player: AnyRef) extends GraphError {
+    override def toString: String = s"Cyclic role-playing relationship for player '$player' found!"
+  }
+
+  /** Raised when the CROM meta-model cannot be loaded.
+    */
+  final case class CROMMetaModelLoadFailure() extends FormalModelError {
+    override def toString: String = "Meta-Model for CROM could not be loaded!"
+  }
+
+  /** Raised when a CROI relationship references a role without a corresponding plays entry.
+    */
+  final case class RoleNotPlayedInCROI(role: AnyRef) extends FormalModelError {
+    override def toString: String = s"The given role '$role' is not played in the CROI!"
+  }
+
+  /** Raised when something other than an object/player tries to participate in role playing.
+    */
+  final case class InvalidRolePlayer() extends PlayerError {
+    override def toString: String = "Only instances of 'IPlayer' or 'AnyRef' are allowed to play roles!"
   }
 
   final case class TypeNotFound(tpe: Class[?]) extends TypeError {

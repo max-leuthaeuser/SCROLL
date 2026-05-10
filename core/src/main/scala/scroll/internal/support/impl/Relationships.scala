@@ -1,5 +1,9 @@
 package scroll.internal.support.impl
 
+import scroll.internal.errors.SCROLLErrors.ConcreteRelationshipMultiplicityViolation
+import scroll.internal.errors.SCROLLErrors.EmptyRelationshipMultiplicityViolation
+import scroll.internal.errors.SCROLLErrors.RangeRelationshipMultiplicityViolation
+import scroll.internal.errors.SCROLLErrors.UnsupportedRelationshipMultiplicity
 import scroll.internal.support.RelationshipsApi
 import scroll.internal.support.RoleQueriesApi
 
@@ -51,31 +55,28 @@ class Relationships(private val roleQueries: RoleQueriesApi) extends Relationshi
     rightMul: Multiplicity
   ) extends RelationshipApi[L, R] {
 
-    protected val MULT_NOT_ALLOWED: String = "This multiplicity is not allowed!"
-
     private def checkMul[T](m: Multiplicity, on: Seq[T]): Seq[T] = {
       m match {
         case MMany() =>
-          assert(on.nonEmpty, s"With left multiplicity for '$name' of '*', the resulting role set should not be empty!")
+          if (on.isEmpty) {
+            throw EmptyRelationshipMultiplicityViolation(name)
+          }
         case ConcreteValue(v) =>
-          assert(
-            v.compare(on.size) == 0,
-            s"With a concrete multiplicity for '$name' of '$v' the resulting role set should have the same size!"
-          )
+          if (v.compare(on.size) != 0) {
+            throw ConcreteRelationshipMultiplicityViolation(name, v)
+          }
         case RangeMultiplicity(f, t) =>
           (f, t) match {
             case (ConcreteValue(v1), ConcreteValue(v2)) =>
-              assert(
-                v1 <= on.size && v2 >= on.size,
-                s"With a multiplicity for '$name' from '$v1' to '$v2', the resulting role set size should be in between!"
-              )
+              if (!(v1 <= on.size && v2 >= on.size)) {
+                throw RangeRelationshipMultiplicityViolation(name, v1, v2.toString)
+              }
             case (ConcreteValue(v), MMany()) =>
-              assert(
-                v <= on.size,
-                s"With a multiplicity for '$name' from '$v' to '*', the resulting role set size should be in between!"
-              )
+              if (!(v <= on.size)) {
+                throw RangeRelationshipMultiplicityViolation(name, v, "*")
+              }
             case _ =>
-              throw new RuntimeException(MULT_NOT_ALLOWED) // default case
+              throw UnsupportedRelationshipMultiplicity()
           }
       }
       on

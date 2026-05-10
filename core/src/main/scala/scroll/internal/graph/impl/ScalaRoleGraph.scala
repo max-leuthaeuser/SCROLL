@@ -5,6 +5,8 @@ import com.google.common.graph.GraphBuilder
 import com.google.common.graph.Graphs
 import com.google.common.graph.MutableGraph
 import scroll.internal.compartment.impl.AbstractCompartment
+import scroll.internal.errors.SCROLLErrors.CyclicRolePlayingRelationshipFound
+import scroll.internal.errors.SCROLLErrors.CyclicRolePlayingRelationshipForPlayer
 import scroll.internal.graph.RoleGraph
 
 import scala.annotation.tailrec
@@ -61,7 +63,7 @@ class ScalaRoleGraph(
 
   private def checkCycles(): Unit =
     if (checkForCycles && Graphs.hasCycle(root)) {
-      throw new RuntimeException("Cyclic role-playing relationship found!")
+      throw CyclicRolePlayingRelationshipFound()
     }
 
   override def addBinding(player: AnyRef, role: AnyRef): Unit = {
@@ -69,7 +71,7 @@ class ScalaRoleGraph(
     require(null != role)
     val _ = root.putEdge(player, role)
     if (checkForCycles && Graphs.hasCycle(root)) {
-      throw new RuntimeException(s"Cyclic role-playing relationship for player '$player' found!")
+      throw CyclicRolePlayingRelationshipForPlayer(player)
     }
   }
 

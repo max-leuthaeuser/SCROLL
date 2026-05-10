@@ -149,7 +149,9 @@ class RoleGroups(private val roleGraph: RoleGraphProxyApi) extends RoleGroupsApi
     groups.foreach(eval(_, evaluatedGroups))
   }
 
-  /** Checks all role groups. Will throw a RuntimeException if a role group constraint is violated!
+  /** Checks all role groups.
+    *
+    * Raises typed role-group validation errors when an occurrence or inner-cardinality constraint is violated.
     */
   private def validate(groups: Seq[RoleGroup]): Unit = {
     validateOccurrenceCardinality(groups)

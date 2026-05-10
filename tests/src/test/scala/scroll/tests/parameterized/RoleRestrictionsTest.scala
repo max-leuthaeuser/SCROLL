@@ -16,9 +16,11 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
         player drop roleA
         roleRestrictions.replaceRoleRestriction[CoreA, RoleD]()
 
-        the[RoleRestrictionViolation] thrownBy {
+        val violation = the[RoleRestrictionViolation] thrownBy {
           player play roleA
-        } should have message s"Role '$roleA' can not be played by '$player' due to the active role restrictions!"
+        }
+        violation.player shouldBe player
+        violation.role shouldBe roleA
 
       }
     }
@@ -36,9 +38,11 @@ class RoleRestrictionsTest extends AbstractParameterizedSCROLLTest {
         player play roleA
         player play roleD
 
-        the[RoleRestrictionViolation] thrownBy {
+        val violation = the[RoleRestrictionViolation] thrownBy {
           player play roleB
-        } should have message s"Role '$roleB' can not be played by '$player' due to the active role restrictions!"
+        }
+        violation.player shouldBe player
+        violation.role shouldBe roleB
 
       }
     }

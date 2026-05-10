@@ -1,5 +1,7 @@
 package scroll.tests.other
 
+import scroll.internal.errors.SCROLLErrors.ReflectiveFieldNotFound
+import scroll.internal.errors.SCROLLErrors.ReflectiveMethodNotFound
 import scroll.internal.util.ReflectiveHelper
 import scroll.tests.AbstractSCROLLTest
 
@@ -38,6 +40,30 @@ class ReflectiveHelperTest extends AbstractSCROLLTest {
 
     method.map(_.getParameterTypes.toSeq) shouldBe Some(Seq(java.lang.Integer.TYPE))
     ReflectiveHelper.resultOf[Int](target, method.get, Seq(1)) shouldBe 2
+  }
+
+  test("propertyOf reports typed missing-field errors") {
+    class Target {
+      val value: String = "ok"
+    }
+
+    val err = intercept[ReflectiveFieldNotFound] {
+      ReflectiveHelper.propertyOf[String](new Target(), "missing")
+    }
+
+    err.fieldName shouldBe "missing"
+  }
+
+  test("resultOf reports typed missing-method errors") {
+    class Target {
+      def value: String = "ok"
+    }
+
+    val err = intercept[ReflectiveMethodNotFound] {
+      ReflectiveHelper.resultOf[String](new Target(), "missing")
+    }
+
+    err.methodName shouldBe "missing"
   }
 
 }
