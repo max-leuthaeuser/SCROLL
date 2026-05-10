@@ -25,6 +25,8 @@ To provide a DSL for the pure embedding of roles in structured contexts, *SCROLL
 ## Example ##
 
 ```scala
+import scroll.Compartment
+
 // A Natural type, the player:
 class Person(val firstName: String)
 

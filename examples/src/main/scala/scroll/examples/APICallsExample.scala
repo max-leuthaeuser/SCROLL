@@ -1,8 +1,8 @@
 package scroll.examples
 
-import scroll.internal.compartment.impl.Compartment
-import scroll.internal.dispatch.DispatchQuery
-import scroll.internal.dispatch.DispatchQuery.Bypassing
+import scroll.Compartment
+import scroll.DispatchQuery
+import scroll.DispatchQuery.Bypassing
 
 object APICallsExample {
 
