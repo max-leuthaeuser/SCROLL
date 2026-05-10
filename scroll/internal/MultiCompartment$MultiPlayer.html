@@ -111,10 +111,10 @@ implementing an objectified collaboration with a limited number of participating
 implementing an objectified collaboration with a limited number of participating roles and a fixed scope.</p><div class="fullcomment"><div class="comment cmt"><p>This package most notable provides the <a href="Compartment.html" class="extype" name="scroll.internal.Compartment">scroll.internal.Compartment</a> trait for
 implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="scroll">scroll</a></dd></dl></div>
-    </li><li name="scroll.internal.Compartment" visbl="pub" class="indented3 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="CompartmentextendsRoleConstraintswithRoleRestrictionswithRoleGroupswithRelationshipswithQueryStrategieswithUnionTypes.RoleUnionTypes"></a><a id="Compartment:Compartment"></a>
+    </li><li name="scroll.internal.MultiCompartment" visbl="pub" class="indented3 " data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="MultiCompartmentextendsCompartment"></a><a id="MultiCompartment:MultiCompartment"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/index.html#CompartmentextendsRoleConstraintswithRoleRestrictionswithRoleGroupswithRelationshipswithQueryStrategieswithUnionTypes.RoleUnionTypes" title="Permalink">
+      <a href="../../scroll/internal/index.html#MultiCompartmentextendsCompartment" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -123,24 +123,14 @@ implementing an objectified collaboration with a limited number of participating
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope." href="Compartment.html">
-              <span class="name">Compartment</span>
-            </a><span class="result"> extends <a href="support/RoleConstraints.html" class="extype" name="scroll.internal.support.RoleConstraints">RoleConstraints</a> with <a href="support/RoleRestrictions.html" class="extype" name="scroll.internal.support.RoleRestrictions">RoleRestrictions</a> with <a href="support/RoleGroups.html" class="extype" name="scroll.internal.support.RoleGroups">RoleGroups</a> with <a href="support/Relationships.html" class="extype" name="scroll.internal.support.Relationships">Relationships</a> with <a href="support/QueryStrategies.html" class="extype" name="scroll.internal.support.QueryStrategies">QueryStrategies</a> with <a href="support/UnionTypes$$RoleUnionTypes.html" class="extype" name="scroll.internal.support.UnionTypes.RoleUnionTypes">RoleUnionTypes</a></span>
+        <a title="This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope." href="MultiCompartment.html">
+              <span class="name">MultiCompartment</span>
+            </a><span class="result"> extends <a href="Compartment.html" class="extype" name="scroll.internal.Compartment">Compartment</a></span>
       </span>
       
-      <p class="shortcomment cmt">This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.</p><div class="fullcomment"><div class="comment cmt"><p>This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.</p><h4>Overview</h4><p>Roles are dependent on some sort of context. We call them compartments. A typical example of a compartment is a university,
-which contains the roles Student and Teacher collaborating in Courses. Everything in SCROLL happens inside of Compartments
-but roles (implemented as standard Scala classes) can be defined or imported from everywhere. Just mix in this Trait
-into your own specific compartment class or create an anonymous instance.</p><h4>Example</h4><pre><span class="kw">val</span> player = <span class="kw">new</span> Player()
-<span class="kw">new</span> Compartment {
-  <span class="kw">class</span> RoleA
-  <span class="kw">class</span> RoleB
-
-  player play <span class="kw">new</span> RoleA()
-  player play <span class="kw">new</span> RoleB()
-
-  <span class="cmt">// call some behaviour</span>
-}</pre></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="scroll.internal">internal</a></dd></dl></div>
+      <p class="shortcomment cmt">This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.</p><div class="fullcomment"><div class="comment cmt"><p>This Trait allows for implementing an objectified collaboration with a limited number of participating roles and a fixed scope.
+In contrast to the normal Compartment, in case of ambiguities all role methods will be called in sequence.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="scroll.internal">internal</a></dd></dl></div>
     </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="Compartment$Dispatchable.html" title=""></a>
@@ -161,8 +151,14 @@ into your own specific compartment class or create an anonymous instance.</p><h4
                         </a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="" title="Implicit wrapper class to add basic functionality to roles and its players as unified types."></a>
-                        <a href="" title="Implicit wrapper class to add basic functionality to roles and its players as unified types.">
+                        <a class="class" href="" title=""></a>
+                        <a href="" title="">
+                          MultiPlayer
+                        </a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="Compartment$Player.html" title="Implicit wrapper class to add basic functionality to roles and its players as unified types."></a>
+                        <a href="Compartment$Player.html" title="Implicit wrapper class to add basic functionality to roles and its players as unified types.">
                           Player
                         </a>
                       </li><li class="current-entities indented3">
@@ -222,9 +218,9 @@ some predefined multiplicities and a fluent relationship creation API."></a>
             <body class="class type">
       <div id="definition">
         <div class="big-circle class">c</div>
-        <p id="owner"><a href="../index.html" class="extype" name="scroll">scroll</a>.<a href="index.html" class="extype" name="scroll.internal">internal</a>.<a href="Compartment.html" class="extype" name="scroll.internal.Compartment">Compartment</a></p>
-        <h1>Player<span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html" title="Permalink">
+        <p id="owner"><a href="../index.html" class="extype" name="scroll">scroll</a>.<a href="index.html" class="extype" name="scroll.internal">internal</a>.<a href="MultiCompartment.html" class="extype" name="scroll.internal.MultiCompartment">MultiCompartment</a></p>
+        <h1>MultiPlayer<span class="permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
@@ -237,17 +233,16 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">Player</span><span class="tparams">[<span name="T">T &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="result"> extends <a href="Compartment$SCROLLDynamic.html" class="extype" name="scroll.internal.Compartment.SCROLLDynamic">SCROLLDynamic</a> with <a href="Compartment$SCROLLDispatch.html" class="extype" name="scroll.internal.Compartment.SCROLLDispatch">SCROLLDispatch</a></span>
+        <span class="name">MultiPlayer</span><span class="tparams">[<span name="T">T &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="result"> extends <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/Dynamic.html#scala.Dynamic" class="extype" name="scala.Dynamic">Dynamic</a> with <a href="MultiCompartment.html#SCROLLDispatchextendsCompartment.this.Dispatchable" class="extmbr" name="scroll.internal.Compartment.SCROLLDispatch">SCROLLDispatch</a></span>
       </span>
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Implicit wrapper class to add basic functionality to roles and its players as unified types.
-</p></div><dl class="paramcmts block"><dt class="tparam">T</dt><dd class="cmt"><p>type of wrapped object</p></dd></dl><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="Compartment$SCROLLDispatch.html" class="extype" name="scroll.internal.Compartment.SCROLLDispatch">SCROLLDispatch</a>, <a href="Compartment$Dispatchable.html" class="extype" name="scroll.internal.Compartment.Dispatchable">Dispatchable</a>, <a href="Compartment$SCROLLDynamic.html" class="extype" name="scroll.internal.Compartment.SCROLLDynamic">SCROLLDynamic</a>, <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/Dynamic.html#scala.Dynamic" class="extype" name="scala.Dynamic">Dynamic</a>, <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a>, <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="MultiCompartment.html#SCROLLDispatchextendsCompartment.this.Dispatchable" class="extmbr" name="scroll.internal.Compartment.SCROLLDispatch">MultiCompartment.SCROLLDispatch</a>, <a href="MultiCompartment.html#DispatchableextendsAnyRef" class="extmbr" name="scroll.internal.Compartment.Dispatchable">MultiCompartment.Dispatchable</a>, <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/Dynamic.html#scala.Dynamic" class="extype" name="scala.Dynamic">Dynamic</a>, <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a>, <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></div>
         </div></div>
         
 
@@ -273,7 +268,7 @@ some predefined multiplicities and a fluent relationship creation API."></a>
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="scroll.internal.Compartment.Player"><span>Player</span></li><li class="in" name="scroll.internal.Compartment.SCROLLDispatch"><span>SCROLLDispatch</span></li><li class="in" name="scroll.internal.Compartment.Dispatchable"><span>Dispatchable</span></li><li class="in" name="scroll.internal.Compartment.SCROLLDynamic"><span>SCROLLDynamic</span></li><li class="in" name="scala.Dynamic"><span>Dynamic</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="scroll.internal.MultiCompartment.MultiPlayer"><span>MultiPlayer</span></li><li class="in" name="scroll.internal.Compartment.SCROLLDispatch"><span>SCROLLDispatch</span></li><li class="in" name="scroll.internal.Compartment.Dispatchable"><span>Dispatchable</span></li><li class="in" name="scala.Dynamic"><span>Dynamic</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -293,10 +288,10 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="scroll.internal.Compartment.Player#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(wrapped:T)(implicitevidence$12:scala.reflect.ClassTag[T]):Compartment.this.Player[T]"></a><a id="&lt;init&gt;:Player[T]"></a>
+              <ol><li name="scroll.internal.MultiCompartment.MultiPlayer#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(wrapped:T)(implicitevidence$1:scala.reflect.ClassTag[T]):MultiCompartment.this.MultiPlayer[T]"></a><a id="&lt;init&gt;:MultiPlayer[T]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#&lt;init&gt;(wrapped:T)(implicitevidence$12:scala.reflect.ClassTag[T]):Compartment.this.Player[T]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#&lt;init&gt;(wrapped:T)(implicitevidence$1:scala.reflect.ClassTag[T]):MultiCompartment.this.MultiPlayer[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -305,10 +300,10 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Player</span><span class="params">(<span name="wrapped">wrapped: <span class="extype" name="scroll.internal.Compartment.Player.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.Player.T">T</span>]</span>)</span>
+        <span class="name">MultiPlayer</span><span class="params">(<span name="wrapped">wrapped: <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.T">T</span>]</span>)</span>
       </span>
       
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">wrapped</dt><dd class="cmt"><p>the player or role that is wrapped into this dynamic type</p></dd></dl></div>
+      
     </li></ol>
             </div>
 
@@ -322,7 +317,7 @@ some predefined multiplicities and a fluent relationship creation API."></a>
                 <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#!=(x$1:Any):Boolean" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#!=(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -338,7 +333,7 @@ some predefined multiplicities and a fluent relationship creation API."></a>
     </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="##():Int"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html###():Int" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html###():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -351,10 +346,10 @@ some predefined multiplicities and a fluent relationship creation API."></a>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#&lt;+&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;+&gt;[R&lt;:AnyRef](role:R)(implicitevidence$14:scala.reflect.ClassTag[R]):Compartment.this.Player[T]"></a><a id="&lt;+&gt;[R&lt;:AnyRef](R)(ClassTag[R]):Player[T]"></a>
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#&lt;+&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;+&gt;[R&lt;:AnyRef](role:R)(implicitevidence$3:scala.reflect.ClassTag[R]):MultiCompartment.this.MultiPlayer[T]"></a><a id="&lt;+&gt;[R&lt;:AnyRef](R)(ClassTag[R]):MultiPlayer[T]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#&lt;+&gt;[R&lt;:AnyRef](role:R)(implicitevidence$14:scala.reflect.ClassTag[R]):Compartment.this.Player[T]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#&lt;+&gt;[R&lt;:AnyRef](role:R)(implicitevidence$3:scala.reflect.ClassTag[R]):MultiCompartment.this.MultiPlayer[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -363,15 +358,15 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $less$plus$greater" class="name">&lt;+&gt;</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.&lt;+&gt;.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.Player.&lt;+&gt;.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a>[<span class="extype" name="scroll.internal.Compartment.Player.T">T</span>]</span>
+        <span title="gt4s: $less$plus$greater" class="name">&lt;+&gt;</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.&lt;+&gt;.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.&lt;+&gt;.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.MultiCompartment.MultiPlayer">MultiPlayer</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.T">T</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Alias for <a href="#play[R&lt;:AnyRef](role:R)(implicitevidence$13:scala.reflect.ClassTag[R]):Compartment.this.Player[T]" class="extmbr" name="scroll.internal.Compartment.Player#play">Player.play</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Alias for <a href="#play[R&lt;:AnyRef](role:R)(implicitevidence$13:scala.reflect.ClassTag[R]):Compartment.this.Player[T]" class="extmbr" name="scroll.internal.Compartment.Player#play">Player.play</a>.
+      <p class="shortcomment cmt">Alias for <a href="Compartment$Player.html#play[R&lt;:AnyRef](role:R)(implicitevidence$13:scala.reflect.ClassTag[R]):Compartment.this.Player[T]" class="extmbr" name="scroll.internal.Compartment.Player#play">Player.play</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Alias for <a href="Compartment$Player.html#play[R&lt;:AnyRef](role:R)(implicitevidence$13:scala.reflect.ClassTag[R]):Compartment.this.Player[T]" class="extmbr" name="scroll.internal.Compartment.Player#play">Player.play</a>.
 </p></div><dl class="paramcmts block"><dt class="tparam">R</dt><dd class="cmt"><p>type of role</p></dd><dt class="param">role</dt><dd class="cmt"><p>the role that should be played</p></dd><dt>returns</dt><dd class="cmt"><p>this</p></dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#&lt;-&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;-&gt;[R&lt;:AnyRef](role:R)(implicitevidence$18:scala.reflect.ClassTag[R]):Compartment.this.Player[T]"></a><a id="&lt;-&gt;[R&lt;:AnyRef](R)(ClassTag[R]):Player[T]"></a>
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#&lt;-&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;-&gt;[R&lt;:AnyRef](role:R)(implicitevidence$7:scala.reflect.ClassTag[R]):MultiCompartment.this.MultiPlayer[T]"></a><a id="&lt;-&gt;[R&lt;:AnyRef](R)(ClassTag[R]):MultiPlayer[T]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#&lt;-&gt;[R&lt;:AnyRef](role:R)(implicitevidence$18:scala.reflect.ClassTag[R]):Compartment.this.Player[T]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#&lt;-&gt;[R&lt;:AnyRef](role:R)(implicitevidence$7:scala.reflect.ClassTag[R]):MultiCompartment.this.MultiPlayer[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -380,15 +375,15 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $less$minus$greater" class="name">&lt;-&gt;</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.&lt;-&gt;.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.Player.&lt;-&gt;.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a>[<span class="extype" name="scroll.internal.Compartment.Player.T">T</span>]</span>
+        <span title="gt4s: $less$minus$greater" class="name">&lt;-&gt;</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.&lt;-&gt;.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.&lt;-&gt;.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.MultiCompartment.MultiPlayer">MultiPlayer</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.T">T</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Alias for <a href="#drop[R&lt;:AnyRef](role:R)(implicitevidence$17:scala.reflect.ClassTag[R]):Compartment.this.Player[T]" class="extmbr" name="scroll.internal.Compartment.Player#drop">Player.drop</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Alias for <a href="#drop[R&lt;:AnyRef](role:R)(implicitevidence$17:scala.reflect.ClassTag[R]):Compartment.this.Player[T]" class="extmbr" name="scroll.internal.Compartment.Player#drop">Player.drop</a>.
+      <p class="shortcomment cmt">Alias for <a href="Compartment$Player.html#drop[R&lt;:AnyRef](role:R)(implicitevidence$17:scala.reflect.ClassTag[R]):Compartment.this.Player[T]" class="extmbr" name="scroll.internal.Compartment.Player#drop">Player.drop</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Alias for <a href="Compartment$Player.html#drop[R&lt;:AnyRef](role:R)(implicitevidence$17:scala.reflect.ClassTag[R]):Compartment.this.Player[T]" class="extmbr" name="scroll.internal.Compartment.Player#drop">Player.drop</a>.
 </p></div><dl class="paramcmts block"><dt class="param">role</dt><dd class="cmt"><p>the role that should be removed</p></dd><dt>returns</dt><dd class="cmt"><p>this</p></dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#&lt;=&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;=&gt;[R&lt;:AnyRef](role:R)(implicitevidence$16:scala.reflect.ClassTag[R]):T"></a><a id="&lt;=&gt;[R&lt;:AnyRef](R)(ClassTag[R]):T"></a>
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#&lt;=&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;=&gt;[R&lt;:AnyRef](role:R)(implicitevidence$5:scala.reflect.ClassTag[R]):T"></a><a id="&lt;=&gt;[R&lt;:AnyRef](R)(ClassTag[R]):T"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#&lt;=&gt;[R&lt;:AnyRef](role:R)(implicitevidence$16:scala.reflect.ClassTag[R]):T" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#&lt;=&gt;[R&lt;:AnyRef](role:R)(implicitevidence$5:scala.reflect.ClassTag[R]):T" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -397,15 +392,15 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $less$eq$greater" class="name">&lt;=&gt;</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.&lt;=&gt;.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.Player.&lt;=&gt;.R">R</span>]</span>)</span><span class="result">: <span class="extype" name="scroll.internal.Compartment.Player.T">T</span></span>
+        <span title="gt4s: $less$eq$greater" class="name">&lt;=&gt;</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.&lt;=&gt;.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.&lt;=&gt;.R">R</span>]</span>)</span><span class="result">: <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.T">T</span></span>
       </span>
       
-      <p class="shortcomment cmt">Alias for <a href="#playing[R&lt;:AnyRef](role:R)(implicitevidence$15:scala.reflect.ClassTag[R]):T" class="extmbr" name="scroll.internal.Compartment.Player#playing">Player.playing</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Alias for <a href="#playing[R&lt;:AnyRef](role:R)(implicitevidence$15:scala.reflect.ClassTag[R]):T" class="extmbr" name="scroll.internal.Compartment.Player#playing">Player.playing</a>.
+      <p class="shortcomment cmt">Alias for <a href="Compartment$Player.html#playing[R&lt;:AnyRef](role:R)(implicitevidence$15:scala.reflect.ClassTag[R]):T" class="extmbr" name="scroll.internal.Compartment.Player#playing">Player.playing</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Alias for <a href="Compartment$Player.html#playing[R&lt;:AnyRef](role:R)(implicitevidence$15:scala.reflect.ClassTag[R]):T" class="extmbr" name="scroll.internal.Compartment.Player#playing">Player.playing</a>.
 </p></div><dl class="paramcmts block"><dt class="tparam">R</dt><dd class="cmt"><p>type of role</p></dd><dt class="param">role</dt><dd class="cmt"><p>the role that should played</p></dd><dt>returns</dt><dd class="cmt"><p>the player instance</p></dd></dl></div>
     </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#==(x$1:Any):Boolean" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#==(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -418,10 +413,10 @@ some predefined multiplicities and a fluent relationship creation API."></a>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#applyDynamic" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="applyDynamic[E,A](name:String)(args:A*)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.SCROLLError,E]"></a><a id="applyDynamic[E,A](String)(A*)(DispatchQuery):Either[SCROLLError,E]"></a>
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#applyDynamic" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="applyDynamic[E,A](name:String)(args:A*)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.SCROLLError,Seq[Either[scroll.internal.errors.SCROLLErrors.SCROLLError,E]]]"></a><a id="applyDynamic[E,A](String)(A*)(DispatchQuery):Either[SCROLLError,Seq[Either[SCROLLError,E]]]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#applyDynamic[E,A](name:String)(args:A*)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.SCROLLError,E]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#applyDynamic[E,A](name:String)(args:A*)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.SCROLLError,Seq[Either[scroll.internal.errors.SCROLLErrors.SCROLLError,E]]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -430,15 +425,14 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">applyDynamic</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="args">args: <span class="extype" name="scroll.internal.Compartment.Player.applyDynamic.A">A</span>*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$SCROLLError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.SCROLLError">SCROLLError</a>, <span class="extype" name="scroll.internal.Compartment.Player.applyDynamic.E">E</span>]</span>
+        <span class="name">applyDynamic</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="args">args: <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.applyDynamic.A">A</span>*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$SCROLLError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.SCROLLError">SCROLLError</a>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$SCROLLError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.SCROLLError">SCROLLError</a>, <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.applyDynamic.E">E</span>]]]</span>
       </span>
       
-      <p class="shortcomment cmt">Allows to call a function with arguments.</p><div class="fullcomment"><div class="comment cmt"><p>Allows to call a function with arguments.
-</p></div><dl class="paramcmts block"><dt class="tparam">E</dt><dd class="cmt"><p>return type</p></dd><dt class="tparam">A</dt><dd class="cmt"><p>argument type</p></dd><dt class="param">name</dt><dd class="cmt"><p>the function name</p></dd><dt class="param">args</dt><dd class="cmt"><p>the arguments handed over to the given function</p></dd><dt class="param">dispatchQuery</dt><dd class="cmt"><p>the dispatch rules that should be applied</p></dd><dt>returns</dt><dd class="cmt"><p>the result of the function call or an appropriate error</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a> → <a href="Compartment$SCROLLDynamic.html" class="extype" name="scroll.internal.Compartment.SCROLLDynamic">SCROLLDynamic</a></dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#applyDynamicNamed" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="applyDynamicNamed[E](name:String)(args:(String,Any)*)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.SCROLLError,E]"></a><a id="applyDynamicNamed[E](String)((String,Any)*)(DispatchQuery):Either[SCROLLError,E]"></a>
+      
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#applyDynamicNamed" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="applyDynamicNamed[E](name:String)(args:(String,Any)*)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.SCROLLError,Seq[Either[scroll.internal.errors.SCROLLErrors.SCROLLError,E]]]"></a><a id="applyDynamicNamed[E](String)((String,Any)*)(DispatchQuery):Either[SCROLLError,Seq[Either[SCROLLError,E]]]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#applyDynamicNamed[E](name:String)(args:(String,Any)*)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.SCROLLError,E]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#applyDynamicNamed[E](name:String)(args:(String,Any)*)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.SCROLLError,Seq[Either[scroll.internal.errors.SCROLLErrors.SCROLLError,E]]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -447,15 +441,14 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">applyDynamicNamed</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="args">args: (<span class="extype" name="scala.Predef.String">String</span>, <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a>)*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$SCROLLError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.SCROLLError">SCROLLError</a>, <span class="extype" name="scroll.internal.Compartment.Player.applyDynamicNamed.E">E</span>]</span>
+        <span class="name">applyDynamicNamed</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="args">args: (<span class="extype" name="scala.Predef.String">String</span>, <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a>)*</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$SCROLLError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.SCROLLError">SCROLLError</a>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$SCROLLError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.SCROLLError">SCROLLError</a>, <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.applyDynamicNamed.E">E</span>]]]</span>
       </span>
       
-      <p class="shortcomment cmt">Allows to call a function with named arguments.</p><div class="fullcomment"><div class="comment cmt"><p>Allows to call a function with named arguments.
-</p></div><dl class="paramcmts block"><dt class="tparam">E</dt><dd class="cmt"><p>return type</p></dd><dt class="param">name</dt><dd class="cmt"><p>the function name</p></dd><dt class="param">args</dt><dd class="cmt"><p>tuple with the the name and argument handed over to the given function</p></dd><dt class="param">dispatchQuery</dt><dd class="cmt"><p>the dispatch rules that should be applied</p></dd><dt>returns</dt><dd class="cmt"><p>the result of the function call or an appropriate error</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a> → <a href="Compartment$SCROLLDynamic.html" class="extype" name="scroll.internal.Compartment.SCROLLDynamic">SCROLLDynamic</a></dd></dl></div>
+      
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#asInstanceOf[T0]:T0" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#asInstanceOf[T0]:T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -471,7 +464,7 @@ some predefined multiplicities and a fluent relationship creation API."></a>
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#clone():Object" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#clone():Object" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -493,7 +486,7 @@ some predefined multiplicities and a fluent relationship creation API."></a>
     </li><li name="scroll.internal.Compartment.SCROLLDispatch#dispatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="dispatch[E,A](on:Any,m:java.lang.reflect.Method,args:Seq[A]):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]"></a><a id="dispatch[E,A](Any,Method,Seq[A]):Either[InvocationError,E]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#dispatch[E,A](on:Any,m:java.lang.reflect.Method,args:Seq[A]):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#dispatch[E,A](on:Any,m:java.lang.reflect.Method,args:Seq[A]):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -510,7 +503,7 @@ some predefined multiplicities and a fluent relationship creation API."></a>
     </li><li name="scroll.internal.Compartment.SCROLLDispatch#dispatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="dispatch[E](on:Any,m:java.lang.reflect.Method):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]"></a><a id="dispatch[E](Any,Method):Either[InvocationError,E]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#dispatch[E](on:Any,m:java.lang.reflect.Method):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#dispatch[E](on:Any,m:java.lang.reflect.Method):Either[scroll.internal.errors.SCROLLErrors.InvocationError,E]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -524,10 +517,10 @@ some predefined multiplicities and a fluent relationship creation API."></a>
       
       <p class="shortcomment cmt">For empty argument list dispatch.</p><div class="fullcomment"><div class="comment cmt"><p>For empty argument list dispatch.
 </p></div><dl class="paramcmts block"><dt class="tparam">E</dt><dd class="cmt"><p>the return type of method m</p></dd><dt class="param">on</dt><dd class="cmt"><p>the instance to dispatch the given method m on</p></dd><dt class="param">m</dt><dd class="cmt"><p>the method to dispatch</p></dd><dt>returns</dt><dd class="cmt"><p>the resulting return value of the method invocation or an appropriate error</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Compartment$SCROLLDispatch.html" class="extype" name="scroll.internal.Compartment.SCROLLDispatch">SCROLLDispatch</a> → <a href="Compartment$Dispatchable.html" class="extype" name="scroll.internal.Compartment.Dispatchable">Dispatchable</a></dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#drop" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="drop[R&lt;:AnyRef](role:R)(implicitevidence$17:scala.reflect.ClassTag[R]):Compartment.this.Player[T]"></a><a id="drop[R&lt;:AnyRef](R)(ClassTag[R]):Player[T]"></a>
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#drop" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="drop[R&lt;:AnyRef](role:R)(implicitevidence$6:scala.reflect.ClassTag[R]):MultiCompartment.this.MultiPlayer[T]"></a><a id="drop[R&lt;:AnyRef](R)(ClassTag[R]):MultiPlayer[T]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#drop[R&lt;:AnyRef](role:R)(implicitevidence$17:scala.reflect.ClassTag[R]):Compartment.this.Player[T]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#drop[R&lt;:AnyRef](role:R)(implicitevidence$6:scala.reflect.ClassTag[R]):MultiCompartment.this.MultiPlayer[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -536,7 +529,7 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">drop</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.drop.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.Player.drop.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a>[<span class="extype" name="scroll.internal.Compartment.Player.T">T</span>]</span>
+        <span class="name">drop</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.drop.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.drop.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.MultiCompartment.MultiPlayer">MultiPlayer</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.T">T</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Removes the play relation between core and role.</p><div class="fullcomment"><div class="comment cmt"><p>Removes the play relation between core and role.
@@ -544,7 +537,7 @@ some predefined multiplicities and a fluent relationship creation API."></a>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#eq(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -557,10 +550,10 @@ some predefined multiplicities and a fluent relationship creation API."></a>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="equals(o:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#equals(o:Any):Boolean" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#equals(o:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -572,11 +565,11 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <span class="name">equals</span><span class="params">(<span name="o">o: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a> → AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.MultiCompartment.MultiPlayer">MultiPlayer</a> → AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#finalize():Unit" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#finalize():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -598,7 +591,7 @@ some predefined multiplicities and a fluent relationship creation API."></a>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#getClass():Class[_]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#getClass():Class[_]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -611,10 +604,10 @@ some predefined multiplicities and a fluent relationship creation API."></a>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#hasExtension" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hasExtension[E](implicitevidence$22:scala.reflect.ClassTag[E]):Boolean"></a><a id="hasExtension[E](ClassTag[E]):Boolean"></a>
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#hasExtension" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hasExtension[E](implicitevidence$11:scala.reflect.ClassTag[E]):Boolean"></a><a id="hasExtension[E](ClassTag[E]):Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#hasExtension[E](implicitevidence$22:scala.reflect.ClassTag[E]):Boolean" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#hasExtension[E](implicitevidence$11:scala.reflect.ClassTag[E]):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -623,16 +616,16 @@ some predefined multiplicities and a fluent relationship creation API."></a>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">hasExtension</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.Player.hasExtension.E">E</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">hasExtension</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.hasExtension.E">E</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <p class="shortcomment cmt">Checks of this Player has an extension of the given type.</p><div class="fullcomment"><div class="comment cmt"><p>Checks of this Player has an extension of the given type.
-Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):Boolean" class="extmbr" name="scroll.internal.Compartment.Player#isPlaying">Player.isPlaying</a>.
+Alias for <a href="Compartment$Player.html#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):Boolean" class="extmbr" name="scroll.internal.Compartment.Player#isPlaying">Player.isPlaying</a>.
 </p></div></div>
-    </li><li name="scroll.internal.Compartment.Player#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#hashCode():Int" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#hashCode():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -644,11 +637,11 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a> → AnyRef → Any</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.MultiCompartment.MultiPlayer">MultiPlayer</a> → AnyRef → Any</dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#isInstanceOf[T0]:Boolean" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#isInstanceOf[T0]:Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -661,10 +654,10 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#isPlaying" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):Boolean"></a><a id="isPlaying[R](ClassTag[R]):Boolean"></a>
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#isPlaying" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="isPlaying[E](implicitevidence$10:scala.reflect.ClassTag[E]):Boolean"></a><a id="isPlaying[E](ClassTag[E]):Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):Boolean" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#isPlaying[E](implicitevidence$10:scala.reflect.ClassTag[E]):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -673,16 +666,14 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isPlaying</span><span class="tparams">[<span name="R">R</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.Player.isPlaying.R">R</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">isPlaying</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.isPlaying.E">E</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
-      <p class="shortcomment cmt">Checks of this Player is playing a role of the given type R.</p><div class="fullcomment"><div class="comment cmt"><p>Checks of this Player is playing a role of the given type R.
-</p></div><dl class="paramcmts block"><dt class="tparam">R</dt><dd class="cmt"><p>type of role</p></dd><dt>returns</dt><dd class="cmt"><p>true if this player is playing a role of type R, false otherwise. Returns false also, if
-        the player is not available in the role-playing graph.</p></dd></dl></div>
+      <p class="shortcomment cmt">Checks of this Player is playing a role of the given type.</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#ne(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -698,7 +689,7 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#notify():Unit" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#notify():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -714,7 +705,7 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#notifyAll():Unit" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#notifyAll():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -727,10 +718,10 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#play" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="play[R&lt;:AnyRef](role:R)(implicitevidence$13:scala.reflect.ClassTag[R]):Compartment.this.Player[T]"></a><a id="play[R&lt;:AnyRef](R)(ClassTag[R]):Player[T]"></a>
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#play" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="play[R&lt;:AnyRef](role:R)(implicitevidence$2:scala.reflect.ClassTag[R]):MultiCompartment.this.MultiPlayer[T]"></a><a id="play[R&lt;:AnyRef](R)(ClassTag[R]):MultiPlayer[T]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#play[R&lt;:AnyRef](role:R)(implicitevidence$13:scala.reflect.ClassTag[R]):Compartment.this.Player[T]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#play[R&lt;:AnyRef](role:R)(implicitevidence$2:scala.reflect.ClassTag[R]):MultiCompartment.this.MultiPlayer[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -739,15 +730,15 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">play</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.play.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.Player.play.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a>[<span class="extype" name="scroll.internal.Compartment.Player.T">T</span>]</span>
+        <span class="name">play</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.play.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.play.R">R</span>]</span>)</span><span class="result">: <a href="" class="extype" name="scroll.internal.MultiCompartment.MultiPlayer">MultiPlayer</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.T">T</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Adds a play relation between core and role.</p><div class="fullcomment"><div class="comment cmt"><p>Adds a play relation between core and role.
 </p></div><dl class="paramcmts block"><dt class="tparam">R</dt><dd class="cmt"><p>type of role</p></dd><dt class="param">role</dt><dd class="cmt"><p>the role that should be played</p></dd><dt>returns</dt><dd class="cmt"><p>this</p></dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#player" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#player" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="player(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.TypeError,Any]"></a><a id="player(DispatchQuery):Either[TypeError,Any]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#player(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.TypeError,Any]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#player(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.TypeError,Any]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -761,10 +752,10 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
       
       <p class="shortcomment cmt">Returns the player of this player instance if this is a role, or this itself.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the player of this player instance if this is a role, or this itself.
 </p></div><dl class="paramcmts block"><dt class="param">dispatchQuery</dt><dd class="cmt"><p>provide this to sort the resulting instances if a role instance is played by multiple core objects</p></dd><dt>returns</dt><dd class="cmt"><p>the player of this player instance if this is a role, or this itself or an appropriate error</p></dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#playing" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="playing[R&lt;:AnyRef](role:R)(implicitevidence$15:scala.reflect.ClassTag[R]):T"></a><a id="playing[R&lt;:AnyRef](R)(ClassTag[R]):T"></a>
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#playing" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="playing[R&lt;:AnyRef](role:R)(implicitevidence$4:scala.reflect.ClassTag[R]):T"></a><a id="playing[R&lt;:AnyRef](R)(ClassTag[R]):T"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#playing[R&lt;:AnyRef](role:R)(implicitevidence$15:scala.reflect.ClassTag[R]):T" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#playing[R&lt;:AnyRef](role:R)(implicitevidence$4:scala.reflect.ClassTag[R]):T" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -773,15 +764,15 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">playing</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.playing.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.Player.playing.R">R</span>]</span>)</span><span class="result">: <span class="extype" name="scroll.internal.Compartment.Player.T">T</span></span>
+        <span class="name">playing</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.playing.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.playing.R">R</span>]</span>)</span><span class="result">: <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.T">T</span></span>
       </span>
       
       <p class="shortcomment cmt">Adds a play relation between core and role but always returns the player instance.</p><div class="fullcomment"><div class="comment cmt"><p>Adds a play relation between core and role but always returns the player instance.
 </p></div><dl class="paramcmts block"><dt class="tparam">R</dt><dd class="cmt"><p>type of role</p></dd><dt class="param">role</dt><dd class="cmt"><p>the role that should played</p></dd><dt>returns</dt><dd class="cmt"><p>the player instance</p></dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#selectDynamic" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="selectDynamic[E](name:String)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.SCROLLError,E]"></a><a id="selectDynamic[E](String)(DispatchQuery):Either[SCROLLError,E]"></a>
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#selectDynamic" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="selectDynamic[E](name:String)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.SCROLLError,Seq[Either[scroll.internal.errors.SCROLLErrors.SCROLLError,E]]]"></a><a id="selectDynamic[E](String)(DispatchQuery):Either[SCROLLError,Seq[Either[SCROLLError,E]]]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#selectDynamic[E](name:String)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.SCROLLError,E]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#selectDynamic[E](name:String)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Either[scroll.internal.errors.SCROLLErrors.SCROLLError,Seq[Either[scroll.internal.errors.SCROLLErrors.SCROLLError,E]]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -790,15 +781,14 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">selectDynamic</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$SCROLLError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.SCROLLError">SCROLLError</a>, <span class="extype" name="scroll.internal.Compartment.Player.selectDynamic.E">E</span>]</span>
+        <span class="name">selectDynamic</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$SCROLLError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.SCROLLError">SCROLLError</a>, <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Either">Either</span>[<a href="errors/SCROLLErrors$$SCROLLError.html" class="extype" name="scroll.internal.errors.SCROLLErrors.SCROLLError">SCROLLError</a>, <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.selectDynamic.E">E</span>]]]</span>
       </span>
       
-      <p class="shortcomment cmt">Allows to read a field.</p><div class="fullcomment"><div class="comment cmt"><p>Allows to read a field.
-</p></div><dl class="paramcmts block"><dt class="tparam">E</dt><dd class="cmt"><p>return type</p></dd><dt class="param">name</dt><dd class="cmt"><p>of the field</p></dd><dt class="param">dispatchQuery</dt><dd class="cmt"><p>the dispatch rules that should be applied</p></dd><dt>returns</dt><dd class="cmt"><p>the result of the field access or an appropriate error</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a> → <a href="Compartment$SCROLLDynamic.html" class="extype" name="scroll.internal.Compartment.SCROLLDynamic">SCROLLDynamic</a></dd></dl></div>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -814,7 +804,7 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
     </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#toString():String" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#toString():String" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -827,10 +817,10 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#transfer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="transfer[R&lt;:AnyRef](role:R)(implicitevidence$19:scala.reflect.ClassTag[R]):AnyRef{defto[P&lt;:AnyRef](player:P)(implicitevidence$20:scala.reflect.ClassTag[P]):Unit}"></a><a id="transfer[R&lt;:AnyRef](R)(ClassTag[R]):AnyRef{defto[P&lt;:AnyRef](player:P)(implicitevidence$20:scala.reflect.ClassTag[P]):Unit}"></a>
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#transfer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="transfer[R&lt;:AnyRef](role:R)(implicitevidence$8:scala.reflect.ClassTag[R]):AnyRef{defto[P&lt;:AnyRef](player:P)(implicitevidence$9:scala.reflect.ClassTag[P]):Unit}"></a><a id="transfer[R&lt;:AnyRef](R)(ClassTag[R]):AnyRef{defto[P&lt;:AnyRef](player:P)(implicitevidence$9:scala.reflect.ClassTag[P]):Unit}"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#transfer[R&lt;:AnyRef](role:R)(implicitevidence$19:scala.reflect.ClassTag[R]):AnyRef{defto[P&lt;:AnyRef](player:P)(implicitevidence$20:scala.reflect.ClassTag[P]):Unit}" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#transfer[R&lt;:AnyRef](role:R)(implicitevidence$8:scala.reflect.ClassTag[R]):AnyRef{defto[P&lt;:AnyRef](player:P)(implicitevidence$9:scala.reflect.ClassTag[P]):Unit}" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -839,15 +829,15 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">transfer</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.Compartment.Player.transfer.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.Compartment.Player.transfer.R">R</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a> { def to[P &lt;: AnyRef](player: P)(implicit evidence$20: scala.reflect.ClassTag[P]): Unit }</span>
+        <span class="name">transfer</span><span class="tparams">[<span name="R">R &lt;: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a></span>]</span><span class="params">(<span name="role">role: <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.transfer.R">R</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.transfer.R">R</span>]</span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.AnyRef" class="extype" name="scala.collection.immutable.List">AnyRef</a> { def to[P &lt;: AnyRef](player: P)(implicit evidence$9: scala.reflect.ClassTag[P]): Unit }</span>
       </span>
       
       <p class="shortcomment cmt">Transfers a role to another player.</p><div class="fullcomment"><div class="comment cmt"><p>Transfers a role to another player.
 </p></div><dl class="paramcmts block"><dt class="tparam">R</dt><dd class="cmt"><p>type of role</p></dd><dt class="param">role</dt><dd class="cmt"><p>the role to transfer</p></dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#unary_+" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="unary_+:Compartment.this.Player[T]"></a><a id="unary_+:Player[T]"></a>
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#unary_+" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="unary_+:MultiCompartment.this.MultiPlayer[T]"></a><a id="unary_+:MultiPlayer[T]"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#unary_+:Compartment.this.Player[T]" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#unary_+:MultiCompartment.this.MultiPlayer[T]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -856,16 +846,16 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: unary_$plus" class="name">unary_+</span><span class="result">: <a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a>[<span class="extype" name="scroll.internal.Compartment.Player.T">T</span>]</span>
+        <span title="gt4s: unary_$plus" class="name">unary_+</span><span class="result">: <a href="" class="extype" name="scroll.internal.MultiCompartment.MultiPlayer">MultiPlayer</a>[<span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.T">T</span>]</span>
       </span>
       
       <p class="shortcomment cmt">Applies lifting to Player
 </p><div class="fullcomment"><div class="comment cmt"><p>Applies lifting to Player
 </p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>an lifted Player instance with the calling object as wrapped.</p></dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#updateDynamic" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#updateDynamic" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="updateDynamic(name:String)(value:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Unit"></a><a id="updateDynamic(String)(Any)(DispatchQuery):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#updateDynamic(name:String)(value:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Unit" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#updateDynamic(name:String)(value:Any)(implicitdispatchQuery:scroll.internal.support.DispatchQuery):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -877,12 +867,11 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
         <span class="name">updateDynamic</span><span class="params">(<span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span name="value">value: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/collection/immutable/List.html#scala.Any" class="extype" name="scala.collection.immutable.List">Any</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="dispatchQuery">dispatchQuery: <a href="support/DispatchQuery.html" class="extype" name="scroll.internal.support.DispatchQuery">DispatchQuery</a> = <span class="symbol"><span class="name"><a href="../index.html">DispatchQuery.empty</a></span></span></span>)</span><span class="result">: <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
-      <p class="shortcomment cmt">Allows to write field updates.</p><div class="fullcomment"><div class="comment cmt"><p>Allows to write field updates.
-</p></div><dl class="paramcmts block"><dt class="param">name</dt><dd class="cmt"><p>of the field</p></dd><dt class="param">value</dt><dd class="cmt"><p>the new value to write</p></dd><dt class="param">dispatchQuery</dt><dd class="cmt"><p>the dispatch rules that should be applied</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scroll.internal.Compartment.Player">Player</a> → <a href="Compartment$SCROLLDynamic.html" class="extype" name="scroll.internal.Compartment.SCROLLDynamic">SCROLLDynamic</a></dd></dl></div>
+      
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#wait():Unit" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#wait():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -904,7 +893,7 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -926,7 +915,7 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#wait(x$1:Long):Unit" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#wait(x$1:Long):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -945,10 +934,10 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="scroll.internal.Compartment.Player#wrapped" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="scroll.internal.MultiCompartment.MultiPlayer#wrapped" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="wrapped:T"></a>
       <span class="permalink">
-      <a href="../../scroll/internal/Compartment$Player.html#wrapped:T" title="Permalink">
+      <a href="../../scroll/internal/MultiCompartment$MultiPlayer.html#wrapped:T" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -957,7 +946,7 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">wrapped</span><span class="result">: <span class="extype" name="scroll.internal.Compartment.Player.T">T</span></span>
+        <span class="name">wrapped</span><span class="result">: <span class="extype" name="scroll.internal.MultiCompartment.MultiPlayer.T">T</span></span>
       </span>
       
       
@@ -972,11 +961,9 @@ Alias for <a href="#isPlaying[R](implicitevidence$21:scala.reflect.ClassTag[R]):
 
         <div id="inheritedMembers">
         <div class="parent" name="scroll.internal.Compartment.SCROLLDispatch">
-              <h3>Inherited from <a href="Compartment$SCROLLDispatch.html" class="extype" name="scroll.internal.Compartment.SCROLLDispatch">SCROLLDispatch</a></h3>
+              <h3>Inherited from <a href="MultiCompartment.html#SCROLLDispatchextendsCompartment.this.Dispatchable" class="extmbr" name="scroll.internal.Compartment.SCROLLDispatch">MultiCompartment.SCROLLDispatch</a></h3>
             </div><div class="parent" name="scroll.internal.Compartment.Dispatchable">
-              <h3>Inherited from <a href="Compartment$Dispatchable.html" class="extype" name="scroll.internal.Compartment.Dispatchable">Dispatchable</a></h3>
-            </div><div class="parent" name="scroll.internal.Compartment.SCROLLDynamic">
-              <h3>Inherited from <a href="Compartment$SCROLLDynamic.html" class="extype" name="scroll.internal.Compartment.SCROLLDynamic">SCROLLDynamic</a></h3>
+              <h3>Inherited from <a href="MultiCompartment.html#DispatchableextendsAnyRef" class="extmbr" name="scroll.internal.Compartment.Dispatchable">MultiCompartment.Dispatchable</a></h3>
             </div><div class="parent" name="scala.Dynamic">
               <h3>Inherited from <a href="http://scala-lang.org/files/archive/api/2.12.3/scala/Dynamic.html#scala.Dynamic" class="extype" name="scala.Dynamic">Dynamic</a></h3>
             </div><div class="parent" name="scala.AnyRef">
