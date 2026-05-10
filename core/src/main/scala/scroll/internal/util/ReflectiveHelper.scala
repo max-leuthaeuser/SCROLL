@@ -16,6 +16,17 @@ object ReflectiveHelper {
 
   import Memoiser._
 
+  private val primitiveWrappers: Map[Class[?], Class[?]] = Map(
+    java.lang.Boolean.TYPE   -> classOf[java.lang.Boolean],
+    java.lang.Character.TYPE -> classOf[java.lang.Character],
+    java.lang.Short.TYPE     -> classOf[java.lang.Short],
+    java.lang.Integer.TYPE   -> classOf[java.lang.Integer],
+    java.lang.Long.TYPE      -> classOf[java.lang.Long],
+    java.lang.Float.TYPE     -> classOf[java.lang.Float],
+    java.lang.Double.TYPE    -> classOf[java.lang.Double],
+    java.lang.Byte.TYPE      -> classOf[java.lang.Byte]
+  )
+
   private lazy val methodCache =
     buildCache[Class[?], Seq[Method]](allMethods)
 
@@ -145,26 +156,90 @@ object ReflectiveHelper {
   private def isSameNumberOfParameters(m: Method, size: Int): Boolean =
     m.getParameterCount == size
 
+  private def wrappedType(tpe: Class[?]): Class[?] = primitiveWrappers.getOrElse(tpe, tpe)
+
   private def isSameArgumentTypes(m: Method, args: Seq[Any]): Boolean =
     args.zip(m.getParameterTypes).forall { case (arg, paramType) =>
-      paramType match {
-        case java.lang.Boolean.TYPE   => arg.isInstanceOf[Boolean]
-        case java.lang.Character.TYPE => arg.isInstanceOf[Char]
-        case java.lang.Short.TYPE     => arg.isInstanceOf[Short]
-        case java.lang.Integer.TYPE   => arg.isInstanceOf[Integer]
-        case java.lang.Long.TYPE      => arg.isInstanceOf[Long]
-        case java.lang.Float.TYPE     => arg.isInstanceOf[Float]
-        case java.lang.Double.TYPE    => arg.isInstanceOf[Double]
-        case java.lang.Byte.TYPE      => arg.isInstanceOf[Byte]
-        case _                        => arg == null || paramType.isAssignableFrom(arg.getClass)
+      if (arg == null) {
+        !paramType.isPrimitive
+      } else {
+        wrappedType(paramType).isAssignableFrom(arg.getClass)
       }
     }
 
   private def matchMethod(m: Method, args: Seq[Any]): Boolean =
     isSameNumberOfParameters(m, args.size) && isSameArgumentTypes(m, args)
 
+  private def inheritanceDistance(from: Class[?], to: Class[?]): Int =
+    if (from == to) {
+      0
+    } else {
+      val directParents = Option(from.getSuperclass).toSeq ++ from.getInterfaces.toSeq
+      directParents
+        .filter(to.isAssignableFrom)
+        .map(parent => inheritanceDistance(parent, to))
+        .collect { case distance if distance != Int.MaxValue => distance + 1 }
+        .minOption
+        .getOrElse(Int.MaxValue)
+    }
+
+  private def compareParameterSpecificity(arg: Any, left: Class[?], right: Class[?]): Int = {
+    val leftType  = wrappedType(left)
+    val rightType = wrappedType(right)
+
+    if (leftType == rightType) {
+      0
+    } else if (arg != null) {
+      val argType       = arg.getClass
+      val leftDistance  = inheritanceDistance(argType, leftType)
+      val rightDistance = inheritanceDistance(argType, rightType)
+
+      if (leftDistance < rightDistance) {
+        -1
+      } else if (rightDistance < leftDistance) {
+        1
+      } else if (leftType.isAssignableFrom(rightType)) {
+        1
+      } else if (rightType.isAssignableFrom(leftType)) {
+        -1
+      } else {
+        0
+      }
+    } else if (leftType.isAssignableFrom(rightType)) {
+      1
+    } else if (rightType.isAssignableFrom(leftType)) {
+      -1
+    } else {
+      0
+    }
+  }
+
+  private def declaringClassDistance(on: Class[?], declaringClass: Class[?]): Int =
+    inheritanceDistance(on, declaringClass)
+
+  private def selectMostSpecificMethod(on: Class[?], methods: Seq[Method], args: Seq[Any]): Option[Method] =
+    methods.reduceLeftOption { (best, candidate) =>
+      val comparisons =
+        args.zip(best.getParameterTypes.zip(candidate.getParameterTypes)).map { case (arg, (bestType, candidateType)) =>
+          compareParameterSpecificity(arg, bestType, candidateType)
+        }
+
+      val candidateBetter = comparisons.contains(1)
+      val bestBetter      = comparisons.contains(-1)
+
+      if (candidateBetter && !bestBetter) {
+        candidate
+      } else if (bestBetter && !candidateBetter) {
+        best
+      } else {
+        val bestDeclaringDistance      = declaringClassDistance(on, best.getDeclaringClass)
+        val candidateDeclaringDistance = declaringClassDistance(on, candidate.getDeclaringClass)
+        if (candidateDeclaringDistance < bestDeclaringDistance) candidate else best
+      }
+    }
+
   private def cachedFindMethod(on: Class[?], name: String, args: Seq[Any]): Option[Method] =
-    findMethods(on, name).find(matchMethod(_, args))
+    selectMostSpecificMethod(on, findMethods(on, name).filter(matchMethod(_, args)), args)
 
   /** Find a method of the wrapped object by its name and argument list given.
     *
