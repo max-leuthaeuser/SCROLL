@@ -116,25 +116,21 @@ implementing an objectified collaboration with a limited number of participating
         <span class="kind">package</span>
       </span>
       <span class="symbol">
-        <a title="Package containing some useful utility classes for SCROLL like logging (scroll.internal.util.Log) and reflection (scroll.internal.util.ReflectiveHelper)." href="index.html"><span class="name">util</span></a>
+        <a title="Package containing some useful utility classes for SCROLL like reflection (scroll.internal.util.ReflectiveHelper)." href="index.html"><span class="name">util</span></a>
       </span>
       
       <p class="shortcomment cmt">Package containing some useful utility classes for SCROLL
-like logging (<a href="Log$.html" class="extype" name="scroll.internal.util.Log">scroll.internal.util.Log</a>) and reflection (<a href="" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).</p><div class="fullcomment"><div class="comment cmt"><p>Package containing some useful utility classes for SCROLL
-like logging (<a href="Log$.html" class="extype" name="scroll.internal.util.Log">scroll.internal.util.Log</a>) and reflection (<a href="" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).
+like reflection (<a href="" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).</p><div class="fullcomment"><div class="comment cmt"><p>Package containing some useful utility classes for SCROLL
+like reflection (<a href="" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="scroll.internal">internal</a></dd></dl></div>
     </li><li class="current-entities indented3">
-                        <span class="separator"></span>
-                        <a class="object" href="Log$.html" title="Very simple logging utility using slf4j."></a>
-                        <a href="Log$.html" title="Very simple logging utility using slf4j.">Log</a>
-                      </li><li class="current-entities indented3">
                         <a class="object" href="Many$.html" title=""></a>
                         <a class="class" href="Many.html" title=""></a>
                         <a href="Many.html" title="">Many</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="trait" href="Memoiser.html" title="Support for memoization, encapsulating common behaviour of memoised entities and a general reset mechanism for all such entities."></a>
-                        <a href="Memoiser.html" title="Support for memoization, encapsulating common behaviour of memoised entities and a general reset mechanism for all such entities.">Memoiser</a>
+                        <a class="trait" href="Memoiser.html" title="Support for building caches using Guava caches."></a>
+                        <a href="Memoiser.html" title="Support for building caches using Guava caches.">Memoiser</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="object" href="" title="Contains useful functions for translating class and type names to Strings and provides helper functions to access common tasks for working with reflections."></a>
@@ -168,12 +164,12 @@ like logging (<a href="Log$.html" class="extype" name="scroll.internal.util.Log"
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Contains useful functions for translating class and type names to Strings
-and provides helper functions to access common tasks for working with reflections.</p><p>Querying methods and fields is cached using <a href="Memoiser.html" class="extype" name="scroll.internal.util.Memoiser">scroll.internal.util.Memoiser</a>.
+and provides helper functions to access common tasks for working with reflections.</p><p>Querying methods and fields is cached.
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="Memoiser.html" class="extype" name="scroll.internal.util.Memoiser">Memoiser</a>, <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="Memoiser.html" class="extype" name="scroll.internal.util.Memoiser">Memoiser</a>, <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.12.8/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></div>
         </div></div>
         
 
@@ -219,65 +215,7 @@ and provides helper functions to access common tasks for working with reflection
         <div id="allMembers">
         
 
-        <div id="types" class="types members">
-              <h3>Type Members</h3>
-              <ol><li name="scroll.internal.util.Memoiser.IdMemoised" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="IdMemoised[T,U]extendsMemoiser.this.MemoisedBase[T,U]"></a><a id="IdMemoised[T,U]:IdMemoised[T,U]"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/Memoiser.html#IdMemoised[T,U]extendsMemoiser.this.MemoisedBase[T,U]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a title="A memoised entity that weakly holds onto its keys and uses identity to compare them." href="Memoiser$IdMemoised.html"><span class="name">IdMemoised</span></a><span class="tparams">[<span name="T">T</span>, <span name="U">U</span>]</span><span class="result"> extends <a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a>[<span class="extype" name="scroll.internal.util.Memoiser.IdMemoised.T">T</span>, <span class="extype" name="scroll.internal.util.Memoiser.IdMemoised.U">U</span>]</span>
-      </span>
-      
-      <p class="shortcomment cmt">A memoised entity that weakly holds onto its keys and uses identity
-to compare them.</p><div class="fullcomment"><div class="comment cmt"><p>A memoised entity that weakly holds onto its keys and uses identity
-to compare them.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser.html" class="extype" name="scroll.internal.util.Memoiser">Memoiser</a></dd></dl></div>
-    </li><li name="scroll.internal.util.Memoiser.Memoised" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="Memoised[T,U]extendsMemoiser.this.MemoisedBase[T,U]"></a><a id="Memoised[T,U]:Memoised[T,U]"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/Memoiser.html#Memoised[T,U]extendsMemoiser.this.MemoisedBase[T,U]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a title="A memoised entity that uses equality to compare keys." href="Memoiser$Memoised.html"><span class="name">Memoised</span></a><span class="tparams">[<span name="T">T</span>, <span name="U">U</span>]</span><span class="result"> extends <a href="Memoiser$MemoisedBase.html" class="extype" name="scroll.internal.util.Memoiser.MemoisedBase">MemoisedBase</a>[<span class="extype" name="scroll.internal.util.Memoiser.Memoised.T">T</span>, <span class="extype" name="scroll.internal.util.Memoiser.Memoised.U">U</span>]</span>
-      </span>
-      
-      <p class="shortcomment cmt">A memoised entity that uses equality to compare keys.</p><div class="fullcomment"><div class="comment cmt"><p>A memoised entity that uses equality to compare keys.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser.html" class="extype" name="scroll.internal.util.Memoiser">Memoiser</a></dd></dl></div>
-    </li><li name="scroll.internal.util.Memoiser.MemoisedBase" visbl="pub" class="indented0 " data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="MemoisedBase[T,U]extendsAnyRef"></a><a id="MemoisedBase[T,U]:MemoisedBase[T,U]"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/Memoiser.html#MemoisedBase[T,U]extendsAnyRef" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a title="Common interface for encapsulation of memoization for a single memoised entity backed by a configurable cache." href="Memoiser$MemoisedBase.html"><span class="name">MemoisedBase</span></a><span class="tparams">[<span name="T">T</span>, <span name="U">U</span>]</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
-      </span>
-      
-      <p class="shortcomment cmt">Common interface for encapsulation of memoization for a single memoised
-entity backed by a configurable cache.</p><div class="fullcomment"><div class="comment cmt"><p>Common interface for encapsulation of memoization for a single memoised
-entity backed by a configurable cache.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser.html" class="extype" name="scroll.internal.util.Memoiser">Memoiser</a></dd></dl></div>
-    </li></ol>
-            </div>
+        
 
         
 
@@ -296,7 +234,7 @@ entity backed by a configurable cache.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.8/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -312,7 +250,7 @@ entity backed by a configurable cache.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -328,7 +266,7 @@ entity backed by a configurable cache.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.8/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -344,7 +282,7 @@ entity backed by a configurable cache.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addToFieldCache</span><span class="params">(<span name="c">c: <span class="extype" name="scala.Predef.Class">Class</span>[_]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">addToFieldCache</span><span class="params">(<span name="c">c: <span class="extype" name="scala.Predef.Class">Class</span>[_]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       
@@ -360,7 +298,7 @@ entity backed by a configurable cache.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addToMethodCache</span><span class="params">(<span name="c">c: <span class="extype" name="scala.Predef.Class">Class</span>[_]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">addToMethodCache</span><span class="params">(<span name="c">c: <span class="extype" name="scala.Predef.Class">Class</span>[_]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       
@@ -380,10 +318,10 @@ entity backed by a configurable cache.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="scroll.internal.util.ReflectiveHelper#classSimpleClassName" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="classSimpleClassName(t:String):String"></a><a id="classSimpleClassName(String):String"></a>
+    </li><li name="scroll.internal.util.Memoiser#buildCache" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="buildCache[K&lt;:AnyRef,V&lt;:AnyRef](supplier:K=&gt;V):com.google.common.cache.LoadingCache[K,V]"></a><a id="buildCache[K&lt;:AnyRef,V&lt;:AnyRef]((K)⇒V):LoadingCache[K,V]"></a>
       <span class="permalink">
-      <a href="../../../scroll/internal/util/ReflectiveHelper$.html#classSimpleClassName(t:String):String" title="Permalink">
+      <a href="../../../scroll/internal/util/ReflectiveHelper$.html#buildCache[K&lt;:AnyRef,V&lt;:AnyRef](supplier:K=&gt;V):com.google.common.cache.LoadingCache[K,V]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -392,12 +330,15 @@ entity backed by a configurable cache.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">classSimpleClassName</span><span class="params">(<span name="t">t: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+        <span class="name">buildCache</span><span class="tparams">[<span name="K">K &lt;: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="V">V &lt;: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>]</span><span class="params">(<span name="supplier">supplier: (<span class="extype" name="scroll.internal.util.Memoiser.buildCache.K">K</span>) ⇒ <span class="extype" name="scroll.internal.util.Memoiser.buildCache.V">V</span></span>)</span><span class="result">: <a href="https://javadoc.io/page/com.google.guava/guava/27.0.1-jre/com/google/common/cache/LoadingCache.html#com.google.common.cache.LoadingCache" class="extype" name="com.google.common.cache.LoadingCache">LoadingCache</a>[<span class="extype" name="scroll.internal.util.Memoiser.buildCache.K">K</span>, <span class="extype" name="scroll.internal.util.Memoiser.buildCache.V">V</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Translates a Class name to a String, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Translates a Class name to a String, i.e. removing anything before the last
-occurrence of &quot;<code>$</code>&quot;.
-</p></div><dl class="paramcmts block"><dt class="param">t</dt><dd class="cmt"><p>the Class name as String</p></dd><dt>returns</dt><dd class="cmt"><p>anything after the last occurrence of &quot;<code>$</code>&quot;</p></dd></dl></div>
+      <p class="shortcomment cmt">Builds a cache, which either returns an already-loaded value for a given key or atomically
+computes or retrieves it using the supplied { @code supplier }.</p><div class="fullcomment"><div class="comment cmt"><p>Builds a cache, which either returns an already-loaded value for a given key or atomically
+computes or retrieves it using the supplied { @code supplier }. If another thread is currently
+loading the value for this key, simply waits for that thread to finish and returns its loaded
+value. Note that multiple threads can concurrently load values for distinct keys.
+</p></div><dl class="paramcmts block"><dt class="param">supplier</dt><dd class="cmt"><p>the function to be used for loading values; must never return { @code null}</p></dd><dt>returns</dt><dd class="cmt"><p>a cache loader that loads values by passing each key to { @code supplier}</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Memoiser.html" class="extype" name="scroll.internal.util.Memoiser">Memoiser</a></dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
@@ -410,7 +351,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java/lang/index.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -434,7 +375,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -450,7 +391,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.8/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -466,7 +407,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java/lang/index.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -488,7 +429,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">findMethod</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#java.lang.reflect.Method" class="extype" name="java.lang.reflect.Method">Method</a>]</span>
+        <span class="name">findMethod</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://www.scala-lang.org/api/2.12.8/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Option.html#scala.Option" class="extype" name="scala.Option">Option</a>[<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#java.lang.reflect.Method" class="extype" name="java.lang.reflect.Method">Method</a>]</span>
       </span>
       
       <p class="shortcomment cmt">Find a method of the wrapped object by its name and argument list given.</p><div class="fullcomment"><div class="comment cmt"><p>Find a method of the wrapped object by its name and argument list given.
@@ -524,28 +465,11 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">hasMember</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">hasMember</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <p class="shortcomment cmt">Checks if the wrapped object provides a member (field or function/method) with the given name.</p><div class="fullcomment"><div class="comment cmt"><p>Checks if the wrapped object provides a member (field or function/method) with the given name.
 </p></div><dl class="paramcmts block"><dt class="param">on</dt><dd class="cmt"><p>the instance to search on</p></dd><dt class="param">name</dt><dd class="cmt"><p>the name of the member (field or function/method)  of interest</p></dd><dt>returns</dt><dd class="cmt"><p>true if the wrapped object provides the given member, false otherwise</p></dd></dl></div>
-    </li><li name="scroll.internal.util.ReflectiveHelper#hash" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hash(of:AnyRef):String"></a><a id="hash(AnyRef):String"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/ReflectiveHelper$.html#hash(of:AnyRef):String" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">hash</span><span class="params">(<span name="of">of: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Returns the hash code of any object as String.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the hash code of any object as String.
-</p></div><dl class="paramcmts block"><dt class="param">of</dt><dd class="cmt"><p>the object to get the hash code as String</p></dd><dt>returns</dt><dd class="cmt"><p>the hash code of 'of' as String.</p></dd></dl></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
@@ -558,7 +482,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
@@ -577,7 +501,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">is</span><span class="tparams">[<span name="T">T &lt;: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>]</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.util.ReflectiveHelper.is.T">T</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">is</span><span class="tparams">[<span name="T">T &lt;: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>]</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.8/scala/reflect/ClassTag.html#scala.reflect.ClassTag" class="extype" name="scala.reflect.ClassTag">ClassTag</a>[<span class="extype" name="scroll.internal.util.ReflectiveHelper.is.T">T</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <p class="shortcomment cmt">Checks if the wrapped object is of type T.</p><div class="fullcomment"><div class="comment cmt"><p>Checks if the wrapped object is of type T.
@@ -594,7 +518,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isInstanceOf</span><span class="params">(<span name="mani">mani: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="that">that: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">isInstanceOf</span><span class="params">(<span name="mani">mani: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="that">that: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <p class="shortcomment cmt">Compares two class names.</p><div class="fullcomment"><div class="comment cmt"><p>Compares two class names.
@@ -611,7 +535,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isInstanceOf</span><span class="params">(<span name="mani">mani: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="that">that: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">isInstanceOf</span><span class="params">(<span name="mani">mani: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="that">that: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <p class="shortcomment cmt">Compares two class names.</p><div class="fullcomment"><div class="comment cmt"><p>Compares two class names.
@@ -628,7 +552,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
@@ -644,7 +568,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isSameInterface</span><span class="params">(<span name="roleInterface">roleInterface: <span class="extype" name="scala.Array">Array</span>[<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#java.lang.reflect.Method" class="extype" name="java.lang.reflect.Method">Method</a>]</span>, <span name="restrInterface">restrInterface: <span class="extype" name="scala.Array">Array</span>[<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#java.lang.reflect.Method" class="extype" name="java.lang.reflect.Method">Method</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">isSameInterface</span><span class="params">(<span name="roleInterface">roleInterface: <span class="extype" name="scala.Array">Array</span>[<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#java.lang.reflect.Method" class="extype" name="java.lang.reflect.Method">Method</a>]</span>, <span name="restrInterface">restrInterface: <span class="extype" name="scala.Array">Array</span>[<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#java.lang.reflect.Method" class="extype" name="java.lang.reflect.Method">Method</a>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <p class="shortcomment cmt">Compares two interfaces given as Array of its Methods.</p><div class="fullcomment"><div class="comment cmt"><p>Compares two interfaces given as Array of its Methods.
@@ -661,7 +585,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Boolean.html#scala.Boolean" class="extype" name="scala.Boolean">Boolean</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -677,7 +601,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -696,7 +620,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -715,7 +639,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">propertyOf</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.ReflectiveHelper.propertyOf.T">T</span></span>
+        <span class="name">propertyOf</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.ReflectiveHelper.propertyOf.T">T</span></span>
       </span>
       
       <p class="shortcomment cmt">Returns the runtime content of type T of the field with the given name of the wrapped object.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the runtime content of type T of the field with the given name of the wrapped object.
@@ -732,7 +656,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">resultOf</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.ReflectiveHelper.resultOf.T">T</span></span>
+        <span class="name">resultOf</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.ReflectiveHelper.resultOf.T">T</span></span>
       </span>
       
       <p class="shortcomment cmt">Returns the runtime result of type T of the function with the given name by executing this function of the wrapped object.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the runtime result of type T of the function with the given name by executing this function of the wrapped object.
@@ -749,7 +673,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">resultOf</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="m">m: <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#java.lang.reflect.Method" class="extype" name="java.lang.reflect.Method">Method</a></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>]</span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.ReflectiveHelper.resultOf.T">T</span></span>
+        <span class="name">resultOf</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="m">m: <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#java.lang.reflect.Method" class="extype" name="java.lang.reflect.Method">Method</a></span>, <span name="args">args: <span class="extype" name="scala.Seq">Seq</span>[<a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>]</span>)</span><span class="result">: <span class="extype" name="scroll.internal.util.ReflectiveHelper.resultOf.T">T</span></span>
       </span>
       
       <p class="shortcomment cmt">Returns the runtime result of type T of the given function and arguments by executing this function of the wrapped object.</p><div class="fullcomment"><div class="comment cmt"><p>Returns the runtime result of type T of the given function and arguments by executing this function of the wrapped object.
@@ -766,7 +690,7 @@ occurrence of &quot;<code>$</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setPropertyOf</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">setPropertyOf</span><span class="params">(<span name="on">on: <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="value">value: <a href="http://www.scala-lang.org/api/2.12.8/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <p class="shortcomment cmt">Sets the field given as name to the provided value.</p><div class="fullcomment"><div class="comment cmt"><p>Sets the field given as name to the provided value.
@@ -821,24 +745,6 @@ occurrence of &quot;<code>$</code>&quot; or &quot;<code>.</code>&quot;.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scroll.internal.util.ReflectiveHelper#typeSimpleClassName" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="typeSimpleClassName(t:String):String"></a><a id="typeSimpleClassName(String):String"></a>
-      <span class="permalink">
-      <a href="../../../scroll/internal/util/ReflectiveHelper$.html#typeSimpleClassName(t:String):String" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">typeSimpleClassName</span><span class="params">(<span name="t">t: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Translates a Type name to a String, i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Translates a Type name to a String, i.e. removing anything before the last
-occurrence of &quot;<code>.</code>&quot;.
-</p></div><dl class="paramcmts block"><dt class="param">t</dt><dd class="cmt"><p>the Type name as String</p></dd><dt>returns</dt><dd class="cmt"><p>anything after the last occurrence of &quot;<code>.</code>&quot;</p></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -851,7 +757,7 @@ occurrence of &quot;<code>.</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -873,7 +779,7 @@ occurrence of &quot;<code>.</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.7/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.8/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.12.8/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -895,7 +801,7 @@ occurrence of &quot;<code>.</code>&quot;.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.7/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.7/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.12.8/scala/Long.html#scala.Long" class="extype" name="scala.Long">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.12.8/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -920,9 +826,9 @@ occurrence of &quot;<code>.</code>&quot;.
         <div class="parent" name="scroll.internal.util.Memoiser">
               <h3>Inherited from <a href="Memoiser.html" class="extype" name="scroll.internal.util.Memoiser">Memoiser</a></h3>
             </div><div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.7/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.8/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.7/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.12.8/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></h3>
             </div>
         
         </div>
