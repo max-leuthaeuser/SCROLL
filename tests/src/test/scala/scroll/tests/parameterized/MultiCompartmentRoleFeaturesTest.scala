@@ -7,6 +7,19 @@ import scroll.tests.mocks._
 
 class MultiCompartmentRoleFeaturesTest extends AbstractParameterizedSCROLLTest {
 
+  test("Implicit unwrapping preserves RoleNotFound") {
+    forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
+      val someCore = new CoreA()
+      new MultiCompartmentUnderTest(c, cc) {
+        val err = intercept[RoleNotFound] {
+          val _: Seq[String] = (+someCore).missingMethod()
+        }
+        err.forCore shouldBe someCore
+        err.target shouldBe "missingMethod"
+      }
+    }
+  }
+
   test("Dropping role and invoking methods") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       val someCore = new CoreA()

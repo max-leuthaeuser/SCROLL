@@ -4,9 +4,9 @@ package scroll.internal.errors
   */
 object SCROLLErrors {
 
-  sealed trait SCROLLError extends Throwable
+  sealed trait SCROLLError extends RuntimeException
 
-  sealed trait TypeError extends Throwable
+  sealed trait TypeError extends SCROLLError
 
   final case class TypeNotFound(tpe: Class[?]) extends TypeError {
     override def toString: String = s"Type '$tpe' could not be found!"

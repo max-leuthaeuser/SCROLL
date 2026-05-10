@@ -14,8 +14,8 @@ import scala.reflect.ClassTag
   */
 trait MultiCompartment extends AbstractCompartment {
 
-  implicit def either2SeqTOrException[T](either: Either[?, Seq[Either[?, T]]]): Seq[T] =
-    either.fold(left => throw new RuntimeException(left.toString), right => right.map(either2TorException))
+  implicit def either2SeqTOrException[T](either: Either[SCROLLError, Seq[Either[SCROLLError, T]]]): Seq[T] =
+    either.fold(err => throw err, _.map(either2TorException))
 
   override def newPlayer[W <: AnyRef: ClassTag](obj: W): MultiPlayer[W] = {
     require(null != obj)

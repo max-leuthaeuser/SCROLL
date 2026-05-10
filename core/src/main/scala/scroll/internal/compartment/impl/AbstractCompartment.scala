@@ -3,6 +3,7 @@ package scroll.internal.compartment.impl
 import scroll.internal.compartment.CompartmentApi
 import scroll.internal.dispatch.DispatchQuery
 import scroll.internal.dispatch.impl.SCROLLDispatchable
+import scroll.internal.errors.SCROLLErrors.SCROLLError
 import scroll.internal.errors.SCROLLErrors.TypeError
 import scroll.internal.errors.SCROLLErrors.TypeNotFound
 import scroll.internal.graph.RoleGraphProxyApi
@@ -37,8 +38,8 @@ abstract class AbstractCompartment() extends CompartmentApi {
   override lazy val roleGroups: RoleGroupsApi           = new RoleGroups(roleGraph)
   override lazy val playerEquality: PlayerEqualityApi   = new PlayerEquality(roleGraph)
 
-  implicit def either2TorException[T](either: Either[?, T]): T =
-    either.fold(l => throw new RuntimeException(l.toString), r => r)
+  implicit def either2TorException[E <: SCROLLError, T](either: Either[E, T]): T =
+    either.fold(err => throw err, identity)
 
   protected def applyDispatchQuery(dispatchQuery: DispatchQuery, on: AnyRef): Seq[AnyRef] =
     roleGraph.plays.coreFor(on).lastOption match {
