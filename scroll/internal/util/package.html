@@ -1,0 +1,204 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>util - scroll.internal.util</title>
+          <meta name="description" content="util - scroll.internal.util" />
+          <meta name="keywords" content="util scroll.internal.util" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'scroll.internal.util.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../../../lib/package_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="scroll">scroll</a>.<a href="../package.html" class="extype" name="scroll.internal">internal</a></p>
+        <h1>util</h1><span class="permalink">
+      <a href="../../../index.html#scroll.internal.util.package" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">util</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Package containing some useful utility classes for SCROLL
+like logging (<a href="Log$.html" class="extype" name="scroll.internal.util.Log">scroll.internal.util.Log</a>) and reflection (<a href="ReflectiveHelper.html" class="extype" name="scroll.internal.util.ReflectiveHelper">scroll.internal.util.ReflectiveHelper</a>).
+</p></div><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="scroll.internal.util"><span>util</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="scroll.internal.util.ReflectiveHelper" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReflectiveHelperextendsAnyRef"></a>
+      <a id="ReflectiveHelper:ReflectiveHelper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ReflectiveHelper.html"><span class="name">ReflectiveHelper</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#scroll.internal.util.package@ReflectiveHelperextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Trait containing an implicit wrapper which provides helper functions
+to access common tasks for working with reflections.</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scroll.internal.util.Log" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Log"></a>
+      <a id="Log:Log"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Log$.html"><span class="name">Log</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#scroll.internal.util.package@Log" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Very simple logging utility.</p><div class="fullcomment"><div class="comment cmt"><p>Very simple logging utility. Simply set the DEBUG flag
+and show logging message to STDOUT via info().
+</p></div></div>
+    </li><li name="scroll.internal.util.QueueUtils" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="QueueUtils"></a>
+      <a id="QueueUtils:QueueUtils"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="QueueUtils$.html"><span class="name">QueueUtils</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#scroll.internal.util.package@QueueUtils" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Generic Queue ordering utility.</p>
+    </li><li name="scroll.internal.util.ReflectiveHelper" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ReflectiveHelper"></a>
+      <a id="ReflectiveHelper:ReflectiveHelper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ReflectiveHelper$.html"><span class="name">ReflectiveHelper</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#scroll.internal.util.package@ReflectiveHelper" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Companion object for the Trait <a href="ReflectiveHelper.html" class="extype" name="scroll.internal.util.ReflectiveHelper">ReflectiveHelper</a> containing some
+useful functions for translating class and type names to Strings.</p>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
