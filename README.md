@@ -49,6 +49,9 @@ new Compartment {
 }
 ```
 
+For user-facing imports, prefer the public `scroll` facade such as `scroll.Compartment`, `scroll.DispatchQuery`, and
+`scroll.Many.*` instead of importing from `scroll.internal.*`.
+
 A more elaborated example can be found [here](https://github.com/max-leuthaeuser/SCROLL/wiki/The-Bank-Example-%28Overview%29) and [here](https://github.com/max-leuthaeuser/SCROLL/wiki/The-Bank-Example-%28Advanced-Role-features%29).
 
 You can find even more examples [here](https://github.com/max-leuthaeuser/SCROLL/tree/master/examples/src/main/scala/scroll/examples).

@@ -8,12 +8,16 @@ object SCROLLErrors {
 
   sealed trait TypeError extends SCROLLError
 
+  /** Base type for validation failures raised by constraints, restrictions, and role groups.
+    */
   sealed trait ValidationError extends RuntimeException {
     override def getMessage: String = toString
   }
 
   sealed trait ConstraintError extends ValidationError
 
+  /** Raised when a role implication constraint requires another role that is currently missing.
+    */
   final case class RoleImplicationConstraintViolation(player: AnyRef, requiredRole: String) extends ConstraintError {
 
     override def toString: String =
@@ -21,6 +25,8 @@ object SCROLLErrors {
 
   }
 
+  /** Raised when an equivalence constraint requires another role that is currently missing.
+    */
   final case class RoleEquivalenceConstraintViolation(player: AnyRef, requiredRole: String) extends ConstraintError {
 
     override def toString: String =
@@ -28,6 +34,8 @@ object SCROLLErrors {
 
   }
 
+  /** Raised when a player holds a role that is forbidden by a prohibition constraint.
+    */
   final case class RoleProhibitionConstraintViolation(player: AnyRef, prohibitedRole: String) extends ConstraintError {
 
     override def toString: String =
@@ -35,6 +43,8 @@ object SCROLLErrors {
 
   }
 
+  /** Raised when a player attempts to play a role that is blocked by active role restrictions.
+    */
   final case class RoleRestrictionViolation(player: AnyRef, role: AnyRef) extends ValidationError {
 
     override def toString: String =
@@ -44,6 +54,8 @@ object SCROLLErrors {
 
   sealed trait RoleGroupError extends ValidationError
 
+  /** Raised when the occurrence cardinality of a role group is outside the configured bounds.
+    */
   final case class RoleGroupOccurrenceCardinalityViolation(
     groupName: String,
     roleTypes: Seq[String],
@@ -58,26 +70,38 @@ object SCROLLErrors {
 
   }
 
+  /** Raised when solving a role-group constraint references an unknown role type variable.
+    */
   final case class MissingRoleGroupConstraint(groupName: String, roleType: String) extends RoleGroupError {
     override def toString: String = s"Constraints for role group '$groupName' do not contain '$roleType'!"
   }
 
+  /** Raised when a role-group constraint model cannot be solved at all.
+    */
   final case class UnsolvableRoleGroupConstraint(groupName: String) extends RoleGroupError {
     override def toString: String = s"Constraint set of role group '$groupName' unsolvable!"
   }
 
+  /** Raised when the inner cardinality of a role group is violated by the current role assignments.
+    */
   final case class RoleGroupInnerCardinalityViolation(groupName: String) extends RoleGroupError {
     override def toString: String = s"Constraint set for inner cardinality of role group '$groupName' violated!"
   }
 
+  /** Raised when a role-group definition contains unsupported entries.
+    */
   final case class InvalidRoleGroupEntry() extends RoleGroupError {
     override def toString: String = "Role groups can only contain a list of types or role groups itself!"
   }
 
+  /** Raised when a role-group cardinality definition is not representable by the supported constraint kinds.
+    */
   final case class InvalidRoleGroupConstraint(groupName: String, min: Int, max: String) extends RoleGroupError {
     override def toString: String = s"Role group constraint of ($min, $max) for role group '$groupName' not possible!"
   }
 
+  /** Raised when a role group with the same name is registered more than once.
+    */
   final case class DuplicateRoleGroup(groupName: String) extends RoleGroupError {
     override def toString: String = s"The RoleGroup $groupName was already added!"
   }

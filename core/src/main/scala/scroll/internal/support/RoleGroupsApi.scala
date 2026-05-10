@@ -37,7 +37,7 @@ trait RoleGroupsApi {
   import RoleGroupsApi._
 
   /** Wrapping function that checks all available role group constraints for all core objects and its roles after the
-    * given function was executed. Throws a RuntimeException if a role group constraint is violated!
+    * given function was executed. Throws a typed role-group validation error if a role group constraint is violated.
     *
     * @param func
     *   the function to execute and check role group constraints afterwards

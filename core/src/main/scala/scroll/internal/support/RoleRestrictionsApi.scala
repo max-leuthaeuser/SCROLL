@@ -32,8 +32,8 @@ trait RoleRestrictionsApi {
     */
   def removeRoleRestriction[A <: AnyRef: ClassTag](): Unit
 
-  /** Checks all role restriction between the given player and a role type. Will throw a RuntimeException if a
-    * restriction is violated!
+  /** Checks all role restriction between the given player and a role type. Throws a typed restriction validation error
+    * if a restriction is violated.
     *
     * @param player
     *   the player instance to check
