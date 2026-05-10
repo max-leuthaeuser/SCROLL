@@ -103,7 +103,7 @@ some predefined multiplicities and a fluent relationship creation API.
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="Relationships$Relationship$$ConcreteValue.html"><span class="name">ConcreteValue</span></a><span class="params">(<span name="v">v: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result"> extends <a href="Relationships$Relationship$$ExpMultiplicity.html" class="extype" name="scroll.internal.support.Relationships.Relationship.ExpMultiplicity">ExpMultiplicity</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Relationships$Relationship$$ConcreteValue.html"><span class="name">ConcreteValue</span></a><span class="params">(<span name="v">v: <span class="extype" name="scala.Ordered">Ordered</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result"> extends <a href="Relationships$Relationship$$ExpMultiplicity.html" class="extype" name="scroll.internal.support.Relationships.Relationship.ExpMultiplicity">ExpMultiplicity</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.support.Relationships$Relationship$@ConcreteValueextendsRelationships.Relationship.ExpMultiplicitywithProductwithSerializable" title="Permalink" target="_top">
@@ -128,19 +128,19 @@ some predefined multiplicities and a fluent relationship creation API.
       </a>
     </span>
       
-    </li><li name="scroll.internal.support.Relationships.Relationship.Many" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="ManyextendsRelationships.Relationship.ExpMultiplicitywithProductwithSerializable"></a>
-      <a id="Many:Many"></a>
+    </li><li name="scroll.internal.support.Relationships.Relationship.MMany" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="MManyextendsRelationships.Relationship.ExpMultiplicitywithProductwithSerializable"></a>
+      <a id="MMany:MMany"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="Relationships$Relationship$$Many.html"><span class="name">Many</span></a><span class="params">()</span><span class="result"> extends <a href="Relationships$Relationship$$ExpMultiplicity.html" class="extype" name="scroll.internal.support.Relationships.Relationship.ExpMultiplicity">ExpMultiplicity</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Relationships$Relationship$$MMany.html"><span class="name">MMany</span></a><span class="params">()</span><span class="result"> extends <a href="Relationships$Relationship$$ExpMultiplicity.html" class="extype" name="scroll.internal.support.Relationships.Relationship.ExpMultiplicity">ExpMultiplicity</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#scroll.internal.support.Relationships$Relationship$@ManyextendsRelationships.Relationship.ExpMultiplicitywithProductwithSerializable" title="Permalink" target="_top">
+      <a href="../../../index.html#scroll.internal.support.Relationships$Relationship$@MManyextendsRelationships.Relationship.ExpMultiplicitywithProductwithSerializable" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -171,7 +171,7 @@ some predefined multiplicities and a fluent relationship creation API.
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="Relationships$Relationship$$RangeMultiplicity.html"><span class="name">RangeMultiplicity</span></a><span class="params">(<span name="from">from: <a href="Relationships$Relationship$$ConcreteValue.html" class="extype" name="scroll.internal.support.Relationships.Relationship.ConcreteValue">ConcreteValue</a></span>, <span name="to">to: <a href="Relationships$Relationship$$ExpMultiplicity.html" class="extype" name="scroll.internal.support.Relationships.Relationship.ExpMultiplicity">ExpMultiplicity</a></span>)</span><span class="result"> extends <a href="Relationships$Relationship$$Multiplicity.html" class="extype" name="scroll.internal.support.Relationships.Relationship.Multiplicity">Multiplicity</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Relationships$Relationship$$RangeMultiplicity.html"><span class="name">RangeMultiplicity</span></a><span class="params">(<span name="from">from: <a href="Relationships$Relationship$$ExpMultiplicity.html" class="extype" name="scroll.internal.support.Relationships.Relationship.ExpMultiplicity">ExpMultiplicity</a></span>, <span name="to">to: <a href="Relationships$Relationship$$ExpMultiplicity.html" class="extype" name="scroll.internal.support.Relationships.Relationship.ExpMultiplicity">ExpMultiplicity</a></span>)</span><span class="result"> extends <a href="Relationships$Relationship$$Multiplicity.html" class="extype" name="scroll.internal.support.Relationships.Relationship.Multiplicity">Multiplicity</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#scroll.internal.support.Relationships$Relationship$@RangeMultiplicityextendsRelationships.Relationship.MultiplicitywithProductwithSerializable" title="Permalink" target="_top">
@@ -470,6 +470,23 @@ some predefined multiplicities and a fluent relationship creation API.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scroll.internal.support.Relationships.Relationship#orderedToConcreteValue" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="orderedToConcreteValue(v:Ordered[Int]):scroll.internal.support.Relationships.Relationship.ExpMultiplicity"></a>
+      <a id="orderedToConcreteValue(Ordered[Int]):ExpMultiplicity"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">orderedToConcreteValue</span><span class="params">(<span name="v">v: <span class="extype" name="scala.Ordered">Ordered</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="Relationships$Relationship$$ExpMultiplicity.html" class="extype" name="scroll.internal.support.Relationships.Relationship.ExpMultiplicity">ExpMultiplicity</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#scroll.internal.support.Relationships$Relationship$@orderedToConcreteValue(v:Ordered[Int]):scroll.internal.support.Relationships.Relationship.ExpMultiplicity" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
