@@ -1,10 +1,34 @@
-import xerial.sbt.Sonatype.sonatypeCentralHost
-
 val lib = Dependencies
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / scalaVersion := lib.v.scalaVersion
+
+ThisBuild / version              := "3.4"
+ThisBuild / organization         := "com.github.max-leuthaeuser"
+ThisBuild / organizationName     := "SCROLL"
+ThisBuild / organizationHomepage := Some(url("https://github.com/max-leuthaeuser/SCROLL"))
+ThisBuild / description          := "Embedded DSL for role-oriented programming in Scala."
+ThisBuild / scmInfo := Some(
+  ScmInfo(url("https://github.com/max-leuthaeuser/SCROLL"), "scm:git:github.com/max-leuthaeuser/SCROLL.git")
+)
+ThisBuild / homepage := Some(url("https://github.com/max-leuthaeuser/SCROLL"))
+ThisBuild / licenses := List("LGPL 3.0 license" -> url("http://www.opensource.org/licenses/lgpl-3.0.html"))
+ThisBuild / developers := List(
+  Developer(
+    "max-leuthaeuser",
+    "Max Leuthaeuser",
+    "max.leuthaeuser@tu-dresden.de",
+    url("https://wwwdb.inf.tu-dresden.de/rosi/investigators/doctoral-students/")
+  )
+)
+ThisBuild / pomIncludeRepository := { _ => false }
+ThisBuild / publishMavenStyle    := true
+ThisBuild / publishTo := {
+  val centralSnapshots = "https://central.sonatype.com/repository/maven-snapshots/"
+  if (isSnapshot.value) Some("central-snapshots" at centralSnapshots)
+  else localStaging.value
+}
 
 addCommandAlias("format", ";scalafmtAll;scalafmtSbt")
 
@@ -40,7 +64,6 @@ lazy val root = (project in file("."))
   .aggregate(core, tests, examples)
 
 lazy val commonSettings = Seq(
-  version := "3.4",
   libraryDependencies ++= lib.coreDependencies,
   dependencyOverrides ++= lib.coreDependenciesOverrides,
   updateOptions       := updateOptions.value.withCachedResolution(true),
@@ -58,28 +81,8 @@ lazy val commonSettings = Seq(
 lazy val core = project.settings(
   commonSettings,
   Compile / run / mainClass := None,
-  name                      := "SCROLL",
-  organization              := "com.github.max-leuthaeuser",
-  sonatypeCredentialHost    := sonatypeCentralHost,
-  publishTo                 := sonatypePublishToBundle.value,
-  publishMavenStyle         := true,
-  Test / publishArtifact    := false,
-  scmInfo                   := Some(
-    ScmInfo(url("https://github.com/max-leuthaeuser/SCROLL"), "scm:git:github.com/max-leuthaeuser/SCROLL.git")
-  ),
-  homepage   := Some(url("https://github.com/max-leuthaeuser/SCROLL")),
-  licenses   := List("LGPL 3.0 license" -> url("http://www.opensource.org/licenses/lgpl-3.0.html")),
-  developers := List(
-    Developer(
-      "max-leuthaeuser",
-      "Max Leuthaeuser",
-      "max.leuthaeuser@tu-dresden.de",
-      url("https://wwwdb.inf.tu-dresden.de/rosi/investigators/doctoral-students/")
-    )
-  ),
-  pomIncludeRepository := { _ =>
-    false
-  }
+  name                   := "SCROLL",
+  Test / publishArtifact := false
 )
 
 lazy val examples = project.settings(commonSettings, publish / skip := true).dependsOn(core)

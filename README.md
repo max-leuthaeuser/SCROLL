@@ -66,6 +66,61 @@ You also might want to check the [tests](https://github.com/max-leuthaeuser/SCRO
 
 See the [developer wiki](https://github.com/max-leuthaeuser/SCROLL/wiki/Developers) for further information.
 
+## Publish to Maven Central ##
+
+Releases are published to the [Sonatype Central Portal](https://central.sonatype.com/) using sbt's built-in support (sbt 1.11+) and [sbt-pgp](https://github.com/sbt/sbt-pgp). See the [sbt Sonatype guide](https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html) for background.
+
+### Prerequisites
+
+- A [Central Portal](https://central.sonatype.com/) account with access to the `com.github.max-leuthaeuser` namespace
+- A [GPG key](https://central.sonatype.org/publish/requirements/gpg/) on your machine (`gpg` must be on your `PATH`)
+- JDK 17+ and sbt 1.12+ (see `project/build.properties`)
+
+### One-time credential setup
+
+Generate a user token in the Central Portal, then store it locally (do not commit these files).
+
+In `~/.sbt/1.0/credentials.sbt`:
+
+```scala
+credentials += Credentials(Path.userHome / ".sbt" / "sonatype_central_credentials")
+```
+
+In `~/.sbt/sonatype_central_credentials`:
+
+```
+host=central.sonatype.com
+user=<your token username>
+password=<your token password>
+```
+
+For CI, you can use the `SONATYPE_USERNAME` and `SONATYPE_PASSWORD` environment variables instead.
+
+### Release steps
+
+1. Set the release version in `build.sbt` (`ThisBuild / version`).
+2. Stage signed artifacts to `target/sona-staging`:
+
+   ```
+   sbt core/publishSigned
+   ```
+
+3. Upload to the Central Portal:
+
+   ```
+   sbt core/sonaUpload
+   ```
+
+   Then open [central.sonatype.com](https://central.sonatype.com/) and publish the deployment from the UI.
+
+   To upload and release in one step:
+
+   ```
+   sbt core/sonaRelease
+   ```
+
+Artifacts appear on Maven Central as `com.github.max-leuthaeuser::scroll_3:<version>` after propagation (often 10 minutes to a few hours).
+
 ## Use the library ##
 
 See the [user wiki](https://github.com/max-leuthaeuser/SCROLL/wiki/Users) for further information.
