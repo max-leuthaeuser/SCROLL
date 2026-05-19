@@ -40,7 +40,7 @@ lazy val root = (project in file("."))
   .aggregate(core, tests, examples)
 
 lazy val commonSettings = Seq(
-  version := "3.3",
+  version := "3.4",
   libraryDependencies ++= lib.coreDependencies,
   dependencyOverrides ++= lib.coreDependenciesOverrides,
   updateOptions       := updateOptions.value.withCachedResolution(true),
