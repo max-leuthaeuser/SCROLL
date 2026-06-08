@@ -6,7 +6,7 @@ object Dependencies extends Dependencies
 trait Dependencies {
 
   object v {
-    val scalaVersion     = "3.8.3"
+    val scalaVersion     = "3.8.4"
     val zioVersion       = "2.1.26"
     val scalatestVersion = "3.2.20"
     val chocoVersion     = "6.0.1"
