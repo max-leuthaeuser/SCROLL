@@ -72,16 +72,7 @@ lazy val root = (project in file("."))
 lazy val commonSettings = Seq(
   libraryDependencies ++= lib.coreDependencies,
   dependencyOverrides ++= lib.coreDependenciesOverrides,
-  updateOptions       := updateOptions.value.withCachedResolution(true),
-  historyPath         := Option((LocalRootProject / target).value / ".history"),
   Global / cancelable := true,
-  Global / logLevel   := {
-    if (insideCI.value) Level.Error else Level.Info
-  },
-  initialize ~= { _ =>
-    val ansi = System.getProperty("sbt.log.noformat", "false") != "true"
-    if (ansi) System.setProperty("scala.color", "true")
-  }
 )
 
 lazy val core =
@@ -106,10 +97,6 @@ lazy val tests = project
         //    replace with G (or T) to show reminders with full (or short) stack traces
         // K: exclude canceled tests from reminder
         "-oDI",
-        // Periodic notification of slowpokes (tests that have been running longer than 30s)
-        "-W",
-        "30",
-        "30"
       )
     ),
     libraryDependencies ++= lib.testDependencies
