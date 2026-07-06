@@ -1,4 +1,5 @@
 import sbt.CrossVersion
+import sbt.moduleIDConfigurable
 import sbt.stringToOrganization
 
 object Dependencies extends Dependencies
