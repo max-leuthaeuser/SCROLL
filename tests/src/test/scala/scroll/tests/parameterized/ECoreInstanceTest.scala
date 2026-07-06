@@ -15,7 +15,7 @@ class ECoreInstanceTest extends AbstractParameterizedSCROLLTest {
   }
 
   test("Loading from a valid path containing a valid model") {
-    val p = getClass.getResource("/Bank.crom").getPath
+    val p = resourcePath("/Bank.crom")
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
       new CompartmentUnderTest(c, cc) with CROM {
         wellformed(p) shouldBe true

@@ -1,17 +1,37 @@
 name: pr
 on: pull_request
 jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'sbt'
+      - name: Set up SBT
+        uses: sbt/setup-sbt@v1
+      - name: Check formatting
+        run: sbt "scalafmtCheckAll; scalafmtSbtCheck;"
+      - run: echo "Previous step failed because code is not formatted. Run 'sbt format'"
+        if: ${{ failure() }}
+
   test-scroll:
+    needs: format
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 1
       - name: Set up JDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '21'
@@ -20,9 +40,21 @@ jobs:
         uses: sbt/setup-sbt@v1
       - name: Compile and run tests
         run: sbt "clean; test;"
-      - name: Compile Jmh benchmarks
-        run: sbt "clean; benchmark/Jmh/compile;"
-      - name: Check formatting
-        run: sbt "scalafmtCheckAll; scalafmtSbtCheck;"
-      - run: echo "Previous step failed because code is not formatted. Run 'sbt format'"
-        if: ${{ failure() }}
+
+  jmh-compile:
+    needs: format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'sbt'
+      - name: Set up SBT
+        uses: sbt/setup-sbt@v1
+      - name: Compile JMH benchmarks
+        run: sbt "benchmark/Jmh/compile;"

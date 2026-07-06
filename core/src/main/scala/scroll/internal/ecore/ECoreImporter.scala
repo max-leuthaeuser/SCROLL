@@ -9,11 +9,12 @@ import org.eclipse.emf.ecore.xmi.XMLResource
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import scroll.internal.errors.SCROLLErrors.CROMMetaModelLoadFailure
+import scroll.internal.util.ResourceLoader
 
 /** Trait providing functionality for importing ecore models.
   */
 trait ECoreImporter {
-  private val META_MODEL_PATH = getClass.getResource("/crom_l1_composed.ecore").getPath
+  private val META_MODEL_PATH: String = ResourceLoader.resourcePath("/crom_l1_composed.ecore")
 
   private def registerMetaModel(rs: ResourceSetImpl): Unit = {
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap

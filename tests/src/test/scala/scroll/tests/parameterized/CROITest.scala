@@ -7,7 +7,7 @@ class CROITest extends AbstractParameterizedSCROLLTest {
 
   test("CROI is filled manually") {
     forAll(PARAMS) { (c: Boolean, cc: Boolean) =>
-      val p = getClass.getResource("/Bank.crom").getPath
+      val p = resourcePath("/Bank.crom")
       new CompartmentUnderTest(c, cc) with CROI {
         val n = new CoreA()
         val r = new RoleA()
