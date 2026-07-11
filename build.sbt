@@ -72,7 +72,7 @@ lazy val root = (project in file("."))
 lazy val commonSettings = Seq(
   libraryDependencies ++= lib.coreDependencies,
   dependencyOverrides ++= lib.coreDependenciesOverrides,
-  Global / cancelable := true,
+  Global / cancelable := true
 )
 
 lazy val core =
@@ -96,7 +96,7 @@ lazy val tests = project
         //    eliminating the need to scroll and search to find failed or canceled tests.
         //    replace with G (or T) to show reminders with full (or short) stack traces
         // K: exclude canceled tests from reminder
-        "-oDI",
+        "-oDI"
       )
     ),
     libraryDependencies ++= lib.testDependencies
