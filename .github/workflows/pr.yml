@@ -19,7 +19,7 @@ jobs:
       - name: Set up SBT
         uses: sbt/setup-sbt@bfea3c5f48abd221b04a6df4798aa5eb8b6a2baf # v1.5.6
       - name: Check formatting
-        run: sbt "scalafmtCheckAll; scalafmtSbtCheck;"
+        run: sbt scalafmtCheckAll scalafmtSbtCheck
       - run: echo "Previous step failed because code is not formatted. Run 'sbt format'"
         if: ${{ failure() }}
 
@@ -42,7 +42,7 @@ jobs:
       - name: Set up SBT
         uses: sbt/setup-sbt@bfea3c5f48abd221b04a6df4798aa5eb8b6a2baf # v1.5.6
       - name: Compile and run tests
-        run: sbt "clean; test;"
+        run: sbt test
 
   jmh-compile:
     needs: format
@@ -60,4 +60,4 @@ jobs:
       - name: Set up SBT
         uses: sbt/setup-sbt@bfea3c5f48abd221b04a6df4798aa5eb8b6a2baf # v1.5.6
       - name: Compile JMH benchmarks
-        run: sbt "benchmark/Jmh/compile;"
+        run: sbt benchmark/Jmh/compile
