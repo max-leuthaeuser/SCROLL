@@ -8,22 +8,22 @@ ThisBuild / version              := "3.4"
 ThisBuild / versionScheme        := Some("semver-spec")
 ThisBuild / organization         := "com.github.max-leuthaeuser"
 ThisBuild / organizationName     := "SCROLL"
-ThisBuild / organizationHomepage := Some(url("https://github.com/max-leuthaeuser/SCROLL"))
+ThisBuild / organizationHomepage := Some(uri("https://github.com/max-leuthaeuser/SCROLL"))
 ThisBuild / description          := "Embedded DSL for role-oriented programming in Scala."
 
 ThisBuild / scmInfo := Some(
-  ScmInfo(url("https://github.com/max-leuthaeuser/SCROLL"), "scm:git:github.com/max-leuthaeuser/SCROLL.git")
+  ScmInfo(uri("https://github.com/max-leuthaeuser/SCROLL"), "scm:git:github.com/max-leuthaeuser/SCROLL.git")
 )
 
-ThisBuild / homepage := Some(url("https://github.com/max-leuthaeuser/SCROLL"))
-ThisBuild / licenses := List("LGPL 3.0 license" -> url("http://www.opensource.org/licenses/lgpl-3.0.html"))
+ThisBuild / homepage := Some(uri("https://github.com/max-leuthaeuser/SCROLL"))
+ThisBuild / licenses := List("LGPL 3.0 license" -> uri("http://www.opensource.org/licenses/lgpl-3.0.html"))
 
 ThisBuild / developers := List(
   Developer(
     "max-leuthaeuser",
     "Max Leuthaeuser",
     "max.leuthaeuser@tu-dresden.de",
-    url("https://wwwdb.inf.tu-dresden.de/rosi/investigators/doctoral-students/")
+    uri("https://wwwdb.inf.tu-dresden.de/rosi/investigators/doctoral-students/")
   )
 )
 
