@@ -17,7 +17,7 @@ jobs:
           java-version: '21'
           cache: 'sbt'
       - name: Set up SBT
-        uses: sbt/setup-sbt@82da71df4e122282484a99a8d70096bc2369dbd8 # v1.5.9
+        uses: sbt/setup-sbt@ce95da69b39609ea153bad087708da5f37366897 # v1.5.10
       - name: Check formatting
         run: sbt "scalafmtCheckAll; scalafmtSbtCheck;"
       - run: echo "Previous step failed because code is not formatted. Run 'sbt format'"
@@ -40,7 +40,7 @@ jobs:
           java-version: '21'
           cache: 'sbt'
       - name: Set up SBT
-        uses: sbt/setup-sbt@82da71df4e122282484a99a8d70096bc2369dbd8 # v1.5.9
+        uses: sbt/setup-sbt@ce95da69b39609ea153bad087708da5f37366897 # v1.5.10
       - name: Compile and run tests
         run: sbt "test"
 
@@ -58,6 +58,6 @@ jobs:
           java-version: '21'
           cache: 'sbt'
       - name: Set up SBT
-        uses: sbt/setup-sbt@82da71df4e122282484a99a8d70096bc2369dbd8 # v1.5.9
+        uses: sbt/setup-sbt@ce95da69b39609ea153bad087708da5f37366897 # v1.5.10
       - name: Compile JMH benchmarks
         run: sbt "benchmark/Jmh/compile"
