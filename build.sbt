@@ -1,74 +1,73 @@
 val lib = Dependencies
 
-Global / onChangedBuildSource := ReloadOnSourceChanges
-
-ThisBuild / scalaVersion := lib.v.scalaVersion
-
-ThisBuild / version              := "3.4"
-ThisBuild / versionScheme        := Some("semver-spec")
-ThisBuild / organization         := "com.github.max-leuthaeuser"
-ThisBuild / organizationName     := "SCROLL"
-ThisBuild / organizationHomepage := Some(uri("https://github.com/max-leuthaeuser/SCROLL"))
-ThisBuild / description          := "Embedded DSL for role-oriented programming in Scala."
-
-ThisBuild / scmInfo := Some(
-  ScmInfo(uri("https://github.com/max-leuthaeuser/SCROLL"), "scm:git:github.com/max-leuthaeuser/SCROLL.git")
+/** Coordinates and metadata required for publishing to maven central. */
+def publishingSettings: Seq[Setting[?]] = Def.settings(
+  ThisBuild / version              := "3.4",
+  ThisBuild / versionScheme        := Some("semver-spec"),
+  ThisBuild / organization         := "com.github.max-leuthaeuser",
+  ThisBuild / organizationName     := "SCROLL",
+  ThisBuild / organizationHomepage := Some(uri("https://github.com/max-leuthaeuser/SCROLL")),
+  ThisBuild / description          := "Embedded DSL for role-oriented programming in Scala.",
+  ThisBuild / scmInfo              := Some(
+    ScmInfo(uri("https://github.com/max-leuthaeuser/SCROLL"), "scm:git:github.com/max-leuthaeuser/SCROLL.git")
+  ),
+  ThisBuild / homepage   := Some(uri("https://github.com/max-leuthaeuser/SCROLL")),
+  ThisBuild / licenses   := List("LGPL 3.0 license" -> uri("http://www.opensource.org/licenses/lgpl-3.0.html")),
+  ThisBuild / developers := List(
+    Developer(
+      "max-leuthaeuser",
+      "Max Leuthaeuser",
+      "max.leuthaeuser@tu-dresden.de",
+      uri("https://wwwdb.inf.tu-dresden.de/rosi/investigators/doctoral-students/")
+    )
+  ),
+  ThisBuild / pomIncludeRepository := { _ => false },
+  ThisBuild / publishMavenStyle    := true,
+  ThisBuild / publishTo            := {
+    val centralSnapshots = "https://central.sonatype.com/repository/maven-snapshots/"
+    if (isSnapshot.value) Some("central-snapshots" at centralSnapshots)
+    else localStaging.value
+  }
 )
 
-ThisBuild / homepage := Some(uri("https://github.com/max-leuthaeuser/SCROLL"))
-ThisBuild / licenses := List("LGPL 3.0 license" -> uri("http://www.opensource.org/licenses/lgpl-3.0.html"))
+/** Used by projects that must never be published (aggregating root, and the like). */
+lazy val noPublishSettings = Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 
-ThisBuild / developers := List(
-  Developer(
-    "max-leuthaeuser",
-    "Max Leuthaeuser",
-    "max.leuthaeuser@tu-dresden.de",
-    uri("https://wwwdb.inf.tu-dresden.de/rosi/investigators/doctoral-students/")
+/** Scala/Java compiler configuration. */
+def compilerSettings: Seq[Setting[?]] = Def.settings(
+  ThisBuild / scalaVersion := lib.v.scalaVersion,
+  ThisBuild / compile / javacOptions ++= Seq("-Xlint", "--release=11") ++ {
+    // Scala >= 3.8 requires at least SDK >= 17 for compilation and execution
+    val javaVersion = sys.props("java.specification.version").toFloat
+    assert(javaVersion.toInt >= 17, s"this build requires JDK17+ - you're using $javaVersion")
+    Nil
+  },
+  ThisBuild / scalacOptions ++= Seq(
+    "-Werror",
+    // Emit warning and location for usages of deprecated APIs:
+    "-deprecation",
+    // Emit warning and location for usages of features that should be imported explicitly:
+    "-feature",
+    // Allow direct or indirect subclasses of scala.Dynamic:
+    "-language:dynamics",
+    // Allow reflective access to members of structural types:
+    "-language:reflectiveCalls",
+    // Allow postfix operator notation:
+    "-language:postfixOps",
+    // Allow definition of implicit functions called views:
+    "-language:implicitConversions",
+    // Enable additional warnings where generated code depends on assumptions:
+    "-unchecked"
   )
 )
 
-ThisBuild / pomIncludeRepository := { _ => false }
-ThisBuild / publishMavenStyle    := true
+/** How sbt itself loads and reloads this build. */
+def buildLoadingSettings: Seq[Setting[?]] = Def.settings(Global / onChangedBuildSource := ReloadOnSourceChanges)
 
-ThisBuild / publishTo := {
-  val centralSnapshots = "https://central.sonatype.com/repository/maven-snapshots/"
-  if (isSnapshot.value) Some("central-snapshots" at centralSnapshots)
-  else localStaging.value
-}
+/** Developer conveniences available from the sbt shell. */
+def commandAliasSettings: Seq[Setting[?]] = Def.settings(addCommandAlias("format", ";scalafmtAll;scalafmtSbt"))
 
-addCommandAlias("format", ";scalafmtAll;scalafmtSbt")
-
-lazy val noPublishSettings = Seq(publish := {}, publishLocal := {}, publishArtifact := false)
-
-ThisBuild / compile / javacOptions ++= Seq("-Xlint", "--release=11") ++ {
-  // Scala >= 3.8 requires at least SDK >= 17 for compilation and execution
-  val javaVersion = sys.props("java.specification.version").toFloat
-  assert(javaVersion.toInt >= 17, s"this build requires JDK17+ - you're using $javaVersion")
-  Nil
-}
-
-ThisBuild / scalacOptions ++= Seq(
-  "-Werror",
-  // Emit warning and location for usages of deprecated APIs:
-  "-deprecation",
-  // Emit warning and location for usages of features that should be imported explicitly:
-  "-feature",
-  // Allow direct or indirect subclasses of scala.Dynamic:
-  "-language:dynamics",
-  // Allow reflective access to members of structural types:
-  "-language:reflectiveCalls",
-  // Allow postfix operator notation:
-  "-language:postfixOps",
-  // Allow definition of implicit functions called views:
-  "-language:implicitConversions",
-  // Enable additional warnings where generated code depends on assumptions:
-  "-unchecked"
-)
-
-lazy val root = (project in file("."))
-  .settings(name := "SCROLLRoot", noPublishSettings)
-  .aggregate(core, tests, examples)
-
+/** Dependencies and sbt behaviour shared by all subprojects. */
 lazy val commonSettings = Seq(
   libraryDependencies ++= lib.coreDependencies,
   dependencyOverrides ++= lib.coreDependenciesOverrides,
@@ -107,3 +106,14 @@ lazy val benchmark = project
   .settings(commonSettings, publish / skip := true, Jmh / run / mainClass := Option("scroll.benchmarks.RunnerApp"))
   .enablePlugins(JmhPlugin)
   .dependsOn(core)
+
+lazy val root = (project in file("."))
+  .aggregate(core, tests, examples)
+  .settings(
+    name := "SCROLLRoot",
+    noPublishSettings,
+    publishingSettings,
+    compilerSettings,
+    buildLoadingSettings,
+    commandAliasSettings
+  )
