@@ -24,9 +24,9 @@ jobs:
         if: ${{ failure() }}
 
   test-scroll:
-    needs: format
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
@@ -45,7 +45,6 @@ jobs:
         run: sbt "test"
 
   jmh-compile:
-    needs: format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
